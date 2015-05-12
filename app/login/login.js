@@ -1,5 +1,8 @@
 'use strict';
 
+// TODO: password field fix
+
+
 angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
 
     .config(['$routeProvider', function ($routeProvider) {
@@ -8,7 +11,7 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
             controller: 'LoginCtrl'
         });
     }])
-    .controller('LoginCtrl', function ($scope) {
+    .controller('LoginCtrl', function ($scope, $http) {
         $scope.schema =
         {
             title: "Login",
@@ -16,13 +19,11 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
             properties: {
                 email: {
                     type: "string",
-                    title: "Email",
-                    pattern: "^[A-Z]"
+                    title: "Email"
                 },
                 pass: {
                     type: "string",
-                    title: "Password",
-                    pattern: "^[A-Z]"
+                    title: "Password"
                 },
                 remember: {
                     type: "boolean",
@@ -36,7 +37,7 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
             },
             required: ["email", "pass", "who"]
         };
-        $scope.fields = ["email", "pass", "who", "remember"];
+        //$scope.fields = ["email", "pass", "who", "remember"];
         $scope.model = {
             email: "user@example.com",
             remember: false
@@ -48,4 +49,19 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
                 title: "Save"
             }
         ];
+        $scope.onSubmit = function(form){
+            $scope.$broadcast('schemaFormValidate');
+            if (form.$valid){
+                $http.post('http://127.0.0.1:8000/login', form).
+                    success(function(data, status, headers, config){
+                        console.log(data);
+                    }).
+                    error(function(data, status, headers, config){
+                        console.log("form submit failed: "+status);
+                    });
+            }
+            else {
+                console.log("not valid");
+            }
+        }
     });
