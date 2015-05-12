@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO: fill up the test cases correctly
+
 describe('zaerp.login module', function () {
 
     beforeEach(module('zaerp.login'));
