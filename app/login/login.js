@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('zaerp.login', ['ngRoute'])
+angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/login', {
@@ -8,7 +8,7 @@ angular.module('zaerp.login', ['ngRoute'])
             controller: 'LoginCtrl'
         });
     }])
-    .controller('LoginCtrl', [function () {
+    .controller('LoginCtrl', function () {
         $scope.schema =
         {
             title: "Login",
@@ -48,7 +48,7 @@ angular.module('zaerp.login', ['ngRoute'])
         //        title: "Save"
         //    }
         //];
-    }]);
+    });
 
 //
 //angular.module('loginApp', [])

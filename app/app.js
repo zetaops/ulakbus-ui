@@ -5,7 +5,8 @@ angular.module('zaerp', [
     'ngRoute',
     'zaerp.login',
     'zaerp.view2',
-    'zaerp.version'
+    'zaerp.version',
+    'schemaForm'
 ]).
     config(['$routeProvider', function ($routeProvider) {
         console.log("redirect to login");
