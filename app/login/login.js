@@ -1,16 +1,17 @@
 'use strict';
 
 // TODO: clean console log items
+// TODO: password hash or not??
+// TODO: who field can be removed??
 
-angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
-
-    .config(['$routeProvider', function ($routeProvider) {
+var login = angular.module('zaerp.login', ['ngRoute', 'schemaForm']);
+login.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/login', {
             templateUrl: 'login/login.html',
             controller: 'LoginCtrl'
         });
-    }])
-    .controller('LoginCtrl', function ($scope, $http, $location, $rootScope) {
+    }]);
+login.controller('LoginCtrl', function ($scope, $http, $location, $rootScope, AUTH_EVENTS, LoginService) {
         $scope.schema =
         {
             title: "Login",
@@ -20,7 +21,7 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
                     type: "email",
                     title: "Email"
                 },
-                pass: {
+                password: {
                     type: "string",
                     title: "Password"
                 },
@@ -34,9 +35,8 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
                     enum: ["student", "stuff", "dean"]
                 }
             },
-            required: ["email", "pass", "who"]
+            required: ["email", "password", "who"]
         };
-        //$scope.fields = ["email", "pass", "who", "remember"];
         $scope.model = {
             email: "user@example.com",
             remember: false
@@ -47,7 +47,7 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
                 type: "email"
             },
             {
-                key: "pass",
+                key: "password",
                 type: "password"
             },
             "remember",
@@ -63,6 +63,12 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
             if (form.$valid){
                 $rootScope.loggedInUser = true;
                 $location.path("/dashboard");
+
+                var credentials = {email: form.email, password: form.password};
+
+                var loginResponse = LoginService.login(credentials);
+                console.log(loginResponse);
+
                 //$http.post('http://127.0.0.1:8003/#/login', form.email).
                 //    success(function(data, status, headers, config){
                 //        console.log(data);
