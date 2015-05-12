@@ -1,16 +1,16 @@
 'use strict';
 
-describe('zaerp.login module', function() {
+describe('zaerp.login module', function () {
 
-  beforeEach(module('zaerp.login'));
+    beforeEach(module('zaerp.login'));
 
-  describe('login controller', function(){
+    describe('login controller', function () {
 
-    it('should ....', inject(function($controller) {
-      //spec body
-      var loginCtrl = $controller('LoginCtrl');
-      expect(loginCtrl).toBeDefined();
-    }));
+        it('should ....', inject(function ($controller) {
+            //spec body
+            var loginCtrl = $controller('LoginCtrl');
+            expect(loginCtrl).toBeDefined();
+        }));
 
-  });
+    });
 });
