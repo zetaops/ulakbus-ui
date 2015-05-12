@@ -8,7 +8,7 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
             controller: 'LoginCtrl'
         });
     }])
-    .controller('LoginCtrl', function () {
+    .controller('LoginCtrl', function ($scope) {
         $scope.schema =
         {
             title: "Login",
@@ -41,55 +41,11 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
             email: "user@example.com",
             remember: false
         };
-        //$scope.form = [
-        //    "*",
-        //    {
-        //        type: "submit",
-        //        title: "Save"
-        //    }
-        //];
+        $scope.form = [
+            "*",
+            {
+                type: "submit",
+                title: "Save"
+            }
+        ];
     });
-
-//
-//angular.module('loginApp', [])
-//    .controller('FormController', [function ($scope) {
-//        $scope.schema =
-//        {
-//            title: "Login",
-//            type: "object",
-//            properties: {
-//                email: {
-//                    type: "string",
-//                    title: "Email",
-//                    pattern: "^[A-Z]"
-//                },
-//                pass: {
-//                    type: "string",
-//                    title: "Password",
-//                    pattern: "^[A-Z]"
-//                },
-//                remember: {
-//                    type: "boolean",
-//                    title: "Remember me?"
-//                },
-//                who: {
-//                    title: "Who are you?",
-//                    type: "string",
-//                    enum: ["student", "stuff", "dean"]
-//                }
-//            },
-//            required: ["email", "pass", "who"]
-//        };
-//        $scope.fields = ["email", "pass", "who", "remember"];
-//        $scope.model = {
-//            email: "user@example.com",
-//            remember: false
-//        };
-//        $scope.form = [
-//            "*",
-//            {
-//                type: "submit",
-//                title: "Save"
-//            }
-//        ];
-//    }]);
