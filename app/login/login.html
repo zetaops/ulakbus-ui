@@ -1,7 +1,7 @@
 <div ng-app="zaerp.login">
     <div class="starter-template" ng-controller="LoginCtrl">
         <h1>Zaerp Login Form</h1>
-        <form sf-schema="schema" sf-form="form" sf-model="model"></form>
+        <form name="loginForm" sf-schema="schema" sf-form="form" sf-model="model" ng-submit="onSubmit(loginForm)"></form>
     </div>
 
     <hr/>
