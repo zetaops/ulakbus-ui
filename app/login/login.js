@@ -1,5 +1,6 @@
 'use strict';
 
+// TODO: clean console log items
 
 angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
 
@@ -9,7 +10,7 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
             controller: 'LoginCtrl'
         });
     }])
-    .controller('LoginCtrl', function ($scope, $http) {
+    .controller('LoginCtrl', function ($scope, $http, $location, $rootScope) {
         $scope.schema =
         {
             title: "Login",
@@ -57,15 +58,18 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
             }
         ];
         $scope.onSubmit = function(form){
-            $scope.$broadcast('schemaFormValidate');
+            //$scope.$broadcast('schemaFormValidate');
+            console.log(form);
             if (form.$valid){
-                $http.post('http://127.0.0.1:8000/login', form).
-                    success(function(data, status, headers, config){
-                        console.log(data);
-                    }).
-                    error(function(data, status, headers, config){
-                        console.log("form submit failed: "+status);
-                    });
+                $rootScope.loggedInUser = true;
+                $location.path("/view2");
+                //$http.post('http://127.0.0.1:8003/#/login', form.email).
+                //    success(function(data, status, headers, config){
+                //        console.log(data);
+                //    }).
+                //    error(function(data, status, headers, config){
+                //        console.log("form submit failed: "+status);
+                //    });
             }
             else {
                 console.log("not valid");
