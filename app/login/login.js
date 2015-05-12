@@ -62,7 +62,7 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
             console.log(form);
             if (form.$valid){
                 $rootScope.loggedInUser = true;
-                $location.path("/view2");
+                $location.path("/dashboard");
                 //$http.post('http://127.0.0.1:8003/#/login', form.email).
                 //    success(function(data, status, headers, config){
                 //        console.log(data);
