@@ -1,7 +1,5 @@
 'use strict';
 
-// TODO: password field fix
-
 
 angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
 
@@ -18,7 +16,7 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
             type: "object",
             properties: {
                 email: {
-                    type: "string",
+                    type: "email",
                     title: "Email"
                 },
                 pass: {
@@ -43,7 +41,16 @@ angular.module('zaerp.login', ['ngRoute', 'schemaForm'])
             remember: false
         };
         $scope.form = [
-            "*",
+            {
+                key: "email",
+                type: "email"
+            },
+            {
+                key: "pass",
+                type: "password"
+            },
+            "remember",
+            "who",
             {
                 type: "submit",
                 title: "Save"
