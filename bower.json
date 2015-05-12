@@ -10,7 +10,7 @@
     "angular-mocks": "1.3.x",
     "angular-route": "1.3.x",
     "angular-resource": "1.3.x",
-    "schema-form": "https://github.com/gaslight/angular-schema-form.git",
+    "angular-schema-form": "*",
     "quantumui": "*"
   }
 }
