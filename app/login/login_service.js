@@ -10,19 +10,22 @@ login.factory('LoginService', function ($http, $rootScope, $location, Session) {
     var loginService = {};
 
     loginService.login = function (credentials) {
+        // TODO: change this getParams var to service to use app-wide
+        var getParams = "?";
+        for (var k in credentials){
+            getParams += k+"="+credentials[k]+"&";
+        }
         return $http
-            .post('http://127.0.0.1:8000/login', credentials)
+            .get('http://127.0.0.1:8000/login' + getParams)
             .then(function (res) {
-                Session.create(res.data.id, res.data.user.id,
-                    res.data.user.role);
-                return res.data.user;
+                if (res.data.success){
+                    $rootScope.loggedInUser = true;
+                    $location.path("/dashboard");
+                    Session.create(res.data.id, res.data.user.id,
+                        res.data.user.role);
+                    return res.data.user;
+                }
             });
-    };
-
-    loginService.changePath = function () {
-
-        $rootScope.loggedInUser = true;
-        $location.path("/dashboard");
     };
 
     loginService.isAuthenticated = function () {
