@@ -6,7 +6,7 @@
 
 // TODO: login url change with correct one
 
-login.factory('LoginService', function ($http, Session) {
+login.factory('LoginService', function ($http, $rootScope, $location, Session) {
     var loginService = {};
 
     loginService.login = function (credentials) {
@@ -17,6 +17,12 @@ login.factory('LoginService', function ($http, Session) {
                     res.data.user.role);
                 return res.data.user;
             });
+    };
+
+    loginService.changePath = function () {
+
+        $rootScope.loggedInUser = true;
+        $location.path("/dashboard");
     };
 
     loginService.isAuthenticated = function () {
