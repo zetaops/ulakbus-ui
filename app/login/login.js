@@ -61,10 +61,10 @@ login.controller('LoginCtrl', function ($scope, $http, $location, $rootScope, AU
             $scope.$broadcast('schemaFormValidate');
             if (form.$valid){
 
-                var credentials = {email: form.email.modelValue, password: form.password.modelValue};
-
+                var credentials = {email: form.email.$modelValue, password: form.password.$modelValue};
+                console.log(form);
                 var loginResponse = LoginService.login(credentials);
-                console.log(loginResponse.value);
+                console.log(loginResponse);
             }
             else {
                 console.log("not valid");
