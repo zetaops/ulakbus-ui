@@ -4,14 +4,14 @@
 
 "use strict";
 
-// TODO: login url cheange with correct one
+// TODO: login url change with correct one
 
 login.factory('LoginService', function ($http, Session) {
     var loginService = {};
 
     loginService.login = function (credentials) {
         return $http
-            .get('http://127.0.0.1:8000/login', credentials)
+            .post('http://127.0.0.1:8000/login', credentials)
             .then(function (res) {
                 Session.create(res.data.id, res.data.user.id,
                     res.data.user.role);
@@ -29,6 +29,11 @@ login.factory('LoginService', function ($http, Session) {
         }
         return (loginService.isAuthenticated() &&
         loginService.indexOf(Session.userRole) !== -1);
+    };
+
+    loginService.isValidEmail = function(email){
+        var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+        return re.test(email);
     };
 
     return loginService;
