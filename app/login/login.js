@@ -67,15 +67,7 @@ login.controller('LoginCtrl', function ($scope, $http, $location, $rootScope, AU
                 var credentials = {email: form.email, password: form.password};
 
                 var loginResponse = LoginService.login(credentials);
-                console.log(loginResponse);
-
-                //$http.post('http://127.0.0.1:8003/#/login', form.email).
-                //    success(function(data, status, headers, config){
-                //        console.log(data);
-                //    }).
-                //    error(function(data, status, headers, config){
-                //        console.log("form submit failed: "+status);
-                //    });
+                //console.log(loginResponse.value);
             }
             else {
                 console.log("not valid");
