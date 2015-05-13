@@ -55,15 +55,18 @@ describe('zaerp.login module', function () {
         it('should get login success',
             inject(function(LoginService, $httpBackend) {
 
-                $httpBackend.expectPOST('http://127.0.0.1:8000/login')
-                    .respond(200, "[{'id': 1, 'user': {'id': 12, 'role': 'admin'}}]");
+                // 204 because of access control allow origin
 
-                //LoginService.login({email: 'test@test.com', password: 'password'})
-                //    .then(function(data) {
-                //        expect(data.id).not.toBe(null);
-                //    });
-                //
-                //$httpBackend.flush();
+                $httpBackend.expectPOST('http://127.0.0.1:8000/login', {email: "test@test.com", password: "password"})
+                    .respond(204, {'id': 1, 'user': {'id': 12, 'role': 'admin'}});
+
+                var cred = {email: 'test@test.com', password: 'password'};
+                LoginService.login(cred)
+                    .then(function(data) {
+                        expect(data.id).not.toBe(null);
+                    });
+
+                $httpBackend.flush();
             })
         );
 

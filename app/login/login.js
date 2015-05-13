@@ -58,16 +58,13 @@ login.controller('LoginCtrl', function ($scope, $http, $location, $rootScope, AU
             }
         ];
         $scope.onSubmit = function(form){
-            //$scope.$broadcast('schemaFormValidate');
-            console.log(form);
+            $scope.$broadcast('schemaFormValidate');
             if (form.$valid){
-                $rootScope.loggedInUser = true;
-                $location.path("/dashboard");
 
-                var credentials = {email: form.email, password: form.password};
+                var credentials = {email: form.email.modelValue, password: form.password.modelValue};
 
                 var loginResponse = LoginService.login(credentials);
-                //console.log(loginResponse.value);
+                console.log(loginResponse.value);
             }
             else {
                 console.log("not valid");
