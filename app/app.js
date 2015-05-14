@@ -52,3 +52,8 @@ angular.module(
         notAuthenticated: 'auth-not-authenticated',
         notAuthorized: 'auth-not-authorized'
     });
+
+// test the code with strict di mode to see if it works when minified
+//angular.bootstrap(document, ['zaerp'], {
+//    strictDi: true
+//});
