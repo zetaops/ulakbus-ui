@@ -15,7 +15,6 @@ module.exports = function (config) {
             'app/bower_components/angular-mocks/angular-mocks.js',
             'app/app.js',
             'app/components/**/*.js',
-            'app/view*/**/*.js',
             'app/login/*.js',
             'app/dashboard/*.js'
         ],
@@ -24,7 +23,7 @@ module.exports = function (config) {
 
         frameworks: ['jasmine'],
 
-        browsers: ['Chrome'],
+        browsers: ['ChromeCanary'],
 
         plugins: [
             'karma-chrome-launcher',
