@@ -6,10 +6,10 @@
 
 var login = angular.module('zaerp.login', ['ngRoute', 'schemaForm']);
 login.config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/login', {
-            templateUrl: 'login/login.html',
-            controller: 'LoginCtrl'
-        });
+        //$routeProvider.when('/login', {
+        //    templateUrl: 'login/login.html',
+        //    controller: 'LoginCtrl'
+        //});
     }]);
 login.controller('LoginCtrl', function ($scope, $http, $location, $rootScope, AUTH_EVENTS, LoginService) {
         $scope.schema =
