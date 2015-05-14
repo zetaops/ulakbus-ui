@@ -1,19 +1,28 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('zaerp', [
-    'ngRoute',
-    'ngSanitize',
-    'ngAnimate',
-    'ngQuantum',
-    'zaerp.dashboard',
-    'zaerp.login',
-    'zaerp.version',
-    'schemaForm'
-]).
+angular.module(
+    'zaerp', [
+        'ngRoute',
+        'ngSanitize',
+        'ngAnimate',
+        'ngQuantum',
+        'zaerp.dashboard',
+        'zaerp.login',
+        'zaerp.version',
+        'schemaForm'
+    ]).
     config(['$routeProvider', function ($routeProvider) {
-        console.log("redirect to login");
-        $routeProvider.otherwise({redirectTo: '/'});
+        $routeProvider
+            .when('/login', {
+                templateUrl: 'login/login.html',
+                controller: 'LoginCtrl'
+            })
+            .when('/dashboard', {
+                templateUrl: 'dashboard/dashboard.html',
+                controller: 'DashCtrl'
+            })
+            .otherwise({redirectTo: '/dashboard'});
     }]).
     run(function ($rootScope, $location) {
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
