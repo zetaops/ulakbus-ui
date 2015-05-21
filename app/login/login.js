@@ -11,7 +11,7 @@ login.config(['$routeProvider', function ($routeProvider) {
         //    controller: 'LoginCtrl'
         //});
     }]);
-login.controller('LoginCtrl', function ($scope, $http, $location, $rootScope, AUTH_EVENTS, LoginService) {
+login.controller('LoginCtrl', function ($scope, $q, $timeout, $http, $location, $rootScope, AUTH_EVENTS, LoginService) {
         $scope.schema =
         {
             title: "Login",
@@ -44,7 +44,23 @@ login.controller('LoginCtrl', function ($scope, $http, $location, $rootScope, AU
         $scope.form = [
             {
                 key: "email",
-                type: "email"
+                type: "email",
+                validationMessages: {
+                    'emailNotValid': 'Email is not valid!'
+                },
+                $asyncValidators: {
+                    emailNotValid: function(value){
+                        var deferred = $q.defer();
+                        $timeout(function(){
+                            if (LoginService.isValidEmail(value)) {
+                                deferred.resolve();
+                            } else {
+                                deferred.reject();
+                            }
+                        }, 500);
+                        return deferred.promise;
+                    }
+                }
             },
             {
                 key: "password",
@@ -63,8 +79,7 @@ login.controller('LoginCtrl', function ($scope, $http, $location, $rootScope, AU
 
                 var credentials = {email: form.email.$modelValue, password: form.password.$modelValue};
                 console.log(form);
-                var loginResponse = LoginService.login(credentials);
-                console.log(loginResponse);
+                LoginService.login(credentials);
             }
             else {
                 console.log("not valid");
