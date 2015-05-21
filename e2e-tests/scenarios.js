@@ -6,36 +6,36 @@ describe('my app', function() {
 
   browser.get('index.html');
 
-  it('should automatically redirect to /view1 when location hash/fragment is empty', function() {
-    expect(browser.getLocationAbsUrl()).toMatch("/view1");
+  it('should automatically redirect to /dashboard when location hash/fragment is empty', function() {
+    expect(browser.getLocationAbsUrl()).toMatch("/login");
   });
 
 
-  describe('view1', function() {
+  describe('dashboard', function() {
 
     beforeEach(function() {
-      browser.get('index.html#/view1');
+      browser.get('index.html#/dashboard');
     });
 
 
-    it('should render view1 when user navigates to /view1', function() {
-      expect(element.all(by.css('[ng-view] p')).first().getText()).
-        toMatch(/partial for view 1/);
+    it('should redirect to login page if not logged in', function() {
+      expect(element.all(by.css('[ng-view] h1')).first().getText()).
+        toMatch(/Zaerp Login Form/);
     });
 
   });
 
 
-  describe('view2', function() {
+  describe('login', function() {
 
     beforeEach(function() {
-      browser.get('index.html#/view2');
+      browser.get('index.html#/login');
     });
 
 
     it('should render view2 when user navigates to /view2', function() {
-      expect(element.all(by.css('[ng-view] p')).first().getText()).
-        toMatch(/partial for view 2/);
+      expect(element.all(by.css('[ng-view] h1')).first().getText()).
+        toMatch(/Zaerp Login Form/);
     });
 
   });
