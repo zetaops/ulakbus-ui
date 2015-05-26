@@ -101,3 +101,5 @@ docs/_build/
 
 # PyBuilder
 target/
+
+coverage/
