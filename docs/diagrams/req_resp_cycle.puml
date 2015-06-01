@@ -1,0 +1,19 @@
+@startuml
+
+(*) --> "Kullanıcı Girdisi"
+--> "ajax call (request) \n get_static_ui_elements()"
+--> "sunucu"
+
+if "http status" then
+  --->[200] "callback(response)"
+  ---> "Görünümü güncelle"
+else
+  if "sayac < 3" then
+  note right: 3 kez sunucudan aynı requesti yapar. \n yine hata dönerse görünümü hata ile günceller
+      --->[false] "Görünümü HATA ile güncelle"
+  else
+      -left->[true] "sunucu"
+  endif
+endif
+
+@enduml

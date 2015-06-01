@@ -1,0 +1,17 @@
+@startuml
+(*) --> "Kullanıcı Girdisi"
+
+if "client \n validation \n check" then
+  -->[true] "AJAX call request"
+  --> "server"
+  if "http status" then
+    -->[200] "callback(response)"
+    --> "Görünümü güncelle"
+  else
+    -->[4xx-5xx] "Görünümü HATA ile güncelle"
+  endif
+else
+  --->[false] "Kullanıcı Girdisi"
+endif
+
+@enduml
