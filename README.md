@@ -8,7 +8,6 @@
 ```
     git clone git@hdjskdhajsk
 ```
-
 *if you are not familiar to git follow these guides:* 
 - https://git-scm.com/doc
 - https://try.github.io/levels/1/challenges/1
