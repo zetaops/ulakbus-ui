@@ -11,6 +11,7 @@
 *if you are not familiar to git follow these guides:* 
 - https://git-scm.com/doc
 - https://try.github.io/levels/1/challenges/1
+
 2. Download and Install nodejs:
 * https://nodejs.org/download/
 
@@ -37,13 +38,10 @@ Comment!
 
 
 
-Development Cycle
+##Development Cycle
 
-Using Version Control System
 
-Coding Standarts
-
-Testing
+##Testing
 
 *_test.js files are unit test files coded in Jasmine. to run tests run this command:
 
