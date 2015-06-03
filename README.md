@@ -1,7 +1,4 @@
-# zaerp-ui
-##Zaerp User Interface
-
-
+#Zaerp User Interface
 
 ##Get Ready For Development
 1. Get Repo `git clone git@github.com:zetaops/zaerp-ui.git`
@@ -27,15 +24,16 @@
 
 
 ##Tools
+Now that you have the repo, npm and bower installed, you may now start to develop. 
 
 ##Principles
-
+Git:
 - Always work with branches
 - **NEVER MESS WITH MASTER BRANCH!!**
-
-Comment!
-
-
+- Commit by little changes
+Code:
+- Use comments to explain what your code does
+- Code clean and neat
 
 ##Development Cycle
 
@@ -46,7 +44,9 @@ Comment!
 
     npm test
 
-this command will recognize test cases and printout the test result
+this command will recognize test cases and printout the test result.
+
+To run e2e tests, which is located under e2e-tests folder, we use protractor, 
 
 ##Must Reads:
 - https://google-styleguide.googlecode.com/svn/trunk/angularjs-google-style.html
