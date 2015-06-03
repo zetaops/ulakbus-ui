@@ -22,20 +22,8 @@
     ```
     *you can use any other http server to serve app*
 
-
-##Tools
-Now that you have the repo, npm and bower installed, you may now start to develop. 
-
-##Principles
-Git:
-- Always work with branches
-- **NEVER MESS WITH MASTER BRANCH!!**
-- Commit by little changes
-Code:
-- Use comments to explain what your code does
-- Code clean and neat
-
 ##Development Cycle
+Now that you have the repo, npm and bower installed, you may now start to develop.
 
 
 ##Testing
@@ -46,7 +34,20 @@ Code:
 
 this command will recognize test cases and printout the test result.
 
-To run e2e tests, which is located under e2e-tests folder, we use protractor, 
+To run e2e tests, which is located under e2e-tests folder, we use protractor. Run this command to run e2e tests:
+
+    protractor e2e-tests/protractor.conf.js
+
+##Principles
+###Git:
+- Always work with branches
+- **NEVER MESS WITH MASTER BRANCH!!**
+- Commit by little changes
+
+###Code:
+- Use comments to explain what your code does
+- Code clean and neat
+- Name variables, objects with expository words
 
 ##Must Reads:
 - https://google-styleguide.googlecode.com/svn/trunk/angularjs-google-style.html
