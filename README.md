@@ -29,11 +29,14 @@ Using extreme programming techniques, we demand you to follow this cycle of deve
 ![extreme programming cycle]
 (https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Extreme_Programming.svg/640px-Extreme_Programming.svg.png?1433328761062)
 
-Other then that technique, follow these steps when you code:
+Undermost, there is coding step, name is CODE. Follow these steps when you code:
 - before you code anything create a branch with name related to the given task (e.g: search_func)
 - `git checkout <branch>`
 - `git pull --rebase`
 - after you create the branch for given task and rebase master, now you can write down your code
+- write tests for your code
+- run your tests
+- before you push to your branch rebase master again `git pull --rebase`
 
 
 ##Testing
