@@ -6,7 +6,8 @@
 ##Get Ready For Development
 1. Get Repo 
 ```
-git clone git@github.com:zetaops/zaerp-ui.git```
+git clone git@github.com:zetaops/zaerp-ui.git
+```
 
 
 *if you are not familiar to git follow these guides:* 
@@ -17,6 +18,9 @@ git clone git@github.com:zetaops/zaerp-ui.git```
     - https://nodejs.org/download/
 
 3. Install Bower
+```
+npm install bower
+```
 
 4. run `bower install` to install packages listed in bower.json 
 
@@ -29,11 +33,12 @@ git clone git@github.com:zetaops/zaerp-ui.git```
 *you can use any other http server to serve app*
 
 
-
-
 ##Tools
 
 ##Principles
+
+- Always work with branches
+- **NEVER MESS WITH MASTER BRANCH!!**
 
 Comment!
 
