@@ -4,11 +4,7 @@
 
 
 ##Get Ready For Development
-1. Get Repo 
-```
-git clone git@github.com:zetaops/zaerp-ui.git
-```
-
+1. Get Repo `git clone git@github.com:zetaops/zaerp-ui.git`
 
 *if you are not familiar to git follow these guides:* 
     - https://git-scm.com/doc
@@ -17,10 +13,7 @@ git clone git@github.com:zetaops/zaerp-ui.git
 2. Download and Install nodejs:
     - https://nodejs.org/download/
 
-3. Install Bower
-```
-npm install bower
-```
+3. Install Bower `npm install bower`
 
 4. run `bower install` to install packages listed in bower.json 
 
