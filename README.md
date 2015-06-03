@@ -25,6 +25,7 @@
 ##Development Cycle
 Now that you have the repo, npm and bower installed, you may now start to develop.
 
+Using extreme programming techniques, we demand you to follow this cycle of development showing on the first page of xp website: http://www.extremeprogramming.org/introduction.html
 
 ##Testing
 
@@ -48,6 +49,9 @@ To run e2e tests, which is located under e2e-tests folder, we use protractor. Ru
 - Use comments to explain what your code does
 - Code clean and neat
 - Name variables, objects with expository words
+
+###Test:
+
 
 ##Must Reads:
 - https://google-styleguide.googlecode.com/svn/trunk/angularjs-google-style.html
