@@ -4,16 +4,13 @@
 
 
 ##Get Ready For Development
-1. Get Repo
-```
-    git clone git@hdjskdhajsk
-```
+1. Get Repo `git clone git@github.com:zetaops/zaerp-ui.git`
 *if you are not familiar to git follow these guides:* 
-- https://git-scm.com/doc
-- https://try.github.io/levels/1/challenges/1
+-https://git-scm.com/doc
+-https://try.github.io/levels/1/challenges/1
 
 2. Download and Install nodejs:
-* https://nodejs.org/download/
+*https://nodejs.org/download/
 
 3. Install Bower
 

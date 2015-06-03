@@ -61,7 +61,7 @@ describe('zaerp.login module', function () {
                 var cred = {email: 'test@test.com', password: 'password'};
                 LoginService.login(cred)
                     .then(function(data) {
-                        expect(data.id).not.toBe(null);
+                        expect(data).not.toBe(null);
                     });
 
                 $httpBackend.flush();

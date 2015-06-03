@@ -76,9 +76,7 @@ login.controller('LoginCtrl', function ($scope, $q, $timeout, $http, $location, 
         $scope.onSubmit = function(form){
             $scope.$broadcast('schemaFormValidate');
             if (form.$valid){
-
                 var credentials = {email: form.email.$modelValue, password: form.password.$modelValue};
-                console.log(form);
                 LoginService.login(credentials);
             }
             else {
