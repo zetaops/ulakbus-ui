@@ -6,7 +6,7 @@
 ##Get Ready For Development
 1. Get Repo `git clone git@github.com:zetaops/zaerp-ui.git`
 
-*if you are not familiar to git follow these guides:* 
+    *if you are not familiar to git follow these guides:* 
     - https://git-scm.com/doc
     - https://try.github.io/levels/1/challenges/1
 
@@ -20,10 +20,10 @@
 5. run `npm install` to install packages listed in package.json
 
 6. After getting all packages and installing all dependencies run this command to start http server:
-```
-    npm start
-```
-*you can use any other http server to serve app*
+    ```
+        npm start
+    ```
+    *you can use any other http server to serve app*
 
 
 ##Tools
