@@ -37,6 +37,7 @@ Undermost, there is coding step, name is CODE. Follow these steps when you code:
 - write tests for your code
 - run your tests
 - before you push to your branch rebase master again `git pull --rebase`
+- now that you can push to your branch `git push origin <branch>`
 
 
 ##Testing
