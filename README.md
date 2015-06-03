@@ -26,6 +26,8 @@
 Now that you have the repo, npm and bower installed, you may now start to develop.
 
 Using extreme programming techniques, we demand you to follow this cycle of development showing on the first page of xp website: http://www.extremeprogramming.org/introduction.html
+![extreme programming cycle]
+(https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Extreme_Programming.svg/640px-Extreme_Programming.svg.png?1433328761062)
 
 ##Testing
 
