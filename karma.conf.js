@@ -15,24 +15,26 @@ module.exports = function (config) {
             'app/bower_components/angular-mocks/angular-mocks.js',
             'app/app.js',
             'app/components/**/*.js',
+            'app/zlib/*.js',
             'app/login/*.js',
             'app/dashboard/*.js'
         ],
 
-        preprocessors: {
-            //'app/app.js': 'coverage',
-            'app/components/**/*.js': 'coverage',
-            'app/login/*.js': 'coverage',
-            'app/dashboard/*.js': 'coverage'
-        },
-
-        reporters: ['coverage'],
+        //preprocessors: {
+        //    'app/app.js': 'coverage',
+        //    'app/components/**/*.js': 'coverage',
+        //    'app/zlib/*.js': 'coverage',
+        //    'app/login/*.js': 'coverage',
+        //    'app/dashboard/*.js': 'coverage'
+        //},
+        //
+        //reporters: ['coverage'],
 
         autoWatch: true,
 
         frameworks: ['jasmine'],
 
-        browsers: ['ChromeCanary'],
+        browsers: ['Chrome'],
 
         plugins: [
             'karma-chrome-launcher',

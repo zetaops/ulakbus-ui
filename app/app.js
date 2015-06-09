@@ -7,6 +7,7 @@ angular.module(
         'ngSanitize',
         'ngAnimate',
         'ngQuantum',
+        'general',
         'zaerp.dashboard',
         'zaerp.login',
         'zaerp.version',
