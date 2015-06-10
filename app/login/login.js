@@ -74,7 +74,6 @@ login.controller('LoginCtrl', function ($scope, $q, $timeout, $http, $location, 
             }
         ];
         $scope.onSubmit = function(form){
-            console.log(FormDiff.get_diff({adad: 2, adada: 3},{adad: 2, adada: 4}));
             $scope.$broadcast('schemaFormValidate');
             if (form.$valid){
                 var credentials = {email: form.email.$modelValue, password: form.password.$modelValue};

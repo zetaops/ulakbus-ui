@@ -4,11 +4,16 @@
 
 //angular.module('FormDiff', [])
 /**
- *  service to return form diff for all form submits
+ *  this file contains general functions of app.
  */
 var general = angular.module('general', []);
 
 general.factory('FormDiff', function(){
+    /**
+     * function to return diff of models of submitted form
+     * @type {{}}
+     * @params obj1, obj2
+     */
     var formDiff = {};
     formDiff.get_diff = function (obj1, obj2) {
         var result = {};
@@ -20,6 +25,6 @@ general.factory('FormDiff', function(){
                 result[key] = arguments.callee(obj1[key], obj2[key]);
         }
         return result;
-    }
+    };
     return formDiff;
 });
