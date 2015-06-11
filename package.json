@@ -10,6 +10,7 @@
     "http-server": "^0.6.1",
     "karma": "~0.10",
     "karma-chrome-launcher": "^0.1.12",
+    "karma-opera-launcher": "^0.1",
     "karma-junit-reporter": "^0.2.2",
     "karma-coverage": "*",
     "protractor": "^1.1.1",

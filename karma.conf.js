@@ -1,3 +1,10 @@
+/**
+ * Copyright (C) 2015 ZetaOps Inc.
+ *
+ * This file is licensed under the GNU General Public License v3
+ * (GPLv3).  See LICENSE.txt for details.
+ */
+
 module.exports = function (config) {
     config.set({
 
@@ -34,10 +41,11 @@ module.exports = function (config) {
 
         frameworks: ['jasmine'],
 
-        browsers: ['Chrome'],
+        browsers: ['Opera'],
 
         plugins: [
             'karma-chrome-launcher',
+            'karma-opera-launcher',
             'karma-firefox-launcher',
             'karma-jasmine',
             'karma-junit-reporter',
