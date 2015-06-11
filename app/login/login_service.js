@@ -9,7 +9,7 @@
 
 // TODO: login url change with correct one
 
-login.factory('LoginService', function ($http, $rootScope, $location, Session, RESTURL) {
+login.factory('LoginService', function ($http, $rootScope, $location, $log, Session, RESTURL) {
     var loginService = {};
 
     loginService.login = function (credentials) {
@@ -21,6 +21,8 @@ login.factory('LoginService', function ($http, $rootScope, $location, Session, R
         return $http
             .get(RESTURL.url + 'login' + getParams)
             .then(function (res) {
+                $log.info(res.data[0]);
+                res.data = res.data[0];
                 if (res.data.success){
                     $rootScope.loggedInUser = true;
                     $location.path("/dashboard");
