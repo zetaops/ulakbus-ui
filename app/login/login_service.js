@@ -9,7 +9,7 @@
 
 // TODO: login url change with correct one
 
-login.factory('LoginService', function ($http, $rootScope, $location, Session) {
+login.factory('LoginService', function ($http, $rootScope, $location, Session, RESTURL) {
     var loginService = {};
 
     loginService.login = function (credentials) {
@@ -19,7 +19,7 @@ login.factory('LoginService', function ($http, $rootScope, $location, Session) {
             getParams += k+"="+credentials[k]+"&";
         }
         return $http
-            .get('http://127.0.0.1:8000/login' + getParams)
+            .get(RESTURL.url + 'login' + getParams)
             .then(function (res) {
                 if (res.data.success){
                     $rootScope.loggedInUser = true;

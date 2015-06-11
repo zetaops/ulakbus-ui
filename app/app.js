@@ -15,9 +15,11 @@ angular.module(
         'ngAnimate',
         'ngQuantum',
         'general',
+        'formGenerator',
         'zaerp.dashboard',
         'zaerp.login',
         'zaerp.version',
+        'zaerp.test',
         'schemaForm'
     ]).
     config(['$routeProvider', function ($routeProvider) {
@@ -46,6 +48,13 @@ angular.module(
             }
         });
     }).
+    constant("RESTURL", (function(){
+        var dev = "http://127.0.0.1:3000/api/";
+        var prod = "";
+        var ENV = "dev"; // change to prod in production
+        return ENV =="dev" ? {url:dev} : {url:prod};
+        return "http://127.0.0.1:3000/api/";
+    })()).
     constant("USER_ROLES", {
         all: "*",
         admin: "admin",
