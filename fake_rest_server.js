@@ -6,7 +6,8 @@ var login = new fake.Resource("login")
         user: {
             id: 12,
             role: 'admin'
-        }
+        },
+        success: true
     });
 
 var form = new fake.Resource("add_student")
