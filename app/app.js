@@ -88,8 +88,9 @@ angular.module(
     constant("USER_ROLES", {
         all: "*",
         admin: "admin",
-        editor: "editor",
-        guest: "guest"
+        student: "student",
+        staff: "staff",
+        dean: "dean"
     }).
     constant('AUTH_EVENTS', {
         loginSuccess: 'auth-login-success',
