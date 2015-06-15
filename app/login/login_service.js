@@ -9,7 +9,7 @@
 
 // TODO: login url change with correct one
 
-login.factory('LoginService', function ($http, $rootScope, $location, $log, Session, RESTURL) {
+login.factory('LoginService', function ($http, $rootScope, $location, $log, $cookies, Session, RESTURL) {
     var loginService = {};
 
     loginService.login = function (credentials) {
@@ -26,8 +26,11 @@ login.factory('LoginService', function ($http, $rootScope, $location, $log, Sess
                 if (res.data.success){
                     $rootScope.loggedInUser = true;
                     $location.path("/dashboard");
-                    Session.create(res.data.id, res.data.user.id,
+                    var session = Session.create(res.data.id, res.data.user.id,
                         res.data.user.role);
+                    $log.info(session);
+                    $cookies.put('sessionId', 123456);
+                    console.log($cookies.getAll());
                     return res.data.user;
                 }
             });

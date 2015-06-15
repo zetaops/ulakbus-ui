@@ -12,6 +12,7 @@ angular.module(
         'oc.lazyLoad',
         'ngRoute',
         'ngSanitize',
+        'ngCookies',
         //'ngAnimate',
         //'ngQuantum',
         //'general',
@@ -58,7 +59,15 @@ angular.module(
             })
             .otherwise({redirectTo: '/dashboard'});
     }]).
-    run(function ($rootScope, $location) {
+    run(function ($rootScope, $location, $cookies) {
+        /**
+         * todo: below session id is temporary session_id
+         * the login logic will be finished when backend complete
+         *
+          */
+
+        var sessionId = $cookies.get('session');
+        $rootScope.loggedInUser = sessionId ? true : false;
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
             if ($rootScope.loggedInUser == null) {
                 // no logged user, redirect to /login
