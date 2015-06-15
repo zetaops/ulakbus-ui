@@ -1,10 +1,10 @@
 {
-  "name": "angular-seed",
+  "name": "zaerp-ui",
   "private": true,
-  "version": "0.0.0",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/angular/angular-seed",
-  "license": "MIT",
+  "version": "0.0.1",
+  "description": "",
+  "repository": "https://github.com/zetaops/zaerp-ui",
+  "license": "GPL",
   "devDependencies": {
     "bower": "^1.3.1",
     "http-server": "^0.6.1",

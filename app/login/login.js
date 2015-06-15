@@ -12,13 +12,7 @@
 // TODO: who field can be removed??
 
 var login = angular.module('zaerp.login', ['ngRoute', 'schemaForm']);
-login.config(['$routeProvider', function ($routeProvider) {
-    //$routeProvider.when('/login', {
-    //    templateUrl: 'login/login.html',
-    //    controller: 'LoginCtrl'
-    //});
-}]);
-login.controller('LoginCtrl', function ($scope, $q, $timeout, $http, $location, $rootScope, AUTH_EVENTS, LoginService, FormDiff) {
+login.controller('LoginCtrl', function ($scope, $q, $timeout, LoginService) {
     $scope.schema =
     {
         title: "Login",

@@ -7,30 +7,54 @@
 
 'use strict';
 
-// Declare app level module which depends on views, and components
 angular.module(
     'zaerp', [
+        'oc.lazyLoad',
         'ngRoute',
         'ngSanitize',
-        'ngAnimate',
-        'ngQuantum',
-        'general',
-        'formGenerator',
-        'zaerp.dashboard',
-        'zaerp.login',
-        'zaerp.version',
-        'zaerp.test',
-        'schemaForm'
+        //'ngAnimate',
+        //'ngQuantum',
+        //'general',
+        //'formGenerator',
+        //'zaerp.dashboard',
+        //'zaerp.login',
+        //'zaerp.version',
+        //'zaerp.test',
+        //'schemaForm'
     ]).
+/**
+ *  lazyload modules with oclazyload
+ *  the lines below are config of oclazyload
+ *  turn debug false when production
+ */
+    config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
+        $ocLazyLoadProvider.config({
+            // todo: turn debug false on prod
+            debug: true
+        });
+    }]).
     config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/login', {
                 templateUrl: 'login/login.html',
-                controller: 'LoginCtrl'
+                controller: 'LoginCtrl',
+                resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load('login/login.js');
+                    }],
+                    loadMyService: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load('login/login_service.js');
+                    }]
+                }
             })
             .when('/dashboard', {
                 templateUrl: 'dashboard/dashboard.html',
-                controller: 'DashCtrl'
+                controller: 'DashCtrl',
+                resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load('dashboard/dashboard.js');
+                    }]
+                }
             })
             .otherwise({redirectTo: '/dashboard'});
     }]).
@@ -38,7 +62,6 @@ angular.module(
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
             if ($rootScope.loggedInUser == null) {
                 // no logged user, redirect to /login
-                console.log("test log");
                 if (next.templateUrl === "login/login.html") {
                     console.log("test log to login");
                 } else {
@@ -48,13 +71,20 @@ angular.module(
             }
         });
     }).
+/**
+ * RESTURL is the url of rest api to talk
+ * Based on the environment it changes from dev to prod
+ */
     constant("RESTURL", (function(){
         var dev = "http://127.0.0.1:3000/api/";
         var prod = "";
         var ENV = "dev"; // change to prod in production
         return ENV =="dev" ? {url:dev} : {url:prod};
-        return "http://127.0.0.1:3000/api/";
+        //return "http://127.0.0.1:3000/api/";
     })()).
+/**
+ * USER_ROLES and AUTH_EVENTS are constant for auth functions
+ */
     constant("USER_ROLES", {
         all: "*",
         admin: "admin",
