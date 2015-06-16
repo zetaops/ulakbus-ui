@@ -57,12 +57,12 @@ angular.module(
                     }]
                 }
             })
-            .when('/test', {
-                templateUrl: 'test_view_for_generator/test_template.html',
-                controller: 'TestCtrl',
+            .when('/student_add', {
+                templateUrl: 'student/student_add_template.html',
+                controller: 'StudentAddCtrl',
                 resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
-                        return $ocLazyLoad.load('test_view_for_generator/testfile.js');
+                        return $ocLazyLoad.load('student/student_add.js');
                     }]
                 }
             })
