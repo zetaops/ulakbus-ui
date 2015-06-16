@@ -7,36 +7,23 @@
 
 'use strict';
 
-describe('general module', function () {
+describe('form service module', function () {
 
-    beforeEach(module('general'));
+    beforeEach(module('formService'));
 
-    describe('form diff factory', function () {
+    describe('form service', function () {
 
-        it('should return diff object', inject(['FormDiff',
-                function (FormDiff) {
-                    expect(FormDiff.get_diff).not.toBe(null);
+        it('should generate form', inject(['Generator',
+                function (Generator) {
+                    expect(Generator.generate).not.toBe(null);
 
-                    // test cases - testing for success
-                    var same_json = [
+                    var form_json = [
                         {email:'test@test.com', id:2, name:'travolta'},
                         {email:'test@test.com', id:2, name:'travolta'}
                     ];
 
-                    // test cases - testing for failure
-                    var different_json = [
-                        {email:'test@test.com', id:2, name:'travolta'},
-                        {email:'test1@test.com', id:2, name:'john'}
-                    ];
-
-                    var diff = {email:'test1@test.com', name:'john'};
-                    var nodiff = {};
-
-                    var same = FormDiff.get_diff(same_json[0], same_json[1]);
-                    expect(same).toEqual(nodiff);
-
-                    var different = FormDiff.get_diff(different_json[0], different_json[1]);
-                    expect(different).toEqual(diff);
+                    var form_generated = Generator.generate(form_json);
+                    expect(form_generated).toEqual();
                 }])
         );
 

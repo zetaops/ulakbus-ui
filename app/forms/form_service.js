@@ -5,7 +5,7 @@
  * (GPLv3).  See LICENSE.txt for details.
  */
 
-var form_generator = angular.module('formGenerator', []);
+var form_generator = angular.module('formService', []);
 
 form_generator.factory('Generator', function ($http, RESTURL) {
     var generator = {};
