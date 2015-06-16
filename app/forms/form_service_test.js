@@ -17,13 +17,20 @@ describe('form service module', function () {
                 function (Generator) {
                     expect(Generator.generate).not.toBe(null);
 
-                    var form_json = [
-                        {email:'test@test.com', id:2, name:'travolta'},
-                        {email:'test@test.com', id:2, name:'travolta'}
-                    ];
+                    var form_json = {email: 'test@test.com', id: 2, name: 'travolta'};
 
                     var form_generated = Generator.generate(form_json);
                     expect(form_generated).toEqual();
+                }])
+        );
+
+        it('should group form', inject(['Generator',
+                function(Generator){
+                    expect(Generator.group).not.toBe(null);
+
+                    var group_json = {group_objects : {1:['email', 'name'], 2:['password']}}
+                    var grouped_form = Generator.group(group_json);
+                    expect(grouped_form).toEqual();
                 }])
         );
 
