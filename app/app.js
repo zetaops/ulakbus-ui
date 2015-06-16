@@ -57,6 +57,15 @@ angular.module(
                     }]
                 }
             })
+            .when('/test', {
+                templateUrl: 'test_view_for_generator/test_template.html',
+                controller: 'TestCtrl',
+                resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load('test_view_for_generator/testfile.js');
+                    }]
+                }
+            })
             .otherwise({redirectTo: '/dashboard'});
     }]).
     run(function ($rootScope, $location, $cookies) {
