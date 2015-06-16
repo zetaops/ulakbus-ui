@@ -28,7 +28,7 @@ describe('form service module', function () {
                 function(Generator){
                     expect(Generator.group).not.toBe(null);
 
-                    var group_json = {group_objects : {1:['email', 'name'], 2:['password']}}
+                    var group_json = {group_objects : {1:['email', 'name'], 2:['password']}};
                     var grouped_form = Generator.group(group_json);
                     expect(grouped_form).toEqual();
                 }])
