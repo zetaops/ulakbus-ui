@@ -63,6 +63,9 @@ angular.module(
                 resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
                         return $ocLazyLoad.load('student/student_add.js');
+                    }],
+                    loadMyService: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load('forms/form_service.js');
                     }]
                 }
             })
