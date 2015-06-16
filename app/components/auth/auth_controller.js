@@ -11,8 +11,8 @@
 // TODO: password hash or not??
 // TODO: who field can be removed??
 
-var login = angular.module('zaerp.login', ['ngRoute', 'schemaForm', 'ngCookies']);
-login.controller('LoginCtrl', function ($scope, $q, $timeout, LoginService) {
+var auth = angular.module('zaerp.auth', ['ngRoute', 'schemaForm', 'ngCookies']);
+auth.controller('LoginCtrl', function ($scope, $q, $timeout, LoginService) {
     $scope.schema =
     {
         title: "Login",
