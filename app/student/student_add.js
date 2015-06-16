@@ -7,7 +7,7 @@
 
 'use strict';
 
-var studentAdd = angular.module('zaerp.student.add', ['ngRoute', 'schemaForm', 'formGenerator']);
+var studentAdd = angular.module('zaerp.student.add', ['ngRoute', 'schemaForm', 'formService']);
 
 
 studentAdd.controller('StudentAddCtrl', function($scope, $http, $timeout, $log, Generator, RESTURL){
