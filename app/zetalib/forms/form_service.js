@@ -16,13 +16,22 @@ form_generator.factory('Generator', function ($http, RESTURL) {
         return form_items;
     };
     generator.get_form = function (url, getParams) {
+        var params;
+        for (var k in getParams) {
+            params += k + "=" + getParams[k] + "&";
+        }
         return $http
-            .get(RESTURL.url + url + getParams)
+            .get(RESTURL.url + url + '?' + params)
             .then(function (res) {
-                if (res.data) {
-                    return res.data;
+                if (res.status == 200) {
+                    // todo: remove 0 index with real api
+                    return generator.generate(res.data[0]);
                 }
             });
+    };
+    generator.isValidEmail = function(email){
+        var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+        return re.test(email);
     };
     return generator;
 });

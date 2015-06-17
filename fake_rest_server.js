@@ -12,11 +12,31 @@ var login = new fake.Resource("login")
 
 var form = new fake.Resource("add_student")
     .add({
-        id: 1,
-        user: {
-            id: 12,
-            role: 'admin'
-        }
+        schema: {
+            title: "Add Student",
+            type: "object",
+            properties: {
+                name: {
+                    type: "string",
+                    title: "Name"
+                },
+                email: {
+                    type: "email",
+                    title: "Email"
+                }
+            },
+            required: ["email", "name"]
+        },
+        form: [
+            {
+                key: "email",
+                type: "email",
+                validationMessages: {
+                    'emailNotValid': 'Email is not valid!'
+                }
+            },
+            "name"
+        ]
     });
 
 var server = new fake.Server()
