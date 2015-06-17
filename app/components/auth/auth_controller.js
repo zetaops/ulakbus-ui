@@ -10,6 +10,7 @@
 // TODO: clean console log items
 // TODO: password hash or not??
 // TODO: who field can be removed??
+// todo: use zetalib/forms/form_service functions for email validation
 
 var auth = angular.module('zaerp.auth', ['ngRoute', 'schemaForm', 'ngCookies']);
 auth.controller('LoginCtrl', function ($scope, $q, $timeout, LoginService) {
