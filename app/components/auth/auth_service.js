@@ -9,7 +9,7 @@
 
 // TODO: login url change with correct one
 
-login.factory('LoginService', function ($http, $rootScope, $location, $log, $cookies, Session, RESTURL) {
+auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cookies, Session, RESTURL) {
     var loginService = {};
 
     loginService.login = function (credentials) {
@@ -58,7 +58,7 @@ login.factory('LoginService', function ($http, $rootScope, $location, $log, $coo
 
 // TODO: initial service not working!!
 
-login.service('Session', function () {
+auth.service('Session', function () {
     this.create = function (sessionId, userId, userRole) {
         this.id = sessionId;
         this.userId = userId;

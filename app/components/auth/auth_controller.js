@@ -78,8 +78,7 @@ auth.controller('LoginCtrl', function ($scope, $q, $timeout, LoginService) {
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {
-            var credentials = {email: form.email.$modelValue, password: form.password.$modelValue};
-            LoginService.login(credentials);
+            LoginService.login($scope.model);
         }
         else {
             console.log("not valid");

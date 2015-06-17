@@ -1,7 +1,7 @@
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/login', {
-            templateUrl: 'components/login/login.html',
+            templateUrl: 'components/auth/login.html',
             controller: 'LoginCtrl',
             resolve: {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
