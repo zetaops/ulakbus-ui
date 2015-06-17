@@ -26,7 +26,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: 'StudentAddCtrl',
             resolve: {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load('components/student/student_add.js');
+                    return $ocLazyLoad.load('components/student/student_controller.js');
                 }],
                 loadMyService: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('zetalib/forms/form_service.js');
