@@ -7,7 +7,7 @@
 
 var form_generator = angular.module('formService', []);
 
-form_generator.factory('Generator', function ($http, RESTURL) {
+form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL) {
     var generator = {};
     generator.generate = function (modelObject) {
         return generator.group(modelObject);
@@ -32,6 +32,19 @@ form_generator.factory('Generator', function ($http, RESTURL) {
     generator.isValidEmail = function(email){
         var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
         return re.test(email);
+    };
+    generator.asyncValidators = {
+        emailNotValid: function (value) {
+            var deferred = $q.defer();
+            $timeout(function () {
+                if (generator.isValidEmail(value)) {
+                    deferred.resolve();
+                } else {
+                    deferred.reject();
+                }
+            }, 500);
+            return deferred.promise;
+        }
     };
     return generator;
 });
