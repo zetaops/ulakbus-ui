@@ -23,7 +23,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when('/student_add', {
             templateUrl: 'components/student/student_add_template.html',
-            controller: 'StudentAddCtrl',
+            controller: 'StudentAddEditCtrl',
             resolve: {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('components/student/student_controller.js');

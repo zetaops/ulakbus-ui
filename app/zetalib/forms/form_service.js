@@ -53,5 +53,12 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL) {
             return deferred.promise;
         }
     };
+    generator.submit = function (form, $scope, $log) {
+        $scope.$broadcast('schemaFormValidate');
+        if (form.$valid) {
+            // todo: implement form diff here
+            $log.info($scope.model);
+        }
+    };
     return generator;
 });

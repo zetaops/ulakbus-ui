@@ -18,11 +18,15 @@ var student = angular.module('zaerp.student.add', ['ngRoute', 'schemaForm', 'for
  * to add student, provide form with form generator
  */
 
-student.controller('StudentAddCtrl', function($scope, $http, $log, Generator, $routeParams){
+student.controller('StudentAddEditCtrl', function($scope, $http, $log, Generator, $routeParams){
     Generator.get_form('add_student', $routeParams).then(function(d){
         $scope.schema = d.schema;
         $scope.form = d.form;
+        // model is the init data of the form or in edit templates
+        $scope.model = {};
+        // for email validation add asyncvalidator
         $scope.form[0].$asyncValidators = Generator.asyncValidators;
+        // add submit button to the form todo: move this to form service
         $scope.form.push(
             {
                 type: "submit",
@@ -33,10 +37,8 @@ student.controller('StudentAddCtrl', function($scope, $http, $log, Generator, $r
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {
-            $log.info(form);
-        }
-        else {
-            $log.info("not valid");
+            // todo: implement form diff here
+            $log.info($scope);
         }
     }
 });
