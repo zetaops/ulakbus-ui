@@ -30,6 +30,9 @@ app.config(['$routeProvider', function ($routeProvider) {
                 }],
                 loadMyService: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('zetalib/forms/form_service.js');
+                }],
+                loadMyService2: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/general.js');
                 }]
             }
         })

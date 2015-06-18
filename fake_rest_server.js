@@ -36,7 +36,11 @@ var form = new fake.Resource("add_student")
                 }
             },
             "name"
-        ]
+        ],
+        model: {
+            name: "evren kutar",
+            email: "a@a.com"
+        }
     });
 
 var server = new fake.Server()

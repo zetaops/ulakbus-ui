@@ -34,6 +34,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL) {
                     // todo: remove 0 index with real api
                     return generator.generate(res.data[0]);
                 }
+                // todo: cover all other exceptions (4xx, 5xx)
             });
     };
     generator.isValidEmail = function(email){

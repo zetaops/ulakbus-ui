@@ -5,6 +5,8 @@
  * (GPLv3).  See LICENSE.txt for details.
  */
 
+// todo: move to form
+
 //angular.module('FormDiff', [])
 /**
  *  this file contains general functions of app.

@@ -11,7 +11,7 @@
  * student module is base module object for student operations
  */
 
-var student = angular.module('zaerp.student.add', ['ngRoute', 'schemaForm', 'formService']);
+var student = angular.module('zaerp.student.add', ['ngRoute', 'schemaForm', 'formService', 'general']);
 
 /**
  * StudentAddCtrl
@@ -23,7 +23,8 @@ student.controller('StudentAddEditCtrl', function($scope, $http, $log, Generator
         $scope.schema = d.schema;
         $scope.form = d.form;
         // model is the init data of the form or in edit templates
-        $scope.model = {};
+        $scope.model = d.model;
+        $scope.initialModel = angular.copy(d.model);
         // for email validation add asyncvalidator
         $scope.form[0].$asyncValidators = Generator.asyncValidators;
         // add submit button to the form todo: move this to form service
@@ -38,7 +39,7 @@ student.controller('StudentAddEditCtrl', function($scope, $http, $log, Generator
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {
             // todo: implement form diff here
-            $log.info($scope);
+            $log.info($scope.initialModel, $scope.model);
         }
     }
 });
