@@ -16,12 +16,19 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL) {
         return form_items;
     };
     generator.get_form = function (url, getParams) {
-        var params;
-        for (var k in getParams) {
-            params += k + "=" + getParams[k] + "&";
+        if (getParams){
+            // if form for edit then url will be
+            var params;
+            for (var k in getParams) {
+                params += k + "=" + getParams[k] + "&";
+            }
+            var formUrl = RESTURL.url + url + '?' + params;
+        } else {
+            // if form for create then url will be
+            var formUrl = RESTURL.url + url;
         }
         return $http
-            .get(RESTURL.url + url + '?' + params)
+            .get(formUrl)
             .then(function (res) {
                 if (res.status == 200) {
                     // todo: remove 0 index with real api
