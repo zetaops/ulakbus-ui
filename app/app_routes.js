@@ -21,9 +21,39 @@ app.config(['$routeProvider', function ($routeProvider) {
                 }]
             }
         })
-        .when('/student_add', {
+        .when('/s/add', {
             templateUrl: 'components/student/student_add_template.html',
             controller: 'StudentAddEditCtrl',
+            resolve: {
+                loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('components/student/student_controller.js');
+                }],
+                loadMyService: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/forms/form_service.js');
+                }],
+                loadMyService2: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/general.js');
+                }]
+            }
+        })
+        .when('/s/edit/:id', {
+            templateUrl: 'components/student/student_add_template.html',
+            controller: 'StudentAddEditCtrl',
+            resolve: {
+                loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('components/student/student_controller.js');
+                }],
+                loadMyService: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/forms/form_service.js');
+                }],
+                loadMyService2: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/general.js');
+                }]
+            }
+        })
+        .when('/students', {
+            templateUrl: 'components/student/student_list_template.html',
+            controller: 'StudentListCtrl',
             resolve: {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('components/student/student_controller.js');
