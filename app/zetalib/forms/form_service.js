@@ -7,7 +7,7 @@
 
 var form_generator = angular.module('formService', []);
 
-form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL) {
+form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL) {
     var generator = {};
     generator.generate = function (modelObject) {
         return generator.group(modelObject);
@@ -54,12 +54,11 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL) {
             return deferred.promise;
         }
     };
-    generator.submit = function (form, $scope, $log) {
+    generator.submit = function ($scope) {
         $scope.$broadcast('schemaFormValidate');
-        if (form.$valid) {
-            // todo: implement form diff here
-            $log.info($scope.model);
-        }
+        //if ($scope.form.$valid) {
+            $http.post('http://127.0.0.1:3000/api/add_student', $scope.model).then(function(res){$log.info(res);});
+        //}
     };
     return generator;
 });

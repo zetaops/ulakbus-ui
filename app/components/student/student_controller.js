@@ -14,8 +14,8 @@
 var student = angular.module('zaerp.student.add', ['ngRoute', 'schemaForm', 'formService', 'general']);
 
 /**
- * StudentAddCtrl
- * to add student, provide form with form generator
+ * StudentAddEditCtrl
+ * to add or edit student, provide form with form generator
  */
 
 student.controller('StudentAddEditCtrl', function($scope, $http, $log, Generator, $routeParams){
@@ -23,7 +23,7 @@ student.controller('StudentAddEditCtrl', function($scope, $http, $log, Generator
         $scope.schema = d.schema;
         $scope.form = d.form;
         // model is the init data of the form or in edit templates
-        $scope.model = d.model;
+        $scope.model = d.model ? d.model : {};
         $scope.initialModel = angular.copy(d.model);
         // for email validation add asyncvalidator
         $scope.form[0].$asyncValidators = Generator.asyncValidators;
@@ -35,11 +35,22 @@ student.controller('StudentAddEditCtrl', function($scope, $http, $log, Generator
             }
         );
     });
-    $scope.onSubmit = function (form) {
-        $scope.$broadcast('schemaFormValidate');
-        if (form.$valid) {
+    $scope.onSubmit = Generator.submit($scope);
+        //$scope.$broadcast('schemaFormValidate');
+        //if (form.$valid) {
             // todo: implement form diff here
-            $log.info($scope.initialModel, $scope.model);
-        }
-    }
+            //Generator.submit($scope);
+            //$log.info($scope.initialModel, $scope.model);
+        //}
+    //}
+});
+
+/**
+ * Student List Controller
+ */
+
+student.controller('StudentListCtrl', function($scope, $http){
+    $http.get('http://127.0.0.1:3000/api/list_student').then(function(res){
+        $scope.students = res.data;
+    })
 });
