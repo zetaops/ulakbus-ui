@@ -11,8 +11,9 @@
 var staff = angular.module('zaerp.staff.add',['ngRoute','schemaForm', 'formService']);
 
 
-/* StaffCtrl is a controller
-which provide a form with form generator.
+/**
+ * StaffCtrl is a controller
+ * which provide a form with form generator.
  */
 
 staff.controller('StaffCtrl', function($scope, $http, $log, Generator, $routeParams){

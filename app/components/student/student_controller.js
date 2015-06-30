@@ -23,7 +23,7 @@ student.controller('StudentAddEditCtrl', function($scope, $http, $log, Generator
         $scope.schema = d.schema;
         $scope.form = d.form;
         // model is the init data of the form or in edit templates
-        $scope.model = d.model;
+        $scope.model = d.model ? d.model : {};
         $scope.initialModel = angular.copy(d.model);
         // for email validation add asyncvalidator
         $scope.form[0].$asyncValidators = Generator.asyncValidators;
