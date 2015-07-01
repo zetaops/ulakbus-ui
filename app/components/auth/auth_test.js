@@ -55,22 +55,24 @@ describe('zaerp.auth module', function () {
         );
 
         it('ensures user can log in', function() {
-            // expect current scope to contain username
-        });
-        it('ensures path has changed', function() {
-            // expect path to equal '/dashboard'
+            // todo: after backend api ready implement this
         });
 
         it('should get login success',
-            inject(function(LoginService, $httpBackend) {
+            inject(function(LoginService, $httpBackend, $location) {
 
-                $httpBackend.expectGET('http://127.0.0.1:8000/login?email=test@test.com&password=password&')
-                    .respond(204, {'id': 1, 'user': {'id': 12, 'role': 'admin'}});
+                // use httpBackend to imitate login api
+
+                $httpBackend.expectGET('http://127.0.0.1:3000/api/login?email=test@test.com&password=password&')
+                    // todo: with real api change response data from list to obj
+                    .respond(200, [{'id': 1, 'user': {'id': 12, 'role': 'admin'}, 'success': true}]);
 
                 var cred = {email: 'test@test.com', password: 'password'};
                 LoginService.login(cred)
                     .then(function(data) {
                         expect(data).not.toBe(null);
+                        // after login path need to be change dashboard
+                        expect($location.path()).toBe('/dashboard');
                     });
 
                 $httpBackend.flush();
