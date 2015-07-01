@@ -1,8 +1,8 @@
 {
-  "name": "zaerp-ui",
-  "description": "UI project for ZAERP",
+  "name": "ulakbus-ui",
+  "description": "UI project for ulakbüs",
   "version": "0.0.1",
-  "homepage": "https://github.com/zetaops/zaerp-ui",
+  "homepage": "https://github.com/zetaops/ulakbus-ui",
   "license": "GPL",
   "private": false,
   "dependencies": {

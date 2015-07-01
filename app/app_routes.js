@@ -68,7 +68,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when('/staff/add', {
             templateUrl: 'components/staff/staff_add_template.html',
-            controller: 'StaffCtrl',
+            controller: 'StaffAddEditCtrl',
             resolve: {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('components/staff/staff_controller.js');
