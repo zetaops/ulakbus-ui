@@ -12,6 +12,8 @@ module.exports = function (config) {
 
         files: [
             'app/bower_components/angular/angular.js',
+            'app/bower_components/oclazyload/dist/ocLazyLoad.min.js',
+            'app/bower_components/angular-cookies/angular-cookies.min.js',
             'app/bower_components/angular-route/angular-route.js',
             'app/bower_components/angular-resource/angular-resource.js',
             'app/bower_components/angular-sanitize/angular-sanitize.min.js',
@@ -21,8 +23,9 @@ module.exports = function (config) {
             'app/bower_components/angular-schema-form/dist/bootstrap-decorator.min.js',
             'app/bower_components/angular-mocks/angular-mocks.js',
             'app/app.js',
-            'app/components/**/*.js',
-            'app/zetalib/**/*.js'
+            'app/app_routes.js',
+            'app/zetalib/**/*.js',
+            'app/components/**/*.js'
         ],
 
         //preprocessors: {

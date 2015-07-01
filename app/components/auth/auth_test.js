@@ -9,14 +9,16 @@
 
 // TODO: fill up the test cases correctly
 
-describe('zaerp.login module', function () {
+describe('zaerp.auth module', function () {
 
-    beforeEach(module('zaerp.login'));
+    // load dependencies of modules e.g REST_URL
+    beforeEach(module('zaerp'));
+    beforeEach(module('zaerp.auth'));
 
-    describe('login controller', function () {
+    describe('login controller and service', function () {
 
         it('should have a login controller', inject(function () {
-            expect('zaerp.login.LoginCtrl').toBeDefined();
+            expect('zaerp.auth.LoginCtrl').toBeDefined();
         }));
 
         it('should validate email', inject(['LoginService',

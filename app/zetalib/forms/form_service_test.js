@@ -9,6 +9,7 @@
 
 describe('form service module', function () {
 
+    beforeEach(module('zaerp'));
     beforeEach(module('formService'));
 
     describe('form service', function () {
@@ -20,7 +21,7 @@ describe('form service module', function () {
                     var form_json = {email: 'test@test.com', id: 2, name: 'travolta'};
 
                     var form_generated = Generator.generate(form_json);
-                    expect(form_generated).toEqual();
+                    expect(form_generated).toEqual(form_json);
                 }])
         );
 
@@ -30,8 +31,24 @@ describe('form service module', function () {
 
                     var group_json = {group_objects : {1:['email', 'name'], 2:['password']}};
                     var grouped_form = Generator.group(group_json);
-                    expect(grouped_form).toEqual();
+                    expect(grouped_form).toEqual(group_json);
                 }])
+        );
+
+        it('should get form',
+            inject(function(Generator, $httpBackend) {
+
+                $httpBackend.expectGET('http://127.0.0.1:3000/api/student/add?email=test@test.com&')
+                    .respond(204, {'id': 1, 'user': {'id': 12, 'role': 'admin'}});
+
+                var cred = {email: 'test@test.com'};
+                Generator.get_form('student/add', cred)
+                    .then(function(data) {
+                        expect(data).not.toBe(null);
+                    });
+
+                $httpBackend.flush();
+            })
         );
 
     });
