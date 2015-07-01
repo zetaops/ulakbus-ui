@@ -54,22 +54,28 @@ describe('zaerp.auth module', function () {
                 }])
         );
 
-        it('ensures user can log in', function() {
+        it('ensures user can log in', function () {
             // todo: after backend api ready implement this
         });
 
         it('should get login success',
-            inject(function(LoginService, $httpBackend, $location, RESTURL) {
+            inject(function (LoginService, $httpBackend, $location, RESTURL) {
 
                 // use httpBackend to imitate login api
 
                 $httpBackend.expectGET(RESTURL.url + 'login?email=test@test.com&password=password&')
                     // todo: with real api change response data from list to obj
-                    .respond(200, [{'id': 1, 'user': {'id': 12, 'role': 'admin'}, 'success': true}]);
+                    .respond(200, [{
+                        'id': 1, 'user': {
+                            'id': 12
+
+                            , 'role': 'admin'
+                        }, 'success': true
+                    }]);
 
                 var cred = {email: 'test@test.com', password: 'password'};
                 LoginService.login(cred)
-                    .then(function(data) {
+                    .then(function (data) {
                         expect(data).not.toBe(null);
                         // after login path need to be change dashboard
                         expect($location.path()).toBe('/dashboard');

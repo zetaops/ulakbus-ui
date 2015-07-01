@@ -19,17 +19,17 @@ describe('general module', function () {
 
                     // test cases - testing for success
                     var same_json = [
-                        {email:'test@test.com', id:2, name:'travolta'},
-                        {email:'test@test.com', id:2, name:'travolta'}
+                        {email: 'test@test.com', id: 2, name: 'travolta'},
+                        {email: 'test@test.com', id: 2, name: 'travolta'}
                     ];
 
                     // test cases - testing for failure
                     var different_json = [
-                        {email:'test@test.com', id:2, name:'travolta'},
-                        {email:'test1@test.com', id:2, name:'john'}
+                        {email: 'test@test.com', id: 2, name: 'travolta'},
+                        {email: 'test1@test.com', id: 2, name: 'john'}
                     ];
 
-                    var diff = {email:'test1@test.com', name:'john'};
+                    var diff = {email: 'test1@test.com', name: 'john'};
                     var nodiff = {};
 
                     var same = FormDiff.get_diff(same_json[0], same_json[1]);

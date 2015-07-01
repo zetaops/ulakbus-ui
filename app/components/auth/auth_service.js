@@ -15,15 +15,15 @@ auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cook
     loginService.login = function (credentials) {
         // TODO: change this getParams var to service to use app-wide
         var getParams = "?";
-        for (var k in credentials){
-            getParams += k+"="+credentials[k]+"&";
+        for (var k in credentials) {
+            getParams += k + "=" + credentials[k] + "&";
         }
         return $http
             .get(RESTURL.url + 'login' + getParams)
             .then(function (res) {
                 $log.info(res.data[0]);
                 res.data = res.data[0];
-                if (res.data.success){
+                if (res.data.success) {
                     $rootScope.loggedInUser = true;
                     $location.path("/dashboard");
                     var session = Session.create(res.data.id, res.data.user.id,
@@ -48,7 +48,7 @@ auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cook
         loginService.indexOf(Session.userRole) !== -1);
     };
 
-    loginService.isValidEmail = function(email){
+    loginService.isValidEmail = function (email) {
         var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
         return re.test(email);
     };

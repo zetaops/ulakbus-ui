@@ -8,7 +8,7 @@
 'use strict';
 
 
-var staff = angular.module('zaerp.staff',['ngRoute','schemaForm', 'formService']);
+var staff = angular.module('zaerp.staff', ['ngRoute', 'schemaForm', 'formService']);
 
 
 /**
@@ -16,8 +16,8 @@ var staff = angular.module('zaerp.staff',['ngRoute','schemaForm', 'formService']
  * which provide a form with form generator.
  */
 
-staff.controller('StaffAddEditCtrl', function($scope, $http, $log, Generator, $routeParams){
-    Generator.get_form('add_staff', $routeParams).then(function(d){
+staff.controller('StaffAddEditCtrl', function ($scope, $http, $log, Generator, $routeParams) {
+    Generator.get_form('add_staff', $routeParams).then(function (d) {
         $scope.schema = d.schema;
         $scope.form = d.form;
         $scope.model = d.model ? d.model : {};
@@ -29,7 +29,7 @@ staff.controller('StaffAddEditCtrl', function($scope, $http, $log, Generator, $r
             }
         );
     });
-    $scope.onSubmit = function(form){
+    $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {
             // todo: implement form diff here

@@ -12,7 +12,7 @@ describe('staff controller module', function () {
 
     var $controller;
 
-    beforeEach(inject(function(_$controller_){
+    beforeEach(inject(function (_$controller_) {
         $controller = _$controller_;
     }));
 

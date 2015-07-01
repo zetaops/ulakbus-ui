@@ -18,7 +18,11 @@ describe('form service module', function () {
                 function (Generator) {
                     expect(Generator.generate).not.toBe(null);
 
-                    var form_json = {email: 'test@test.com', id: 2, name: 'travolta'};
+                    var form_json = {
+                        email: 'test@test.com',
+                        id: 2,
+                        name: 'travolta'
+                    };
 
                     var form_generated = Generator.generate(form_json);
                     expect(form_generated).toEqual(form_json);
@@ -26,24 +30,29 @@ describe('form service module', function () {
         );
 
         it('should group form', inject(['Generator',
-                function(Generator){
+                function (Generator) {
                     expect(Generator.group).not.toBe(null);
 
-                    var group_json = {group_objects : {1:['email', 'name'], 2:['password']}};
+                    var group_json = {
+                        group_objects: {
+                            1: ['email', 'name'],
+                            2: ['password']
+                        }
+                    };
                     var grouped_form = Generator.group(group_json);
                     expect(grouped_form).toEqual(group_json);
                 }])
         );
 
         it('should get form',
-            inject(function(Generator, $httpBackend, RESTURL) {
+            inject(function (Generator, $httpBackend, RESTURL) {
 
                 $httpBackend.expectGET(RESTURL.url + 'student/add?email=test@test.com&')
                     .respond(200, [{form: 'form'}]);
 
                 var cred = {email: 'test@test.com'};
                 Generator.get_form('student/add', cred)
-                    .then(function(data) {
+                    .then(function (data) {
                         expect(data).toEqual({form: 'form'});
                     });
 

@@ -28,7 +28,7 @@ var app = angular.module(
  *  the lines below are config of oclazyload
  *  turn debug false when production
  */
-    config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
+    config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
         $ocLazyLoadProvider.config({
             // todo: turn debug false on prod
             debug: true
@@ -38,11 +38,11 @@ var app = angular.module(
  * RESTURL is the url of rest api to talk
  * Based on the environment it changes from dev to prod
  */
-    constant("RESTURL", (function(){
+    constant("RESTURL", (function () {
         var dev = "http://127.0.0.1:3000/api/";
         var prod = "";
         var ENV = "dev"; // change to prod in production
-        return ENV =="dev" ? {url:dev} : {url:prod};
+        return ENV == "dev" ? {url: dev} : {url: prod};
         //return "http://127.0.0.1:3000/api/";
     })()).
 /**

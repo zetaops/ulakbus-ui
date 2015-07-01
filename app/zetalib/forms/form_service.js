@@ -16,7 +16,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
         return form_items;
     };
     generator.get_form = function (url, getParams) {
-        if (getParams){
+        if (getParams) {
             // if form for edit then url will be
             var params = "";
             for (var k in getParams) {
@@ -37,7 +37,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
                 // todo: cover all other exceptions (4xx, 5xx)
             });
     };
-    generator.isValidEmail = function(email){
+    generator.isValidEmail = function (email) {
         var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
         return re.test(email);
     };
@@ -57,8 +57,10 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
     generator.submit = function ($scope) {
         $scope.$broadcast('schemaFormValidate');
         //if ($scope.form.$valid) {
-            // todo: change post url, this is not correct!
-            $http.post('http://127.0.0.1:3000/api/add_student', $scope.model).then(function(res){$log.info(res);});
+        // todo: change post url, this is not correct!
+        $http.post('http://127.0.0.1:3000/api/add_student', $scope.model).then(function (res) {
+            $log.info(res);
+        });
         //}
     };
     return generator;

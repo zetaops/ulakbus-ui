@@ -13,7 +13,7 @@
  */
 var general = angular.module('general', []);
 
-general.factory('FormDiff', function(){
+general.factory('FormDiff', function () {
     /**
      * function to return diff of models of submitted form
      * @type {{}}
