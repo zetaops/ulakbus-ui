@@ -36,15 +36,15 @@ describe('form service module', function () {
         );
 
         it('should get form',
-            inject(function(Generator, $httpBackend) {
+            inject(function(Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectGET('http://127.0.0.1:3000/api/student/add?email=test@test.com&')
-                    .respond(204, {'id': 1, 'user': {'id': 12, 'role': 'admin'}});
+                $httpBackend.expectGET(RESTURL.url + 'student/add?email=test@test.com&')
+                    .respond(200, [{form: 'form'}]);
 
                 var cred = {email: 'test@test.com'};
                 Generator.get_form('student/add', cred)
                     .then(function(data) {
-                        expect(data).not.toBe(null);
+                        expect(data).toEqual({form: 'form'});
                     });
 
                 $httpBackend.flush();

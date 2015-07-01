@@ -59,11 +59,11 @@ describe('zaerp.auth module', function () {
         });
 
         it('should get login success',
-            inject(function(LoginService, $httpBackend, $location) {
+            inject(function(LoginService, $httpBackend, $location, RESTURL) {
 
                 // use httpBackend to imitate login api
 
-                $httpBackend.expectGET('http://127.0.0.1:3000/api/login?email=test@test.com&password=password&')
+                $httpBackend.expectGET(RESTURL.url + 'login?email=test@test.com&password=password&')
                     // todo: with real api change response data from list to obj
                     .respond(200, [{'id': 1, 'user': {'id': 12, 'role': 'admin'}, 'success': true}]);
 
