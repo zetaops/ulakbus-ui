@@ -68,13 +68,46 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when('/staff/add', {
             templateUrl: 'components/staff/staff_add_template.html',
-            controller: 'StaffAddEditCtrl',
+            controller: 'StaffAddCtrl',
             resolve: {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('components/staff/staff_controller.js');
                 }],
                 loadMyService: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('zetalib/forms/form_service.js');
+                }],
+                loadMyService2: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/general.js');
+                }]
+            }
+        })
+        .when('/staff/edit/:id', {
+            templateUrl: 'components/staff/staff_add_template.html',
+            controller: 'StudentEditCtrl',
+            resolve: {
+                loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('components/student/student_controller.js');
+                }],
+                loadMyService: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/forms/form_service.js');
+                }],
+                loadMyService2: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/general.js');
+                }]
+            }
+        })
+        .when('/staffs', {
+            templateUrl: 'components/staff/staff_list_template.html',
+            controller: 'StaffListCtrl',
+            resolve: {
+                loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('components/student/student_controller.js');
+                }],
+                loadMyService: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/forms/form_service.js');
+                }],
+                loadMyService2: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/general.js');
                 }]
             }
         })

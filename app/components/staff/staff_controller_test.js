@@ -8,6 +8,8 @@
 'use strict';
 
 describe('staff controller module', function () {
+
+    beforeEach(module('zaerp'));
     beforeEach(module('zaerp.staff'));
 
     var $controller;
@@ -16,22 +18,18 @@ describe('staff controller module', function () {
         $controller = _$controller_;
     }));
 
-    //describe('$scope.grade', function() {
-    //    it('', function() {
-    //        var $scope = {};
-    //        var controller = $controller('StaffAddEditCtrl', { $scope: $scope });
-    //        expect($scope).not.toBe(null);
-    //    });
-    //});
-    //
-    //describe('staff add controller', function () {
-    //
-    //    it('should have StaffAddEditCtrl', inject(function (ctrl) {
-    //        expect(ctrl).toBeDefined();
-    //    }));
-    //
-    //    it('should get form', inject(function () {
-    //        expect($scope.form).not.toBe(null);
-    //    }));
-    //});
+    describe('staff add controller', function() {
+        it('should get form', function() {
+            var $scope = {};
+            var controller = $controller('StaffAddCtrl', { $scope: $scope });
+            expect($scope).not.toEqual(null);
+        });
+    });
+
+    describe('staff add controller', function () {
+
+        it('should have StaffAddEditCtrl', inject(function ($controller) {
+            expect($controller).toBeDefined();
+        }));
+    });
 });
