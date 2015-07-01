@@ -22,9 +22,7 @@ module.exports = function (config) {
             'app/bower_components/angular-mocks/angular-mocks.js',
             'app/app.js',
             'app/components/**/*.js',
-            'app/zlib/*.js',
-            'app/login/*.js',
-            'app/dashboard/*.js'
+            'app/zetalib/**/*.js'
         ],
 
         //preprocessors: {
