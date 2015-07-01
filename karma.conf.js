@@ -28,16 +28,6 @@ module.exports = function (config) {
             'app/components/**/*.js'
         ],
 
-        //preprocessors: {
-        //    'app/app.js': 'coverage',
-        //    'app/components/**/*.js': 'coverage',
-        //    'app/zlib/*.js': 'coverage',
-        //    'app/login/*.js': 'coverage',
-        //    'app/dashboard/*.js': 'coverage'
-        //},
-        //
-        //reporters: ['coverage'],
-
         autoWatch: true,
 
         frameworks: ['jasmine'],
@@ -56,6 +46,19 @@ module.exports = function (config) {
         junitReporter: {
             outputFile: 'test_out/unit.xml',
             suite: 'unit'
+        },
+
+        reporters: ['progress', 'coverage'],
+
+        preprocessors: {
+            'app/app.js': ['coverage'],
+            'app/components/**/*.js': ['coverage'],
+            'app/zetalib/**/*.js': ['coverage']
+        },
+
+        coverageReporter: {
+            type : 'html',
+            dir : 'coverage/'
         }
 
     });
