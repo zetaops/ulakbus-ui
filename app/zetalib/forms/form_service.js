@@ -18,7 +18,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
     generator.get_form = function (url, getParams) {
         if (getParams){
             // if form for edit then url will be
-            var params;
+            var params = "";
             for (var k in getParams) {
                 params += k + "=" + getParams[k] + "&";
             }
@@ -57,6 +57,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
     generator.submit = function ($scope) {
         $scope.$broadcast('schemaFormValidate');
         //if ($scope.form.$valid) {
+            // todo: change post url, this is not correct!
             $http.post('http://127.0.0.1:3000/api/add_student', $scope.model).then(function(res){$log.info(res);});
         //}
     };
