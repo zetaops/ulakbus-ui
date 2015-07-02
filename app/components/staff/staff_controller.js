@@ -76,8 +76,7 @@ staff.controller('StaffListCtrl', function($scope, $http){
  * Staff Show Controller
  */
 staff.controller('StaffShowCtrl', function($scope, $http, $routeParams){
-    $log.info($routeParams.id);
-    //$http.get('http://127.0.0.1:3000/api/staff/').then(function(res){
-        $scope.staff = "";
-    //})
+    $http.get('http://127.0.0.1:3000/api/list_staff/').then(function(res){
+        $scope.staff = res.data[0];
+    })
 });

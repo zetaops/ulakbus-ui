@@ -1,11 +1,14 @@
-<table class="table table-bordered">
+<table class="table table-bordered table-responsive">
     <thead>
     <tr>
+        <th>name</th>
         <th ng-repeat="(key,value) in staffs[0]">{{ key }}</th>
+        <th>action</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="staff in staffs">
+        <td><a ng-href="#/staff/{{staff.id}}">{{staff.name}}</a></td>
         <td ng-repeat="(key,value) in staff">{{value}}</td>
         <td><a ng-href="#/staff/edit/{{staff.id}}">Edit</a></td>
     </tr>
