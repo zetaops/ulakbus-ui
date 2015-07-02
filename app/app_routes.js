@@ -101,7 +101,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: 'StaffListCtrl',
             resolve: {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load('components/student/student_controller.js');
+                    return $ocLazyLoad.load('components/staff/staff_controller.js');
                 }],
                 loadMyService: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('zetalib/forms/form_service.js');
@@ -144,4 +144,27 @@ app.config(['$routeProvider', function ($routeProvider) {
             }
         }
     });
-});
+}).config(['$httpProvider', function ($httpProvider) {
+    /**
+     * the interceptor for all requests to check response
+     * 4xx - 5xx errors will be handled here
+     */
+    $httpProvider.interceptors.push(function ($q) {
+        return {
+            'response': function (response) {
+                //Will only be called for HTTP up to 300
+                return response;
+            },
+            'responseError': function (rejection) {
+                // if unauthorized then redirect to login page
+                if(rejection.status === 400) {
+                    location.reload();
+                }
+                if(rejection.status === 401) {
+                    location.path('#/login');
+                }
+                return $q.reject(rejection);
+            }
+        };
+    });
+}]);
