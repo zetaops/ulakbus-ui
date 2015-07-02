@@ -85,5 +85,19 @@ describe('zaerp.auth module', function () {
             })
         );
 
+        // todo: test in case of 401 reload
+
+        //it('unauthorized 401 should redirect to login',
+        //    inject(function ($httpBackend, $http, $location, $window) {
+        //
+        //        $httpBackend.whenGET('http://127.0.0.1:8000/#/dashboard').respond(401, '');
+        //
+        //        $http.get('http://127.0.0.1:8000/#/dashboard');
+        //        expect($window.location == '/#/login');
+        //
+        //        $httpBackend.flush();
+        //    })
+        //);
+
     });
 });
