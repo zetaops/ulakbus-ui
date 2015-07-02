@@ -10,7 +10,7 @@ var login = new fake.Resource("login")
         success: true
     });
 
-var form = new fake.Resource("add_student")
+var add_student = new fake.Resource("add_student")
     .add({
         schema: {
             title: "Add Student",
@@ -43,7 +43,7 @@ var form = new fake.Resource("add_student")
         }
     });
 
-var form2 = new fake.Resource("add_staff")
+var add_staff = new fake.Resource("add_staff")
     .add({
         schema: {
             title: "Add Staff",
@@ -71,6 +71,40 @@ var form2 = new fake.Resource("add_staff")
 
             "name"
         ]
+    });
+
+var edit_staff = new fake.Resource("edit_staff")
+    .add({
+        schema: {
+            title: "Edit Staff",
+            type: "object",
+            properties: {
+                name: {
+                    type: "string",
+                    title: "Name"
+                },
+                email: {
+                    type: "email",
+                    title: "Email"
+                }
+            },
+            required: ["email", "name"]
+        },
+        form: [
+            {
+                key: "email",
+                type: "email",
+                validationMessages: {
+                    'emailNotValid': 'Email is not valid!'
+                }
+            },
+
+            "name"
+        ],
+        model: {
+            name: "evren kutar",
+            email: "evren@zetaops.io"
+        }
     });
 
 var student = new fake.Resource("list_student")
@@ -278,9 +312,10 @@ var types = new fake.Resource("input_types")
 
 var server = new fake.Server()
     .register(login)
-    .register(form)
+    .register(add_student)
     .register(student)
     .register(staff)
-    .register(form2)
+    .register(add_staff)
+    .register(edit_staff)
     .register(types)
     .listen(3000);
