@@ -133,6 +133,66 @@ var student = new fake.Resource("list_student")
         'timestamp': null
     });
 
+var staff = new fake.Resource("list_staff")
+    .add({
+        'deleted': false,
+        'archived': false,
+        'auth_info': {
+            'email': 'suuper@suup.com',
+            'password': '123',
+            'username': 'foo_user'
+        },
+        'bio': 'Lorem impsum dolar sit amet falan filan',
+        'join_date': '2015-05-16T00:00:00Z',
+        'lectures': [{
+            'attendance': [{
+                'attended': false,
+                'date': '2015-05-09T00:00:00Z',
+                'hour': 2
+            },
+                {
+                    'attended': true,
+                    'date': '2015-05-10T00:00:00Z',
+                    'hour': 4
+                }],
+            'code': 'math101',
+            'credit': 4,
+            'exams': [
+                {
+                    'date': '2015-05-11T00:00:00Z', 'point': 65,
+                    'type': 'Q'
+                }],
+            'name': 'Introduction to Math',
+            'node_in_list_node': {'foo': 'FOOOO'}
+        },
+            {
+                'attendance': [{
+                    'attended': false,
+                    'date': '2015-05-13T00:00:00Z',
+                    'hour': 2
+                },
+                    {
+                        'attended': true,
+                        'date': '2015-05-14T00:00:00Z',
+                        'hour': 4
+                    }],
+                'code': 'rock101',
+                'credit': 10,
+                'exams': [
+                    {
+                        'date': '2015-05-15T00:00:00Z', 'point': 65,
+                        'type': 'Q'
+                    }],
+                'name': 'Introduction to Rocking',
+                'node_in_list_node': {'foo': 'FOOOO'}
+            }],
+        'name': 'Jack',
+        'number': '20300344',
+        'pno': '2343243433',
+        'surname': 'Black',
+        'timestamp': null
+    });
+
 var types = new fake.Resource("input_types")
     .add({
         schema: {
@@ -220,6 +280,7 @@ var server = new fake.Server()
     .register(login)
     .register(form)
     .register(student)
+    .register(staff)
     .register(form2)
     .register(types)
     .listen(3000);
