@@ -24,19 +24,36 @@ describe('general module', function () {
                     ];
 
                     // test cases - testing for failure
-                    var different_json = [
-                        {email: 'test@test.com', id: 2, name: 'travolta'},
-                        {email: 'test1@test.com', id: 2, name: 'john'}
+                    var different_jsons = [
+                        [
+                            {email: 'test@test.com', id: 2, name: 'travolta'},
+                            {email: 'test1@test.com', id: 2, name: 'john'}
+                        ],
+                        [
+                            {id: 2, name: 'travolta'},
+                            {email: 'test1@test.com', id: 2, name: 'john'}
+                        ]
                     ];
 
+                    var different_json = [
+                        {},
+                        {email: 'test1@test.com', id: 2, name: 'john'}
+                    ]
+
                     var diff = {email: 'test1@test.com', name: 'john'};
+                    var diff2 = {email: 'test1@test.com', id: 2, name: 'john'};
                     var nodiff = {};
 
                     var same = FormDiff.get_diff(same_json[0], same_json[1]);
                     expect(same).toEqual(nodiff);
 
-                    var different = FormDiff.get_diff(different_json[0], different_json[1]);
-                    expect(different).toEqual(diff);
+                    for (var json_obj in different_jsons) {
+                        var different = FormDiff.get_diff(different_jsons[json_obj][1], different_jsons[json_obj][0]);
+                        expect(different).toEqual(diff);
+                    }
+
+                    var different2 = FormDiff.get_diff(different_json[1], different_json[0]);
+                    expect(different2).toEqual(diff2);
                 }])
         );
 

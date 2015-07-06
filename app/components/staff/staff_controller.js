@@ -16,11 +16,12 @@ var staff = angular.module('zaerp.staff', ['ngRoute', 'schemaForm', 'formService
  * which provide a form with form generator.
  */
 
-staff.controller('StaffAddCtrl', function ($scope, $http, $log, Generator, $routeParams) {
+staff.controller('StaffAddCtrl', function ($scope, $http, $log, Generator) {
     Generator.get_form('add_staff', '').then(function (d) {
         $scope.schema = d.schema;
         $scope.form = d.form;
         $scope.model = d.model ? d.model : {};
+        $scope.initialModel = angular.copy(d.model);
         $scope.form[0].$asyncValidators = Generator.asyncValidators;
         $scope.form.push(
             {
@@ -33,8 +34,7 @@ staff.controller('StaffAddCtrl', function ($scope, $http, $log, Generator, $rout
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {
-            // todo: implement form diff here
-            $log.info($scope);
+            Generator.submit('add_staff', $scope);
         }
     }
 });
@@ -44,6 +44,7 @@ staff.controller('StaffEditCtrl', function ($scope, $http, $log, Generator, $rou
         $scope.schema = d.schema;
         $scope.form = d.form;
         $scope.model = d.model ? d.model : {};
+        $scope.initialModel = angular.copy(d.model);
         $scope.form[0].$asyncValidators = Generator.asyncValidators;
         $scope.form.push(
             {
@@ -56,8 +57,7 @@ staff.controller('StaffEditCtrl', function ($scope, $http, $log, Generator, $rou
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {
-            // todo: implement form diff here
-            $log.info($scope);
+            Generator.submit('edit_staff', $scope);
         }
     }
 });

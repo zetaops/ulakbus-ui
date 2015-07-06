@@ -12,6 +12,14 @@ app.config(['$httpProvider', function ($httpProvider) {
      */
     $httpProvider.interceptors.push(function ($q) {
         return {
+            'request': function(config){
+                if (config.method == "POST"){
+                    console.log("post request")
+                } else {
+                    console.log("get request")
+                }
+                return config;
+            },
             'response': function (response) {
                 //Will only be called for HTTP up to 300
                 return response;
