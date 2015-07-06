@@ -58,6 +58,8 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
         var get_diff = FormDiff.get_diff($scope.model,$scope.initialModel);
         $log.info(get_diff);
         $http.post(RESTURL.url + url, get_diff).then(function (res) {
+            // todo: for now fake rest api returns 'ok' no data to
+            // manipulate on ui. therefor used just a log
             $log.info(res);
         });
     };
