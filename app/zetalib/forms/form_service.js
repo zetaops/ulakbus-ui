@@ -5,9 +5,9 @@
  * (GPLv3).  See LICENSE.txt for details.
  */
 
-var form_generator = angular.module('formService', []);
+var form_generator = angular.module('formService', ['general']);
 
-form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL) {
+form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL, FormDiff) {
     var generator = {};
     generator.generate = function (modelObject) {
         return generator.group(modelObject);
@@ -54,14 +54,14 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
             return deferred.promise;
         }
     };
-    generator.submit = function ($scope) {
-        $scope.$broadcast('schemaFormValidate');
-        //if ($scope.form.$valid) {
-        // todo: change post url, this is not correct!
-        $http.post('http://127.0.0.1:3000/api/add_student', $scope.model).then(function (res) {
+    generator.submit = function (url, $scope) {
+        var get_diff = FormDiff.get_diff($scope.model,$scope.initialModel);
+        $log.info(get_diff);
+        $http.post(RESTURL.url + url, get_diff).then(function (res) {
+            // todo: for now fake rest api returns 'ok' no data to
+            // manipulate on ui. therefor used just a log
             $log.info(res);
         });
-        //}
     };
     return generator;
 });

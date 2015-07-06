@@ -35,14 +35,12 @@ student.controller('StudentAddEditCtrl', function($scope, $http, $log, Generator
             }
         );
     });
-    $scope.onSubmit = Generator.submit($scope);
-        //$scope.$broadcast('schemaFormValidate');
-        //if (form.$valid) {
-            // todo: implement form diff here
-            //Generator.submit($scope);
-            //$log.info($scope.initialModel, $scope.model);
-        //}
-    //}
+    $scope.onSubmit = function (form) {
+        $scope.$broadcast('schemaFormValidate');
+        if (form.$valid) {
+            Generator.submit('add_staff', $scope);
+        }
+    }
 });
 
 /**
