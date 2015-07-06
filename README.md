@@ -1,7 +1,7 @@
 #Zaerp User Interface
 
 ##Get Ready For Development
-1. Get Repo `git clone git@github.com:zetaops/zaerp-ui.git`
+1. Get Repo `git clone git@github.com:zetaops/ulakbus-ui.git`
 
     *if you are not familiar with git follow these guides:* 
     - https://git-scm.com/doc

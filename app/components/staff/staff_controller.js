@@ -40,7 +40,7 @@ staff.controller('StaffAddCtrl', function ($scope, $http, $log, Generator, $rout
 });
 
 staff.controller('StaffEditCtrl', function ($scope, $http, $log, Generator, $routeParams) {
-    Generator.get_form('add_staff', $routeParams.id).then(function (d) {
+    Generator.get_form('edit_staff', {id: $routeParams.id}).then(function (d) {
         $scope.schema = d.schema;
         $scope.form = d.form;
         $scope.model = d.model ? d.model : {};
@@ -69,5 +69,14 @@ staff.controller('StaffEditCtrl', function ($scope, $http, $log, Generator, $rou
 staff.controller('StaffListCtrl', function($scope, $http){
     $http.get('http://127.0.0.1:3000/api/list_staff').then(function(res){
         $scope.staffs = res.data;
+    })
+});
+
+/**
+ * Staff Show Controller
+ */
+staff.controller('StaffShowCtrl', function($scope, $http, $routeParams){
+    $http.get('http://127.0.0.1:3000/api/list_staff/').then(function(res){
+        $scope.staff = res.data[0];
     })
 });

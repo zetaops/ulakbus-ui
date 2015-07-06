@@ -62,7 +62,35 @@ var app = angular.module(
         sessionTimeout: 'auth-session-timeout',
         notAuthenticated: 'auth-not-authenticated',
         notAuthorized: 'auth-not-authorized'
-    });
+    }).
+
+/**
+ * Directive to highlight current menu item
+ */
+
+
+    // todo: not working properly, get it done!
+    directive('activeLink', ['$location', function($location) {
+        return {
+            restrict: 'A',
+            link: function($scope, $element, $attrs) {
+                var clazz = $attrs.activeLink;
+                var path = $location.path();
+                path = path //hack because path does not
+                // return including hashbang
+                $scope.location = $location;
+                $scope.$watch('location.path()', function(newPath) {
+                    if (path === newPath) {
+                        console.log(path, newPath);
+                        $element.addClass(clazz);
+                    } else {
+                        console.log(path, newPath);
+                        $element.removeClass(clazz);
+                    }
+                });
+            }
+        };
+    }]);
 
 // test the code with strict di mode to see if it works when minified
 //angular.bootstrap(document, ['zaerp'], {

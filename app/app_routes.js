@@ -66,8 +66,23 @@ app.config(['$routeProvider', function ($routeProvider) {
                 }]
             }
         })
+        .when('/student/:id', {
+            templateUrl: 'components/student/student_list_template.html',
+            controller: 'StudentShowCtrl',
+            resolve: {
+                loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('components/student/student_controller.js');
+                }],
+                loadMyService: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/forms/form_service.js');
+                }],
+                loadMyService2: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/general.js');
+                }]
+            }
+        })
         .when('/staff/add', {
-            templateUrl: 'components/staff/staff_add_template.html',
+            templateUrl: 'components/staff/templates/add.html',
             controller: 'StaffAddCtrl',
             resolve: {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -82,11 +97,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             }
         })
         .when('/staff/edit/:id', {
-            templateUrl: 'components/staff/staff_add_template.html',
-            controller: 'StudentEditCtrl',
+            templateUrl: 'components/staff/templates/edit.html',
+            controller: 'StaffEditCtrl',
             resolve: {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load('components/student/student_controller.js');
+                    return $ocLazyLoad.load('components/staff/staff_controller.js');
                 }],
                 loadMyService: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('zetalib/forms/form_service.js');
@@ -97,8 +112,23 @@ app.config(['$routeProvider', function ($routeProvider) {
             }
         })
         .when('/staffs', {
-            templateUrl: 'components/staff/staff_list_template.html',
+            templateUrl: 'components/staff/templates/list.html',
             controller: 'StaffListCtrl',
+            resolve: {
+                loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('components/staff/staff_controller.js');
+                }],
+                loadMyService: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/forms/form_service.js');
+                }],
+                loadMyService2: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load('zetalib/general.js');
+                }]
+            }
+        })
+        .when('/staff/:id', {
+            templateUrl: 'components/staff/templates/show.html',
+            controller: 'StaffShowCtrl',
             resolve: {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('components/staff/staff_controller.js');
@@ -144,27 +174,4 @@ app.config(['$routeProvider', function ($routeProvider) {
             }
         }
     });
-}).config(['$httpProvider', function ($httpProvider) {
-    /**
-     * the interceptor for all requests to check response
-     * 4xx - 5xx errors will be handled here
-     */
-    $httpProvider.interceptors.push(function ($q) {
-        return {
-            'response': function (response) {
-                //Will only be called for HTTP up to 300
-                return response;
-            },
-            'responseError': function (rejection) {
-                // if unauthorized then redirect to login page
-                if(rejection.status === 400) {
-                    location.reload();
-                }
-                if(rejection.status === 401) {
-                    location.path('#/login');
-                }
-                return $q.reject(rejection);
-            }
-        };
-    });
-}]);
+});
