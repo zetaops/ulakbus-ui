@@ -22,6 +22,9 @@ app.config(['$httpProvider', function ($httpProvider) {
             },
             'response': function (response) {
                 //Will only be called for HTTP up to 300
+                if(response.screen) {
+                    location.path(response.screen);
+                }
                 return response;
             },
             'responseError': function (rejection) {

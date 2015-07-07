@@ -12,14 +12,14 @@
 auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cookies, Session, RESTURL) {
     var loginService = {};
 
-    loginService.login = function (credentials) {
+    loginService.login = function (url, credentials) {
         // TODO: change this getParams var to service to use app-wide
         var getParams = "?";
         for (var k in credentials) {
             getParams += k + "=" + credentials[k] + "&";
         }
         return $http
-            .get(RESTURL.url + 'login' + getParams)
+            .get(RESTURL.url + url + getParams)
             .then(function (res) {
                 $log.info(res.data[0]);
                 res.data = res.data[0];

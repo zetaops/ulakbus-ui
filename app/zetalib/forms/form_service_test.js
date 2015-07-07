@@ -60,5 +60,20 @@ describe('form service module', function () {
             })
         );
 
+        it('should post form',
+            inject(function (Generator, $httpBackend, RESTURL) {
+
+                $httpBackend.expectGET(RESTURL.url + 'student/add')
+                    .respond(200, [{data: 'OK'}]);
+
+                var cred = {email: 'test@test.com'};
+                Generator.submit('student/add', cred)
+                    .then(function (data) {
+                        expect(data).toEqual({data: 'OK'});
+                    });
+                $httpBackend.flush();
+            })
+        );
+
     });
 });
