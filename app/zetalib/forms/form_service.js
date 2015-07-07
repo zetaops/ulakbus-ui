@@ -29,11 +29,11 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
         //}
         console.log(getParams);
         return $http
-            .post(RESTURL.url + url, data=getParams)
+            .post(RESTURL.url + url, getParams)
             .then(function (res) {
                 if (res.status == 200) {
-                    // todo: remove 0 index with real api
-                    return generator.generate(res.data[0]);
+                    console.log(res);
+                    return generator.generate(res.data);
                 }
                 // todo: cover all other exceptions (4xx, 5xx)
             });

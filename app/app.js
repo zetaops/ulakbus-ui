@@ -39,7 +39,7 @@ var app = angular.module(
  * Based on the environment it changes from dev to prod
  */
     constant("RESTURL", (function () {
-        return {url: "http://127.0.0.1:8000/"};
+        return {url: "http://127.0.0.1:9001/"};
     })()).
 /**
  * USER_ROLES and AUTH_EVENTS are constant for auth functions
