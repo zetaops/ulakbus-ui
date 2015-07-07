@@ -16,31 +16,39 @@ var staff = angular.module('zaerp.staff', ['ngRoute', 'schemaForm', 'formService
  * which provide a form with form generator.
  */
 
-staff.controller('StaffAddCtrl', function ($scope, $http, $log, Generator) {
-    Generator.get_form('add_staff', '').then(function (d) {
-        $scope.schema = d.schema;
-        $scope.form = d.form;
-        $scope.model = d.model ? d.model : {};
-        $scope.initialModel = angular.copy(d.model);
-        $scope.form[0].$asyncValidators = Generator.asyncValidators;
-        $scope.form.push(
-            {
-                type: "submit",
-                title: "Save"
-            }
-        );
-        return $scope;
-    });
-    $scope.onSubmit = function (form) {
-        $scope.$broadcast('schemaFormValidate');
-        if (form.$valid) {
-            Generator.submit('add_staff', $scope);
-        }
-    }
-});
+//staff.controller('StaffAddCtrl', function ($scope, $http, $log, Generator) {
+//    Generator.get_form('add_staff', '').then(function (d) {
+//        $scope.schema = d.schema;
+//        $scope.form = d.form;
+//        $scope.model = d.model ? d.model : {};
+//        $scope.initialModel = angular.copy(d.model);
+//        $scope.form[0].$asyncValidators = Generator.asyncValidators;
+//        $scope.form.push(
+//            {
+//                type: "submit",
+//                title: "Save"
+//            }
+//        );
+//        return $scope;
+//    });
+//    $scope.onSubmit = function (form) {
+//        $scope.$broadcast('schemaFormValidate');
+//        if (form.$valid) {
+//            Generator.submit('add_staff', $scope);
+//        }
+//    }
+//});
 
-staff.controller('StaffEditCtrl', function ($scope, $http, $log, Generator, $routeParams) {
-    Generator.get_form('edit_staff', {id: $routeParams.id}).then(function (d) {
+staff.controller('StaffAddEditCtrl', function ($scope, $http, $log, Generator, $routeParams) {
+    var form_params = {};
+    if ($routeParams.id){
+        form_params['id'] = $routeParams.id;
+        form_params['cmd'] = 'edit_object';
+    }
+    else {
+        form_params['cmd'] = 'add_object';
+    }
+    Generator.get_form('personel_duzenle_basitlestirilmis', form_params).then(function (d) {
         $scope.schema = d.schema;
         $scope.form = d.form;
         $scope.model = d.model ? d.model : {};
@@ -67,7 +75,7 @@ staff.controller('StaffEditCtrl', function ($scope, $http, $log, Generator, $rou
  */
 
 staff.controller('StaffListCtrl', function($scope, $http){
-    $http.get('http://127.0.0.1:3000/api/list_staff').then(function(res){
+    $http.get('personel_duzenle_basitlestirilmis').then(function(res){
         $scope.staffs = res.data;
     })
 });

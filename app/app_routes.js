@@ -89,7 +89,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when('/staff/add', {
             templateUrl: 'components/staff/templates/add.html',
-            controller: 'StaffAddCtrl',
+            controller: 'StaffAddEditCtrl',
             resolve: {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('components/staff/staff_controller.js');
@@ -104,7 +104,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when('/staff/edit/:id', {
             templateUrl: 'components/staff/templates/edit.html',
-            controller: 'StaffEditCtrl',
+            controller: 'StaffAddEditCtrl',
             resolve: {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('components/staff/staff_controller.js');

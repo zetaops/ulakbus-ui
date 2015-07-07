@@ -16,19 +16,20 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
         return form_items;
     };
     generator.get_form = function (url, getParams) {
-        if (getParams) {
-            // if form for edit then url will be
-            var params = "";
-            for (var k in getParams) {
-                params += k + "=" + getParams[k] + "&";
-            }
-            var formUrl = RESTURL.url + url + '?' + params;
-        } else {
-            // if form for create then url will be
-            var formUrl = RESTURL.url + url;
-        }
+        //if (getParams) {
+        //    // if form for edit then url will be
+        //    var params = "";
+        //    for (var k in getParams) {
+        //        params += k + "=" + getParams[k] + "&";
+        //    }
+        //    var formUrl = RESTURL.url + url + '?' + params;
+        //} else {
+        //    // if form for create then url will be
+        //    var formUrl = RESTURL.url + url;
+        //}
+        console.log(getParams);
         return $http
-            .get(formUrl)
+            .post(RESTURL.url + url, data=getParams)
             .then(function (res) {
                 if (res.status == 200) {
                     // todo: remove 0 index with real api
