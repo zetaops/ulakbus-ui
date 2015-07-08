@@ -12,7 +12,7 @@ var staff = angular.module('zaerp.staff', ['ngRoute', 'schemaForm', 'formService
 
 
 /**
- * StaffCtrl is a controller
+ * StaffAddEditCtrl is a controller
  * which provide a form with form generator.
  */
 
@@ -40,6 +40,7 @@ var staff = angular.module('zaerp.staff', ['ngRoute', 'schemaForm', 'formService
 //});
 
 staff.controller('StaffAddEditCtrl', function ($scope, $http, $log, Generator, $routeParams) {
+    $scope.url = 'personel_duzenle_basitlestirilmis';
     var form_params = {};
     if ($routeParams.id){
         form_params['id'] = $routeParams.id;
@@ -48,11 +49,11 @@ staff.controller('StaffAddEditCtrl', function ($scope, $http, $log, Generator, $
     else {
         form_params['cmd'] = 'add_object';
     }
-    Generator.get_form('personel_duzenle_basitlestirilmis', form_params).then(function (data) {
+    Generator.get_form($scope.url, form_params).then(function (data) {
         var d = data.data.forms;
         $scope.schema = d.schema;
         $scope.form = d.form;
-        $scope.form.push({"key": "birth_date", "format": "yyyy-mm-dd"});
+        //$scope.form.push({"key": "birth_date", "format": "yyyy-mm-dd"});
         $scope.model = d.model ? d.model : {};
         $scope.initialModel = angular.copy(d.model);
         //$scope.form.push($asyncValidators: Generator.asyncValidators);
@@ -68,17 +69,20 @@ staff.controller('StaffAddEditCtrl', function ($scope, $http, $log, Generator, $
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {
-            Generator.submit('edit_staff', $scope);
+            Generator.submit($scope);
         }
     }
 });
+
+// todo: for single point of failure code a "get item" service and use it to
+// retrieve list and single item
 
 /**
  * Staff List Controller
  */
 
 staff.controller('StaffListCtrl', function($scope, $http){
-    $http.get('personel_duzenle_basitlestirilmis').then(function(res){
+    $http.post('personel_duzenle_basitlestirilmis').then(function(res){
         $scope.staffs = res.data;
     })
 });
@@ -87,7 +91,7 @@ staff.controller('StaffListCtrl', function($scope, $http){
  * Staff Show Controller
  */
 staff.controller('StaffShowCtrl', function($scope, $http, $routeParams){
-    $http.get('http://127.0.0.1:3000/api/list_staff/').then(function(res){
+    $http.post('personel_duzenle_basitlestirilmis').then(function(res){
         $scope.staff = res.data[0];
     })
 });

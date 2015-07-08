@@ -17,13 +17,13 @@ auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cook
         return $http
             .post(RESTURL.url + url, credentials)
             .success(function (data, status, headers, config) {
-                $window.sessionStorage.token = data.token;
+                //$window.sessionStorage.token = data.token;
                 $rootScope.loggedInUser = true;
                 $location.path("/dashboard");
             })
             .error(function (data, status, headers, config) {
                 // Erase the token if the user fails to log in
-                delete $window.sessionStorage.token;
+                //delete $window.sessionStorage.token;
 
                 // Handle login errors here
                 $scope.message = 'Error: Invalid user or password';
@@ -42,6 +42,16 @@ auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cook
             //        return res.data.user;
             //    }
             //});
+    };
+
+    loginService.logout = function() {
+        console.log("logout");
+        $http.post(RESTURL.url + 'logout', {}).then(function(){
+            $rootScope.loggedInUser = false;
+            $location.path("/login");
+        });
+        console.log("loggedout");
+
     };
 
     loginService.isAuthenticated = function () {
