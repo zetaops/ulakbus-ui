@@ -15,7 +15,7 @@ app.config(['$httpProvider', function ($httpProvider) {
             'request': function(config){
                 // todo: delete console logs
                 if (config.method == "POST"){
-                    console.log("post request")
+
                 } else {
 
                 }
@@ -23,9 +23,13 @@ app.config(['$httpProvider', function ($httpProvider) {
             },
             'response': function (response) {
                 //Will only be called for HTTP up to 300
-                if(response.data.is_login){
+                if(response.data.is_login===true){
                     $rootScope.loggedInUser = response.data.is_login;
-                    //$location.path("/dashboard");
+                    if($location.path()==="/login"){
+                        $location.path('/dashboard');
+                    } else{
+                        $location.replace();
+                    }
                 }
                 if(response.data.screen) {
                     $location.path(response.data.screen);

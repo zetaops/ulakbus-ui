@@ -97,6 +97,7 @@ var app = angular.module(
                         $rootScope.loggedInUser = false;
                         console.log($rootScope.loggedInUser);
                         $location.path("/login");
+                        $scope.$apply();
                     });
                 });
             }
