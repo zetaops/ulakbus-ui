@@ -16,50 +16,28 @@ var staff = angular.module('zaerp.staff', ['ngRoute', 'schemaForm', 'formService
  * which provide a form with form generator.
  */
 
-//staff.controller('StaffAddCtrl', function ($scope, $http, $log, Generator) {
-//    Generator.get_form('add_staff', '').then(function (d) {
-//        $scope.schema = d.schema;
-//        $scope.form = d.form;
-//        $scope.model = d.model ? d.model : {};
-//        $scope.initialModel = angular.copy(d.model);
-//        $scope.form[0].$asyncValidators = Generator.asyncValidators;
-//        $scope.form.push(
-//            {
-//                type: "submit",
-//                title: "Save"
-//            }
-//        );
-//        return $scope;
-//    });
-//    $scope.onSubmit = function (form) {
-//        $scope.$broadcast('schemaFormValidate');
-//        if (form.$valid) {
-//            Generator.submit('add_staff', $scope);
-//        }
-//    }
-//});
-
-staff.controller('StaffAddEditCtrl', function ($scope, $http, $log, Generator, $routeParams) {
+staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $http, $log, Generator, $routeParams) {
     $scope.url = 'personel_duzenle_basitlestirilmis';
     var form_params = {};
     if ($routeParams.id) {
-        form_params['id'] = $routeParams.id;
+        form_params['object_id'] = $routeParams.id;
         form_params['cmd'] = 'edit_object';
     }
     else {
         form_params['cmd'] = 'add_object';
     }
-    form_params['clear_wf'] = 1;
+    if ($rootScope.staffwfclear){
+        form_params['clear_wf'] = 1;
+    } else{
+        $rootScope.staffwfclear = 1
+    }
+
     Generator.get_form($scope.url, form_params).then(function (data) {
         var d = data.data.forms;
-        console.log(d);
-        $scope.schema = d.schema;
-        $scope.form = d.form;
-        delete $scope.form[0];
-        //$scope.form.push({"key": "birth_date", "format": "yyyy-mm-dd"});
-        $scope.model = d.model ? d.model : {};
-        $scope.initialModel = angular.copy(d.model);
-        //$scope.form.push($asyncValidators: Generator.asyncValidators);
+        // add form, schema and model to scope object
+        for (var key in d)
+            $scope[key] = d[key];
+        $scope.initialModel = angular.copy($scope.model);
         $scope.form.push(
             {
                 type: "submit",
@@ -82,17 +60,30 @@ staff.controller('StaffAddEditCtrl', function ($scope, $http, $log, Generator, $
  * Staff List Controller
  */
 
-staff.controller('StaffListCtrl', function ($scope, $http, RESTURL) {
-    $http.post(RESTURL.url + 'personel_duzenle_basitlestirilmis').then(function (res) {
-        $scope.staffs = res.data;
-    })
+staff.controller('StaffListCtrl', function ($scope, $rootScope, Generator) {
+    var form_params = {};
+    if ($rootScope.staffwfclear){
+        form_params['clear_wf'] = 1;
+    } else{
+        $rootScope.staffwfclear = 1
+    }
+    Generator.get_form('personel_duzenle_basitlestirilmis', form_params)
+        .then(function (res) {
+            $scope.staffs = res.data;
+        });
 });
 
 /**
  * Staff Show Controller
  */
-staff.controller('StaffShowCtrl', function ($scope, $http, RESTURL, $routeParams) {
-    $http.post(RESTURL.url + 'personel_duzenle_basitlestirilmis').then(function (res) {
+staff.controller('StaffShowCtrl', function ($scope, $rootScope, Generator, $routeParams) {
+    var form_params = {"object_id": $routeParams.id};
+    if ($rootScope.staffwfclear){
+        form_params['clear_wf'] = 1;
+    } else{
+        $rootScope.staffwfclear = 1
+    }
+    Generator.get_form('personel_duzenle_basitlestirilmis', form_params).then(function (res) {
         $scope.staff = res.data[0];
     })
 });

@@ -13,5 +13,4 @@ angular.module('zaerp.dashboard', ['ngRoute'])
 
     .controller('DashCtrl', function ($scope) {
         $scope.testData = "<h1>This is main Dashboard</h1>";
-        console.log(22);
     });

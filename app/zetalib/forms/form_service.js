@@ -9,6 +9,9 @@ var form_generator = angular.module('formService', ['general']);
 
 form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL, FormDiff) {
     var generator = {};
+    generator.makeUrl = function(url){
+        return RESTURL.url + url;
+    };
     generator.generate = function (modelObject) {
         return generator.group(modelObject);
     };
@@ -17,11 +20,9 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
     };
     generator.get_form = function (url, getParams) {
         return $http
-            .post(RESTURL.url + url, getParams)
+            .post(generator.makeUrl(url), getParams)
             .success(function (res) {
-                if (res.status == 200) {
-                    return generator.generate(res.data);
-                }
+                return generator.generate(res.data);
                 // todo: cover all other exceptions (4xx, 5xx)
             });
     };
@@ -43,9 +44,14 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
         }
     };
     generator.submit = function ($scope) {
-        var get_diff = FormDiff.get_diff($scope.model,$scope.initialModel);
-        $log.info(get_diff);
-        $http.post(RESTURL.url + $scope.url, get_diff).then(function (res) {
+        if($scope.object_id) {
+            var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
+            var data = {"object_id": $scope.id, "form": get_diff};
+        }
+        else {
+            data = $scope.model;
+        }
+        $http.post(generator.makeUrl($scope.url), data).then(function (res) {
             // todo: for now fake rest api returns 'ok' no data to
             // manipulate on ui. therefor used just a log
             $log.info(res);
