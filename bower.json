@@ -6,14 +6,16 @@
   "license": "GPL",
   "private": false,
   "dependencies": {
-    "angular": "1.4.1",
-    "angular-mocks": "1.4.x",
-    "angular-route": "1.4.x",
-    "angular-resource": "1.4.x",
-    "angular-cookies": "1.4.x",
+    "angular": "1.4.2",
+    "angular-mocks": "1.4.2",
+    "angular-route": "1.4.2",
+    "angular-resource": "1.4.2",
+    "angular-cookies": "1.4.2",
     "bootstrap": "3.3.4",
-    "angular-schema-form": "*",
-    "angular-schema-form-datepicker": "*",
-    "oclazyload": "*"
+    "angular-schema-form": "0.8.3",
+    "oclazyload": "1.0.1"
+  },
+  "resolutions": {
+    "angular": ">= 1.2"
   }
 }
