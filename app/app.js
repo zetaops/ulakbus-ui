@@ -31,7 +31,7 @@ var app = angular.module(
     config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
         $ocLazyLoadProvider.config({
             // todo: turn debug false on prod
-            debug: true
+            debug: false
         });
     }]).
 /**
@@ -66,16 +66,16 @@ var app = angular.module(
 
 
     // todo: not working properly, get it done!
-    directive('activeLink', ['$location', function($location) {
+    directive('activeLink', ['$location', function ($location) {
         return {
             restrict: 'A',
-            link: function($scope, $element, $attrs) {
+            link: function ($scope, $element, $attrs) {
                 var clazz = $attrs.activeLink;
                 var path = $location.path();
                 path = path //hack because path does not
                 // return including hashbang
                 $scope.location = $location;
-                $scope.$watch('location.path()', function(newPath) {
+                $scope.$watch('location.path()', function (newPath) {
                     if (path === newPath) {
                         console.log(path, newPath);
                         $element.addClass(clazz);
@@ -86,7 +86,23 @@ var app = angular.module(
                 });
             }
         };
-    }]);
+    }]).
+
+/**
+ * logout directive
+ */
+    directive('logout', function($http, $location){
+        return {
+            link: function($scope, $element, $rootScope){
+                $element.on('click', function(){
+                    $http.post('http://127.0.0.1:9001/logout', {}).then(function () {
+                        $rootScope.loggedInUser = false;
+                        $location.path("/login");
+                    });
+                });
+            }
+        }
+    });
 
 // test the code with strict di mode to see if it works when minified
 //angular.bootstrap(document, ['zaerp'], {
