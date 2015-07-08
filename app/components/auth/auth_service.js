@@ -9,31 +9,39 @@
 
 // TODO: login url change with correct one
 
-auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cookies, Session, RESTURL) {
+auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cookies, $window, Session, RESTURL) {
     var loginService = {};
 
     loginService.login = function (url, credentials) {
-        // TODO: change this getParams var to service to use app-wide
-        var getParams = "?";
-        for (var k in credentials) {
-            getParams += k + "=" + credentials[k] + "&";
-        }
+        credentials = {login_crd: credentials, cmd: "do"};
         return $http
-            .get(RESTURL.url + url + getParams)
-            .then(function (res) {
-                $log.info(res.data[0]);
-                res.data = res.data[0];
-                if (res.data.success) {
-                    $rootScope.loggedInUser = true;
-                    $location.path("/dashboard");
-                    var session = Session.create(res.data.id, res.data.user.id,
-                        res.data.user.role);
-                    $log.info(session);
-                    $cookies.put('sessionId', 123456);
-                    console.log($cookies.getAll());
-                    return res.data.user;
-                }
+            .post(RESTURL.url + url, credentials)
+            .success(function (data, status, headers, config) {
+                $window.sessionStorage.token = data.token;
+                $rootScope.loggedInUser = true;
+                $location.path("/dashboard");
+            })
+            .error(function (data, status, headers, config) {
+                // Erase the token if the user fails to log in
+                delete $window.sessionStorage.token;
+
+                // Handle login errors here
+                $scope.message = 'Error: Invalid user or password';
             });
+            //.then(function (res) {
+            //    $log.info(res.data[0]);
+            //    res.data = res.data[0];
+            //    if (res.data.success) {
+            //        $rootScope.loggedInUser = true;
+            //        $location.path("/dashboard");
+            //        var session = Session.create(res.data.id, res.data.user.id,
+            //            res.data.user.role);
+            //        $log.info(session);
+            //        $cookies.put('sessionId', 123456);
+            //        console.log($cookies.getAll());
+            //        return res.data.user;
+            //    }
+            //});
     };
 
     loginService.isAuthenticated = function () {

@@ -48,18 +48,21 @@ staff.controller('StaffAddEditCtrl', function ($scope, $http, $log, Generator, $
     else {
         form_params['cmd'] = 'add_object';
     }
-    Generator.get_form('personel_duzenle_basitlestirilmis', form_params).then(function (d) {
+    Generator.get_form('personel_duzenle_basitlestirilmis', form_params).then(function (data) {
+        var d = data.data.forms;
         $scope.schema = d.schema;
         $scope.form = d.form;
+        $scope.form.push({"key": "birth_date", "format": "yyyy-mm-dd"});
         $scope.model = d.model ? d.model : {};
         $scope.initialModel = angular.copy(d.model);
-        $scope.form[0].$asyncValidators = Generator.asyncValidators;
+        //$scope.form.push($asyncValidators: Generator.asyncValidators);
         $scope.form.push(
             {
                 type: "submit",
                 title: "Save"
             }
         );
+        console.log($scope);
         return $scope;
     });
     $scope.onSubmit = function (form) {

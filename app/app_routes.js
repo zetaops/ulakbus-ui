@@ -167,8 +167,8 @@ app.config(['$routeProvider', function ($routeProvider) {
      *
      */
 
-    var sessionId = $cookies.get('session');
-    $rootScope.loggedInUser = sessionId ? true : false;
+    //var sessionId = $cookies.get('session');
+    //$rootScope.loggedInUser = sessionId ? true : false;
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
         if ($rootScope.loggedInUser == null) {
             // no logged user, redirect to /login

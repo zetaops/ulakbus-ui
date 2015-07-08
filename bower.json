@@ -13,6 +13,7 @@
     "angular-cookies": "1.4.x",
     "bootstrap": "3.3.4",
     "angular-schema-form": "*",
+    "angular-schema-form-datepicker": "*",
     "oclazyload": "*"
   }
 }

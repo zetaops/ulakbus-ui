@@ -17,7 +17,8 @@ auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, Gener
     $scope.url = 'simple_login';
 
     // todo: change simple login when api ready
-    Generator.get_form($scope.url, $routeParams).then(function(d){
+    Generator.get_form($scope.url, $routeParams).then(function(data){
+        var d = data.data.forms;
         $scope.schema = d.schema;
         $scope.form = d.form;
         // model is the init data of the form or in edit templates

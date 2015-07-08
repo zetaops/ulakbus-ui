@@ -16,23 +16,10 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
         return form_items;
     };
     generator.get_form = function (url, getParams) {
-        //if (getParams) {
-        //    // if form for edit then url will be
-        //    var params = "";
-        //    for (var k in getParams) {
-        //        params += k + "=" + getParams[k] + "&";
-        //    }
-        //    var formUrl = RESTURL.url + url + '?' + params;
-        //} else {
-        //    // if form for create then url will be
-        //    var formUrl = RESTURL.url + url;
-        //}
-        console.log(getParams);
         return $http
             .post(RESTURL.url + url, getParams)
-            .then(function (res) {
+            .success(function (res) {
                 if (res.status == 200) {
-                    console.log(res);
                     return generator.generate(res.data);
                 }
                 // todo: cover all other exceptions (4xx, 5xx)

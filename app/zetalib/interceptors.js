@@ -5,7 +5,7 @@
  * (GPLv3).  See LICENSE.txt for details.
  */
 
-app.config(['$httpProvider', function ($httpProvider) {
+app.config(['$httpProvider', function ($httpProvider, $rootScope) {
     /**
      * the interceptor for all requests to check response
      * 4xx - 5xx errors will be handled here
@@ -13,6 +13,7 @@ app.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.interceptors.push(function ($q) {
         return {
             'request': function(config){
+                // todo: delete console logs
                 if (config.method == "POST"){
                     console.log("post request")
                 } else {
@@ -22,9 +23,14 @@ app.config(['$httpProvider', function ($httpProvider) {
             },
             'response': function (response) {
                 //Will only be called for HTTP up to 300
+                if(response.is_login){
+                    $rootScope.loggedInUser = response.is_login;
+                    console.log("login", response.is_login);
+                }
                 if(response.screen) {
                     location.path(response.screen);
                 }
+                console.log(response);
                 return response;
             },
             'responseError': function (rejection) {
