@@ -25,13 +25,11 @@ app.config(['$httpProvider', function ($httpProvider) {
                 //Will only be called for HTTP up to 300
                 if(response.data.is_login){
                     $rootScope.loggedInUser = response.data.is_login;
-                    console.log("login", response.data.is_login);
-                    $location.path("/dashboard");
+                    //$location.path("/dashboard");
                 }
-                if(response.screen) {
-                    $location.path(response.screen);
+                if(response.data.screen) {
+                    $location.path(response.data.screen);
                 }
-                console.log("login", response);
                 return response;
             },
             'responseError': function (rejection) {
@@ -40,7 +38,11 @@ app.config(['$httpProvider', function ($httpProvider) {
                     $location.reload();
                 }
                 if(rejection.status === 401) {
-                    $location.path('/login');
+                    if($location.path()==="/login"){
+                        console.log("show errors on login form");
+                    } else{
+                        $location.path('/login');
+                    }
                 }
                 return $q.reject(rejection);
             }

@@ -6,7 +6,7 @@
   "license": "GPL",
   "private": false,
   "dependencies": {
-    "angular": "1.4.x",
+    "angular": "1.4.1",
     "angular-mocks": "1.4.x",
     "angular-route": "1.4.x",
     "angular-resource": "1.4.x",
