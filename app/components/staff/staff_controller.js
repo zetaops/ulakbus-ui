@@ -42,17 +42,20 @@ var staff = angular.module('zaerp.staff', ['ngRoute', 'schemaForm', 'formService
 staff.controller('StaffAddEditCtrl', function ($scope, $http, $log, Generator, $routeParams) {
     $scope.url = 'personel_duzenle_basitlestirilmis';
     var form_params = {};
-    if ($routeParams.id){
+    if ($routeParams.id) {
         form_params['id'] = $routeParams.id;
         form_params['cmd'] = 'edit_object';
     }
     else {
         form_params['cmd'] = 'add_object';
     }
+    form_params['clear_wf'] = 1;
     Generator.get_form($scope.url, form_params).then(function (data) {
         var d = data.data.forms;
+        console.log(d);
         $scope.schema = d.schema;
         $scope.form = d.form;
+        delete $scope.form[0];
         //$scope.form.push({"key": "birth_date", "format": "yyyy-mm-dd"});
         $scope.model = d.model ? d.model : {};
         $scope.initialModel = angular.copy(d.model);
@@ -63,8 +66,6 @@ staff.controller('StaffAddEditCtrl', function ($scope, $http, $log, Generator, $
                 title: "Save"
             }
         );
-        console.log($scope);
-        return $scope;
     });
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
@@ -81,8 +82,8 @@ staff.controller('StaffAddEditCtrl', function ($scope, $http, $log, Generator, $
  * Staff List Controller
  */
 
-staff.controller('StaffListCtrl', function($scope, $http){
-    $http.post('personel_duzenle_basitlestirilmis').then(function(res){
+staff.controller('StaffListCtrl', function ($scope, $http, RESTURL) {
+    $http.post(RESTURL.url + 'personel_duzenle_basitlestirilmis').then(function (res) {
         $scope.staffs = res.data;
     })
 });
@@ -90,8 +91,8 @@ staff.controller('StaffListCtrl', function($scope, $http){
 /**
  * Staff Show Controller
  */
-staff.controller('StaffShowCtrl', function($scope, $http, $routeParams){
-    $http.post('personel_duzenle_basitlestirilmis').then(function(res){
+staff.controller('StaffShowCtrl', function ($scope, $http, RESTURL, $routeParams) {
+    $http.post(RESTURL.url + 'personel_duzenle_basitlestirilmis').then(function (res) {
         $scope.staff = res.data[0];
     })
 });

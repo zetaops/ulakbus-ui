@@ -167,19 +167,18 @@ app.config(['$routeProvider', function ($routeProvider) {
      *
      */
 
-    //var sessionId = $cookies.get('session');
-    //$rootScope.loggedInUser = sessionId ? true : false;
-    $rootScope.$on("$routeChangeStart", function (event, next, current) {
-        if ($rootScope.loggedInUser == null) {
-            // no logged user, redirect to /login
-            if (next.templateUrl === "login/login.html") {
-                console.log("test log to login");
-            } else {
-                console.log("test log logged");
-                $location.path("/login");
-            }
-        }
-    });
+    //$rootScope.loggedInUser ? $rootScope.loggedInUser : false;
+    //$rootScope.$on("$routeChangeStart", function (event, next, current) {
+    //    if ($rootScope.loggedInUser == null) {
+    //        // no logged user, redirect to /login
+    //        console.log($rootScope.loggedInUser);
+    //        if (next.templateUrl === "login/login.html") {
+    //
+    //        } else {
+    //            $location.path("/login");
+    //        }
+    //    }
+    //});
 }).config(['$httpProvider', function($httpProvider) {
     // to send cookies CORS
     $httpProvider.defaults.withCredentials = true;

@@ -77,10 +77,8 @@ var app = angular.module(
                 $scope.location = $location;
                 $scope.$watch('location.path()', function (newPath) {
                     if (path === newPath) {
-                        console.log(path, newPath);
                         $element.addClass(clazz);
                     } else {
-                        console.log(path, newPath);
                         $element.removeClass(clazz);
                     }
                 });
@@ -97,6 +95,7 @@ var app = angular.module(
                 $element.on('click', function(){
                     $http.post('http://127.0.0.1:9001/logout', {}).then(function () {
                         $rootScope.loggedInUser = false;
+                        console.log($rootScope.loggedInUser);
                         $location.path("/login");
                     });
                 });

@@ -17,7 +17,7 @@ app.config(['$httpProvider', function ($httpProvider) {
                 if (config.method == "POST"){
                     console.log("post request")
                 } else {
-                    console.log("get request")
+
                 }
                 return config;
             },
