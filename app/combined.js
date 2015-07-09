@@ -26440,7 +26440,8 @@ var minlengthDirective = function() {
 
 })(window, document);
 
-!window.angular.$$csp() && window.angular.element(document).find('head').prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}</style>');/**
+!window.angular.$$csp() && window.angular.element(document).find('head').prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}</style>');
+/**
  * oclazyload - Load modules on demand (lazy load) with angularJS
  * @version v1.0.1
  * @link https://github.com/ocombe/ocLazyLoad
@@ -27719,7 +27720,8 @@ if (!Array.prototype.indexOf) {
                 return -1;
         };
 }
-//# sourceMappingURL=ocLazyLoad.js.map/**
+//# sourceMappingURL=ocLazyLoad.js.map
+/**
  * @license AngularJS v1.3.17
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
@@ -28709,6 +28711,7 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 
 })(window, window.angular);
+
 /**
  * @license AngularJS v1.3.17
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -28916,6 +28919,7 @@ angular.module('ngCookies', ['ng']).
 
 
 })(window, window.angular);
+
 /**
  * @license AngularJS v1.3.17
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -29584,6 +29588,7 @@ angular.module('ngResource', ['ng']).
 
 
 })(window, window.angular);
+
 /**
  * @license AngularJS v1.4.2
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -30267,6 +30272,7 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 
 
 })(window, window.angular);
+
 /*
 Author: Geraint Luff and others
 Year: 2013
@@ -31650,7 +31656,8 @@ tv4.tv4 = tv4;
 
 return tv4; // used by _header.js to globalise.
 
-}));'use strict';
+}));
+'use strict';
 
 ;!function(undefined) {
 
@@ -31752,7 +31759,8 @@ return tv4; // used by _header.js to globalise.
 		window.ObjectPath = ObjectPath;
 	}
 	
-}();(function(root, factory) {
+}();
+(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['angular', 'objectpath', 'tv4'], factory);
   } else if (typeof exports === 'object') {
@@ -34147,6 +34155,7 @@ angular.module('schemaForm').directive('schemaValidate', ['sfValidator', '$parse
 
 return schemaForm;
 }));
+
 angular.module("schemaForm").run(["$templateCache", function($templateCache) {$templateCache.put("directives/decorators/bootstrap/actions-trcl.html","<div class=\"btn-group schema-form-actions {{form.htmlClass}}\" ng-transclude=\"\"></div>");
 $templateCache.put("directives/decorators/bootstrap/actions.html","<div class=\"btn-group schema-form-actions {{form.htmlClass}}\"><input ng-repeat-start=\"item in form.items\" type=\"submit\" class=\"btn {{ item.style || \'btn-default\' }} {{form.fieldHtmlClass}}\" value=\"{{item.title}}\" ng-if=\"item.type === \'submit\'\"> <button ng-repeat-end=\"\" class=\"btn {{ item.style || \'btn-default\' }} {{form.fieldHtmlClass}}\" type=\"button\" ng-disabled=\"form.readonly\" ng-if=\"item.type !== \'submit\'\" ng-click=\"buttonClick($event,item)\"><span ng-if=\"item.icon\" class=\"{{item.icon}}\"></span>{{item.title}}</button></div>");
 $templateCache.put("directives/decorators/bootstrap/array.html","<div sf-array=\"form\" class=\"schema-form-array {{form.htmlClass}}\" ng-model=\"$$value$$\" ng-model-options=\"form.ngModelOptions\"><h3 ng-show=\"form.title && form.notitle !== true\">{{ form.title }}</h3><ol class=\"list-group\" ng-model=\"modelArray\" ui-sortable=\"\"><li class=\"list-group-item {{form.fieldHtmlClass}}\" ng-repeat=\"item in modelArray track by $index\"><button ng-hide=\"form.readonly || form.remove === null\" ng-click=\"deleteFromArray($index)\" style=\"position: relative; z-index: 20;\" type=\"button\" class=\"close pull-right\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button><sf-decorator ng-init=\"arrayIndex = $index\" form=\"copyWithIndex($index)\"></sf-decorator></li></ol><div class=\"clearfix\" style=\"padding: 15px;\"><button ng-hide=\"form.readonly || form.add === null\" ng-click=\"appendToArray()\" type=\"button\" class=\"btn {{ form.style.add || \'btn-default\' }} pull-right\"><i class=\"glyphicon glyphicon-plus\"></i> {{ form.add || \'Add\'}}</button></div><div class=\"help-block\" ng-show=\"(hasError() && errorMessage(schemaError())) || form.description\" ng-bind-html=\"(hasError() && errorMessage(schemaError())) || form.description\"></div></div>");
@@ -34225,6 +34234,7 @@ angular.module('schemaForm').config(['schemaFormDecoratorsProvider', function(de
     }
   };
 });
+
 angular.module("schemaForm").run(["$templateCache", function($templateCache) {$templateCache.put("directives/decorators/bootstrap/datepicker/datepicker.html","<div class=\"form-group {{form.htmlClass}}\" ng-class=\"{\'has-error\': hasError()}\">\n  <label class=\"control-label\" ng-show=\"showTitle()\">{{form.title}}</label>\n  <div ng-class=\"{\'input-group\': (form.fieldAddonLeft || form.fieldAddonRight)}\">\n    <span ng-if=\"form.fieldAddonLeft\"\n          class=\"input-group-addon\"\n          ng-bind-html=\"form.fieldAddonLeft\"></span>\n    <input ng-show=\"form.key\"\n           style=\"background-color: white\"\n           type=\"text\"\n           class=\"form-control {{form.fieldHtmlClass}}\"\n           schema-validate=\"form\"\n           ng-model=\"$$value$$\"\n           ng-disabled=\"form.readonly\"\n           pick-a-date=\"form.pickadate\"\n           min-date=\"form.minDate\"\n           max-date=\"form.maxDate\"\n           name=\"{{form.key.slice(-1)[0]}}\"\n           format=\"form.format\" />\n    <span ng-if=\"form.fieldAddonRight\"\n          class=\"input-group-addon\"\n          ng-bind-html=\"form.fieldAddonRight\"></span>\n  </div>\n  <span class=\"help-block\">{{ (hasError() && errorMessage(schemaError())) || form.description}}</span>\n</div>\n");}]);
 angular.module('schemaForm').directive('pickADate', function () {
 
@@ -34347,6 +34357,7 @@ angular.module('schemaForm').config(
     );
   }
 ]);
+
 /**
  * Copyright (C) 2015 ZetaOps Inc.
  *
@@ -34457,6 +34468,7 @@ var app = angular.module(
 //angular.bootstrap(document, ['zaerp'], {
 //    strictDi: true
 //});
+
 /**
  * Copyright (C) 2015 ZetaOps Inc.
  *
@@ -34511,7 +34523,8 @@ app.config(['$httpProvider', function ($httpProvider) {
             }
         };
     });
-}]);app.config(['$routeProvider', function ($routeProvider) {
+}]);
+app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/login', {
             templateUrl: 'components/auth/login.html',
