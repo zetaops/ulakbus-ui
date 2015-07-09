@@ -19,14 +19,13 @@ auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cook
             .success(function (data, status, headers, config) {
                 //$window.sessionStorage.token = data.token;
                 $rootScope.loggedInUser = true;
-                $location.path("/dashboard");
             })
             .error(function (data, status, headers, config) {
                 // Erase the token if the user fails to log in
                 //delete $window.sessionStorage.token;
 
                 // Handle login errors here
-                $scope.message = 'Error: Invalid user or password';
+                return data;
             });
             //.then(function (res) {
             //    $log.info(res.data[0]);

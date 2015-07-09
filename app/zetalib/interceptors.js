@@ -27,9 +27,9 @@ app.config(['$httpProvider', function ($httpProvider) {
                 if(response.data.is_login===true){
                     $rootScope.loggedInUser = response.data.is_login;
                     $location.replace();
-                    //if($location.path()==="/login"){
-                    //    $location.path("/dashboard");
-                    //}
+                    if($location.path()==="/login"){
+                        $location.path("/dashboard");
+                    }
                 }
                 if(response.data.screen) {
                     $location.path(response.data.screen);
