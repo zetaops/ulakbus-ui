@@ -9,7 +9,7 @@ var form_generator = angular.module('formService', ['general']);
 
 form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL, FormDiff) {
     var generator = {};
-    generator.makeUrl = function(url){
+    generator.makeUrl = function (url) {
         return RESTURL.url + url;
     };
     generator.generate = function (modelObject) {
@@ -44,18 +44,24 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
         }
     };
     generator.submit = function ($scope) {
-        if($scope.object_id) {
+        if ($scope.object_id) {
             var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
-            var data = {"object_id": $scope.object_id, "form": get_diff, "cmd": "do"};
+            var data = {
+                "object_id": $scope.object_id,
+                "form": get_diff,
+                "cmd": "do"
+            };
         }
         else {
             data = {"form": $scope.model, "cmd": "do"};
         }
-        $http.post(generator.makeUrl($scope.url), data).then(function (res) {
-            // todo: for now fake rest api returns 'ok' no data to
-            // manipulate on ui. therefor used just a log
-            $log.info(res);
-        });
+        return $http
+            .post(generator.makeUrl($scope.url), data)
+            //.then(function (res) {
+            //    // todo: for now fake rest api returns 'ok' no data to
+            //    // manipulate on ui. therefor used just a log
+            //    $log.info(res);
+            //});
     };
     return generator;
 });

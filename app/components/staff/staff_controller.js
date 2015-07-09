@@ -16,7 +16,7 @@ var staff = angular.module('zaerp.staff', ['ngRoute', 'schemaForm', 'formService
  * which provide a form with form generator.
  */
 
-staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $http, $log, Generator, $routeParams) {
+staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, Generator, $routeParams) {
     $scope.url = 'personel_duzenle_basitlestirilmis';
     var form_params = {};
     if ($routeParams.id) {
@@ -45,7 +45,13 @@ staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $http, $log, 
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {
-            Generator.submit($scope);
+            Generator.submit($scope)
+                .success(function(data){
+                    $location.path("/staffs");
+                })
+                .error(function(data){
+                    $scope.message = data.title;
+                });
         }
     }
 });
