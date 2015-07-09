@@ -39,7 +39,7 @@ var app = angular.module(
  * Based on the environment it changes from dev to prod
  */
     constant("RESTURL", (function () {
-        return {url: "http://127.0.0.1:9001/"};
+        return {url: "http://"+ window.location.hostname + ":9001/"};
     })()).
 /**
  * USER_ROLES and AUTH_EVENTS are constant for auth functions
@@ -93,7 +93,7 @@ var app = angular.module(
         return {
             link: function($scope, $element, $rootScope){
                 $element.on('click', function(){
-                    $http.post('http://127.0.0.1:9001/logout', {}).then(function () {
+                    $http.post('http://'+window.location.host+':9001/logout', {}).then(function () {
                         $rootScope.loggedInUser = false;
                         console.log($rootScope.loggedInUser);
                         $location.path("/login");
