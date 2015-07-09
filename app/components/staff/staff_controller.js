@@ -32,8 +32,8 @@ staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $http, $log, 
         $rootScope.staffwfclear = 1
     }
 
-    Generator.get_form($scope.url, form_params).then(function (data) {
-        var d = data.data.forms;
+    Generator.get_form($scope.url, form_params).then(function (object) {
+        var d = object.data.forms;
         // add form, schema and model to scope object
         for (var key in d)
             $scope[key] = d[key];
@@ -69,7 +69,8 @@ staff.controller('StaffListCtrl', function ($scope, $rootScope, Generator) {
     }
     Generator.get_form('personel_duzenle_basitlestirilmis', form_params)
         .then(function (res) {
-            $scope.staffs = res.data;
+            console.log(res);
+            $scope.staffs = res.data.employees;
         });
 });
 

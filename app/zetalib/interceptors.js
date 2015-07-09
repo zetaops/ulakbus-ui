@@ -15,7 +15,8 @@ app.config(['$httpProvider', function ($httpProvider) {
             'request': function(config){
                 // todo: delete console logs
                 if (config.method == "POST"){
-
+                    // to prevent OPTIONS preflight request
+                    config.headers["Content-Type"] = "text/plain"
                 } else {
 
                 }
