@@ -7,9 +7,9 @@ app.config(['$routeProvider', function ($routeProvider) {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('components/auth/auth_controller.js');
                 }],
-                loadMyService: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load('components/auth/auth_service.js');
-                }],
+                //loadMyService: ['$ocLazyLoad', function ($ocLazyLoad) {
+                //    return $ocLazyLoad.load('components/auth/auth_service.js');
+                //}],
                 loadMyService2: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load('zetalib/forms/form_service.js');
                 }],

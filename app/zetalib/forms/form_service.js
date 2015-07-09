@@ -46,10 +46,10 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
     generator.submit = function ($scope) {
         if($scope.object_id) {
             var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
-            var data = {"object_id": $scope.id, "form": get_diff};
+            var data = {"object_id": $scope.id, "form": get_diff, "cmd": "do"};
         }
         else {
-            data = $scope.model;
+            data = {"form": $scope.model, "cmd": "do"};
         }
         $http.post(generator.makeUrl($scope.url), data).then(function (res) {
             // todo: for now fake rest api returns 'ok' no data to
