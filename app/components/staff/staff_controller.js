@@ -67,8 +67,13 @@ staff.controller('StaffListCtrl', function ($scope, $rootScope, Generator) {
     var form_params = {"clear_wf": 1};
     Generator.get_form('personel_duzenle_basitlestirilmis', form_params)
         .then(function (res) {
-            console.log(res);
-            $scope.staffs = res.data.employees;
+            var data =  res.data.employees;
+            //debugger;
+            for (var item in data){
+                delete data[item].data['deleted'];
+                delete data[item].data['timestamp'];
+            }
+            $scope.staffs = data;
         });
 });
 
