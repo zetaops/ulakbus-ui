@@ -26,11 +26,7 @@ staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $http, $log, 
     else {
         form_params['cmd'] = 'add_object';
     }
-    if ($rootScope.staffwfclear){
-        form_params['clear_wf'] = 1;
-    } else{
-        $rootScope.staffwfclear = 1
-    }
+    form_params['clear_wf'] = 1;
 
     Generator.get_form($scope.url, form_params).then(function (object) {
         var d = object.data.forms;
@@ -61,12 +57,7 @@ staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $http, $log, 
  */
 
 staff.controller('StaffListCtrl', function ($scope, $rootScope, Generator) {
-    var form_params = {};
-    if ($rootScope.staffwfclear){
-        form_params['clear_wf'] = 1;
-    } else{
-        $rootScope.staffwfclear = 1
-    }
+    var form_params = {"clear_wf": 1};
     Generator.get_form('personel_duzenle_basitlestirilmis', form_params)
         .then(function (res) {
             console.log(res);
@@ -78,12 +69,7 @@ staff.controller('StaffListCtrl', function ($scope, $rootScope, Generator) {
  * Staff Show Controller
  */
 staff.controller('StaffShowCtrl', function ($scope, $rootScope, Generator, $routeParams) {
-    var form_params = {"object_id": $routeParams.id};
-    if ($rootScope.staffwfclear){
-        form_params['clear_wf'] = 1;
-    } else{
-        $rootScope.staffwfclear = 1
-    }
+    var form_params = {"object_id": $routeParams.id, "clear_wf": 1};
     Generator.get_form('personel_duzenle_basitlestirilmis', form_params).then(function (res) {
         debugger;
         // todo: get this line below more clear way
