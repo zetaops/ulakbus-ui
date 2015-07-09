@@ -8,14 +8,10 @@
 'use strict';
 
 var auth = angular.module('zaerp.auth', ['ngRoute', 'schemaForm', 'ngCookies', 'general']);
-auth.controller('LoginCtrl', function ($scope, $rootScope, $q, $timeout, $routeParams, Generator, LoginService) {
+auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, Generator, LoginService) {
     $scope.url = 'simple_login';
     var form_params = {};
-    if ($rootScope.loginwfclear){
-        form_params['clear_wf'] = 1;
-    } else{
-        $rootScope.loginwfclear = 1
-    }
+    form_params['clear_wf'] = 1;
     // todo: change simple login when api ready
     Generator.get_form($scope.url, form_params).then(function(data){
         var d = data.data.forms;
