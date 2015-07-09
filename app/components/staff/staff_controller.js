@@ -85,6 +85,8 @@ staff.controller('StaffShowCtrl', function ($scope, $rootScope, Generator, $rout
         $rootScope.staffwfclear = 1
     }
     Generator.get_form('personel_duzenle_basitlestirilmis', form_params).then(function (res) {
-        $scope.staff = res.data[0];
+        debugger;
+        // todo: get this line below more clear way
+        $scope.staff = res.data.employees[0].data;
     })
 });

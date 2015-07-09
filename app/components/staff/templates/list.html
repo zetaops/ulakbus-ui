@@ -10,7 +10,10 @@
     <tr ng-repeat="staff in staffs">
         <!--<td><a ng-href="#/staff/{{staff.id}}">{{staff.name}}</a></td>-->
         <td ng-repeat="(key,value) in staff.data">{{value}}</td>
-        <td><a ng-href="#/staff/edit/{{staff.key}}">Edit</a></td>
+        <td>
+            <a ng-href="#/staff/edit/{{staff.key}}">Edit</a><br>
+            <a ng-href="#/staff/{{staff.key}}">Show</a>
+        </td>
     </tr>
     </tbody>
 </table>
