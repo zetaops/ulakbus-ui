@@ -38,7 +38,6 @@ auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, Gener
             LoginService.login($scope.url, $scope.model)
                 .error(function(data){
                     $scope.message = data.title;
-                    debugger;
                 })
         }
         else {
