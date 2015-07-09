@@ -41,6 +41,7 @@ staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $http, $log, 
             }
         );
     });
+    $scope.object_id = $routeParams.id;
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {

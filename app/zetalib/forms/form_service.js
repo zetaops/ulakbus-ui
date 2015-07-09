@@ -46,7 +46,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
     generator.submit = function ($scope) {
         if($scope.object_id) {
             var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
-            var data = {"object_id": $scope.id, "form": get_diff, "cmd": "do"};
+            var data = {"object_id": $scope.object_id, "form": get_diff, "cmd": "do"};
         }
         else {
             data = {"form": $scope.model, "cmd": "do"};
