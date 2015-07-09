@@ -71,7 +71,6 @@ staff.controller('StaffListCtrl', function ($scope, $rootScope, Generator) {
 staff.controller('StaffShowCtrl', function ($scope, $rootScope, Generator, $routeParams) {
     var form_params = {"object_id": $routeParams.id, "clear_wf": 1};
     Generator.get_form('personel_duzenle_basitlestirilmis', form_params).then(function (res) {
-        debugger;
         // todo: get this line below more clear way
         $scope.staff = res.data.employees[0].data;
     })
