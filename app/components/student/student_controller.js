@@ -11,7 +11,7 @@
  * student module is base module object for student operations
  */
 
-var student = angular.module('zaerp.student.add', ['ngRoute', 'schemaForm', 'formService', 'general']);
+var student = angular.module('zaerp.student', ['ngRoute', 'schemaForm', 'formService', 'general']);
 
 /**
  * StudentAddEditCtrl

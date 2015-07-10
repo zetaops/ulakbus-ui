@@ -9,31 +9,28 @@
 
 var app = angular.module(
     'zaerp', [
-        'oc.lazyLoad',
         'ngRoute',
         'ngSanitize',
         'ngCookies',
-        //'ngAnimate',
-        //'ngQuantum',
-        //'general',
-        //'formGenerator',
-        //'zaerp.dashboard',
-        //'zaerp.login',
-        //'zaerp.version',
-        //'zaerp.test',
-        //'schemaForm'
+        'general',
+        'formService',
+        'zaerp.dashboard',
+        'zaerp.auth',
+        'zaerp.staff',
+        'zaerp.student',
+        'schemaForm'
     ]).
 /**
  *  lazyload modules with oclazyload
  *  the lines below are config of oclazyload
  *  turn debug false when production
  */
-    config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
-        $ocLazyLoadProvider.config({
-            // todo: turn debug false on prod
-            debug: false
-        });
-    }]).
+    //config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
+    //    $ocLazyLoadProvider.config({
+    //        // todo: turn debug false on prod
+    //        debug: false
+    //    });
+    //}]).
 /**
  * RESTURL is the url of rest api to talk
  * Based on the environment it changes from dev to prod
