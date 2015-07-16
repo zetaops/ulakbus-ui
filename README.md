@@ -1,4 +1,4 @@
-#Zaerp User Interface
+#Ulakbus User Interface
 
 ##Get Ready For Development
 1. Get Repo `git clone git@github.com:zetaops/ulakbus-ui.git`
