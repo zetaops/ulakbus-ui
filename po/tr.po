@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"X-Generator: Poedit 1.8.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: tr\n"
+
+#: app/index.html:40
+msgid "Dashboard"
+msgstr "Panel"
+
+#: app/index.html:41
+msgid "Login"
+msgstr "Giriş"
+
+#: app/index.html:42
+msgid "Logout"
+msgstr "Çıkış"
+
+#: app/index.html:58
+msgid "New Staff"
+msgstr "Yeni Personel"
+
+#: app/index.html:56
+msgid "Staffs"
+msgstr "Personeller"
