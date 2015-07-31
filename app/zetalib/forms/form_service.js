@@ -12,17 +12,44 @@ form_generator.factory('Generator', function ($http, $q, $log, $timeout, RESTURL
     generator.makeUrl = function (url) {
         return RESTURL.url + url;
     };
-    generator.generate = function (modelObject) {
-        return generator.group(modelObject);
+    generator.generate = function (scope, forms) {
+        for (var key in forms)
+            scope[key] = forms[key];
+        scope.initialModel = angular.copy(scope.model);
+        scope.form.push(
+            {
+                type: "submit",
+                title: "Save"
+            }
+        );
+        scope.isCollapsed = false;
+        scope.object_id = scope.form_params['object_id'];
+        return generator.group(scope);
     };
-    generator.group = function (form_items) {
-        return form_items;
+    generator.group = function (formObject) {
+        return formObject;
     };
-    generator.get_form = function (url, getParams) {
+    generator.get_form = function (scope) {
         return $http
-            .post(generator.makeUrl(url), getParams)
-            .success(function (res) {
-                return generator.generate(res.data);
+            .post(generator.makeUrl(scope.url), scope.form_params)
+            .then(function (res) {
+                return generator.generate(scope, res.data.forms);
+                // todo: cover all other exceptions (4xx, 5xx)
+            });
+    };
+    generator.get_list = function (scope) {
+        return $http
+            .post(generator.makeUrl(scope.url), scope.form_params)
+            .then(function (res) {
+                return res;
+                // todo: cover all other exceptions (4xx, 5xx)
+            });
+    };
+    generator.get_single_item = function (scope) {
+        return $http
+            .post(generator.makeUrl(scope.url), scope.form_params)
+            .then(function (res) {
+                return res;
                 // todo: cover all other exceptions (4xx, 5xx)
             });
     };
