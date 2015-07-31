@@ -8,7 +8,7 @@
 'use strict';
 
 
-var staff = angular.module('zaerp.staff', ['ngRoute', 'schemaForm', 'formService']);
+var staff = angular.module('zaerp.staff', ['ngRoute', 'schemaForm', 'formService', 'ui.bootstrap']);
 
 
 /**
@@ -18,31 +18,20 @@ var staff = angular.module('zaerp.staff', ['ngRoute', 'schemaForm', 'formService
 
 staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, Generator, $routeParams) {
     $scope.url = 'personel_duzenle_basitlestirilmis';
-    var form_params = {};
+    $scope.form_params = {};
     if ($routeParams.id) {
-        form_params['object_id'] = $routeParams.id;
-        form_params['cmd'] = 'edit_object';
+        $scope.form_params['object_id'] = $routeParams.id;
+        $scope.form_params['cmd'] = 'edit_object';
     }
     else {
-        form_params['cmd'] = 'add_object';
+        $scope.form_params['cmd'] = 'add_object';
     }
     // to start in certain part of the workflow use clear_wf=1
-    form_params['clear_wf'] = 1;
+    $scope.form_params['clear_wf'] = 1;
 
-    Generator.get_form($scope.url, form_params).then(function (object) {
-        var d = object.data.forms;
-        // add form, schema and model to scope object
-        for (var key in d)
-            $scope[key] = d[key];
-        $scope.initialModel = angular.copy($scope.model);
-        $scope.form.push(
-            {
-                type: "submit",
-                title: "Save"
-            }
-        );
-    });
-    $scope.object_id = $routeParams.id;
+    // get form with generator
+    Generator.get_form($scope);
+
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {
@@ -65,11 +54,12 @@ staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $location, $h
  */
 
 staff.controller('StaffListCtrl', function ($scope, $rootScope, Generator) {
-    var form_params = {"clear_wf": 1};
-    Generator.get_form('personel_duzenle_basitlestirilmis', form_params)
+    $scope.url = 'personel_duzenle_basitlestirilmis';
+    $scope.form_params = {"clear_wf": 1};
+    // call generator's get_list func
+    Generator.get_list($scope)
         .then(function (res) {
             var data =  res.data.employees;
-            //debugger;
             for (var item in data){
                 delete data[item].data['deleted'];
                 delete data[item].data['timestamp'];
@@ -82,9 +72,10 @@ staff.controller('StaffListCtrl', function ($scope, $rootScope, Generator) {
  * Staff Show Controller
  */
 staff.controller('StaffShowCtrl', function ($scope, $rootScope, Generator, $routeParams) {
-    var form_params = {"object_id": $routeParams.id, "clear_wf": 1};
-    Generator.get_form('personel_duzenle_basitlestirilmis', form_params).then(function (res) {
-        // todo: get this line below more clear way
+    $scope.url = 'personel_duzenle_basitlestirilmis';
+    $scope.form_params = {"object_id": $routeParams.id, "clear_wf": 1};
+    // call generator's get_single_itemfunc
+    Generator.get_single_item($scope).then(function (res) {
         $scope.staff = res.data.employees[0].data;
     })
 });
