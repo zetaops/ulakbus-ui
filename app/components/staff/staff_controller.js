@@ -26,6 +26,7 @@ staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $location, $h
     else {
         form_params['cmd'] = 'add_object';
     }
+    // to start in certain part of the workflow use clear_wf=1
     form_params['clear_wf'] = 1;
 
     Generator.get_form($scope.url, form_params).then(function (object) {

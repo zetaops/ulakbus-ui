@@ -119,13 +119,14 @@ module.exports = function (grunt) {
     grunt.registerTask('dev', ['bower', 'connect:server', 'watch:dev']);
     grunt.registerTask('test', ['bower', 'jshint', 'karma:continuous']);
     grunt.registerTask('minified', ['bower', 'connect:server', 'watch:min']);
+    grunt.registerTask('extract_i18n', ['nggettext_extract']);
+    grunt.registerTask('compile_i18n', ['nggettext_compile']);
     grunt.registerTask('default', [
         'bower',
         'html2js:dist',
         'concat:dist',
         'concat:components',
         'uglify:dist',
-        'nggettext_extract',
         'nggettext_compile'
     ]);
 
