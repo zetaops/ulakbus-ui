@@ -127,6 +127,7 @@ module.exports = function (grunt) {
         'concat:dist',
         'concat:components',
         'uglify:dist',
+        'nggettext_extract',
         'nggettext_compile'
     ]);
 
