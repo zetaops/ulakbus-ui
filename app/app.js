@@ -18,7 +18,8 @@ var app = angular.module(
         'zaerp.auth',
         'zaerp.staff',
         'zaerp.student',
-        'schemaForm'
+        'schemaForm',
+        'gettext'
     ]).
 /**
  *  lazyload modules with oclazyload

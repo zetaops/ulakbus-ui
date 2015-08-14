@@ -15,6 +15,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet"
+          href="bower_components/angular-bootstrap/ui-bootstrap-csp.css">
+    <link rel="stylesheet"
           href="bower_components/bootstrap/dist/css/bootstrap.css">
     <!--<link rel="stylesheet" href="bower_components/quantumui/dist/css/addon/effect-light.min.css">-->
     <!--<link rel="stylesheet" href="bower_components/quantumui/dist/css/quantumui.min.css">-->
@@ -37,9 +39,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#/dashboard">Dashboard</a></li>
-                <li><a href="#/login">Login</a></li>
-                <li><a href="javascript:void(0);" logout>Logout</a></li>
+                <li><a href="#/dashboard" translate>Dashboard</a></li>
+                <li><a href="#/login"translate>Login</a></li>
+                <li><a href="javascript:void(0);" logout translate>Logout</a></li>
             </ul>
             <form class="navbar-form navbar-right">
                 <input type="text" class="form-control" placeholder="Search...">
@@ -53,8 +55,9 @@
             <ul class="nav nav-sidebar">
                 <!--<li active-link="active"><a href="#/students">Students</a></li>-->
                 <!--<li active-link="active"><a href="#/student/add">New Student</a></li>-->
-                <li active-link="active"><a href="#/staffs">Staffs</a></li>
-                <li active-link="active"><a href="#/staff/add">New Staff</a>
+                <li active-link="active"><a href="#/staffs" translate>Staffs
+                </a></li>
+                <li active-link="active"><a href="#/staff/add" translate>New Staff</a>
                 </li>
                 <!--<li active-link="active"><a href="#/input_types">Types</a></li>-->
             </ul>
@@ -81,6 +84,8 @@
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.js"></script>
 <script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
 <script type="text/javascript"
         src="bower_components/angular-sanitize/angular-sanitize.js"></script>
@@ -94,6 +99,8 @@
 <!--<script type="text/javascript"-->
 <!--src="bower_components/angular-schema-form-datepicker/"></script>-->
 <script type="text/javascript" src="bower_components/angular-schema-form-datepicker/bootstrap-datepicker.js"></script>
+<script src="bower_components/angular-gettext/dist/angular-gettext.min.js"></script>
+<script src="shared/translations.js"></script>
 
 <script src="app.js"></script>
 <script src="app_routes.js"></script>

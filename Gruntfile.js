@@ -77,6 +77,25 @@ module.exports = function (grunt) {
                     atBegin: true
                 }
             }
+        },
+        nggettext_extract: {
+            pot: {
+                files: {
+                    'po/template.pot': ['app/**/*.html']
+                }
+            },
+        },
+        nggettext_compile: {
+            all: {
+                files: {
+                    'dist/shared/translations.js': ['po/*.po']
+                }
+            },
+            dev: {
+                files: {
+                    'app/shared/translations.js': ['po/*.po']
+                }
+            }
         }
     });
 
@@ -93,10 +112,23 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-angular-gettext');
 
+
+    // todo: reorganize dev and other tasks
     grunt.registerTask('dev', ['bower', 'connect:server', 'watch:dev']);
     grunt.registerTask('test', ['bower', 'jshint', 'karma:continuous']);
     grunt.registerTask('minified', ['bower', 'connect:server', 'watch:min']);
-    grunt.registerTask('default', ['bower', 'html2js:dist', 'concat:dist',  'concat:components', 'uglify:dist']);
+    grunt.registerTask('extract_i18n', ['nggettext_extract']);
+    grunt.registerTask('compile_i18n', ['nggettext_compile']);
+    grunt.registerTask('default', [
+        'bower',
+        'html2js:dist',
+        'concat:dist',
+        'concat:components',
+        'uglify:dist',
+        'nggettext_extract',
+        'nggettext_compile'
+    ]);
 
 };
