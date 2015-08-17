@@ -1,5 +1,5 @@
-<div class="col-md-6">
+<div class="col-md-12">
     <h1>{{ schema.title }}</h1>
-    <form name="formgenerated" sf-schema="schema" sf-form="form"
-          sf-model="model" ng-submit="onSubmit(formgenerated)"></form>
+    <button type="button" ng-repeat="node in listnodes" ng-click="openmodal(node)">Add <span>{{node}}</span></button>
+    <form name="formgenerated" sf-schema="schema" sf-form="form" sf-model="model" ng-submit="onSubmit(formgenerated)"></form>
 </div>
