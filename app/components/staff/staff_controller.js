@@ -16,7 +16,7 @@ var staff = angular.module('zaerp.staff', ['ngRoute', 'schemaForm', 'formService
  * which provide a form with form generator.
  */
 
-staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, Generator, $routeParams) {
+staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, Generator, $routeParams) {
     $scope.url = 'personel_duzenle_basitlestirilmis';
     $scope.form_params = {};
     if ($routeParams.id) {
@@ -43,7 +43,7 @@ staff.controller('StaffAddEditCtrl', function ($scope, $rootScope, $location, $h
                     $scope.message = data.title;
                 });
         }
-    }
+    };
 });
 
 // todo: for single point of failure code a "get item" service and use it to

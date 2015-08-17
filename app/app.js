@@ -37,7 +37,7 @@ var app = angular.module(
  * Based on the environment it changes from dev to prod
  */
     constant("RESTURL", (function () {
-        return {url: "http://"+ window.location.hostname + ":9001/"};
+        return {url: "http://" + window.location.hostname + ":9001/"};
     })()).
 /**
  * USER_ROLES and AUTH_EVENTS are constant for auth functions
@@ -87,11 +87,11 @@ var app = angular.module(
 /**
  * logout directive
  */
-    directive('logout', function($http, $location){
+    directive('logout', function ($http, $location) {
         return {
-            link: function($scope, $element, $rootScope){
-                $element.on('click', function(){
-                    $http.post('http://'+window.location.hostname+':9001/logout', {}).then(function () {
+            link: function ($scope, $element, $rootScope) {
+                $element.on('click', function () {
+                    $http.post('http://' + window.location.hostname + ':9001/logout', {}).then(function () {
                         $rootScope.loggedInUser = false;
                         console.log($rootScope.loggedInUser);
                         $location.path("/login");
@@ -101,6 +101,27 @@ var app = angular.module(
             }
         }
     });
+
+/**
+ * listnode add directive
+ */
+
+    //directive('addlistnode', function () {
+    //    return {
+    //        link: function ($scope, $modal, $element) {
+    //            debugger;
+                //$element.on('click', function () {
+                //    var nodename = $element[0].firstElementChild.innerHTML;
+                //    var newitem = angular.copy($scope.listnodeform[nodename+'_1']);
+                //    console.log($scope.form);
+                //    $scope.form.splice(7, 0, newitem);
+                //    console.log($scope.form);
+                //    $scope.$broadcast('schemaFormRedraw');
+                //    $scope.$apply();
+                //});
+    //        }
+    //    }
+    //});
 
 // test the code with strict di mode to see if it works when minified
 //angular.bootstrap(document, ['zaerp'], {

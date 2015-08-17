@@ -1,0 +1,9 @@
+<fieldset ng-disabled="form.readonly" class="schema-form-fieldset {{form.htmlClass}}">
+    <legend ng-class="{'sr-only': !showTitle() }">
+        <span ng-click="isCollapsed = !isCollapsed">{{ form.title }}</span>
+    </legend>
+    <div collapse="isCollapsed" name="{{form.title}}">
+        <div class="help-block" ng-show="form.description" ng-bind-html="form.description"></div>
+        <sf-decorator class="col-md-4" ng-repeat="item in form.items" ng-if="item.name!='idx'" form="item"></sf-decorator>
+    </div>
+</fieldset>
