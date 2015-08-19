@@ -77,7 +77,7 @@ module.exports = function (grunt) {
                 dest: 'dist/bower_components/components.js'
             },
             css: {
-                src: ['app/app.css', 'app/bower_components/**/**/*.css'],
+                src: ['app/bower_components/**/**/*.css', 'app/app.css'],
                 dest: 'dist/app.css'
             }
         },
