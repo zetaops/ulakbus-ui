@@ -10,22 +10,10 @@
 var auth = angular.module('ulakbus.auth', ['ngRoute', 'schemaForm', 'ngCookies', 'general']);
 auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, Generator, LoginService) {
     $scope.url = 'simple_login';
-    var form_params = {};
-    form_params['clear_wf'] = 1;
+    $scope.form_params = {};
+    $scope.form_params['clear_wf'] = 1;
     // todo: change simple login when api ready
-    Generator.get_form($scope.url, form_params).then(function(data){
-        var d = data.data.forms;
-        for (var key in d)
-            $scope[key] = d[key];
-        // for email validation add asyncvalidator
-        //$scope.form[0].$asyncValidators = Generator.asyncValidators;
-        // add submit button to the form todo: move this to form service
-        //$scope.form.push(
-        //    {
-        //        type: "submit",
-        //        title: "Save"
-        //    }
-        //);
+    Generator.get_form($scope).then(function(data){
         $scope.form = [
             "*",
             { key: "password", type: "password"},

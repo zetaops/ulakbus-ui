@@ -25,7 +25,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         );
         // if fieldset in form, make it collapsable with template
         scope.listnodeform = {};
-        if ((scope.listnode && scope.listnodes[0]) || (scope.listnode && scope.nodes[0])) {
+        if ((scope.listnode && scope.listnodes[0]) || (scope.nodes && scope.nodes[0])) {
             angular.forEach(scope.form, function (key, val) {
                 if (typeof key == "object" && key.type == "fieldset") {
                     // change type to use shared template for form
