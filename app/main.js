@@ -32,5 +32,5 @@ $script([
     "components/dashboard/dashboard.js"
 ], function() {
     // when all is done, execute bootstrap angular application
-    angular.bootstrap(document, ['zaerp']);
+    angular.bootstrap(document, ['ulakbus']);
 });

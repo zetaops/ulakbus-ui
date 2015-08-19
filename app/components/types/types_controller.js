@@ -8,7 +8,7 @@
 'use strict';
 
 
-var staff = angular.module('zaerp.types',['ngRoute','schemaForm', 'formService']);
+var staff = angular.module('ulakbus.types',['ngRoute','schemaForm', 'formService']);
 
 staff.controller('TypeCtrl', function($scope, $http, $log, Generator, $routeParams){
     Generator.get_form('input_types', $routeParams).then(function(d){

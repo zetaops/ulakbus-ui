@@ -8,30 +8,20 @@
 'use strict';
 
 var app = angular.module(
-    'zaerp', [
+    'ulakbus', [
         'ngRoute',
         'ngSanitize',
         'ngCookies',
         'general',
         'formService',
-        'zaerp.dashboard',
-        'zaerp.auth',
-        'zaerp.staff',
-        'zaerp.student',
+        'ulakbus.dashboard',
+        'ulakbus.auth',
+        'ulakbus.staff',
+        'ulakbus.student',
         'schemaForm',
-        'gettext'
+        'gettext',
+        'templates-prod'
     ]).
-/**
- *  lazyload modules with oclazyload
- *  the lines below are config of oclazyload
- *  turn debug false when production
- */
-    //config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
-    //    $ocLazyLoadProvider.config({
-    //        // todo: turn debug false on prod
-    //        debug: false
-    //    });
-    //}]).
 /**
  * RESTURL is the url of rest api to talk
  * Based on the environment it changes from dev to prod
@@ -103,6 +93,6 @@ var app = angular.module(
     });
 
 // test the code with strict di mode to see if it works when minified
-//angular.bootstrap(document, ['zaerp'], {
+//angular.bootstrap(document, ['ulakbus'], {
 //    strictDi: true
 //});

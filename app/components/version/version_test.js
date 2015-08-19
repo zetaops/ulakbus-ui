@@ -1,7 +1,7 @@
 'use strict';
 
-describe('zaerp.version module', function() {
-  beforeEach(module('zaerp.version'));
+describe('ulakbus.version module', function() {
+  beforeEach(module('ulakbus.version'));
 
   describe('version service', function() {
     it('should return current version', inject(function(version) {
