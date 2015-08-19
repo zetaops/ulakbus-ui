@@ -6,14 +6,12 @@ module.exports = function (grunt) {
         uglify: {
             dist: {
                 options: {
-                    banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+                    banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+                    mangle: false
                 },
-                //build: {
-                //    src: 'src/<%= pkg.name %>.js',
-                //    dest: 'build/<%= pkg.name %>.min.js'
-                //},
                 files: {
-                    'dist/app.js': ['dist/app.js']
+                    'dist/app.js': ['dist/app.js'],
+                    'dist/bower_components/components.js': ['dist/bower_components/components.js']
                 }
             }
         },
@@ -26,9 +24,6 @@ module.exports = function (grunt) {
                     cleanTargetDir: true
                 }
             }
-        },
-        jshint: {
-            all: ['Gruntfile.js', 'app/*.js', 'app/**/*.js']
         },
         karma: {
             options: {
@@ -44,35 +39,59 @@ module.exports = function (grunt) {
             }
         },
         html2js: {
-            dist: {
-                src: ['index.html', 'app/components/**/*.html'],
-                dest: 'tmp/templates.js'
+            options: {
+                rename: function (moduleName) {
+                    return moduleName.replace('../app/', '');
+                }
+            },
+            prod: {
+                src: ['app/components/**/*.html'],
+                dest: 'dist/templates.js'
             }
         },
         concat: {
             options: {
-                separator: ';'
+                separator: '\n\n'
             },
-            dist: {
-                src: ['app/**/*controller.js', 'app/**/*service.js', 'app/zetalib/**/*.js', 'app.js', 'app.routes.js'],
+            js: {
+                src: [
+                    'app/app.js', 'app/app_routes.js', 'app/zetalib/**/*service.js', 'app/zetalib/general.js', 'app/zetalib/interceptors.js', 'app/components/**/*controller.js', 'app/components/**/*service.js'],
                 dest: 'dist/app.js'
             },
             components: {
-                src: ['app/bower_components/**/*.min.js'],
+                src: [
+                    'app/bower_components/angular/angular.js',
+                    'app/bower_components/angular-route/angular-route.js',
+                    'app/bower_components/angular-cookies/angular-cookies.js',
+                    'app/bower_components/angular-resource/angular-resource.js',
+                    'app/bower_components/angular-bootstrap/ui-bootstrap.js',
+                    'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+                    'app/bower_components/angular-sanitize/angular-sanitize.js',
+                    'app/bower_components/tv4/tv4.js',
+                    'app/bower_components/objectpath/lib/ObjectPath.js',
+                    'app/bower_components/angular-schema-form/dist/schema-form.js',
+                    'app/bower_components/angular-schema-form/dist/bootstrap-decorator.js',
+                    'app/bower_components/angular-schema-form-datepicker/bootstrap-datepicker.js',
+                    'app/bower_components/angular-gettext/dist/angular-gettext.js'
+                ],
                 dest: 'dist/bower_components/components.js'
+            },
+            css: {
+                src: ['app/app.css', 'app/bower_components/**/**/*.css'],
+                dest: 'dist/app.css'
             }
         },
         watch: {
             dev: {
-                files: ['Gruntfile.js', 'app/**/*.js', 'index.html', 'app/components/**/*.html'],
-                tasks: ['jshint', 'karma:unit', 'html2js:dist', 'concat:dist', 'clean:temp'],
+                files: ['app/**/*.js', 'app/components/**/*.html'],
+                tasks: ['karma:unit', 'html2js:dist', 'concat:dist'],
                 options: {
                     atBegin: true
                 }
             },
             min: {
-                files: ['Gruntfile.js', 'app/**/*.js', 'index.html', 'app/components/**/*.html'],
-                tasks: ['jshint', 'karma:unit', 'html2js:dist', 'concat:dist', 'clean:temp', 'uglify:dist'],
+                files: ['app/**/*.js', 'index.html', 'app/components/**/*.html'],
+                tasks: ['karma:unit', 'html2js:dist', 'concat:dist', 'uglify:dist'],
                 options: {
                     atBegin: true
                 }
@@ -83,7 +102,7 @@ module.exports = function (grunt) {
                 files: {
                     'po/template.pot': ['app/**/*.html']
                 }
-            },
+            }
         },
         nggettext_compile: {
             all: {
@@ -96,16 +115,68 @@ module.exports = function (grunt) {
                     'app/shared/translations.js': ['po/*.po']
                 }
             }
+        },
+        env: {
+
+            options: {
+
+                /* Shared Options Hash */
+                //globalOption : 'foo'
+
+            },
+
+            dev: {
+
+                NODE_ENV: 'DEVELOPMENT'
+
+            },
+
+            prod: {
+
+                NODE_ENV: 'PRODUCTION'
+
+            }
+
+        },
+        connect: {
+            server: {
+                options: {
+                    port: 8080,
+                    base: 'app'
+                }
+            }
+        },
+        preprocess : {
+
+            dev: {
+
+                src: 'index.html',
+                dest: 'app/index.html'
+
+            },
+
+            prod: {
+
+                src: 'index.html',
+                dest: 'dist/index.html',
+                options: {
+
+                    context: {
+                        name: '<%= pkg.name %>',
+                        version: '<%= pkg.version %>',
+                        now: '<%= now %>',
+                        ver: '<%= ver %>'
+                    }
+
+                }
+
+            }
         }
     });
 
-    // Default task(s).
-    //grunt.registerTask('default', ['uglify']);
 
-    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-html2js');
@@ -113,22 +184,22 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-angular-gettext');
+    grunt.loadNpmTasks('grunt-preprocess');
+    grunt.loadNpmTasks('grunt-env');
 
-
-    // todo: reorganize dev and other tasks
-    grunt.registerTask('dev', ['bower', 'connect:server', 'watch:dev']);
-    grunt.registerTask('test', ['bower', 'jshint', 'karma:continuous']);
-    grunt.registerTask('minified', ['bower', 'connect:server', 'watch:min']);
-    grunt.registerTask('extract_i18n', ['nggettext_extract']);
-    grunt.registerTask('compile_i18n', ['nggettext_compile']);
+    grunt.registerTask('dev', ['bower', 'env:dev', 'preprocess:dev', 'connect:server', 'watch:dev']);
+    grunt.registerTask('test', ['bower', 'karma:continuous']);
+    grunt.registerTask('i18n', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('default', [
         'bower',
-        'html2js:dist',
-        'concat:dist',
-        'concat:components',
-        'uglify:dist',
         'nggettext_extract',
-        'nggettext_compile'
+        'nggettext_compile',
+        'concat:js',
+        'concat:css',
+        'concat:components',
+        'env:prod',
+        'preprocess:prod',
+        'html2js:prod',
+        'uglify:dist'
     ]);
-
 };

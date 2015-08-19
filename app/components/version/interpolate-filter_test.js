@@ -1,7 +1,7 @@
 'use strict';
 
-describe('zaerp.version module', function() {
-  beforeEach(module('zaerp.version'));
+describe('ulakbus.version module', function() {
+  beforeEach(module('ulakbus.version'));
 
   describe('interpolate filter', function() {
     beforeEach(module(function($provide) {

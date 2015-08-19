@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('zaerp.version.interpolate-filter', [])
+angular.module('ulakbus.version.interpolate-filter', [])
 
 .filter('interpolate', ['version', function(version) {
   return function(text) {

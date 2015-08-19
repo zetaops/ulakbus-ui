@@ -9,7 +9,7 @@
 
 // TODO: clean console log items
 
-angular.module('zaerp.dashboard', ['ngRoute'])
+angular.module('ulakbus.dashboard', ['ngRoute'])
 
     .controller('DashCtrl', function ($scope) {
         $scope.testData = "<h1>This is main Dashboard</h1>";

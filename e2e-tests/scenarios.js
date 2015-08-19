@@ -20,7 +20,7 @@ describe('my app', function () {
 
         it('should redirect to login page if not logged in', function () {
             expect(element.all(by.css('[ng-view] h1')).first().getText()).
-                toMatch(/Zaerp Login Form/);
+                toMatch(/Ulakbus Login Form/);
         });
 
     });
@@ -35,7 +35,7 @@ describe('my app', function () {
 
         it('should render view2 when user navigates to /view2', function () {
             expect(element.all(by.css('[ng-view] h1')).first().getText()).
-                toMatch(/Zaerp Login Form/);
+                toMatch(/Ulakbus Login Form/);
         });
 
     });

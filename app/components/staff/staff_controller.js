@@ -8,7 +8,7 @@
 'use strict';
 
 
-var staff = angular.module('zaerp.staff', ['ngRoute', 'schemaForm', 'formService']);
+var staff = angular.module('ulakbus.staff', ['ngRoute', 'schemaForm', 'formService', 'ui.bootstrap']);
 
 
 /**

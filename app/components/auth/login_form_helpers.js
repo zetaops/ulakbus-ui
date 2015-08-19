@@ -2,7 +2,7 @@
  * Created by Evren Kutar on 18/05/15.
  */
 
-angular.module('zaerp.login.directives', [])
+angular.module('ulakbus.login.directives', [])
 /**
  * Simple directive to check password equality
  *

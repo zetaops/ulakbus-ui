@@ -9,7 +9,7 @@
 
 describe('form service module', function () {
 
-    beforeEach(module('zaerp'));
+    beforeEach(module('ulakbus'));
     beforeEach(module('formService'));
 
     describe('form service', function () {

@@ -7,7 +7,7 @@
 
 'use strict';
 
-var auth = angular.module('zaerp.auth', ['ngRoute', 'schemaForm', 'ngCookies', 'general']);
+var auth = angular.module('ulakbus.auth', ['ngRoute', 'schemaForm', 'ngCookies', 'general']);
 auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, Generator, LoginService) {
     $scope.url = 'simple_login';
     var form_params = {};

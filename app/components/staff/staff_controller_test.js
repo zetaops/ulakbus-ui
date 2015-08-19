@@ -9,8 +9,8 @@
 
 describe('staff controller module', function () {
 
-    beforeEach(module('zaerp'));
-    beforeEach(module('zaerp.staff'));
+    beforeEach(module('ulakbus'));
+    beforeEach(module('ulakbus.staff'));
 
     var $controller;
 
