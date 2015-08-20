@@ -114,6 +114,6 @@ var app = angular.module(
     //});
 
 // test the code with strict di mode to see if it works when minified
-angular.bootstrap(document, ['ulakbus'], {
-    strictDi: true
-});
+//angular.bootstrap(document, ['ulakbus'], {
+//    strictDi: true
+//});
