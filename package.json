@@ -31,7 +31,8 @@
     "grunt-contrib-watch": "~0.6.1",
     "grunt-bower-task": "~0.3.4",
     "grunt-karma": "~0.8.0",
-    "grunt-angular-gettext": "~2.1.0"
+    "grunt-angular-gettext": "~2.1.0",
+    "git-branch": "*"
   },
   "scripts": {
     "postinstall": "bower install",

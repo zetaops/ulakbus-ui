@@ -6,12 +6,23 @@ module.exports = function (grunt) {
         uglify: {
             dist: {
                 options: {
-                    banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+                    banner: '/*! <%= pkg.name %> <%= grunt.branchname %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
                     mangle: false
                 },
                 files: {
                     'dist/app.js': ['dist/app.js'],
                     'dist/bower_components/components.js': ['dist/bower_components/components.js']
+                }
+            },
+            branch: {
+                options: {
+                    banner: '/*! <%= pkg.name %> <%= grunt.branchname %> <%= grunt.template.today("yyyy-mm-dd") %>' +
+                    ' */\n',
+                    mangle: false
+                },
+                files: {
+                    'dist/<%= grunt.branchname %>/app.js': ['dist/app.js'],
+                    'dist/<%= grunt.branchname %>/bower_components/components.js': ['dist/bower_components/components.js']
                 }
             }
         },
@@ -47,6 +58,10 @@ module.exports = function (grunt) {
             prod: {
                 src: ['app/components/**/*.html'],
                 dest: 'dist/templates.js'
+            },
+            prod_branch: {
+                src: ['app/components/**/*.html'],
+                dest: 'dist/<%= grunt.branchname %>/templates.js'
             }
         },
         concat: {
@@ -79,6 +94,33 @@ module.exports = function (grunt) {
             css: {
                 src: ['app/bower_components/**/**/*.css', 'app/app.css'],
                 dest: 'dist/app.css'
+            },
+            js_branch: {
+                src: [
+                    'app/app.js', 'app/app_routes.js', 'app/zetalib/**/*service.js', 'app/zetalib/general.js', 'app/zetalib/interceptors.js', 'app/components/**/*controller.js', 'app/components/**/*service.js'],
+                dest: 'dist/<%= grunt.branchname %>/app.js'
+            },
+            components_branch: {
+                src: [
+                    'app/bower_components/angular/angular.js',
+                    'app/bower_components/angular-route/angular-route.js',
+                    'app/bower_components/angular-cookies/angular-cookies.js',
+                    'app/bower_components/angular-resource/angular-resource.js',
+                    'app/bower_components/angular-bootstrap/ui-bootstrap.js',
+                    'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+                    'app/bower_components/angular-sanitize/angular-sanitize.js',
+                    'app/bower_components/tv4/tv4.js',
+                    'app/bower_components/objectpath/lib/ObjectPath.js',
+                    'app/bower_components/angular-schema-form/dist/schema-form.js',
+                    'app/bower_components/angular-schema-form/dist/bootstrap-decorator.js',
+                    'app/bower_components/angular-schema-form-datepicker/bootstrap-datepicker.js',
+                    'app/bower_components/angular-gettext/dist/angular-gettext.js'
+                ],
+                dest: 'dist/<%= grunt.branchname %>/bower_components/components.js'
+            },
+            css_branch: {
+                src: ['app/bower_components/**/**/*.css', 'app/app.css'],
+                dest: 'dist/<%= grunt.branchname %>/app.css'
             }
         },
         watch: {
@@ -114,6 +156,11 @@ module.exports = function (grunt) {
                 files: {
                     'app/shared/translations.js': ['po/*.po']
                 }
+            },
+            branch: {
+                files: {
+                    'dist/<%= grunt.branchname %>/shared/translations.js': ['po/*.po']
+                }
             }
         },
         env: {
@@ -147,29 +194,33 @@ module.exports = function (grunt) {
             }
         },
         preprocess : {
-
             dev: {
-
                 src: 'index.html',
                 dest: 'app/index.html'
-
             },
-
             prod: {
-
                 src: 'index.html',
                 dest: 'dist/index.html',
                 options: {
-
                     context: {
                         name: '<%= pkg.name %>',
                         version: '<%= pkg.version %>',
                         now: '<%= now %>',
                         ver: '<%= ver %>'
                     }
-
                 }
-
+            },
+            prod_branch: {
+                src: 'index.html',
+                dest: 'dist/<%= grunt.branchname %>/index.html',
+                options: {
+                    context: {
+                        name: '<%= pkg.name %>',
+                        version: '<%= pkg.version %>',
+                        now: '<%= now %>',
+                        ver: '<%= ver %>'
+                    }
+                }
             }
         }
     });
@@ -192,7 +243,6 @@ module.exports = function (grunt) {
     grunt.registerTask('i18n', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('default', [
         'bower',
-        'nggettext_extract',
         'nggettext_compile',
         'concat:js',
         'concat:css',
@@ -202,4 +252,19 @@ module.exports = function (grunt) {
         'html2js:prod',
         'uglify:dist'
     ]);
+    grunt.registerTask('branch', '',function(){
+        var branch = require('git-branch');
+        grunt.branchname = branch.sync();
+        grunt.task.run([
+            'bower',
+            'nggettext_compile:branch',
+            'concat:js_branch',
+            'concat:css_branch',
+            'concat:components_branch',
+            'env:prod',
+            'preprocess:prod_branch',
+            'html2js:prod_branch',
+            'uglify:branch'
+        ])
+    });
 };
