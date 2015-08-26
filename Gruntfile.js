@@ -125,10 +125,10 @@ module.exports = function (grunt) {
         },
         watch: {
             dev: {
-                files: ['app/**/*.js', 'app/components/**/*.html'],
-                tasks: ['karma:unit', 'html2js:dist', 'concat:dist'],
+                files: ['app/**/*.js', 'app/components/**/*.html', 'index.html'],
+                tasks: ['env:dev', 'preprocess:dev', 'karma:unit'],
                 options: {
-                    atBegin: true
+                    atBegin: false
                 }
             },
             min: {
@@ -238,7 +238,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-preprocess');
     grunt.loadNpmTasks('grunt-env');
 
-    grunt.registerTask('dev', ['bower', 'env:dev', 'preprocess:dev', 'connect:server', 'watch:dev']);
+    grunt.registerTask('dev', ['env:dev', 'preprocess:dev', 'connect:server', 'watch:dev']);
     grunt.registerTask('test', ['bower', 'karma:continuous']);
     grunt.registerTask('i18n', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('default', [

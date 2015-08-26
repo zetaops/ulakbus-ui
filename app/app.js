@@ -9,6 +9,8 @@
 
 var app = angular.module(
     'ulakbus', [
+        'ui.bootstrap',
+        'angular-loading-bar',
         'ngRoute',
         'ngSanitize',
         'ngCookies',
