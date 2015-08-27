@@ -56,12 +56,22 @@ module.exports = function (grunt) {
                 }
             },
             prod: {
-                src: ['app/components/**/*.html'],
+                src: ['app/components/**/*.html', 'app/shared/templates/**/*.html'],
                 dest: 'dist/templates.js'
             },
             prod_branch: {
                 src: ['app/components/**/*.html'],
                 dest: 'dist/<%= grunt.branchname %>/templates.js'
+            }
+        },
+        copy: {
+            prod: {
+                files: [
+                    {expand: true, cwd: 'app/bower_components/font-awesome/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
+                ]
+
             }
         },
         concat: {
@@ -70,65 +80,104 @@ module.exports = function (grunt) {
             },
             js: {
                 src: [
-                    'app/app.js', 'app/app_routes.js', 'app/zetalib/**/*service.js', 'app/zetalib/general.js', 'app/zetalib/interceptors.js', 'app/components/**/*controller.js', 'app/components/**/*service.js'],
+                    'app/app.js',
+                    'app/app_routes.js',
+                    'app/zetalib/**/*service.js',
+                    'app/zetalib/general.js',
+                    'app/zetalib/interceptors.js',
+                    'app/shared/scripts/theme.js',
+                    'app/shared/directives.js',
+                    'app/components/**/*controller.js',
+                    'app/components/**/*service.js'
+                ],
                 dest: 'dist/app.js'
             },
             components: {
                 src: [
-                    'app/bower_components/angular/angular.js',
-                    'app/bower_components/angular-route/angular-route.js',
-                    'app/bower_components/angular-cookies/angular-cookies.js',
-                    'app/bower_components/angular-resource/angular-resource.js',
-                    'app/bower_components/angular-bootstrap/ui-bootstrap.js',
-                    'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-                    'app/bower_components/angular-sanitize/angular-sanitize.js',
-                    'app/bower_components/tv4/tv4.js',
-                    'app/bower_components/objectpath/lib/ObjectPath.js',
-                    'app/bower_components/angular-schema-form/dist/schema-form.js',
-                    'app/bower_components/angular-schema-form/dist/bootstrap-decorator.js',
-                    'app/bower_components/angular-schema-form-datepicker/bootstrap-datepicker.js',
-                    'app/bower_components/angular-gettext/dist/angular-gettext.js'
+                    //"app/bower_components/jquery/dist/jquery.min.js",
+                    "app/bower_components/angular-route/angular-route.min.js",
+                    "app/bower_components/angular-cookies/angular-cookies.min.js",
+                    "app/bower_components/angular-resource/angular-resource.min.js",
+                    "app/bower_components/angular-bootstrap/ui-bootstrap.min.js",
+                    "app/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js",
+                    "app/bower_components/angular-sanitize/angular-sanitize.min.js",
+                    "app/bower_components/tv4/tv4.js",
+                    "app/bower_components/objectpath/lib/ObjectPath.js",
+                    "app/bower_components/angular-schema-form/dist/schema-form.min.js",
+                    "app/bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+                    "app/bower_components/angular-schema-form-datepicker/bootstrap-datepicker.min.js",
+                    "app/bower_components/angular-gettext/dist/angular-gettext.min.js",
+                    "app/bower_components/json3/lib/json3.min.js",
+                    "app/bower_components/angular-loading-bar/build/loading-bar.min.js",
+                    "app/bower_components/metisMenu/dist/metisMenu.min.js",
+                    "app/bower_components/Chart.js/Chart.min.js"
                 ],
                 dest: 'dist/bower_components/components.js'
             },
             css: {
-                src: ['app/bower_components/**/**/*.css', 'app/app.css'],
-                dest: 'dist/app.css'
+                files: {
+                    'dist/css/app.css': [
+                        "app/bower_components/bootstrap/dist/css/bootstrap.min.css",
+                        "app/app.css",
+                        "app/bower_components/metisMenu/dist/metisMenu.min.css",
+                        "app/bower_components/angular-loading-bar/build/loading-bar.min.css",
+                        "app/bower_components/font-awesome/css/font-awesome.min.css"
+                    ]
+                }
             },
             js_branch: {
                 src: [
-                    'app/app.js', 'app/app_routes.js', 'app/zetalib/**/*service.js', 'app/zetalib/general.js', 'app/zetalib/interceptors.js', 'app/components/**/*controller.js', 'app/components/**/*service.js'],
+                    'app/app.js',
+                    'app/app_routes.js',
+                    'app/zetalib/**/*service.js',
+                    'app/zetalib/general.js',
+                    'app/zetalib/interceptors.js',
+                    'app/shared/scripts/theme.js',
+                    'app/shared/directives.js',
+                    'app/components/**/*controller.js',
+                    'app/components/**/*service.js'
+                ],
                 dest: 'dist/<%= grunt.branchname %>/app.js'
             },
             components_branch: {
                 src: [
-                    'app/bower_components/angular/angular.js',
-                    'app/bower_components/angular-route/angular-route.js',
-                    'app/bower_components/angular-cookies/angular-cookies.js',
-                    'app/bower_components/angular-resource/angular-resource.js',
-                    'app/bower_components/angular-bootstrap/ui-bootstrap.js',
-                    'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-                    'app/bower_components/angular-sanitize/angular-sanitize.js',
-                    'app/bower_components/tv4/tv4.js',
-                    'app/bower_components/objectpath/lib/ObjectPath.js',
-                    'app/bower_components/angular-schema-form/dist/schema-form.js',
-                    'app/bower_components/angular-schema-form/dist/bootstrap-decorator.js',
-                    'app/bower_components/angular-schema-form-datepicker/bootstrap-datepicker.js',
-                    'app/bower_components/angular-gettext/dist/angular-gettext.js'
+                    //"app/bower_components/jquery/dist/jquery.min.js",
+                    "app/bower_components/angular-route/angular-route.min.js",
+                    "app/bower_components/angular-cookies/angular-cookies.min.js",
+                    "app/bower_components/angular-resource/angular-resource.min.js",
+                    "app/bower_components/angular-bootstrap/ui-bootstrap.min.js",
+                    "app/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js",
+                    "app/bower_components/angular-sanitize/angular-sanitize.min.js",
+                    "app/bower_components/tv4/tv4.js",
+                    "app/bower_components/objectpath/lib/ObjectPath.js",
+                    "app/bower_components/angular-schema-form/dist/schema-form.min.js",
+                    "app/bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+                    "app/bower_components/angular-schema-form-datepicker/bootstrap-datepicker.min.js",
+                    "app/bower_components/angular-gettext/dist/angular-gettext.min.js",
+                    "app/bower_components/json3/lib/json3.min.js",
+                    "app/bower_components/angular-loading-bar/build/loading-bar.min.js",
+                    "app/bower_components/metisMenu/dist/metisMenu.min.js",
+                    "app/bower_components/Chart.js/Chart.min.js"
                 ],
                 dest: 'dist/<%= grunt.branchname %>/bower_components/components.js'
             },
             css_branch: {
-                src: ['app/bower_components/**/**/*.css', 'app/app.css'],
-                dest: 'dist/<%= grunt.branchname %>/app.css'
+                src: [
+                    "app/bower_components/bootstrap/dist/css/bootstrap.min.css",
+                    "app/app.css",
+                    "app/bower_components/metisMenu/dist/metisMenu.min.css",
+                    "app/bower_components/angular-loading-bar/build/loading-bar.min.css",
+                    "app/bower_components/font-awesome/css/font-awesome.min.css"
+                ],
+                dest: 'dist/<%= grunt.branchname %>/css/app.css'
             }
         },
         watch: {
             dev: {
-                files: ['app/**/*.js', 'app/components/**/*.html'],
-                tasks: ['karma:unit', 'html2js:dist', 'concat:dist'],
+                files: ['app/**/*.js', 'app/components/**/*.html', 'index.html'],
+                tasks: ['env:dev', 'preprocess:dev', 'karma:unit'],
                 options: {
-                    atBegin: true
+                    atBegin: false
                 }
             },
             min: {
@@ -164,26 +213,13 @@ module.exports = function (grunt) {
             }
         },
         env: {
-
-            options: {
-
-                /* Shared Options Hash */
-                //globalOption : 'foo'
-
-            },
-
+            options: {},
             dev: {
-
                 NODE_ENV: 'DEVELOPMENT'
-
             },
-
             prod: {
-
                 NODE_ENV: 'PRODUCTION'
-
             }
-
         },
         connect: {
             server: {
@@ -193,7 +229,7 @@ module.exports = function (grunt) {
                 }
             }
         },
-        preprocess : {
+        preprocess: {
             dev: {
                 src: 'index.html',
                 dest: 'app/index.html'
@@ -229,6 +265,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -238,7 +275,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-preprocess');
     grunt.loadNpmTasks('grunt-env');
 
-    grunt.registerTask('dev', ['bower', 'env:dev', 'preprocess:dev', 'connect:server', 'watch:dev']);
+    grunt.registerTask('dev', ['env:dev', 'preprocess:dev', 'connect:server', 'watch:dev']);
     grunt.registerTask('test', ['bower', 'karma:continuous']);
     grunt.registerTask('i18n', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('default', [
@@ -247,12 +284,14 @@ module.exports = function (grunt) {
         'concat:js',
         'concat:css',
         'concat:components',
+        'copy:prod',
         'env:prod',
         'preprocess:prod',
         'html2js:prod',
         'uglify:dist'
     ]);
-    grunt.registerTask('branch', '',function(){
+    grunt.registerTask('branch', '', function () {
+        // get branch name
         var branch = require('git-branch');
         grunt.branchname = branch.sync();
         grunt.task.run([
@@ -261,6 +300,7 @@ module.exports = function (grunt) {
             'concat:js_branch',
             'concat:css_branch',
             'concat:components_branch',
+            'copy:prod',
             'env:prod',
             'preprocess:prod_branch',
             'html2js:prod_branch',

@@ -1,12 +1,20 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/dashboard/dashboard.html', 'components/staff/templates/add.html', 'components/staff/templates/edit.html', 'components/staff/templates/list.html', 'components/staff/templates/show.html', 'components/student/student_add_template.html', 'components/student/student_list_template.html', 'components/types/types_template.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/dashboard/dashboard.html', 'components/staff/templates/add.html', 'components/staff/templates/edit.html', 'components/staff/templates/list.html', 'components/staff/templates/show.html', 'components/student/student_add_template.html', 'components/student/student_list_template.html', 'components/types/types_template.html', 'shared/templates/add.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
-    "<div ng-app=\"ulakbus.auth\">\n" +
-    "    <div class=\"col-md-6\">\n" +
-    "        <h1>Ulakbüs Login Form</h1>\n" +
-    "        <span class=\"label label-warning\">{{message}}</span>\n" +
-    "        <form name=\"loginForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(loginForm)\"></form>\n" +
+    "<div ng-app=\"ulakbus.auth\" class=\"container\">\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-4 col-md-offset-4\">\n" +
+    "            <div class=\"login-panel panel panel-default\">\n" +
+    "                <div class=\"panel-heading\">\n" +
+    "                    <h3 class=\"panel-title\">Sign In</h3>\n" +
+    "                </div>\n" +
+    "                <div class=\"panel-body\">\n" +
+    "                    <span class=\"label label-warning\">{{message}}</span>\n" +
+    "                    <form name=\"loginForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(loginForm)\"></form>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -102,4 +110,684 @@ angular.module("components/types/types_template.html", []).run(["$templateCache"
     "        <form name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
     "    </div>\n" +
     "</div>");
+}]);
+
+angular.module("shared/templates/add.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/add.html",
+    "<div class=\"col-md-12\">\n" +
+    "    <h1>{{ schema.title }}</h1>\n" +
+    "    <button type=\"button\" ng-repeat=\"node in listnodes\" ng-click=\"openmodal(node)\">Add <span>{{node}}</span></button>\n" +
+    "    <form name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
+    "</div>");
+}]);
+
+angular.module("shared/templates/directives/chat.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/chat.html",
+    "<div class=\"chat-panel panel panel-default\">\n" +
+    "    <div class=\"panel-heading\">\n" +
+    "        <i class=\"fa fa-comments fa-fw\"></i>\n" +
+    "        Chat\n" +
+    "        <div class=\"btn-group pull-right\">\n" +
+    "            <button type=\"button\" class=\"btn btn-default btn-xs dropdown-toggle\" data-toggle=\"dropdown\">\n" +
+    "                <i class=\"fa fa-chevron-down\"></i>\n" +
+    "            </button>\n" +
+    "            <ul class=\"dropdown-menu slidedown\">\n" +
+    "                <li>\n" +
+    "                    <a href=\"#\">\n" +
+    "                        <i class=\"fa fa-refresh fa-fw\"></i> Refresh\n" +
+    "                    </a>\n" +
+    "                </li>\n" +
+    "                <li>\n" +
+    "                    <a href=\"#\">\n" +
+    "                        <i class=\"fa fa-check-circle fa-fw\"></i> Available\n" +
+    "                    </a>\n" +
+    "                </li>\n" +
+    "                <li>\n" +
+    "                    <a href=\"#\">\n" +
+    "                        <i class=\"fa fa-times fa-fw\"></i> Busy\n" +
+    "                    </a>\n" +
+    "                </li>\n" +
+    "                <li>\n" +
+    "                    <a href=\"#\">\n" +
+    "                        <i class=\"fa fa-clock-o fa-fw\"></i> Away\n" +
+    "                    </a>\n" +
+    "                </li>\n" +
+    "                <li class=\"divider\"></li>\n" +
+    "                <li>\n" +
+    "                    <a href=\"#\">\n" +
+    "                        <i class=\"fa fa-sign-out fa-fw\"></i> Sign Out\n" +
+    "                    </a>\n" +
+    "                </li>\n" +
+    "            </ul>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <!-- /.panel-heading -->\n" +
+    "    <div class=\"panel-body\">\n" +
+    "        <ul class=\"chat\">\n" +
+    "            <li class=\"left clearfix\">\n" +
+    "                <span class=\"chat-img pull-left\">\n" +
+    "                    <img src=\"http://placehold.it/50/55C1E7/fff\" alt=\"User Avatar\" class=\"img-circle\">\n" +
+    "                </span>\n" +
+    "                <div class=\"chat-body clearfix\">\n" +
+    "                    <div class=\"header\">\n" +
+    "                        <strong class=\"primary-font\">Jack Sparrow</strong>\n" +
+    "                        <small class=\"pull-right text-muted\">\n" +
+    "                            <i class=\"fa fa-clock-o fa-fw\"></i> 12 mins ago\n" +
+    "                        </small>\n" +
+    "                    </div>\n" +
+    "                    <p>\n" +
+    "                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.\n" +
+    "                    </p>\n" +
+    "                </div>\n" +
+    "            </li>\n" +
+    "            <li class=\"right clearfix\">\n" +
+    "                <span class=\"chat-img pull-right\">\n" +
+    "                    <img src=\"http://placehold.it/50/FA6F57/fff\" alt=\"User Avatar\" class=\"img-circle\">\n" +
+    "                </span>\n" +
+    "                <div class=\"chat-body clearfix\">\n" +
+    "                    <div class=\"header\">\n" +
+    "                        <small class=\" text-muted\">\n" +
+    "                            <i class=\"fa fa-clock-o fa-fw\"></i> 13 mins ago</small>\n" +
+    "                            <strong class=\"pull-right primary-font\">Bhaumik Patel</strong>\n" +
+    "                    </div>\n" +
+    "                    <p>\n" +
+    "                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.\n" +
+    "                    </p>\n" +
+    "                </div>\n" +
+    "            </li>\n" +
+    "            <li class=\"left clearfix\">\n" +
+    "                <span class=\"chat-img pull-left\">\n" +
+    "                    <img src=\"http://placehold.it/50/55C1E7/fff\" alt=\"User Avatar\" class=\"img-circle\">\n" +
+    "                </span>\n" +
+    "                <div class=\"chat-body clearfix\">\n" +
+    "                    <div class=\"header\">\n" +
+    "                        <strong class=\"primary-font\">Jack Sparrow</strong>\n" +
+    "                        <small class=\"pull-right text-muted\">\n" +
+    "                            <i class=\"fa fa-clock-o fa-fw\"></i> 14 mins ago</small>\n" +
+    "                        </div>\n" +
+    "                        <p>\n" +
+    "                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.\n" +
+    "                        </p>\n" +
+    "                </div>\n" +
+    "            </li>\n" +
+    "            <li class=\"right clearfix\">\n" +
+    "                <span class=\"chat-img pull-right\">\n" +
+    "                    <img src=\"http://placehold.it/50/FA6F57/fff\" alt=\"User Avatar\" class=\"img-circle\">\n" +
+    "                </span>\n" +
+    "                <div class=\"chat-body clearfix\">\n" +
+    "                    <div class=\"header\">\n" +
+    "                        <small class=\" text-muted\">\n" +
+    "                            <i class=\"fa fa-clock-o fa-fw\"></i> 15 mins ago</small>\n" +
+    "                            <strong class=\"pull-right primary-font\">Bhaumik Patel</strong>\n" +
+    "                    </div>\n" +
+    "                    <p>\n" +
+    "                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.\n" +
+    "                    </p>\n" +
+    "                </div>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
+    "                <!-- /.panel-body -->\n" +
+    "    <div class=\"panel-footer\">\n" +
+    "        <div class=\"input-group\">\n" +
+    "            <input id=\"btn-input\" type=\"text\" class=\"form-control input-sm\" placeholder=\"Type your message here...\">\n" +
+    "            <span class=\"input-group-btn\">\n" +
+    "                <button class=\"btn btn-warning btn-sm\" id=\"btn-chat\">\n" +
+    "                    Send\n" +
+    "                </button>\n" +
+    "            </span>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <!-- /.panel-footer -->\n" +
+    "</div>");
+}]);
+
+angular.module("shared/templates/directives/header-notification.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/header-notification.html",
+    "<ul class=\"nav navbar-top-links navbar-right\">\n" +
+    "    <li class=\"dropdown\">\n" +
+    "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
+    "            <i class=\"fa fa-envelope fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
+    "        </a>\n" +
+    "        <ul class=\"dropdown-menu dropdown-messages\">\n" +
+    "            <li>\n" +
+    "                <a href=\"#\">\n" +
+    "                    <div>\n" +
+    "                        <strong>John Smith</strong>\n" +
+    "                        <span class=\"pull-right text-muted\">\n" +
+    "                            <em>Yesterday</em>\n" +
+    "                        </span>\n" +
+    "                    </div>\n" +
+    "                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a href=\"#\">\n" +
+    "                    <div>\n" +
+    "                        <strong>John Smith</strong>\n" +
+    "                        <span class=\"pull-right text-muted\">\n" +
+    "                            <em>Yesterday</em>\n" +
+    "                        </span>\n" +
+    "                    </div>\n" +
+    "                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a href=\"#\">\n" +
+    "                    <div>\n" +
+    "                        <strong>John Smith</strong>\n" +
+    "                        <span class=\"pull-right text-muted\">\n" +
+    "                            <em>Yesterday</em>\n" +
+    "                        </span>\n" +
+    "                    </div>\n" +
+    "                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a class=\"text-center\" href=\"#\">\n" +
+    "                    <strong>Read All Messages</strong>\n" +
+    "                    <i class=\"fa fa-angle-right\"></i>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
+    "        <!-- /.dropdown-messages -->\n" +
+    "    </li>\n" +
+    "    <!-- /.dropdown -->\n" +
+    "    <li class=\"dropdown\">\n" +
+    "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
+    "            <i class=\"fa fa-tasks fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
+    "        </a>\n" +
+    "        <ul class=\"dropdown-menu dropdown-tasks\">\n" +
+    "            <li>\n" +
+    "                <a href=\"#\">\n" +
+    "                    <div>\n" +
+    "                        <p>\n" +
+    "                            <strong>Task 1</strong>\n" +
+    "                            <span class=\"pull-right text-muted\">40% Complete</span>\n" +
+    "                        </p>\n" +
+    "                        <div class=\"progress progress-striped active\">\n" +
+    "                            <div class=\"progress-bar progress-bar-success\" role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 40%\">\n" +
+    "                                <span class=\"sr-only\">40% Complete (success)</span>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a href=\"#\">\n" +
+    "                    <div>\n" +
+    "                        <p>\n" +
+    "                            <strong>Task 2</strong>\n" +
+    "                            <span class=\"pull-right text-muted\">20% Complete</span>\n" +
+    "                        </p>\n" +
+    "                        <div class=\"progress progress-striped active\">\n" +
+    "                            <div class=\"progress-bar progress-bar-info\" role=\"progressbar\" aria-valuenow=\"20\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 20%\">\n" +
+    "                                <span class=\"sr-only\">20% Complete</span>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a href=\"#\">\n" +
+    "                    <div>\n" +
+    "                        <p>\n" +
+    "                            <strong>Task 3</strong>\n" +
+    "                            <span class=\"pull-right text-muted\">60% Complete</span>\n" +
+    "                        </p>\n" +
+    "                        <div class=\"progress progress-striped active\">\n" +
+    "                            <div class=\"progress-bar progress-bar-warning\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 60%\">\n" +
+    "                                <span class=\"sr-only\">60% Complete (warning)</span>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a href=\"#\">\n" +
+    "                    <div>\n" +
+    "                        <p>\n" +
+    "                            <strong>Task 4</strong>\n" +
+    "                            <span class=\"pull-right text-muted\">80% Complete</span>\n" +
+    "                        </p>\n" +
+    "                        <div class=\"progress progress-striped active\">\n" +
+    "                            <div class=\"progress-bar progress-bar-danger\" role=\"progressbar\" aria-valuenow=\"80\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 80%\">\n" +
+    "                                <span class=\"sr-only\">80% Complete (danger)</span>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a class=\"text-center\" href=\"#\">\n" +
+    "                    <strong>See All Tasks</strong>\n" +
+    "                    <i class=\"fa fa-angle-right\"></i>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
+    "        <!-- /.dropdown-tasks -->\n" +
+    "    </li>\n" +
+    "    <!-- /.dropdown -->\n" +
+    "    <li class=\"dropdown\">\n" +
+    "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
+    "            <i class=\"fa fa-bell fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
+    "        </a>\n" +
+    "        <ul class=\"dropdown-menu dropdown-alerts\">\n" +
+    "            <li>\n" +
+    "                <a href=\"#\">\n" +
+    "                    <div>\n" +
+    "                        <i class=\"fa fa-comment fa-fw\"></i> New Comment\n" +
+    "                        <span class=\"pull-right text-muted small\">4 minutes ago</span>\n" +
+    "                    </div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a href=\"#\">\n" +
+    "                    <div>\n" +
+    "                        <i class=\"fa fa-twitter fa-fw\"></i> 3 New Followers\n" +
+    "                        <span class=\"pull-right text-muted small\">12 minutes ago</span>\n" +
+    "                    </div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a href=\"#\">\n" +
+    "                    <div>\n" +
+    "                        <i class=\"fa fa-envelope fa-fw\"></i> Message Sent\n" +
+    "                        <span class=\"pull-right text-muted small\">4 minutes ago</span>\n" +
+    "                    </div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a href=\"#\">\n" +
+    "                    <div>\n" +
+    "                        <i class=\"fa fa-tasks fa-fw\"></i> New Task\n" +
+    "                        <span class=\"pull-right text-muted small\">4 minutes ago</span>\n" +
+    "                    </div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a href=\"#\">\n" +
+    "                    <div>\n" +
+    "                        <i class=\"fa fa-upload fa-fw\"></i> Server Rebooted\n" +
+    "                        <span class=\"pull-right text-muted small\">4 minutes ago</span>\n" +
+    "                    </div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a class=\"text-center\" href=\"#\">\n" +
+    "                    <strong>See All Alerts</strong>\n" +
+    "                    <i class=\"fa fa-angle-right\"></i>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
+    "        <!-- /.dropdown-alerts -->\n" +
+    "    </li>\n" +
+    "    <!-- /.dropdown -->\n" +
+    "    <li class=\"dropdown\">\n" +
+    "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
+    "            <i class=\"fa fa-user fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
+    "        </a>\n" +
+    "        <ul class=\"dropdown-menu dropdown-user\">\n" +
+    "            <li><a href=\"#\"><i class=\"fa fa-user fa-fw\"></i> User Profile</a>\n" +
+    "            </li>\n" +
+    "            <li><a href=\"#\"><i class=\"fa fa-gear fa-fw\"></i> Settings</a>\n" +
+    "            </li>\n" +
+    "            <li><a href=\"http://www.strapui.com/\"><i class=\"fa fa-eye fa-fw\"></i> Premium Angular Themes</a></li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li><a ui-sref=\"login\"><i class=\"fa fa-sign-out fa-fw\"></i> Logout</a>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
+    "        <!-- /.dropdown-user -->\n" +
+    "    </li>\n" +
+    "    <!-- /.dropdown -->\n" +
+    "</ul>\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("shared/templates/directives/notifications.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/notifications.html",
+    "<div class=\"panel-body\">\n" +
+    "    <div class=\"list-group\">\n" +
+    "        <a href=\"#\" class=\"list-group-item\">\n" +
+    "            <i class=\"fa fa-comment fa-fw\"></i> New Comment\n" +
+    "            <span class=\"pull-right text-muted small\"><em>4 minutes ago</em>\n" +
+    "            </span>\n" +
+    "        </a>\n" +
+    "        <a href=\"#\" class=\"list-group-item\">\n" +
+    "            <i class=\"fa fa-twitter fa-fw\"></i> 3 New Followers\n" +
+    "            <span class=\"pull-right text-muted small\"><em>12 minutes ago</em>\n" +
+    "            </span>\n" +
+    "        </a>\n" +
+    "        <a href=\"#\" class=\"list-group-item\">\n" +
+    "            <i class=\"fa fa-envelope fa-fw\"></i> Message Sent\n" +
+    "            <span class=\"pull-right text-muted small\"><em>27 minutes ago</em>\n" +
+    "            </span>\n" +
+    "        </a>\n" +
+    "        <a href=\"#\" class=\"list-group-item\">\n" +
+    "            <i class=\"fa fa-tasks fa-fw\"></i> New Task\n" +
+    "            <span class=\"pull-right text-muted small\"><em>43 minutes ago</em>\n" +
+    "            </span>\n" +
+    "        </a>\n" +
+    "        <a href=\"#\" class=\"list-group-item\">\n" +
+    "            <i class=\"fa fa-upload fa-fw\"></i> Server Rebooted\n" +
+    "            <span class=\"pull-right text-muted small\"><em>11:32 AM</em>\n" +
+    "            </span>\n" +
+    "        </a>\n" +
+    "        <a href=\"#\" class=\"list-group-item\">\n" +
+    "            <i class=\"fa fa-bolt fa-fw\"></i> Server Crashed!\n" +
+    "            <span class=\"pull-right text-muted small\"><em>11:13 AM</em>\n" +
+    "            </span>\n" +
+    "        </a>\n" +
+    "        <a href=\"#\" class=\"list-group-item\">\n" +
+    "            <i class=\"fa fa-warning fa-fw\"></i> Server Not Responding\n" +
+    "            <span class=\"pull-right text-muted small\"><em>10:57 AM</em>\n" +
+    "            </span>\n" +
+    "        </a>\n" +
+    "        <a href=\"#\" class=\"list-group-item\">\n" +
+    "            <i class=\"fa fa-shopping-cart fa-fw\"></i> New Order Placed\n" +
+    "            <span class=\"pull-right text-muted small\"><em>9:49 AM</em>\n" +
+    "            </span>\n" +
+    "        </a>\n" +
+    "        <a href=\"#\" class=\"list-group-item\">\n" +
+    "            <i class=\"fa fa-money fa-fw\"></i> Payment Received\n" +
+    "            <span class=\"pull-right text-muted small\"><em>Yesterday</em>\n" +
+    "            </span>\n" +
+    "        </a>\n" +
+    "    </div>\n" +
+    "    <!-- /.list-group -->\n" +
+    "    <a href=\"#\" class=\"btn btn-default btn-block\">View All Alerts</a>\n" +
+    "</div>");
+}]);
+
+angular.module("shared/templates/directives/sidebar-search.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/sidebar-search.html",
+    "<li class=\"sidebar-search\">\n" +
+    "    <div class=\"input-group custom-search-form\">\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Search...\">\n" +
+    "        <span class=\"input-group-btn\">\n" +
+    "            <button class=\"btn btn-default\" type=\"button\">\n" +
+    "                <i class=\"fa fa-search\"></i>\n" +
+    "            </button>\n" +
+    "        </span>\n" +
+    "    </div>\n" +
+    "</li>");
+}]);
+
+angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/sidebar.html",
+    "<div class=\"navbar-default sidebar\" role=\"navigation\">\n" +
+    "    <div class=\"sidebar-nav navbar-collapse\">\n" +
+    "        <ul class=\"nav in\" id=\"side-menu\">\n" +
+    "            <sidebar-search></sidebar-search>\n" +
+    "            <li ui-sref-active=\"active\">\n" +
+    "                <a ui-sref=\"dashboard.home\"><i class=\"fa fa-dashboard fa-fw\"></i> Dashboard</a>\n" +
+    "            </li>\n" +
+    "            <li ui-sref-active=\"active\"><a href=\"#/staffs\" translate>Staffs</a></li>\n" +
+    "            <li ui-sref-active=\"active\"><a href=\"#/staff/add\" translate>New Staff</a></li>\n" +
+    "            <!--<li ui-sref-active=\"active\">-->\n" +
+    "\n" +
+    "                <!--<a ui-sref=\"dashboard.chart\"><i class=\"fa fa-bar-chart-o fa-fw\"></i> Charts<span></span></a>-->\n" +
+    "\n" +
+    "            <!--</li>-->\n" +
+    "            <!--<li ui-sref-active=\"active\">-->\n" +
+    "                <!--<a ui-sref=\"dashboard.table\"><i class=\"fa fa-table fa-fw\"></i> Tables</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "            <!--<li ui-sref-active=\"active\">-->\n" +
+    "                <!--<a ui-sref=\"dashboard.form\"><i class=\"fa fa-edit fa-fw\"></i> Forms</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "            <!--<li ng-class=\"{active: collapseVar==1}\">{{dropDown}}-->\n" +
+    "                <!--<a href=\"\" ng-click=\"check(1)\"><i class=\"fa fa-wrench fa-fw\"></i> UI Elements<span-->\n" +
+    "                        <!--class=\"fa arrow\"></span></a>-->\n" +
+    "                <!--<ul class=\"nav nav-second-level\" collapse=\"collapseVar!=1\">-->\n" +
+    "                    <!--<li ui-sref-active=\"active\">-->\n" +
+    "                        <!--<a ui-sref=\"dashboard.panels-wells\">Panels and Wells</a>-->\n" +
+    "                    <!--</li>-->\n" +
+    "                    <!--<li ui-sref-active=\"active\">-->\n" +
+    "                        <!--<a ui-sref=\"dashboard.buttons\">Buttons</a>-->\n" +
+    "                    <!--</li>-->\n" +
+    "                    <!--<li ui-sref-active=\"active\">-->\n" +
+    "                        <!--<a ui-sref=\"dashboard.notifications\">Notifications</a>-->\n" +
+    "                    <!--</li>-->\n" +
+    "                    <!--<li ui-sref-active=\"active\">-->\n" +
+    "                        <!--<a ui-sref=\"dashboard.typography\">Typography</a>-->\n" +
+    "                    <!--</li>-->\n" +
+    "                    <!--<li ui-sref-active=\"active\">-->\n" +
+    "                        <!--<a ui-sref=\"dashboard.icons\"> Icons</a>-->\n" +
+    "                    <!--</li>-->\n" +
+    "                    <!--<li ui-sref-active=\"active\">-->\n" +
+    "                        <!--<a ui-sref=\"dashboard.grid\">Grid</a>-->\n" +
+    "                    <!--</li>-->\n" +
+    "                <!--</ul>-->\n" +
+    "                <!--&lt;!&ndash; /.nav-second-level &ndash;&gt;-->\n" +
+    "            <!--</li>-->\n" +
+    "            <!--<li ng-class=\"{active: collapseVar==2}\">-->\n" +
+    "                <!--<a href=\"\" ng-click=\"check(2)\"><i class=\"fa fa-sitemap fa-fw\"></i> Multi-Level Dropdown<span-->\n" +
+    "                        <!--class=\"fa arrow\"></span></a>-->\n" +
+    "                <!--<ul class=\"nav nav-second-level\" collapse=\"collapseVar!=2\">-->\n" +
+    "                    <!--<li>-->\n" +
+    "                        <!--<a href=\"\">Second Level Item</a>-->\n" +
+    "                    <!--</li>-->\n" +
+    "                    <!--<li>-->\n" +
+    "                        <!--<a href=\"\">Second Level Item</a>-->\n" +
+    "                    <!--</li>-->\n" +
+    "                    <!--<li ng-init=\"third=!third\" ng-class=\"{active: multiCollapseVar==3}\">-->\n" +
+    "                        <!--<a href=\"\" ng-click=\"multiCheck(3)\">Third Level <span class=\"fa arrow\"></span></a>-->\n" +
+    "                        <!--<ul class=\"nav nav-third-level\" collapse=\"multiCollapseVar!=3\">-->\n" +
+    "                            <!--<li>-->\n" +
+    "                                <!--<a href=\"\">Third Level Item</a>-->\n" +
+    "                            <!--</li>-->\n" +
+    "                            <!--<li>-->\n" +
+    "                                <!--<a href=\"\">Third Level Item</a>-->\n" +
+    "                            <!--</li>-->\n" +
+    "                            <!--<li>-->\n" +
+    "                                <!--<a href=\"\">Third Level Item</a>-->\n" +
+    "                            <!--</li>-->\n" +
+    "                            <!--<li>-->\n" +
+    "                                <!--<a href=\"\">Third Level Item</a>-->\n" +
+    "                            <!--</li>-->\n" +
+    "\n" +
+    "                        <!--</ul>-->\n" +
+    "                        <!--&lt;!&ndash; /.nav-third-level &ndash;&gt;-->\n" +
+    "                    <!--</li>-->\n" +
+    "                <!--</ul>-->\n" +
+    "                <!--&lt;!&ndash; /.nav-second-level &ndash;&gt;-->\n" +
+    "            <!--</li>-->\n" +
+    "            <!--<li ng-class=\"{active:collapseVar==4}\">-->\n" +
+    "                <!--<a href=\"\" ng-click=\"check(4)\"><i class=\"fa fa-files-o fa-fw\"></i> Sample Pages<span-->\n" +
+    "                        <!--class=\"fa arrow\"></span></a>-->\n" +
+    "                <!--<ul class=\"nav nav-second-level\" collapse=\"collapseVar!=4\">-->\n" +
+    "                    <!--<li ng-class=\"{active: selectedMenu=='blank'}\">-->\n" +
+    "                        <!--<a ui-sref=\"dashboard.blank\" ng-click=\"selectedMenu='blank'\">Blank Page</a>-->\n" +
+    "                    <!--</li>-->\n" +
+    "                    <!--<li>-->\n" +
+    "                        <!--<a ui-sref=\"login\">Login Page</a>-->\n" +
+    "                    <!--</li>-->\n" +
+    "                <!--</ul>-->\n" +
+    "                <!--&lt;!&ndash; /.nav-second-level &ndash;&gt;-->\n" +
+    "            <!--</li>-->\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
+    "    <!-- /.sidebar-collapse -->\n" +
+    "</div> \n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("shared/templates/directives/stats.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/stats.html",
+    "<div class=\"col-lg-3 col-md-6\">\n" +
+    "    <div class=\"panel panel-{{colour}}\">\n" +
+    "        <div class=\"panel-heading\">\n" +
+    "            <div class=\"row\">\n" +
+    "                <div class=\"col-xs-3\">\n" +
+    "                    <i class=\"fa fa-{{type}} fa-5x\"></i>\n" +
+    "                </div>\n" +
+    "                <div class=\"col-xs-9 text-right\">\n" +
+    "                    <div class=\"huge\">{{number}}</div>\n" +
+    "                    <div>{{comments}}</div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <a ui-sref=\"{{goto}}\">\n" +
+    "            <div class=\"panel-footer\">\n" +
+    "                <span class=\"pull-left\">View Details</span>\n" +
+    "                <span class=\"pull-right\"><i class=\"fa fa-arrow-circle-right\"></i></span>\n" +
+    "                <div class=\"clearfix\"></div>\n" +
+    "            </div>\n" +
+    "        </a>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("shared/templates/directives/timeline.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/timeline.html",
+    "<div class=\"panel-body\">\n" +
+    "    <ul class=\"timeline\">\n" +
+    "        <li>\n" +
+    "            <div class=\"timeline-badge\"><i class=\"fa fa-check\"></i>\n" +
+    "            </div>\n" +
+    "            <div class=\"timeline-panel\">\n" +
+    "                <div class=\"timeline-heading\">\n" +
+    "                    <h4 class=\"timeline-title\">Lorem ipsum dolor</h4>\n" +
+    "                    <p><small class=\"text-muted\"><i class=\"fa fa-clock-o\"></i> 11 hours ago via Twitter</small>\n" +
+    "                    </p>\n" +
+    "                </div>\n" +
+    "                <div class=\"timeline-body\">\n" +
+    "                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero laboriosam dolor perspiciatis omnis exercitationem. Beatae, officia pariatur? Est cum veniam excepturi. Maiores praesentium, porro voluptas suscipit facere rem dicta, debitis.</p>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </li>\n" +
+    "        <li class=\"timeline-inverted\">\n" +
+    "            <div class=\"timeline-badge warning\"><i class=\"fa fa-credit-card\"></i>\n" +
+    "            </div>\n" +
+    "            <div class=\"timeline-panel\">\n" +
+    "                <div class=\"timeline-heading\">\n" +
+    "                    <h4 class=\"timeline-title\">Lorem ipsum dolor</h4>\n" +
+    "                </div>\n" +
+    "                <div class=\"timeline-body\">\n" +
+    "                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem dolorem quibusdam, tenetur commodi provident cumque magni voluptatem libero, quis rerum. Fugiat esse debitis optio, tempore. Animi officiis alias, officia repellendus.</p>\n" +
+    "                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium maiores odit qui est tempora eos, nostrum provident explicabo dignissimos debitis vel! Adipisci eius voluptates, ad aut recusandae minus eaque facere.</p>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </li>\n" +
+    "        <li>\n" +
+    "            <div class=\"timeline-badge danger\"><i class=\"fa fa-bomb\"></i>\n" +
+    "            </div>\n" +
+    "            <div class=\"timeline-panel\">\n" +
+    "                <div class=\"timeline-heading\">\n" +
+    "                    <h4 class=\"timeline-title\">Lorem ipsum dolor</h4>\n" +
+    "                </div>\n" +
+    "                <div class=\"timeline-body\">\n" +
+    "                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus numquam facilis enim eaque, tenetur nam id qui vel velit similique nihil iure molestias aliquam, voluptatem totam quaerat, magni commodi quisquam.</p>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </li>\n" +
+    "        <li class=\"timeline-inverted\">\n" +
+    "            <div class=\"timeline-panel\">\n" +
+    "                <div class=\"timeline-heading\">\n" +
+    "                    <h4 class=\"timeline-title\">Lorem ipsum dolor</h4>\n" +
+    "                </div>\n" +
+    "                <div class=\"timeline-body\">\n" +
+    "                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates est quaerat asperiores sapiente, eligendi, nihil. Itaque quos, alias sapiente rerum quas odit! Aperiam officiis quidem delectus libero, omnis ut debitis!</p>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </li>\n" +
+    "        <li>\n" +
+    "            <div class=\"timeline-badge info\"><i class=\"fa fa-save\"></i>\n" +
+    "            </div>\n" +
+    "            <div class=\"timeline-panel\">\n" +
+    "                <div class=\"timeline-heading\">\n" +
+    "                    <h4 class=\"timeline-title\">Lorem ipsum dolor</h4>\n" +
+    "                </div>\n" +
+    "                <div class=\"timeline-body\">\n" +
+    "                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis minus modi quam ipsum alias at est molestiae excepturi delectus nesciunt, quibusdam debitis amet, beatae consequuntur impedit nulla qui! Laborum, atque.</p>\n" +
+    "                    <hr>\n" +
+    "                    <div class=\"btn-group\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary btn-sm dropdown-toggle\" data-toggle=\"dropdown\">\n" +
+    "                            <i class=\"fa fa-gear\"></i>  <span class=\"caret\"></span>\n" +
+    "                        </button>\n" +
+    "                        <ul class=\"dropdown-menu\" role=\"menu\">\n" +
+    "                            <li><a href=\"#\">Action</a>\n" +
+    "                            </li>\n" +
+    "                            <li><a href=\"#\">Another action</a>\n" +
+    "                            </li>\n" +
+    "                            <li><a href=\"#\">Something else here</a>\n" +
+    "                            </li>\n" +
+    "                            <li class=\"divider\"></li>\n" +
+    "                            <li><a href=\"#\">Separated link</a>\n" +
+    "                            </li>\n" +
+    "                        </ul>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </li>\n" +
+    "        <li>\n" +
+    "            <div class=\"timeline-panel\">\n" +
+    "                <div class=\"timeline-heading\">\n" +
+    "                    <h4 class=\"timeline-title\">Lorem ipsum dolor</h4>\n" +
+    "                </div>\n" +
+    "                <div class=\"timeline-body\">\n" +
+    "                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi fuga odio quibusdam. Iure expedita, incidunt unde quis nam! Quod, quisquam. Officia quam qui adipisci quas consequuntur nostrum sequi. Consequuntur, commodi.</p>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </li>\n" +
+    "        <li class=\"timeline-inverted\">\n" +
+    "            <div class=\"timeline-badge success\"><i class=\"fa fa-graduation-cap\"></i>\n" +
+    "            </div>\n" +
+    "            <div class=\"timeline-panel\">\n" +
+    "                <div class=\"timeline-heading\">\n" +
+    "                    <h4 class=\"timeline-title\">Lorem ipsum dolor</h4>\n" +
+    "                </div>\n" +
+    "                <div class=\"timeline-body\">\n" +
+    "                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt obcaecati, quaerat tempore officia voluptas debitis consectetur culpa amet, accusamus dolorum fugiat, animi dicta aperiam, enim incidunt quisquam maxime neque eaque.</p>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </li>\n" +
+    "    </ul>\n" +
+    "</div>");
+}]);
+
+angular.module("shared/templates/fieldset.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/fieldset.html",
+    "<fieldset ng-disabled=\"form.readonly\" class=\"schema-form-fieldset {{form.htmlClass}}\">\n" +
+    "    <legend ng-class=\"{'sr-only': !showTitle() }\">\n" +
+    "        <span ng-click=\"isCollapsed = !isCollapsed\">{{ form.title }}</span>\n" +
+    "    </legend>\n" +
+    "    <div collapse=\"isCollapsed\" name=\"{{form.title}}\">\n" +
+    "        <div class=\"help-block\" ng-show=\"form.description\" ng-bind-html=\"form.description\"></div>\n" +
+    "        <sf-decorator class=\"col-md-4\" ng-repeat=\"item in form.items\" ng-if=\"item.name!='idx'\" form=\"item\"></sf-decorator>\n" +
+    "    </div>\n" +
+    "</fieldset>\n" +
+    "");
+}]);
+
+angular.module("shared/templates/listnodeModalContent.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/listnodeModalContent.html",
+    "<div class=\"modal-body\">\n" +
+    "    <form name=\"listnodeform\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"></form>\n" +
+    "</div>\n" +
+    "<div class=\"modal-footer\">\n" +
+    "    <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"onSubmit(listnodeform)\">OK</button>\n" +
+    "    <button type=\"button\" class=\"btn btn-warning\" ng-click=\"cancel()\">Cancel</button>\n" +
+    "</div>");
+}]);
+
+angular.module("shared/templates/modalContent.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/modalContent.html",
+    "");
 }]);
