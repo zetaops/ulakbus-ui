@@ -94,6 +94,8 @@ var app = angular.module(
         }
     });
 
+// buildbot mailnotifier change on master mail test comment (will be deleted)
+
 /**
  * listnode add directive
  */
