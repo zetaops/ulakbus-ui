@@ -1,194 +1,120 @@
-/*/!**/
-/** Base structure*/
-/**!/*/
-
-/*/!* Move down content because we have a fixed navbar that is 50px tall *!/*/
-/*body {*/
-/*padding-top: 50px;*/
-/*}*/
-
-/*/!**/
-/** Global add-ons*/
-/**!/*/
-
-/*.sub-header {*/
-/*padding-bottom: 10px;*/
-/*border-bottom: 1px solid #eee;*/
-/*}*/
-
-/*/!**/
-/** Top navigation*/
-/** Hide default border to remove 1px line.*/
-/**!/*/
-/*.navbar-fixed-top {*/
-/*border: 0;*/
-/*}*/
-
-/*/!**/
-/** Sidebar*/
-/**!/*/
-
-/*/!* Hide for mobile, show later *!/*/
-/*.sidebar {*/
-/*display: none;*/
-/*}*/
-/*@media (min-width: 768px) {*/
-/*.sidebar {*/
-/*position: fixed;*/
-/*top: 51px;*/
-/*bottom: 0;*/
-/*left: 0;*/
-/*z-index: 1000;*/
-/*display: block;*/
-/*padding: 20px;*/
-/*overflow-x: hidden;*/
-/*overflow-y: auto; /!* Scrollable contents if viewport is shorter than content. *!/*/
-/*background-color: #f5f5f5;*/
-/*border-right: 1px solid #eee;*/
-/*}*/
-/*}*/
-
-/*/!* Sidebar navigation *!/*/
-/*.nav-sidebar {*/
-/*margin-right: -21px; /!* 20px padding + 1px border *!/*/
-/*margin-bottom: 20px;*/
-/*margin-left: -20px;*/
-/*}*/
-/*.nav-sidebar > li > a {*/
-/*padding-right: 20px;*/
-/*padding-left: 20px;*/
-/*}*/
-/*.nav-sidebar > .active > a,*/
-/*.nav-sidebar > .active > a:hover,*/
-/*.nav-sidebar > .active > a:focus {*/
-/*color: #fff;*/
-/*background-color: #428bca;*/
-/*}*/
-
-/*/!**/
-/** Main content*/
-/**!/*/
-
-/*.main {*/
-/*padding: 20px;*/
-/*}*/
-/*@media (min-width: 768px) {*/
-/*.main {*/
-/*padding-right: 40px;*/
-/*padding-left: 40px;*/
-/*}*/
-/*}*/
-/*.main .page-header {*/
-/*margin-top: 0;*/
-/*}*/
-
-/*/!**/
-/** Placeholder dashboard ideas*/
-/**!/*/
-
-/*.placeholders {*/
-/*margin-bottom: 30px;*/
-/*text-align: center;*/
-/*}*/
-/*.placeholders h4 {*/
-/*margin-bottom: 0;*/
-/*}*/
-/*.placeholder {*/
-/*margin-bottom: 20px;*/
-/*}*/
-/*.placeholder img {*/
-/*display: inline-block;*/
-/*border-radius: 50%;*/
-/*}*/
-
 /* Space out content a bit */
 body {
-    padding-bottom: 20px;
+	font-family:'robotoregular';
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
 .footer {
-    padding-left: 15px;
-    padding-right: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 /* Custom page header */
 .header {
-    border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
 }
-
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
 }
 
 /* Custom page footer */
 .footer {
-    padding-top: 19px;
-    color: #777;
-    border-top: 1px solid #e5e5e5;
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
 }
+
+nav.navbar {
+	background-color: #A61229;
+	border-color: #941A1A;	
+}
+
+a.navbar-brand img {
+	height:40px;
+	margin-top:-9px;	
+}
+
+
+
 
 /* Customize container */
 @media (min-width: 768px) {
-    .container {
-        max-width: 730px;
-    }
+  .container {
+    max-width: 730px;
+  }
 }
-
 .container-narrow > hr {
-    margin: 30px 0;
+  margin: 30px 0;
 }
 
 /* Main marketing message and sign up button */
 .jumbotron {
-    text-align: center;
-    border-bottom: 1px solid #e5e5e5;
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
 }
-
 .jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+  font-size: 21px;
+  padding: 14px 24px;
 }
 
 /* Supporting marketing content */
 .marketing {
-    margin: 40px 0;
+  margin: 40px 0;
 }
-
 .marketing p + h4 {
-    margin-top: 28px;
+  margin-top: 28px;
 }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-    /* Remove the padding we set earlier */
-    .header,
-    .marketing,
-    .footer {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    /* Space out the masthead */
-    .header {
-        margin-bottom: 30px;
-    }
-
-    /* Remove the bottom border on the jumbotron for visual effect */
-    .jumbotron {
-        border-bottom: 0;
-    }
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
 }
 
-.nav > li.active > a {
-    text-decoration: none;
-    background-color: #eee;
+.nav>li>a {
+	color: #b8c7ce;
+	border-left: 3px solid transparent;
+	padding:15px;
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}
+
+.nav>li>a:visited {
+	background-color: #222d32;
+}
+
+.nav>li.active>a {
+	text-decoration: none;
+	background-color: #1e282c;
+	color:#fff;
+	border-color:#A61229;
+}
+
+.nav>li>a:hover {
+	background-color: #1e282c;
+	color:#fff;
 }
 
 /*!
@@ -198,7 +124,7 @@ body {
  */
 
 body {
-    background-color: #f8f8f8;
+    background-color: #222d32;
 }
 
 #wrapper {
@@ -211,12 +137,13 @@ body {
     background-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media(min-width:768px) {
     #page-wrapper {
         position: inherit;
         margin: 0 0 0 250px;
         padding: 0 30px;
         border-left: 1px solid #e7e7e7;
+		background-color:#fcfcfc;
     }
 }
 
@@ -235,6 +162,29 @@ body {
 .navbar-top-links li a {
     padding: 15px;
     min-height: 50px;
+	color:#fff;
+	cursor:pointer;
+}
+
+.navbar-top-links li>a:hover,
+.navbar-top-links .open>a,
+.navbar-top-links .open>a:hover,
+.navbar-top-links .open>a:active,
+.navbar-top-links .open>a:focus {
+	background-color:#9A1026;
+}
+
+.navbar-top-links .dropdown-menu li.divider {
+	margin:0;
+}
+
+.navbar-top-links .dropdown-menu li a:hover {
+	background-color:#fcfcfc;
+}
+
+.navbar-top-links .open>a,
+.navbar-top-links .open>a:hover {
+	border-color:#9A1026;
 }
 
 .navbar-top-links .dropdown-menu li {
@@ -246,8 +196,9 @@ body {
 }
 
 .navbar-top-links .dropdown-menu li a {
-    padding: 3px 20px;
+    padding: 10px 20px;
     min-height: 0;
+	color:#444;
 }
 
 .navbar-top-links .dropdown-menu li a div {
@@ -278,6 +229,10 @@ body {
     left: auto;
 }
 
+.sidebar {
+	background-color:#222d32;	
+}
+
 .sidebar .sidebar-nav.navbar-collapse {
     padding-right: 0;
     padding-left: 0;
@@ -288,7 +243,6 @@ body {
 }
 
 .sidebar ul li {
-    border-bottom: 1px solid #e7e7e7;
 }
 
 .sidebar ul li a.active {
@@ -303,13 +257,13 @@ body {
     content: "\f104";
 }
 
-.sidebar .active > a > .fa.arrow:before {
+.sidebar .active>a>.fa.arrow:before {
     content: "\f107";
 }
 
 .sidebar .nav-second-level li,
 .sidebar .nav-third-level li {
-    border-bottom: 0 !important;
+    border-bottom: 0!important;
 }
 
 .sidebar .nav-second-level li a {
@@ -320,7 +274,7 @@ body {
     padding-left: 52px;
 }
 
-@media (min-width: 768px) {
+@media(min-width:768px) {
     .sidebar {
         z-index: 1;
         position: absolute;
@@ -446,7 +400,7 @@ table.dataTable thead .sorting:after {
     content: "\f0dc";
     float: right;
     font-family: fontawesome;
-    color: rgba(50, 50, 50, .5);
+    color: rgba(50,50,50,.5);
 }
 
 .btn-circle {
@@ -481,7 +435,7 @@ table.dataTable thead .sorting:after {
     padding-top: 10px;
     padding-bottom: 10px;
     border: 1px solid #ddd;
-    background-color: #eee !important;
+    background-color: #eee!important;
 }
 
 .show-grid {
