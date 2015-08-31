@@ -13,7 +13,7 @@ auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cook
     var loginService = {};
 
     loginService.login = function (url, credentials) {
-        credentials = {login_crd: credentials, cmd: "do"};
+        credentials['cmd'] = "do";
         return $http
             .post(RESTURL.url + url, credentials)
             .success(function (data, status, headers, config) {
