@@ -32,23 +32,27 @@ body {
 
 nav.navbar {
 	background-color: #A61229;
-	border-color: #941A1A;	
+	border-color: #941A1A;
+	min-height:65px;
 }
 
 a.navbar-brand img {
-	height:40px;
-	margin-top:-9px;	
+	height:45px;
+	margin-top:-6px;	
 }
 
-
-
-
-/* Customize container */
-@media (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
+.navbar-default .navbar-toggle .icon-bar {
+	background-color:#fff;	
 }
+
+.navbar-default .navbar-toggle:hover {
+	background-color:#9a1026;	
+}
+
+.navbar-default .navbar-toggle:focus {
+	background-color:#A61229;	
+}
+
 .container-narrow > hr {
   margin: 30px 0;
 }
@@ -69,25 +73,6 @@ a.navbar-brand img {
 }
 .marketing p + h4 {
   margin-top: 28px;
-}
-
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
 }
 
 .nav>li>a {
@@ -137,16 +122,6 @@ body {
     background-color: #fff;
 }
 
-@media(min-width:768px) {
-    #page-wrapper {
-        position: inherit;
-        margin: 0 0 0 250px;
-        padding: 0 30px;
-        border-left: 1px solid #e7e7e7;
-		background-color:#fcfcfc;
-    }
-}
-
 .navbar-top-links {
     margin-right: 0;
 }
@@ -160,8 +135,8 @@ body {
 }
 
 .navbar-top-links li a {
-    padding: 15px;
-    min-height: 50px;
+    padding: 22px 20px;
+    min-height: 65px;
 	color:#fff;
 	cursor:pointer;
 }
@@ -272,21 +247,6 @@ body {
 
 .sidebar .nav-third-level li a {
     padding-left: 52px;
-}
-
-@media(min-width:768px) {
-    .sidebar {
-        z-index: 1;
-        position: absolute;
-        width: 250px;
-        margin-top: 51px;
-    }
-
-    .navbar-top-links .dropdown-messages,
-    .navbar-top-links .dropdown-tasks,
-    .navbar-top-links .dropdown-alerts {
-        margin-left: auto;
-    }
 }
 
 .btn-outline {
@@ -643,6 +603,49 @@ table.dataTable thead .sorting:after {
 
 .timeline-body > p + p {
     margin-top: 5px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+  .sidebar {
+        z-index: 1;
+        position: absolute;
+        width: 250px;
+        margin-top: 65px;
+    }
+
+    .navbar-top-links .dropdown-messages,
+    .navbar-top-links .dropdown-tasks,
+    .navbar-top-links .dropdown-alerts {
+        margin-left: auto;
+    }
+	
+	#page-wrapper {
+        position: inherit;
+        margin: 0 0 0 250px;
+        padding: 0 30px;
+        border-left: 1px solid #e7e7e7;
+		background-color:#fcfcfc;
+    }
+	
+	.container {
+		max-width: 730px;
+	}
 }
 
 @media (max-width: 767px) {
