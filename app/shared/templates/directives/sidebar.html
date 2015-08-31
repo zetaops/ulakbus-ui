@@ -5,11 +5,6 @@
             <li ui-sref-active="active" class="active">
                 <a ui-sref="dashboard.home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
-            <!--<li ui-sref-active="active"><a href="#/staffs" translate>Staffs</a></li>-->
-            <!--<li ui-sref-active="active"><a href="#/staff/add" translate>New Staff</a></li>-->
-            <!--<li ui-sref-active="active"-->
-                <!--ng-repeat="item in menuItems"><a href="#">{{ item }}</a></li>-->
-
             <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == key}">{{dropDown}}
                 <a href="" ng-click="check(key)"><i class="fa fa-wrench fa-fw"></i> {{ item }}<span
                         class="fa arrow"></span></a>
