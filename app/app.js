@@ -20,9 +20,11 @@ var app = angular.module(
         'ulakbus.auth',
         'ulakbus.staff',
         'ulakbus.student',
+        'ulakbus.crud',
+        //'ulakbus.version',
         'schemaForm',
         'gettext',
-        'templates-prod'
+        //'templates-prod'
     ]).
 /**
  * RESTURL is the url of rest api to talk

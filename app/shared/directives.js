@@ -20,7 +20,14 @@ app.directive('sidebar',['$location',function() {
         replace: true,
         scope: {
         },
-        controller:function($scope){
+        controller:function($scope, $http, RESTURL){
+            $http.post(RESTURL.url+'crud/').success(function(data){
+                //debugger;
+                $scope.menuItems = data.models;
+            });
+
+            $scope.menuItems = 'dsadkal';
+
             $scope.selectedMenu = 'dashboard';
             $scope.collapseVar = 0;
             $scope.multiCollapseVar = 0;

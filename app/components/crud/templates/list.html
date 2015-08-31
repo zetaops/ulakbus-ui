@@ -1,0 +1,19 @@
+<table class="table table-bordered table-responsive">
+    <thead>
+    <tr>
+        <!--<th>{{ objects[0].key }}</th>-->
+        <th ng-repeat="(key,value) in objects[0].data">{{ key }}</th>
+        <th>action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="object in objects">
+        <!--<td><a ng-href="#/object/{{object.id}}">{{object.name}}</a></td>-->
+        <td ng-repeat="(key,value) in object.data">{{value}}</td>
+        <td>
+            <a ng-href="#/crud/{{model}}/edit/{{object.key}}">Edit</a><br>
+            <a ng-href="#/crud/{{model}}/{{object.key}}">Show</a>
+        </td>
+    </tr>
+    </tbody>
+</table>

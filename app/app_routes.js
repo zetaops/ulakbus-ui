@@ -10,21 +10,21 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'components/dashboard/dashboard.html',
             controller: 'DashCtrl'
         })
-        .when('/student/add', {
-            templateUrl: 'components/student/student_add_template.html',
-            controller: 'StudentAddEditCtrl'
+        .when('/crud/:model/add', {
+            templateUrl: 'components/crud/templates/add.html',
+            controller: 'CRUDAddEditCtrl'
         })
-        .when('/student/edit/:id', {
-            templateUrl: 'components/student/student_add_template.html',
-            controller: 'StudentAddEditCtrl'
+        .when('/crud/:model/edit/:id', {
+            templateUrl: 'components/crud/templates/edit.html',
+            controller: 'CRUDAddEditCtrl'
         })
-        .when('/students', {
-            templateUrl: 'components/student/student_list_template.html',
-            controller: 'StudentListCtrl'
+        .when('/crud/:model', {
+            templateUrl: 'components/crud/templates/list.html',
+            controller: 'CRUDListCtrl'
         })
-        .when('/student/:id', {
-            templateUrl: 'components/student/student_list_template.html',
-            controller: 'StudentShowCtrl'
+        .when('/crud/:model/:id', {
+            templateUrl: 'components/crud/templates/show.html',
+            controller: 'CRUDShowCtrl'
         })
         .when('/staff/add', {
             templateUrl: 'components/staff/templates/add.html',
