@@ -9,7 +9,7 @@
 
 var auth = angular.module('ulakbus.auth', ['ngRoute', 'schemaForm', 'ngCookies', 'general']);
 auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, Generator, LoginService) {
-    $scope.url = 'simple_login';
+    $scope.url = 'login';
     $scope.form_params = {};
     $scope.form_params['clear_wf'] = 1;
     // todo: change simple login when api ready

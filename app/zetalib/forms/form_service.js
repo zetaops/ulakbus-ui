@@ -13,10 +13,10 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         return RESTURL.url + url;
     };
     generator.generate = function (scope, forms) {
+        if (!forms){return scope;}
         for (var key in forms)
             scope[key] = forms[key];
         scope.initialModel = angular.copy(scope.model);
-        //debugger;
         scope.form.push(
             {
                 type: "submit",
@@ -25,6 +25,11 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         );
         // if fieldset in form, make it collapsable with template
         scope.listnodeform = {};
+        angular.forEach(scope.schema.properties, function(k, v){
+            // check if type date and if type date found change it to string
+            // and give it 'format':'date' property
+            if (k.type == 'date') {k.type='string'; k.format='date'}
+        });
         if ((scope.listnode && scope.listnodes[0]) || (scope.nodes && scope.nodes[0])) {
             angular.forEach(scope.form, function (key, val) {
                 if (typeof key == "object" && key.type == "fieldset") {
@@ -51,7 +56,6 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
                         scope.listnodeform[key.title]["form"] = [angular.copy(key)];
                         scope.listnodeform[key.title]["model"] = {};
                         key.type = "list";
-                        debugger;
                         delete key.templateUrl;
                         delete key.items;
                     }
@@ -80,7 +84,6 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
             modalInstance.result.then(function (childmodel, key) {
 
                 angular.forEach(childmodel, function(v, k){
-                    debugger;
                     if (scope.model[k]){
                         scope.model[k][v.idx] = v;
                     } else {
@@ -89,7 +92,6 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
                     }
                     scope.$broadcast('schemaFormRedraw');
                 });
-                debugger;
             });
         };
         return generator.group(scope);
@@ -139,19 +141,16 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         }
     };
     generator.submit = function ($scope) {
+        data = {"form": $scope.model, "cmd": $scope.form_params.cmd, "subcmd": "do_list", "model": $scope.form_params.model};
         if ($scope.object_id) {
             var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
             var data = {
                 "object_id": $scope.object_id,
-                "form": get_diff,
-                "cmd": "do"
+                "form": get_diff
             };
         }
-        else {
-            data = {"form": $scope.model, "cmd": "do"};
-        }
         return $http
-            .post(generator.makeUrl($scope.url), data)
+            .post(generator.makeUrl($scope.url), data);
         //.then(function (res) {
         //    // todo: for now fake rest api returns 'ok' no data to
         //    // manipulate on ui. therefor used just a log

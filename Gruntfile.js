@@ -62,6 +62,10 @@ module.exports = function (grunt) {
             prod_branch: {
                 src: ['app/components/**/*.html'],
                 dest: 'dist/<%= grunt.branchname %>/templates.js'
+            },
+            dev: {
+                src: ['app/components/**/*.html', 'app/shared/templates/**/*.html'],
+                dest: 'tmp/templates.js'
             }
         },
         copy: {
@@ -175,7 +179,7 @@ module.exports = function (grunt) {
         watch: {
             dev: {
                 files: ['app/**/*.js', 'app/components/**/*.html', 'index.html'],
-                tasks: ['env:dev', 'preprocess:dev', 'karma:unit'],
+                tasks: ['env:dev', 'preprocess:dev', 'html2js:dev'],
                 options: {
                     atBegin: false
                 }
@@ -275,7 +279,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-preprocess');
     grunt.loadNpmTasks('grunt-env');
 
-    grunt.registerTask('dev', ['env:dev', 'preprocess:dev', 'connect:server', 'watch:dev']);
+    //grunt.registerTask('dev', ['env:dev', 'preprocess:dev', 'html2js:dev', 'connect:server', 'watch:dev']);
+    grunt.registerTask('dev', ['env:dev', 'preprocess:dev', 'html2js:dev', 'watch:dev']);
     grunt.registerTask('test', ['bower', 'karma:continuous']);
     grunt.registerTask('i18n', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('default', [

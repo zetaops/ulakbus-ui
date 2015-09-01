@@ -5,44 +5,24 @@
             <li ui-sref-active="active">
                 <a ui-sref="dashboard.home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
-            <li ui-sref-active="active"><a href="#/staffs" translate>Staffs</a></li>
-            <li ui-sref-active="active"><a href="#/staff/add" translate>New Staff</a></li>
-            <!--<li ui-sref-active="active">-->
+            <!--<li ui-sref-active="active"><a href="#/staffs" translate>Staffs</a></li>-->
+            <!--<li ui-sref-active="active"><a href="#/staff/add" translate>New Staff</a></li>-->
+            <!--<li ui-sref-active="active"-->
+                <!--ng-repeat="item in menuItems"><a href="#">{{ item }}</a></li>-->
 
-                <!--<a ui-sref="dashboard.chart"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span></span></a>-->
-
-            <!--</li>-->
-            <!--<li ui-sref-active="active">-->
-                <!--<a ui-sref="dashboard.table"><i class="fa fa-table fa-fw"></i> Tables</a>-->
-            <!--</li>-->
-            <!--<li ui-sref-active="active">-->
-                <!--<a ui-sref="dashboard.form"><i class="fa fa-edit fa-fw"></i> Forms</a>-->
-            <!--</li>-->
-            <!--<li ng-class="{active: collapseVar==1}">{{dropDown}}-->
-                <!--<a href="" ng-click="check(1)"><i class="fa fa-wrench fa-fw"></i> UI Elements<span-->
-                        <!--class="fa arrow"></span></a>-->
-                <!--<ul class="nav nav-second-level" collapse="collapseVar!=1">-->
-                    <!--<li ui-sref-active="active">-->
-                        <!--<a ui-sref="dashboard.panels-wells">Panels and Wells</a>-->
-                    <!--</li>-->
-                    <!--<li ui-sref-active="active">-->
-                        <!--<a ui-sref="dashboard.buttons">Buttons</a>-->
-                    <!--</li>-->
-                    <!--<li ui-sref-active="active">-->
-                        <!--<a ui-sref="dashboard.notifications">Notifications</a>-->
-                    <!--</li>-->
-                    <!--<li ui-sref-active="active">-->
-                        <!--<a ui-sref="dashboard.typography">Typography</a>-->
-                    <!--</li>-->
-                    <!--<li ui-sref-active="active">-->
-                        <!--<a ui-sref="dashboard.icons"> Icons</a>-->
-                    <!--</li>-->
-                    <!--<li ui-sref-active="active">-->
-                        <!--<a ui-sref="dashboard.grid">Grid</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
-                <!--&lt;!&ndash; /.nav-second-level &ndash;&gt;-->
-            <!--</li>-->
+            <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == key}">{{dropDown}}
+                <a href="" ng-click="check(key)"><i class="fa fa-wrench fa-fw"></i> {{ item }}<span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!={{key}}">
+                    <li ui-sref-active="active">
+                        <a href="#/crud/{{item}}">List</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a href="#/crud/{{item}}/add">Add</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
             <!--<li ng-class="{active: collapseVar==2}">-->
                 <!--<a href="" ng-click="check(2)"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span-->
                         <!--class="fa arrow"></span></a>-->
@@ -91,7 +71,4 @@
         </ul>
     </div>
     <!-- /.sidebar-collapse -->
-</div> 
-
-
-
+</div>
