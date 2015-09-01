@@ -16,6 +16,7 @@
     <!--<link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css">-->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="app.css">
+    <link href="styles/roboto/roboto.css" rel="stylesheet">
     <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.min.css">
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" type="text/css">
@@ -25,39 +26,37 @@
 </head>
 <body>
 
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <div class="navbar-header">
-
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="index.html">ULAKBUS</a>
-    </div>
-    <!-- /.navbar-header -->
-    <header-notification></header-notification>
-    <sidebar></sidebar>
-</nav>
-
-
-<div class="container-fluid">
-    <div class="row">
-
-
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"
-             ng-view>
-
-
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+    
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html"><img src="img/ulakbus-logo.png" /></a>
         </div>
-
-        <hr>
-
-        <div>UlakbusUI app: v<span app-version></span></div>
+        <!-- /.navbar-header -->
+        <header-notification></header-notification>
+        <sidebar></sidebar>
+    </nav>
+    
+    
+    <div id="page-wrapper">
+    	<div class="col-md-12">
+            <div class="row">
+                <div class="main" ng-view>
+                </div>
+                <hr>
+            </div>
+        </div>
     </div>
-</div>
+
+
 <script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 
 <script src="bower_components/angular-route/angular-route.min.js"></script>
