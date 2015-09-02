@@ -52,14 +52,14 @@ app.config(['$routeProvider', function ($routeProvider) {
 
     $rootScope.loggedInUser ? $rootScope.loggedInUser : false;
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
-        if ($rootScope.loggedInUser == null) {
-            // no logged user, redirect to /login
-            if (next.templateUrl === "login/login.html") {
-
-            } else {
-                $location.path("/login");
-            }
-        }
+        //if ($rootScope.loggedInUser == null) {
+        //    // no logged user, redirect to /login
+        //    if (next.templateUrl === "login/login.html") {
+        //
+        //    } else {
+        //        $location.path("/login");
+        //    }
+        //}
     });
 }).config(['$httpProvider', function($httpProvider) {
     // to send cookies CORS

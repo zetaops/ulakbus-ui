@@ -25,11 +25,46 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         );
         // if fieldset in form, make it collapsable with template
         scope.listnodeform = {};
+
         angular.forEach(scope.schema.properties, function(k, v){
-            // check if type date and if type date found change it to string
+            // check if type is date and if type date found change it to string
             // and give it 'format':'date' property
             if (k.type == 'date') {k.type='string'; k.format='date'}
+
+            // if type is model use foreignKey.html template to show them
+            // TODO: treat models as foreign keys
+            if (k.type == 'model') {
+                var formitem = scope.form[scope.form.indexOf(v)];
+                formitem = {
+                    "type": "template",
+                    "templateUrl": "shared/templates/foreignKey.html",
+                    "title": k.model_name,
+
+                };
+                k.title = k.model_name;
+                var modelscope = scope;
+                modelscope.form_params = {model: k.model_name};
+
+                // get model objects from db and add to select list
+                generator.get_list(modelscope).then(function(res){
+                    formitem.titleMap = [];
+                    angular.forEach(res.data.objects, function(item){
+                        console.log(item);
+                        formitem.titleMap.push({
+                            "value": item.key,
+                            "name": item.data.name ? item.data.name : item.data.username
+                        });
+
+                    });
+
+                });
+                scope.form[scope.form.indexOf(v)] = formitem;
+                debugger;
+
+            }
         });
+
+        // catch node and listnode and edit their schema and form props
         if ((scope.listnode && scope.listnodes[0]) || (scope.nodes && scope.nodes[0])) {
             angular.forEach(scope.form, function (key, val) {
                 if (typeof key == "object" && key.type == "fieldset") {
@@ -99,6 +134,14 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
     generator.group = function (formObject) {
         return formObject;
     };
+    generator.dateformatter = function(formObject){
+        //angular.forEach(formObject.objects, function(k, v) {
+            // check if date string and convert to date object
+            // todo: catch date object and convert
+            //debugger;
+        //});
+        return formObject;
+    };
     generator.get_form = function (scope) {
         return $http
             .post(generator.makeUrl(scope.url), scope.form_params)
@@ -111,6 +154,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         return $http
             .post(generator.makeUrl(scope.url), scope.form_params)
             .then(function (res) {
+                generator.dateformatter(res);
                 return res;
                 // todo: cover all other exceptions (4xx, 5xx)
             });
@@ -119,6 +163,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         return $http
             .post(generator.makeUrl(scope.url), scope.form_params)
             .then(function (res) {
+                generator.dateformatter(res);
                 return res;
                 // todo: cover all other exceptions (4xx, 5xx)
             });
@@ -141,7 +186,13 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         }
     };
     generator.submit = function ($scope) {
-        data = {"form": $scope.model, "cmd": $scope.form_params.cmd, "subcmd": "do_list", "model": $scope.form_params.model};
+        data = {
+            "form": $scope.model,
+            "cmd": $scope.form_params.cmd,
+            "subcmd": "do_list",
+            "model": $scope.form_params.model,
+            "token": $scope.token
+        };
         if ($scope.object_id) {
             var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
             var data = {

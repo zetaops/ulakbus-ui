@@ -46,9 +46,6 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
     };
 });
 
-// todo: for single point of failure code a "get item" service and use it to
-// retrieve list and single item
-
 /**
  * CRUD List Controller
  */
