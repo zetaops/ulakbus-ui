@@ -39,18 +39,30 @@
         </div>
         <!-- /.navbar-header -->
         <header-notification></header-notification>
-        <sidebar></sidebar>
     </nav>
     
+    <sidebar></sidebar>   
     
-    <div id="page-wrapper">
-    	<div class="col-md-12">
+    <div class="manager-view">
+    	<div class="manager-view-inner">
+    	<!-- manager-header -->
+		<div class="manager-view-header container-fluid">
+        	<ul class="breadcrumb">
+                <li><a href="#">Personeller</a></li>
+                <li><a href="#">Liste</a></li>
+                <li class="active">Tablo</li>
+            </ul>
+            <button type="button" class="btn btn-primary">Kaydet</button>
+        </div>
+        <!-- end of manager-header -->
+        <div class="manager-view-content container-fluid">
             <div class="row">
                 <div class="main" ng-view>
                 </div>
                 <hr>
             </div>
-        </div>
+         </div>
+         </div>
     </div>
 
 
