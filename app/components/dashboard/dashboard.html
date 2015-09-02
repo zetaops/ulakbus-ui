@@ -1,11 +1,15 @@
 <div ng-app="ulakbus.dashboard">
     <div class="starter-template">
-        <h1>Main Dashboard2</h1>
-        <!-- {{ testData }} -->
+        <!-- table view -->
          <table class="table table-bordered" style="background-color:#fff;">
           <thead>
             <tr>
-              <th colspan="2">#</th>
+              <th colspan="2">
+              	<label>
+                	<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
+                    Hepsini Seç
+              	</label>
+              </th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Username</th>
@@ -80,5 +84,37 @@
             </tr>
           </tbody>
         </table>
+        <!-- end of table view -->
+        
+       <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            İşlemler <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="">İşlem 1</a></li>
+            <li><a href="">İşlem 2</a></li>
+            <li><a href="">İşlem 3</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="">İşlem 4</a></li>
+          </ul>
+        </div>
+        
+        
+        <hr>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     </div>
 </div>
