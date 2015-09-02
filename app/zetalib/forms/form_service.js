@@ -29,12 +29,16 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         angular.forEach(scope.schema.properties, function(k, v){
             // check if type is date and if type date found change it to string
             // and give it 'format':'date' property
+
             if (k.type == 'date') {k.type='string'; k.format='date'}
+            if (k.type == 'int') {k.type='number'}
 
             // if type is model use foreignKey.html template to show them
-            // TODO: treat models as foreign keys
+
             if (k.type == 'model') {
+
                 var formitem = scope.form[scope.form.indexOf(v)];
+
                 formitem = {
                     "type": "template",
                     "templateUrl": "shared/templates/foreignKey.html",
@@ -42,14 +46,12 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
 
                 };
                 k.title = k.model_name;
-                var modelscope = scope;
-                modelscope.form_params = {model: k.model_name};
+                var modelscope = {"url": scope.url, "form_params": {model: k.model_name}};
 
                 // get model objects from db and add to select list
                 generator.get_list(modelscope).then(function(res){
                     formitem.titleMap = [];
                     angular.forEach(res.data.objects, function(item){
-                        console.log(item);
                         formitem.titleMap.push({
                             "value": item.key,
                             "name": item.data.name ? item.data.name : item.data.username
@@ -59,8 +61,6 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
 
                 });
                 scope.form[scope.form.indexOf(v)] = formitem;
-                debugger;
-
             }
         });
 
@@ -186,6 +186,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         }
     };
     generator.submit = function ($scope) {
+        debugger;
         data = {
             "form": $scope.model,
             "cmd": $scope.form_params.cmd,
@@ -200,13 +201,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
                 "form": get_diff
             };
         }
-        return $http
-            .post(generator.makeUrl($scope.url), data);
-        //.then(function (res) {
-        //    // todo: for now fake rest api returns 'ok' no data to
-        //    // manipulate on ui. therefor used just a log
-        //    $log.info(res);
-        //});
+        return $http.post(generator.makeUrl($scope.url), data);
     };
     return generator;
 });
@@ -224,6 +219,19 @@ form_generator.controller('ListNodeModalCtrl', function ($scope, $modalInstance,
     $scope.onSubmit = function(form){
         // send form to modalinstance result function
         $modalInstance.close($scope.model, $scope.form.title);
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
+
+form_generator.controller('LinkedModelModalCtrl', function ($scope, $modalInstance, items) {
+    angular.forEach(["model", "schema", "form"], function(key){
+        $scope[key] = items[key];
+    });
+    $scope.onSubmit = function(){
+        // send form to modalinstance result function
+        $modalInstance.close($scope);
     };
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
@@ -254,3 +262,46 @@ form_generator.controller('ListNodeModalCtrl', function ($scope, $modalInstance,
 //        }
 //    }
 //}]);
+
+/**
+ * modal directive for linked models
+ */
+
+form_generator.directive('addModal', function ($modal, Generator) {
+    return {
+        link: function (scope, element) {
+            element .on('click', function () {
+                var modalInstance = $modal.open({
+                    animation: false,
+                    templateUrl: 'shared/templates/linkedModelModalContent.html',
+                    controller: 'LinkedModelModalCtrl',
+                    size: 'lg',
+                    resolve: {
+                        items: function () {
+                            debugger;
+                            scope.url = 'crud';
+                            scope.form_params = {'model': scope.form.title, "cmd": "add"};
+                            return Generator.get_form(scope);
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (childmodel, key) {
+                    debugger;
+                    Generator.submit(scope);
+                    //angular.forEach(childmodel, function(v, k){
+                    //    if ($scope.model[k]){
+                    //        $scope.model[k][v.idx] = v;
+                    //    } else {
+                    //        $scope.model[k] = {};
+                    //        $scope.model[k][v.idx] = v;
+                    //    }
+                        //scope.$broadcast('schemaFormRedraw');
+                    //});
+                });
+                //$scope.$broadcast('schemaFormRedraw');
+                //$scope.$apply();
+            });
+        }
+    }
+});
