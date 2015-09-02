@@ -1,6 +1,23 @@
 /* Space out content a bit */
 body {
 	font-family:'robotoregular';
+	background-color: #222d32;
+	overflow:hidden;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+    outline: none;
+}
+
+.breadcrumb {
+	background-color:transparent;
+	padding:0;
+	font-size:18px;	
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -76,7 +93,7 @@ a.navbar-brand img {
 }
 
 .nav>li>a {
-	color: #b8c7ce;
+	color: #696969;
 	border-left: 3px solid transparent;
 	padding:15px;
 	-webkit-transition: all .2s;
@@ -87,19 +104,18 @@ a.navbar-brand img {
 }
 
 .nav>li>a:visited {
-	background-color: #222d32;
+	background-color: #f0eeee;
 }
 
 .nav>li.active>a {
 	text-decoration: none;
-	background-color: #1e282c;
-	color:#fff;
+	background-color: #E0E0E8;
+    color: #2B2B2B;
 	border-color:#A61229;
 }
 
 .nav>li>a:hover {
-	background-color: #1e282c;
-	color:#fff;
+	background-color:#E0E0E8;
 }
 
 /*!
@@ -107,19 +123,41 @@ a.navbar-brand img {
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
-
-body {
-    background-color: #222d32;
+ 
+select {
+	padding: 5px 10px;
+    border-color: #dcdcdc;
+    outline: none;	
 }
 
 #wrapper {
     width: 100%;
 }
 
-#page-wrapper {
-    padding: 0 15px;
-    min-height: 568px;
+.manager-view {
+	height:100%;
     background-color: #fff;
+    width: calc(100% - 250px);
+    -webkit-width: calc(100% - 250px);
+    position: absolute;
+    right: 0;
+	background-color:#fcfcfc;
+}
+
+.manager-view-inner {
+	height:100%;	
+}
+
+.manager-view-header {
+	width:100%;
+	padding:10px 15px;
+	background-color:#f0eeee;
+	border-bottom:1px solid #ccc;
+}
+
+.manager-view-content {
+	padding:35px 50px;
+	overflow:auto;	
 }
 
 .navbar-top-links {
@@ -205,7 +243,8 @@ body {
 }
 
 .sidebar {
-	background-color:#222d32;	
+	background-color:#f0eeee;
+	border-right: 1px solid #ccc;
 }
 
 .sidebar .sidebar-nav.navbar-collapse {
@@ -623,10 +662,10 @@ table.dataTable thead .sorting:after {
     border-bottom: 0;
   }
   .sidebar {
-        z-index: 1;
-        position: absolute;
-        width: 250px;
-        margin-top: 65px;
+  		z-index: 1;
+		position: absolute;
+		width: 250px;
+		height: 100%;
     }
 
     .navbar-top-links .dropdown-messages,
@@ -635,20 +674,19 @@ table.dataTable thead .sorting:after {
         margin-left: auto;
     }
 	
-	#page-wrapper {
-        position: inherit;
-        margin: 0 0 0 250px;
-        padding: 0 30px;
-        border-left: 1px solid #e7e7e7;
-		background-color:#fcfcfc;
-    }
-	
 	.container {
 		max-width: 730px;
+	}
+	
+	.manager-view {
+		height:100%;	
 	}
 }
 
 @media (max-width: 767px) {
+	.manager-view {
+		width:100%;
+	}
     ul.timeline:before {
         left: 40px;
     }
