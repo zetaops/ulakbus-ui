@@ -1,6 +1,46 @@
 /* Space out content a bit */
 body {
 	font-family:'robotoregular';
+	background-color: #222d32;
+	overflow:hidden;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+    outline: none;
+}
+
+a {
+	color:#a61229;	
+}
+
+a:hover {
+	color:#941A1A;	
+}
+
+.breadcrumb {
+	background-color:transparent;
+	padding:0;
+	font-size:18px;	
+}
+
+.brand {
+	border-bottom:1px solid #ccc;	
+}
+
+.logo {
+		
+}
+
+.logo img {
+	width: 80%;
+    margin-left: 8%;
+    margin-top: 23px;
+    margin-bottom: 23px;	
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -33,7 +73,7 @@ body {
 nav.navbar {
 	background-color: #A61229;
 	border-color: #941A1A;
-	min-height:65px;
+	min-height:30px;
 }
 
 a.navbar-brand img {
@@ -75,10 +115,31 @@ a.navbar-brand img {
   margin-top: 28px;
 }
 
+ul.header-menu {
+	float:left;
+	padding-left:23px;
+}
+
+ul.header-menu li {
+	list-style:none;
+	float:left;
+	margin-right:15px;
+	margin-top:10px;
+}
+
+ul.header-menu li a{
+	color:#fff;
+	text-decoration:none;
+	opacity:0.9;
+}
+
+ul.header-menu li a:hover{
+	opacity:1;
+}
+
 .nav>li>a {
-	color: #b8c7ce;
-	border-left: 3px solid transparent;
-	padding:15px;
+	color: #696969;
+	border-left:3px solid transparent;
 	-webkit-transition: all .2s;
     -moz-transition: all .2s;
     -ms-transition: all .2s;
@@ -86,20 +147,30 @@ a.navbar-brand img {
     transition: all .2s;
 }
 
+.sidebar .nav>li ul {
+	border-bottom: 3px solid #E4E4E4;
+    border-left: 3px solid #A61229;	
+}
+
+.sidebar .nav>li ul>li a {
+	font-family:'robotoregular';
+	background-color:#f5f5f5;	
+}
+
 .nav>li>a:visited {
-	background-color: #222d32;
 }
 
 .nav>li.active>a {
 	text-decoration: none;
-	background-color: #1e282c;
-	color:#fff;
+	background-color: #f5f5f5;
+    color: #565656;
 	border-color:#A61229;
 }
 
+.nav>li.active>a:hover,
+.sidebar .nav>li ul>li a:hover,
 .nav>li>a:hover {
-	background-color: #1e282c;
-	color:#fff;
+	background-color:#f9f9f9;
 }
 
 /*!
@@ -108,18 +179,51 @@ a.navbar-brand img {
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-body {
-    background-color: #222d32;
+select {
+	padding: 5px 10px;
+    border-color: #dcdcdc;
+    outline: none;	
 }
 
 #wrapper {
     width: 100%;
 }
 
-#page-wrapper {
-    padding: 0 15px;
-    min-height: 568px;
-    background-color: #fff;
+.manager-view {
+	height:100%;
+    width: calc(100% - 250px);
+    -webkit-width: calc(100% - 250px);
+    position: absolute;
+    right: 0;
+	background-color:#f5f5f5;
+}
+
+.manager-view-inner {
+	height:calc(100% - 41px);
+	-webkit-height:calc(100% - 41px);
+	width:100%;
+	display: -webkit-flex;
+    display: flex;
+	-webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+.manager-view-header {
+	width:100%;
+	padding:10px 15px;
+	background-color:#fff;
+	border-bottom:1px solid #ccc;
+	-webkit-flex-shrink: 0;
+    flex-shrink: 0;
+	position:relative;
+	z-index:1;
+}
+
+.manager-view-content {
+	padding:35px 50px;
+	overflow:auto;
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
 }
 
 .navbar-top-links {
@@ -135,8 +239,6 @@ body {
 }
 
 .navbar-top-links li a {
-    padding: 22px 20px;
-    min-height: 65px;
 	color:#fff;
 	cursor:pointer;
 }
@@ -205,7 +307,9 @@ body {
 }
 
 .sidebar {
-	background-color:#222d32;	
+	background-color:#fff;
+	border-right: 1px solid #ccc;
+	overflow:auto;
 }
 
 .sidebar .sidebar-nav.navbar-collapse {
@@ -218,6 +322,9 @@ body {
 }
 
 .sidebar ul li {
+	font-family: 'robotomedium';
+    letter-spacing: 0.2px;
+	border-bottom: 1px solid #DCDCDC;
 }
 
 .sidebar ul li a.active {
@@ -623,10 +730,13 @@ table.dataTable thead .sorting:after {
     border-bottom: 0;
   }
   .sidebar {
-        z-index: 1;
-        position: absolute;
-        width: 250px;
-        margin-top: 65px;
+  		z-index: 1;
+		position: absolute;
+		width: 250px;
+		height: 100%;
+		-webkit-box-shadow: 0 0 25px rgba(0,0,0,0.1);
+    	-moz-box-shadow: 0 0 25px rgba(0,0,0,0.1);
+    	box-shadow: 0 0 25px rgba(0,0,0,0.1);
     }
 
     .navbar-top-links .dropdown-messages,
@@ -634,21 +744,20 @@ table.dataTable thead .sorting:after {
     .navbar-top-links .dropdown-alerts {
         margin-left: auto;
     }
-	
-	#page-wrapper {
-        position: inherit;
-        margin: 0 0 0 250px;
-        padding: 0 30px;
-        border-left: 1px solid #e7e7e7;
-		background-color:#fcfcfc;
-    }
-	
+
 	.container {
 		max-width: 730px;
+	}
+	
+	.manager-view {
+		height:100%;	
 	}
 }
 
 @media (max-width: 767px) {
+	.manager-view {
+		width:100%;
+	}
     ul.timeline:before {
         left: 40px;
     }

@@ -31,89 +31,106 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <ul class="header-menu">
+        <li><a href="">Mesajlar</a></li>
+        <li><a href="">Görevler</a></li>
+        <li><a href="">Raporlar</a></li>
+        <li><a href="">Ayarlar</a></li>
+    </ul>
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><img src="img/ulakbus-logo.png"/></a>
+    </div>
+    <!-- /.navbar-header -->
+    <header-notification></header-notification>
+</nav>
 
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html"><img src="img/ulakbus-logo.png"/></a>
+<sidebar></sidebar>
+
+<div class="manager-view">
+    <div class="manager-view-inner">
+        <!-- manager-header -->
+        <div class="manager-view-header container-fluid">
+            <ul class="breadcrumb">
+                <li><a href="#">Personeller</a></li>
+                <li><a href="#">Liste</a></li>
+                <li class="active">Tablo</li>
+            </ul>
+            <button type="button" class="btn btn-primary">Kaydet</button>
         </div>
-        <!-- /.navbar-header -->
-        <header-notification></header-notification>
-        <sidebar></sidebar>
-    </nav>
-
-
-    <div id="page-wrapper">
-        <div class="col-md-12">
+        <!-- end of manager-header -->
+        <div class="manager-view-content">
             <div class="row">
                 <div class="main" ng-view>
                 </div>
-                <hr>
+
             </div>
         </div>
     </div>
+</div>
 
-    <!-- @if NODE_ENV == 'DEVELOPMENT' -->
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- @if NODE_ENV == 'DEVELOPMENT' -->
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
 
-    <script src="bower_components/angular-route/angular-route.min.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="bower_components/angular-route/angular-route.min.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+<script src="bower_components/angular-resource/angular-resource.min.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
-    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-    <script src="bower_components/tv4/tv4.js"></script>
-    <script src="bower_components/objectpath/lib/ObjectPath.js"></script>
-    <script src="bower_components/objectpath/lib/ObjectPath.js"></script>
-    <script src="bower_components/angular-schema-form/dist/schema-form.min.js"></script>
-    <script src="bower_components/angular-schema-form/dist/bootstrap-decorator.min.js"></script>
-    <!--<script src="bower_components/angular-schema-form-datepicker/bootstrap-datepicker.min.js"></script>-->
-    <script src="bower_components/angular-gettext/dist/angular-gettext.min.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+<script src="bower_components/tv4/tv4.js"></script>
+<script src="bower_components/objectpath/lib/ObjectPath.js"></script>
+<script src="bower_components/objectpath/lib/ObjectPath.js"></script>
+<script src="bower_components/angular-schema-form/dist/schema-form.min.js"></script>
+<script src="bower_components/angular-schema-form/dist/bootstrap-decorator.min.js"></script>
+<!--<script src="bower_components/angular-schema-form-datepicker/bootstrap-datepicker.min.js"></script>-->
+<script src="bower_components/angular-gettext/dist/angular-gettext.min.js"></script>
 
 
-    <!-- TODO: check all js and remove unused -->
-    <script src="bower_components/json3/lib/json3.min.js"></script>
-    <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
-    <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
-    <script src="bower_components/Chart.js/Chart.min.js"></script>
+<!-- TODO: check all js and remove unused -->
+<script src="bower_components/json3/lib/json3.min.js"></script>
+<script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+<script src="bower_components/Chart.js/Chart.min.js"></script>
 
-    <script src="shared/translations.js"></script>
-    <script src="tmp/templates.js"></script>
+<script src="shared/translations.js"></script>
+<script src="tmp/templates.js"></script>
 
-    <script src="app.js"></script>
-    <script src="app_routes.js"></script>
-    <script src="shared/scripts/theme.js"></script>
-    <script src="shared/directives.js"></script>
-    <script src="zetalib/interceptors.js"></script>
-    <script src="zetalib/general.js"></script>
-    <script src="zetalib/forms/form_service.js"></script>
+<script src="app.js"></script>
+<script src="app_routes.js"></script>
+<script src="shared/scripts/theme.js"></script>
+<script src="shared/directives.js"></script>
+<script src="zetalib/interceptors.js"></script>
+<script src="zetalib/general.js"></script>
+<script src="zetalib/forms/form_service.js"></script>
 
-    <!-- components -->
+<!-- components -->
 
-    <script src="components/auth/auth_controller.js"></script>
-    <script src="components/auth/auth_service.js"></script>
-    <script src="components/dashboard/dashboard_controller.js"></script>
-    <script src="components/crud/crud_controller.js"></script>
-    <script src="components/staff/staff_controller.js"></script>
-    <script src="components/student/student_controller.js"></script>
-    <script src="components/version/version.js"></script>
-    <!--<script src="bower_components/quantumui/dist/js/quantumui-nojq.js"></script>-->
-    <!-- @endif -->
+<script src="components/auth/auth_controller.js"></script>
+<script src="components/auth/auth_service.js"></script>
+<script src="components/dashboard/dashboard_controller.js"></script>
+<script src="components/crud/crud_controller.js"></script>
+<script src="components/staff/staff_controller.js"></script>
+<script src="components/student/student_controller.js"></script>
+<script src="components/version/version.js"></script>
+<!--<script src="bower_components/quantumui/dist/js/quantumui-nojq.js"></script>-->
+<!-- @endif -->
 
-    <!-- @if NODE_ENV == 'PRODUCTION' -->
-    <script src="bower_components/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular.min.js"></script>
-    <script src="bower_components/components.js"></script>
-    <script src="shared/translations.js"></script>
-    <script src="templates.js"></script>
-    <script src="app.js"></script>
+<!-- @if NODE_ENV == 'PRODUCTION' -->
+<script src="bower_components/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular.min.js"></script>
+<script src="bower_components/components.js"></script>
+<script src="shared/translations.js"></script>
+<script src="templates.js"></script>
+<script src="app.js"></script>
 <!-- @endif -->
 </body>
 </html>

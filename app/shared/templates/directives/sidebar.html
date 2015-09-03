@@ -1,15 +1,13 @@
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
+    	<div class="brand">
+        	<a href="" class="logo"><img src="../../../img/brand-logo.png" /></a>
+        </div>
         <ul class="nav in" id="side-menu">
             <sidebar-search></sidebar-search>
             <li ui-sref-active="active">
                 <a href="#/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
-            <!--<li ui-sref-active="active"><a href="#/staffs" translate>Staffs</a></li>-->
-            <!--<li ui-sref-active="active"><a href="#/staff/add" translate>New Staff</a></li>-->
-            <!--<li ui-sref-active="active"-->
-                <!--ng-repeat="item in menuItems"><a href="#">{{ item }}</a></li>-->
-
             <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == key}">{{dropDown}}
                 <a href="" ng-click="check(key)"><i class="fa fa-wrench fa-fw"></i> {{ item }}<span
                         class="fa arrow"></span></a>
