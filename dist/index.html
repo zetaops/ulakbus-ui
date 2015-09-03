@@ -15,41 +15,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/roboto/roboto.css">
 </head>
 <body>
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <ul class="header-menu">
+        <li><a href="">Mesajlar</a></li>
+        <li><a href="">Görevler</a></li>
+        <li><a href="">Raporlar</a></li>
+        <li><a href="">Ayarlar</a></li>
+    </ul>
     <div class="navbar-header">
-
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html">ULAKBUS</a>
     </div>
     <!-- /.navbar-header -->
     <header-notification></header-notification>
-    <sidebar></sidebar>
 </nav>
 
+<sidebar></sidebar>
 
-<div class="container-fluid">
-    <div class="row">
-
-
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"
-             ng-view>
-
-
+<div class="manager-view">
+    <div class="manager-view-inner">
+        <!-- manager-header -->
+        <div class="manager-view-header container-fluid">
+            <ul class="breadcrumb">
+                <li><a href="#">Personeller</a></li>
+                <li><a href="#">Liste</a></li>
+                <li class="active">Tablo</li>
+            </ul>
+            <button type="button" class="btn btn-primary">Kaydet</button>
         </div>
+        <!-- end of manager-header -->
+        <div class="manager-view-content">
+            <div class="row">
+                <div class="main" ng-view>
+                </div>
 
-        <hr>
-
-        <div>UlakbusUI app: v<span app-version></span></div>
+            </div>
+        </div>
     </div>
 </div>
+
 
 <script src="bower_components/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular.min.js"></script>

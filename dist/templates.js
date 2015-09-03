@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/dashboard/dashboard.html', 'components/staff/templates/add.html', 'components/staff/templates/edit.html', 'components/staff/templates/list.html', 'components/staff/templates/show.html', 'components/student/student_add_template.html', 'components/student/student_list_template.html', 'components/types/types_template.html', 'shared/templates/add.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/add.html', 'components/crud/templates/edit.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/personelinfo/personelinfo.html', 'components/staff/templates/add.html', 'components/staff/templates/edit.html', 'components/staff/templates/list.html', 'components/staff/templates/show.html', 'components/student/student_add_template.html', 'components/student/student_list_template.html', 'components/types/types_template.html', 'shared/templates/add.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -19,12 +19,281 @@ angular.module("components/auth/login.html", []).run(["$templateCache", function
     "</div>");
 }]);
 
+angular.module("components/crud/templates/add.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/crud/templates/add.html",
+    "<div ng-app=\"ulakbus.crud\">\n" +
+    "    <ng-include src=\"'shared/templates/add.html'\"></ng-include>\n" +
+    "</div>");
+}]);
+
+angular.module("components/crud/templates/edit.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/crud/templates/edit.html",
+    "<div ng-app=\"ulakbus.crud\">\n" +
+    "    <div class=\"col-md-6\">\n" +
+    "        <h1>{{ schema.title }}</h1>\n" +
+    "        <form name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("components/crud/templates/list.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/crud/templates/list.html",
+    "<div class=\"starter-template\">\n" +
+    "    <h1>{{model}}</h1>\n" +
+    "    <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th colspan=\"2\">#</th>\n" +
+    "            <th ng-repeat=\"(key,value) in objects[0].data\">{{ key }}</th>\n" +
+    "            <th>action</th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "        <tr ng-repeat=\"object in objects\">\n" +
+    "            <td width=\"60\">\n" +
+    "                <label>\n" +
+    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                </label>\n" +
+    "            </td>\n" +
+    "            <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
+    "            <td ng-repeat=\"(key,value) in object.data\">{{value}}</td>\n" +
+    "            <td>\n" +
+    "                <a ng-href=\"#/crud/{{model}}/edit/{{object.key}}\">Edit</a><br>\n" +
+    "                <a ng-href=\"#/crud/{{model}}/{{object.key}}\">Show</a>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "</div>");
+}]);
+
+angular.module("components/crud/templates/show.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/crud/templates/show.html",
+    "<div class=\"starter-template\">\n" +
+    "    <h1>{{model}}</h1>\n" +
+    "\n" +
+    "    <p ng-repeat=\"(key, value) in object\"><span class=\"col-md-3\">{{ key }}:</span>{{value}}</p>\n" +
+    "</div>");
+}]);
+
 angular.module("components/dashboard/dashboard.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/dashboard/dashboard.html",
     "<div ng-app=\"ulakbus.dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
-    "        <h1>Main Dashboard</h1>\n" +
-    "        {{ testData }}\n" +
+    "    \n" +
+    "        <!-- table view -->\n" +
+    "         <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
+    "          <thead>\n" +
+    "            <tr>\n" +
+    "              <th colspan=\"2\">\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    Hepsini Seç\n" +
+    "              	</label>\n" +
+    "              </th>\n" +
+    "              <th>First Name</th>\n" +
+    "              <th>Last Name</th>\n" +
+    "              <th>Username</th>\n" +
+    "            </tr>\n" +
+    "          </thead>\n" +
+    "          <tbody>\n" +
+    "            <tr>\n" +
+    "              <td width=\"60\">\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                </label>\n" +
+    "              </td>\n" +
+    "              <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
+    "              <td>Mark</td>\n" +
+    "              <td>Otto</td>\n" +
+    "              <td>@mdo</td>\n" +
+    "            </tr>\n" +
+    "            <tr>\n" +
+    "              <td>\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "              	</label>\n" +
+    "              </td>\n" +
+    "              <th scope=\"row\" style=\"text-align:center\">2</th>\n" +
+    "              <td>Jacob</td>\n" +
+    "              <td>Thornton</td>\n" +
+    "              <td>@fat</td>\n" +
+    "            </tr>\n" +
+    "            <tr>\n" +
+    "              <td>\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "              	</label>\n" +
+    "              </td>\n" +
+    "              <th scope=\"row\" style=\"text-align:center\">3</th>\n" +
+    "              <td>Larry</td>\n" +
+    "              <td>the Bird</td>\n" +
+    "              <td>@twitter</td>\n" +
+    "            </tr>\n" +
+    "            <tr>\n" +
+    "              <td width=\"60\">\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                </label>\n" +
+    "              </td>\n" +
+    "              <th scope=\"row\" style=\"text-align:center\">4</th>\n" +
+    "              <td>Mark</td>\n" +
+    "              <td>Otto</td>\n" +
+    "              <td>@mdo</td>\n" +
+    "            </tr>\n" +
+    "            <tr>\n" +
+    "              <td>\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "              	</label>\n" +
+    "              </td>\n" +
+    "              <th scope=\"row\" style=\"text-align:center\">5</th>\n" +
+    "              <td>Jacob</td>\n" +
+    "              <td>Thornton</td>\n" +
+    "              <td>@fat</td>\n" +
+    "            </tr>\n" +
+    "            <tr>\n" +
+    "              <td>\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "              	</label>\n" +
+    "              </td>\n" +
+    "              <th scope=\"row\" style=\"text-align:center\">6</th>\n" +
+    "              <td>Larry</td>\n" +
+    "              <td>the Bird</td>\n" +
+    "              <td>@twitter</td>\n" +
+    "            </tr>\n" +
+    "          </tbody>\n" +
+    "        </table>\n" +
+    "        <!-- end of table view -->\n" +
+    "        \n" +
+    "       <div class=\"btn-group\">\n" +
+    "          <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
+    "            İşlemler <span class=\"caret\"></span>\n" +
+    "          </button>\n" +
+    "          <ul class=\"dropdown-menu\">\n" +
+    "            <li><a href=\"\">İşlem 1</a></li>\n" +
+    "            <li><a href=\"\">İşlem 2</a></li>\n" +
+    "            <li><a href=\"\">İşlem 3</a></li>\n" +
+    "            <li role=\"separator\" class=\"divider\"></li>\n" +
+    "            <li><a href=\"\">İşlem 4</a></li>\n" +
+    "          </ul>\n" +
+    "        </div>\n" +
+    "        \n" +
+    "        \n" +
+    "        <hr>\n" +
+    "\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("components/personelinfo/personelinfo.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/personelinfo/personelinfo.html",
+    "<div ng-app=\"ulakbus.personelinfo\">\n" +
+    "    <div class=\"starter-template\">\n" +
+    "    \n" +
+    "        <!-- table view -->\n" +
+    "         <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
+    "          <thead>\n" +
+    "            <tr>\n" +
+    "              <th colspan=\"2\">\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    Hepsini Seç2\n" +
+    "              	</label>\n" +
+    "              </th>\n" +
+    "              <th>First Name</th>\n" +
+    "              <th>Last Name</th>\n" +
+    "              <th>Username</th>\n" +
+    "            </tr>\n" +
+    "          </thead>\n" +
+    "          <tbody>\n" +
+    "            <tr>\n" +
+    "              <td width=\"60\">\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                </label>\n" +
+    "              </td>\n" +
+    "              <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
+    "              <td>Mark</td>\n" +
+    "              <td>Otto</td>\n" +
+    "              <td>@mdo</td>\n" +
+    "            </tr>\n" +
+    "            <tr>\n" +
+    "              <td>\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "              	</label>\n" +
+    "              </td>\n" +
+    "              <th scope=\"row\" style=\"text-align:center\">2</th>\n" +
+    "              <td>Jacob</td>\n" +
+    "              <td>Thornton</td>\n" +
+    "              <td>@fat</td>\n" +
+    "            </tr>\n" +
+    "            <tr>\n" +
+    "              <td>\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "              	</label>\n" +
+    "              </td>\n" +
+    "              <th scope=\"row\" style=\"text-align:center\">3</th>\n" +
+    "              <td>Larry</td>\n" +
+    "              <td>the Bird</td>\n" +
+    "              <td>@twitter</td>\n" +
+    "            </tr>\n" +
+    "            <tr>\n" +
+    "              <td width=\"60\">\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                </label>\n" +
+    "              </td>\n" +
+    "              <th scope=\"row\" style=\"text-align:center\">4</th>\n" +
+    "              <td>Mark</td>\n" +
+    "              <td>Otto</td>\n" +
+    "              <td>@mdo</td>\n" +
+    "            </tr>\n" +
+    "            <tr>\n" +
+    "              <td>\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "              	</label>\n" +
+    "              </td>\n" +
+    "              <th scope=\"row\" style=\"text-align:center\">5</th>\n" +
+    "              <td>Jacob</td>\n" +
+    "              <td>Thornton</td>\n" +
+    "              <td>@fat</td>\n" +
+    "            </tr>\n" +
+    "            <tr>\n" +
+    "              <td>\n" +
+    "              	<label>\n" +
+    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "              	</label>\n" +
+    "              </td>\n" +
+    "              <th scope=\"row\" style=\"text-align:center\">6</th>\n" +
+    "              <td>Larry</td>\n" +
+    "              <td>the Bird</td>\n" +
+    "              <td>@twitter</td>\n" +
+    "            </tr>\n" +
+    "          </tbody>\n" +
+    "        </table>\n" +
+    "        <!-- end of table view -->\n" +
+    "        \n" +
+    "       <div class=\"btn-group\">\n" +
+    "          <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
+    "            İşlemler <span class=\"caret\"></span>\n" +
+    "          </button>\n" +
+    "          <ul class=\"dropdown-menu\">\n" +
+    "            <li><a href=\"\">İşlem 1</a></li>\n" +
+    "            <li><a href=\"\">İşlem 2</a></li>\n" +
+    "            <li><a href=\"\">İşlem 3</a></li>\n" +
+    "            <li role=\"separator\" class=\"divider\"></li>\n" +
+    "            <li><a href=\"\">İşlem 4</a></li>\n" +
+    "          </ul>\n" +
+    "        </div>\n" +
+    "        \n" +
+    "        \n" +
+    "        <hr>\n" +
+    "\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -446,7 +715,7 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "            </li>\n" +
     "            <li><a href=\"http://www.strapui.com/\"><i class=\"fa fa-eye fa-fw\"></i> Premium Angular Themes</a></li>\n" +
     "            <li class=\"divider\"></li>\n" +
-    "            <li><a ui-sref=\"login\"><i class=\"fa fa-sign-out fa-fw\"></i> Logout</a>\n" +
+    "            <li><a ui-sref=\"login\" href=\"javascript:void(0);\" logout><i class=\"fa fa-sign-out fa-fw\"></i> Logout</a>\n" +
     "            </li>\n" +
     "        </ul>\n" +
     "        <!-- /.dropdown-user -->\n" +
@@ -514,65 +783,34 @@ angular.module("shared/templates/directives/notifications.html", []).run(["$temp
 
 angular.module("shared/templates/directives/sidebar-search.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/sidebar-search.html",
-    "<li class=\"sidebar-search\">\n" +
-    "    <div class=\"input-group custom-search-form\">\n" +
-    "        <input type=\"text\" class=\"form-control\" placeholder=\"Search...\">\n" +
-    "        <span class=\"input-group-btn\">\n" +
-    "            <button class=\"btn btn-default\" type=\"button\">\n" +
-    "                <i class=\"fa fa-search\"></i>\n" +
-    "            </button>\n" +
-    "        </span>\n" +
-    "    </div>\n" +
-    "</li>");
+    "");
 }]);
 
 angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/sidebar.html",
     "<div class=\"navbar-default sidebar\" role=\"navigation\">\n" +
     "    <div class=\"sidebar-nav navbar-collapse\">\n" +
+    "    	<div class=\"brand\">\n" +
+    "        	<a href=\"\" class=\"logo\"><img src=\"../../../img/brand-logo.png\" /></a>\n" +
+    "        </div>\n" +
     "        <ul class=\"nav in\" id=\"side-menu\">\n" +
     "            <sidebar-search></sidebar-search>\n" +
     "            <li ui-sref-active=\"active\">\n" +
-    "                <a ui-sref=\"dashboard.home\"><i class=\"fa fa-dashboard fa-fw\"></i> Dashboard</a>\n" +
+    "                <a href=\"#/dashboard\"><i class=\"fa fa-dashboard fa-fw\"></i> Dashboard</a>\n" +
     "            </li>\n" +
-    "            <li ui-sref-active=\"active\"><a href=\"#/staffs\" translate>Staffs</a></li>\n" +
-    "            <li ui-sref-active=\"active\"><a href=\"#/staff/add\" translate>New Staff</a></li>\n" +
-    "            <!--<li ui-sref-active=\"active\">-->\n" +
-    "\n" +
-    "                <!--<a ui-sref=\"dashboard.chart\"><i class=\"fa fa-bar-chart-o fa-fw\"></i> Charts<span></span></a>-->\n" +
-    "\n" +
-    "            <!--</li>-->\n" +
-    "            <!--<li ui-sref-active=\"active\">-->\n" +
-    "                <!--<a ui-sref=\"dashboard.table\"><i class=\"fa fa-table fa-fw\"></i> Tables</a>-->\n" +
-    "            <!--</li>-->\n" +
-    "            <!--<li ui-sref-active=\"active\">-->\n" +
-    "                <!--<a ui-sref=\"dashboard.form\"><i class=\"fa fa-edit fa-fw\"></i> Forms</a>-->\n" +
-    "            <!--</li>-->\n" +
-    "            <!--<li ng-class=\"{active: collapseVar==1}\">{{dropDown}}-->\n" +
-    "                <!--<a href=\"\" ng-click=\"check(1)\"><i class=\"fa fa-wrench fa-fw\"></i> UI Elements<span-->\n" +
-    "                        <!--class=\"fa arrow\"></span></a>-->\n" +
-    "                <!--<ul class=\"nav nav-second-level\" collapse=\"collapseVar!=1\">-->\n" +
-    "                    <!--<li ui-sref-active=\"active\">-->\n" +
-    "                        <!--<a ui-sref=\"dashboard.panels-wells\">Panels and Wells</a>-->\n" +
-    "                    <!--</li>-->\n" +
-    "                    <!--<li ui-sref-active=\"active\">-->\n" +
-    "                        <!--<a ui-sref=\"dashboard.buttons\">Buttons</a>-->\n" +
-    "                    <!--</li>-->\n" +
-    "                    <!--<li ui-sref-active=\"active\">-->\n" +
-    "                        <!--<a ui-sref=\"dashboard.notifications\">Notifications</a>-->\n" +
-    "                    <!--</li>-->\n" +
-    "                    <!--<li ui-sref-active=\"active\">-->\n" +
-    "                        <!--<a ui-sref=\"dashboard.typography\">Typography</a>-->\n" +
-    "                    <!--</li>-->\n" +
-    "                    <!--<li ui-sref-active=\"active\">-->\n" +
-    "                        <!--<a ui-sref=\"dashboard.icons\"> Icons</a>-->\n" +
-    "                    <!--</li>-->\n" +
-    "                    <!--<li ui-sref-active=\"active\">-->\n" +
-    "                        <!--<a ui-sref=\"dashboard.grid\">Grid</a>-->\n" +
-    "                    <!--</li>-->\n" +
-    "                <!--</ul>-->\n" +
-    "                <!--&lt;!&ndash; /.nav-second-level &ndash;&gt;-->\n" +
-    "            <!--</li>-->\n" +
+    "            <li ng-repeat=\"(key, item) in menuItems\" ng-class=\"{active: collapseVar == key}\">{{dropDown}}\n" +
+    "                <a href=\"\" ng-click=\"check(key)\"><i class=\"fa fa-wrench fa-fw\"></i> {{ item }}<span\n" +
+    "                        class=\"fa arrow\"></span></a>\n" +
+    "                <ul class=\"nav nav-second-level\" collapse=\"collapseVar!={{key}}\">\n" +
+    "                    <li ui-sref-active=\"active\">\n" +
+    "                        <a href=\"#/crud/{{item}}\">List</a>\n" +
+    "                    </li>\n" +
+    "                    <li ui-sref-active=\"active\">\n" +
+    "                        <a href=\"#/crud/{{item}}/add\">Add</a>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "                <!-- /.nav-second-level -->\n" +
+    "            </li>\n" +
     "            <!--<li ng-class=\"{active: collapseVar==2}\">-->\n" +
     "                <!--<a href=\"\" ng-click=\"check(2)\"><i class=\"fa fa-sitemap fa-fw\"></i> Multi-Level Dropdown<span-->\n" +
     "                        <!--class=\"fa arrow\"></span></a>-->\n" +
@@ -621,10 +859,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "        </ul>\n" +
     "    </div>\n" +
     "    <!-- /.sidebar-collapse -->\n" +
-    "</div> \n" +
-    "\n" +
-    "\n" +
-    "\n" +
+    "</div>\n" +
     "");
 }]);
 
@@ -774,6 +1009,43 @@ angular.module("shared/templates/fieldset.html", []).run(["$templateCache", func
     "    </div>\n" +
     "</fieldset>\n" +
     "");
+}]);
+
+angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/foreignKey.html",
+    "<div class=\"form-group {{form.htmlClass}} schema-form-select col-md-12\"\n" +
+    "     ng-class=\"{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}\">\n" +
+    "    <div class=\"col-md-8\">\n" +
+    "        <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
+    "            {{form.title}}\n" +
+    "        </label>\n" +
+    "\n" +
+    "        <select ng-model=\"$$value$$\"\n" +
+    "                ng-model-options=\"form.ngModelOptions\"\n" +
+    "                ng-disabled=\"form.readonly\"\n" +
+    "                sf-changed=\"form\"\n" +
+    "                class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "                schema-validate=\"form\"\n" +
+    "                ng-options=\"item.value as item.name group by item.group for item in form.titleMap\"\n" +
+    "                name=\"{{form.key.slice(-1)[0]}}\">\n" +
+    "        </select>\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-4\">\n" +
+    "        <a href=\"javascript:void(0);\" add-modal>\n" +
+    "            <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
+    "        </a>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("shared/templates/linkedModelModalContent.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/linkedModelModalContent.html",
+    "<div class=\"modal-body\">\n" +
+    "    <form name=\"linkedModelForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(linkedModelForm)\"></form>\n" +
+    "</div>");
 }]);
 
 angular.module("shared/templates/listnodeModalContent.html", []).run(["$templateCache", function($templateCache) {
