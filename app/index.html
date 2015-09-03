@@ -27,6 +27,12 @@
 <body>
 
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    	<ul class="header-menu">
+        	<li><a href="">Mesajlar</a></li>
+            <li><a href="">Görevler</a></li>
+            <li><a href="">Raporlar</a></li>
+            <li><a href="">Ayarlar</a></li>
+        </ul>
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -34,7 +40,6 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html"><img src="img/ulakbus-logo.png" /></a>
         </div>
         <!-- /.navbar-header -->
         <header-notification></header-notification>
@@ -54,11 +59,10 @@
                 <button type="button" class="btn btn-primary">Kaydet</button>
             </div>
             <!-- end of manager-header -->
-            <div class="manager-view-content container-fluid">
+            <div class="manager-view-content">
                 <div class="row">
                     <div class="main" ng-view>
                     </div>
-                    <hr>
                 </div>
             </div>
         </div>
@@ -68,7 +72,6 @@
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
 
 <script src="bower_components/angular-route/angular-route.min.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
