@@ -29,8 +29,21 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         angular.forEach(scope.schema.properties, function(k, v){
             // check if type is date and if type date found change it to string
             // and give it 'format':'date' property
+            // todo: make datepicker work below
 
-            if (k.type == 'date') {k.type='string'; k.format='date'}
+            if (k.type == 'date') {
+                k.type="template";
+                k.templateUrl = "shared/templates/datefield.html";
+                //scope.form[scope.form.indexOf(v)] = {
+                //    "key": k.name,
+                //    "minDate": "1995-09-01",
+                //    "maxDate": new Date(),
+                //    "format": "yyyy-mm-dd"
+                //}
+                scope.model[v] = null;
+            }
+            debugger;
+
             if (k.type == 'int') {k.type='number'}
 
             // if type is model use foreignKey.html template to show them
@@ -225,16 +238,18 @@ form_generator.controller('ListNodeModalCtrl', function ($scope, $modalInstance,
     };
 });
 
-form_generator.controller('LinkedModelModalCtrl', function ($scope, $modalInstance, items) {
+form_generator.controller('LinkedModelModalCtrl', function ($scope, $modalInstance, $route, items) {
     angular.forEach(["model", "schema", "form"], function(key){
         $scope[key] = items[key];
     });
     $scope.onSubmit = function(){
         // send form to modalinstance result function
         $modalInstance.close($scope);
+        $route.reload();
     };
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
+        $route.reload();
     };
 });
 
@@ -271,6 +286,7 @@ form_generator.directive('addModal', function ($modal, Generator) {
     return {
         link: function (scope, element) {
             element .on('click', function () {
+                debugger;
                 var modalInstance = $modal.open({
                     animation: false,
                     templateUrl: 'shared/templates/linkedModelModalContent.html',
@@ -287,7 +303,6 @@ form_generator.directive('addModal', function ($modal, Generator) {
                 });
 
                 modalInstance.result.then(function (childmodel, key) {
-                    debugger;
                     Generator.submit(scope);
                     //angular.forEach(childmodel, function(v, k){
                     //    if ($scope.model[k]){
@@ -296,7 +311,8 @@ form_generator.directive('addModal', function ($modal, Generator) {
                     //        $scope.model[k] = {};
                     //        $scope.model[k][v.idx] = v;
                     //    }
-                        //scope.$broadcast('schemaFormRedraw');
+                    //scope.$broadcast('schemaFormRedraw');
+                    //scope.apply();
                     //});
                 });
                 //$scope.$broadcast('schemaFormRedraw');

@@ -16,7 +16,7 @@ var crud = angular.module('ulakbus.crud', ['ngRoute', 'schemaForm', 'formService
  * which provide a form with form generator.
  */
 
-crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, Generator, $routeParams) {
+crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams) {
     $scope.url = 'crud';
     $scope.form_params = {'model': $routeParams.model};
     if ($routeParams.id) {
@@ -28,9 +28,14 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
     }
 
     // get form with generator
-    Generator.get_form($scope);
-    debugger;
+    $scope.loaddata = function() {
+        console.log('loading data');
+        Generator.get_form($scope);
+    };
 
+    // todo remove timeout to load controller efficiently
+    //$timeout($scope.loaddata, 1000);
+    $scope.loaddata();
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {
