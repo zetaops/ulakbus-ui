@@ -7,6 +7,7 @@ node_modules/
 
 .idea
 bower_components/
+!dist/bower_components/
 
 # Thanks to Octocat  https://gist.github.com/octocat/9257657
 # Compiled source #
