@@ -16,7 +16,7 @@ var crud = angular.module('ulakbus.crud', ['ngRoute', 'schemaForm', 'formService
  * which provide a form with form generator.
  */
 
-crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, Generator, $routeParams) {
+crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams) {
     $scope.url = 'crud';
     $scope.form_params = {'model': $routeParams.model};
     if ($routeParams.id) {
@@ -26,12 +26,16 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
     else {
         $scope.form_params['cmd'] = 'add';
     }
-    // to start in certain part of the workflow use clear_wf=1
-    //$scope.form_params['clear_wf'] = 1;
 
     // get form with generator
-    Generator.get_form($scope);
+    $scope.loaddata = function() {
+        console.log('loading data');
+        Generator.get_form($scope);
+    };
 
+    // todo remove timeout to load controller efficiently
+    //$timeout($scope.loaddata, 1000);
+    $scope.loaddata();
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {
@@ -46,9 +50,6 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
     };
 });
 
-// todo: for single point of failure code a "get item" service and use it to
-// retrieve list and single item
-
 /**
  * CRUD List Controller
  */
@@ -59,7 +60,6 @@ crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeP
     // call generator's get_list func
     Generator.get_list($scope)
         .then(function (res) {
-            debugger;
             var data =  res.data.objects;
             for (var item in data){
                 delete data[item].data['deleted'];
@@ -79,5 +79,6 @@ crud.controller('CRUDShowCtrl', function ($scope, $rootScope, Generator, $routeP
     // call generator's get_single_itemfunc
     Generator.get_single_item($scope).then(function (res) {
         $scope.object = res.data.object;
+        $scope.model = $routeParams.model;
     })
 });
