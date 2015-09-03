@@ -5,6 +5,10 @@ body {
 	overflow:hidden;
 }
 
+.btn {
+	border:none;	
+}
+
 .btn:focus,
 .btn:active:focus,
 .btn.active:focus,
@@ -39,8 +43,8 @@ a:hover {
 .logo img {
 	width: 80%;
     margin-left: 8%;
-    margin-top: 23px;
-    margin-bottom: 23px;	
+    margin-top: 22px;
+    margin-bottom: 22px;	
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -711,6 +715,47 @@ table.dataTable thead .sorting:after {
 .timeline-body > p + p {
     margin-top: 5px;
 }
+
+/* PERSONNEL INFO */
+
+.generic-profile-picture img {
+	width:220px;
+	height:220px;
+	margin-left:15px;
+    border: 1px solid #E6E6E6;
+    border-radius: 3px;
+}
+
+.personnel-info-container {
+	width:1000px;
+	margin-left:auto;
+	margin-right:auto;
+	background-color:#fff;
+	-webkit-box-shadow: 0 0 25px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0 0 25px rgba(0,0,0,0.1);
+    box-shadow: 0 0 25px rgba(0,0,0,0.1);
+	background-color:#fff;	
+}
+
+.personnel-info-left {
+	width:250px;
+	float:left;
+	background-color:#f9f9f9;
+	padding-top:15px;
+	padding-bottom:15px;	
+}
+
+.personnel-info-right {
+	width:750px;
+	float:left;
+	background-color:#fff;
+	padding:15px;
+	padding-bottom:15px;	
+}
+
+/* END OF PERSONNEL INFO */
+
+
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
