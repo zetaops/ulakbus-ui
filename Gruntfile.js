@@ -72,6 +72,8 @@ module.exports = function (grunt) {
             prod: {
                 files: [
                     {expand: true, cwd: 'app/bower_components/font-awesome/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/img/', src: 'brand-logo.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/styles/roboto/', src: '**/*', dest: 'dist/css/roboto/', flatten: false},
                     {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
                 ]
