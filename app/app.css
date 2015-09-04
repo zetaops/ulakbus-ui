@@ -171,13 +171,12 @@ ul.header-menu li a:hover{
 }
 
 .sidebar .nav>li ul {
-	border-bottom: 3px solid #E4E4E4;
     border-left: 3px solid #A61229;	
 }
 
 .sidebar .nav>li ul>li a {
 	font-family:'robotoregular';
-	background-color:#f5f5f5;	
+	background-color:#fdfdfd;	
 }
 
 .nav>li>a:visited {
@@ -185,7 +184,7 @@ ul.header-menu li a:hover{
 
 .nav>li.active>a {
 	text-decoration: none;
-	background-color: #f5f5f5;
+	background-color: #fdfdfd;
     color: #565656;
 	border-color:#A61229;
 }
