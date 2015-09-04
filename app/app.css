@@ -5,6 +5,19 @@ body {
 	overflow:hidden;
 }
 
+::-webkit-scrollbar {
+    width: 5px;
+	height: 5px;
+}
+ 
+::-webkit-scrollbar-track { 
+	background-color:#ccc;
+}
+ 
+::-webkit-scrollbar-thumb {
+	background-color:#999;
+}
+
 .btn {
 	border:none;	
 }
@@ -721,36 +734,100 @@ table.dataTable thead .sorting:after {
 .generic-profile-picture img {
 	width:220px;
 	height:220px;
-	margin-left:15px;
-    border: 1px solid #E6E6E6;
-    border-radius: 3px;
 }
 
 .personnel-info-container {
 	width:1000px;
+	height:530px;
 	margin-left:auto;
 	margin-right:auto;
 	background-color:#fff;
-	-webkit-box-shadow: 0 0 25px rgba(0,0,0,0.1);
-    -moz-box-shadow: 0 0 25px rgba(0,0,0,0.1);
-    box-shadow: 0 0 25px rgba(0,0,0,0.1);
-	background-color:#fff;	
+	-webkit-box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    box-shadow: 0 0 3px rgba(0,0,0,0.1);
+	background-color:#fff;
+	position:relative;
 }
 
 .personnel-info-left {
 	width:250px;
-	float:left;
-	background-color:#f9f9f9;
-	padding-top:15px;
-	padding-bottom:15px;	
+	height:100%;
+	background-color:#fcfcfc;
+	padding:15px;
+	position:absolute;
+	left:0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	border-right: 1px solid #F7F7F7;
+}
+
+.personnel-info-left ul {
+	padding:0;
+	margin-top:20px;
+}
+
+.personnel-info-left ul li {
+	list-style:none;
+	margin-bottom:15px;
+	position:relative;
+	padding-left:30px;
+	color:#555;
+}
+
+.personnel-info-left ul li:nth-child(1) {
+	padding:0;
+	font-family:'robotobold';
+	font-size:18px;
+	color:#333;
+}
+
+.personnel-info-left ul li:nth-child(2) {
+	padding:0;
+	font-family:'robotomedium';
+	font-size:17px;
+	color:#666;
+}
+
+.personnel-info-left ul li i.fa {
+	width:18px;
+	margin-right:15px;
+	font-size:18px;
+	position:absolute;
+	left:0;
+	text-align:center;
 }
 
 .personnel-info-right {
 	width:750px;
-	float:left;
+	height:100%;
 	background-color:#fff;
-	padding:15px;
-	padding-bottom:15px;	
+	padding:40px;
+	padding-top:15px;
+	position:absolute;
+	right:0;
+	overflow-y:auto;
+}
+
+.personnel-info-right h2 {
+	margin-top:0;
+	margin-bottom:20px;
+	font-family:'robotolight';
+	font-size:23px;
+}
+
+.info-block {
+	margin-bottom:70px;	
+}
+
+.info-block-body dt {
+	text-align:left;
+	font-family:'robotomedium';
+	font-weight:normal;	
+}
+
+.info-block-body dl {
+	margin-bottom:10px;
+	color:#444;
 }
 
 /* END OF PERSONNEL INFO */
@@ -836,4 +913,46 @@ table.dataTable thead .sorting:after {
         border-right-width: 14px;
         border-left-width: 0;
     }
+}
+
+
+@media (max-width: 1350px) {
+	.personnel-info-container {
+		width:700px;	
+	}
+	
+	.personnel-info-right {
+		width:450px;	
+	}
+}
+
+
+@media (max-width: 1000px) {
+	.personnel-info-container {
+		width:500px;
+		height:auto;	
+	}
+	
+	.personnel-info-left {
+		width:100%;
+		position:relative;
+		height:auto;
+		border:none;
+	}
+	
+	.personnel-info-right {
+		width:100%;
+		position:relative;
+		height:auto;
+	}
+	
+	.generic-profile-picture,
+	.personnel-info-left ul li:nth-child(1),
+	.personnel-info-left ul li:nth-child(2) {
+		text-align:center;	
+	}
+	
+	.generic-profile-picture img {
+		border-radius:100%;	
+	}
 }
