@@ -1,7 +1,7 @@
 /* Space out content a bit */
 body {
 	font-family:'robotoregular';
-	background-color: #222d32;
+	background-color: #f5f5f5;
 	overflow:hidden;
 }
 
@@ -16,6 +16,12 @@ body {
  
 ::-webkit-scrollbar-thumb {
 	background-color:#999;
+}
+
+.form-control {
+	box-shadow:none;
+	border-radius:0;
+	border-color:#ececec;	
 }
 
 .btn {
@@ -326,7 +332,6 @@ select {
 .sidebar {
 	background-color:#fff;
 	border-right: 1px solid #ccc;
-	overflow:auto;
 }
 
 .sidebar .sidebar-nav.navbar-collapse {
@@ -741,6 +746,7 @@ table.dataTable thead .sorting:after {
 	height:530px;
 	margin-left:auto;
 	margin-right:auto;
+	margin-bottom:50px;
 	background-color:#fff;
 	-webkit-box-shadow: 0 0 3px rgba(0,0,0,0.1);
     -moz-box-shadow: 0 0 3px rgba(0,0,0,0.1);
@@ -819,6 +825,10 @@ table.dataTable thead .sorting:after {
 	margin-bottom:70px;	
 }
 
+.info-block:last-child {
+	margin-bottom:0px;	
+}
+
 .info-block-body dt {
 	text-align:left;
 	font-family:'robotomedium';
@@ -829,6 +839,11 @@ table.dataTable thead .sorting:after {
 	margin-bottom:10px;
 	color:#444;
 }
+
+.personnel-info-edit .personnel-info-left ul li {
+	padding-left:0;	
+}
+
 
 /* END OF PERSONNEL INFO */
 
@@ -913,6 +928,23 @@ table.dataTable thead .sorting:after {
         border-right-width: 14px;
         border-left-width: 0;
     }
+	
+	.brand {
+		text-align:center;	
+	}
+	
+	.logo img {
+		width:200px;
+		margin-left:0;	
+	}
+	
+	.manager-view-content {
+		overflow:inherit;
+	}
+	
+	body {
+		overflow:auto;	
+	}
 }
 
 
@@ -954,5 +986,12 @@ table.dataTable thead .sorting:after {
 	
 	.generic-profile-picture img {
 		border-radius:100%;	
+	}
+}
+
+
+@media (max-width: 560px) {
+	.personnel-info-container {
+    	width: 350px;
 	}
 }
