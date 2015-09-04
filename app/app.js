@@ -24,14 +24,14 @@ var app = angular.module(
         //'ulakbus.version',
         'schemaForm',
         'gettext',
-        'templates-prod'
+        //'templates-prod'
     ]).
 /**
  * RESTURL is the url of rest api to talk
  * Based on the environment it changes from dev to prod
  */
     constant("RESTURL", (function () {
-        return {url: "http://api.ulakbus.net/"};
+        return {url: "http://" + window.location.hostname + ":9001/"};
     })()).
 /**
  * USER_ROLES and AUTH_EVENTS are constant for auth functions

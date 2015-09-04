@@ -25,7 +25,7 @@ app.config(['$httpProvider', function ($httpProvider) {
             'response': function (response) {
                 //Will only be called for HTTP up to 300
                 if(response.data.is_login===true){
-                    $rootScope.loggedInUser = response.data.is_login;
+                    //$rootScope.loggedInUser = response.data.is_login;
                     //$location.replace();
                     if($location.path()==="/login"){
                         $location.path("/dashboard");
