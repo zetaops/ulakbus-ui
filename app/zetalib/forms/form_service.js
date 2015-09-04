@@ -187,11 +187,9 @@ form_generator.controller('ModalCtrl', function ($scope, $modalInstance, $route,
     $scope.onSubmit = function () {
         // send form to modalinstance result function
         $modalInstance.close($scope);
-        $route.reload();
     };
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
-        $route.reload();
     };
 });
 
@@ -251,9 +249,10 @@ form_generator.directive('addModal', function ($modal, Generator) {
                     size: 'lg',
                     resolve: {
                         items: function () {
-                            scope.url = 'crud';
-                            scope.form_params = {'model': scope.form.title, "cmd": "add"};
-                            return Generator.get_form(scope);
+                            return Generator.get_form({
+                                url: 'crud',
+                                form_params: {'model': scope.form.title, "cmd": "add"}
+                            });
                         }
                     }
                 });
