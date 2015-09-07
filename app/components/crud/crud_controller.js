@@ -27,9 +27,77 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
         $scope.form_params['cmd'] = 'add';
     }
 
+    $scope.today = function() {
+        $scope.dt = new Date();
+    };
+    $scope.today();
+
+    $scope.clear = function () {
+        $scope.dt = null;
+    };
+
+    // Disable weekend selection
+    $scope.disabled = function(date, mode) {
+        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+    };
+
+    $scope.toggleMin = function() {
+        $scope.minDate = $scope.minDate ? null : new Date();
+    };
+    $scope.toggleMin();
+    $scope.maxDate = new Date(2020, 5, 22);
+
+    $scope.open = function() {
+        debugger;
+        $scope.status.opened = true;
+    };
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1,
+        initDate: new Date('01-01-1900')
+    };
+
+    $scope.format = 'dd.MM.yyyy';
+
+    $scope.status = {
+        opened: false
+    };
+
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    var afterTomorrow = new Date();
+    afterTomorrow.setDate(tomorrow.getDate() + 2);
+    $scope.events =
+        [
+            {
+                date: tomorrow,
+                status: 'full'
+            },
+            {
+                date: afterTomorrow,
+                status: 'partially'
+            }
+        ];
+
+    $scope.getDayClass = function(date, mode) {
+        if (mode === 'day') {
+            var dayToCheck = new Date(date).setHours(0,0,0,0);
+
+            for (var i=0;i<$scope.events.length;i++){
+                var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
+
+                if (dayToCheck === currentDay) {
+                    return $scope.events[i].status;
+                }
+            }
+        }
+
+        return '';
+    };
+
     // get form with generator
     $scope.loaddata = function() {
-        console.log('loading data');
         Generator.get_form($scope);
     };
 
@@ -48,6 +116,8 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
                 });
         }
     };
+
+    console.log($scope);
 });
 
 /**

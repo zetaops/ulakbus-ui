@@ -34,6 +34,14 @@ app.directive('headerNotification', function () {
     }
 });
 
+app.directive('headerSubMenu', function () {
+    return {
+        templateUrl: 'shared/templates/directives/header-sub-menu.html',
+        restrict: 'E',
+        replace: true,
+    }
+});
+
 app.directive('sidebar', ['$location', function () {
     return {
         templateUrl: 'shared/templates/directives/sidebar.html',

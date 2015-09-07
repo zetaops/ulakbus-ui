@@ -11,6 +11,7 @@
 
 angular.module('ulakbus.dashboard', ['ngRoute'])
 
-    .controller('DashCtrl', function ($scope) {
+    .controller('DashCtrl', function ($scope, $rootScope, $location) {
+        if(!$rootScope.loggedInUser){$location.path("/login");}
         $scope.testData = "<h1>This is main Dashboard</h1>";
     });
