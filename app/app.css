@@ -1,8 +1,31 @@
 /* Space out content a bit */
 body {
 	font-family:'robotoregular';
-	background-color: #222d32;
+	background-color: #f5f5f5;
 	overflow:hidden;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+	height: 5px;
+}
+ 
+::-webkit-scrollbar-track { 
+	background-color:#ccc;
+}
+ 
+::-webkit-scrollbar-thumb {
+	background-color:#999;
+}
+
+.form-control {
+	box-shadow:none;
+	border-radius:0;
+	border-color:#ececec;	
+}
+
+.btn {
+	border:none;	
 }
 
 .btn:focus,
@@ -39,8 +62,8 @@ a:hover {
 .logo img {
 	width: 80%;
     margin-left: 8%;
-    margin-top: 23px;
-    margin-bottom: 23px;	
+    margin-top: 22px;
+    margin-bottom: 22px;	
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -148,13 +171,12 @@ ul.header-menu li a:hover{
 }
 
 .sidebar .nav>li ul {
-	border-bottom: 3px solid #E4E4E4;
     border-left: 3px solid #A61229;	
 }
 
 .sidebar .nav>li ul>li a {
 	font-family:'robotoregular';
-	background-color:#f5f5f5;	
+	background-color:#fdfdfd;	
 }
 
 .nav>li>a:visited {
@@ -162,7 +184,7 @@ ul.header-menu li a:hover{
 
 .nav>li.active>a {
 	text-decoration: none;
-	background-color: #f5f5f5;
+	background-color: #fdfdfd;
     color: #565656;
 	border-color:#A61229;
 }
@@ -309,7 +331,6 @@ select {
 .sidebar {
 	background-color:#fff;
 	border-right: 1px solid #ccc;
-	overflow:auto;
 }
 
 .sidebar .sidebar-nav.navbar-collapse {
@@ -712,6 +733,121 @@ table.dataTable thead .sorting:after {
     margin-top: 5px;
 }
 
+/* PERSONNEL INFO */
+
+.generic-profile-picture img {
+	width:220px;
+	height:220px;
+}
+
+.personnel-info-container {
+	width:1000px;
+	height:530px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:50px;
+	background-color:#fff;
+	-webkit-box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    box-shadow: 0 0 3px rgba(0,0,0,0.1);
+	background-color:#fff;
+	position:relative;
+}
+
+.personnel-info-left {
+	width:250px;
+	height:100%;
+	background-color:#fcfcfc;
+	padding:15px;
+	position:absolute;
+	left:0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	border-right: 1px solid #F7F7F7;
+}
+
+.personnel-info-left ul {
+	padding:0;
+	margin-top:20px;
+}
+
+.personnel-info-left ul li {
+	list-style:none;
+	margin-bottom:15px;
+	position:relative;
+	padding-left:30px;
+	color:#555;
+}
+
+.personnel-info-left ul li:nth-child(1) {
+	padding:0;
+	font-family:'robotobold';
+	font-size:18px;
+	color:#333;
+}
+
+.personnel-info-left ul li:nth-child(2) {
+	padding:0;
+	font-family:'robotomedium';
+	font-size:17px;
+	color:#666;
+}
+
+.personnel-info-left ul li i.fa {
+	width:18px;
+	margin-right:15px;
+	font-size:18px;
+	position:absolute;
+	left:0;
+	text-align:center;
+}
+
+.personnel-info-right {
+	width:750px;
+	height:100%;
+	background-color:#fff;
+	padding:40px;
+	padding-top:15px;
+	position:absolute;
+	right:0;
+	overflow-y:auto;
+}
+
+.personnel-info-right h2 {
+	margin-top:0;
+	margin-bottom:20px;
+	font-family:'robotolight';
+	font-size:23px;
+}
+
+.info-block {
+	margin-bottom:70px;	
+}
+
+.info-block:last-child {
+	margin-bottom:0px;	
+}
+
+.info-block-body dt {
+	text-align:left;
+	font-family:'robotomedium';
+	font-weight:normal;	
+}
+
+.info-block-body dl {
+	margin-bottom:10px;
+	color:#444;
+}
+
+.personnel-info-edit .personnel-info-left ul li {
+	padding-left:0;	
+}
+
+
+/* END OF PERSONNEL INFO */
+
+
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
@@ -791,4 +927,70 @@ table.dataTable thead .sorting:after {
         border-right-width: 14px;
         border-left-width: 0;
     }
+	
+	.brand {
+		text-align:center;	
+	}
+	
+	.logo img {
+		width:200px;
+		margin-left:0;	
+	}
+	
+	.manager-view-content {
+		overflow:inherit;
+	}
+	
+	body {
+		overflow:auto;	
+	}
+}
+
+
+@media (max-width: 1350px) {
+	.personnel-info-container {
+		width:700px;	
+	}
+	
+	.personnel-info-right {
+		width:450px;	
+	}
+}
+
+
+@media (max-width: 1000px) {
+	.personnel-info-container {
+		width:500px;
+		height:auto;	
+	}
+	
+	.personnel-info-left {
+		width:100%;
+		position:relative;
+		height:auto;
+		border:none;
+	}
+	
+	.personnel-info-right {
+		width:100%;
+		position:relative;
+		height:auto;
+	}
+	
+	.generic-profile-picture,
+	.personnel-info-left ul li:nth-child(1),
+	.personnel-info-left ul li:nth-child(2) {
+		text-align:center;	
+	}
+	
+	.generic-profile-picture img {
+		border-radius:100%;	
+	}
+}
+
+
+@media (max-width: 560px) {
+	.personnel-info-container {
+    	width: 350px;
+	}
 }
