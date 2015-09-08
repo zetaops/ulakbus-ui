@@ -37,76 +37,75 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
                     "title": k.title,
                     "key": k.name,
                 };
-                var parentScope = scope.$parent.$parent.$parent.$parent;
-                debugger;
-                scope.today = function() {
-                    scope.dt = new Date();
-                };
-                scope.today();
-
-                scope.clear = function () {
-                    scope.dt = null;
-                };
-
-                // Disable weekend selection
-                scope.disabled = function(date, mode) {
-                    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-                };
-
-                scope.toggleMin = function() {
-                    scope.minDate = scope.minDate ? null : new Date();
-                };
-                scope.toggleMin();
-                scope.maxDate = new Date(2020, 5, 22);
-
-                scope.open = function($event) {
-                    debugger;
-                    scope.status.opened = true;
-                };
-
-                scope.dateOptions = {
-                    formatYear: 'yy',
-                    startingDay: 1,
-                    initDate: new Date('01-01-1900')
-                };
-
-                scope.format = 'dd.MM.yyyy';
-
-                scope.status = {
-                    opened: false
-                };
-
-                var tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                var afterTomorrow = new Date();
-                afterTomorrow.setDate(tomorrow.getDate() + 2);
-                scope.events =
-                    [
-                        {
-                            date: tomorrow,
-                            status: 'full'
-                        },
-                        {
-                            date: afterTomorrow,
-                            status: 'partially'
-                        }
-                    ];
-
-                scope.getDayClass = function(date, mode) {
-                    if (mode === 'day') {
-                        var dayToCheck = new Date(date).setHours(0,0,0,0);
-
-                        for (var i=0;i<$scope.events.length;i++){
-                            var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
-
-                            if (dayToCheck === currentDay) {
-                                return $scope.events[i].status;
-                            }
-                        }
-                    }
-
-                    return '';
-                };
+                //var parentScope = scope.$parent.$parent.$parent.$parent;
+                //scope.today = function() {
+                //    scope.dt = new Date();
+                //};
+                //scope.today();
+                //
+                //scope.clear = function () {
+                //    scope.dt = null;
+                //};
+                //
+                //// Disable weekend selection
+                //scope.disabled = function(date, mode) {
+                //    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+                //};
+                //
+                //scope.toggleMin = function() {
+                //    scope.minDate = scope.minDate ? null : new Date();
+                //};
+                //scope.toggleMin();
+                //scope.maxDate = new Date(2020, 5, 22);
+                //
+                //scope.open = function($event) {
+                //    debugger;
+                //    scope.status.opened = true;
+                //};
+                //
+                //scope.dateOptions = {
+                //    formatYear: 'yy',
+                //    startingDay: 1,
+                //    initDate: new Date('01-01-1900')
+                //};
+                //
+                //scope.format = 'dd.MM.yyyy';
+                //
+                //scope.status = {
+                //    opened: false
+                //};
+                //
+                //var tomorrow = new Date();
+                //tomorrow.setDate(tomorrow.getDate() + 1);
+                //var afterTomorrow = new Date();
+                //afterTomorrow.setDate(tomorrow.getDate() + 2);
+                //scope.events =
+                //    [
+                //        {
+                //            date: tomorrow,
+                //            status: 'full'
+                //        },
+                //        {
+                //            date: afterTomorrow,
+                //            status: 'partially'
+                //        }
+                //    ];
+                //
+                //scope.getDayClass = function(date, mode) {
+                //    if (mode === 'day') {
+                //        var dayToCheck = new Date(date).setHours(0,0,0,0);
+                //
+                //        for (var i=0;i<$scope.events.length;i++){
+                //            var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
+                //
+                //            if (dayToCheck === currentDay) {
+                //                return $scope.events[i].status;
+                //            }
+                //        }
+                //    }
+                //
+                //    return '';
+                //};
 
             }
 
@@ -163,6 +162,11 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
 
         scope.object_id = scope.form_params['object_id'];
 
+        //scope.triggerItem = function(id) {
+        //    angular.element($(id));
+        //    angular.element($(id)).triggerHandler('click');
+        //}
+
         return generator.group(scope);
     };
     generator.group = function (formObject) {
@@ -207,6 +211,12 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
         return re.test(email);
     };
+    generator.generateButtons = function (scope) {
+        //scope.buttonplace = angular.element($('#myElement'));
+        scope.$watch("form", function(){
+            debugger;
+        });
+    };
     generator.asyncValidators = {
         emailNotValid: function (value) {
             var deferred = $q.defer();
@@ -229,6 +239,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
             "model": $scope.form_params.model,
             "token": $scope.token
         };
+        debugger;
         if ($scope.object_id) {
             var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
             var data = {

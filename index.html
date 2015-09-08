@@ -14,15 +14,13 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- @if NODE_ENV == 'DEVELOPMENT' -->
-    <!--<link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css">-->
+    <link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="app.css">
     <link href="styles/roboto/roboto.css" rel="stylesheet">
     <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.min.css">
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" type="text/css">
-    <!--<link rel="stylesheet" href="bower_components/quantumui/dist/css/addon/effect-light.min.css">-->
-    <!--<link rel="stylesheet" href="bower_components/quantumui/dist/css/quantumui.min.css">-->
     <!-- @endif -->
 
     <!-- @if NODE_ENV == 'PRODUCTION' -->
@@ -51,23 +49,17 @@
     <header-notification></header-notification>
 </nav>
 
-<sidebar></sidebar>
+<sidebar ng-if="$root.loggedInUser"></sidebar>
 
 <div class="manager-view">
     <div class="manager-view-inner">
         <!-- manager-header -->
-        <div class="manager-view-header container-fluid">
-            <ul class="breadcrumb">
-                <li><a href="#">Personeller</a></li>
-                <li><a href="#">Liste</a></li>
-                <li class="active">Tablo</li>
-            </ul>
-            <button type="button" class="btn btn-primary">Kaydet</button>
-        </div>
+        <header-sub-menu ng-if="$root.loggedInUser"></header-sub-menu>
         <!-- end of manager-header -->
         <div class="manager-view-content">
             <div class="row">
                 <div class="main" ng-view>
+
                 </div>
 
             </div>
@@ -83,19 +75,14 @@
 <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
 <script src="bower_components/angular-resource/angular-resource.min.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="bower_components/tv4/tv4.js"></script>
 <script src="bower_components/objectpath/lib/ObjectPath.js"></script>
-<script src="bower_components/objectpath/lib/ObjectPath.js"></script>
 <script src="bower_components/angular-schema-form/dist/schema-form.min.js"></script>
 <script src="bower_components/angular-schema-form/dist/bootstrap-decorator.min.js"></script>
-<!--<script src="bower_components/angular-schema-form-datepicker/bootstrap-datepicker.min.js"></script>-->
 <script src="bower_components/angular-gettext/dist/angular-gettext.min.js"></script>
 
-
-<!-- TODO: check all js and remove unused -->
 <script src="bower_components/json3/lib/json3.min.js"></script>
 <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
 <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
@@ -121,7 +108,6 @@
 <script src="components/staff/staff_controller.js"></script>
 <script src="components/student/student_controller.js"></script>
 <script src="components/version/version.js"></script>
-<!--<script src="bower_components/quantumui/dist/js/quantumui-nojq.js"></script>-->
 <!-- @endif -->
 
 <!-- @if NODE_ENV == 'PRODUCTION' -->

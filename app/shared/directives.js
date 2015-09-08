@@ -30,7 +30,7 @@ app.directive('headerNotification', function () {
     return {
         templateUrl: 'shared/templates/directives/header-notification.html',
         restrict: 'E',
-        replace: true,
+        replace: true
     }
 });
 
@@ -38,7 +38,26 @@ app.directive('headerSubMenu', function () {
     return {
         templateUrl: 'shared/templates/directives/header-sub-menu.html',
         restrict: 'E',
+        controller: "CRUDAddEditCtrl",
         replace: true,
+        link: function($scope){
+            $scope.triggerSubmit = function() {
+                // todo: double make it but single not solve this!
+                angular.element($('#submitbutton')).triggerHandler('click');
+                angular.element($('#submitbutton')).triggerHandler('click');
+                //$scope.$broadcast('schemaFormValidate');
+                //$scope.onSubmit(angular.element($('#submitbutton')).scope().formgenerated);
+            }
+        }
+    }
+});
+
+// todo: unused delete
+app.directive('headerSubMenuButtons', function () {
+    return {
+        templateUrl: 'shared/templates/directives/header-sub-menu-buttons.html',
+        restrict: 'E',
+        replace: true
     }
 });
 

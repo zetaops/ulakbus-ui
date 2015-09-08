@@ -1,5 +1,5 @@
 <h1>{{ schema.title }}</h1>
-<form name="formgenerated" sf-schema="schema" sf-form="form" sf-model="model"></form>
+<form id="formgenerated" name="formgenerated" sf-schema="schema" sf-form="form" sf-model="model"></form>
 <div ng-repeat="node in listnodes">
     <h3>{{ node.title }}
         <span>
@@ -34,3 +34,7 @@
         </tbody>
     </table>
 </div>
+
+<button id="submitbutton" type="button" class="btn btn-primary" ng-click="onSubmit(formgenerated)">Kaydet</button>
+<button type="button" class="btn btn-warning">Düzenle</button> <!-- todo: make it conditional -->
+<button type="button" class="btn btn-danger">İptal</button> <!-- todo: turn back to previous page -->
