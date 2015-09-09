@@ -13,6 +13,8 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         return RESTURL.url + url;
     };
     generator.generate = function (scope, forms) {
+
+        // if no form in response (in case of list and single item request) return scope
         if (!forms) {
             return scope;
         }
@@ -26,87 +28,21 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
 
         angular.forEach(scope.schema.properties, function (k, v) {
             // check if type is date and if type date found change it to string
-            // and give it 'format':'date' property
-            // todo: make datepicker work below
+            // and give it 'type':'template' property and load it with template
 
             if (k.type == 'date') {
-                k.title= k.title;
                 scope.form[scope.form.indexOf(v)] = {
                     "type": "template",
                     "templateUrl": "shared/templates/datefield.html",
                     "title": k.title,
-                    "key": k.name,
+                    "key": k.name
                 };
-                //var parentScope = scope.$parent.$parent.$parent.$parent;
-                //scope.today = function() {
-                //    scope.dt = new Date();
-                //};
-                //scope.today();
-                //
-                //scope.clear = function () {
-                //    scope.dt = null;
-                //};
-                //
-                //// Disable weekend selection
-                //scope.disabled = function(date, mode) {
-                //    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-                //};
-                //
-                //scope.toggleMin = function() {
-                //    scope.minDate = scope.minDate ? null : new Date();
-                //};
-                //scope.toggleMin();
-                //scope.maxDate = new Date(2020, 5, 22);
-                //
-                //scope.open = function($event) {
-                //    debugger;
-                //    scope.status.opened = true;
-                //};
-                //
-                //scope.dateOptions = {
-                //    formatYear: 'yy',
-                //    startingDay: 1,
-                //    initDate: new Date('01-01-1900')
-                //};
-                //
-                //scope.format = 'dd.MM.yyyy';
-                //
-                //scope.status = {
-                //    opened: false
-                //};
-                //
-                //var tomorrow = new Date();
-                //tomorrow.setDate(tomorrow.getDate() + 1);
-                //var afterTomorrow = new Date();
-                //afterTomorrow.setDate(tomorrow.getDate() + 2);
-                //scope.events =
-                //    [
-                //        {
-                //            date: tomorrow,
-                //            status: 'full'
-                //        },
-                //        {
-                //            date: afterTomorrow,
-                //            status: 'partially'
-                //        }
-                //    ];
-                //
-                //scope.getDayClass = function(date, mode) {
-                //    if (mode === 'day') {
-                //        var dayToCheck = new Date(date).setHours(0,0,0,0);
-                //
-                //        for (var i=0;i<$scope.events.length;i++){
-                //            var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
-                //
-                //            if (dayToCheck === currentDay) {
-                //                return $scope.events[i].status;
-                //            }
-                //        }
-                //    }
-                //
-                //    return '';
-                //};
+                scope.model[k.name] = generator.dateformatter(scope.model[k.name]);
 
+                // seek for datepicker field and initialize datepicker
+                scope.$watch(angular.element($('.datepickerfield')), function(){
+                    $('.datepickerfield').datepicker();
+                });
             }
 
             if (k.type == 'int') {
@@ -162,11 +98,6 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
 
         scope.object_id = scope.form_params['object_id'];
 
-        //scope.triggerItem = function(id) {
-        //    angular.element($(id));
-        //    angular.element($(id)).triggerHandler('click');
-        //}
-
         return generator.group(scope);
     };
     generator.group = function (formObject) {
@@ -176,9 +107,9 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         //angular.forEach(formObject.objects, function(k, v) {
         // check if date string and convert to date object
         // todo: catch date object and convert
-        //debugger;
+        debugger;
         //});
-        return formObject;
+        return Date(formObject);
     };
     generator.get_form = function (scope) {
         return $http
@@ -210,12 +141,6 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
     generator.isValidEmail = function (email) {
         var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
         return re.test(email);
-    };
-    generator.generateButtons = function (scope) {
-        //scope.buttonplace = angular.element($('#myElement'));
-        scope.$watch("form", function(){
-            debugger;
-        });
     };
     generator.asyncValidators = {
         emailNotValid: function (value) {
