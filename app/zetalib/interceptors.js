@@ -42,6 +42,7 @@ app.config(['$httpProvider', function ($httpProvider) {
                     $location.reload();
                 }
                 if(rejection.status === 401) {
+                    $rootScope.loggedInUser = response.data.is_login;
                     if($location.path()==="/login"){
                         console.log("show errors on login form");
                     } else{

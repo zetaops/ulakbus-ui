@@ -28,16 +28,13 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
     }
 
     // get form with generator
-    $scope.loaddata = function() {
-        console.log('loading data');
-        Generator.get_form($scope);
-    };
+    Generator.get_form($scope);
 
-    // todo remove timeout to load controller efficiently
-    //$timeout($scope.loaddata, 1000);
-    $scope.loaddata();
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
+
+        debugger;
+
         if (form.$valid) {
             Generator.submit($scope)
                 .success(function(data){
@@ -48,6 +45,7 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
                 });
         }
     };
+
 });
 
 /**

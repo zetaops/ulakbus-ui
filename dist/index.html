@@ -16,6 +16,7 @@
 
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/roboto/roboto.css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
 </head>
 <body>
 
@@ -38,23 +39,17 @@
     <header-notification></header-notification>
 </nav>
 
-<sidebar></sidebar>
+<sidebar ng-if="$root.loggedInUser"></sidebar>
 
 <div class="manager-view">
     <div class="manager-view-inner">
         <!-- manager-header -->
-        <div class="manager-view-header container-fluid">
-            <ul class="breadcrumb">
-                <li><a href="#">Personeller</a></li>
-                <li><a href="#">Liste</a></li>
-                <li class="active">Tablo</li>
-            </ul>
-            <button type="button" class="btn btn-primary">Kaydet</button>
-        </div>
+        <header-sub-menu ng-if="$root.loggedInUser"></header-sub-menu>
         <!-- end of manager-header -->
         <div class="manager-view-content">
             <div class="row">
                 <div class="main" ng-view>
+
                 </div>
 
             </div>

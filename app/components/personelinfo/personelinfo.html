@@ -1,107 +1,160 @@
 <div ng-app="ulakbus.personelinfo">
     <div class="starter-template">
-    
-        <!-- table view -->
-         <table class="table table-bordered" style="background-color:#fff;">
-          <thead>
-            <tr>
-              <th colspan="2">
-              	<label>
-                	<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
-                    Hepsini Seç2
-              	</label>
-              </th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td width="60">
-              	<label>
-                	<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
-                </label>
-              </td>
-              <th scope="row" style="text-align:center">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <td>
-              	<label>
-                	<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
-              	</label>
-              </td>
-              <th scope="row" style="text-align:center">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <td>
-              	<label>
-                	<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
-              	</label>
-              </td>
-              <th scope="row" style="text-align:center">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-            <tr>
-              <td width="60">
-              	<label>
-                	<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
-                </label>
-              </td>
-              <th scope="row" style="text-align:center">4</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <td>
-              	<label>
-                	<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
-              	</label>
-              </td>
-              <th scope="row" style="text-align:center">5</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <td>
-              	<label>
-                	<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
-              	</label>
-              </td>
-              <th scope="row" style="text-align:center">6</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
-        <!-- end of table view -->
         
-       <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            İşlemler <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a href="">İşlem 1</a></li>
-            <li><a href="">İşlem 2</a></li>
-            <li><a href="">İşlem 3</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="">İşlem 4</a></li>
-          </ul>
+        <div class="personnel-info-container">
+        	<div class="personnel-info-left">
+            	<div class="generic-profile-picture">
+                	<img src="../../img/sample-profile-pic.jpg" />
+                </div>
+                <ul>
+                	<li>Gökhan Boranalp</li>
+                    <li>Pozisyon</li>
+                	<li><i class="fa fa-phone"></i> (+90) 123 456 7890</li>
+                    <li><i class="fa fa-envelope"></i> samplemail@mail.com</li>
+                    <li><i class="fa fa-map-marker"></i> Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR</li></li>
+                </ul>
+            </div>
+            <!-- end of personnel-info-left -->
+        	<div class="personnel-info-right">
+                <div class="info-block">
+                	<div class="info-block-header">
+                    	<h2>Kişisel Bilgiler</h2>
+                    </div>
+                    <!-- end of info-block-header -->
+                    <div class="info-block-body">
+                    	<dl class="dl-horizontal">
+                            <dt>Ad Soyad</dt>
+                            <dd>Gökhan Boranalp</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Cinsiyet</dt>
+                            <dd>Erkek</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Doğum Tarihi</dt>
+                            <dd>23/06/1970</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>İkamet Adresi</dt>
+                            <dd>Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR</dd>
+                        </dl>
+                    </div>
+                    <!-- end of info-block-body -->
+                </div>
+                <!-- end of info block -->
+                
+                <div class="info-block">
+                	<div class="info-block-header">
+                    	<h2>İletişim Bilgileri</h2>
+                    </div>
+                    <!-- end of info-block-header -->
+                    <div class="info-block-body">
+                    	<dl class="dl-horizontal">
+                            <dt>Ev Telefonu</dt>
+                            <dd>-</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Cep Telefonu</dt>
+                            <dd>(+90) 123 456 7890</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Mail Adresi</dt>
+                            <dd>gokhan@zetaops.io</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Diğer Mail Adresi</dt>
+                            <dd>-</dd>
+                        </dl>
+                    </div>
+                    <!-- end of info-block-body -->
+                </div>
+                <!-- end of info block -->
+            </div>
+            <!-- personnel-info-left -->
         </div>
+        <!-- end of personnel-info-container -->
         
-        
-        <hr>
+        <div class="personnel-info-container personnel-info-edit">
+        	<div class="personnel-info-left">
+            	<div class="generic-profile-picture">
+                	<img src="../../img/sample-profile-pic.jpg" />
+                </div>
+                <div style="margin-top:10px; text-align:center;">
+                <button type="button" class="btn btn-primary">Değiştir</button>
+                <button type="button" class="btn btn-danger">Sil</button>
+                </div>
+            </div>
+            <!-- end of personnel-info-left -->
+        	<div class="personnel-info-right">
+                <div class="info-block">
+                	<div class="info-block-header">
+                    	<h2>Kişisel Bilgiler</h2>
+                    </div>
+                    <!-- end of info-block-header -->
+                    <div class="info-block-body">
+                    	<dl class="dl-horizontal">
+                            <dt>Ad Soyad</dt>
+                            <dd><input type="text" class="form-control" placeholder="Gökhan Boranalp"></dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Pozisyon</dt>
+                            <dd><input type="text" class="form-control" placeholder="Pozisyon"></dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Cinsiyet</dt>
+                            <dd>
+                            	<select class="form-control">
+                                  <option value="male">Erkek</option>
+                                  <option value="female">Kadın</option>
+                                </select>
+                            </dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Doğum Tarihi</dt>
+                            <dd>
+                            <input type="text" class="form-control" placeholder="Angular JS - Bootstrap Date Picker Eklenecek">
+                            </dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>İkamet Adresi</dt>
+                            <dd><input type="text" class="form-control" placeholder="Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR"></dd>
+                        </dl>
+                    </div>
+                    <!-- end of info-block-body -->
+                </div>
+                <!-- end of info block -->
+                
+                <div class="info-block">
+                	<div class="info-block-header">
+                    	<h2>İletişim Bilgileri</h2>
+                    </div>
+                    <!-- end of info-block-header -->
+                    <div class="info-block-body">
+                    	<dl class="dl-horizontal">
+                            <dt>Ev Telefonu</dt>
+                            <dd><input type="text" class="form-control" placeholder=""></dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Cep Telefonu</dt>
+                            <dd><input type="text" class="form-control" placeholder="(+90) 123 456 7890 (Phone number mask uygulanacak)"></dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Mail Adresi</dt>
+                            <dd><input type="text" class="form-control" placeholder="gokhan@zetaops.io"></dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Diğer Mail Adresi</dt>
+                            <dd><input type="text" class="form-control" placeholder=""></dd>
+                        </dl>
+                    </div>
+                    <!-- end of info-block-body -->
+                </div>
+                <!-- end of info block -->
+            </div>
+            <!-- personnel-info-left -->
+        </div>
+        <!-- end of personnel-info-container -->
+
 
     </div>
 </div>

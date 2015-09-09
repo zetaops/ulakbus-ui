@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/add.html', 'components/crud/templates/edit.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/personelinfo/personelinfo.html', 'components/staff/templates/add.html', 'components/staff/templates/edit.html', 'components/staff/templates/list.html', 'components/staff/templates/show.html', 'components/student/student_add_template.html', 'components/student/student_list_template.html', 'components/types/types_template.html', 'shared/templates/add.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/add.html', 'components/crud/templates/edit.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/personelinfo/personelinfo.html', 'components/staff/templates/add.html', 'components/staff/templates/edit.html', 'components/staff/templates/list.html', 'components/staff/templates/show.html', 'components/student/student_add_template.html', 'components/student/student_list_template.html', 'components/types/types_template.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu-buttons.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -80,107 +80,108 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
   $templateCache.put("components/dashboard/dashboard.html",
     "<div ng-app=\"ulakbus.dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
-    "    \n" +
+    "\n" +
     "        <!-- table view -->\n" +
-    "         <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
-    "          <thead>\n" +
+    "        <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
+    "            <thead>\n" +
     "            <tr>\n" +
-    "              <th colspan=\"2\">\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                    Hepsini Seç\n" +
-    "              	</label>\n" +
-    "              </th>\n" +
-    "              <th>First Name</th>\n" +
-    "              <th>Last Name</th>\n" +
-    "              <th>Username</th>\n" +
+    "                <th colspan=\"2\">\n" +
+    "                    <label>\n" +
+    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                        Hepsini Seç\n" +
+    "                    </label>\n" +
+    "                </th>\n" +
+    "                <th>First Name</th>\n" +
+    "                <th>Last Name</th>\n" +
+    "                <th>Username</th>\n" +
     "            </tr>\n" +
-    "          </thead>\n" +
-    "          <tbody>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
     "            <tr>\n" +
-    "              <td width=\"60\">\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                </label>\n" +
-    "              </td>\n" +
-    "              <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
-    "              <td>Mark</td>\n" +
-    "              <td>Otto</td>\n" +
-    "              <td>@mdo</td>\n" +
-    "            </tr>\n" +
-    "            <tr>\n" +
-    "              <td>\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "              	</label>\n" +
-    "              </td>\n" +
-    "              <th scope=\"row\" style=\"text-align:center\">2</th>\n" +
-    "              <td>Jacob</td>\n" +
-    "              <td>Thornton</td>\n" +
-    "              <td>@fat</td>\n" +
+    "                <td width=\"60\">\n" +
+    "                    <label>\n" +
+    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    </label>\n" +
+    "                </td>\n" +
+    "                <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
+    "                <td>Mark</td>\n" +
+    "                <td>Otto</td>\n" +
+    "                <td>@mdo</td>\n" +
     "            </tr>\n" +
     "            <tr>\n" +
-    "              <td>\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "              	</label>\n" +
-    "              </td>\n" +
-    "              <th scope=\"row\" style=\"text-align:center\">3</th>\n" +
-    "              <td>Larry</td>\n" +
-    "              <td>the Bird</td>\n" +
-    "              <td>@twitter</td>\n" +
+    "                <td>\n" +
+    "                    <label>\n" +
+    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    </label>\n" +
+    "                </td>\n" +
+    "                <th scope=\"row\" style=\"text-align:center\">2</th>\n" +
+    "                <td>Jacob</td>\n" +
+    "                <td>Thornton</td>\n" +
+    "                <td>@fat</td>\n" +
     "            </tr>\n" +
     "            <tr>\n" +
-    "              <td width=\"60\">\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                </label>\n" +
-    "              </td>\n" +
-    "              <th scope=\"row\" style=\"text-align:center\">4</th>\n" +
-    "              <td>Mark</td>\n" +
-    "              <td>Otto</td>\n" +
-    "              <td>@mdo</td>\n" +
+    "                <td>\n" +
+    "                    <label>\n" +
+    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    </label>\n" +
+    "                </td>\n" +
+    "                <th scope=\"row\" style=\"text-align:center\">3</th>\n" +
+    "                <td>Larry</td>\n" +
+    "                <td>the Bird</td>\n" +
+    "                <td>@twitter</td>\n" +
     "            </tr>\n" +
     "            <tr>\n" +
-    "              <td>\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "              	</label>\n" +
-    "              </td>\n" +
-    "              <th scope=\"row\" style=\"text-align:center\">5</th>\n" +
-    "              <td>Jacob</td>\n" +
-    "              <td>Thornton</td>\n" +
-    "              <td>@fat</td>\n" +
+    "                <td width=\"60\">\n" +
+    "                    <label>\n" +
+    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    </label>\n" +
+    "                </td>\n" +
+    "                <th scope=\"row\" style=\"text-align:center\">4</th>\n" +
+    "                <td>Mark</td>\n" +
+    "                <td>Otto</td>\n" +
+    "                <td>@mdo</td>\n" +
     "            </tr>\n" +
     "            <tr>\n" +
-    "              <td>\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "              	</label>\n" +
-    "              </td>\n" +
-    "              <th scope=\"row\" style=\"text-align:center\">6</th>\n" +
-    "              <td>Larry</td>\n" +
-    "              <td>the Bird</td>\n" +
-    "              <td>@twitter</td>\n" +
+    "                <td>\n" +
+    "                    <label>\n" +
+    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    </label>\n" +
+    "                </td>\n" +
+    "                <th scope=\"row\" style=\"text-align:center\">5</th>\n" +
+    "                <td>Jacob</td>\n" +
+    "                <td>Thornton</td>\n" +
+    "                <td>@fat</td>\n" +
     "            </tr>\n" +
-    "          </tbody>\n" +
+    "            <tr>\n" +
+    "                <td>\n" +
+    "                    <label>\n" +
+    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    </label>\n" +
+    "                </td>\n" +
+    "                <th scope=\"row\" style=\"text-align:center\">6</th>\n" +
+    "                <td>Larry</td>\n" +
+    "                <td>the Bird</td>\n" +
+    "                <td>@twitter</td>\n" +
+    "            </tr>\n" +
+    "            </tbody>\n" +
     "        </table>\n" +
     "        <!-- end of table view -->\n" +
-    "        \n" +
-    "       <div class=\"btn-group\">\n" +
-    "          <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
-    "            İşlemler <span class=\"caret\"></span>\n" +
-    "          </button>\n" +
-    "          <ul class=\"dropdown-menu\">\n" +
-    "            <li><a href=\"\">İşlem 1</a></li>\n" +
-    "            <li><a href=\"\">İşlem 2</a></li>\n" +
-    "            <li><a href=\"\">İşlem 3</a></li>\n" +
-    "            <li role=\"separator\" class=\"divider\"></li>\n" +
-    "            <li><a href=\"\">İşlem 4</a></li>\n" +
-    "          </ul>\n" +
+    "\n" +
+    "        <div class=\"btn-group\">\n" +
+    "            <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n" +
+    "                    aria-expanded=\"false\">\n" +
+    "                İşlemler <span class=\"caret\"></span>\n" +
+    "            </button>\n" +
+    "            <ul class=\"dropdown-menu\">\n" +
+    "                <li><a href=\"\">İşlem 1</a></li>\n" +
+    "                <li><a href=\"\">İşlem 2</a></li>\n" +
+    "                <li><a href=\"\">İşlem 3</a></li>\n" +
+    "                <li role=\"separator\" class=\"divider\"></li>\n" +
+    "                <li><a href=\"\">İşlem 4</a></li>\n" +
+    "            </ul>\n" +
     "        </div>\n" +
-    "        \n" +
-    "        \n" +
+    "\n" +
+    "\n" +
     "        <hr>\n" +
     "\n" +
     "    </div>\n" +
@@ -191,108 +192,161 @@ angular.module("components/personelinfo/personelinfo.html", []).run(["$templateC
   $templateCache.put("components/personelinfo/personelinfo.html",
     "<div ng-app=\"ulakbus.personelinfo\">\n" +
     "    <div class=\"starter-template\">\n" +
-    "    \n" +
-    "        <!-- table view -->\n" +
-    "         <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
-    "          <thead>\n" +
-    "            <tr>\n" +
-    "              <th colspan=\"2\">\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                    Hepsini Seç2\n" +
-    "              	</label>\n" +
-    "              </th>\n" +
-    "              <th>First Name</th>\n" +
-    "              <th>Last Name</th>\n" +
-    "              <th>Username</th>\n" +
-    "            </tr>\n" +
-    "          </thead>\n" +
-    "          <tbody>\n" +
-    "            <tr>\n" +
-    "              <td width=\"60\">\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                </label>\n" +
-    "              </td>\n" +
-    "              <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
-    "              <td>Mark</td>\n" +
-    "              <td>Otto</td>\n" +
-    "              <td>@mdo</td>\n" +
-    "            </tr>\n" +
-    "            <tr>\n" +
-    "              <td>\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "              	</label>\n" +
-    "              </td>\n" +
-    "              <th scope=\"row\" style=\"text-align:center\">2</th>\n" +
-    "              <td>Jacob</td>\n" +
-    "              <td>Thornton</td>\n" +
-    "              <td>@fat</td>\n" +
-    "            </tr>\n" +
-    "            <tr>\n" +
-    "              <td>\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "              	</label>\n" +
-    "              </td>\n" +
-    "              <th scope=\"row\" style=\"text-align:center\">3</th>\n" +
-    "              <td>Larry</td>\n" +
-    "              <td>the Bird</td>\n" +
-    "              <td>@twitter</td>\n" +
-    "            </tr>\n" +
-    "            <tr>\n" +
-    "              <td width=\"60\">\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                </label>\n" +
-    "              </td>\n" +
-    "              <th scope=\"row\" style=\"text-align:center\">4</th>\n" +
-    "              <td>Mark</td>\n" +
-    "              <td>Otto</td>\n" +
-    "              <td>@mdo</td>\n" +
-    "            </tr>\n" +
-    "            <tr>\n" +
-    "              <td>\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "              	</label>\n" +
-    "              </td>\n" +
-    "              <th scope=\"row\" style=\"text-align:center\">5</th>\n" +
-    "              <td>Jacob</td>\n" +
-    "              <td>Thornton</td>\n" +
-    "              <td>@fat</td>\n" +
-    "            </tr>\n" +
-    "            <tr>\n" +
-    "              <td>\n" +
-    "              	<label>\n" +
-    "                	<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "              	</label>\n" +
-    "              </td>\n" +
-    "              <th scope=\"row\" style=\"text-align:center\">6</th>\n" +
-    "              <td>Larry</td>\n" +
-    "              <td>the Bird</td>\n" +
-    "              <td>@twitter</td>\n" +
-    "            </tr>\n" +
-    "          </tbody>\n" +
-    "        </table>\n" +
-    "        <!-- end of table view -->\n" +
     "        \n" +
-    "       <div class=\"btn-group\">\n" +
-    "          <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
-    "            İşlemler <span class=\"caret\"></span>\n" +
-    "          </button>\n" +
-    "          <ul class=\"dropdown-menu\">\n" +
-    "            <li><a href=\"\">İşlem 1</a></li>\n" +
-    "            <li><a href=\"\">İşlem 2</a></li>\n" +
-    "            <li><a href=\"\">İşlem 3</a></li>\n" +
-    "            <li role=\"separator\" class=\"divider\"></li>\n" +
-    "            <li><a href=\"\">İşlem 4</a></li>\n" +
-    "          </ul>\n" +
+    "        <div class=\"personnel-info-container\">\n" +
+    "        	<div class=\"personnel-info-left\">\n" +
+    "            	<div class=\"generic-profile-picture\">\n" +
+    "                	<img src=\"../../img/sample-profile-pic.jpg\" />\n" +
+    "                </div>\n" +
+    "                <ul>\n" +
+    "                	<li>Gökhan Boranalp</li>\n" +
+    "                    <li>Pozisyon</li>\n" +
+    "                	<li><i class=\"fa fa-phone\"></i> (+90) 123 456 7890</li>\n" +
+    "                    <li><i class=\"fa fa-envelope\"></i> samplemail@mail.com</li>\n" +
+    "                    <li><i class=\"fa fa-map-marker\"></i> Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR</li></li>\n" +
+    "                </ul>\n" +
+    "            </div>\n" +
+    "            <!-- end of personnel-info-left -->\n" +
+    "        	<div class=\"personnel-info-right\">\n" +
+    "                <div class=\"info-block\">\n" +
+    "                	<div class=\"info-block-header\">\n" +
+    "                    	<h2>Kişisel Bilgiler</h2>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-header -->\n" +
+    "                    <div class=\"info-block-body\">\n" +
+    "                    	<dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Ad Soyad</dt>\n" +
+    "                            <dd>Gökhan Boranalp</dd>\n" +
+    "                        </dl>\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Cinsiyet</dt>\n" +
+    "                            <dd>Erkek</dd>\n" +
+    "                        </dl>\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Doğum Tarihi</dt>\n" +
+    "                            <dd>23/06/1970</dd>\n" +
+    "                        </dl>\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>İkamet Adresi</dt>\n" +
+    "                            <dd>Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR</dd>\n" +
+    "                        </dl>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-body -->\n" +
+    "                </div>\n" +
+    "                <!-- end of info block -->\n" +
+    "                \n" +
+    "                <div class=\"info-block\">\n" +
+    "                	<div class=\"info-block-header\">\n" +
+    "                    	<h2>İletişim Bilgileri</h2>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-header -->\n" +
+    "                    <div class=\"info-block-body\">\n" +
+    "                    	<dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Ev Telefonu</dt>\n" +
+    "                            <dd>-</dd>\n" +
+    "                        </dl>\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Cep Telefonu</dt>\n" +
+    "                            <dd>(+90) 123 456 7890</dd>\n" +
+    "                        </dl>\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Mail Adresi</dt>\n" +
+    "                            <dd>gokhan@zetaops.io</dd>\n" +
+    "                        </dl>\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Diğer Mail Adresi</dt>\n" +
+    "                            <dd>-</dd>\n" +
+    "                        </dl>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-body -->\n" +
+    "                </div>\n" +
+    "                <!-- end of info block -->\n" +
+    "            </div>\n" +
+    "            <!-- personnel-info-left -->\n" +
     "        </div>\n" +
+    "        <!-- end of personnel-info-container -->\n" +
     "        \n" +
-    "        \n" +
-    "        <hr>\n" +
+    "        <div class=\"personnel-info-container personnel-info-edit\">\n" +
+    "        	<div class=\"personnel-info-left\">\n" +
+    "            	<div class=\"generic-profile-picture\">\n" +
+    "                	<img src=\"../../img/sample-profile-pic.jpg\" />\n" +
+    "                </div>\n" +
+    "                <div style=\"margin-top:10px; text-align:center;\">\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\">Değiştir</button>\n" +
+    "                <button type=\"button\" class=\"btn btn-danger\">Sil</button>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "            <!-- end of personnel-info-left -->\n" +
+    "        	<div class=\"personnel-info-right\">\n" +
+    "                <div class=\"info-block\">\n" +
+    "                	<div class=\"info-block-header\">\n" +
+    "                    	<h2>Kişisel Bilgiler</h2>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-header -->\n" +
+    "                    <div class=\"info-block-body\">\n" +
+    "                    	<dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Ad Soyad</dt>\n" +
+    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"Gökhan Boranalp\"></dd>\n" +
+    "                        </dl>\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Pozisyon</dt>\n" +
+    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"Pozisyon\"></dd>\n" +
+    "                        </dl>\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Cinsiyet</dt>\n" +
+    "                            <dd>\n" +
+    "                            	<select class=\"form-control\">\n" +
+    "                                  <option value=\"male\">Erkek</option>\n" +
+    "                                  <option value=\"female\">Kadın</option>\n" +
+    "                                </select>\n" +
+    "                            </dd>\n" +
+    "                        </dl>\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Doğum Tarihi</dt>\n" +
+    "                            <dd>\n" +
+    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Angular JS - Bootstrap Date Picker Eklenecek\">\n" +
+    "                            </dd>\n" +
+    "                        </dl>\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>İkamet Adresi</dt>\n" +
+    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR\"></dd>\n" +
+    "                        </dl>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-body -->\n" +
+    "                </div>\n" +
+    "                <!-- end of info block -->\n" +
+    "                \n" +
+    "                <div class=\"info-block\">\n" +
+    "                	<div class=\"info-block-header\">\n" +
+    "                    	<h2>İletişim Bilgileri</h2>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-header -->\n" +
+    "                    <div class=\"info-block-body\">\n" +
+    "                    	<dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Ev Telefonu</dt>\n" +
+    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"\"></dd>\n" +
+    "                        </dl>\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Cep Telefonu</dt>\n" +
+    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"(+90) 123 456 7890 (Phone number mask uygulanacak)\"></dd>\n" +
+    "                        </dl>\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Mail Adresi</dt>\n" +
+    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"gokhan@zetaops.io\"></dd>\n" +
+    "                        </dl>\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>Diğer Mail Adresi</dt>\n" +
+    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"\"></dd>\n" +
+    "                        </dl>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-body -->\n" +
+    "                </div>\n" +
+    "                <!-- end of info block -->\n" +
+    "            </div>\n" +
+    "            <!-- personnel-info-left -->\n" +
+    "        </div>\n" +
+    "        <!-- end of personnel-info-container -->\n" +
+    "\n" +
     "\n" +
     "    </div>\n" +
     "</div>");
@@ -383,11 +437,113 @@ angular.module("components/types/types_template.html", []).run(["$templateCache"
 
 angular.module("shared/templates/add.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/add.html",
-    "<div class=\"col-md-12\">\n" +
-    "    <h1>{{ schema.title }}</h1>\n" +
-    "    <button type=\"button\" ng-repeat=\"node in listnodes\" ng-click=\"openmodal(node)\">Add <span>{{node}}</span></button>\n" +
-    "    <form name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
-    "</div>");
+    "<h1>{{ schema.title }}</h1>\n" +
+    "<form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"></form>\n" +
+    "<div ng-repeat=\"node in listnodes\">\n" +
+    "    <h3>{{ node.title }}\n" +
+    "        <span>\n" +
+    "            <a href=\"javascript:void(0);\" add-modal-for-list-node={{node.title}}>\n" +
+    "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
+    "            </a>\n" +
+    "        </span>\n" +
+    "    </h3>\n" +
+    "    <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th colspan=\"2\">#</th>\n" +
+    "            <th ng-repeat=\"(key,value) in node.fields\">{{ value.title }}</th>\n" +
+    "            <th>action</th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "        <tr>\n" +
+    "            <td width=\"60\">\n" +
+    "                <label>\n" +
+    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                </label>\n" +
+    "            </td>\n" +
+    "            <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
+    "            <td ng-repeat=\"(key,value) in node.fields\">{{ value.value }}</td>\n" +
+    "            <td>\n" +
+    "                <a ng-href=\"#/crud/{{model}}/edit/{{object.key}}\">Edit</a><br>\n" +
+    "                <a ng-href=\"#/crud/{{model}}/{{object.key}}\">Show</a>\n" +
+    "                <a ng-href=\"#/crud/{{model}}/{{object.key}}\">Delete</a>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "</div>\n" +
+    "\n" +
+    "<button id=\"submitbutton\" type=\"button\" class=\"btn btn-primary\" ng-click=\"onSubmit(formgenerated)\">Kaydet</button>\n" +
+    "<button type=\"button\" class=\"btn btn-warning\">Düzenle</button> <!-- todo: make it conditional -->\n" +
+    "<button type=\"button\" class=\"btn btn-danger\">İptal</button> <!-- todo: turn back to previous page -->");
+}]);
+
+angular.module("shared/templates/datefield.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/datefield.html",
+    "<div class=\"form-group schema-form-{{form.type}} {{form.htmlClass}}\"\n" +
+    "     ng-class=\"{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false }\">\n" +
+    "    <label class=\"control-label {{form.labelHtmlClass}}\" ng-class=\"{'sr-only': !showTitle()}\"\n" +
+    "           for=\"{{form.key.slice(-1)[0]}}\">{{form.title}}</label>\n" +
+    "\n" +
+    "    <p class=\"input-group\">\n" +
+    "        <input ng-if=\"!form.fieldAddonLeft && !form.fieldAddonRight\"\n" +
+    "               ng-show=\"form.key\"\n" +
+    "               step=\"any\"\n" +
+    "               sf-changed=\"form\"\n" +
+    "               placeholder=\"{{form.placeholder}}\"\n" +
+    "               class=\"form-control {{form.fieldHtmlClass}} datepickerfield\"\n" +
+    "               id=\"{{form.key.slice(-1)[0]}}\"\n" +
+    "               ng-model-options=\"form.ngModelOptions\"\n" +
+    "               ng-model=\"dt\"\n" +
+    "               ng-disabled=\"form.readonly\"\n" +
+    "               schema-validate=\"form\"\n" +
+    "               name=\"{{form.key.slice(-1)[0]}}\"\n" +
+    "               aria-describedby=\"{{form.key.slice(-1)[0] + 'Status'}}\"/>\n" +
+    "\n" +
+    "        <span class=\"input-group-btn\">\n" +
+    "            <button type=\"button\" class=\"btn btn-default\">\n" +
+    "                <i class=\"glyphicon glyphicon-calendar\"></i>\n" +
+    "            </button>\n" +
+    "        </span>\n" +
+    "    </p>\n" +
+    "\n" +
+    "    <div ng-if=\"form.fieldAddonLeft || form.fieldAddonRight\"\n" +
+    "         ng-class=\"{'input-group': (form.fieldAddonLeft || form.fieldAddonRight)}\">\n" +
+    "    <span ng-if=\"form.fieldAddonLeft\"\n" +
+    "          class=\"input-group-addon\"\n" +
+    "          ng-bind-html=\"form.fieldAddonLeft\"></span>\n" +
+    "        <input ng-show=\"form.key\"\n" +
+    "               type=\"{{form.type}}\"\n" +
+    "               step=\"any\"\n" +
+    "               sf-changed=\"form\"\n" +
+    "               placeholder=\"{{form.placeholder}}\"\n" +
+    "               class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "               id=\"{{form.key.slice(-1)[0]}}\"\n" +
+    "               ng-model-options=\"form.ngModelOptions\"\n" +
+    "               ng-model=\"$$value$$\"\n" +
+    "               ng-disabled=\"form.readonly\"\n" +
+    "               schema-validate=\"form\"\n" +
+    "               name=\"{{form.key.slice(-1)[0]}}\"\n" +
+    "               aria-describedby=\"{{form.key.slice(-1)[0] + 'Status'}}\">\n" +
+    "\n" +
+    "    <span ng-if=\"form.fieldAddonRight\"\n" +
+    "          class=\"input-group-addon\"\n" +
+    "          ng-bind-html=\"form.fieldAddonRight\"></span>\n" +
+    "    </div>\n" +
+    "\n" +
+    "  <span ng-if=\"form.feedback !== false\"\n" +
+    "        class=\"form-control-feedback\"\n" +
+    "        ng-class=\"evalInScope(form.feedback) || {'glyphicon': true, 'glyphicon-ok': hasSuccess(), 'glyphicon-remove': hasError() }\"\n" +
+    "        aria-hidden=\"true\"></span>\n" +
+    "\n" +
+    "  <span ng-if=\"hasError() || hasSuccess()\"\n" +
+    "        id=\"{{form.key.slice(-1)[0] + 'Status'}}\"\n" +
+    "        class=\"sr-only\">{{ hasSuccess() ? '(success)' : '(error)' }}</span>\n" +
+    "\n" +
+    "    <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
+    "</div>\n" +
+    "");
 }]);
 
 angular.module("shared/templates/directives/chat.html", []).run(["$templateCache", function($templateCache) {
@@ -726,6 +882,30 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "");
 }]);
 
+angular.module("shared/templates/directives/header-sub-menu-buttons.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/header-sub-menu-buttons.html",
+    "<button type=\"button\" class=\"btn btn-primary\" ng-click=\"onSubmit(formgenerated)\">Kaydet</button>\n" +
+    "<button type=\"button\" class=\"btn btn-warning\">Düzenle</button>\n" +
+    "<button type=\"button\" class=\"btn btn-danger\">İptal</button>");
+}]);
+
+angular.module("shared/templates/directives/header-sub-menu.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/header-sub-menu.html",
+    "<div class=\"manager-view-header container-fluid\">\n" +
+    "    <ul class=\"breadcrumb\">\n" +
+    "        <li><a href=\"#\">Personeller</a></li>\n" +
+    "        <li><a href=\"#\">Liste</a></li>\n" +
+    "        <li class=\"active\">Tablo</li>\n" +
+    "    </ul>\n" +
+    "    <!--<header-sub-menu-buttons></header-sub-menu-buttons>-->\n" +
+    "    <div id=\"header-buttons\">\n" +
+    "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"triggerSubmit()\">Kaydet</button>\n" +
+    "        <button type=\"button\" class=\"btn btn-warning\">Düzenle</button>\n" +
+    "        <button type=\"button\" class=\"btn btn-danger\">İptal</button>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
 angular.module("shared/templates/directives/notifications.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/notifications.html",
     "<div class=\"panel-body\">\n" +
@@ -791,14 +971,14 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "<div class=\"navbar-default sidebar\" role=\"navigation\">\n" +
     "    <div class=\"sidebar-nav navbar-collapse\">\n" +
     "    	<div class=\"brand\">\n" +
-    "        	<a href=\"\" class=\"logo\"><img src=\"../../../img/brand-logo.png\" /></a>\n" +
+    "        	<a href=\"\" class=\"logo\"><img src=\"/img/brand-logo.png\" /></a>\n" +
     "        </div>\n" +
     "        <ul class=\"nav in\" id=\"side-menu\">\n" +
-    "            <sidebar-search></sidebar-search>\n" +
+    "            <!--<sidebar-search></sidebar-search>-->\n" +
     "            <li ui-sref-active=\"active\">\n" +
     "                <a href=\"#/dashboard\"><i class=\"fa fa-dashboard fa-fw\"></i> Dashboard</a>\n" +
     "            </li>\n" +
-    "            <li ng-repeat=\"(key, item) in menuItems\" ng-class=\"{active: collapseVar == key}\">{{dropDown}}\n" +
+    "            <li ng-repeat=\"(key, item) in menuItems\" ng-class=\"{active: collapseVar == key}\">\n" +
     "                <a href=\"\" ng-click=\"check(key)\"><i class=\"fa fa-wrench fa-fw\"></i> {{ item }}<span\n" +
     "                        class=\"fa arrow\"></span></a>\n" +
     "                <ul class=\"nav nav-second-level\" collapse=\"collapseVar!={{key}}\">\n" +
@@ -811,51 +991,6 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "                </ul>\n" +
     "                <!-- /.nav-second-level -->\n" +
     "            </li>\n" +
-    "            <!--<li ng-class=\"{active: collapseVar==2}\">-->\n" +
-    "                <!--<a href=\"\" ng-click=\"check(2)\"><i class=\"fa fa-sitemap fa-fw\"></i> Multi-Level Dropdown<span-->\n" +
-    "                        <!--class=\"fa arrow\"></span></a>-->\n" +
-    "                <!--<ul class=\"nav nav-second-level\" collapse=\"collapseVar!=2\">-->\n" +
-    "                    <!--<li>-->\n" +
-    "                        <!--<a href=\"\">Second Level Item</a>-->\n" +
-    "                    <!--</li>-->\n" +
-    "                    <!--<li>-->\n" +
-    "                        <!--<a href=\"\">Second Level Item</a>-->\n" +
-    "                    <!--</li>-->\n" +
-    "                    <!--<li ng-init=\"third=!third\" ng-class=\"{active: multiCollapseVar==3}\">-->\n" +
-    "                        <!--<a href=\"\" ng-click=\"multiCheck(3)\">Third Level <span class=\"fa arrow\"></span></a>-->\n" +
-    "                        <!--<ul class=\"nav nav-third-level\" collapse=\"multiCollapseVar!=3\">-->\n" +
-    "                            <!--<li>-->\n" +
-    "                                <!--<a href=\"\">Third Level Item</a>-->\n" +
-    "                            <!--</li>-->\n" +
-    "                            <!--<li>-->\n" +
-    "                                <!--<a href=\"\">Third Level Item</a>-->\n" +
-    "                            <!--</li>-->\n" +
-    "                            <!--<li>-->\n" +
-    "                                <!--<a href=\"\">Third Level Item</a>-->\n" +
-    "                            <!--</li>-->\n" +
-    "                            <!--<li>-->\n" +
-    "                                <!--<a href=\"\">Third Level Item</a>-->\n" +
-    "                            <!--</li>-->\n" +
-    "\n" +
-    "                        <!--</ul>-->\n" +
-    "                        <!--&lt;!&ndash; /.nav-third-level &ndash;&gt;-->\n" +
-    "                    <!--</li>-->\n" +
-    "                <!--</ul>-->\n" +
-    "                <!--&lt;!&ndash; /.nav-second-level &ndash;&gt;-->\n" +
-    "            <!--</li>-->\n" +
-    "            <!--<li ng-class=\"{active:collapseVar==4}\">-->\n" +
-    "                <!--<a href=\"\" ng-click=\"check(4)\"><i class=\"fa fa-files-o fa-fw\"></i> Sample Pages<span-->\n" +
-    "                        <!--class=\"fa arrow\"></span></a>-->\n" +
-    "                <!--<ul class=\"nav nav-second-level\" collapse=\"collapseVar!=4\">-->\n" +
-    "                    <!--<li ng-class=\"{active: selectedMenu=='blank'}\">-->\n" +
-    "                        <!--<a ui-sref=\"dashboard.blank\" ng-click=\"selectedMenu='blank'\">Blank Page</a>-->\n" +
-    "                    <!--</li>-->\n" +
-    "                    <!--<li>-->\n" +
-    "                        <!--<a ui-sref=\"login\">Login Page</a>-->\n" +
-    "                    <!--</li>-->\n" +
-    "                <!--</ul>-->\n" +
-    "                <!--&lt;!&ndash; /.nav-second-level &ndash;&gt;-->\n" +
-    "            <!--</li>-->\n" +
     "        </ul>\n" +
     "    </div>\n" +
     "    <!-- /.sidebar-collapse -->\n" +
@@ -1044,13 +1179,19 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
 angular.module("shared/templates/linkedModelModalContent.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/linkedModelModalContent.html",
     "<div class=\"modal-body\">\n" +
-    "    <form name=\"linkedModelForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(linkedModelForm)\"></form>\n" +
+    "    <h3>{{schema.title}}</h3>\n" +
+    "    <form name=\"linkedModelForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"></form>\n" +
+    "</div>\n" +
+    "<div class=\"modal-footer\">\n" +
+    "    <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"onSubmit(linkedModelForm)\">OK</button>\n" +
+    "    <button type=\"button\" class=\"btn btn-warning\" ng-click=\"cancel()\">Cancel</button>\n" +
     "</div>");
 }]);
 
 angular.module("shared/templates/listnodeModalContent.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/listnodeModalContent.html",
     "<div class=\"modal-body\">\n" +
+    "    <h3>{{schema.title}}</h3>\n" +
     "    <form name=\"listnodeform\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"></form>\n" +
     "</div>\n" +
     "<div class=\"modal-footer\">\n" +

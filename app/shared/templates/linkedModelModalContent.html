@@ -1,3 +1,8 @@
 <div class="modal-body">
-    <form name="linkedModelForm" sf-schema="schema" sf-form="form" sf-model="model" ng-submit="onSubmit(linkedModelForm)"></form>
+    <h3>{{schema.title}}</h3>
+    <form name="linkedModelForm" sf-schema="schema" sf-form="form" sf-model="model"></form>
+</div>
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-click="onSubmit(linkedModelForm)">OK</button>
+    <button type="button" class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>

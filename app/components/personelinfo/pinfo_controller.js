@@ -9,9 +9,8 @@
 
 // TODO: clean console log items
 
-angular.module('ulakbus.dashboard', ['ngRoute'])
+angular.module('ulakbus.pinfo', ['ngRoute'])
 
-    .controller('DashCtrl', function ($scope, $rootScope, $location) {
-        if(!$rootScope.loggedInUser){$location.path("/login");}
+    .controller('PCtrl', function ($scope) {
         $scope.testData = "<h1>This is main Dashboard</h1>";
     });
