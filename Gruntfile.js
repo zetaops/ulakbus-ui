@@ -74,6 +74,8 @@ module.exports = function (grunt) {
                     {expand: true, cwd: 'app/bower_components/font-awesome/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'brand-logo.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/styles/roboto/', src: '**/*', dest: 'dist/css/roboto/', flatten: false},
+                    {expand: true, cwd: 'app/styles/', src: 'jquery-ui.min.css', dest: 'dist/css/', flatten: true},
+                    {expand: true, cwd: 'app/styles/images/', src: '*', dest: 'dist/css/images/', flatten: true},
                     {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
                 ]
@@ -100,7 +102,6 @@ module.exports = function (grunt) {
             },
             components: {
                 src: [
-                    //"app/bower_components/jquery/dist/jquery.min.js",
                     "app/bower_components/angular-route/angular-route.min.js",
                     "app/bower_components/angular-cookies/angular-cookies.min.js",
                     "app/bower_components/angular-resource/angular-resource.min.js",
@@ -116,7 +117,8 @@ module.exports = function (grunt) {
                     "app/bower_components/json3/lib/json3.min.js",
                     "app/bower_components/angular-loading-bar/build/loading-bar.min.js",
                     "app/bower_components/metisMenu/dist/metisMenu.min.js",
-                    "app/bower_components/Chart.js/Chart.min.js"
+                    "app/bower_components/Chart.js/Chart.min.js",
+                    "app/shared/scripts/jquery-ui.min.js",
                 ],
                 dest: 'dist/bower_components/components.js'
             },
