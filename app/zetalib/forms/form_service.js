@@ -37,7 +37,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
                     "title": k.title,
                     "key": k.name
                 };
-                scope.model[k.name] = generator.dateformatter(scope.model[k.name]);
+                //scope.model[k.name] = generator.dateformatter(scope.model[k.name]);
 
                 // seek for datepicker field and initialize datepicker
                 scope.$watch(angular.element($('.datepickerfield')), function(){
@@ -83,14 +83,15 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
                 scope.form.splice([scope.form.indexOf(v)], 1);
                 scope.listnodes = scope.listnodes ? scope.listnodes : {};
                 scope.listnodes[k.title] = (k);
-                scope.model[k.title] = {};
+                scope.model[k.title] = [];
             }
 
             if (k.type == 'Node') {
                 scope.form.splice([scope.form.indexOf(v)], 1);
                 scope.nodes = scope.nodes ? scope.nodes : {};
                 scope.nodes[k.title] = (k);
-                scope.model[k.title] = {};
+                // todo: learn what node model will be?
+                scope.model[k.title] = [];
             }
         });
 
@@ -107,7 +108,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         //angular.forEach(formObject.objects, function(k, v) {
         // check if date string and convert to date object
         // todo: catch date object and convert
-        debugger;
+        //debugger;
         //});
         return Date(formObject);
     };
@@ -229,7 +230,7 @@ form_generator.directive('addModalForListNode', function ($modal, Generator) {
 
                 modalInstance.result.then(function (childmodel, key) {
                     var subfix = scope.schema.title.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
-                    scope.$parent.model[scope.schema.title][subfix+'.idx'] = scope.model;
+                    scope.$parent.model[scope.schema.title].push(scope.model);
                 });
             });
         }

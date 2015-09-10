@@ -13,8 +13,11 @@ module.exports = function (config) {
 
         files: [
             'app/bower_components/angular/angular.js',
-            'app/bower_components/oclazyload/dist/ocLazyLoad.min.js',
             'app/bower_components/angular-cookies/angular-cookies.min.js',
+            'app/bower_components/angular-bootstrap/ui-bootstrap.min.js',
+            'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+            'app/bower_components/angular-loading-bar/build/loading-bar.min.js',
+            'app/bower_components/angular-gettext/dist/angular-gettext.min.js',
             'app/bower_components/angular-route/angular-route.js',
             'app/bower_components/angular-resource/angular-resource.js',
             'app/bower_components/angular-sanitize/angular-sanitize.min.js',
@@ -33,7 +36,7 @@ module.exports = function (config) {
 
         frameworks: ['jasmine'],
 
-        browsers: ['PhantomJS', 'PhantomJS_custom'],
+        browsers: ['PhantomJS'],
 
         customLaunchers: {
             'PhantomJS_custom': {

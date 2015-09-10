@@ -21,7 +21,7 @@ describe('staff controller module', function () {
     describe('staff add controller', function() {
         it('should get form', function() {
             var $scope = {};
-            var controller = $controller('StaffAddCtrl', { $scope: $scope });
+            var controller = $controller('StaffAddEditCtrl', { $scope: $scope });
             expect($scope).not.toEqual(null);
         });
     });
