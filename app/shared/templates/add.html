@@ -24,7 +24,7 @@
                 </label>
             </td>
             <th scope="row" style="text-align:center">1</th>
-            <td ng-repeat="(key,value) in node.fields">{{ value.value }}</td>
+            <td ng-repeat="(key,value) in node.models">{{ value.value }}</td>
             <td>
                 <a ng-href="#/crud/{{model}}/edit/{{object.key}}">Edit</a><br>
                 <a ng-href="#/crud/{{model}}/{{object.key}}">Show</a>
