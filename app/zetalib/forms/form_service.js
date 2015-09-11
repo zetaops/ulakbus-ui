@@ -28,23 +28,15 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
 
         angular.forEach(scope.schema.properties, function (k, v) {
             // check if type is date and if type date found change it to string
-            // and give it 'type':'template' property and load it with template
 
             if (k.type == 'date') {
-                k.title = k.title;
-                scope.form[scope.form.indexOf(v)] = {
-                    "type": "template",
-                    "templateUrl": "shared/templates/datefield.html",
-                    "title": k.title,
-                    "key": k.name
-                };
-                debugger;
-                scope.model[k.name] = generator.dateformatter(scope.model[k.name]);
+                k.type = 'string';
 
-                // seek for datepicker field and initialize datepicker
-                scope.$watch(angular.element($('.datepickerfield')), function(){
-                    console.log('date field initialized');
-                    $('.datepickerfield').datepicker();
+                //// seek for datepicker field and initialize datepicker
+                scope.$watch($('#'+v), function(){
+                    $timeout(function () {
+                        jQuery('#' + v).datepicker();
+                    });
                 });
             }
 
