@@ -5,7 +5,7 @@
  * (GPLv3).  See LICENSE.txt for details.
  */
 
-var form_generator = angular.module('formService', ['general', 'ui.bootstrap']);
+var form_generator = angular.module('formService', ['general']);
 
 form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout, RESTURL, FormDiff) {
     var generator = {};
@@ -31,16 +31,19 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
             // and give it 'type':'template' property and load it with template
 
             if (k.type == 'date') {
+                k.title = k.title;
                 scope.form[scope.form.indexOf(v)] = {
                     "type": "template",
                     "templateUrl": "shared/templates/datefield.html",
                     "title": k.title,
                     "key": k.name
                 };
+                debugger;
                 scope.model[k.name] = generator.dateformatter(scope.model[k.name]);
 
                 // seek for datepicker field and initialize datepicker
                 scope.$watch(angular.element($('.datepickerfield')), function(){
+                    console.log('date field initialized');
                     $('.datepickerfield').datepicker();
                 });
             }
@@ -83,14 +86,20 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
                 scope.form.splice([scope.form.indexOf(v)], 1);
                 scope.listnodes = scope.listnodes ? scope.listnodes : {};
                 scope.listnodes[k.title] = (k);
-                scope.model[k.title] = {};
+                scope.listnodes[k.title]['fields'] = scope.model[k.title][0].fields;
+                scope.listnodes[k.title]['models'] = scope.model[k.title][0].models;
+                scope.listnodes[k.title]['lengthModels'] = scope.listnodes[k.title]['models'].length;
+                scope.listnodes[k.title]['lengthModels'] = 1;
+                //scope.model[k.title] = [];
+                debugger;
             }
 
             if (k.type == 'Node') {
                 scope.form.splice([scope.form.indexOf(v)], 1);
                 scope.nodes = scope.nodes ? scope.nodes : {};
                 scope.nodes[k.title] = (k);
-                scope.model[k.title] = {};
+                // todo: learn what node model will be?
+                //scope.model[k.title] = [];
             }
         });
 
@@ -107,7 +116,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         //angular.forEach(formObject.objects, function(k, v) {
         // check if date string and convert to date object
         // todo: catch date object and convert
-        debugger;
+        //debugger;
         //});
         return Date(formObject);
     };
@@ -164,7 +173,6 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
             "model": $scope.form_params.model,
             "token": $scope.token
         };
-        debugger;
         if ($scope.object_id) {
             var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
             var data = {
@@ -229,7 +237,7 @@ form_generator.directive('addModalForListNode', function ($modal, Generator) {
 
                 modalInstance.result.then(function (childmodel, key) {
                     var subfix = scope.schema.title.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
-                    scope.$parent.model[scope.schema.title][subfix+'.idx'] = scope.model;
+                    scope.$parent.model[scope.schema.title].push(scope.model);
                 });
             });
         }

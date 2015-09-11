@@ -15,7 +15,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: 'CRUDAddEditCtrl'
         })
         .when('/crud/:model/edit/:id', {
-            templateUrl: 'components/crud/templates/edit.html',
+            templateUrl: 'components/crud/templates/add.html',
             controller: 'CRUDAddEditCtrl'
         })
         .when('/crud/:model', {

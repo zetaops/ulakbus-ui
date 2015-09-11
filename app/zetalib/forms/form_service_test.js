@@ -47,13 +47,35 @@ describe('form service module', function () {
         it('should get form',
             inject(function (Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectGET(RESTURL.url + 'student/add?email=test@test.com&')
-                    .respond(200, [{form: 'form'}]);
+                $httpBackend.expectPOST(RESTURL.url + 'add_student', {cmd: 'add'})
+                    .respond(200, {
+                        forms: {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    name: {type: "string", minLength: 2, title: "Name", description: "Name or alias"},
+                                    title: {
+                                        type: "string",
+                                        enum: ['dr', 'jr', 'sir', 'mrs', 'mr', 'NaN', 'dj']
+                                    }
+                                }
+                            },
 
-                var cred = {email: 'test@test.com'};
-                Generator.get_form('student/add', cred)
+                            form: [
+                                "*",
+                                {
+                                    type: "submit",
+                                    title: "Save"
+                                }
+                            ],
+                            model: {}
+                        }
+                    });
+
+                var cred = {cmd: 'add'};
+                Generator.get_form({url: 'add_student', form_params: cred})
                     .then(function (data) {
-                        expect(data).toEqual({form: 'form'});
+                        expect(data.form).toEqual(["*", {type: "submit", title: "Save"}]);
                     });
 
                 $httpBackend.flush();
@@ -63,13 +85,13 @@ describe('form service module', function () {
         it('should post form',
             inject(function (Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectGET(RESTURL.url + 'student/add')
-                    .respond(200, [{data: 'OK'}]);
+                $httpBackend.expectPOST(RESTURL.url + 'student/add')
+                    .respond(200, {data: 'OK'});
 
                 var cred = {email: 'test@test.com'};
-                Generator.submit('student/add', cred)
+                Generator.submit({url: 'student/add', form_params: cred})
                     .then(function (data) {
-                        expect(data).toEqual({data: 'OK'});
+                        expect(data.data).toEqual({data: 'OK'});
                     });
                 $httpBackend.flush();
             })
