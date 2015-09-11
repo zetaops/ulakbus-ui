@@ -21,7 +21,7 @@ angular.module("components/auth/login.html", []).run(["$templateCache", function
 
 angular.module("components/crud/templates/add.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/add.html",
-    "<div ng-app=\"ulakbus.crud\">\n" +
+    "<div>\n" +
     "    <ng-include src=\"'shared/templates/add.html'\"></ng-include>\n" +
     "</div>");
 }]);
@@ -463,7 +463,7 @@ angular.module("shared/templates/add.html", []).run(["$templateCache", function(
     "                </label>\n" +
     "            </td>\n" +
     "            <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
-    "            <td ng-repeat=\"(key,value) in node.fields\">{{ value.value }}</td>\n" +
+    "            <td ng-repeat=\"(key,value) in node.models\">{{ value.value }}</td>\n" +
     "            <td>\n" +
     "                <a ng-href=\"#/crud/{{model}}/edit/{{object.key}}\">Edit</a><br>\n" +
     "                <a ng-href=\"#/crud/{{model}}/{{object.key}}\">Show</a>\n" +
@@ -499,14 +499,34 @@ angular.module("shared/templates/datefield.html", []).run(["$templateCache", fun
     "               ng-disabled=\"form.readonly\"\n" +
     "               schema-validate=\"form\"\n" +
     "               name=\"{{form.key.slice(-1)[0]}}\"\n" +
-    "               aria-describedby=\"{{form.key.slice(-1)[0] + 'Status'}}\"/>\n" +
+    "               aria-describedby=\"{{form.key.slice(-1)[0] + 'Status'}}\"\n" +
     "\n" +
+    "               type=\"date\"\n" +
+    "               datepicker-popup\n" +
+    "               is-open=\"status.opened\"\n" +
+    "               date-disabled=\"disabled(date, mode)\"\n" +
+    "               close-text=\"Close\"/>\n" +
     "        <span class=\"input-group-btn\">\n" +
-    "            <button type=\"button\" class=\"btn btn-default\">\n" +
+    "            <button type=\"button\" class=\"btn btn-default\" ng-click=\"open($event)\">\n" +
     "                <i class=\"glyphicon glyphicon-calendar\"></i>\n" +
     "            </button>\n" +
     "        </span>\n" +
     "    </p>\n" +
+    "\n" +
+    "    <!--<input ng-if=\"!form.fieldAddonLeft && !form.fieldAddonRight\"-->\n" +
+    "    <!--ng-show=\"form.key\"-->\n" +
+    "    <!--type=\"{{form.type}}\"-->\n" +
+    "    <!--step=\"any\"-->\n" +
+    "    <!--sf-changed=\"form\"-->\n" +
+    "    <!--placeholder=\"{{form.placeholder}}\"-->\n" +
+    "    <!--class=\"form-control {{form.fieldHtmlClass}}\"-->\n" +
+    "    <!--id=\"{{form.key.slice(-1)[0]}}\"-->\n" +
+    "    <!--ng-model-options=\"form.ngModelOptions\"-->\n" +
+    "    <!--ng-model=\"$$value$$\"-->\n" +
+    "    <!--ng-disabled=\"form.readonly\"-->\n" +
+    "    <!--schema-validate=\"form\"-->\n" +
+    "    <!--name=\"{{form.key.slice(-1)[0]}}\"-->\n" +
+    "    <!--aria-describedby=\"{{form.key.slice(-1)[0] + 'Status'}}\">-->\n" +
     "\n" +
     "    <div ng-if=\"form.fieldAddonLeft || form.fieldAddonRight\"\n" +
     "         ng-class=\"{'input-group': (form.fieldAddonLeft || form.fieldAddonRight)}\">\n" +
