@@ -45,19 +45,22 @@ app.directive('headerSubMenu', function () {
                 // todo: double make it but single not solve this!
                 angular.element($('#submitbutton')).triggerHandler('click');
                 angular.element($('#submitbutton')).triggerHandler('click');
-                //$scope.$broadcast('schemaFormValidate');
-                //$scope.onSubmit(angular.element($('#submitbutton')).scope().formgenerated);
             }
         }
     }
 });
 
-// todo: unused delete
-app.directive('headerSubMenuButtons', function () {
+app.directive('headerBreadcrumb', function ($location) {
     return {
-        templateUrl: 'shared/templates/directives/header-sub-menu-buttons.html',
+        templateUrl: 'shared/templates/directives/header-breadcrumb.html',
         restrict: 'E',
-        replace: true
+        replace: true,
+        link: function($scope){
+            $scope.$watch('$routeUpdate', function(){
+                // todo: create actual links
+                $scope.links = $location.path().split('/');
+            });
+        }
     }
 });
 
