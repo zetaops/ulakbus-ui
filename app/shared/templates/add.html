@@ -1,9 +1,9 @@
 <h1>{{ schema.title }}</h1>
 <form id="formgenerated" name="formgenerated" sf-schema="schema" sf-form="form" sf-model="model"></form>
-<div ng-repeat="node in nodes">
+<div ng-repeat="node in Node">
     <h3>{{ node.title }}
         <span ng-if="node.lengthModels < 1">
-            <a href="javascript:void(0);" add-modal-for-node={{node.title}}>
+            <a href="javascript:void(0);" modal-for-nodes="{{node.title}},Node">
                 <i class="fa fa-plus-circle fa-fw"></i>
             </a>
         </span>
@@ -11,10 +11,10 @@
     <ng-include src="'shared/templates/nodeTable.html'" ng-if="node.lengthModels > 0"></ng-include>
     <hr>
 </div>
-<div ng-repeat="node in listnodes">
+<div ng-repeat="node in ListNode">
     <h3>{{ node.title }}
         <span>
-            <a href="javascript:void(0);" add-modal-for-list-node={{node.title}}>
+            <a href="javascript:void(0);" modal-for-nodes="{{node.title}},ListNode">
                 <i class="fa fa-plus-circle fa-fw"></i>
             </a>
         </span>

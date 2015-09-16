@@ -7,27 +7,40 @@
 
 var form_generator = angular.module('formService', ['general']);
 
-form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout, RESTURL, FormDiff) {
+form_generator.factory('Generator', function ($http, $q, $log, $location, $modal, $timeout, RESTURL, FormDiff) {
     var generator = {};
     generator.makeUrl = function (url) {
         return RESTURL.url + url;
     };
-    generator.generate = function (scope, forms) {
+    generator.generate = function (scope, data) {
 
         // if no form in response (in case of list and single item request) return scope
-        if (!forms) {
-            return scope;
-        }
-        for (var key in forms)
-            scope[key] = forms[key];
+        if (!data.forms) { return scope; }
+
+        // prepare scope form, schema and model from response object
+        angular.forEach(data.forms, function (value, key) {
+            scope[key] = data.forms[key];
+        });
+
+        scope.token = data.token;
 
         // initialModel will be used in formDiff when submiting the form to submit only
-
         scope.initialModel = angular.copy(scope.model);
 
         // if fieldset in form, make it collapsable with template
         //scope.listnodeform = {};
+        //scope.isCollapsed = true;
 
+        generator.prepareFormItems(scope);
+
+        scope.object_id = scope.form_params['object_id'];
+
+        return generator.group(scope);
+    };
+    generator.group = function (formObject) {
+        return formObject;
+    };
+    generator.prepareFormItems = function(scope) {
         angular.forEach(scope.schema.properties, function (k, v) {
             // check if type is date and if type date found change it to string
 
@@ -43,7 +56,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
             }
 
             if (k.type == 'int') {
-                k.type = 'number'
+                k.type = 'number';
             }
 
             // if type is model use foreignKey.html template to show them
@@ -76,41 +89,42 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
                 scope.form[scope.form.indexOf(v)] = formitem;
             }
 
-            if (k.type == 'ListNode') {
-                // if listnode remove from form to generate its own form
-                //scope.form.splice([scope.form.indexOf(v)], 1);
-                scope.listnodes = scope.listnodes ? scope.listnodes : {};
-                console.log(k, '<=====>', scope.model[k.title]);
-                //debugger;
-                scope.listnodes[k.title] = (k);
-                scope.listnodes[k.title]['fields'] = scope.model[k.title][0].fields;
-                scope.listnodes[k.title]['models'] = scope.model[k.title][0].models;
-                // lengthModels is length of the listnode models. if greater than 0 show records on template
-                scope.listnodes[k.title]['lengthModels'] = scope.listnodes[k.title]['models'].length;
-            }
+            if (k.type == 'ListNode' || k.type == 'Node') {
 
-            if (k.type == 'Node') {
-                //scope.form.splice([scope.form.indexOf(v)], 1);
-                scope.nodes = scope.nodes ? scope.nodes : {};
-                scope.nodes[k.title] = (k);
-                scope.nodes[k.title]['fields'] = scope.model[k.title][0].fields;
-                scope.nodes[k.title]['models'] = scope.model[k.title][0].models;
-                // lengthModels is length of the node models. if greater than 0 show records on template
-                scope.nodes[k.title]['lengthModels'] = scope.nodes[k.title]['models'].length;
-                // todo: learn what node model will be?
-                //scope.model[k.title] = [];
+                scope[k.type] = scope[k.type] ? scope[k.type] : {};
+
+                scope[k.type][k.title] = {
+                    title: k.title,
+                    form: [],
+                    schema: {properties: {}, required: [], title: k.title, type: "object"},
+                    model: {}
+                };
+
+                angular.forEach(k.schema , function (item) {
+                    scope[k.type][k.title].schema.properties[item.name] = item;
+                    scope[k.type][k.title].model[item.name] = item.value;
+
+                    // prepare required fields
+                    if (item.required == true) {
+                        scope[k.type][k.title].schema.required.push(item.name);
+                    }
+
+                    // idx field must be hidden
+                    if (item.name == 'idx') {
+                        scope[k.type][k.title].form.push({type: 'string', key: item.name, htmlClass: 'hidden'});
+                    } else {
+                        scope[k.type][k.title].form.push(item.name);
+                    }
+
+                });
+
+                // lengthModels is length of the listnode models. if greater than 0 show records on template
+                scope[k.type][k.title]['lengthModels'] = scope.model[k.title] ? 1 : 0;
             }
 
         });
 
-        scope.isCollapsed = true;
-
-        scope.object_id = scope.form_params['object_id'];
-
-        return generator.group(scope);
-    };
-    generator.group = function (formObject) {
-        return formObject;
+        return scope;
     };
     generator.dateformatter = function (formObject) {
         //angular.forEach(formObject.objects, function(k, v) {
@@ -123,7 +137,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         return $http
             .post(generator.makeUrl(scope.url), scope.form_params)
             .then(function (res) {
-                return generator.generate(scope, res.data.forms);
+                return generator.generate(scope, res.data);
                 // todo: cover all other exceptions (4xx, 5xx)
             });
     };
@@ -164,6 +178,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
     };
     generator.submit = function ($scope) {
         // todo: diff for all submits to recognize form change. if no change returns to view with no submit
+
         data = {
             "form": $scope.model,
             "cmd": $scope.form_params.cmd,
@@ -173,12 +188,17 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
         };
         if ($scope.object_id) {
             var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
-            var data = {
-                "object_id": $scope.object_id,
-                "form": get_diff
-            };
+            data.object_id = $scope.object_id;
+            data.form = get_diff;
         }
-        return $http.post(generator.makeUrl($scope.url), data);
+        debugger;
+        $http.post(generator.makeUrl($scope.url), data)
+            .success()
+            .then(function(res){
+                if(res.data.client_cmd){
+                    $location.path(data.model);
+                }
+            });
     };
     return generator;
 });
@@ -190,13 +210,21 @@ form_generator.factory('Generator', function ($http, $q, $log, $modal, $timeout,
  * @returns: returns value for modal
  */
 
-form_generator.controller('ModalCtrl', function ($scope, $modalInstance, $route, items) {
+form_generator.controller('ModalCtrl', function ($scope, $modalInstance, Generator, $route, items) {
     angular.forEach(["model", "schema", "form"], function (key) {
         $scope[key] = items[key];
     });
-    $scope.onSubmit = function () {
-        // send form to modalinstance result function
-        $modalInstance.close($scope);
+
+    Generator.prepareFormItems($scope);
+
+    $scope.onSubmit = function (form) {
+        $scope.$broadcast('schemaFormValidate');
+        console.log(form.$valid);
+        if(form.$valid){
+            // send form to modalinstance result function
+            debugger;
+            $modalInstance.close($scope);
+        }
     };
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
@@ -204,109 +232,12 @@ form_generator.controller('ModalCtrl', function ($scope, $modalInstance, $route,
 });
 
 /**
- * add modal directive for listnodes
- * @params: $modal, Generator
- * @return: openmodal directive
- */
-
-form_generator.directive('addModalForListNode', function ($modal, Generator) {
-    return {
-        link: function (scope, element, attributes) {
-            element.on('click', function () {
-                var modalInstance = $modal.open({
-                    animation: false,
-                    templateUrl: 'shared/templates/listnodeModalContent.html',
-                    controller: 'ModalCtrl',
-                    size: 'lg',
-                    resolve: {
-                        items: function () {
-                            // get node from parent scope catch with attribute
-                            var node = scope.$parent.$parent.listnodes[attributes['addModalForListNode']];
-                            var items = {form: [], schema: {properties: {}, title: node.title, type: "object"}, model: {}};
-                            angular.forEach(node.fields, function (item) {
-                                debugger;
-                                items.schema.properties[item.name] = item;
-                                items.model[item.name] = item.value;
-                                // idx field must be hidden
-                                if (item.name != 'idx') {
-                                    items.form.push({type: item.type, key: item.name});
-                                } else {
-                                    items.form.push({type: item.type, key: item.name, htmlClass: 'hidden'});
-                                }
-
-                            });
-                            return Generator.generate(scope, items);
-                        }
-                    }
-                });
-
-                modalInstance.result.then(function (childmodel, key) {
-                    // subfix will be remove
-                    //var subfix = scope.schema.title.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
-                    // todo: run form validator here
-                    debugger;
-                    scope.$parent.model[scope.schema.title].push(scope.model);
-                });
-            });
-        }
-    }
-});
-
-/**
- * edit modal directive for listnodes
- * @params: $modal, Generator
- * @return: openmodal directive
- */
-// todo: edit modal make work properly
-form_generator.directive('editModalForListNode', function ($modal, Generator) {
-    return {
-        link: function (scope, element, attributes) {
-            element.on('click', function () {
-                var modalInstance = $modal.open({
-                    animation: false,
-                    templateUrl: 'shared/templates/listnodeModalContent.html',
-                    controller: 'ModalCtrl',
-                    size: 'lg',
-                    resolve: {
-                        items: function () {
-                            // get node from parent scope catch with attribute
-                            var node = angular.copy(scope.$parent.$parent.listnodes[attributes['addModalForListNode']]);
-                            var items = {form: [], schema: {properties: {}, title: node.title, type: "object"}, model: {}};
-                            angular.forEach(node.fields, function (item) {
-                                items.schema.properties[item.name] = item;
-                                items.model[item.name] = item.value;
-                                // idx field must be hidden
-                                if (item.name != 'idx') {
-                                    items.form.push({type: item.type, key: item.name});
-                                } else {
-                                    items.form.push({type: item.type, key: item.name, htmlClass: 'hidden'});
-                                }
-
-                            });
-                            return Generator.generate(scope, items);
-                        }
-                    }
-                });
-
-                modalInstance.result.then(function (childmodel, key) {
-                    // subfix will be remove
-                    //var subfix = scope.schema.title.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
-                    // todo: run form validator here
-                    debugger;
-                    scope.$parent.model[scope.schema.title].push(scope.model);
-                });
-            });
-        }
-    }
-});
-
-/**
  * add modal directive for nodes
- * @params: $modal, Generator
+ * @params: $modal
  * @return: openmodal directive
  */
 
-form_generator.directive('addModalForNode', function ($modal, Generator) {
+form_generator.directive('modalForNodes', function ($modal) {
     return {
         link: function (scope, element, attributes) {
             element.on('click', function () {
@@ -317,84 +248,26 @@ form_generator.directive('addModalForNode', function ($modal, Generator) {
                     size: 'lg',
                     resolve: {
                         items: function () {
+                            var attribs = attributes['modalForNodes'].split(',');
                             // get node from parent scope catch with attribute
-                            var node = angular.copy(scope.$parent.$parent.nodes[attributes['addModalForNode']]);
-                            var items = {form: [], schema: {properties: {}, title: node.title, type: "object"}, model: {}};
-                            angular.forEach(node.fields, function (item) {
-                                items.schema.properties[item.name] = item;
-                                items.model[item.name] = item.value;
-                                // idx field must be hidden
-                                if (item.name != 'idx') {
-                                    items.form.push({type: item.type, key: item.name});
-                                } else {
-                                    items.form.push({type: item.type, key: item.name, htmlClass: 'hidden'});
-                                }
-
-                            });
-                            return Generator.generate(scope, items);
+                            var node = angular.copy(scope.$parent.$parent[attribs[1]][attribs[0]]);
+                            return node;
                         }
                     }
                 });
 
                 modalInstance.result.then(function (childmodel, key) {
-                    // subfix will be remove
+                    // subfix will be removed
                     //var subfix = scope.schema.title.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
                     // todo: run form validator here
-                    debugger;
-                    scope.$parent.model[scope.schema.title].push(scope.model);
+                    scope.$parent.model[childmodel.schema.title] = childmodel.model;
+                    console.log(scope.$parent.model);
                 });
             });
         }
     }
 });
 
-/**
- * edit modal directive for nodes
- * @params: $modal, Generator
- * @return: openmodal directive
- */
-// todo: edit modal make work properly
-form_generator.directive('editModalForNode', function ($modal, Generator) {
-    return {
-        link: function (scope, element, attributes) {
-            element.on('click', function () {
-                var modalInstance = $modal.open({
-                    animation: false,
-                    templateUrl: 'shared/templates/listnodeModalContent.html',
-                    controller: 'ModalCtrl',
-                    size: 'lg',
-                    resolve: {
-                        items: function () {
-                            // get node from parent scope catch with attribute
-                            var node = angular.copy(scope.$parent.$parent.nodes[attributes['addModalForNode']]);
-                            var items = {form: [], schema: {properties: {}, title: node.title, type: "object"}, model: {}};
-                            angular.forEach(node.fields, function (item) {
-                                items.schema.properties[item.name] = item;
-                                items.model[item.name] = item.value;
-                                // idx field must be hidden
-                                if (item.name != 'idx') {
-                                    items.form.push({type: item.type, key: item.name});
-                                } else {
-                                    items.form.push({type: item.type, key: item.name, htmlClass: 'hidden'});
-                                }
-
-                            });
-                            return Generator.generate(scope, items);
-                        }
-                    }
-                });
-
-                modalInstance.result.then(function (childmodel, key) {
-                    // subfix will be remove
-                    //var subfix = scope.schema.title.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
-                    // todo: run form validator here
-                    debugger;
-                    scope.$parent.model[scope.schema.title].push(scope.model);
-                });
-            });
-        }
-    }
-});
 
 /**
  * add modal directive for linked models
