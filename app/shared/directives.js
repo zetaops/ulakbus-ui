@@ -58,6 +58,7 @@ app.directive('headerBreadcrumb', function ($location) {
         link: function($scope){
             $scope.$watch('$routeUpdate', function(){
                 // todo: create actual links
+                //debugger;
                 $scope.links = $location.path().split('/');
             });
         }
