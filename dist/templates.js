@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/add.html', 'components/crud/templates/edit.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/personelinfo/personelinfo.html', 'components/staff/templates/add.html', 'components/staff/templates/edit.html', 'components/staff/templates/list.html', 'components/staff/templates/show.html', 'components/student/student_add_template.html', 'components/student/student_list_template.html', 'components/types/types_template.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu-buttons.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/add.html', 'components/crud/templates/edit.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/personelinfo/personelinfo.html', 'components/staff/templates/add.html', 'components/staff/templates/edit.html', 'components/staff/templates/list.html', 'components/staff/templates/show.html', 'components/student/student_add_template.html', 'components/student/student_list_template.html', 'components/types/types_template.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/nodeTable.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -43,7 +43,12 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "    <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
     "        <thead>\n" +
     "        <tr>\n" +
-    "            <th colspan=\"2\">#</th>\n" +
+    "            <th colspan=\"2\">\n" +
+    "                <label>\n" +
+    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    Hepsini Seç\n" +
+    "                </label>\n" +
+    "            </th>\n" +
     "            <th ng-repeat=\"(key,value) in objects[0].data\">{{ key }}</th>\n" +
     "            <th>action</th>\n" +
     "        </tr>\n" +
@@ -58,12 +63,29 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "            <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
     "            <td ng-repeat=\"(key,value) in object.data\">{{value}}</td>\n" +
     "            <td>\n" +
-    "                <a ng-href=\"#/crud/{{model}}/edit/{{object.key}}\">Edit</a><br>\n" +
-    "                <a ng-href=\"#/crud/{{model}}/{{object.key}}\">Show</a>\n" +
+    "                <a ng-href=\"#/{{model}}/edit/{{object.key}}\">Edit</a><br>\n" +
+    "                <a ng-href=\"#/{{model}}/{{object.key}}\">Show</a>\n" +
     "            </td>\n" +
     "        </tr>\n" +
     "        </tbody>\n" +
     "    </table>\n" +
+    "\n" +
+    "    <div class=\"btn-group\">\n" +
+    "        <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n" +
+    "                aria-expanded=\"false\">\n" +
+    "            İşlemler <span class=\"caret\"></span>\n" +
+    "        </button>\n" +
+    "        <ul class=\"dropdown-menu\">\n" +
+    "            <li><a href=\"\">İşlem 1</a></li>\n" +
+    "            <li><a href=\"\">İşlem 2</a></li>\n" +
+    "            <li><a href=\"\">İşlem 3</a></li>\n" +
+    "            <li role=\"separator\" class=\"divider\"></li>\n" +
+    "            <li><a href=\"\">İşlem 4</a></li>\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <hr>\n" +
+    "\n" +
     "</div>");
 }]);
 
@@ -439,44 +461,32 @@ angular.module("shared/templates/add.html", []).run(["$templateCache", function(
   $templateCache.put("shared/templates/add.html",
     "<h1>{{ schema.title }}</h1>\n" +
     "<form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"></form>\n" +
-    "<div ng-repeat=\"node in listnodes\">\n" +
+    "<div ng-repeat=\"node in Node\">\n" +
     "    <h3>{{ node.title }}\n" +
-    "        <span>\n" +
-    "            <a href=\"javascript:void(0);\" add-modal-for-list-node={{node.title}}>\n" +
+    "        <span ng-if=\"node.lengthModels < 1\">\n" +
+    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.title}},Node\">\n" +
     "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
     "            </a>\n" +
     "        </span>\n" +
     "    </h3>\n" +
-    "    <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
-    "        <thead>\n" +
-    "        <tr>\n" +
-    "            <th colspan=\"2\">#</th>\n" +
-    "            <th ng-repeat=\"(key,value) in node.fields\">{{ value.title }}</th>\n" +
-    "            <th>action</th>\n" +
-    "        </tr>\n" +
-    "        </thead>\n" +
-    "        <tbody>\n" +
-    "        <tr>\n" +
-    "            <td width=\"60\">\n" +
-    "                <label>\n" +
-    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                </label>\n" +
-    "            </td>\n" +
-    "            <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
-    "            <td ng-repeat=\"(key,value) in node.models\">{{ value.value }}</td>\n" +
-    "            <td>\n" +
-    "                <a ng-href=\"#/crud/{{model}}/edit/{{object.key}}\">Edit</a><br>\n" +
-    "                <a ng-href=\"#/crud/{{model}}/{{object.key}}\">Show</a>\n" +
-    "                <a ng-href=\"#/crud/{{model}}/{{object.key}}\">Delete</a>\n" +
-    "            </td>\n" +
-    "        </tr>\n" +
-    "        </tbody>\n" +
-    "    </table>\n" +
+    "    <ng-include src=\"'shared/templates/nodeTable.html'\" ng-if=\"node.lengthModels > 0\"></ng-include>\n" +
+    "    <hr>\n" +
+    "</div>\n" +
+    "<div ng-repeat=\"node in ListNode\">\n" +
+    "    <h3>{{ node.title }}\n" +
+    "        <span>\n" +
+    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.title}},ListNode\">\n" +
+    "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
+    "            </a>\n" +
+    "        </span>\n" +
+    "    </h3>\n" +
+    "    <ng-include src=\"'shared/templates/nodeTable.html'\" ng-if=\"node.lengthModels > 0\"></ng-include>\n" +
+    "    <hr>\n" +
     "</div>\n" +
     "\n" +
     "<button id=\"submitbutton\" type=\"button\" class=\"btn btn-primary\" ng-click=\"onSubmit(formgenerated)\">Kaydet</button>\n" +
-    "<button type=\"button\" class=\"btn btn-warning\">Düzenle</button> <!-- todo: make it conditional -->\n" +
-    "<button type=\"button\" class=\"btn btn-danger\">İptal</button> <!-- todo: turn back to previous page -->");
+    "<!-- <button type=\"button\" class=\"btn btn-warning\">Düzenle</button>  todo: make it conditional -->\n" +
+    "<!-- <button type=\"button\" class=\"btn btn-danger\">İptal</button> todo: turn back to previous page -->");
 }]);
 
 angular.module("shared/templates/datefield.html", []).run(["$templateCache", function($templateCache) {
@@ -687,6 +697,16 @@ angular.module("shared/templates/directives/chat.html", []).run(["$templateCache
     "</div>");
 }]);
 
+angular.module("shared/templates/directives/header-breadcrumb.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/header-breadcrumb.html",
+    "<ul class=\"breadcrumb\">\n" +
+    "    <li ng-repeat=\"link in links\" ng-class=\"{'active':$last}\">\n" +
+    "        <a href=\"#\" ng-if=\"!$last\">{{link}}</a>\n" +
+    "        <span ng-if=\"$last\">{{link}}</span>\n" +
+    "    </li>\n" +
+    "</ul>");
+}]);
+
 angular.module("shared/templates/directives/header-notification.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/header-notification.html",
     "<ul class=\"nav navbar-top-links navbar-right\">\n" +
@@ -885,13 +905,12 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "            <i class=\"fa fa-user fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-user\">\n" +
-    "            <li><a href=\"#\"><i class=\"fa fa-user fa-fw\"></i> User Profile</a>\n" +
+    "            <li><a href=\"#\"><i class=\"fa fa-user fa-fw\"></i> Profil</a>\n" +
     "            </li>\n" +
-    "            <li><a href=\"#\"><i class=\"fa fa-gear fa-fw\"></i> Settings</a>\n" +
+    "            <li><a href=\"#\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar</a>\n" +
     "            </li>\n" +
-    "            <li><a href=\"http://www.strapui.com/\"><i class=\"fa fa-eye fa-fw\"></i> Premium Angular Themes</a></li>\n" +
     "            <li class=\"divider\"></li>\n" +
-    "            <li><a ui-sref=\"login\" href=\"javascript:void(0);\" logout><i class=\"fa fa-sign-out fa-fw\"></i> Logout</a>\n" +
+    "            <li><a ui-sref=\"login\" href=\"javascript:void(0);\" logout><i class=\"fa fa-sign-out fa-fw\"></i> Çıkış</a>\n" +
     "            </li>\n" +
     "        </ul>\n" +
     "        <!-- /.dropdown-user -->\n" +
@@ -902,26 +921,14 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "");
 }]);
 
-angular.module("shared/templates/directives/header-sub-menu-buttons.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("shared/templates/directives/header-sub-menu-buttons.html",
-    "<button type=\"button\" class=\"btn btn-primary\" ng-click=\"onSubmit(formgenerated)\">Kaydet</button>\n" +
-    "<button type=\"button\" class=\"btn btn-warning\">Düzenle</button>\n" +
-    "<button type=\"button\" class=\"btn btn-danger\">İptal</button>");
-}]);
-
 angular.module("shared/templates/directives/header-sub-menu.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/header-sub-menu.html",
     "<div class=\"manager-view-header container-fluid\">\n" +
-    "    <ul class=\"breadcrumb\">\n" +
-    "        <li><a href=\"#\">Personeller</a></li>\n" +
-    "        <li><a href=\"#\">Liste</a></li>\n" +
-    "        <li class=\"active\">Tablo</li>\n" +
-    "    </ul>\n" +
-    "    <!--<header-sub-menu-buttons></header-sub-menu-buttons>-->\n" +
+    "    <header-breadcrumb></header-breadcrumb>\n" +
     "    <div id=\"header-buttons\">\n" +
     "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"triggerSubmit()\">Kaydet</button>\n" +
-    "        <button type=\"button\" class=\"btn btn-warning\">Düzenle</button>\n" +
-    "        <button type=\"button\" class=\"btn btn-danger\">İptal</button>\n" +
+    "        <!--<button type=\"button\" class=\"btn btn-warning\">Düzenle</button>-->\n" +
+    "        <!--<button type=\"button\" class=\"btn btn-danger\">İptal</button>-->\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -1003,10 +1010,10 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "                        class=\"fa arrow\"></span></a>\n" +
     "                <ul class=\"nav nav-second-level\" collapse=\"collapseVar!={{key}}\">\n" +
     "                    <li ui-sref-active=\"active\">\n" +
-    "                        <a href=\"#/crud/{{item}}\">List</a>\n" +
+    "                        <a href=\"#/{{item}}\">List</a>\n" +
     "                    </li>\n" +
     "                    <li ui-sref-active=\"active\">\n" +
-    "                        <a href=\"#/crud/{{item}}/add\">Add</a>\n" +
+    "                        <a href=\"#/{{item}}/add\">Add</a>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
     "                <!-- /.nav-second-level -->\n" +
@@ -1189,7 +1196,7 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "        <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-4\">\n" +
-    "        <a href=\"javascript:void(0);\" add-modal>\n" +
+    "        <a href=\"javascript:void(0);\" add-modal-for-linked-model>\n" +
     "            <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
     "        </a>\n" +
     "    </div>\n" +
@@ -1223,4 +1230,33 @@ angular.module("shared/templates/listnodeModalContent.html", []).run(["$template
 angular.module("shared/templates/modalContent.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/modalContent.html",
     "");
+}]);
+
+angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/nodeTable.html",
+    "<table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
+    "    <thead>\n" +
+    "    <tr>\n" +
+    "        <th colspan=\"2\">#</th>\n" +
+    "        <th ng-repeat=\"(key,value) in node.fields\">{{ value.title }}</th>\n" +
+    "        <th>action</th>\n" +
+    "    </tr>\n" +
+    "    </thead>\n" +
+    "    <tbody>\n" +
+    "    <tr>\n" +
+    "        <td width=\"60\">\n" +
+    "            <label>\n" +
+    "                <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "            </label>\n" +
+    "        </td>\n" +
+    "        <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
+    "        <td ng-repeat=\"(key,value) in node.models\">{{ value.value }}</td>\n" +
+    "        <td>\n" +
+    "            <a ng-href=\"#/crud/{{model}}/edit/{{object.key}}\">Edit</a><br>\n" +
+    "            <a ng-href=\"#/crud/{{model}}/{{object.key}}\">Show</a>\n" +
+    "            <a ng-href=\"#/crud/{{model}}/{{object.key}}\">Delete</a>\n" +
+    "        </td>\n" +
+    "    </tr>\n" +
+    "    </tbody>\n" +
+    "</table>");
 }]);
