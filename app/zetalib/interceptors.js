@@ -31,8 +31,9 @@ app.config(['$httpProvider', function ($httpProvider) {
                         $location.path("/dashboard");
                     }
                 }
-                if(response.data.screen) {
-                    $location.path(response.data.screen);
+                if(response.data.client_cmd) {
+                    //$location.path(response.data.screen);
+                    console.log(response.data.client_cmd);
                 }
                 return response;
             },

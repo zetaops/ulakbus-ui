@@ -1,40 +1,28 @@
 <h1>{{ schema.title }}</h1>
 <form id="formgenerated" name="formgenerated" sf-schema="schema" sf-form="form" sf-model="model"></form>
-<div ng-repeat="node in listnodes">
+<div ng-repeat="node in Node">
     <h3>{{ node.title }}
-        <span>
-            <a href="javascript:void(0);" add-modal-for-list-node={{node.title}}>
+        <span ng-if="node.lengthModels < 1">
+            <a href="javascript:void(0);" modal-for-nodes="{{node.title}},Node">
                 <i class="fa fa-plus-circle fa-fw"></i>
             </a>
         </span>
     </h3>
-    <table class="table table-bordered" style="background-color:#fff;">
-        <thead>
-        <tr>
-            <th colspan="2">#</th>
-            <th ng-repeat="(key,value) in node.fields">{{ value.title }}</th>
-            <th>action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td width="60">
-                <label>
-                    <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
-                </label>
-            </td>
-            <th scope="row" style="text-align:center">1</th>
-            <td ng-repeat="(key,value) in node.models">{{ value.value }}</td>
-            <td>
-                <a ng-href="#/crud/{{model}}/edit/{{object.key}}">Edit</a><br>
-                <a ng-href="#/crud/{{model}}/{{object.key}}">Show</a>
-                <a ng-href="#/crud/{{model}}/{{object.key}}">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <ng-include src="'shared/templates/nodeTable.html'" ng-if="node.lengthModels > 0"></ng-include>
+    <hr>
+</div>
+<div ng-repeat="node in ListNode">
+    <h3>{{ node.title }}
+        <span>
+            <a href="javascript:void(0);" modal-for-nodes="{{node.title}},ListNode">
+                <i class="fa fa-plus-circle fa-fw"></i>
+            </a>
+        </span>
+    </h3>
+    <ng-include src="'shared/templates/nodeTable.html'" ng-if="node.lengthModels > 0"></ng-include>
+    <hr>
 </div>
 
 <button id="submitbutton" type="button" class="btn btn-primary" ng-click="onSubmit(formgenerated)">Kaydet</button>
-<button type="button" class="btn btn-warning">Düzenle</button> <!-- todo: make it conditional -->
-<button type="button" class="btn btn-danger">İptal</button> <!-- todo: turn back to previous page -->
+<!-- <button type="button" class="btn btn-warning">Düzenle</button>  todo: make it conditional -->
+<!-- <button type="button" class="btn btn-danger">İptal</button> todo: turn back to previous page -->

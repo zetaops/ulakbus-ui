@@ -32,6 +32,7 @@ var app = angular.module(
  */
     constant("RESTURL", (function () {
         return {url: "http://" + window.location.hostname + ":9001/"};
+        //return {url: "http://api.ulakbus.net/"};
     })()).
 /**
  * USER_ROLES and AUTH_EVENTS are constant for auth functions

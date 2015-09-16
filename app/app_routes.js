@@ -10,19 +10,19 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'components/dashboard/dashboard.html',
             controller: 'DashCtrl'
         })
-        .when('/crud/:model/add', {
+        .when('/:model/add', {
             templateUrl: 'components/crud/templates/add.html',
             controller: 'CRUDAddEditCtrl'
         })
-        .when('/crud/:model/edit/:id', {
+        .when('/:model/edit/:id', {
             templateUrl: 'components/crud/templates/add.html',
             controller: 'CRUDAddEditCtrl'
         })
-        .when('/crud/:model', {
+        .when('/:model', {
             templateUrl: 'components/crud/templates/list.html',
             controller: 'CRUDListCtrl'
         })
-        .when('/crud/:model/:id', {
+        .when('/:model/:id', {
             templateUrl: 'components/crud/templates/show.html',
             controller: 'CRUDShowCtrl'
         })

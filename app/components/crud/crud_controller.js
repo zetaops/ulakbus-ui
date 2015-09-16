@@ -33,8 +33,6 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
 
-        debugger;
-
         if (form.$valid) {
             Generator.submit($scope)
                 .success(function(data){

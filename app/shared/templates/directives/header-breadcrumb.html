@@ -1,0 +1,6 @@
+<ul class="breadcrumb">
+    <li ng-repeat="link in links" ng-class="{'active':$last}">
+        <a href="#" ng-if="!$last">{{link}}</a>
+        <span ng-if="$last">{{link}}</span>
+    </li>
+</ul>

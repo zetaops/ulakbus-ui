@@ -1,0 +1,25 @@
+<table class="table table-bordered" style="background-color:#fff;">
+    <thead>
+    <tr>
+        <th colspan="2">#</th>
+        <th ng-repeat="(key,value) in node.fields">{{ value.title }}</th>
+        <th>action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td width="60">
+            <label>
+                <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
+            </label>
+        </td>
+        <th scope="row" style="text-align:center">1</th>
+        <td ng-repeat="(key,value) in node.models">{{ value.value }}</td>
+        <td>
+            <a ng-href="#/crud/{{model}}/edit/{{object.key}}">Edit</a><br>
+            <a ng-href="#/crud/{{model}}/{{object.key}}">Show</a>
+            <a ng-href="#/crud/{{model}}/{{object.key}}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
