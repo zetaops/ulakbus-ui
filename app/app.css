@@ -994,3 +994,27 @@ table.dataTable thead .sorting:after {
     	width: 350px;
 	}
 }
+
+.tablescroll{
+    width: 100%;
+    overflow-x:scroll;
+    overflow-y:visible;
+    padding-bottom:1px;
+}
+
+.tablescrollfixleft {
+    position:absolute;
+    left:0;
+    top:auto;
+}
+.tablescrollfixleft {
+    position:absolute;
+    right:0;
+    top:auto;
+}
+
+.sidebarscroll{
+    overflow-x: visible;
+    overflow-y: scroll;
+    height: 700px;
+}

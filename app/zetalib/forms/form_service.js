@@ -93,7 +93,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                 // get model objects from db and add to select list
 
                 scope.form[scope.form.indexOf(v)] = formitem;
-                scope.$broadcast('schemaFormRedraw');
+                //scope.$broadcast('schemaFormRedraw');
 
                 // todo: make lines below work properly
                 //if (scope.model[v].indexOf("TMP_") > -1) {
@@ -140,6 +140,9 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
 
                 // lengthModels is length of the listnode models. if greater than 0 show records on template
                 scope[k.type][k.title]['lengthModels'] = scope.model[k.title] ? 1 : 0;
+
+                console.log(scope[k.type][k.title]['lengthModels']);
+                debugger;
             }
 
         });
@@ -197,8 +200,8 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
     };
     generator.submit = function ($scope) {
         // todo: diff for all submits to recognize form change. if no change returns to view with no submit
-
-        data = {
+        debugger;
+        var data = {
             "form": $scope.model,
             "cmd": $scope.form_params.cmd,
             "subcmd": "do_list",
@@ -214,7 +217,8 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
             .success()
             .then(function(res){
                 if(res.data.client_cmd){
-                    $location.path(data.model);
+                    console.log("record fin");
+                    $location.path($scope.form_params.model);
                 }
             });
     };

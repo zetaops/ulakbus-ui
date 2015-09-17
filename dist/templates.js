@@ -1000,7 +1000,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "    	<div class=\"brand\">\n" +
     "        	<a href=\"\" class=\"logo\"><img src=\"/img/brand-logo.png\" /></a>\n" +
     "        </div>\n" +
-    "        <ul class=\"nav in\" id=\"side-menu\">\n" +
+    "        <ul class=\"nav in sidebarscroll\" id=\"side-menu\">\n" +
     "            <!--<sidebar-search></sidebar-search>-->\n" +
     "            <li ui-sref-active=\"active\">\n" +
     "                <a href=\"#/dashboard\"><i class=\"fa fa-dashboard fa-fw\"></i> Panel</a>\n" +
@@ -1234,6 +1234,7 @@ angular.module("shared/templates/modalContent.html", []).run(["$templateCache", 
 
 angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/nodeTable.html",
+    "<div class=\"tablescroll\">\n" +
     "<table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
     "    <thead>\n" +
     "    <tr>\n" +
@@ -1263,5 +1264,6 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "        </td>\n" +
     "    </tr>\n" +
     "    </tbody>\n" +
-    "</table>");
+    "</table>\n" +
+    "</div>");
 }]);
