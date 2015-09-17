@@ -118,13 +118,14 @@ module.exports = function (grunt) {
                     "app/bower_components/angular-loading-bar/build/loading-bar.min.js",
                     "app/bower_components/metisMenu/dist/metisMenu.min.js",
                     "app/bower_components/Chart.js/Chart.min.js",
-                    "app/shared/scripts/jquery-ui.min.js",
+                    "app/shared/scripts/jquery-ui.min.js"
                 ],
                 dest: 'dist/bower_components/components.js'
             },
             css: {
                 files: {
                     'dist/css/app.css': [
+                        "app/bower_components/angular-bootstrap/ui-bootstrap-csp.css",
                         "app/bower_components/bootstrap/dist/css/bootstrap.min.css",
                         "app/app.css",
                         "app/bower_components/metisMenu/dist/metisMenu.min.css",

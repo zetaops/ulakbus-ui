@@ -104,107 +104,107 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "    <div class=\"starter-template\">\n" +
     "\n" +
     "        <!-- table view -->\n" +
-    "        <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
-    "            <thead>\n" +
-    "            <tr>\n" +
-    "                <th colspan=\"2\">\n" +
-    "                    <label>\n" +
-    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                        Hepsini Seç\n" +
-    "                    </label>\n" +
-    "                </th>\n" +
-    "                <th>First Name</th>\n" +
-    "                <th>Last Name</th>\n" +
-    "                <th>Username</th>\n" +
-    "            </tr>\n" +
-    "            </thead>\n" +
-    "            <tbody>\n" +
-    "            <tr>\n" +
-    "                <td width=\"60\">\n" +
-    "                    <label>\n" +
-    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                    </label>\n" +
-    "                </td>\n" +
-    "                <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
-    "                <td>Mark</td>\n" +
-    "                <td>Otto</td>\n" +
-    "                <td>@mdo</td>\n" +
-    "            </tr>\n" +
-    "            <tr>\n" +
-    "                <td>\n" +
-    "                    <label>\n" +
-    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                    </label>\n" +
-    "                </td>\n" +
-    "                <th scope=\"row\" style=\"text-align:center\">2</th>\n" +
-    "                <td>Jacob</td>\n" +
-    "                <td>Thornton</td>\n" +
-    "                <td>@fat</td>\n" +
-    "            </tr>\n" +
-    "            <tr>\n" +
-    "                <td>\n" +
-    "                    <label>\n" +
-    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                    </label>\n" +
-    "                </td>\n" +
-    "                <th scope=\"row\" style=\"text-align:center\">3</th>\n" +
-    "                <td>Larry</td>\n" +
-    "                <td>the Bird</td>\n" +
-    "                <td>@twitter</td>\n" +
-    "            </tr>\n" +
-    "            <tr>\n" +
-    "                <td width=\"60\">\n" +
-    "                    <label>\n" +
-    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                    </label>\n" +
-    "                </td>\n" +
-    "                <th scope=\"row\" style=\"text-align:center\">4</th>\n" +
-    "                <td>Mark</td>\n" +
-    "                <td>Otto</td>\n" +
-    "                <td>@mdo</td>\n" +
-    "            </tr>\n" +
-    "            <tr>\n" +
-    "                <td>\n" +
-    "                    <label>\n" +
-    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                    </label>\n" +
-    "                </td>\n" +
-    "                <th scope=\"row\" style=\"text-align:center\">5</th>\n" +
-    "                <td>Jacob</td>\n" +
-    "                <td>Thornton</td>\n" +
-    "                <td>@fat</td>\n" +
-    "            </tr>\n" +
-    "            <tr>\n" +
-    "                <td>\n" +
-    "                    <label>\n" +
-    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                    </label>\n" +
-    "                </td>\n" +
-    "                <th scope=\"row\" style=\"text-align:center\">6</th>\n" +
-    "                <td>Larry</td>\n" +
-    "                <td>the Bird</td>\n" +
-    "                <td>@twitter</td>\n" +
-    "            </tr>\n" +
-    "            </tbody>\n" +
-    "        </table>\n" +
-    "        <!-- end of table view -->\n" +
+    "        <!--<table class=\"table table-bordered\" style=\"background-color:#fff;\">-->\n" +
+    "            <!--<thead>-->\n" +
+    "            <!--<tr>-->\n" +
+    "                <!--<th colspan=\"2\">-->\n" +
+    "                    <!--<label>-->\n" +
+    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "                        <!--Hepsini Seç-->\n" +
+    "                    <!--</label>-->\n" +
+    "                <!--</th>-->\n" +
+    "                <!--<th>First Name</th>-->\n" +
+    "                <!--<th>Last Name</th>-->\n" +
+    "                <!--<th>Username</th>-->\n" +
+    "            <!--</tr>-->\n" +
+    "            <!--</thead>-->\n" +
+    "            <!--<tbody>-->\n" +
+    "            <!--<tr>-->\n" +
+    "                <!--<td width=\"60\">-->\n" +
+    "                    <!--<label>-->\n" +
+    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "                    <!--</label>-->\n" +
+    "                <!--</td>-->\n" +
+    "                <!--<th scope=\"row\" style=\"text-align:center\">1</th>-->\n" +
+    "                <!--<td>Mark</td>-->\n" +
+    "                <!--<td>Otto</td>-->\n" +
+    "                <!--<td>@mdo</td>-->\n" +
+    "            <!--</tr>-->\n" +
+    "            <!--<tr>-->\n" +
+    "                <!--<td>-->\n" +
+    "                    <!--<label>-->\n" +
+    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "                    <!--</label>-->\n" +
+    "                <!--</td>-->\n" +
+    "                <!--<th scope=\"row\" style=\"text-align:center\">2</th>-->\n" +
+    "                <!--<td>Jacob</td>-->\n" +
+    "                <!--<td>Thornton</td>-->\n" +
+    "                <!--<td>@fat</td>-->\n" +
+    "            <!--</tr>-->\n" +
+    "            <!--<tr>-->\n" +
+    "                <!--<td>-->\n" +
+    "                    <!--<label>-->\n" +
+    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "                    <!--</label>-->\n" +
+    "                <!--</td>-->\n" +
+    "                <!--<th scope=\"row\" style=\"text-align:center\">3</th>-->\n" +
+    "                <!--<td>Larry</td>-->\n" +
+    "                <!--<td>the Bird</td>-->\n" +
+    "                <!--<td>@twitter</td>-->\n" +
+    "            <!--</tr>-->\n" +
+    "            <!--<tr>-->\n" +
+    "                <!--<td width=\"60\">-->\n" +
+    "                    <!--<label>-->\n" +
+    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "                    <!--</label>-->\n" +
+    "                <!--</td>-->\n" +
+    "                <!--<th scope=\"row\" style=\"text-align:center\">4</th>-->\n" +
+    "                <!--<td>Mark</td>-->\n" +
+    "                <!--<td>Otto</td>-->\n" +
+    "                <!--<td>@mdo</td>-->\n" +
+    "            <!--</tr>-->\n" +
+    "            <!--<tr>-->\n" +
+    "                <!--<td>-->\n" +
+    "                    <!--<label>-->\n" +
+    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "                    <!--</label>-->\n" +
+    "                <!--</td>-->\n" +
+    "                <!--<th scope=\"row\" style=\"text-align:center\">5</th>-->\n" +
+    "                <!--<td>Jacob</td>-->\n" +
+    "                <!--<td>Thornton</td>-->\n" +
+    "                <!--<td>@fat</td>-->\n" +
+    "            <!--</tr>-->\n" +
+    "            <!--<tr>-->\n" +
+    "                <!--<td>-->\n" +
+    "                    <!--<label>-->\n" +
+    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "                    <!--</label>-->\n" +
+    "                <!--</td>-->\n" +
+    "                <!--<th scope=\"row\" style=\"text-align:center\">6</th>-->\n" +
+    "                <!--<td>Larry</td>-->\n" +
+    "                <!--<td>the Bird</td>-->\n" +
+    "                <!--<td>@twitter</td>-->\n" +
+    "            <!--</tr>-->\n" +
+    "            <!--</tbody>-->\n" +
+    "        <!--</table>-->\n" +
+    "        <!--&lt;!&ndash; end of table view &ndash;&gt;-->\n" +
     "\n" +
-    "        <div class=\"btn-group\">\n" +
-    "            <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n" +
-    "                    aria-expanded=\"false\">\n" +
-    "                İşlemler <span class=\"caret\"></span>\n" +
-    "            </button>\n" +
-    "            <ul class=\"dropdown-menu\">\n" +
-    "                <li><a href=\"\">İşlem 1</a></li>\n" +
-    "                <li><a href=\"\">İşlem 2</a></li>\n" +
-    "                <li><a href=\"\">İşlem 3</a></li>\n" +
-    "                <li role=\"separator\" class=\"divider\"></li>\n" +
-    "                <li><a href=\"\">İşlem 4</a></li>\n" +
-    "            </ul>\n" +
-    "        </div>\n" +
+    "        <!--<div class=\"btn-group\">-->\n" +
+    "            <!--<button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\"-->\n" +
+    "                    <!--aria-expanded=\"false\">-->\n" +
+    "                <!--İşlemler <span class=\"caret\"></span>-->\n" +
+    "            <!--</button>-->\n" +
+    "            <!--<ul class=\"dropdown-menu\">-->\n" +
+    "                <!--<li><a href=\"\">İşlem 1</a></li>-->\n" +
+    "                <!--<li><a href=\"\">İşlem 2</a></li>-->\n" +
+    "                <!--<li><a href=\"\">İşlem 3</a></li>-->\n" +
+    "                <!--<li role=\"separator\" class=\"divider\"></li>-->\n" +
+    "                <!--<li><a href=\"\">İşlem 4</a></li>-->\n" +
+    "            <!--</ul>-->\n" +
+    "        <!--</div>-->\n" +
     "\n" +
     "\n" +
-    "        <hr>\n" +
+    "        <!--<hr>-->\n" +
     "\n" +
     "    </div>\n" +
     "</div>");
@@ -469,7 +469,7 @@ angular.module("shared/templates/add.html", []).run(["$templateCache", function(
     "            </a>\n" +
     "        </span>\n" +
     "    </h3>\n" +
-    "    <ng-include src=\"'shared/templates/nodeTable.html'\" ng-if=\"node.lengthModels > 0\"></ng-include>\n" +
+    "    <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
     "    <hr>\n" +
     "</div>\n" +
     "<div ng-repeat=\"node in ListNode\">\n" +
@@ -480,7 +480,7 @@ angular.module("shared/templates/add.html", []).run(["$templateCache", function(
     "            </a>\n" +
     "        </span>\n" +
     "    </h3>\n" +
-    "    <ng-include src=\"'shared/templates/nodeTable.html'\" ng-if=\"node.lengthModels > 0\" ng-bind=\"node.lengthModels\"></ng-include>\n" +
+    "    <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
     "    <hr>\n" +
     "</div>\n" +
     "\n" +
@@ -1003,17 +1003,17 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "        <ul class=\"nav in\" id=\"side-menu\">\n" +
     "            <!--<sidebar-search></sidebar-search>-->\n" +
     "            <li ui-sref-active=\"active\">\n" +
-    "                <a href=\"#/dashboard\"><i class=\"fa fa-dashboard fa-fw\"></i> Dashboard</a>\n" +
+    "                <a href=\"#/dashboard\"><i class=\"fa fa-dashboard fa-fw\"></i> Panel</a>\n" +
     "            </li>\n" +
     "            <li ng-repeat=\"(key, item) in menuItems\" ng-class=\"{active: collapseVar == key}\">\n" +
-    "                <a href=\"\" ng-click=\"check(key)\"><i class=\"fa fa-wrench fa-fw\"></i> {{ item }}<span\n" +
+    "                <a href=\"\" ng-click=\"check(key)\"><i class=\"fa fa-wrench fa-fw\"></i> {{ item[0] }}<span\n" +
     "                        class=\"fa arrow\"></span></a>\n" +
     "                <ul class=\"nav nav-second-level\" collapse=\"collapseVar!={{key}}\">\n" +
     "                    <li ui-sref-active=\"active\">\n" +
-    "                        <a href=\"#/{{item}}\">List</a>\n" +
+    "                        <a href=\"#/{{item[1]}}\">Listele</a>\n" +
     "                    </li>\n" +
     "                    <li ui-sref-active=\"active\">\n" +
-    "                        <a href=\"#/{{item}}/add\">Add</a>\n" +
+    "                        <a href=\"#/{{item[1]}}/add\">Ekle</a>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
     "                <!-- /.nav-second-level -->\n" +
@@ -1183,15 +1183,15 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "        </label>\n" +
     "\n" +
     "        <select ng-model=\"$$value$$\"\n" +
+    "                value=\"$$value$$\"\n" +
     "                ng-model-options=\"form.ngModelOptions\"\n" +
     "                ng-disabled=\"form.readonly\"\n" +
     "                sf-changed=\"form\"\n" +
     "                class=\"form-control {{form.fieldHtmlClass}}\"\n" +
     "                schema-validate=\"form\"\n" +
-    "                ng-options=\"item.value as item.name group by item.group for item in form.titleMap\"\n" +
+    "                ng-options=\"item.value as item.name for item in form.titleMap\"\n" +
     "                name=\"{{form.key.slice(-1)[0]}}\">\n" +
     "        </select>\n" +
-    "\n" +
     "\n" +
     "        <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
     "    </div>\n" +
@@ -1237,12 +1237,17 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "<table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
     "    <thead>\n" +
     "    <tr>\n" +
-    "        <th colspan=\"2\">#</th>\n" +
-    "        <th ng-repeat=\"(key,value) in node.fields\">{{ value.title }}</th>\n" +
+    "        <th colspan=\"2\">\n" +
+    "            <label>\n" +
+    "                <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                Hepsini Seç\n" +
+    "            </label>\n" +
+    "        </th>\n" +
+    "        <th ng-repeat=\"(key,value) in node.form\">{{ value }}</th>\n" +
     "        <th>action</th>\n" +
     "    </tr>\n" +
     "    </thead>\n" +
-    "    <tbody>\n" +
+    "    <tbody ng-class=\"{true: '', false: 'hidden'}[node.lengthModels > 0]\">\n" +
     "    <tr>\n" +
     "        <td width=\"60\">\n" +
     "            <label>\n" +
@@ -1250,11 +1255,11 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "            </label>\n" +
     "        </td>\n" +
     "        <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
-    "        <td ng-repeat=\"(key,value) in node.models\">{{ value.value }}</td>\n" +
+    "        <td ng-repeat=\"value in node.model\">{{ value }}</td>\n" +
     "        <td>\n" +
-    "            <a ng-href=\"#/crud/{{model}}/edit/{{object.key}}\">Edit</a><br>\n" +
-    "            <a ng-href=\"#/crud/{{model}}/{{object.key}}\">Show</a>\n" +
-    "            <a ng-href=\"#/crud/{{model}}/{{object.key}}\">Delete</a>\n" +
+    "            <button modal-for-nodes=\"{{node.title}},ListNode\">Edit</button><br>\n" +
+    "            <button>Show</button>\n" +
+    "            <button>Delete</button>\n" +
     "        </td>\n" +
     "    </tr>\n" +
     "    </tbody>\n" +
