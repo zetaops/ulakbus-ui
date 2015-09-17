@@ -65,7 +65,7 @@ module.exports = function (grunt) {
             },
             dev: {
                 src: ['app/components/**/*.html', 'app/shared/templates/**/*.html'],
-                dest: 'tmp/templates.js'
+                dest: 'app/tmp/templates.js'
             }
         },
         copy: {
@@ -98,7 +98,7 @@ module.exports = function (grunt) {
                     //'app/components/**/*controller.js',
                     //'app/components/**/*service.js',
 
-                    "app/app.js",
+                    "dist/app.js",
                     "app/app_routes.js",
                     "app/zetalib/interceptors.js",
                     "app/zetalib/general.js",
@@ -196,7 +196,7 @@ module.exports = function (grunt) {
         },
         watch: {
             dev: {
-                files: ['app/**/*.js', 'app/components/**/*.html', 'index.html'],
+                files: ['app/**/*.js', 'app/components/**/*.html', 'index.html', 'Gruntfile.js', '!app/tmp/*.js', '!app/app.js'],
                 tasks: ['env:dev', 'preprocess:dev', 'html2js:dev'],
                 options: {
                     atBegin: false
@@ -253,12 +253,16 @@ module.exports = function (grunt) {
         },
         preprocess: {
             dev: {
-                src: 'index.html',
-                dest: 'app/index.html'
+                files: {
+                    'app/index.html': 'app/main.html',
+                    'app/app.js': 'app/main.js',
+                }
             },
             prod: {
-                src: 'index.html',
-                dest: 'dist/index.html',
+                files: {
+                    'dist/index.html': 'app/main.html',
+                    'dist/app.js': 'app/main.js',
+                },
                 options: {
                     context: {
                         name: '<%= pkg.name %>',
@@ -269,8 +273,10 @@ module.exports = function (grunt) {
                 }
             },
             prod_branch: {
-                src: 'index.html',
-                dest: 'dist/<%= grunt.branchname %>/index.html',
+                files: {
+                    'dist/<%= grunt.branchname %>/index.html': 'app/main.html',
+                    'dist/<%= grunt.branchname %>/app.js': 'app/main.js',
+                },
                 options: {
                     context: {
                         name: '<%= pkg.name %>',
@@ -303,13 +309,13 @@ module.exports = function (grunt) {
     grunt.registerTask('i18n', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('default', [
         'bower',
+        'env:prod',
+        'preprocess:prod',
         'nggettext_compile',
         'concat:js',
         'concat:css',
         'concat:components',
         'copy:prod',
-        'env:prod',
-        'preprocess:prod',
         'html2js:prod',
         'uglify:dist'
     ]);

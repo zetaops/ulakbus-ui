@@ -24,15 +24,29 @@ var app = angular.module(
         //'ulakbus.version',
         'schemaForm',
         'gettext',
-        'templates-prod'
+        'templates-dev',
     ]).
 /**
  * RESTURL is the url of rest api to talk
  * Based on the environment it changes from dev to prod
  */
     constant("RESTURL", (function () {
-        //return {url: "http://127.0.0.1:9001/"};
-        return {url: "http://api.ulakbus.net/"};
+        // todo: below backendurl definition is for development purpose and will be deleted
+        var backendurl = "http://api.ulakbus.net";
+        if (document.cookie.indexOf("backendurl") > -1){
+            var cookiearray = document.cookie.split(';');
+            angular.forEach(cookiearray, function(item){
+                if(item.indexOf("backendurl")){
+                    backendurl = item.split('=')[1];
+                }
+            });
+        }
+        if (location.href.indexOf("backendurl") > -1){
+            var urlfromqstr = location.href.split('?')[1].split('=')[1];
+            backendurl = decodeURIComponent(urlfromqstr.replace(/\+/g, " "));
+            document.cookie = "backendurl="+backendurl;
+        }
+        return {url: backendurl};
     })()).
 /**
  * USER_ROLES and AUTH_EVENTS are constant for auth functions

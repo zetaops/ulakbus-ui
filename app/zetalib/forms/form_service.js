@@ -112,8 +112,6 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                     url: scope.url
                 };
 
-                debugger;
-
                 scope[k.type][k.title].model = scope.model[v] != null ? scope.model[v] : {};
 
                 angular.forEach(k.schema , function (item) {
@@ -141,8 +139,6 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                 // lengthModels is length of the listnode models. if greater than 0 show records on template
                 scope[k.type][k.title]['lengthModels'] = scope.model[k.title] ? 1 : 0;
 
-                console.log(scope[k.type][k.title]['lengthModels']);
-                debugger;
             }
 
         });
@@ -200,7 +196,6 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
     };
     generator.submit = function ($scope) {
         // todo: diff for all submits to recognize form change. if no change returns to view with no submit
-        debugger;
         var data = {
             "form": $scope.model,
             "cmd": $scope.form_params.cmd,

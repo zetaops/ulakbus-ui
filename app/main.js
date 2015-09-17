@@ -7,30 +7,74 @@
 
 'use strict';
 
-$script([
-    "bower_components/angular/angular.js",
-    "bower_components/oclazyload/dist/ocLazyLoad.js",
-    "bower_components/angular-route/angular-route.js",
-    "bower_components/angular-cookies/angular-cookies.js",
-    "bower_components/angular-resource/angular-resource.js",
-    "bower_components/angular-sanitize/angular-sanitize.js",
-    "bower_components/tv4/tv4.js",
-    "bower_components/objectpath/lib/ObjectPath.js",
-    "bower_components/angular-schema-form/dist/schema-form.js",
-    "bower_components/angular-schema-form/dist/bootstrap-decorator.js",
-    "bower_components/angular-schema-form-datepicker/bootstrap-datepicker.js",
-    "app.js",
-    "app_routes.js",
-    "zetalib/interceptors.js",
-    "zetalib/general.js",
-    "zetalib/forms/form_service.js",
-    "components/auth/auth_controller.js",
-    "components/auth/auth_service.js",
-    "components/dashboard/dashboard.js",
-    "components/staff/staff_controller.js",
-    "components/student/student_controller.js",
-    "components/dashboard/dashboard.js"
-], function() {
-    // when all is done, execute bootstrap angular application
-    angular.bootstrap(document, ['ulakbus']);
-});
+var app = angular.module(
+    'ulakbus', [
+        'ui.bootstrap',
+        'angular-loading-bar',
+        'ngRoute',
+        'ngSanitize',
+        'ngCookies',
+        'general',
+        'formService',
+        'ulakbus.dashboard',
+        'ulakbus.auth',
+        //'ulakbus.staff',
+        //'ulakbus.student',
+        'ulakbus.crud',
+        //'ulakbus.version',
+        'schemaForm',
+        'gettext',
+        // @if NODE_ENV='PRODUCTION'
+        'templates-prod',
+        // @endif
+        // @if NODE_ENV='DEVELOPMENT'
+        'templates-dev',
+        // @endif
+    ]).
+/**
+ * RESTURL is the url of rest api to talk
+ * Based on the environment it changes from dev to prod
+ */
+    constant("RESTURL", (function () {
+        // todo: below backendurl definition is for development purpose and will be deleted
+        var backendurl = "http://api.ulakbus.net";
+        if (document.cookie.indexOf("backendurl") > -1){
+            var cookiearray = document.cookie.split(';');
+            angular.forEach(cookiearray, function(item){
+                if(item.indexOf("backendurl")){
+                    backendurl = item.split('=')[1];
+                }
+            });
+        }
+        if (location.href.indexOf("backendurl") > -1){
+            var urlfromqstr = location.href.split('?')[1].split('=')[1];
+            backendurl = decodeURIComponent(urlfromqstr.replace(/\+/g, " "));
+            document.cookie = "backendurl="+backendurl;
+        }
+        return {url: backendurl};
+    })()).
+/**
+ * USER_ROLES and AUTH_EVENTS are constant for auth functions
+ */
+    constant("USER_ROLES", {
+        all: "*",
+        admin: "admin",
+        student: "student",
+        staff: "staff",
+        dean: "dean"
+    }).
+    constant('AUTH_EVENTS', {
+        loginSuccess: 'auth-login-success',
+        loginFailed: 'auth-login-failed',
+        logoutSuccess: 'auth-logout-success',
+        sessionTimeout: 'auth-session-timeout',
+        notAuthenticated: 'auth-not-authenticated',
+        notAuthorized: 'auth-not-authorized'
+    });
+
+
+
+// test the code with strict di mode to see if it works when minified
+//angular.bootstrap(document, ['ulakbus'], {
+//    strictDi: true
+//});
