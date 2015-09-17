@@ -28,7 +28,9 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
     }
 
     // get form with generator
-    Generator.get_form($scope);
+    if ($routeParams.model) {
+        Generator.get_form($scope);
+    }
 
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');

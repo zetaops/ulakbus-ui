@@ -480,7 +480,7 @@ angular.module("shared/templates/add.html", []).run(["$templateCache", function(
     "            </a>\n" +
     "        </span>\n" +
     "    </h3>\n" +
-    "    <ng-include src=\"'shared/templates/nodeTable.html'\" ng-if=\"node.lengthModels > 0\"></ng-include>\n" +
+    "    <ng-include src=\"'shared/templates/nodeTable.html'\" ng-if=\"node.lengthModels > 0\" ng-bind=\"node.lengthModels\"></ng-include>\n" +
     "    <hr>\n" +
     "</div>\n" +
     "\n" +

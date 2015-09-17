@@ -46,11 +46,17 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
 
             if (k.type == 'date') {
                 k.type = 'string';
+                scope.model[v] = generator.dateformatter(scope.model[v]);
 
                 // seek for datepicker field and initialize datepicker
                 scope.$watch($('#'+v), function(){
                     $timeout(function () {
-                        jQuery('#' + v).datepicker();
+                        jQuery('#' + v).datepicker({
+                            dateFormat: "dd.mm.yy",
+                            onSelect: function(date){
+                                scope.model[v] = date;
+                            }
+                        });
                     });
                 });
             }
@@ -96,8 +102,9 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                 scope[k.type][k.title] = {
                     title: k.title,
                     form: [],
-                    schema: {properties: {}, required: [], title: k.title, type: "object"},
-                    model: {}
+                    schema: {properties: {}, required: [], title: k.title, type: "object", formType: k.type},
+                    model: {},
+                    url: scope.url
                 };
 
                 angular.forEach(k.schema , function (item) {
@@ -105,7 +112,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                     scope[k.type][k.title].model[item.name] = item.value;
 
                     // prepare required fields
-                    if (item.required == true) {
+                    if (item.required == true && item.name != 'idx') {
                         scope[k.type][k.title].schema.required.push(item.name);
                     }
 
@@ -127,11 +134,10 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
         return scope;
     };
     generator.dateformatter = function (formObject) {
-        //angular.forEach(formObject.objects, function(k, v) {
-        // check if date string and convert to date object
-        // todo: catch date object and convert
-        //});
-        return Date(formObject);
+        var ndate = new Date(formObject);
+        if (ndate == 'Invalid Date') {return ''}
+        var newdatearray = [ndate.getDate(), ndate.getMonth(), ndate.getFullYear()];
+        return newdatearray.join('.');
     };
     generator.get_form = function (scope) {
         return $http
@@ -145,7 +151,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
         return $http
             .post(generator.makeUrl(scope.url), scope.form_params)
             .then(function (res) {
-                generator.dateformatter(res);
+                //generator.dateformatter(res);
                 return res;
                 // todo: cover all other exceptions (4xx, 5xx)
             });
@@ -154,7 +160,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
         return $http
             .post(generator.makeUrl(scope.url), scope.form_params)
             .then(function (res) {
-                generator.dateformatter(res);
+                //generator.dateformatter(res);
                 return res;
                 // todo: cover all other exceptions (4xx, 5xx)
             });
@@ -187,11 +193,10 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
             "token": $scope.token
         };
         if ($scope.object_id) {
-            var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
+            //var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
             data.object_id = $scope.object_id;
-            data.form = get_diff;
+            //data.form = get_diff;
         }
-        debugger;
         $http.post(generator.makeUrl($scope.url), data)
             .success()
             .then(function(res){
@@ -211,19 +216,22 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
  */
 
 form_generator.controller('ModalCtrl', function ($scope, $modalInstance, Generator, $route, items) {
-    angular.forEach(["model", "schema", "form"], function (key) {
+    angular.forEach(items, function (value, key) {
         $scope[key] = items[key];
     });
+
+    console.log(items);
 
     Generator.prepareFormItems($scope);
 
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         console.log(form.$valid);
-        if(form.$valid){
-            // send form to modalinstance result function
-            debugger;
-            $modalInstance.close($scope);
+        //if(form.$valid){
+        if(1==1){
+                // send form to modalinstance result function
+                $modalInstance.close($scope);
+
         }
     };
     $scope.cancel = function () {
@@ -259,9 +267,17 @@ form_generator.directive('modalForNodes', function ($modal) {
                 modalInstance.result.then(function (childmodel, key) {
                     // subfix will be removed
                     //var subfix = scope.schema.title.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
-                    // todo: run form validator here
-                    scope.$parent.model[childmodel.schema.title] = childmodel.model;
-                    console.log(scope.$parent.model);
+
+                    if (childmodel.schema.formType == 'Node'){
+                        scope.$parent.model[childmodel.schema.title] = childmodel.model;
+                    }
+                    if (childmodel.schema.formType == 'ListNode'){
+                        if (scope.$parent.model[childmodel.schema.title] == null){
+                            scope.$parent.model[childmodel.schema.title] = [];
+                        }
+                        scope.$parent.model[childmodel.schema.title].push(childmodel.model);
+                    }
+                    childmodel.lengthModels += 1;
                 });
             });
         }
