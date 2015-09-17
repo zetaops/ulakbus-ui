@@ -1,12 +1,17 @@
 <table class="table table-bordered" style="background-color:#fff;">
     <thead>
     <tr>
-        <th colspan="2">#</th>
-        <th ng-repeat="(key,value) in node.fields">{{ value.title }}</th>
+        <th colspan="2">
+            <label>
+                <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
+                Hepsini Seç
+            </label>
+        </th>
+        <th ng-repeat="(key,value) in node.form">{{ value }}</th>
         <th>action</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody ng-class="{true: '', false: 'hidden'}[node.lengthModels > 0]">
     <tr>
         <td width="60">
             <label>
@@ -14,11 +19,11 @@
             </label>
         </td>
         <th scope="row" style="text-align:center">1</th>
-        <td ng-repeat="(key,value) in node.models">{{ value.value }}</td>
+        <td ng-repeat="value in node.model">{{ value }}</td>
         <td>
-            <a ng-href="#/crud/{{model}}/edit/{{object.key}}">Edit</a><br>
-            <a ng-href="#/crud/{{model}}/{{object.key}}">Show</a>
-            <a ng-href="#/crud/{{model}}/{{object.key}}">Delete</a>
+            <button modal-for-nodes="{{node.title}},ListNode">Edit</button><br>
+            <button>Show</button>
+            <button>Delete</button>
         </td>
     </tr>
     </tbody>

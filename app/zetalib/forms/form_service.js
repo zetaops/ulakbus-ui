@@ -70,29 +70,35 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
             if (k.type == 'model') {
 
                 var formitem = scope.form[scope.form.indexOf(v)];
+                var modelscope = {"url": scope.url, "form_params": {model: k.title}};
 
                 formitem = {
                     "type": "template",
                     "templateUrl": "shared/templates/foreignKey.html",
-                    "title": k.title
-
+                    "title": k.title,
+                    "titleMap": generator.get_list(modelscope).then(function (res) {
+                        formitem.titleMap = [];
+                        angular.forEach(res.data.objects, function (item) {
+                            formitem.titleMap.push({
+                                "value": item.key,
+                                "name": item.data.name ? item.data.name : item.data.username
+                            });
+                        });
+                    }),
+                    onChange: function(modelValue,form) {
+                        scope.model[v] = modelValue;
+                    }
                 };
 
-                var modelscope = {"url": scope.url, "form_params": {model: k.title}};
-
                 // get model objects from db and add to select list
-                generator.get_list(modelscope).then(function (res) {
-                    formitem.titleMap = [];
-                    angular.forEach(res.data.objects, function (item) {
-                        formitem.titleMap.push({
-                            "value": item.key,
-                            "name": item.data.name ? item.data.name : item.data.username
-                        });
 
-                    });
-
-                });
                 scope.form[scope.form.indexOf(v)] = formitem;
+                scope.$broadcast('schemaFormRedraw');
+
+                // todo: make lines below work properly
+                //if (scope.model[v].indexOf("TMP_") > -1) {
+                //    scope.model[v] = null;
+                //}
             }
 
             if (k.type == 'ListNode' || k.type == 'Node') {
@@ -103,13 +109,20 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                     title: k.title,
                     form: [],
                     schema: {properties: {}, required: [], title: k.title, type: "object", formType: k.type},
-                    model: {},
                     url: scope.url
                 };
 
+                debugger;
+
+                scope[k.type][k.title].model = scope.model[v] != null ? scope.model[v] : {};
+
                 angular.forEach(k.schema , function (item) {
                     scope[k.type][k.title].schema.properties[item.name] = item;
-                    scope[k.type][k.title].model[item.name] = item.value;
+
+                    // if model is empty object then fill it with scope model item
+                    //if (scope[k.type][k.title] == {}){
+                    //    scope[k.type][k.title].model[item.name] = item.value;
+                    //}
 
                     // prepare required fields
                     if (item.required == true && item.name != 'idx') {

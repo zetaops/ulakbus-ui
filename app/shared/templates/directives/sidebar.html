@@ -6,17 +6,17 @@
         <ul class="nav in" id="side-menu">
             <!--<sidebar-search></sidebar-search>-->
             <li ui-sref-active="active">
-                <a href="#/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                <a href="#/dashboard"><i class="fa fa-dashboard fa-fw"></i> Panel</a>
             </li>
             <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == key}">
-                <a href="" ng-click="check(key)"><i class="fa fa-wrench fa-fw"></i> {{ item }}<span
+                <a href="" ng-click="check(key)"><i class="fa fa-wrench fa-fw"></i> {{ item[0] }}<span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" collapse="collapseVar!={{key}}">
                     <li ui-sref-active="active">
-                        <a href="#/{{item}}">List</a>
+                        <a href="#/{{item[1]}}">Listele</a>
                     </li>
                     <li ui-sref-active="active">
-                        <a href="#/{{item}}/add">Add</a>
+                        <a href="#/{{item[1]}}/add">Ekle</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
