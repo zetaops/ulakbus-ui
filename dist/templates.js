@@ -40,35 +40,37 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
   $templateCache.put("components/crud/templates/list.html",
     "<div class=\"starter-template\">\n" +
     "    <h1>{{model}}</h1>\n" +
-    "    <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
-    "        <thead>\n" +
-    "        <tr>\n" +
-    "            <th colspan=\"2\">\n" +
-    "                <label>\n" +
-    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                    Hepsini Seç\n" +
-    "                </label>\n" +
-    "            </th>\n" +
-    "            <th ng-repeat=\"(key,value) in objects[0].data\">{{ key }}</th>\n" +
-    "            <th>action</th>\n" +
-    "        </tr>\n" +
-    "        </thead>\n" +
-    "        <tbody>\n" +
-    "        <tr ng-repeat=\"object in objects\">\n" +
-    "            <td width=\"60\">\n" +
-    "                <label>\n" +
-    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                </label>\n" +
-    "            </td>\n" +
-    "            <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
-    "            <td ng-repeat=\"(key,value) in object.data\">{{value}}</td>\n" +
-    "            <td>\n" +
-    "                <a ng-href=\"#/{{model}}/edit/{{object.key}}\">Edit</a><br>\n" +
-    "                <a ng-href=\"#/{{model}}/{{object.key}}\">Show</a>\n" +
-    "            </td>\n" +
-    "        </tr>\n" +
-    "        </tbody>\n" +
-    "    </table>\n" +
+    "    <div class=\"tablescroll\">\n" +
+    "        <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
+    "            <thead>\n" +
+    "            <tr>\n" +
+    "                <th colspan=\"2\">\n" +
+    "                    <label>\n" +
+    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                        Hepsini Seç\n" +
+    "                    </label>\n" +
+    "                </th>\n" +
+    "                <th ng-repeat=\"(key,value) in objects[0].data\">{{ key }}</th>\n" +
+    "                <th>action</th>\n" +
+    "            </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "            <tr ng-repeat=\"object in objects\">\n" +
+    "                <td width=\"60\">\n" +
+    "                    <label>\n" +
+    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    </label>\n" +
+    "                </td>\n" +
+    "                <th scope=\"row\" style=\"text-align:center\">{{$index + 1}}</th>\n" +
+    "                <td ng-repeat=\"(key,value) in object.data\">{{value}}</td>\n" +
+    "                <td>\n" +
+    "                    <a ng-href=\"#/{{model}}/edit/{{object.key}}\">Edit</a><br>\n" +
+    "                    <a ng-href=\"#/{{model}}/{{object.key}}\">Show</a>\n" +
+    "                </td>\n" +
+    "            </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "    </div>\n" +
     "\n" +
     "    <div class=\"btn-group\">\n" +
     "        <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n" +

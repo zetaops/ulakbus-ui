@@ -50,6 +50,13 @@ app.config(['$httpProvider', function ($httpProvider) {
                         $location.path('/login');
                     }
                 }
+                if(rejection.status === 403) {
+                    if (rejection.data.is_login == true){
+                        if($location.path()==="/login"){
+                            $location.path("/dashboard");
+                        }
+                    }
+                }
                 return $q.reject(rejection);
             }
         };

@@ -18,6 +18,7 @@ auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cook
             .post(RESTURL.url + url, credentials)
             .success(function (data, status, headers, config) {
                 //$window.sessionStorage.token = data.token;
+
                 $rootScope.loggedInUser = true;
             })
             .error(function (data, status, headers, config) {

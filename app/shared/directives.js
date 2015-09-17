@@ -8,11 +8,11 @@
 /**
  * logout directive
  */
-app.directive('logout', function ($http, $location) {
+app.directive('logout', function ($http, $location, RESTURL) {
     return {
         link: function ($scope, $element, $rootScope) {
             $element.on('click', function () {
-                $http.post('http://' + window.location.hostname + ':9001/logout', {}).then(function () {
+                $http.post(RESTURL.url + 'logout', {}).then(function () {
                     $rootScope.loggedInUser = false;
                     console.log($rootScope.loggedInUser);
                     $location.path("/login");
