@@ -70,14 +70,14 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
             if (k.type == 'model') {
 
                 var formitem = scope.form[scope.form.indexOf(v)];
-                debugger;
                 var modelscope = {"url": scope.url, "form_params": {model: k.model_name}};
-
+                debugger;
                 formitem = {
-                    "type": "template",
-                    "templateUrl": "shared/templates/foreignKey.html",
-                    "title": k.title,
-                    "titleMap": generator.get_list(modelscope).then(function (res) {
+                    type: "template",
+                    templateUrl: "shared/templates/foreignKey.html",
+                    title: k.title,
+                    model_name: k.model_name,
+                    titleMap: generator.get_list(modelscope).then(function (res) {
                         formitem.titleMap = [];
                         angular.forEach(res.data.objects, function (item) {
                             formitem.titleMap.push({
@@ -318,9 +318,10 @@ form_generator.directive('addModalForLinkedModel', function ($modal, Generator) 
                     size: 'lg',
                     resolve: {
                         items: function () {
+                            debugger;
                             return Generator.get_form({
                                 url: 'crud',
-                                form_params: {'model': scope.form.title, "cmd": "add"}
+                                form_params: {'model': scope.form.model_name, "cmd": "add"}
                             });
                         }
                     }

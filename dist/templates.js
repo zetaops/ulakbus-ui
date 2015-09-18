@@ -50,12 +50,12 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                        Hepsini Seç\n" +
     "                    </label>\n" +
     "                </th>\n" +
-    "                <th ng-repeat=\"(key,value) in objects[0].data\">{{ key }}</th>\n" +
+    "                <th ng-repeat=\"(key,value) in nobjects[0].data\">{{ key }}</th>\n" +
     "                <th>action</th>\n" +
     "            </tr>\n" +
     "            </thead>\n" +
     "            <tbody>\n" +
-    "            <tr ng-repeat=\"object in objects\">\n" +
+    "            <tr ng-repeat=\"object in nobjects\">\n" +
     "                <td width=\"60\">\n" +
     "                    <label>\n" +
     "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
