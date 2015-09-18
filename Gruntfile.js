@@ -77,7 +77,9 @@ module.exports = function (grunt) {
                     {expand: true, cwd: 'app/styles/', src: 'jquery-ui.min.css', dest: 'dist/css/', flatten: true},
                     {expand: true, cwd: 'app/styles/images/', src: '*', dest: 'dist/css/images/', flatten: true},
                     {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
+                    {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/shared/scripts/', src: 'theme.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
                 ]
 
             }
@@ -103,12 +105,12 @@ module.exports = function (grunt) {
                     "app/zetalib/interceptors.js",
                     "app/zetalib/general.js",
                     "app/zetalib/forms/form_service.js",
-                    "app/shared/scripts/theme.js",
                     "app/shared/directives.js",
                     "app/components/auth/auth_controller.js",
                     "app/components/auth/auth_service.js",
                     "app/components/dashboard/dashboard_controller.js",
                     "app/components/crud/crud_controller.js",
+                    //"app/shared/scripts/theme.js",
                 ],
                 dest: 'dist/app.js'
             },
