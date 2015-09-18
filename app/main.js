@@ -37,7 +37,7 @@ var app = angular.module(
  */
     constant("RESTURL", (function () {
         // todo: below backendurl definition is for development purpose and will be deleted
-        var backendurl = "http://api.ulakbus.net";
+        var backendurl = "http://api.ulakbus.net/";
         if (document.cookie.indexOf("backendurl") > -1){
             var cookiearray = document.cookie.split(';');
             angular.forEach(cookiearray, function(item){
