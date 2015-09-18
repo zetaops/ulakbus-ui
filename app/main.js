@@ -28,7 +28,7 @@ var app = angular.module(
         'templates-prod',
         // @endif
         // @if NODE_ENV='DEVELOPMENT'
-        'templates-dev',
+        //'templates-dev',
         // @endif
     ]).
 /**

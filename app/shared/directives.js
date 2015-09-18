@@ -73,7 +73,7 @@ app.directive('sidebar', ['$location', function () {
         scope: {},
         controller: function ($scope, $http, RESTURL) {
             $http.post(RESTURL.url + 'crud/').success(function (data) {
-                $scope.menuItems = data.models;
+                $scope.menuItems = data.app_models;
             });
 
             $scope.selectedMenu = 'dashboard';

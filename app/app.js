@@ -24,7 +24,7 @@ var app = angular.module(
         //'ulakbus.version',
         'schemaForm',
         'gettext',
-        'templates-dev',
+        //'templates-dev',
     ]).
 /**
  * RESTURL is the url of rest api to talk

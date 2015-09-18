@@ -12,11 +12,18 @@
                 <a href="" ng-click="check(key)"><i class="fa fa-wrench fa-fw"></i> {{ item[0] }}<span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" collapse="collapseVar!={{key}}">
-                    <li ui-sref-active="active">
-                        <a href="#/{{item[1]}}">Listele</a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a href="#/{{item[1]}}/add">Ekle</a>
+                    <li ng-repeat="(k, v) in item[1]" ng-init="third=!third"
+                        ng-class="{active: multiCollapseVar==$index}">
+                        <a href="" ng-click="multiCheck($index)">{{v[1]}} <span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level" collapse="multiCollapseVar!={{$index}}">
+                            <li>
+                                <a href="#/{{v[1]}}">Listele</a>
+                            </li>
+                            <li>
+                                <a href="#/{{v[1]}}/add">Ekle</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-third-level -->
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

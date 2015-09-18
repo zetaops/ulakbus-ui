@@ -1011,11 +1011,18 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "                <a href=\"\" ng-click=\"check(key)\"><i class=\"fa fa-wrench fa-fw\"></i> {{ item[0] }}<span\n" +
     "                        class=\"fa arrow\"></span></a>\n" +
     "                <ul class=\"nav nav-second-level\" collapse=\"collapseVar!={{key}}\">\n" +
-    "                    <li ui-sref-active=\"active\">\n" +
-    "                        <a href=\"#/{{item[1]}}\">Listele</a>\n" +
-    "                    </li>\n" +
-    "                    <li ui-sref-active=\"active\">\n" +
-    "                        <a href=\"#/{{item[1]}}/add\">Ekle</a>\n" +
+    "                    <li ng-repeat=\"(k, v) in item[1]\" ng-init=\"third=!third\"\n" +
+    "                        ng-class=\"{active: multiCollapseVar==$index}\">\n" +
+    "                        <a href=\"\" ng-click=\"multiCheck($index)\">{{v[1]}} <span class=\"fa arrow\"></span></a>\n" +
+    "                        <ul class=\"nav nav-third-level\" collapse=\"multiCollapseVar!={{$index}}\">\n" +
+    "                            <li>\n" +
+    "                                <a href=\"#/{{v[1]}}\">Listele</a>\n" +
+    "                            </li>\n" +
+    "                            <li>\n" +
+    "                                <a href=\"#/{{v[1]}}/add\">Ekle</a>\n" +
+    "                            </li>\n" +
+    "                        </ul>\n" +
+    "                        <!-- /.nav-third-level -->\n" +
     "                    </li>\n" +
     "                </ul>\n" +
     "                <!-- /.nav-second-level -->\n" +
