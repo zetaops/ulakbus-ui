@@ -64,7 +64,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                 });
             }
 
-            if (k.type == 'int' || 'float') {
+            if (k.type == 'int' || k.type == 'float') {
                 k.type = 'number';
             }
 
