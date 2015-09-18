@@ -1013,7 +1013,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "                <ul class=\"nav nav-second-level\" collapse=\"collapseVar!={{key}}\">\n" +
     "                    <li ng-repeat=\"(k, v) in item[1]\" ng-init=\"third=!third\"\n" +
     "                        ng-class=\"{active: multiCollapseVar==$index}\">\n" +
-    "                        <a href=\"\" ng-click=\"multiCheck($index)\">{{v[1]}} <span class=\"fa arrow\"></span></a>\n" +
+    "                        <a href=\"\" ng-click=\"multiCheck($index)\">{{v[0]}} <span class=\"fa arrow\"></span></a>\n" +
     "                        <ul class=\"nav nav-third-level\" collapse=\"multiCollapseVar!={{$index}}\">\n" +
     "                            <li>\n" +
     "                                <a href=\"#/{{v[1]}}\">Listele</a>\n" +

@@ -70,7 +70,8 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
             if (k.type == 'model') {
 
                 var formitem = scope.form[scope.form.indexOf(v)];
-                var modelscope = {"url": scope.url, "form_params": {model: k.title}};
+                debugger;
+                var modelscope = {"url": scope.url, "form_params": {model: k.model_name}};
 
                 formitem = {
                     "type": "template",
@@ -105,10 +106,12 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
 
                 scope[k.type] = scope[k.type] ? scope[k.type] : {};
 
+                debugger;
+
                 scope[k.type][k.title] = {
                     title: k.title,
                     form: [],
-                    schema: {properties: {}, required: [], title: k.title, type: "object", formType: k.type},
+                    schema: {properties: {}, required: [], title: k.title, type: "object", formType: k.type, model_name: v},
                     url: scope.url
                 };
 
@@ -281,13 +284,14 @@ form_generator.directive('modalForNodes', function ($modal) {
                     //var subfix = scope.schema.title.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
 
                     if (childmodel.schema.formType == 'Node'){
-                        scope.$parent.model[childmodel.schema.title] = childmodel.model;
+                        scope.$parent.model[childmodel.schema.model_name] = childmodel.model;
                     }
                     if (childmodel.schema.formType == 'ListNode'){
-                        if (scope.$parent.model[childmodel.schema.title] == null){
-                            scope.$parent.model[childmodel.schema.title] = [];
+                        debugger;
+                        if (scope.$parent.model[childmodel.schema.model_name] == null){
+                            scope.$parent.model[childmodel.schema.model_name] = [];
                         }
-                        scope.$parent.model[childmodel.schema.title].push(childmodel.model);
+                        scope.$parent.model[childmodel.schema.model_name].push(childmodel.model);
                     }
                     childmodel.lengthModels += 1;
                 });

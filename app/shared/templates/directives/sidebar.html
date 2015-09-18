@@ -14,7 +14,7 @@
                 <ul class="nav nav-second-level" collapse="collapseVar!={{key}}">
                     <li ng-repeat="(k, v) in item[1]" ng-init="third=!third"
                         ng-class="{active: multiCollapseVar==$index}">
-                        <a href="" ng-click="multiCheck($index)">{{v[1]}} <span class="fa arrow"></span></a>
+                        <a href="" ng-click="multiCheck($index)">{{v[0]}} <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level" collapse="multiCollapseVar!={{$index}}">
                             <li>
                                 <a href="#/{{v[1]}}">Listele</a>
