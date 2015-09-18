@@ -238,8 +238,6 @@ form_generator.controller('ModalCtrl', function ($scope, $modalInstance, Generat
         $scope[key] = items[key];
     });
 
-    console.log(items);
-
     Generator.prepareFormItems($scope);
 
     $scope.onSubmit = function (form) {

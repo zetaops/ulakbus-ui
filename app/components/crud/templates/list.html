@@ -10,27 +10,36 @@
                         Hepsini Seç
                     </label>
                 </th>
-                <th ng-repeat="(key,value) in nobjects[0].data">{{ key }}</th>
+                <th ng-repeat="value in nobjects[0]" ng-if="nobjects[0]!='-1'">{{ value }}</th>
+                <th ng-if="nobjects[0]=='-1'">{{ model }}</th>
                 <th>action</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="object in nobjects">
+            <tr ng-repeat="object in nobjects" ng-if="$index>0">
                 <td width="60">
                     <label>
                         <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
                     </label>
                 </td>
-                <th scope="row" style="text-align:center">{{$index + 1}}</th>
-                <td ng-repeat="(key,value) in object.data">{{value}}</td>
+                <th scope="row" style="text-align:center">{{$index}}</th>
+                <td ng-repeat="k in object" ng-if="nobjects[0]=='-1' && $index>0">
+                    <a ng-href="#/{{model}}/{{object[0]}}">{{object[1]}}</a>
+                </td>
+
+                <td ng-repeat="(key,value) in object" ng-if="nobjects[0]!='-1' && $index>0">
+                    <a ng-href="#/{{model}}/{{object[0]}}" ng-if="$index==1">{{value}}</a>
+                    <span ng-if="$index!=1">{{value}}</span>
+                </td>
                 <td>
-                    <a ng-href="#/{{model}}/edit/{{object.key}}">Edit</a><br>
-                    <a ng-href="#/{{model}}/{{object.key}}">Show</a>
+                    <a ng-href="#/{{model}}/edit/{{object[0]}}">Edit</a><br>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
+    <br/>
+    <hr/>
 
     <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"

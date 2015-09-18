@@ -50,27 +50,36 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                        Hepsini Seç\n" +
     "                    </label>\n" +
     "                </th>\n" +
-    "                <th ng-repeat=\"(key,value) in nobjects[0].data\">{{ key }}</th>\n" +
+    "                <th ng-repeat=\"value in nobjects[0]\" ng-if=\"nobjects[0]!='-1'\">{{ value }}</th>\n" +
+    "                <th ng-if=\"nobjects[0]=='-1'\">{{ model }}</th>\n" +
     "                <th>action</th>\n" +
     "            </tr>\n" +
     "            </thead>\n" +
     "            <tbody>\n" +
-    "            <tr ng-repeat=\"object in nobjects\">\n" +
+    "            <tr ng-repeat=\"object in nobjects\" ng-if=\"$index>0\">\n" +
     "                <td width=\"60\">\n" +
     "                    <label>\n" +
     "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
     "                    </label>\n" +
     "                </td>\n" +
-    "                <th scope=\"row\" style=\"text-align:center\">{{$index + 1}}</th>\n" +
-    "                <td ng-repeat=\"(key,value) in object.data\">{{value}}</td>\n" +
+    "                <th scope=\"row\" style=\"text-align:center\">{{$index}}</th>\n" +
+    "                <td ng-repeat=\"k in object\" ng-if=\"nobjects[0]=='-1' && $index>0\">\n" +
+    "                    <a ng-href=\"#/{{model}}/{{object[0]}}\">{{object[1]}}</a>\n" +
+    "                </td>\n" +
+    "\n" +
+    "                <td ng-repeat=\"(key,value) in object\" ng-if=\"nobjects[0]!='-1' && $index>0\">\n" +
+    "                    <a ng-href=\"#/{{model}}/{{object[0]}}\" ng-if=\"$index==1\">{{value}}</a>\n" +
+    "                    <span ng-if=\"$index!=1\">{{value}}</span>\n" +
+    "                </td>\n" +
     "                <td>\n" +
-    "                    <a ng-href=\"#/{{model}}/edit/{{object.key}}\">Edit</a><br>\n" +
-    "                    <a ng-href=\"#/{{model}}/{{object.key}}\">Show</a>\n" +
+    "                    <a ng-href=\"#/{{model}}/edit/{{object[0]}}\">Edit</a><br>\n" +
     "                </td>\n" +
     "            </tr>\n" +
     "            </tbody>\n" +
     "        </table>\n" +
     "    </div>\n" +
+    "    <br/>\n" +
+    "    <hr/>\n" +
     "\n" +
     "    <div class=\"btn-group\">\n" +
     "        <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n" +

@@ -70,7 +70,7 @@ app.directive('sidebar', ['$location', function () {
         restrict: 'E',
         replace: true,
         scope: {},
-        controller: function ($scope, $rootScope, $http, RESTURL, $location) {
+        controller: function ($scope, $rootScope, $http, RESTURL, $location, $timeout) {
             $rootScope.$watch(
                 $rootScope.loggedInUser, function(){
                     $http.post(RESTURL.url + 'crud/').success(function (data) {
@@ -79,9 +79,10 @@ app.directive('sidebar', ['$location', function () {
                 }
             );
 
-            //$http.post(RESTURL.url + 'crud/').success(function (data) {
-            //    $scope.menuItems = data.app_models;
-            //});
+            $timeout(function(){
+                $('#side-menu').metisMenu();
+                console.log('amk');
+            }, 1000);
 
             $scope.selectedMenu = $location.path();
             $scope.collapseVar = 0;

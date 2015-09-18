@@ -198,7 +198,7 @@ module.exports = function (grunt) {
         },
         watch: {
             dev: {
-                files: ['app/**/*.js', 'app/components/**/*.html', 'index.html', 'Gruntfile.js', '!app/tmp/*.js', '!app/app.js'],
+                files: ['app/**/*.js', 'app/components/**/*.html', 'app/main.html', 'Gruntfile.js', '!app/tmp/*.js', '!app/app.js'],
                 tasks: ['env:dev', 'preprocess:dev', 'html2js:dev'],
                 options: {
                     atBegin: false

@@ -58,12 +58,7 @@ crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeP
     // call generator's get_list func
     Generator.get_list($scope)
         .then(function (res) {
-            var data =  res.data.objects;
-            for (var item in data){
-                delete data[item].data['deleted'];
-                delete data[item].data['timestamp'];
-            }
-            $scope.objects = data;
+            $scope.nobjects = res.data.nobjects;
             $scope.model = $routeParams.model;
         });
 });
