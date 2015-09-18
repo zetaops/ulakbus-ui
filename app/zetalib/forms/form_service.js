@@ -41,6 +41,9 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
         return formObject;
     };
     generator.prepareFormItems = function(scope) {
+        /**
+         * prepareforms checks input types and convert if necessary
+         */
         angular.forEach(scope.schema.properties, function (k, v) {
             // check if type is date and if type date found change it to string
 
@@ -61,7 +64,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                 });
             }
 
-            if (k.type == 'int') {
+            if (k.type == 'int' || 'float') {
                 k.type = 'number';
             }
 
