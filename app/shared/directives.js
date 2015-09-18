@@ -16,7 +16,6 @@ app.directive('logout', function ($http, $location, RESTURL) {
                     $rootScope.loggedInUser = false;
                     console.log($rootScope.loggedInUser);
                     $location.path("/login");
-                    $scope.$apply();
                 });
             });
         }
@@ -71,12 +70,20 @@ app.directive('sidebar', ['$location', function () {
         restrict: 'E',
         replace: true,
         scope: {},
-        controller: function ($scope, $http, RESTURL) {
-            $http.post(RESTURL.url + 'crud/').success(function (data) {
-                $scope.menuItems = data.app_models;
-            });
+        controller: function ($scope, $rootScope, $http, RESTURL, $location) {
+            $rootScope.$watch(
+                $rootScope.loggedInUser, function(){
+                    $http.post(RESTURL.url + 'crud/').success(function (data) {
+                        $scope.menuItems = data.app_models;
+                    });
+                }
+            );
 
-            $scope.selectedMenu = 'dashboard';
+            //$http.post(RESTURL.url + 'crud/').success(function (data) {
+            //    $scope.menuItems = data.app_models;
+            //});
+
+            $scope.selectedMenu = $location.path();
             $scope.collapseVar = 0;
             $scope.multiCollapseVar = 0;
 

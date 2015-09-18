@@ -43,7 +43,7 @@ auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cook
             .post(RESTURL.url + url, credentials)
             .success(function (data, status, headers, config) {
                 //$window.sessionStorage.token = data.token;
-                $rootScope.loggedInUser = true;
+                //$rootScope.loggedInUser = true;
             })
             .error(function (data, status, headers, config) {
                 // Erase the token if the user fails to log in
@@ -69,13 +69,10 @@ auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cook
     };
 
     loginService.logout = function() {
-        console.log("logout");
         $http.post(RESTURL.url + 'logout', {}).then(function(){
             $rootScope.loggedInUser = false;
             $location.path("/login");
         });
-        console.log("loggedout");
-
     };
 
     loginService.isAuthenticated = function () {

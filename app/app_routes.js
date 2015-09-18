@@ -44,22 +44,10 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .otherwise({redirectTo: '/dashboard'});
 }]).run(function ($rootScope, $location, $cookies) {
-    /**
-     * todo: below session id is temporary session_id
-     * the login logic will be finished when backend complete
-     *
-     */
 
-    $rootScope.loggedInUser ? $rootScope.loggedInUser : false;
+    $rootScope.loggedInUser = true;
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
-        //if ($rootScope.loggedInUser == null) {
-        //    // no logged user, redirect to /login
-        //    if (next.templateUrl === "login/login.html") {
-        //
-        //    } else {
-        //        $location.path("/login");
-        //    }
-        //}
+        // will be used when needed
     });
 }).config(['$httpProvider', function($httpProvider) {
     // to send cookies CORS

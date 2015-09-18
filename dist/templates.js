@@ -925,7 +925,7 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
 
 angular.module("shared/templates/directives/header-sub-menu.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/header-sub-menu.html",
-    "<div class=\"manager-view-header container-fluid\">\n" +
+    "<div class=\"manager-view-header container-fluid\" ng-class=\"{hidden: $root.loggedInUser != true}\">\n" +
     "    <header-breadcrumb></header-breadcrumb>\n" +
     "    <div id=\"header-buttons\">\n" +
     "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"triggerSubmit()\">Kaydet</button>\n" +
@@ -1002,7 +1002,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "    	<div class=\"brand\">\n" +
     "        	<a href=\"\" class=\"logo\"><img src=\"/img/brand-logo.png\" /></a>\n" +
     "        </div>\n" +
-    "        <ul class=\"nav in sidebarscroll\" id=\"side-menu\">\n" +
+    "        <ul class=\"nav in sidebarscroll\" id=\"side-menu\" ng-class=\"{hidden: $root.loggedInUser != true}\">\n" +
     "            <!--<sidebar-search></sidebar-search>-->\n" +
     "            <li ui-sref-active=\"active\">\n" +
     "                <a href=\"#/dashboard\"><i class=\"fa fa-dashboard fa-fw\"></i> Panel</a>\n" +

@@ -36,7 +36,7 @@ var app = angular.module(
         if (document.cookie.indexOf("backendurl") > -1){
             var cookiearray = document.cookie.split(';');
             angular.forEach(cookiearray, function(item){
-                if(item.indexOf("backendurl")){
+                if(item.indexOf("backendurl") > -1){
                     backendurl = item.split('=')[1];
                 }
             });

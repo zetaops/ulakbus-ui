@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-if="$root.loggedInUser">
     <ul class="header-menu">
         <li><a href="">Mesajlar</a></li>
         <li><a href="">Görevler</a></li>
@@ -59,11 +59,11 @@
 
 
 <script src="bower_components/jquery.min.js"></script>
-<script src="bower_components/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.18/angular.min.js"></script>
 <script src="bower_components/components.js"></script>
 <script src="shared/translations.js"></script>
 <script src="templates.js"></script>
 <script src="app.js"></script>
-<script src="bower_components/theme.js"></script>
+<script src="dist/bower_components/theme.js"></script>
 </body>
 </html>

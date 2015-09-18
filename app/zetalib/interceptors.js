@@ -24,13 +24,18 @@ app.config(['$httpProvider', function ($httpProvider) {
             },
             'response': function (response) {
                 //Will only be called for HTTP up to 300
-                if(response.data.is_login===true){
+
+                if(response.data.is_login == false){
                     $rootScope.loggedInUser = response.data.is_login;
-                    //$location.replace();
+                    $location.path("/login");
+                }
+                if(response.data.is_login == true){
+                    $rootScope.loggedInUser = true;
                     if($location.path()==="/login"){
                         $location.path("/dashboard");
                     }
                 }
+
                 if(response.data.client_cmd) {
                     //$location.path(response.data.screen);
                     console.log(response.data.client_cmd);
@@ -43,7 +48,7 @@ app.config(['$httpProvider', function ($httpProvider) {
                     $location.reload();
                 }
                 if(rejection.status === 401) {
-                    $rootScope.loggedInUser = false;
+                    //$rootScope.loggedInUser = false;
                     if($location.path()==="/login"){
                         console.log("show errors on login form");
                     } else{

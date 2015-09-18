@@ -3,7 +3,7 @@
     	<div class="brand">
         	<a href="" class="logo"><img src="/img/brand-logo.png" /></a>
         </div>
-        <ul class="nav in sidebarscroll" id="side-menu">
+        <ul class="nav in sidebarscroll" id="side-menu" ng-class="{hidden: $root.loggedInUser != true}">
             <!--<sidebar-search></sidebar-search>-->
             <li ui-sref-active="active">
                 <a href="#/dashboard"><i class="fa fa-dashboard fa-fw"></i> Panel</a>
