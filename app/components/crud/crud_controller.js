@@ -71,7 +71,16 @@ crud.controller('CRUDShowCtrl', function ($scope, $rootScope, Generator, $routeP
     $scope.form_params = {"object_id": $routeParams.id, "cmd": "show", "model": $routeParams.model};
     // call generator's get_single_itemfunc
     Generator.get_single_item($scope).then(function (res) {
+        $scope.listobjects = {};
         $scope.object = res.data.object;
+
+        angular.forEach($scope.object, function (value, key) {
+            if(typeof value == 'object'){
+                $scope.listobjects[key] = value;
+                delete $scope.object[key];
+            }
+        });
+
         $scope.model = $routeParams.model;
     })
 });

@@ -102,11 +102,64 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
 
 angular.module("components/crud/templates/show.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/show.html",
-    "<div class=\"starter-template\">\n" +
-    "    <h1>{{model}}</h1>\n" +
+    "<!--<div class=\"starter-template\">-->\n" +
+    "    <!--<h1>{{model}}</h1>-->\n" +
     "\n" +
-    "    <p ng-repeat=\"(key, value) in object\"><span class=\"col-md-3\">{{ key }}:</span>{{value}}</p>\n" +
-    "</div>");
+    "    <!--<p ng-repeat=\"(key, value) in object\"><span class=\"col-md-3\">{{ key }}:</span>{{value}}</p>-->\n" +
+    "<!--</div>-->\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"starter-template\">\n" +
+    "\n" +
+    "        <div class=\"personnel-info-container\">\n" +
+    "            <div class=\"personnel-info-left\">\n" +
+    "\n" +
+    "                <!--<div class=\"generic-profile-picture\">-->\n" +
+    "                    <!--<img src=\"../../img/sample-profile-pic.jpg\" />-->\n" +
+    "                <!--</div>-->\n" +
+    "                <div class=\"info-block\">\n" +
+    "                    <div class=\"info-block-header\">\n" +
+    "                        <h1>{{model}}</h1>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-header -->\n" +
+    "                    <div class=\"info-block-body\" ng-repeat=\"(key, value) in object\">\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>{{ key }}</dt>\n" +
+    "                            <dd>{{value}}</dd>\n" +
+    "                        </dl>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-body -->\n" +
+    "                </div>\n" +
+    "                <!--<ul>-->\n" +
+    "                    <!--<li ng-repeat=\"(key, value) in object\"><span class=\"col-md-3\">{{ key }}:</span>{{value}}</li>-->\n" +
+    "                    <!--<li>Pozisyon</li>-->\n" +
+    "                    <!--<li><i class=\"fa fa-phone\"></i> (+90) 123 456 7890</li>-->\n" +
+    "                    <!--<li><i class=\"fa fa-envelope\"></i> samplemail@mail.com</li>-->\n" +
+    "                    <!--<li><i class=\"fa fa-map-marker\"></i> Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR</li></li>-->\n" +
+    "                <!--</ul>-->\n" +
+    "            </div>\n" +
+    "            <!-- end of personnel-info-left -->\n" +
+    "            <div class=\"personnel-info-right\">\n" +
+    "                <div class=\"info-block\" ng-repeat=\"(key, value) in listobjects\">\n" +
+    "                    <div class=\"info-block-header\">\n" +
+    "                        <h2>{{key}}</h2>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-header -->\n" +
+    "                    <div class=\"info-block-body\" ng-repeat=\"(k, v) in value\">\n" +
+    "                        <dl class=\"dl-horizontal\">\n" +
+    "                            <dt>{{k}}</dt>\n" +
+    "                            <dd>{{v}}</dd>\n" +
+    "                        </dl>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-body -->\n" +
+    "                </div>\n" +
+    "                <!-- end of info block -->\n" +
+    "                <!-- end of info block -->\n" +
+    "            </div>\n" +
+    "            <!-- personnel-info-left -->\n" +
+    "        </div>\n" +
+    "        <!-- end of personnel-info-container -->\n" +
+    "    </div>");
 }]);
 
 angular.module("components/dashboard/dashboard.html", []).run(["$templateCache", function($templateCache) {

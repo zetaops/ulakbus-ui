@@ -81,7 +81,6 @@ app.directive('sidebar', ['$location', function () {
 
             $timeout(function(){
                 $('#side-menu').metisMenu();
-                console.log('amk');
             }, 1000);
 
             $scope.selectedMenu = $location.path();

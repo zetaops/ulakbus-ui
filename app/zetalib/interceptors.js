@@ -38,7 +38,6 @@ app.config(['$httpProvider', function ($httpProvider) {
 
                 if(response.data.client_cmd) {
                     //$location.path(response.data.screen);
-                    console.log(response.data.client_cmd);
                 }
                 return response;
             },
