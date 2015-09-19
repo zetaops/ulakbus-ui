@@ -18,13 +18,43 @@ describe('form service module', function () {
                 function (Generator) {
                     expect(Generator.generate).not.toBe(null);
 
-                    var form_json = {
-                        email: 'test@test.com',
-                        id: 2,
-                        name: 'travolta'
+                    var scope = {form_params: {object_id: '123456'}};
+                    var data = {
+                        forms: {
+                            form: ['email', 'id', 'name'],
+                            schema: {
+                                properties: {
+                                    email: {title: 'email', type: 'email'},
+                                    id: {title: 'id', type: 'int'},
+                                    name: {title: 'name', type: 'string'}
+                                }, required: [], type: 'object', title: 'servicetest'
+                            },
+                            model: {
+                                email: 'test@test.com', id: 2, name: 'travolta'
+                            }
+                        },
+                        token: "b1d8fa68ae3d47bdb580a89f76192447"
                     };
 
-                    var form_generated = Generator.generate(form_json);
+                    var form_json = {
+                        form_params: {object_id: '123456'},
+                        form: ['email', 'id', 'name'],
+                        schema: {
+                            properties: {
+                                email: {title: 'email', type: 'email'},
+                                id: {title: 'id', type: 'number'},
+                                name: {title: 'name', type: 'string'}
+                            }, required: [], type: 'object', title: 'servicetest'
+                        },
+                        model: {email: 'test@test.com', id: 2, name: 'travolta'},
+                        token: "b1d8fa68ae3d47bdb580a89f76192447",
+                        initialModel: {email: 'test@test.com', id: 2, name: 'travolta'},
+                        object_id: '123456'
+                    };
+
+                    var form_generated = Generator.generate(scope, data);
+
+
                     expect(form_generated).toEqual(form_json);
                 }])
         );
@@ -88,8 +118,16 @@ describe('form service module', function () {
                 $httpBackend.expectPOST(RESTURL.url + 'student/add')
                     .respond(200, {data: 'OK'});
 
-                var cred = {email: 'test@test.com'};
-                Generator.submit({url: 'student/add', form_params: cred})
+                var scope = {
+                    model: {email: 'test@test.com'},
+                    form_params: {cmd: 'add', model: 'testmodel'},
+                    token: '123456',
+                    url: 'student/add'
+                };
+                Generator.submit(scope)
+                    .success(function(){
+
+                    })
                     .then(function (data) {
                         expect(data.data).toEqual({data: 'OK'});
                     });

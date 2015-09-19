@@ -15,7 +15,9 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
     generator.generate = function (scope, data) {
 
         // if no form in response (in case of list and single item request) return scope
-        if (!data.forms) { return scope; }
+        if (!data.forms) {
+            return scope;
+        }
 
         // prepare scope form, schema and model from response object
         angular.forEach(data.forms, function (value, key) {
@@ -40,7 +42,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
     generator.group = function (formObject) {
         return formObject;
     };
-    generator.prepareFormItems = function(scope) {
+    generator.prepareFormItems = function (scope) {
         /**
          * prepareforms checks input types and convert if necessary
          */
@@ -52,11 +54,11 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                 scope.model[v] = generator.dateformatter(scope.model[v]);
 
                 // seek for datepicker field and initialize datepicker
-                scope.$watch($('#'+v), function(){
+                scope.$watch($('#' + v), function () {
                     $timeout(function () {
                         jQuery('#' + v).datepicker({
                             dateFormat: "dd.mm.yy",
-                            onSelect: function(date){
+                            onSelect: function (date) {
                                 scope.model[v] = date;
                             }
                         });
@@ -89,7 +91,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                             });
                         });
                     }),
-                    onChange: function(modelValue,form) {
+                    onChange: function (modelValue, form) {
                         scope.model[v] = modelValue;
                     }
                 };
@@ -114,13 +116,20 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                 scope[k.type][k.title] = {
                     title: k.title,
                     form: [],
-                    schema: {properties: {}, required: [], title: k.title, type: "object", formType: k.type, model_name: v},
+                    schema: {
+                        properties: {},
+                        required: [],
+                        title: k.title,
+                        type: "object",
+                        formType: k.type,
+                        model_name: v
+                    },
                     url: scope.url
                 };
 
                 scope[k.type][k.title].model = scope.model[v] != null ? scope.model[v] : {};
 
-                angular.forEach(k.schema , function (item) {
+                angular.forEach(k.schema, function (item) {
                     scope[k.type][k.title].schema.properties[item.name] = item;
 
                     // if model is empty object then fill it with scope model item
@@ -153,7 +162,9 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
     };
     generator.dateformatter = function (formObject) {
         var ndate = new Date(formObject);
-        if (ndate == 'Invalid Date') {return ''}
+        if (ndate == 'Invalid Date') {
+            return ''
+        }
         var newdatearray = [ndate.getDate(), ndate.getMonth(), ndate.getFullYear()];
         return newdatearray.join('.');
     };
@@ -214,14 +225,17 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
             data.object_id = $scope.object_id;
             //data.form = get_diff;
         }
-        $http.post(generator.makeUrl($scope.url), data)
-            .success()
-            .then(function(res){
-                if(res.data.client_cmd){
-                    console.log("record fin");
-                    $location.path($scope.form_params.model);
-                }
-            });
+
+        return $http.post(generator.makeUrl($scope.url), data);
+            //.success(function () {
+            //
+            //})
+            //.then(function (res) {
+            //    if (res.data.client_cmd) {
+            //        console.log("record fin");
+            //        $location.path($scope.form_params.model);
+            //    }
+            //});
     };
     return generator;
 });
@@ -244,9 +258,9 @@ form_generator.controller('ModalCtrl', function ($scope, $modalInstance, Generat
         $scope.$broadcast('schemaFormValidate');
         console.log(form.$valid);
         //if(form.$valid){
-        if(1==1){
-                // send form to modalinstance result function
-                $modalInstance.close($scope);
+        if (1 == 1) {
+            // send form to modalinstance result function
+            $modalInstance.close($scope);
 
         }
     };
@@ -284,12 +298,12 @@ form_generator.directive('modalForNodes', function ($modal) {
                     // subfix will be removed
                     //var subfix = scope.schema.title.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
 
-                    if (childmodel.schema.formType == 'Node'){
+                    if (childmodel.schema.formType == 'Node') {
                         scope.$parent.model[childmodel.schema.model_name] = childmodel.model;
                     }
-                    if (childmodel.schema.formType == 'ListNode'){
+                    if (childmodel.schema.formType == 'ListNode') {
                         debugger;
-                        if (scope.$parent.model[childmodel.schema.model_name] == null){
+                        if (scope.$parent.model[childmodel.schema.model_name] == null) {
                             scope.$parent.model[childmodel.schema.model_name] = [];
                         }
                         scope.$parent.model[childmodel.schema.model_name].push(childmodel.model);
