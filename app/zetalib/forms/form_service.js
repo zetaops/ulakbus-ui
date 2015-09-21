@@ -76,7 +76,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
 
                 var formitem = scope.form[scope.form.indexOf(v)];
                 var modelscope = {"url": scope.url, "form_params": {model: k.model_name}};
-                debugger;
+
                 formitem = {
                     type: "template",
                     templateUrl: "shared/templates/foreignKey.html",
@@ -111,9 +111,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
 
                 scope[k.type] = scope[k.type] ? scope[k.type] : {};
 
-                debugger;
-
-                scope[k.type][k.title] = {
+                scope[k.type][v] = {
                     title: k.title,
                     form: [],
                     schema: {
@@ -127,32 +125,31 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                     url: scope.url
                 };
 
-                scope[k.type][k.title].model = scope.model[v] != null ? scope.model[v] : {};
+                if (scope.model[v] == null) {
+                    scope[k.type][v].model = k.type == 'Node' ? [] : {};
+                } else {
+                    scope[k.type][v].model = scope.model[v];
+                }
 
                 angular.forEach(k.schema, function (item) {
-                    scope[k.type][k.title].schema.properties[item.name] = item;
-
-                    // if model is empty object then fill it with scope model item
-                    //if (scope[k.type][k.title] == {}){
-                    //    scope[k.type][k.title].model[item.name] = item.value;
-                    //}
+                    scope[k.type][v].schema.properties[item.name] = item;
 
                     // prepare required fields
                     if (item.required == true && item.name != 'idx') {
-                        scope[k.type][k.title].schema.required.push(item.name);
+                        scope[k.type][v].schema.required.push(item.name);
                     }
 
                     // idx field must be hidden
                     if (item.name == 'idx') {
-                        scope[k.type][k.title].form.push({type: 'string', key: item.name, htmlClass: 'hidden'});
+                        scope[k.type][v].form.push({type: 'string', key: item.name, htmlClass: 'hidden'});
                     } else {
-                        scope[k.type][k.title].form.push(item.name);
+                        scope[k.type][v].form.push(item.name);
                     }
 
                 });
 
                 // lengthModels is length of the listnode models. if greater than 0 show records on template
-                scope[k.type][k.title]['lengthModels'] = scope.model[k.title] ? 1 : 0;
+                scope[k.type][v]['lengthModels'] = scope.model[v] ? 1 : 0;
 
             }
 
@@ -226,6 +223,8 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
             //data.form = get_diff;
         }
 
+        debugger;
+
         return $http.post(generator.makeUrl($scope.url), data);
             //.success(function () {
             //
@@ -287,8 +286,12 @@ form_generator.directive('modalForNodes', function ($modal) {
                     resolve: {
                         items: function () {
                             var attribs = attributes['modalForNodes'].split(',');
+                            debugger;
                             // get node from parent scope catch with attribute
-                            var node = angular.copy(scope.$parent.$parent[attribs[1]][attribs[0]]);
+                            var node = angular.copy(scope.$parent[attribs[1]][attribs[0]]);
+                            if(attribs[2] == 'add'){
+                                node.model = {};
+                            }
                             return node;
                         }
                     }
@@ -299,16 +302,21 @@ form_generator.directive('modalForNodes', function ($modal) {
                     //var subfix = scope.schema.title.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
 
                     if (childmodel.schema.formType == 'Node') {
-                        scope.$parent.model[childmodel.schema.model_name] = childmodel.model;
+                        //scope.$parent.model[childmodel.schema.model_name] = childmodel.model;
+                        scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model = childmodel.model;
                     }
+
                     if (childmodel.schema.formType == 'ListNode') {
-                        debugger;
+
                         if (scope.$parent.model[childmodel.schema.model_name] == null) {
                             scope.$parent.model[childmodel.schema.model_name] = [];
                         }
-                        scope.$parent.model[childmodel.schema.model_name].push(childmodel.model);
+
+                        //scope.$parent.model[childmodel.schema.model_name].push(childmodel.model);
+                        scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model.push(childmodel.model);
                     }
-                    childmodel.lengthModels += 1;
+
+                    scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].lengthModels += 1;
                 });
             });
         }
@@ -333,7 +341,6 @@ form_generator.directive('addModalForLinkedModel', function ($modal, Generator) 
                     size: 'lg',
                     resolve: {
                         items: function () {
-                            debugger;
                             return Generator.get_form({
                                 url: 'crud',
                                 form_params: {'model': scope.form.model_name, "cmd": "add"}

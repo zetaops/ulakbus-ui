@@ -8,12 +8,13 @@
                 Hepsini Seç
             </label>
         </th>
-        <th ng-repeat="(key,value) in node.form">{{ value }}</th>
+        <th ng-repeat="(key,value) in node.model">{{ key }}</th>
         <th>action</th>
     </tr>
     </thead>
-    <tbody ng-class="{true: '', false: 'hidden'}[node.lengthModels > 0]">
-    <tr>
+    <tbody ng-class="{hidden: node.lengthModels < 1}">
+
+    <tr ng-if="node.schema.formType=='Node'">
         <td width="60">
             <label>
                 <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
@@ -22,11 +23,27 @@
         <th scope="row" style="text-align:center">1</th>
         <td ng-repeat="value in node.model">{{ value }}</td>
         <td>
-            <button modal-for-nodes="{{node.title}},ListNode">Edit</button><br>
+            <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit">Edit</button><br>
             <button>Show</button>
             <button>Delete</button>
         </td>
     </tr>
+
+    <tr ng-repeat="listnodemodel in node.model" ng-if="node.schema.formType=='ListNode'">
+        <td width="60">
+            <label>
+                <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
+            </label>
+        </td>
+        <th scope="row" style="text-align:center">1</th>
+        <td ng-repeat="value in listnodemodel">{{ value }}</td>
+        <td>
+            <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit">Edit</button><br>
+            <button>Show</button>
+            <button>Delete</button>
+        </td>
+    </tr>
+
     </tbody>
 </table>
 </div>

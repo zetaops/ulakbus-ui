@@ -58,6 +58,7 @@ crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeP
     // call generator's get_list func
     Generator.get_list($scope)
         .then(function (res) {
+            debugger;
             $scope.nobjects = res.data.nobjects;
             $scope.model = $routeParams.model;
         });

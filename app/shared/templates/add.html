@@ -1,5 +1,7 @@
+<!-- todo: remove this template -->
 <h1>{{ schema.title }}</h1>
 <form id="formgenerated" name="formgenerated" sf-schema="schema" sf-form="form" sf-model="model"></form>
+{{Node}}
 <div ng-repeat="node in Node">
     <h3>{{ node.title }}
         <span ng-if="node.lengthModels < 1">
@@ -8,7 +10,9 @@
             </a>
         </span>
     </h3>
-    <ng-include src="'shared/templates/nodeTable.html'"></ng-include>
+    <div class="node-table">
+        <ng-include src="'shared/templates/nodeTable.html'"></ng-include>
+    </div>
     <hr>
 </div>
 <div ng-repeat="node in ListNode">
@@ -19,7 +23,9 @@
             </a>
         </span>
     </h3>
-    <ng-include src="'shared/templates/nodeTable.html'"></ng-include>
+    <div class="list-node-table">
+        <ng-include src="'shared/templates/nodeTable.html'"></ng-include>
+    </div>
     <hr>
 </div>
 
