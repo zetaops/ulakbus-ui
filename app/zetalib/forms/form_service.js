@@ -126,7 +126,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                 };
 
                 if (scope.model[v] == null) {
-                    scope[k.type][v].model = k.type == 'Node' ? [] : {};
+                    scope[k.type][v].model = k.type == 'Node' ? {} : [];
                 } else {
                     scope[k.type][v].model = scope.model[v];
                 }
@@ -286,34 +286,38 @@ form_generator.directive('modalForNodes', function ($modal) {
                     resolve: {
                         items: function () {
                             var attribs = attributes['modalForNodes'].split(',');
-                            debugger;
                             // get node from parent scope catch with attribute
                             var node = angular.copy(scope.$parent[attribs[1]][attribs[0]]);
+
                             if(attribs[2] == 'add'){
                                 node.model = {};
                             }
+
+                            if(attribs[3]){
+                                // if listnode catch edit object with index
+                                node.model=node.model[attribs[3]];
+                            }
+
+                            // tell result.then function which item to edit
+                            node.edit = attribs[3];
+
                             return node;
                         }
                     }
                 });
 
                 modalInstance.result.then(function (childmodel, key) {
-                    // subfix will be removed
-                    //var subfix = scope.schema.title.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
 
                     if (childmodel.schema.formType == 'Node') {
-                        //scope.$parent.model[childmodel.schema.model_name] = childmodel.model;
                         scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model = childmodel.model;
                     }
 
                     if (childmodel.schema.formType == 'ListNode') {
-
-                        if (scope.$parent.model[childmodel.schema.model_name] == null) {
-                            scope.$parent.model[childmodel.schema.model_name] = [];
+                        if(childmodel.edit){
+                            scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model[childmodel.edit] = childmodel.model;
+                        } else {
+                            scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model.push(childmodel.model);
                         }
-
-                        //scope.$parent.model[childmodel.schema.model_name].push(childmodel.model);
-                        scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model.push(childmodel.model);
                     }
 
                     scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].lengthModels += 1;

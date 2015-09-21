@@ -1,31 +1,40 @@
 <div class="tablescroll">
 <table class="table table-bordered" style="background-color:#fff;">
     <thead>
-    <tr>
+    <tr ng-if="node.schema.formType=='Node'">
+        <!--<th colspan="2">-->
+            <!--<label>-->
+                <!--<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">-->
+                <!--Hepsini Seç-->
+            <!--</label>-->
+        <!--</th>-->
+        <th ng-repeat="(key,value) in node.model">{{ key }}</th>
+        <th>İşlem</th>
+    </tr>
+    <tr ng-if="node.schema.formType=='ListNode'">
         <th colspan="2">
             <label>
                 <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
                 Hepsini Seç
             </label>
         </th>
-        <th ng-repeat="(key,value) in node.model">{{ key }}</th>
-        <th>action</th>
+        <th ng-repeat="(key,value) in node.model[0]">{{ key }}</th>
+        <th>İşlem</th>
     </tr>
     </thead>
     <tbody ng-class="{hidden: node.lengthModels < 1}">
 
     <tr ng-if="node.schema.formType=='Node'">
-        <td width="60">
-            <label>
-                <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
-            </label>
-        </td>
-        <th scope="row" style="text-align:center">1</th>
+        <!--<td width="60">-->
+            <!--<label>-->
+                <!--<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">-->
+            <!--</label>-->
+        <!--</td>-->
+        <!--<th scope="row" style="text-align:center">1</th>-->
         <td ng-repeat="value in node.model">{{ value }}</td>
         <td>
-            <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit">Edit</button><br>
-            <button>Show</button>
-            <button>Delete</button>
+            <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit">Düzenle</button><br>
+            <button>Sil</button>
         </td>
     </tr>
 
@@ -35,12 +44,11 @@
                 <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
             </label>
         </td>
-        <th scope="row" style="text-align:center">1</th>
-        <td ng-repeat="value in listnodemodel">{{ value }}</td>
+        <th scope="row" style="text-align:center">{{$index+1}}</th>
+        <td ng-repeat="(k, v) in listnodemodel">{{ v }}</td>
         <td>
-            <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit">Edit</button><br>
-            <button>Show</button>
-            <button>Delete</button>
+            <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}">Düzenle</button><br>
+            <button>Sil</button>
         </td>
     </tr>
 
