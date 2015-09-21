@@ -21,9 +21,39 @@ angular.module("components/auth/login.html", []).run(["$templateCache", function
 
 angular.module("components/crud/templates/add.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/add.html",
-    "<div>\n" +
-    "    <ng-include src=\"'shared/templates/add.html'\"></ng-include>\n" +
-    "</div>");
+    "<h1>{{ schema.title }}</h1>\n" +
+    "<form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"></form>\n" +
+    "\n" +
+    "<div ng-repeat=\"node in Node\">\n" +
+    "    <h3>{{ node.title }}\n" +
+    "        <span ng-if=\"node.lengthModels < 1\">\n" +
+    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.schema.model_name}},Node\">\n" +
+    "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
+    "            </a>\n" +
+    "        </span>\n" +
+    "    </h3>\n" +
+    "    <div class=\"node-table\">\n" +
+    "        <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
+    "    </div>\n" +
+    "    <hr>\n" +
+    "</div>\n" +
+    "<div ng-repeat=\"node in ListNode\">\n" +
+    "    <h3>{{ node.title }}\n" +
+    "        <span>\n" +
+    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.schema.model_name}},ListNode,add\">\n" +
+    "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
+    "            </a>\n" +
+    "        </span>\n" +
+    "    </h3>\n" +
+    "    <div class=\"list-node-table\">\n" +
+    "        <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
+    "    </div>\n" +
+    "    <hr>\n" +
+    "</div>\n" +
+    "\n" +
+    "<button id=\"submitbutton\" type=\"button\" class=\"btn btn-primary\" ng-click=\"onSubmit(formgenerated)\">Kaydet</button>\n" +
+    "<!-- <button type=\"button\" class=\"btn btn-warning\">Düzenle</button>  todo: make it conditional -->\n" +
+    "<!-- <button type=\"button\" class=\"btn btn-danger\">İptal</button> todo: turn back to previous page -->");
 }]);
 
 angular.module("components/crud/templates/edit.html", []).run(["$templateCache", function($templateCache) {
@@ -39,7 +69,7 @@ angular.module("components/crud/templates/edit.html", []).run(["$templateCache",
 angular.module("components/crud/templates/list.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/list.html",
     "<div class=\"starter-template\">\n" +
-    "    <h1>{{model}}</h1>\n" +
+    "    <h1>{{model}} <a href=\"#/{{model}}/add\"><button type=\"button\" class=\"btn btn-primary\">Ekle</button></a></h1>\n" +
     "    <div class=\"tablescroll\">\n" +
     "        <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
     "            <thead>\n" +
@@ -523,8 +553,10 @@ angular.module("components/types/types_template.html", []).run(["$templateCache"
 
 angular.module("shared/templates/add.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/add.html",
+    "<!-- todo: remove this template -->\n" +
     "<h1>{{ schema.title }}</h1>\n" +
     "<form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"></form>\n" +
+    "{{Node}}\n" +
     "<div ng-repeat=\"node in Node\">\n" +
     "    <h3>{{ node.title }}\n" +
     "        <span ng-if=\"node.lengthModels < 1\">\n" +
@@ -533,7 +565,9 @@ angular.module("shared/templates/add.html", []).run(["$templateCache", function(
     "            </a>\n" +
     "        </span>\n" +
     "    </h3>\n" +
-    "    <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
+    "    <div class=\"node-table\">\n" +
+    "        <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
+    "    </div>\n" +
     "    <hr>\n" +
     "</div>\n" +
     "<div ng-repeat=\"node in ListNode\">\n" +
@@ -544,7 +578,9 @@ angular.module("shared/templates/add.html", []).run(["$templateCache", function(
     "            </a>\n" +
     "        </span>\n" +
     "    </h3>\n" +
-    "    <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
+    "    <div class=\"list-node-table\">\n" +
+    "        <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
+    "    </div>\n" +
     "    <hr>\n" +
     "</div>\n" +
     "\n" +
@@ -764,7 +800,7 @@ angular.module("shared/templates/directives/chat.html", []).run(["$templateCache
 angular.module("shared/templates/directives/header-breadcrumb.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/header-breadcrumb.html",
     "<ul class=\"breadcrumb\">\n" +
-    "    <li ng-repeat=\"link in links\" ng-class=\"{'active':$last}\">\n" +
+    "    <li ng-repeat=\"link in $root.breadcrumblinks\" ng-class=\"{'active':$last}\">\n" +
     "        <a href=\"#\" ng-if=\"!$last\">{{link}}</a>\n" +
     "        <span ng-if=\"$last\">{{link}}</span>\n" +
     "    </li>\n" +
@@ -1069,23 +1105,11 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "            <li ui-sref-active=\"active\">\n" +
     "                <a href=\"#/dashboard\"><i class=\"fa fa-dashboard fa-fw\"></i> Panel</a>\n" +
     "            </li>\n" +
-    "            <li ng-repeat=\"(key, item) in menuItems\" ng-class=\"{active: collapseVar == key}\">\n" +
-    "                <a href=\"\" ng-click=\"check(key)\"><i class=\"fa fa-wrench fa-fw\"></i> {{ item[0] }}<span\n" +
+    "            <li ng-repeat=\"(key, item) in menuItems\" ng-class=\"{active: collapseVar == $index+1}\">{{dropDown}}\n" +
+    "                <a href=\"\" ng-click=\"check($index+1)\"><i class=\"fa fa-wrench fa-fw\"></i> {{ item[0] }}<span\n" +
     "                        class=\"fa arrow\"></span></a>\n" +
-    "                <ul class=\"nav nav-second-level\" collapse=\"collapseVar!={{key}}\">\n" +
-    "                    <li ng-repeat=\"(k, v) in item[1]\" ng-init=\"third=!third\"\n" +
-    "                        ng-class=\"{active: multiCollapseVar==$index}\">\n" +
-    "                        <a href=\"\" ng-click=\"multiCheck($index)\">{{v[0]}} <span class=\"fa arrow\"></span></a>\n" +
-    "                        <ul class=\"nav nav-third-level\" collapse=\"multiCollapseVar!={{$index}}\">\n" +
-    "                            <li>\n" +
-    "                                <a href=\"#/{{v[1]}}\">Listele</a>\n" +
-    "                            </li>\n" +
-    "                            <li>\n" +
-    "                                <a href=\"#/{{v[1]}}/add\">Ekle</a>\n" +
-    "                            </li>\n" +
-    "                        </ul>\n" +
-    "                        <!-- /.nav-third-level -->\n" +
-    "                    </li>\n" +
+    "                <ul class=\"nav nav-second-level\">\n" +
+    "                    <li ng-repeat=\"(k, v) in item[1]\"><a href=\"#/{{v[1]}}\" ng-click=\"breadcrumb([item[0], v[0]])\">{{v[1]}}</a></li>\n" +
     "                </ul>\n" +
     "                <!-- /.nav-second-level -->\n" +
     "            </li>\n" +
@@ -1308,32 +1332,57 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "<div class=\"tablescroll\">\n" +
     "<table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
     "    <thead>\n" +
-    "    <tr>\n" +
+    "    <tr ng-if=\"node.schema.formType=='Node'\">\n" +
+    "        <!--<th colspan=\"2\">-->\n" +
+    "            <!--<label>-->\n" +
+    "                <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "                <!--Hepsini Seç-->\n" +
+    "            <!--</label>-->\n" +
+    "        <!--</th>-->\n" +
+    "        <th ng-repeat=\"(key,value) in node.model\">{{ key }}</th>\n" +
+    "        <th>İşlem</th>\n" +
+    "    </tr>\n" +
+    "    <tr ng-if=\"node.schema.formType=='ListNode'\">\n" +
     "        <th colspan=\"2\">\n" +
     "            <label>\n" +
     "                <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
     "                Hepsini Seç\n" +
     "            </label>\n" +
     "        </th>\n" +
-    "        <th ng-repeat=\"(key,value) in node.form\">{{ value }}</th>\n" +
-    "        <th>action</th>\n" +
+    "        <th ng-repeat=\"(key,value) in node.model[0]\">{{ key }}</th>\n" +
+    "        <th>İşlem</th>\n" +
     "    </tr>\n" +
     "    </thead>\n" +
-    "    <tbody ng-class=\"{true: '', false: 'hidden'}[node.lengthModels > 0]\">\n" +
-    "    <tr>\n" +
+    "    <tbody ng-class=\"{hidden: node.lengthModels < 1}\">\n" +
+    "\n" +
+    "    <tr ng-if=\"node.schema.formType=='Node'\">\n" +
+    "        <!--<td width=\"60\">-->\n" +
+    "            <!--<label>-->\n" +
+    "                <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "            <!--</label>-->\n" +
+    "        <!--</td>-->\n" +
+    "        <!--<th scope=\"row\" style=\"text-align:center\">1</th>-->\n" +
+    "        <td ng-repeat=\"value in node.model\">{{ value }}</td>\n" +
+    "        <td>\n" +
+    "            <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit\">Düzenle</button><br>\n" +
+    "            <button>Sil</button>\n" +
+    "        </td>\n" +
+    "    </tr>\n" +
+    "\n" +
+    "    <tr ng-repeat=\"listnodemodel in node.model\" ng-if=\"node.schema.formType=='ListNode'\">\n" +
     "        <td width=\"60\">\n" +
     "            <label>\n" +
     "                <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
     "            </label>\n" +
     "        </td>\n" +
-    "        <th scope=\"row\" style=\"text-align:center\">1</th>\n" +
-    "        <td ng-repeat=\"value in node.model\">{{ value }}</td>\n" +
+    "        <th scope=\"row\" style=\"text-align:center\">{{$index+1}}</th>\n" +
+    "        <td ng-repeat=\"(k, v) in listnodemodel\">{{ v }}</td>\n" +
     "        <td>\n" +
-    "            <button modal-for-nodes=\"{{node.title}},ListNode\">Edit</button><br>\n" +
-    "            <button>Show</button>\n" +
-    "            <button>Delete</button>\n" +
+    "            <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}\">Düzenle</button><br>\n" +
+    "            <button>Sil</button>\n" +
     "        </td>\n" +
     "    </tr>\n" +
+    "\n" +
     "    </tbody>\n" +
     "</table>\n" +
     "</div>");

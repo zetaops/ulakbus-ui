@@ -210,6 +210,12 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
     };
     generator.submit = function ($scope) {
         // todo: diff for all submits to recognize form change. if no change returns to view with no submit
+        angular.forEach($scope.ListNode, function (value, key) {
+            $scope.model[key] = value.model;
+        });
+        angular.forEach($scope.Node, function (value, key) {
+            $scope.model[key] = value.model;
+        });
         var data = {
             "form": $scope.model,
             "cmd": $scope.form_params.cmd,
