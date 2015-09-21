@@ -8,23 +8,11 @@
             <li ui-sref-active="active">
                 <a href="#/dashboard"><i class="fa fa-dashboard fa-fw"></i> Panel</a>
             </li>
-            <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == key}">
-                <a href="" ng-click="check(key)"><i class="fa fa-wrench fa-fw"></i> {{ item[0] }}<span
+            <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == $index+1}">{{dropDown}}
+                <a href="" ng-click="check($index+1)"><i class="fa fa-wrench fa-fw"></i> {{ item[0] }}<span
                         class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" collapse="collapseVar!={{key}}">
-                    <li ng-repeat="(k, v) in item[1]" ng-init="third=!third"
-                        ng-class="{active: multiCollapseVar==$index}">
-                        <a href="" ng-click="multiCheck($index)">{{v[0]}} <span class="fa arrow"></span></a>
-                        <ul class="nav nav-third-level" collapse="multiCollapseVar!={{$index}}">
-                            <li>
-                                <a href="#/{{v[1]}}">Listele</a>
-                            </li>
-                            <li>
-                                <a href="#/{{v[1]}}/add">Ekle</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-third-level -->
-                    </li>
+                <ul class="nav nav-second-level">
+                    <li ng-repeat="(k, v) in item[1]"><a href="#/{{v[1]}}">{{v[1]}}</a></li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
