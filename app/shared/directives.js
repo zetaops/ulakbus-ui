@@ -54,12 +54,12 @@ app.directive('headerBreadcrumb', function ($location) {
         templateUrl: 'shared/templates/directives/header-breadcrumb.html',
         restrict: 'E',
         replace: true,
-        link: function($scope){
-            $scope.$watch('$routeUpdate', function(){
+        link: function($scope, $rootScope){
+            //$scope.$watch('$routeUpdate', function(){
                 // todo: create actual links
-                //debugger;
-                $scope.links = $location.path().split('/');
-            });
+                //$scope.links = $location.path().split('/');
+                //$scope.links = $rootScope.links;
+            //});
         }
     }
 });
@@ -75,13 +75,22 @@ app.directive('sidebar', ['$location', function () {
                 $rootScope.loggedInUser, function(){
                     $http.post(RESTURL.url + 'crud/').success(function (data) {
                         $scope.menuItems = data.app_models;
+                        // at start define breadcrumblinks for breadcrumb
+                        angular.forEach(data.app_models, function (value, key) {
+                            angular.forEach(value[1], function (v, k) {
+                                if(v[1] == $location.path().split('/')[1]){
+                                    $rootScope.breadcrumblinks = [value[0], v[0]];
+                                }
+                            });
+                        });
                     });
                 }
             );
 
+            // todo: change to $watch to init
             $timeout(function(){
                 $('#side-menu').metisMenu();
-            }, 1000);
+            }, 500);
 
             $scope.selectedMenu = $location.path();
             $scope.collapseVar = 0;
@@ -93,6 +102,12 @@ app.directive('sidebar', ['$location', function () {
                     $scope.collapseVar = 0;
                 else
                     $scope.collapseVar = x;
+
+            };
+
+            // breadcrumb function changes breadcrumb items and itemlist must be list
+            $scope.breadcrumb = function(itemlist){
+                $rootScope.breadcrumblinks = itemlist;
             };
 
             $scope.multiCheck = function (y) {
@@ -102,6 +117,9 @@ app.directive('sidebar', ['$location', function () {
                 else
                     $scope.multiCollapseVar = y;
             };
+        },
+        link: function(){
+            $('#side-menu').metisMenu();
         }
     }
 }]);
