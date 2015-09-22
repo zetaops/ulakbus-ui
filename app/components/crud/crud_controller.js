@@ -38,7 +38,7 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
         if (form.$valid) {
             Generator.submit($scope)
                 .success(function(data){
-                    $location.path("/crud");
+                    $location.path($scope.form_params.model).search(data);
                 })
                 .error(function(data){
                     $scope.message = data.title;
@@ -55,13 +55,18 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
 crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeParams) {
     $scope.url = 'crud';
     $scope.form_params = {"model": $routeParams.model};
-    // call generator's get_list func
-    Generator.get_list($scope)
-        .then(function (res) {
-            debugger;
-            $scope.nobjects = res.data.nobjects;
-            $scope.model = $routeParams.model;
-        });
+
+    if ($routeParams.nobjects){
+        $scope.nobjects = $routeParams.nobjects;
+        $scope.model = $routeParams.model;
+    } else {
+        // call generator's get_list func
+        Generator.get_list($scope)
+            .then(function (res) {
+                $scope.nobjects = res.data.nobjects;
+                $scope.model = $routeParams.model;
+            });
+    }
 });
 
 /**

@@ -90,7 +90,7 @@ app.directive('sidebar', ['$location', function () {
             // todo: change to $watch to init
             $timeout(function(){
                 $('#side-menu').metisMenu();
-            }, 500);
+            }, 2000);
 
             $scope.selectedMenu = $location.path();
             $scope.collapseVar = 0;
