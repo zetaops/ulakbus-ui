@@ -135,5 +135,58 @@ describe('form service module', function () {
             })
         );
 
+        it('should validate email',
+            inject(function(Generator){
+                var validEmails = [
+                    'test@test.com',
+                    'test@test.co.uk',
+                    'test734ltylytkliytkryety9ef@jb-fe.com'
+                ];
+
+                var invalidEmails = [
+                    'test@testcom',
+                    'test@ test.co.uk',
+                    'ghgf@fe.com.co.',
+                    'tes@t@test.com',
+                    ''
+                ];
+
+                for (var i in validEmails) {
+                    var valid = Generator.isValidEmail(validEmails[i]);
+                    expect(valid).toBeTruthy();
+                }
+                for (var i in invalidEmails) {
+                    var valid = Generator.isValidEmail(invalidEmails[i]);
+                    expect(valid).toBeFalsy();
+                }
+            })
+        );
+
+        it('should validate tcNo',
+            inject(function(Generator){
+                var validTCNos = [
+                    '12345678902',
+                    '18307990654'
+                ];
+
+                var invalidTCNos = [
+                    '00000000000',
+                    '00000000002',
+                    '12345678901',
+                    '1234567892',
+                    ''
+                ];
+
+                for (var i in validTCNos) {
+                    var valid = Generator.isValidTCNo(validTCNos[i]);
+                    expect(valid).toBeTruthy();
+                }
+                for (var i in invalidTCNos) {
+                    var valid = Generator.isValidTCNo(invalidTCNos[i]);
+                    expect(valid).toBeFalsy();
+                }
+            })
+        );
+
     });
 });

@@ -88,7 +88,7 @@ app.directive('sidebar', ['$location', function () {
             }, 2000);
 
             $scope.selectedMenu = $location.path();
-            $scope.collapseVar = 1;
+            $scope.collapseVar = 0;
             $scope.multiCollapseVar = 0;
 
             $scope.check = function (x) {
@@ -103,6 +103,8 @@ app.directive('sidebar', ['$location', function () {
             // breadcrumb function changes breadcrumb items and itemlist must be list
             $scope.breadcrumb = function(itemlist){
                 $rootScope.breadcrumblinks = itemlist;
+                // showSaveButton is used for to show or not to show save button on top of the page
+                $rootScope.showSaveButton = false;
             };
 
             $scope.multiCheck = function (y) {

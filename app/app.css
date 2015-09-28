@@ -258,6 +258,7 @@ select {
     flex-shrink: 0;
     position:relative;
     z-index:1;
+    height: 98px;
 }
 
 .manager-view-content {
@@ -1100,5 +1101,6 @@ table.dataTable thead .sorting:after {
     height:100%;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 2, 0.2);
+    background: url('/img/loading_spinner.gif') rgba(0, 0, 3, 0.2) no-repeat center center;
+    background-size: 100px 100px;
 }

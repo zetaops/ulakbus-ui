@@ -864,7 +864,7 @@ angular.module("shared/templates/directives/header-sub-menu.html", []).run(["$te
   $templateCache.put("shared/templates/directives/header-sub-menu.html",
     "<div class=\"manager-view-header container-fluid\" ng-class=\"{hidden: $root.loggedInUser != true}\">\n" +
     "    <header-breadcrumb></header-breadcrumb>\n" +
-    "    <div id=\"header-buttons\">\n" +
+    "    <div id=\"header-buttons\" ng-class=\"{hidden: $root.showSaveButton != true}\">\n" +
     "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"triggerSubmit()\">Kaydet</button>\n" +
     "        <!--<button type=\"button\" class=\"btn btn-warning\">Düzenle</button>-->\n" +
     "        <!--<button type=\"button\" class=\"btn btn-danger\">İptal</button>-->\n" +
@@ -957,7 +957,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "    </div>\n" +
     "    <!-- /.sidebar-collapse -->\n" +
     "    <footer>\n" +
-    "    	<span>v <app-version></app-version> ® ZetaOps</span>\n" +
+    "    	<span>v <app-version></app-version> &copy; ZetaOps</span>\n" +
     "    </footer>\n" +
     "</div>\n" +
     "");
