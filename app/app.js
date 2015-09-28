@@ -21,7 +21,7 @@ var app = angular.module(
         //'ulakbus.staff',
         //'ulakbus.student',
         'ulakbus.crud',
-        //'ulakbus.version',
+        'ulakbus.version',
         'schemaForm',
         'gettext',
         //'templates-dev',

@@ -90,16 +90,6 @@ module.exports = function (grunt) {
             },
             js: {
                 src: [
-                    //'app/app.js',
-                    //'app/app_routes.js',
-                    //'app/zetalib/**/*service.js',
-                    //'app/zetalib/general.js',
-                    //'app/zetalib/interceptors.js',
-                    //'app/shared/scripts/theme.js',
-                    //'app/shared/directives.js',
-                    //'app/components/**/*controller.js',
-                    //'app/components/**/*service.js',
-
                     "dist/app.js",
                     "app/app_routes.js",
                     "app/zetalib/interceptors.js",
@@ -110,7 +100,9 @@ module.exports = function (grunt) {
                     "app/components/auth/auth_service.js",
                     "app/components/dashboard/dashboard_controller.js",
                     "app/components/crud/crud_controller.js",
-                    //"app/shared/scripts/theme.js",
+                    "app/components/version/version.js",
+                    "app/components/version/interpolate-filter.js",
+                    "app/components/version/version-directive.js"
                 ],
                 dest: 'dist/app.js'
             },

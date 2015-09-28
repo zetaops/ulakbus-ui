@@ -197,108 +197,19 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "<div ng-app=\"ulakbus.dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
     "\n" +
-    "        <!-- table view -->\n" +
-    "        <!--<table class=\"table table-bordered\" style=\"background-color:#fff;\">-->\n" +
-    "            <!--<thead>-->\n" +
-    "            <!--<tr>-->\n" +
-    "                <!--<th colspan=\"2\">-->\n" +
-    "                    <!--<label>-->\n" +
-    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
-    "                        <!--Hepsini Seç-->\n" +
-    "                    <!--</label>-->\n" +
-    "                <!--</th>-->\n" +
-    "                <!--<th>First Name</th>-->\n" +
-    "                <!--<th>Last Name</th>-->\n" +
-    "                <!--<th>Username</th>-->\n" +
-    "            <!--</tr>-->\n" +
-    "            <!--</thead>-->\n" +
-    "            <!--<tbody>-->\n" +
-    "            <!--<tr>-->\n" +
-    "                <!--<td width=\"60\">-->\n" +
-    "                    <!--<label>-->\n" +
-    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
-    "                    <!--</label>-->\n" +
-    "                <!--</td>-->\n" +
-    "                <!--<th scope=\"row\" style=\"text-align:center\">1</th>-->\n" +
-    "                <!--<td>Mark</td>-->\n" +
-    "                <!--<td>Otto</td>-->\n" +
-    "                <!--<td>@mdo</td>-->\n" +
-    "            <!--</tr>-->\n" +
-    "            <!--<tr>-->\n" +
-    "                <!--<td>-->\n" +
-    "                    <!--<label>-->\n" +
-    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
-    "                    <!--</label>-->\n" +
-    "                <!--</td>-->\n" +
-    "                <!--<th scope=\"row\" style=\"text-align:center\">2</th>-->\n" +
-    "                <!--<td>Jacob</td>-->\n" +
-    "                <!--<td>Thornton</td>-->\n" +
-    "                <!--<td>@fat</td>-->\n" +
-    "            <!--</tr>-->\n" +
-    "            <!--<tr>-->\n" +
-    "                <!--<td>-->\n" +
-    "                    <!--<label>-->\n" +
-    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
-    "                    <!--</label>-->\n" +
-    "                <!--</td>-->\n" +
-    "                <!--<th scope=\"row\" style=\"text-align:center\">3</th>-->\n" +
-    "                <!--<td>Larry</td>-->\n" +
-    "                <!--<td>the Bird</td>-->\n" +
-    "                <!--<td>@twitter</td>-->\n" +
-    "            <!--</tr>-->\n" +
-    "            <!--<tr>-->\n" +
-    "                <!--<td width=\"60\">-->\n" +
-    "                    <!--<label>-->\n" +
-    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
-    "                    <!--</label>-->\n" +
-    "                <!--</td>-->\n" +
-    "                <!--<th scope=\"row\" style=\"text-align:center\">4</th>-->\n" +
-    "                <!--<td>Mark</td>-->\n" +
-    "                <!--<td>Otto</td>-->\n" +
-    "                <!--<td>@mdo</td>-->\n" +
-    "            <!--</tr>-->\n" +
-    "            <!--<tr>-->\n" +
-    "                <!--<td>-->\n" +
-    "                    <!--<label>-->\n" +
-    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
-    "                    <!--</label>-->\n" +
-    "                <!--</td>-->\n" +
-    "                <!--<th scope=\"row\" style=\"text-align:center\">5</th>-->\n" +
-    "                <!--<td>Jacob</td>-->\n" +
-    "                <!--<td>Thornton</td>-->\n" +
-    "                <!--<td>@fat</td>-->\n" +
-    "            <!--</tr>-->\n" +
-    "            <!--<tr>-->\n" +
-    "                <!--<td>-->\n" +
-    "                    <!--<label>-->\n" +
-    "                        <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
-    "                    <!--</label>-->\n" +
-    "                <!--</td>-->\n" +
-    "                <!--<th scope=\"row\" style=\"text-align:center\">6</th>-->\n" +
-    "                <!--<td>Larry</td>-->\n" +
-    "                <!--<td>the Bird</td>-->\n" +
-    "                <!--<td>@twitter</td>-->\n" +
-    "            <!--</tr>-->\n" +
-    "            <!--</tbody>-->\n" +
-    "        <!--</table>-->\n" +
-    "        <!--&lt;!&ndash; end of table view &ndash;&gt;-->\n" +
-    "\n" +
-    "        <!--<div class=\"btn-group\">-->\n" +
-    "            <!--<button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\"-->\n" +
-    "                    <!--aria-expanded=\"false\">-->\n" +
-    "                <!--İşlemler <span class=\"caret\"></span>-->\n" +
-    "            <!--</button>-->\n" +
-    "            <!--<ul class=\"dropdown-menu\">-->\n" +
-    "                <!--<li><a href=\"\">İşlem 1</a></li>-->\n" +
-    "                <!--<li><a href=\"\">İşlem 2</a></li>-->\n" +
-    "                <!--<li><a href=\"\">İşlem 3</a></li>-->\n" +
-    "                <!--<li role=\"separator\" class=\"divider\"></li>-->\n" +
-    "                <!--<li><a href=\"\">İşlem 4</a></li>-->\n" +
-    "            <!--</ul>-->\n" +
-    "        <!--</div>-->\n" +
-    "\n" +
-    "\n" +
-    "        <!--<hr>-->\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"major-buttons\">\n" +
+    "                <div class=\"col-md-4\">\n" +
+    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-personnel brand-bg\"><i class=\"fa fa-user\"></i> PERSONEL İŞLERİ</button></a>\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-4\">\n" +
+    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-student brand-bg\"><i class=\"fa fa-graduation-cap\"></i> ÖĞRENCİ İŞLERİ</button></a>\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-4\">\n" +
+    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-system brand-bg\"><i class=\"fa fa-gears\"></i> SİSTEM</button></a>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
     "\n" +
     "    </div>\n" +
     "</div>");
@@ -814,50 +725,26 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
     "            <i class=\"fa fa-envelope fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
-    "        <ul class=\"dropdown-menu dropdown-messages\">\n" +
-    "            <li>\n" +
-    "                <a href=\"#\">\n" +
-    "                    <div>\n" +
-    "                        <strong>John Smith</strong>\n" +
-    "                        <span class=\"pull-right text-muted\">\n" +
-    "                            <em>Yesterday</em>\n" +
-    "                        </span>\n" +
-    "                    </div>\n" +
-    "                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "            <li class=\"divider\"></li>\n" +
-    "            <li>\n" +
-    "                <a href=\"#\">\n" +
-    "                    <div>\n" +
-    "                        <strong>John Smith</strong>\n" +
-    "                        <span class=\"pull-right text-muted\">\n" +
-    "                            <em>Yesterday</em>\n" +
-    "                        </span>\n" +
-    "                    </div>\n" +
-    "                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "            <li class=\"divider\"></li>\n" +
-    "            <li>\n" +
-    "                <a href=\"#\">\n" +
-    "                    <div>\n" +
-    "                        <strong>John Smith</strong>\n" +
-    "                        <span class=\"pull-right text-muted\">\n" +
-    "                            <em>Yesterday</em>\n" +
-    "                        </span>\n" +
-    "                    </div>\n" +
-    "                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "            <li class=\"divider\"></li>\n" +
-    "            <li>\n" +
-    "                <a class=\"text-center\" href=\"#\">\n" +
-    "                    <strong>Read All Messages</strong>\n" +
-    "                    <i class=\"fa fa-angle-right\"></i>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "        </ul>\n" +
+    "        <!--<ul class=\"dropdown-menu dropdown-messages\">-->\n" +
+    "            <!--<li>-->\n" +
+    "                <!--<a href=\"#\">-->\n" +
+    "                    <!--<div>-->\n" +
+    "                        <!--<strong>John Smith</strong>-->\n" +
+    "                        <!--<span class=\"pull-right text-muted\">-->\n" +
+    "                            <!--<em>Yesterday</em>-->\n" +
+    "                        <!--</span>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                    <!--<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>-->\n" +
+    "                <!--</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "            <!--<li class=\"divider\"></li>-->\n" +
+    "            <!--<li>-->\n" +
+    "                <!--<a class=\"text-center\" href=\"#\">-->\n" +
+    "                    <!--<strong>Read All Messages</strong>-->\n" +
+    "                    <!--<i class=\"fa fa-angle-right\"></i>-->\n" +
+    "                <!--</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "        <!--</ul>-->\n" +
     "        <!-- /.dropdown-messages -->\n" +
     "    </li>\n" +
     "    <!-- /.dropdown -->\n" +
@@ -865,78 +752,30 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
     "            <i class=\"fa fa-tasks fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
-    "        <ul class=\"dropdown-menu dropdown-tasks\">\n" +
-    "            <li>\n" +
-    "                <a href=\"#\">\n" +
-    "                    <div>\n" +
-    "                        <p>\n" +
-    "                            <strong>Task 1</strong>\n" +
-    "                            <span class=\"pull-right text-muted\">40% Complete</span>\n" +
-    "                        </p>\n" +
-    "                        <div class=\"progress progress-striped active\">\n" +
-    "                            <div class=\"progress-bar progress-bar-success\" role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 40%\">\n" +
-    "                                <span class=\"sr-only\">40% Complete (success)</span>\n" +
-    "                            </div>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "            <li class=\"divider\"></li>\n" +
-    "            <li>\n" +
-    "                <a href=\"#\">\n" +
-    "                    <div>\n" +
-    "                        <p>\n" +
-    "                            <strong>Task 2</strong>\n" +
-    "                            <span class=\"pull-right text-muted\">20% Complete</span>\n" +
-    "                        </p>\n" +
-    "                        <div class=\"progress progress-striped active\">\n" +
-    "                            <div class=\"progress-bar progress-bar-info\" role=\"progressbar\" aria-valuenow=\"20\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 20%\">\n" +
-    "                                <span class=\"sr-only\">20% Complete</span>\n" +
-    "                            </div>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "            <li class=\"divider\"></li>\n" +
-    "            <li>\n" +
-    "                <a href=\"#\">\n" +
-    "                    <div>\n" +
-    "                        <p>\n" +
-    "                            <strong>Task 3</strong>\n" +
-    "                            <span class=\"pull-right text-muted\">60% Complete</span>\n" +
-    "                        </p>\n" +
-    "                        <div class=\"progress progress-striped active\">\n" +
-    "                            <div class=\"progress-bar progress-bar-warning\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 60%\">\n" +
-    "                                <span class=\"sr-only\">60% Complete (warning)</span>\n" +
-    "                            </div>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "            <li class=\"divider\"></li>\n" +
-    "            <li>\n" +
-    "                <a href=\"#\">\n" +
-    "                    <div>\n" +
-    "                        <p>\n" +
-    "                            <strong>Task 4</strong>\n" +
-    "                            <span class=\"pull-right text-muted\">80% Complete</span>\n" +
-    "                        </p>\n" +
-    "                        <div class=\"progress progress-striped active\">\n" +
-    "                            <div class=\"progress-bar progress-bar-danger\" role=\"progressbar\" aria-valuenow=\"80\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 80%\">\n" +
-    "                                <span class=\"sr-only\">80% Complete (danger)</span>\n" +
-    "                            </div>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "            <li class=\"divider\"></li>\n" +
-    "            <li>\n" +
-    "                <a class=\"text-center\" href=\"#\">\n" +
-    "                    <strong>See All Tasks</strong>\n" +
-    "                    <i class=\"fa fa-angle-right\"></i>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "        </ul>\n" +
+    "        <!--<ul class=\"dropdown-menu dropdown-tasks\">-->\n" +
+    "            <!--<li>-->\n" +
+    "                <!--<a href=\"#\">-->\n" +
+    "                    <!--<div>-->\n" +
+    "                        <!--<p>-->\n" +
+    "                            <!--<strong>Task 1</strong>-->\n" +
+    "                            <!--<span class=\"pull-right text-muted\">40% Complete</span>-->\n" +
+    "                        <!--</p>-->\n" +
+    "                        <!--<div class=\"progress progress-striped active\">-->\n" +
+    "                            <!--<div class=\"progress-bar progress-bar-success\" role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 40%\">-->\n" +
+    "                                <!--<span class=\"sr-only\">40% Complete (success)</span>-->\n" +
+    "                            <!--</div>-->\n" +
+    "                        <!--</div>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                <!--</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "            <!--<li class=\"divider\"></li>-->\n" +
+    "            <!--<li>-->\n" +
+    "                <!--<a class=\"text-center\" href=\"#\">-->\n" +
+    "                    <!--<strong>See All Tasks</strong>-->\n" +
+    "                    <!--<i class=\"fa fa-angle-right\"></i>-->\n" +
+    "                <!--</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "        <!--</ul>-->\n" +
     "        <!-- /.dropdown-tasks -->\n" +
     "    </li>\n" +
     "    <!-- /.dropdown -->\n" +
@@ -944,59 +783,59 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
     "            <i class=\"fa fa-bell fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
-    "        <ul class=\"dropdown-menu dropdown-alerts\">\n" +
-    "            <li>\n" +
-    "                <a href=\"#\">\n" +
-    "                    <div>\n" +
-    "                        <i class=\"fa fa-comment fa-fw\"></i> New Comment\n" +
-    "                        <span class=\"pull-right text-muted small\">4 minutes ago</span>\n" +
-    "                    </div>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "            <li class=\"divider\"></li>\n" +
-    "            <li>\n" +
-    "                <a href=\"#\">\n" +
-    "                    <div>\n" +
-    "                        <i class=\"fa fa-twitter fa-fw\"></i> 3 New Followers\n" +
-    "                        <span class=\"pull-right text-muted small\">12 minutes ago</span>\n" +
-    "                    </div>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "            <li class=\"divider\"></li>\n" +
-    "            <li>\n" +
-    "                <a href=\"#\">\n" +
-    "                    <div>\n" +
-    "                        <i class=\"fa fa-envelope fa-fw\"></i> Message Sent\n" +
-    "                        <span class=\"pull-right text-muted small\">4 minutes ago</span>\n" +
-    "                    </div>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "            <li class=\"divider\"></li>\n" +
-    "            <li>\n" +
-    "                <a href=\"#\">\n" +
-    "                    <div>\n" +
-    "                        <i class=\"fa fa-tasks fa-fw\"></i> New Task\n" +
-    "                        <span class=\"pull-right text-muted small\">4 minutes ago</span>\n" +
-    "                    </div>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "            <li class=\"divider\"></li>\n" +
-    "            <li>\n" +
-    "                <a href=\"#\">\n" +
-    "                    <div>\n" +
-    "                        <i class=\"fa fa-upload fa-fw\"></i> Server Rebooted\n" +
-    "                        <span class=\"pull-right text-muted small\">4 minutes ago</span>\n" +
-    "                    </div>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "            <li class=\"divider\"></li>\n" +
-    "            <li>\n" +
-    "                <a class=\"text-center\" href=\"#\">\n" +
-    "                    <strong>See All Alerts</strong>\n" +
-    "                    <i class=\"fa fa-angle-right\"></i>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "        </ul>\n" +
+    "        <!--<ul class=\"dropdown-menu dropdown-alerts\">-->\n" +
+    "            <!--<li>-->\n" +
+    "                <!--<a href=\"#\">-->\n" +
+    "                    <!--<div>-->\n" +
+    "                        <!--<i class=\"fa fa-comment fa-fw\"></i> New Comment-->\n" +
+    "                        <!--<span class=\"pull-right text-muted small\">4 minutes ago</span>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                <!--</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "            <!--<li class=\"divider\"></li>-->\n" +
+    "            <!--<li>-->\n" +
+    "                <!--<a href=\"#\">-->\n" +
+    "                    <!--<div>-->\n" +
+    "                        <!--<i class=\"fa fa-twitter fa-fw\"></i> 3 New Followers-->\n" +
+    "                        <!--<span class=\"pull-right text-muted small\">12 minutes ago</span>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                <!--</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "            <!--<li class=\"divider\"></li>-->\n" +
+    "            <!--<li>-->\n" +
+    "                <!--<a href=\"#\">-->\n" +
+    "                    <!--<div>-->\n" +
+    "                        <!--<i class=\"fa fa-envelope fa-fw\"></i> Message Sent-->\n" +
+    "                        <!--<span class=\"pull-right text-muted small\">4 minutes ago</span>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                <!--</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "            <!--<li class=\"divider\"></li>-->\n" +
+    "            <!--<li>-->\n" +
+    "                <!--<a href=\"#\">-->\n" +
+    "                    <!--<div>-->\n" +
+    "                        <!--<i class=\"fa fa-tasks fa-fw\"></i> New Task-->\n" +
+    "                        <!--<span class=\"pull-right text-muted small\">4 minutes ago</span>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                <!--</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "            <!--<li class=\"divider\"></li>-->\n" +
+    "            <!--<li>-->\n" +
+    "                <!--<a href=\"#\">-->\n" +
+    "                    <!--<div>-->\n" +
+    "                        <!--<i class=\"fa fa-upload fa-fw\"></i> Server Rebooted-->\n" +
+    "                        <!--<span class=\"pull-right text-muted small\">4 minutes ago</span>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                <!--</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "            <!--<li class=\"divider\"></li>-->\n" +
+    "            <!--<li>-->\n" +
+    "                <!--<a class=\"text-center\" href=\"#\">-->\n" +
+    "                    <!--<strong>See All Alerts</strong>-->\n" +
+    "                    <!--<i class=\"fa fa-angle-right\"></i>-->\n" +
+    "                <!--</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "        <!--</ul>-->\n" +
     "        <!-- /.dropdown-alerts -->\n" +
     "    </li>\n" +
     "    <!-- /.dropdown -->\n" +
