@@ -1104,6 +1104,18 @@ table.dataTable thead .sorting:after {
     top:auto;
 }
 
+/* loading bar */
+
+.loadingbarfullsize{
+    z-index:10001;
+    position:fixed;
+    width:100%;
+    height:100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 2, 0.2);
+}
+
 /*
  * metismenu - v1.1.3
  * Easy menu jQuery plugin for Twitter Bootstrap 3

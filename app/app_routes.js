@@ -49,10 +49,12 @@ app.config(['$routeProvider', function ($routeProvider) {
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
         // will be used when needed
     });
-}).config(['$httpProvider', function($httpProvider) {
+}).config(['$httpProvider', function ($httpProvider) {
     // to send cookies CORS
     $httpProvider.defaults.withCredentials = true;
 }]).run(function (gettextCatalog) {
     gettextCatalog.setCurrentLanguage('tr');
     gettextCatalog.debug = true;
-});
+}).config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.spinnerTemplate = '<div><span class="fa fa-spinner loadingbarfullsize"></div>';
+}]);

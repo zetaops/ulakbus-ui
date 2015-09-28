@@ -949,7 +949,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "                <a href=\"\" ng-click=\"check($index+1)\"><i class=\"fa fa-wrench fa-fw\"></i> {{ item[0] }}<span\n" +
     "                        class=\"fa arrow\"></span></a>\n" +
     "                <ul class=\"nav nav-second-level\">\n" +
-    "                    <li ng-repeat=\"(k, v) in item[1]\"><a href=\"#/{{v[1]}}\" ng-click=\"breadcrumb([item[0], v[0]])\">{{v[1]}}</a></li>\n" +
+    "                    <li ng-repeat=\"(k, v) in item[1]\"><a href=\"#/{{v[1]}}\" ng-click=\"breadcrumb([item[0], v[0]])\">{{v[0]}}</a></li>\n" +
     "                </ul>\n" +
     "                <!-- /.nav-second-level -->\n" +
     "            </li>\n" +
