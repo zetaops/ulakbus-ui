@@ -7,7 +7,7 @@ angular.module("components/auth/login.html", []).run(["$templateCache", function
     "        <div class=\"col-md-4 col-md-offset-4\">\n" +
     "            <div class=\"login-panel panel panel-default\">\n" +
     "                <div class=\"panel-heading\">\n" +
-    "                    <h3 class=\"panel-title\">Sign In</h3>\n" +
+    "                    <h3 class=\"panel-title\">Giriş Yap</h3>\n" +
     "                </div>\n" +
     "                <div class=\"panel-body\">\n" +
     "                    <span class=\"label label-warning\">{{message}}</span>\n" +
@@ -957,7 +957,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "    </div>\n" +
     "    <!-- /.sidebar-collapse -->\n" +
     "    <footer>\n" +
-    "    	<span>v 0.0.3 ® Lorem Ipsum</span>\n" +
+    "    	<span>v <app-version></app-version> ® ZetaOps</span>\n" +
     "    </footer>\n" +
     "</div>\n" +
     "");

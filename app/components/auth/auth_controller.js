@@ -15,9 +15,9 @@ auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, Gener
     // todo: change simple login when api ready
     Generator.get_form($scope).then(function(data){
         $scope.form = [
-            "*",
-            { key: "password", type: "password"},
-            { type: 'submit', title: 'Save' }
+            { key: "username", type: "string", title: "Kullanıcı Adı"},
+            { key: "password", type: "password", title: "Şifre"},
+            { type: 'submit', title: 'Giriş Yap' }
         ];
     });
     $scope.onSubmit = function (form) {
