@@ -68,6 +68,7 @@ button.brand-bg:hover {
 }
 
 .brand {
+	height:98px;
     border-bottom:1px solid #ccc;
 }
 
@@ -773,6 +774,10 @@ table.dataTable thead .sorting:after {
     font-family: 'robotolight';
 }
 
+.dashboard .major-buttons a button:focus {
+	color:#fff;
+}
+
 /* END OF DASHBOARD */
 
 
@@ -931,6 +936,28 @@ table.dataTable thead .sorting:after {
     .manager-view {
         height:100%;
     }
+	
+	.sidebar .sidebar-nav.navbar-collapse {
+		overflow-x: visible;
+		overflow-y: scroll;
+		position: absolute;
+		width: 100%;
+		max-height: calc(85% - 139px);
+		border-bottom: 2px solid #ccc;
+	}
+	
+	footer {
+		position: absolute;
+		bottom: 35px;
+		padding: 15px;
+		width:100%;
+		text-align:center;
+	}
+	
+	footer span {
+		font-family:'robotobold';
+		color:#777;
+	}
 }
 
 @media (max-width: 767px) {
@@ -1062,10 +1089,4 @@ table.dataTable thead .sorting:after {
     position:absolute;
     right:0;
     top:auto;
-}
-
-.sidebarscroll{
-    overflow-x: visible;
-    overflow-y: scroll;
-    height: 700px;
 }
