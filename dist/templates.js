@@ -194,7 +194,7 @@ angular.module("components/crud/templates/show.html", []).run(["$templateCache",
 
 angular.module("components/dashboard/dashboard.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/dashboard/dashboard.html",
-    "<div ng-app=\"ulakbus.dashboard\">\n" +
+    "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
     "\n" +
     "        <div class=\"row\">\n" +
@@ -935,11 +935,11 @@ angular.module("shared/templates/directives/sidebar-search.html", []).run(["$tem
 angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/sidebar.html",
     "<div class=\"navbar-default sidebar\" role=\"navigation\">\n" +
+    "	<div class=\"brand\">\n" +
+    "    	<a href=\"\" class=\"logo\"><img src=\"/img/brand-logo.png\" /></a>\n" +
+    "    </div>\n" +
     "    <div class=\"sidebar-nav navbar-collapse\">\n" +
-    "    	<div class=\"brand\">\n" +
-    "        	<a href=\"\" class=\"logo\"><img src=\"/img/brand-logo.png\" /></a>\n" +
-    "        </div>\n" +
-    "        <ul class=\"nav in sidebarscroll\" id=\"side-menu\" ng-class=\"{hidden: $root.loggedInUser != true}\">\n" +
+    "        <ul class=\"nav in\" id=\"side-menu\" ng-class=\"{hidden: $root.loggedInUser != true}\">\n" +
     "            <!--<sidebar-search></sidebar-search>-->\n" +
     "            <li ui-sref-active=\"active\">\n" +
     "                <a href=\"#/dashboard\" ng-click=\"breadcrumb(['Panel'])\"><i class=\"fa fa-dashboard fa-fw\"></i>\n" +
@@ -956,6 +956,9 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "        </ul>\n" +
     "    </div>\n" +
     "    <!-- /.sidebar-collapse -->\n" +
+    "    <footer>\n" +
+    "    	<span>v 0.0.3 ® Lorem Ipsum</span>\n" +
+    "    </footer>\n" +
     "</div>\n" +
     "");
 }]);
