@@ -6,7 +6,8 @@
         <ul class="nav in sidebarscroll" id="side-menu" ng-class="{hidden: $root.loggedInUser != true}">
             <!--<sidebar-search></sidebar-search>-->
             <li ui-sref-active="active">
-                <a href="#/dashboard"><i class="fa fa-dashboard fa-fw"></i> Panel</a>
+                <a href="#/dashboard" ng-click="breadcrumb(['Panel'])"><i class="fa fa-dashboard fa-fw"></i>
+                Panel</a>
             </li>
             <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == $index+1}">{{dropDown}}
                 <a href="" ng-click="check($index+1)"><i class="fa fa-wrench fa-fw"></i> {{ item[0] }}<span

@@ -49,18 +49,11 @@ app.directive('headerSubMenu', function () {
     }
 });
 
-app.directive('headerBreadcrumb', function ($location) {
+app.directive('headerBreadcrumb', function () {
     return {
         templateUrl: 'shared/templates/directives/header-breadcrumb.html',
         restrict: 'E',
-        replace: true,
-        link: function($scope, $rootScope){
-            //$scope.$watch('$routeUpdate', function(){
-                // todo: create actual links
-                //$scope.links = $location.path().split('/');
-                //$scope.links = $rootScope.links;
-            //});
-        }
+        replace: true
     }
 });
 
@@ -80,6 +73,8 @@ app.directive('sidebar', ['$location', function () {
                             angular.forEach(value[1], function (v, k) {
                                 if(v[1] == $location.path().split('/')[1]){
                                     $rootScope.breadcrumblinks = [value[0], v[0]];
+                                } else {
+                                    $rootScope.breadcrumblinks = ['Panel'];
                                 }
                             });
                         });
@@ -93,7 +88,7 @@ app.directive('sidebar', ['$location', function () {
             }, 2000);
 
             $scope.selectedMenu = $location.path();
-            $scope.collapseVar = 0;
+            $scope.collapseVar = 1;
             $scope.multiCollapseVar = 0;
 
             $scope.check = function (x) {
@@ -117,9 +112,7 @@ app.directive('sidebar', ['$location', function () {
                 else
                     $scope.multiCollapseVar = y;
             };
-        },
-        link: function(){
-            $('#side-menu').metisMenu();
+
         }
     }
 }]);

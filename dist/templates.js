@@ -942,7 +942,8 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "        <ul class=\"nav in sidebarscroll\" id=\"side-menu\" ng-class=\"{hidden: $root.loggedInUser != true}\">\n" +
     "            <!--<sidebar-search></sidebar-search>-->\n" +
     "            <li ui-sref-active=\"active\">\n" +
-    "                <a href=\"#/dashboard\"><i class=\"fa fa-dashboard fa-fw\"></i> Panel</a>\n" +
+    "                <a href=\"#/dashboard\" ng-click=\"breadcrumb(['Panel'])\"><i class=\"fa fa-dashboard fa-fw\"></i>\n" +
+    "                Panel</a>\n" +
     "            </li>\n" +
     "            <li ng-repeat=\"(key, item) in menuItems\" ng-class=\"{active: collapseVar == $index+1}\">{{dropDown}}\n" +
     "                <a href=\"\" ng-click=\"check($index+1)\"><i class=\"fa fa-wrench fa-fw\"></i> {{ item[0] }}<span\n" +
