@@ -39,8 +39,8 @@ app.directive('headerSubMenu', function () {
         restrict: 'E',
         controller: "CRUDAddEditCtrl",
         replace: true,
-        link: function($scope){
-            $scope.triggerSubmit = function() {
+        link: function ($scope) {
+            $scope.triggerSubmit = function () {
                 // todo: double make it but single not solve this!
                 angular.element($('#submitbutton')).triggerHandler('click');
                 angular.element($('#submitbutton')).triggerHandler('click');
@@ -64,28 +64,38 @@ app.directive('sidebar', ['$location', function () {
         replace: true,
         scope: {},
         controller: function ($scope, $rootScope, $http, RESTURL, $location, $timeout) {
-            $rootScope.$watch(
-                $rootScope.loggedInUser, function(){
-                    $http.post(RESTURL.url + 'crud/').success(function (data) {
-                        $scope.menuItems = data.app_models;
-                        // at start define breadcrumblinks for breadcrumb
-                        angular.forEach(data.app_models, function (value, key) {
-                            angular.forEach(value[1], function (v, k) {
-                                if(v[1] == $location.path().split('/')[1]){
-                                    $rootScope.breadcrumblinks = [value[0], v[0]];
-                                } else {
-                                    $rootScope.breadcrumblinks = ['Panel'];
-                                }
-                            });
-                        });
+            $http.post(RESTURL.url + 'crud/').success(function (data) {
+                $scope.allMenuItems = data.app_models;
+                $scope.menuItems = []; // angular.copy($scope.allMenuItems);
+                // at start define breadcrumblinks for breadcrumb
+                angular.forEach(data.app_models, function (value, key) {
+                    angular.forEach(value[1], function (v, k) {
+                        if (v[1] == $location.path().split('/')[1]) {
+                            $rootScope.breadcrumblinks = [value[0], v[0]];
+                            $scope.menuItems = [$scope.allMenuItems[key]];
+                        } else {
+                            $rootScope.breadcrumblinks = ['Panel'];
+                        }
                     });
+                });
+            });
+
+            $rootScope.$watch(function($rootScope) {return $rootScope.section},
+                function(newindex, oldindex){
+                    if(newindex > -1){
+                        $scope.menuItems = [$scope.allMenuItems[newindex]];
+                        $scope.collapseVar = 1;
+                        $timeout(function () {
+                            $('#side-menu').metisMenu();
+                        });
+                    }
                 }
             );
 
             // todo: change to $watch to init
-            $timeout(function(){
-                $('#side-menu').metisMenu();
-            }, 2000);
+            //$timeout(function () {
+            //    $('#side-menu').metisMenu();
+            //}, 2000);
 
             $scope.selectedMenu = $location.path();
             $scope.collapseVar = 0;
@@ -101,7 +111,7 @@ app.directive('sidebar', ['$location', function () {
             };
 
             // breadcrumb function changes breadcrumb items and itemlist must be list
-            $scope.breadcrumb = function(itemlist){
+            $scope.breadcrumb = function (itemlist) {
                 $rootScope.breadcrumblinks = itemlist;
                 // showSaveButton is used for to show or not to show save button on top of the page
                 $rootScope.showSaveButton = false;

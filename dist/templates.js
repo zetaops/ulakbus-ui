@@ -200,13 +200,16 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "        <div class=\"row\">\n" +
     "            <div class=\"major-buttons\">\n" +
     "                <div class=\"col-md-4\">\n" +
-    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-personnel brand-bg\"><i class=\"fa fa-user\"></i> PERSONEL İŞLERİ</button></a>\n" +
+    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-personnel brand-bg\" ng-click=\"section(2)\"><i class=\"fa fa-user\"></i>\n" +
+    "                        PERSONEL İŞLERİ</button></a>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-4\">\n" +
-    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-student brand-bg\"><i class=\"fa fa-graduation-cap\"></i> ÖĞRENCİ İŞLERİ</button></a>\n" +
+    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-student brand-bg\" ng-click=\"section(0)\"><i\n" +
+    "                            class=\"fa fa-graduation-cap\"></i> ÖĞRENCİ İŞLERİ</button></a>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-4\">\n" +
-    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-system brand-bg\"><i class=\"fa fa-gears\"></i> SİSTEM</button></a>\n" +
+    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-system brand-bg\" ng-click=\"section(3)\"><i class=\"fa fa-gears\"></i>\n" +
+    "                        SİSTEM</button></a>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
