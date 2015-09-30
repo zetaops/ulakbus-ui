@@ -70,7 +70,7 @@ app.directive('sidebar', ['$location', function () {
                 // at start define breadcrumblinks for breadcrumb
                 angular.forEach(data.app_models, function (value, key) {
                     angular.forEach(value[1], function (v, k) {
-                        if (v[1] == $location.path().split('/')[1]) {
+                        if (v[1] == $location.path().split('/')[2]) {
                             $rootScope.breadcrumblinks = [value[0], v[0]];
                             $scope.menuItems = [$scope.allMenuItems[key]];
                         } else {

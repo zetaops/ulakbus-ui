@@ -13,7 +13,8 @@
                 <a href="" ng-click="check($index+1)"><i class="fa fa-wrench fa-fw"></i> {{ item[0] }}<span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li ng-repeat="(k, v) in item[1]"><a href="#/{{v[1]}}" ng-click="breadcrumb([item[0], v[0]])">{{v[0]}}</a></li>
+                    <li ng-repeat="(k, v) in item[1]"><a href="#/crud/{{v[1]}}"
+                                                         ng-click="breadcrumb([item[0], v[0]])">{{v[0]}}</a></li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
