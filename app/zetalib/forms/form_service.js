@@ -7,7 +7,7 @@
 
 var form_generator = angular.module('formService', ['general']);
 
-form_generator.factory('Generator', function ($http, $q, $log, $location, $modal, $timeout, RESTURL, FormDiff) {
+form_generator.factory('Generator', function ($http, $q, $log, $location, $modal, $timeout, RESTURL, FormDiff, $rootScope) {
     var generator = {};
     generator.makeUrl = function (url) {
         return RESTURL.url + url;
@@ -37,7 +37,11 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
 
         scope.object_id = scope.form_params['object_id'];
 
-        return generator.group(scope);
+        // showSaveButton is used for to show or not to show save button on top of the page
+        // here change to true because the view retrieves form from api
+        $rootScope.showSaveButton = true;
+
+        return scope;
     };
     generator.group = function (formObject) {
         return formObject;
@@ -54,16 +58,18 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                 scope.model[v] = generator.dateformatter(scope.model[v]);
 
                 // seek for datepicker field and initialize datepicker
-                scope.$watch($('#' + v), function () {
+                //scope.$watch($('#' + v), function () {
                     $timeout(function () {
                         jQuery('#' + v).datepicker({
+                            changeMonth: true,
+                            changeYear: true,
                             dateFormat: "dd.mm.yy",
                             onSelect: function (date) {
                                 scope.model[v] = date;
                             }
                         });
                     });
-                });
+                //});
             }
 
             if (k.type == 'int' || k.type == 'float') {
@@ -195,11 +201,26 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
         var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
         return re.test(email);
     };
+    generator.isValidTCNo = function(tcno) {
+        var re = /^([1-9]{1}[0-9]{9}[0,2,4,6,8]{1})$/i;
+        return re.test(tcno);
+    };
     generator.asyncValidators = {
         emailNotValid: function (value) {
             var deferred = $q.defer();
             $timeout(function () {
                 if (generator.isValidEmail(value)) {
+                    deferred.resolve();
+                } else {
+                    deferred.reject();
+                }
+            }, 500);
+            return deferred.promise;
+        },
+        tcNoNotValid: function (value) {
+            var deferred = $q.defer();
+            $timeout(function () {
+                if (generator.isValidTCNo(value)) {
                     deferred.resolve();
                 } else {
                     deferred.reject();
@@ -228,8 +249,6 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
             data.object_id = $scope.object_id;
             //data.form = get_diff;
         }
-
-        debugger;
 
         return $http.post(generator.makeUrl($scope.url), data);
             //.success(function () {
@@ -263,6 +282,7 @@ form_generator.controller('ModalCtrl', function ($scope, $modalInstance, Generat
         $scope.$broadcast('schemaFormValidate');
         console.log(form.$valid);
         //if(form.$valid){
+        // todo: change to if form valid
         if (1 == 1) {
             // send form to modalinstance result function
             $modalInstance.close($scope);
@@ -360,8 +380,7 @@ form_generator.directive('addModalForLinkedModel', function ($modal, Generator) 
                 });
 
                 modalInstance.result.then(function (childmodel, key) {
-                    // todo: run form validator here
-                    Generator.submit(scope);
+                    Generator.submit(childmodel);
                 });
             });
         }
@@ -373,6 +392,8 @@ form_generator.directive('addModalForLinkedModel', function ($modal, Generator) 
  * @params: $modal, Generator
  * @return: openmodal directive
  */
+
+// todo: useless modal check if any use cases?? and delete if useless
 
 form_generator.directive('editModalForLinkedModel', function ($modal, Generator) {
     return {
@@ -394,8 +415,7 @@ form_generator.directive('editModalForLinkedModel', function ($modal, Generator)
                 });
 
                 modalInstance.result.then(function (childmodel, key) {
-                    // todo: run form validator here
-                    Generator.submit(scope);
+                    Generator.submit(childmodel);
                 });
             });
         }

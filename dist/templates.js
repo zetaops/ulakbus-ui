@@ -200,13 +200,16 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "        <div class=\"row\">\n" +
     "            <div class=\"major-buttons\">\n" +
     "                <div class=\"col-md-4\">\n" +
-    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-personnel brand-bg\"><i class=\"fa fa-user\"></i> PERSONEL İŞLERİ</button></a>\n" +
+    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-personnel brand-bg\" ng-click=\"section(2)\"><i class=\"fa fa-user\"></i>\n" +
+    "                        PERSONEL İŞLERİ</button></a>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-4\">\n" +
-    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-student brand-bg\"><i class=\"fa fa-graduation-cap\"></i> ÖĞRENCİ İŞLERİ</button></a>\n" +
+    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-student brand-bg\" ng-click=\"section(0)\"><i\n" +
+    "                            class=\"fa fa-graduation-cap\"></i> ÖĞRENCİ İŞLERİ</button></a>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-4\">\n" +
-    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-system brand-bg\"><i class=\"fa fa-gears\"></i> SİSTEM</button></a>\n" +
+    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-system brand-bg\" ng-click=\"section(3)\"><i class=\"fa fa-gears\"></i>\n" +
+    "                        SİSTEM</button></a>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
@@ -863,8 +866,12 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
 angular.module("shared/templates/directives/header-sub-menu.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/header-sub-menu.html",
     "<div class=\"manager-view-header container-fluid\" ng-class=\"{hidden: $root.loggedInUser != true}\">\n" +
-    "    <header-breadcrumb></header-breadcrumb>\n" +
-    "    <div id=\"header-buttons\">\n" +
+    "    <div class=\"clearfix\">\n" +
+    "        <header-breadcrumb></header-breadcrumb>\n" +
+    "        <loaderdiv><div></div></loaderdiv>\n" +
+    "        <!--<div class=\"loader\">Loading...</div>-->\n" +
+    "    </div>\n" +
+    "    <div id=\"header-buttons\" ng-class=\"{hidden: $root.showSaveButton != true}\">\n" +
     "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"triggerSubmit()\">Kaydet</button>\n" +
     "        <!--<button type=\"button\" class=\"btn btn-warning\">Düzenle</button>-->\n" +
     "        <!--<button type=\"button\" class=\"btn btn-danger\">İptal</button>-->\n" +
@@ -949,7 +956,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "                <a href=\"\" ng-click=\"check($index+1)\"><i class=\"fa fa-wrench fa-fw\"></i> {{ item[0] }}<span\n" +
     "                        class=\"fa arrow\"></span></a>\n" +
     "                <ul class=\"nav nav-second-level\">\n" +
-    "                    <li ng-repeat=\"(k, v) in item[1]\"><a href=\"#/{{v[1]}}\" ng-click=\"breadcrumb([item[0], v[0]])\">{{v[1]}}</a></li>\n" +
+    "                    <li ng-repeat=\"(k, v) in item[1]\"><a href=\"#/{{v[1]}}\" ng-click=\"breadcrumb([item[0], v[0]])\">{{v[0]}}</a></li>\n" +
     "                </ul>\n" +
     "                <!-- /.nav-second-level -->\n" +
     "            </li>\n" +
@@ -957,7 +964,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "    </div>\n" +
     "    <!-- /.sidebar-collapse -->\n" +
     "    <footer>\n" +
-    "    	<span>v <app-version></app-version> ® ZetaOps</span>\n" +
+    "    	<span>v <app-version></app-version> &copy; ZetaOps</span>\n" +
     "    </footer>\n" +
     "</div>\n" +
     "");

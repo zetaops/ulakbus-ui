@@ -56,6 +56,8 @@ app.config(['$httpProvider', function ($httpProvider) {
                 }
                 if(rejection.status === 403) {
                     if (rejection.data.is_login == true){
+                        $rootScope.loggedInUser = true;
+                        console.log('user logged in');
                         if($location.path()==="/login"){
                             $location.path("/dashboard");
                         }
