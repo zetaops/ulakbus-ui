@@ -1,5 +1,5 @@
 <div class="starter-template">
-    <h1>{{model}} <a href="#/{{model}}/add"><button type="button" class="btn btn-primary">Ekle</button></a></h1>
+    <h1>{{model}} <a href="#/crud/{{model}}/add"><button type="button" class="btn btn-primary">Ekle</button></a></h1>
     <div class="tablescroll">
         <table class="table table-bordered" style="background-color:#fff;">
             <thead>
@@ -24,15 +24,15 @@
                 </td>
                 <th scope="row" style="text-align:center">{{$index}}</th>
                 <td ng-repeat="k in object" ng-if="nobjects[0]=='-1' && $index>0">
-                    <a ng-href="#/{{model}}/{{object[0]}}">{{object[1]}}</a>
+                    <a ng-href="#/crud/{{model}}/{{object[0]}}">{{object[1]}}</a>
                 </td>
 
                 <td ng-repeat="(key,value) in object" ng-if="nobjects[0]!='-1' && $index>0">
-                    <a ng-href="#/{{model}}/{{object[0]}}" ng-if="$index==1">{{value}}</a>
+                    <a ng-href="#/crud/{{model}}/{{object[0]}}" ng-if="$index==1">{{value}}</a>
                     <span ng-if="$index!=1">{{value}}</span>
                 </td>
                 <td>
-                    <a ng-href="#/{{model}}/edit/{{object[0]}}">Edit</a><br>
+                    <a ng-href="#/crud/{{model}}/edit/{{object[0]}}">Edit</a><br>
                 </td>
             </tr>
             </tbody>
