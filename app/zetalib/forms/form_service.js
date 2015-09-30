@@ -281,8 +281,9 @@ form_generator.controller('ModalCtrl', function ($scope, $modalInstance, Generat
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         console.log(form.$valid);
-        if(form.$valid){
-        //if (1 == 1) {
+        //if(form.$valid){
+        // todo: change to if form valid
+        if (1 == 1) {
             // send form to modalinstance result function
             $modalInstance.close($scope);
 
@@ -370,7 +371,6 @@ form_generator.directive('addModalForLinkedModel', function ($modal, Generator) 
                     size: 'lg',
                     resolve: {
                         items: function () {
-
                             return Generator.get_form({
                                 url: 'crud',
                                 form_params: {'model': scope.form.model_name, "cmd": "add"}
@@ -380,7 +380,6 @@ form_generator.directive('addModalForLinkedModel', function ($modal, Generator) 
                 });
 
                 modalInstance.result.then(function (childmodel, key) {
-                    // todo: run form validator here
                     Generator.submit(childmodel);
                 });
             });
@@ -393,6 +392,8 @@ form_generator.directive('addModalForLinkedModel', function ($modal, Generator) 
  * @params: $modal, Generator
  * @return: openmodal directive
  */
+
+// todo: useless modal check if any use cases?? and delete if useless
 
 form_generator.directive('editModalForLinkedModel', function ($modal, Generator) {
     return {
@@ -414,8 +415,7 @@ form_generator.directive('editModalForLinkedModel', function ($modal, Generator)
                 });
 
                 modalInstance.result.then(function (childmodel, key) {
-                    // todo: run form validator here
-                    Generator.submit(scope);
+                    Generator.submit(childmodel);
                 });
             });
         }
