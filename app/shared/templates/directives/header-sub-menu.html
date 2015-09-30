@@ -1,5 +1,8 @@
 <div class="manager-view-header container-fluid" ng-class="{hidden: $root.loggedInUser != true}">
-    <header-breadcrumb></header-breadcrumb>
+    <div class="clearfix">
+        <header-breadcrumb></header-breadcrumb>
+        <div class="loader">Loading...</div>
+    </div>
     <div id="header-buttons" ng-class="{hidden: $root.showSaveButton != true}">
         <button type="button" class="btn btn-primary" ng-click="triggerSubmit()">Kaydet</button>
         <!--<button type="button" class="btn btn-warning">Düzenle</button>-->
