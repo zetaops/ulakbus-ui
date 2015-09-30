@@ -866,7 +866,11 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
 angular.module("shared/templates/directives/header-sub-menu.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/header-sub-menu.html",
     "<div class=\"manager-view-header container-fluid\" ng-class=\"{hidden: $root.loggedInUser != true}\">\n" +
-    "    <header-breadcrumb></header-breadcrumb>\n" +
+    "    <div class=\"clearfix\">\n" +
+    "        <header-breadcrumb></header-breadcrumb>\n" +
+    "        <loaderdiv><div></div></loaderdiv>\n" +
+    "        <!--<div class=\"loader\">Loading...</div>-->\n" +
+    "    </div>\n" +
     "    <div id=\"header-buttons\" ng-class=\"{hidden: $root.showSaveButton != true}\">\n" +
     "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"triggerSubmit()\">Kaydet</button>\n" +
     "        <!--<button type=\"button\" class=\"btn btn-warning\">Düzenle</button>-->\n" +
