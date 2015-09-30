@@ -41,7 +41,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
         // here change to true because the view retrieves form from api
         $rootScope.showSaveButton = true;
 
-        return generator.group(scope);
+        return scope;
     };
     generator.group = function (formObject) {
         return formObject;
@@ -58,16 +58,18 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                 scope.model[v] = generator.dateformatter(scope.model[v]);
 
                 // seek for datepicker field and initialize datepicker
-                scope.$watch($('#' + v), function () {
+                //scope.$watch($('#' + v), function () {
                     $timeout(function () {
                         jQuery('#' + v).datepicker({
+                            changeMonth: true,
+                            changeYear: true,
                             dateFormat: "dd.mm.yy",
                             onSelect: function (date) {
                                 scope.model[v] = date;
                             }
                         });
                     });
-                });
+                //});
             }
 
             if (k.type == 'int' || k.type == 'float') {
@@ -248,8 +250,6 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
             //data.form = get_diff;
         }
 
-        debugger;
-
         return $http.post(generator.makeUrl($scope.url), data);
             //.success(function () {
             //
@@ -281,8 +281,8 @@ form_generator.controller('ModalCtrl', function ($scope, $modalInstance, Generat
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         console.log(form.$valid);
-        //if(form.$valid){
-        if (1 == 1) {
+        if(form.$valid){
+        //if (1 == 1) {
             // send form to modalinstance result function
             $modalInstance.close($scope);
 
@@ -370,6 +370,7 @@ form_generator.directive('addModalForLinkedModel', function ($modal, Generator) 
                     size: 'lg',
                     resolve: {
                         items: function () {
+
                             return Generator.get_form({
                                 url: 'crud',
                                 form_params: {'model': scope.form.model_name, "cmd": "add"}
@@ -380,7 +381,7 @@ form_generator.directive('addModalForLinkedModel', function ($modal, Generator) 
 
                 modalInstance.result.then(function (childmodel, key) {
                     // todo: run form validator here
-                    Generator.submit(scope);
+                    Generator.submit(childmodel);
                 });
             });
         }
