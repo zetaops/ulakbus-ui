@@ -49,6 +49,7 @@ a:hover {
     background-color:transparent;
     padding:0;
     font-size:18px;
+	float:left;
 }
 
 /** BRAND **/
@@ -84,6 +85,56 @@ button.brand-bg:hover {
 }
 
 /** END OF BRAND **/
+
+
+/** LOADER **/
+
+.loader {
+  font-size: 2px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(166, 12, 41, 0.2);
+  border-right: 1.1em solid rgba(166, 12, 41, 0.2);
+  border-bottom: 1.1em solid rgba(166, 12, 41, 0.2);
+  border-left: 1.1em solid #A61229;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+  float: left;
+  margin-left: 10px;
+  margin-top: 3px;
+}
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 10em;
+  height: 10em;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+/** END OF LOADER **/
+
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
@@ -1015,6 +1066,15 @@ table.dataTable thead .sorting:after {
     body {
         overflow:auto;
     }
+	
+	.sidebar footer {
+		text-align: center;
+    	font-family: 'robotomedium';
+		background-color: #F1F1F1;
+		padding: 15px;
+		color: #A7A7A7;
+		border-bottom: 1px solid #ccc;	
+	}
 }
 
 
