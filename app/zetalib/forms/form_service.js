@@ -7,7 +7,7 @@
 
 var form_generator = angular.module('formService', ['general']);
 
-form_generator.factory('Generator', function ($http, $q, $log, $location, $modal, $timeout, RESTURL, FormDiff, $rootScope) {
+form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, FormDiff, $rootScope) {
     var generator = {};
     generator.makeUrl = function (url) {
         return RESTURL.url + url;
@@ -35,7 +35,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
 
         generator.prepareFormItems(scope);
 
-        scope.object_id = scope.form_params['object_id'];
+        scope.object_id = scope.form_params.object_id;
 
         // showSaveButton is used for to show or not to show save button on top of the page
         // here change to true because the view retrieves form from api
@@ -53,32 +53,29 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
         angular.forEach(scope.schema.properties, function (k, v) {
             // check if type is date and if type date found change it to string
 
-            if (k.type == 'date') {
+            if (k.type === 'date') {
                 k.type = 'string';
                 scope.model[v] = generator.dateformatter(scope.model[v]);
 
-                // seek for datepicker field and initialize datepicker
-                //scope.$watch($('#' + v), function () {
-                    $timeout(function () {
-                        jQuery('#' + v).datepicker({
-                            changeMonth: true,
-                            changeYear: true,
-                            dateFormat: "dd.mm.yy",
-                            onSelect: function (date) {
-                                scope.model[v] = date;
-                            }
-                        });
+                $timeout(function () {
+                    jQuery('#' + v).datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: "dd.mm.yy",
+                        onSelect: function (date) {
+                            scope.model[v] = date;
+                        }
                     });
-                //});
+                });
             }
 
-            if (k.type == 'int' || k.type == 'float') {
+            if (k.type === 'int' || k.type === 'float') {
                 k.type = 'number';
             }
 
             // if type is model use foreignKey.html template to show them
 
-            if (k.type == 'model') {
+            if (k.type === 'model') {
 
                 var formitem = scope.form[scope.form.indexOf(v)];
                 var modelscope = {"url": scope.url, "form_params": {model: k.model_name}};
@@ -93,7 +90,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                         angular.forEach(res.data.objects, function (item) {
                             formitem.titleMap.push({
                                 "value": item.key,
-                                "name": item.data.name ? item.data.name : item.data.username
+                                "name": item.data.name || item.data.username
                             });
                         });
                     }),
@@ -113,9 +110,9 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                 //}
             }
 
-            if (k.type == 'ListNode' || k.type == 'Node') {
+            if (k.type === 'ListNode' || k.type === 'Node') {
 
-                scope[k.type] = scope[k.type] ? scope[k.type] : {};
+                scope[k.type] = scope[k.type] || {};
 
                 scope[k.type][v] = {
                     title: k.title,
@@ -131,8 +128,8 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                     url: scope.url
                 };
 
-                if (scope.model[v] == null) {
-                    scope[k.type][v].model = k.type == 'Node' ? {} : [];
+                if (scope.model[v] === null) {
+                    scope[k.type][v].model = k.type === 'Node' ? {} : [];
                 } else {
                     scope[k.type][v].model = scope.model[v];
                 }
@@ -141,12 +138,12 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
                     scope[k.type][v].schema.properties[item.name] = item;
 
                     // prepare required fields
-                    if (item.required == true && item.name != 'idx') {
+                    if (item.required === true && item.name !== 'idx') {
                         scope[k.type][v].schema.required.push(item.name);
                     }
 
                     // idx field must be hidden
-                    if (item.name == 'idx') {
+                    if (item.name === 'idx') {
                         scope[k.type][v].form.push({type: 'string', key: item.name, htmlClass: 'hidden'});
                     } else {
                         scope[k.type][v].form.push(item.name);
@@ -165,8 +162,8 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
     };
     generator.dateformatter = function (formObject) {
         var ndate = new Date(formObject);
-        if (ndate == 'Invalid Date') {
-            return ''
+        if (ndate === 'Invalid Date') {
+            return '';
         }
         var newdatearray = [ndate.getDate(), ndate.getMonth(), ndate.getFullYear()];
         return newdatearray.join('.');
@@ -201,7 +198,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
         var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
         return re.test(email);
     };
-    generator.isValidTCNo = function(tcno) {
+    generator.isValidTCNo = function (tcno) {
         var re = /^([1-9]{1}[0-9]{9}[0,2,4,6,8]{1})$/i;
         return re.test(tcno);
     };
@@ -271,7 +268,7 @@ form_generator.factory('Generator', function ($http, $q, $log, $location, $modal
  * @returns: returns value for modal
  */
 
-form_generator.controller('ModalCtrl', function ($scope, $modalInstance, Generator, $route, items) {
+form_generator.controller('ModalCtrl', function ($scope, $modalInstance, Generator, items) {
     angular.forEach(items, function (value, key) {
         $scope[key] = items[key];
     });
@@ -283,7 +280,7 @@ form_generator.controller('ModalCtrl', function ($scope, $modalInstance, Generat
         console.log(form.$valid);
         //if(form.$valid){
         // todo: change to if form valid
-        if (1 == 1) {
+        if (1 === 1) {
             // send form to modalinstance result function
             $modalInstance.close($scope);
 
@@ -311,17 +308,17 @@ form_generator.directive('modalForNodes', function ($modal) {
                     size: 'lg',
                     resolve: {
                         items: function () {
-                            var attribs = attributes['modalForNodes'].split(',');
+                            var attribs = attributes.modalForNodes.split(',');
                             // get node from parent scope catch with attribute
                             var node = angular.copy(scope.$parent[attribs[1]][attribs[0]]);
 
-                            if(attribs[2] == 'add'){
+                            if (attribs[2] === 'add') {
                                 node.model = {};
                             }
 
-                            if(attribs[3]){
+                            if (attribs[3]) {
                                 // if listnode catch edit object with index
-                                node.model=node.model[attribs[3]];
+                                node.model = node.model[attribs[3]];
                             }
 
                             // tell result.then function which item to edit
@@ -334,12 +331,12 @@ form_generator.directive('modalForNodes', function ($modal) {
 
                 modalInstance.result.then(function (childmodel, key) {
 
-                    if (childmodel.schema.formType == 'Node') {
+                    if (childmodel.schema.formType === 'Node') {
                         scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model = childmodel.model;
                     }
 
-                    if (childmodel.schema.formType == 'ListNode') {
-                        if(childmodel.edit){
+                    if (childmodel.schema.formType === 'ListNode') {
+                        if (childmodel.edit) {
                             scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model[childmodel.edit] = childmodel.model;
                         } else {
                             scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model.push(childmodel.model);
@@ -350,7 +347,7 @@ form_generator.directive('modalForNodes', function ($modal) {
                 });
             });
         }
-    }
+    };
 });
 
 
@@ -384,7 +381,7 @@ form_generator.directive('addModalForLinkedModel', function ($modal, Generator) 
                 });
             });
         }
-    }
+    };
 });
 
 /**
@@ -419,5 +416,5 @@ form_generator.directive('editModalForLinkedModel', function ($modal, Generator)
                 });
             });
         }
-    }
+    };
 });

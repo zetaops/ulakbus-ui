@@ -9,7 +9,7 @@
 
 // TODO: login url change with correct one
 
-auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cookies, $window, Session, RESTURL) {
+auth.factory('LoginService', function ($http, $rootScope, $location, $log, Session, RESTURL) {
     var loginService = {};
 
     loginService.login = function (url, credentials) {
@@ -22,35 +22,18 @@ auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cook
                 $rootScope.loggedInUser = true;
             })
             .error(function (data, status, headers, config) {
-                // Erase the token if the user fails to log in
-                //delete $window.sessionStorage.token;
-
                 // Handle login errors here
                 return data;
             });
-            //.then(function (res) {
-            //    $log.info(res.data[0]);
-            //    res.data = res.data[0];
-            //    if (res.data.success) {
-            //        $rootScope.loggedInUser = true;
-            //        $location.path("/dashboard");
-            //        var session = Session.create(res.data.id, res.data.user.id,
-            //            res.data.user.role);
-            //        $log.info(session);
-            //        $cookies.put('sessionId', 123456);
-            //        console.log($cookies.getAll());
-            //        return res.data.user;
-            //    }
-            //});
     };
 
-    loginService.logout = function() {
-        console.log("logout");
-        $http.post(RESTURL.url + 'logout', {}).then(function(){
+    loginService.logout = function () {
+        $log.info("logout");
+        return $http.post(RESTURL.url + 'logout', {}).success(function (data) {
             $rootScope.loggedInUser = false;
             $location.path("/login");
         });
-        console.log("loggedout");
+        $log.info("loggedout");
 
     };
 

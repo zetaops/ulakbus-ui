@@ -73,11 +73,25 @@ module.exports = function (config) {
 
         preprocessors: {
             'app/app.js': ['coverage'],
-            'app/components/**/*.js': ['coverage'],
+            'app/components/auth/*.js': ['coverage'],
+            'app/components/crud/*.js': ['coverage'],
+            'app/components/dashboard/*.js': ['coverage'],
+            'app/components/version/*.js': ['coverage'],
             'app/zetalib/**/*.js': ['coverage']
         },
 
         coverageReporter: {
+            check: {
+                global: {
+                    statements: 60,
+                    branches: 10,
+                    functions: 60,
+                    lines: 60,
+                    excludes: [
+                        'app/components/uitemplates/*.js',
+                    ]
+                }
+            },
             type : 'html',
             dir : 'coverage/'
         }

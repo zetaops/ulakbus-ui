@@ -11,8 +11,8 @@
 
 angular.module('ulakbus.dashboard', ['ngRoute'])
 
-    .controller('DashCtrl', function ($scope, $rootScope, $location) {
-        $scope.section = function(section_index){
+    .controller('DashCtrl', function ($scope, $rootScope) {
+        $scope.section = function (section_index) {
             $rootScope.section = section_index;
-        }
+        };
     });
