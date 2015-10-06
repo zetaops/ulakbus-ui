@@ -329,6 +329,6 @@ module.exports = function (grunt) {
             'preprocess:prod_branch',
             'html2js:prod_branch',
             'uglify:branch'
-        ])
+        ]);
     });
 };
