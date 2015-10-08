@@ -10,14 +10,14 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'components/dashboard/dashboard.html',
             controller: 'DashCtrl'
         })
-        .when('/500', {
-            templateUrl: 'components/uitemplates/500.html',
-            controller: '500Ctrl'
-        })
-        .when('/404', {
-            templateUrl: 'components/uitemplates/404.html',
-            controller: '404Ctrl'
-        })
+        // .when('/500', {
+        //     templateUrl: 'components/uitemplates/500.html',
+        //     controller: '500Ctrl'
+        // })
+        // .when('/404', {
+        //     templateUrl: 'components/uitemplates/404.html',
+        //     controller: '404Ctrl'
+        // })
         .when('/crud/:model/add', {
             templateUrl: 'components/crud/templates/add.html',
             controller: 'CRUDAddEditCtrl'
