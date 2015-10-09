@@ -40,6 +40,26 @@ app.directive('headerNotification', function ($http, $interval) {
     };
 });
 
+app.directive('collapseMenu', function () {
+    return {
+        templateUrl: 'shared/templates/directives/menuCollapse.html',
+        restrict: 'E',
+        replace: true,
+        link: function ($scope) {
+            $scope.collapsed = false;
+            $scope.collapseToggle = function () {
+                if ($scope.collapsed === false) {
+                    jQuery(".manager-view").css("z-index" , "9999").css("width" , "100%");
+                    $scope.collapsed = true;
+                } else {
+                    jQuery(".manager-view").css("z-index" , "0").css("width" , "calc(100% - 250px)");
+                    $scope.collapsed = false;
+                }
+            };
+        }
+    };
+});
+
 app.directive('headerSubMenu', function () {
     return {
         templateUrl: 'shared/templates/directives/header-sub-menu.html',
@@ -94,17 +114,9 @@ app.directive('sidebar', ['$location', function () {
                         $scope.collapseVar = 1;
                         $timeout(function () {
                             $('#side-menu').metisMenu();
-                            $(".sidebar-collapse-button").click(function() {
-                                $(".manager-view").css("z-index" , "9999").css("width" , "100%");
-                            });
                         });
                     }
                 });
-
-            // todo: change to $watch to init
-            //$timeout(function () {
-            //    $('#side-menu').metisMenu();
-            //}, 2000);
 
             $scope.selectedMenu = $location.path();
             $scope.collapseVar = 0;
