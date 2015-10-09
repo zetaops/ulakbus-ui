@@ -14,23 +14,30 @@ app.directive('logout', function ($http, $location, RESTURL) {
             $element.on('click', function () {
                 $http.post(RESTURL.url + 'logout', {}).then(function () {
                     $rootScope.loggedInUser = false;
-                    console.log($rootScope.loggedInUser);
                     $location.path("/login");
                 });
             });
         }
-    }
+    };
 });
 
 /**
  * headerNotification directive for header
  */
-app.directive('headerNotification', function () {
+app.directive('headerNotification', function ($http, $interval) {
     return {
         templateUrl: 'shared/templates/directives/header-notification.html',
         restrict: 'E',
-        replace: true
-    }
+        replace: true,
+        link: function ($scope) {
+            $interval(function () {
+                // todo: change url to backend
+                $http.get("http://google.com").success(function (data) {
+                    $scope.notifications = data;
+                });
+            }, 15000);
+        }
+    };
 });
 
 app.directive('headerSubMenu', function () {
@@ -44,9 +51,9 @@ app.directive('headerSubMenu', function () {
                 // todo: double make it but single not solve this!
                 angular.element($('#submitbutton')).triggerHandler('click');
                 angular.element($('#submitbutton')).triggerHandler('click');
-            }
+            };
         }
-    }
+    };
 });
 
 app.directive('headerBreadcrumb', function () {
@@ -54,7 +61,7 @@ app.directive('headerBreadcrumb', function () {
         templateUrl: 'shared/templates/directives/header-breadcrumb.html',
         restrict: 'E',
         replace: true
-    }
+    };
 });
 
 app.directive('sidebar', ['$location', function () {
@@ -65,12 +72,12 @@ app.directive('sidebar', ['$location', function () {
         scope: {},
         controller: function ($scope, $rootScope, $http, RESTURL, $location, $timeout) {
             $http.post(RESTURL.url + 'crud/').success(function (data) {
-                $scope.allMenuItems = data.app_models;
+                $scope.allMenuItems = angular.copy(data.app_models);
                 $scope.menuItems = []; // angular.copy($scope.allMenuItems);
                 // at start define breadcrumblinks for breadcrumb
                 angular.forEach(data.app_models, function (value, key) {
                     angular.forEach(value[1], function (v, k) {
-                        if (v[1] == $location.path().split('/')[2]) {
+                        if (v[1] === $location.path().split('/')[2]) {
                             $rootScope.breadcrumblinks = [value[0], v[0]];
                             $scope.menuItems = [$scope.allMenuItems[key]];
                         } else {
@@ -80,17 +87,16 @@ app.directive('sidebar', ['$location', function () {
                 });
             });
 
-            $rootScope.$watch(function($rootScope) {return $rootScope.section},
-                function(newindex, oldindex){
-                    if(newindex > -1){
+            $rootScope.$watch(function ($rootScope) {return $rootScope.section; },
+                function (newindex, oldindex) {
+                    if (newindex > -1) {
                         $scope.menuItems = [$scope.allMenuItems[newindex]];
                         $scope.collapseVar = 1;
                         $timeout(function () {
                             $('#side-menu').metisMenu();
                         });
                     }
-                }
-            );
+                });
 
             // todo: change to $watch to init
             //$timeout(function () {
@@ -103,10 +109,11 @@ app.directive('sidebar', ['$location', function () {
 
             $scope.check = function (x) {
 
-                if (x == $scope.collapseVar)
+                if (x === $scope.collapseVar) {
                     $scope.collapseVar = 0;
-                else
+                } else {
                     $scope.collapseVar = x;
+                }
 
             };
 
@@ -119,14 +126,15 @@ app.directive('sidebar', ['$location', function () {
 
             $scope.multiCheck = function (y) {
 
-                if (y == $scope.multiCollapseVar)
+                if (y === $scope.multiCollapseVar) {
                     $scope.multiCollapseVar = 0;
-                else
+                } else {
                     $scope.multiCollapseVar = y;
+                }
             };
 
         }
-    }
+    };
 }]);
 
 app.directive('stats', function () {
@@ -145,7 +153,7 @@ app.directive('stats', function () {
             'goto': '@'
         }
 
-    }
+    };
 });
 
 app.directive('notifications', function () {
@@ -153,7 +161,7 @@ app.directive('notifications', function () {
         templateUrl: 'shared/templates/directives/notifications.html',
         restrict: 'E',
         replace: true,
-    }
+    };
 });
 
 app.directive('sidebarSearch', function () {
@@ -165,7 +173,7 @@ app.directive('sidebarSearch', function () {
         controller: function ($scope) {
             $scope.selectedMenu = 'home';
         }
-    }
+    };
 });
 
 app.directive('timeline', function () {
@@ -173,7 +181,7 @@ app.directive('timeline', function () {
         templateUrl: 'shared/templates/directives/timeline.html',
         restrict: 'E',
         replace: true,
-    }
+    };
 });
 
 app.directive('chat', function () {
@@ -181,5 +189,5 @@ app.directive('chat', function () {
         templateUrl: 'shared/templates/directives/chat.html',
         restrict: 'E',
         replace: true,
-    }
+    };
 });

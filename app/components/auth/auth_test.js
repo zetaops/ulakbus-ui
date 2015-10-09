@@ -7,8 +7,6 @@
 
 'use strict';
 
-// TODO: fill up the test cases correctly
-
 describe('ulakbus.auth module', function () {
 
     // load dependencies of modules e.g REST_URL
@@ -54,7 +52,7 @@ describe('ulakbus.auth module', function () {
                 }])
         );
 
-        it('ensures user can log in', function () {
+        it('ensures user can log in', function (LoginService, $httpBackend, RESTURL) {
             // todo: after backend api ready implement this
         });
 
@@ -85,19 +83,22 @@ describe('ulakbus.auth module', function () {
             })
         );
 
-        // todo: test in case of 401 reload
+        it('should logout',
+            inject(function (LoginService, $httpBackend, $location, RESTURL) {
 
-        //it('unauthorized 401 should redirect to login',
-        //    inject(function ($httpBackend, $http, $location, $window) {
-        //
-        //        $httpBackend.whenGET('http://127.0.0.1:8000/#/dashboard').respond(401, '');
-        //
-        //        $http.get('http://127.0.0.1:8000/#/dashboard');
-        //        expect($window.location == '/#/login');
-        //
-        //        $httpBackend.flush();
-        //    })
-        //);
+                // use httpBackend to imitate login api
 
+                $httpBackend.expectPOST(RESTURL.url + 'logout', {})
+                    .respond(200, {
+                        is_login: false
+                    });
+
+                LoginService.logout().success(function (data) {
+                    expect(data.is_login).toBe(false);
+                });
+
+                $httpBackend.flush();
+            })
+        );
     });
 });
