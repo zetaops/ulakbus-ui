@@ -94,6 +94,9 @@ app.directive('sidebar', ['$location', function () {
                         $scope.collapseVar = 1;
                         $timeout(function () {
                             $('#side-menu').metisMenu();
+                            $(".sidebar-collapse-button").click(function() {
+                                $(".manager-view").css("z-index" , "9999").css("width" , "100%");
+                            });
                         });
                     }
                 });
