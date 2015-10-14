@@ -24,7 +24,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
 /**
  * headerNotification directive for header
  */
-app.directive('headerNotification', function ($http, $interval) {
+app.directive('headerNotification', function ($http, $interval, RESTURL) {
     return {
         templateUrl: 'shared/templates/directives/header-notification.html',
         restrict: 'E',
@@ -32,7 +32,7 @@ app.directive('headerNotification', function ($http, $interval) {
         link: function ($scope) {
             $interval(function () {
                 // todo: change url to backend
-                $http.get("http://google.com").success(function (data) {
+                $http.post(RESTURL+"crud").success(function (data) {
                     $scope.notifications = data;
                 });
             }, 15000);

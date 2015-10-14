@@ -104,3 +104,6 @@ docs/_build/
 target/
 
 coverage/
+
+sync
+*.rdb

@@ -41,11 +41,11 @@ app.config(['$httpProvider', function ($httpProvider) {
             },
             'responseError': function (rejection) {
                 // if unauthorized then redirect to login page
+
                 if (rejection.status === 400) {
                     $location.reload();
                 }
                 if (rejection.status === 401) {
-                    //$rootScope.loggedInUser = false;
                     if ($location.path() === "/login") {
                         console.log("show errors on login form");
                     } else {
@@ -55,16 +55,17 @@ app.config(['$httpProvider', function ($httpProvider) {
                 if (rejection.status === 403) {
                     if (rejection.data.is_login === true) {
                         $rootScope.loggedInUser = true;
-                        console.log('user logged in');
                         if ($location.path() === "/login") {
                             $location.path("/dashboard");
                         }
                     }
                 }
                 if (rejection.status === 404) {
+                    console.log(404);
                     $location.path("/404");
                 }
-                if (rejection.status === 500) {
+                // server 500 error returns with -1 on status.
+                if (rejection.status === -1 && rejection.config.data.model) {
                     $location.path("/500");
                 }
                 return $q.reject(rejection);
