@@ -24,7 +24,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
 /**
  * headerNotification directive for header
  */
-app.directive('headerNotification', function ($http, $interval) {
+app.directive('headerNotification', function ($http, $interval, RESTURL) {
     return {
         templateUrl: 'shared/templates/directives/header-notification.html',
         restrict: 'E',
@@ -32,10 +32,30 @@ app.directive('headerNotification', function ($http, $interval) {
         link: function ($scope) {
             $interval(function () {
                 // todo: change url to backend
-                $http.get("http://google.com").success(function (data) {
+                $http.post(RESTURL+"crud").success(function (data) {
                     $scope.notifications = data;
                 });
             }, 15000);
+        }
+    };
+});
+
+app.directive('collapseMenu', function () {
+    return {
+        templateUrl: 'shared/templates/directives/menuCollapse.html',
+        restrict: 'E',
+        replace: true,
+        link: function ($scope) {
+            $scope.collapsed = false;
+            $scope.collapseToggle = function () {
+                if ($scope.collapsed === false) {
+                    jQuery(".manager-view").css("z-index" , "9999").css("width" , "100%");
+                    $scope.collapsed = true;
+                } else {
+                    jQuery(".manager-view").css("z-index" , "0").css("width" , "calc(100% - 250px)");
+                    $scope.collapsed = false;
+                }
+            };
         }
     };
 });
@@ -97,11 +117,6 @@ app.directive('sidebar', ['$location', function () {
                         });
                     }
                 });
-
-            // todo: change to $watch to init
-            //$timeout(function () {
-            //    $('#side-menu').metisMenu();
-            //}, 2000);
 
             $scope.selectedMenu = $location.path();
             $scope.collapseVar = 0;

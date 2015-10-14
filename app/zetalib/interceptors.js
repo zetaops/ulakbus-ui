@@ -12,56 +12,61 @@ app.config(['$httpProvider', function ($httpProvider) {
      */
     $httpProvider.interceptors.push(function ($q, $rootScope, $location) {
         return {
-            'request': function(config){
+            'request': function (config) {
                 // todo: delete console logs
-                if (config.method == "POST"){
+                if (config.method === "POST") {
                     // to prevent OPTIONS preflight request
-                    config.headers["Content-Type"] = "text/plain"
-                } else {
-
+                    config.headers["Content-Type"] = "text/plain";
                 }
                 return config;
             },
             'response': function (response) {
                 //Will only be called for HTTP up to 300
 
-                if(response.data.is_login == false){
+                if (response.data.is_login === false) {
                     $rootScope.loggedInUser = response.data.is_login;
                     $location.path("/login");
                 }
-                if(response.data.is_login == true){
+                if (response.data.is_login === true) {
                     $rootScope.loggedInUser = true;
-                    if($location.path()==="/login"){
+                    if ($location.path() === "/login") {
                         $location.path("/dashboard");
                     }
                 }
 
-                if(response.data.client_cmd) {
+                // if (response.data.client_cmd) {
                     //$location.path(response.data.screen);
-                }
+                // }
                 return response;
             },
             'responseError': function (rejection) {
                 // if unauthorized then redirect to login page
-                if(rejection.status === 400) {
+                
+                if (rejection.status === 400) {
                     $location.reload();
                 }
-                if(rejection.status === 401) {
-                    //$rootScope.loggedInUser = false;
-                    if($location.path()==="/login"){
+                if (rejection.status === 401) {
+                    if ($location.path() === "/login") {
                         console.log("show errors on login form");
-                    } else{
+                    } else {
                         $location.path('/login');
                     }
                 }
-                if(rejection.status === 403) {
-                    if (rejection.data.is_login == true){
+                if (rejection.status === 403) {
+                    if (rejection.data.is_login === true) {
                         $rootScope.loggedInUser = true;
-                        console.log('user logged in');
-                        if($location.path()==="/login"){
+                        if ($location.path() === "/login") {
                             $location.path("/dashboard");
                         }
                     }
+                }
+                if (rejection.status === 404) {
+                    console.log(404);
+                    $location.path("/404");
+                }
+                // server 500 error returns with -1 on status.
+                if (rejection.status === -1 && rejection.config.data.model) {
+                    $location.path("/500");
                 }
                 return $q.reject(rejection);
             }

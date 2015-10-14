@@ -1,6 +1,11 @@
 <div class="starter-template">
     <h1>{{model}} <a href="#/crud/{{model}}/add"><button type="button" class="btn btn-primary">Ekle</button></a></h1>
-    <div class="tablescroll">
+    <div class="row" ng-if="!nobjects[1]">
+            <div class="col-md-12">
+                <p class="no-content">Listelenecek içerik yok.</p>
+            </div>
+        </div>
+    <div class="tablescroll" ng-if="nobjects[1]">
         <table class="table table-bordered" style="background-color:#fff;">
             <thead>
             <tr>
@@ -41,7 +46,7 @@
     <br/>
     <hr/>
 
-    <div class="btn-group">
+    <div class="btn-group" ng-if="nobjects[1]">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
             İşlemler <span class="caret"></span>

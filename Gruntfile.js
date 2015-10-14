@@ -298,8 +298,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-preprocess');
     grunt.loadNpmTasks('grunt-env');
 
-    //grunt.registerTask('dev', ['env:dev', 'preprocess:dev', 'html2js:dev', 'connect:server', 'watch:dev']);
-    grunt.registerTask('dev', ['env:dev', 'preprocess:dev', 'html2js:dev', 'watch:dev']);
+    grunt.registerTask('dev', ['env:dev', 'preprocess:dev', 'html2js:dev', 'connect:server', 'watch:dev']);
     grunt.registerTask('test', ['bower', 'karma:continuous']);
     grunt.registerTask('i18n', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('default', [
