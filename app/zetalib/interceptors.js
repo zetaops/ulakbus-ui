@@ -41,7 +41,7 @@ app.config(['$httpProvider', function ($httpProvider) {
             },
             'responseError': function (rejection) {
                 // if unauthorized then redirect to login page
-
+                
                 if (rejection.status === 400) {
                     $location.reload();
                 }
