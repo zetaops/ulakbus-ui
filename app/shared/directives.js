@@ -29,14 +29,14 @@ app.directive('headerNotification', function ($http, $interval, RESTURL) {
         templateUrl: 'shared/templates/directives/header-notification.html',
         restrict: 'E',
         replace: true,
-        link: function ($scope) {
-            $interval(function () {
-                // todo: change url to backend
-                $http.post(RESTURL+"crud").success(function (data) {
-                    $scope.notifications = data;
-                });
-            }, 15000);
-        }
+        //link: function ($scope) {
+        //    $interval(function () {
+        //        // todo: change url to backend
+        //        $http.post(RESTURL+"crud").success(function (data) {
+        //            $scope.notifications = data;
+        //        });
+        //    }, 15000);
+        //}
     };
 });
 

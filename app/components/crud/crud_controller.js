@@ -8,7 +8,7 @@
 'use strict';
 
 
-var crud = angular.module('ulakbus.crud', ['ngRoute', 'schemaForm', 'formService', 'ui.bootstrap']);
+var crud = angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService']);
 
 
 /**

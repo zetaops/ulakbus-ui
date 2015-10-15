@@ -21,7 +21,7 @@ var app = angular.module(
         'ulakbus.error_pages',
         'ulakbus.crud',
         'ulakbus.version',
-        'schemaForm',
+        //'schemaForm',
         'gettext',
         'ulakbus.uitemplates',
     ]).

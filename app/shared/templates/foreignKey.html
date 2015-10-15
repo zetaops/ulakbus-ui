@@ -5,16 +5,41 @@
             {{form.title}}
         </label>
 
-        <select ng-model="$$value$$"
-                value="$$value$$"
-                ng-model-options="form.ngModelOptions"
-                ng-disabled="form.readonly"
-                sf-changed="form"
-                class="form-control {{form.fieldHtmlClass}}"
-                schema-validate="form"
-                ng-options="item.value as item.name for item in form.titleMap"
-                name="{{form.key.slice(-1)[0]}}">
-        </select>
+        <div class="form-group input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="item in form.titleMap">
+                        <a href="javascript:void(0)" ng-click="form.onDropdownSelect(item, form.model_name)">{{item
+                            .name}}</a>
+                    </li>
+                </ul>
+            </span>
+            <input type="text"
+                   ng-model="$$value$$"
+                   typeahead="item.name for item in form.titleMap"
+                   typeahead-on-select="form.onSelect($item)"
+                   placeholder="{{form.title}}"
+                   ng-model-options="form.ngModelOptions"
+                   ng-disabled="form.readonly"
+                   sf-changed="form"
+                   class="form-control {{form.fieldHtmlClass}}"
+                   schema-validate="form"
+                   name="{{form.model_name}}"/>
+        </div>
+
+        <!--<select ng-model="$$value$$"-->
+        <!--value="$$value$$"-->
+        <!--ng-model-options="form.ngModelOptions"-->
+        <!--ng-disabled="form.readonly"-->
+        <!--sf-changed="form"-->
+        <!--class="form-control {{form.fieldHtmlClass}}"-->
+        <!--schema-validate="form"-->
+        <!--ng-options="item.value as item.name for item in form.titleMap"-->
+        <!--name="{{form.key.slice(-1)[0]}}">-->
+        <!--</select>-->
 
         <div class="help-block" sf-message="form.description"></div>
     </div>

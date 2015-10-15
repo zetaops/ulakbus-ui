@@ -84,18 +84,25 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
                     type: "template",
                     templateUrl: "shared/templates/foreignKey.html",
                     title: k.title,
+                    name: k.model_name,
                     model_name: k.model_name,
                     titleMap: generator.get_list(modelscope).then(function (res) {
                         formitem.titleMap = [];
-                        angular.forEach(res.data.objects, function (item) {
-                            formitem.titleMap.push({
-                                "value": item.key,
-                                "name": item.data.name || item.data.username
-                            });
+                        angular.forEach(res.data.nobjects, function (item) {
+                            if (item !== res.data.nobjects[0]) {
+                                formitem.titleMap.push({
+                                    "value": item[0],
+                                    "name": item[1] +' '+ (item[2] ? item[2] : '') + '...'
+                                });
+                            }
                         });
                     }),
-                    onChange: function (modelValue, form) {
-                        scope.model[v] = modelValue;
+                    onSelect: function (item) {
+                        scope.model[v] = item.value;
+                    },
+                    onDropdownSelect: function(item, inputname) {
+                        scope.model[v] = item.value;
+                        jQuery('input[name=' + inputname + ']').val(item.name);
                     }
                 };
 
@@ -246,6 +253,8 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
             data.object_id = $scope.object_id;
             //data.form = get_diff;
         }
+
+        debugger;
 
         return $http.post(generator.makeUrl($scope.url), data);
             //.success(function () {
