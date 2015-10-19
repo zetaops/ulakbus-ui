@@ -39,6 +39,11 @@ body {
 
 a {
     color:#a61229;
+	-webkit-transition: all .1s;
+    -moz-transition: all .1s;
+    -ms-transition: all .1s;
+    -o-transition: all .1s;
+    transition: all .1s;
 }
 
 a:hover {
@@ -452,6 +457,105 @@ select {
     padding-left: 52px;
 }
 
+.sidebar-person-info {
+	overflow-x: visible;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    max-height: calc(85% - 139px);
+    background: #fff;
+}
+
+.sidebar-person-info .identity {
+	color:#555;
+	padding-bottom:10px;
+	border-bottom:1px solid #E8E8E8;
+}
+
+.sidebar-person-info .identity img {
+	width:120px;
+	height:120px;
+	border-radius:100%;
+	margin:10px auto;
+}
+
+.sidebar-person-info .identity p.identity-name {
+	font-family:'robotomedium';
+	font-size:18px;
+}
+
+.sidebar-person-info .identity ul {
+	margin:0;
+	padding:0;
+}
+
+.sidebar-person-info .identity ul li {
+	list-style:none;
+	border:none;
+	padding:7px 15px; 
+}
+
+.sidebar-person-info .person-actions {
+	background-color:#f9f9f9;
+}
+
+.sidebar-person-info .person-actions ul {
+	margin:0;
+	padding:0;
+}
+
+.sidebar-person-info .person-actions ul li {
+	list-style:none;
+	border-bottom:1px solid #EAEAEA;
+}
+
+.sidebar-person-info .person-actions ul li a {
+	text-decoration:none;
+	color:#555;
+	display:block;
+	padding:10px 15px; 
+}
+
+.sidebar-person-info .person-actions ul li a:hover {
+	background-color:#666;
+	color:#fff;
+}
+
+.sidebar-person-info .person-actions ul li a span {
+	margin-right:15px;
+}
+
+.sidebar-person-info .close-sidebar-person-info {
+	width: 45%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 11px;
+    border-radius: 5px;
+    padding: 8px 10px;
+    text-align: center;
+    cursor: pointer;
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+    background-color: #B93939;
+    color: #fff;
+	display:block;
+}
+
+.sidebar-person-info .close-sidebar-person-info:hover {
+	background-color:#9A1026;
+}
+
+.sidebar-person-info .close-sidebar-person-info span {
+	font-size: 12px;
+    color: #555;
+    margin-right: 6px;
+    position: relative;
+    top: -1px;
+}
+
 .btn-outline {
     color: inherit;
     background-color: transparent;
@@ -834,6 +938,101 @@ table.dataTable thead .sorting:after {
 	color:#fff;
 }
 
+.right-sidebar {
+	width: 300px;
+    background-color: #FFFFFF;
+    border-left: 1px solid #ccc;
+    height: calc(100% - 140px);
+    position: absolute;
+    top: 98px;
+    right: 0px;
+    overflow-y: auto;	
+}
+
+.dashboard-main-search {
+	width: calc(100% - 300px);
+}
+
+.dashboard-main-search input {
+	width: 230px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding: 7px;
+    outline: none;
+    border-right: none;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.dashboard-main-search .fa {
+	padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    background-color: #FBF9F9;
+	cursor:pointer;	
+	color:#5A5A5A;
+}
+
+.dashboard-student-search {
+	float: left;
+    width: 50%;
+    border-right: 1px solid #e8e8e8;		
+}
+
+.dashboard-personnel-search {
+	float: left;
+    width: 50%;
+    border-right: 1px solid #e8e8e8;
+}
+
+.dashboard-search-results {
+	padding:20px 60px;
+}
+
+.dashboard-search-results ul {
+	min-height: 300px;
+    max-height: 600px;
+	overflow-y: auto;
+	padding:0;
+	webkit-box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+	background-color: #fff;
+    border-radius: 5px;
+}
+
+.dashboard-search-results ul li {
+	list-style:none;
+	border-bottom: 1px solid #F3F3F3;
+}
+
+.dashboard-search-results ul li:last-child {
+	border:none;
+}
+
+.dashboard-search-results ul li a {
+	color:#666;
+	padding: 10px 25px;
+	display:block;
+	text-decoration:none;
+}
+
+.dashboard-search-results ul li a:hover {
+	background-color:#666;
+	color:#fff;
+}
+
+.dashboard-search-results ul li:first-child a:hover {
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+}
+
+.dashboard-search-results ul li:last-child a:hover {
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+}
+
 /* END OF DASHBOARD */
 
 
@@ -854,7 +1053,6 @@ table.dataTable thead .sorting:after {
     -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.1);
     -moz-box-shadow: 0 0 3px rgba(0,0,0,0.1);
     box-shadow: 0 0 3px rgba(0,0,0,0.1);
-    background-color:#fff;
     position:relative;
 }
 
@@ -1103,6 +1301,10 @@ table.dataTable thead .sorting:after {
 		padding: 15px;
 		color: #A7A7A7;
 		border-bottom: 1px solid #ccc;	
+	}
+	
+	.sidebar-collapse-button {
+		display:none;	
 	}
 }
 
