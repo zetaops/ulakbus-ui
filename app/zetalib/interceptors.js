@@ -35,13 +35,13 @@ app.config(['$httpProvider', function ($httpProvider) {
                 }
 
                 // if (response.data.client_cmd) {
-                    //$location.path(response.data.screen);
+                //$location.path(response.data.screen);
                 // }
                 return response;
             },
             'responseError': function (rejection) {
                 // if unauthorized then redirect to login page
-                
+
                 if (rejection.status === 400) {
                     $location.reload();
                 }
@@ -65,8 +65,29 @@ app.config(['$httpProvider', function ($httpProvider) {
                     $location.path("/404");
                 }
                 // server 500 error returns with -1 on status.
-                if (rejection.status === -1 && rejection.config.data.model) {
-                    $location.path("/500");
+                //if (rejection.status === -1 && rejection.config.data.model) {
+                if (rejection.status === 500) {
+                    // todo: redirect to 500
+                    //$location.path("/500");
+                    $('<div class="modal">' +
+                        '<div class="modal-dialog" style="width:1024px;" role="document">' +
+                        '<div class="modal-content">' +
+                        '<div class="modal-header">' +
+                        '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span' +
+                        ' aria-hidden="true">&times;</span></button>' +
+                        '<h4 class="modal-title" id="exampleModalLabel">500 Server Error</h4>' +
+                        '</div>' +
+                        '<div class="modal-body">' +
+                        '<p><pre>' +
+                        rejection.data.error +
+                        '</pre></p>' +
+                        '</div>' +
+                        '<div class="modal-footer">' +
+                        '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>').modal()
                 }
                 return $q.reject(rejection);
             }
