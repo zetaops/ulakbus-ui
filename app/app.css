@@ -55,6 +55,7 @@ a:hover {
     padding:0;
     font-size:18px;
 	float:left;
+    margin-bottom: 0;
 }
 
 /** BRAND **/
@@ -310,15 +311,16 @@ select {
 }
 
 .manager-view-header {
-    width:100%;
-    padding:10px 15px;
+    /*width:100%;*/
+    width: calc(100% - 300px);
+    padding:10px;
     background-color:#fff;
     border-bottom:1px solid #ccc;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
     position:relative;
     z-index:1;
-    height: 98px;
+    height: 43px;
 }
 
 .manager-view-content {
@@ -1073,9 +1075,10 @@ table.dataTable thead .sorting:after {
 	width: 300px;
     background-color: #FFFFFF;
     border-left: 1px solid #ccc;
-    height: calc(100% - 140px);
+    /*height: calc(100% - 140px);*/
+    height: calc(100% - 40px);
     position: absolute;
-    top: 98px;
+    top: 0px;
     right: 0px;
     overflow-y: auto;	
 }

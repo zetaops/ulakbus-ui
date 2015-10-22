@@ -14,20 +14,38 @@ angular.module('ulakbus.dashboard', ['ngRoute'])
             $rootScope.section = section_index;
         };
 
-        $scope.what = "";
+        $scope.student_kw = "";
+        $scope.staff_kw = "";
 
-        $scope.listitems = [];
+        $scope.students = [];
+        $scope.staffs = [];
 
         $scope.search = function (where) {
             $timeout(function () {
-                if ($scope.what.length > 3) {
+                if (where === 'Personel') {
                     // if input length greater than 3 search for the value
-                    $http.post(RESTURL.url + where, {"query": $scope.what})
-                        .success(function (data) {
-                            $scope.listitems = data;
-                        });
+                    if ($scope.staff_kw.length > 3) {
+                        $scope.staffs = $scope.getItems(where, $scope.staff_kw);
+                    }
+                }
+                if (where === 'Ogrenci') {
+                    if ($scope.student_kw.length > 3) {
+                        $scope.students = $scope.getItems(where, $scope.student_kw);
+                    }
                 }
             });
+        };
+
+        $scope.getItems = function (where, params) {
+            $http.post(RESTURL.url + where, {"query": params})
+                .success(function (data) {
+                    return data;
+                });
+        };
+
+        $scope.select = function (who) {
+            $rootScope.who = who;
+            // todo: get 'who's related transactions and manipulate sidebar menu
         };
 
         // when select a user from list
