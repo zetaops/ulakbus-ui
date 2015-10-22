@@ -7,8 +7,10 @@
             <!--<sidebar-search></sidebar-search>-->
             <li ui-sref-active="active">
                 <a href="#/dashboard" ng-click="breadcrumb(['Panel'])"><i class="fa fa-dashboard fa-fw"></i>
-                Panel</a>
+                	<span class="menu-text">Panel</span>
+                </a>
             </li>
+            
             <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == $index+1}">{{dropDown}}
                 <a href="" ng-click="check($index+1)"><i class="fa fa-wrench fa-fw"></i> {{ item[0] }}<span
                         class="fa arrow"></span></a>
