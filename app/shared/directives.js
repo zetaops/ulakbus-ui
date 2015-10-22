@@ -49,10 +49,16 @@ app.directive('collapseMenu', function () {
             $scope.collapsed = false;
             $scope.collapseToggle = function () {
                 if ($scope.collapsed === false) {
-                    jQuery(".manager-view").css("z-index" , "9999").css("width" , "100%");
+					jQuery("span.menu-text").css("display" , "none");
+                    jQuery(".sidebar").css("z-index" , "9999").css("width" , "62px");
+					jQuery(".manager-view").css("z-index" , "9999").css("width" , "calc(100% - 62px)");
+					jQuery(".sidebar footer").css("display" , "none");
                     $scope.collapsed = true;
                 } else {
-                    jQuery(".manager-view").css("z-index" , "0").css("width" , "calc(100% - 250px)");
+					jQuery("span.menu-text").fadeIn(400);
+                    jQuery(".sidebar").css("z-index" , "0").css("width" , "250px");
+					jQuery(".manager-view").css("z-index" , "9999").css("width" , "calc(100% - 250px)");
+					jQuery(".sidebar footer").fadeIn(400);
                     $scope.collapsed = false;
                 }
             };

@@ -406,6 +406,20 @@ select {
 .sidebar {
     background-color:#fff;
     border-right: 1px solid #ccc;
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}
+
+.sidebar .fa {
+	font-size:18px;
+	margin-right:10px;	
+}
+
+.sidebar span.menu-text {
+	display:inline-block;	
 }
 
 .sidebar .sidebar-nav.navbar-collapse {
@@ -1020,11 +1034,10 @@ table.dataTable thead .sorting:after {
 	
 	.sidebar .sidebar-nav.navbar-collapse {
 		overflow-x: visible;
-		overflow-y: scroll;
+		overflow-y: auto;
 		position: absolute;
 		width: 100%;
 		max-height: calc(85% - 139px);
-		border-bottom: 2px solid #ccc;
 	}
 	
 	footer {
