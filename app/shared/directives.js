@@ -8,6 +8,7 @@
 /**
  * logout directive
  */
+
 app.directive('logout', function ($http, $location, RESTURL) {
     return {
         link: function ($scope, $element, $rootScope) {
@@ -24,6 +25,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
 /**
  * headerNotification directive for header
  */
+
 app.directive('headerNotification', function ($http, $interval, RESTURL) {
     return {
         templateUrl: 'shared/templates/directives/header-notification.html',
@@ -39,6 +41,11 @@ app.directive('headerNotification', function ($http, $interval, RESTURL) {
         //}
     };
 });
+
+/**
+ * collapseMenu directive
+ * toggle collapses sidebar menu when clicked menu button
+ */
 
 app.directive('collapseMenu', function () {
     return {
@@ -60,6 +67,11 @@ app.directive('collapseMenu', function () {
     };
 });
 
+/**
+ * headerSubmenu directive
+ * todo: will be deleted
+ */
+
 app.directive('headerSubMenu', function () {
     return {
         templateUrl: 'shared/templates/directives/header-sub-menu.html',
@@ -76,6 +88,11 @@ app.directive('headerSubMenu', function () {
     };
 });
 
+/**
+ * breadcrumb directive
+ * produces breadcrumb with related links
+ */
+
 app.directive('headerBreadcrumb', function () {
     return {
         templateUrl: 'shared/templates/directives/header-breadcrumb.html',
@@ -83,6 +100,12 @@ app.directive('headerBreadcrumb', function () {
         replace: true
     };
 });
+
+/**
+ * sidebar directive
+ * changes breadcrumb when an item selected
+ * consists of menu items of related user or transaction
+ */
 
 app.directive('sidebar', ['$location', function () {
     return {
@@ -171,13 +194,21 @@ app.directive('stats', function () {
     };
 });
 
+/**
+ * header menu notifications directive
+ */
+
 app.directive('notifications', function () {
     return {
         templateUrl: 'shared/templates/directives/notifications.html',
         restrict: 'E',
-        replace: true,
+        replace: true
     };
 });
+
+/**
+ * search directive in sidebar
+ */
 
 app.directive('sidebarSearch', function () {
     return {
@@ -191,18 +222,18 @@ app.directive('sidebarSearch', function () {
     };
 });
 
-app.directive('timeline', function () {
-    return {
-        templateUrl: 'shared/templates/directives/timeline.html',
-        restrict: 'E',
-        replace: true,
-    };
-});
-
-app.directive('chat', function () {
-    return {
-        templateUrl: 'shared/templates/directives/chat.html',
-        restrict: 'E',
-        replace: true,
-    };
-});
+//app.directive('timeline', function () {
+//    return {
+//        templateUrl: 'shared/templates/directives/timeline.html',
+//        restrict: 'E',
+//        replace: true,
+//    };
+//});
+//
+//app.directive('chat', function () {
+//    return {
+//        templateUrl: 'shared/templates/directives/chat.html',
+//        restrict: 'E',
+//        replace: true,
+//    };
+//});

@@ -24,18 +24,16 @@
         	<div class="dashboard-student-search">
             	<center>
                 	<h3>ÖĞRENCİ</h3>
-                	<input type="text" placeholder="Öğrenci ara"><span class="fa fa-search"></span>
+                	<input type="text" placeholder="Öğrenci ara" ng-model="student_kw"
+                           ng-keyup="search('Ogrenci')"><span
+                        class="fa fa-search"
+                                                                        ng-click="search('Ogrenci')"></span>
                  </center>
                  <div class="dashboard-search-results">
-                 	<ul>
-                    	<li><a href="#">Sample Student 1</a></li>
-                        <li><a href="#">Sample Student 2</a></li>
-                        <li><a href="#">Sample Student 3</a></li>
-                        <li><a href="#">Sample Student 4</a></li>
-                        <li><a href="#">Sample Student 5</a></li>
-                        <li><a href="#">Sample Student 6</a></li>
-                        <li><a href="#">Sample Student 7</a></li>
-                        <li><a href="#">Sample Student 8</a></li>
+                 	<ul ng-if="students.length > 0">
+                    	<li ng-repeat="student in students">
+                            <a href="javascript:void(0)" ng-click="select(student)">{{student}}</a>
+                        </li>
                     </ul>
                  </div>
                  <!-- end of dashboard-student-search-results -->
@@ -44,18 +42,15 @@
             <div class="dashboard-personnel-search">
             	<center>
                 	<h3>PERSONEL</h3>
-                	<input type="text" placeholder="Personel ara"><span class="fa fa-search"></span>
+                	<input type="text" placeholder="Personel ara" ng-model="staff_kw"
+                           ng-keyup="search('Personel')"><span
+                        class="fa fa-search" ng-click="search('Personel')"></span>
                 </center>
                 <div class="dashboard-search-results">
-                 	<ul>
-                    	<li><a href="#">Sample Personnel 1</a></li>
-                        <li><a href="#">Sample Personnel 2</a></li>
-                        <li><a href="#">Sample Personnel 3</a></li>
-                        <li><a href="#">Sample Personnel 4</a></li>
-                        <li><a href="#">Sample Personnel 5</a></li>
-                        <li><a href="#">Sample Personnel 6</a></li>
-                        <li><a href="#">Sample Personnel 7</a></li>
-                        <li><a href="#">Sample Personnel 8</a></li>
+                 	<ul ng-if="staffs.length > 0">
+                    	<li ng-repeat="staff in staffs">
+                            <a href="javascript:void(0)" ng-click="select(staff)">{{staff}}</a>
+                        </li>
                     </ul>
                  </div>
                  <!-- end of dashboard-personnel-search-results -->

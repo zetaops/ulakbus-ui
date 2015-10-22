@@ -254,8 +254,6 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
             //data.form = get_diff;
         }
 
-        debugger;
-
         return $http.post(generator.makeUrl($scope.url), data);
             //.success(function () {
             //
