@@ -10,6 +10,7 @@
                 	<span class="menu-text">Panel</span>
                 </a>
             </li>
+            
             <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == $index+1}">{{dropDown}}
                 <a href="" ng-click="check($index+1)"><i class="fa fa-wrench fa-fw"></i> {{ item[0] }}<span
                         class="fa arrow"></span></a>
