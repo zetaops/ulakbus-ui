@@ -442,6 +442,11 @@ select {
     border-bottom: 1px solid #DCDCDC;
 }
 
+.sidebar ul li a {
+	height:40px;
+	overflow:hidden;
+}
+
 .sidebar ul li a.active {
     background-color: #eee;
 }
