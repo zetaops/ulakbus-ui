@@ -1,4 +1,4 @@
-<div class="navbar-default sidebar" role="navigation">
+<div class="navbar-default sidebar" role="navigation" ng-mouseenter="openSidebar()" ng-mouseleave="closeSidebar()">
 	<div class="brand">
     	<a href="" class="logo"><img src="/img/brand-logo.png" /></a>
     </div>
@@ -12,11 +12,11 @@
             </li>
             
             <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == $index+1}">{{dropDown}}
-                <a href="" ng-click="check($index+1)"><i class="fa fa-wrench fa-fw"></i> {{ item[0] }}<span
+                <a href="" ng-click="check($index+1)"><i class="fa fa-wrench fa-fw"></i> {{ key }}<span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li ng-repeat="(k, v) in item[1]"><a href="#/crud/{{v[1]}}"
-                                                         ng-click="breadcrumb([item[0], v[0]])">{{v[0]}}</a></li>
+                    <li ng-repeat="v in item"><a ng-href="#/{{v[1]}}"
+                                                         ng-click="breadcrumb([key, v[0]])">{{v[0]}}</a></li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>

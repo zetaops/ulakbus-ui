@@ -47,28 +47,37 @@ app.directive('headerNotification', function ($http, $interval, RESTURL) {
  * toggle collapses sidebar menu when clicked menu button
  */
 
-app.directive('collapseMenu', function () {
+app.directive('collapseMenu', function ($timeout) {
     return {
         templateUrl: 'shared/templates/directives/menuCollapse.html',
         restrict: 'E',
         replace: true,
-        link: function ($scope) {
-            $scope.collapsed = false;
+        scope: {},
+        controller: function ($scope, $rootScope) {
+            $rootScope.collapsed = false;
+            $rootScope.sidebarPinned = false;
+
             $scope.collapseToggle = function () {
-                if ($scope.collapsed === false) {
+                if ($rootScope.collapsed === false) {
 					jQuery("span.menu-text").css("display" , "none");
                     jQuery(".sidebar").css("width" , "62px");
-					jQuery(".manager-view").css("z-index" , "9999").css("width" , "calc(100% - 62px)");
+					jQuery(".manager-view").css("width" , "calc(100% - 62px)");
 					jQuery(".sidebar footer").css("display" , "none");
-                    $scope.collapsed = true;
+                    $rootScope.collapsed = true;
+                    $rootScope.sidebarPinned = false;
                 } else {
 					jQuery("span.menu-text").fadeIn(400);
-                    jQuery(".sidebar").css("z-index" , "0").css("width" , "250px");
+                    jQuery(".sidebar").css("width" , "250px");
 					jQuery(".manager-view").css("width" , "calc(100% - 250px)");
 					jQuery(".sidebar footer").fadeIn(400);
-                    $scope.collapsed = false;
+                    $rootScope.collapsed = false;
+                    $rootScope.sidebarPinned = true;
                 }
             };
+
+            $timeout(function(){
+                $scope.collapseToggle();
+            });
         }
     };
 });
@@ -108,6 +117,18 @@ app.directive('headerBreadcrumb', function () {
 });
 
 /**
+ * selected user directive
+ */
+
+app.directive('selectedUser', function () {
+    return {
+        templateUrl: 'shared/templates/directives/selected-user.html',
+        restrict: 'E',
+        replace: true
+    };
+});
+
+/**
  * sidebar directive
  * changes breadcrumb when an item selected
  * consists of menu items of related user or transaction
@@ -120,21 +141,44 @@ app.directive('sidebar', ['$location', function () {
         replace: true,
         scope: {},
         controller: function ($scope, $rootScope, $http, RESTURL, $location, $timeout) {
-            $http.post(RESTURL.url + 'crud/').success(function (data) {
-                $scope.allMenuItems = angular.copy(data.app_models);
-                $scope.menuItems = []; // angular.copy($scope.allMenuItems);
+            $http.get(RESTURL.url + 'menu/').success(function (data) {
+                //$scope.allMenuItems = angular.copy(data.generic);
+                $scope.menuItems = data;
+                // $scope.menuItems = []; // angular.copy($scope.allMenuItems);
+
                 // at start define breadcrumblinks for breadcrumb
-                angular.forEach(data.app_models, function (value, key) {
-                    angular.forEach(value[1], function (v, k) {
-                        if (v[1] === $location.path().split('/')[2]) {
-                            $rootScope.breadcrumblinks = [value[0], v[0]];
-                            $scope.menuItems = [$scope.allMenuItems[key]];
-                        } else {
-                            $rootScope.breadcrumblinks = ['Panel'];
-                        }
-                    });
-                });
+                //angular.forEach(data.app_models, function (value, key) {
+                //    angular.forEach(value[1], function (v, k) {
+                //        if (v[1] === $location.path().split('/')[2]) {
+                //            $rootScope.breadcrumblinks = [value[0], v[0]];
+                //            $scope.menuItems = [$scope.allMenuItems[key]];
+                //        } else {
+                //            $rootScope.breadcrumblinks = ['Panel'];
+                //        }
+                //    });
+                //});
+                $timeout(function(){$('#side-menu').metisMenu()});
             });
+
+            $scope.openSidebar = function () {
+                if ($rootScope.sidebarPinned === false) {
+                    jQuery("span.menu-text").fadeIn(400);
+                    jQuery(".sidebar").css("width" , "250px");
+                    jQuery(".manager-view").css("width" , "calc(100% - 250px)");
+                    jQuery(".sidebar footer").fadeIn(400);
+                    $rootScope.collapsed = false;
+                }
+            };
+
+            $scope.closeSidebar = function () {
+                if ($rootScope.sidebarPinned === false) {
+                    jQuery("span.menu-text").css("display" , "none");
+                    jQuery(".sidebar").css("width" , "62px");
+                    jQuery(".manager-view").css("width" , "calc(100% - 62px)");
+                    jQuery(".sidebar footer").css("display" , "none");
+                    $rootScope.collapsed = true;
+                }
+            };
 
             $rootScope.$watch(function ($rootScope) {return $rootScope.section; },
                 function (newindex, oldindex) {

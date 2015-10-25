@@ -24,10 +24,8 @@
         	<div class="dashboard-student-search">
             	<center>
                 	<h3>ÖĞRENCİ</h3>
-                	<input type="text" placeholder="Öğrenci ara" ng-model="student_kw"
-                           ng-keyup="search('Ogrenci')"><span
-                        class="fa fa-search"
-                                                                        ng-click="search('Ogrenci')"></span>
+                	<input type="text" placeholder="Öğrenci ara" ng-model="student_kw" ng-keyup="search('ogrenci')">
+                    <span class="fa fa-search" ng-click="search('ogrenci')"></span>
                  </center>
                  <div class="dashboard-search-results">
                  	<ul ng-if="students.length > 0">
@@ -42,14 +40,13 @@
             <div class="dashboard-personnel-search">
             	<center>
                 	<h3>PERSONEL</h3>
-                	<input type="text" placeholder="Personel ara" ng-model="staff_kw"
-                           ng-keyup="search('Personel')"><span
-                        class="fa fa-search" ng-click="search('Personel')"></span>
+                	<input type="text" placeholder="Personel ara" ng-model="staff_kw" ng-keyup="search('personel')">
+                    <span class="fa fa-search" ng-click="search('personel')"></span>
                 </center>
                 <div class="dashboard-search-results">
                  	<ul ng-if="staffs.length > 0">
                     	<li ng-repeat="staff in staffs">
-                            <a href="javascript:void(0)" ng-click="select(staff)">{{staff}}</a>
+                            <a href="javascript:void(0)" ng-click="select(staff)">{{staff[0]}}</a>
                         </li>
                     </ul>
                  </div>

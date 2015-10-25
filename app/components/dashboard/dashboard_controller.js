@@ -22,29 +22,33 @@ angular.module('ulakbus.dashboard', ['ngRoute'])
 
         $scope.search = function (where) {
             $timeout(function () {
-                if (where === 'Personel') {
-                    // if input length greater than 3 search for the value
-                    if ($scope.staff_kw.length > 3) {
-                        $scope.staffs = $scope.getItems(where, $scope.staff_kw);
+                if (where === 'personel') {
+                    // if input length greater than 2 search for the value
+                    if ($scope.staff_kw.length > 2) {
+                        $scope.getItems(where, $scope.staff_kw).success(function (data) {
+                            $scope.staffs = data.results;
+                        });
                     }
                 }
-                if (where === 'Ogrenci') {
-                    if ($scope.student_kw.length > 3) {
-                        $scope.students = $scope.getItems(where, $scope.student_kw);
+                if (where === 'ogrenci') {
+                    if ($scope.student_kw.length > 2) {
+                        $scope.getItems(where, $scope.student_kw).success(function (data) {
+                            $scope.students = data.results;
+                        })
                     }
                 }
             });
         };
 
-        $scope.getItems = function (where, params) {
-            $http.post(RESTURL.url + where, {"query": params})
-                .success(function (data) {
-                    return data;
-                });
+        $scope.getItems = function (where, what) {
+            return $http.get(RESTURL.url + 'ara/' + where + '/' + what);
+                //.success(function (data) {
+                //    return data.results;
+                //});
         };
 
         $scope.select = function (who) {
-            $rootScope.who = who;
+            $rootScope.selectedUser = {name: who[0], tcno: who[1], key: who[2]};
             // todo: get 'who's related transactions and manipulate sidebar menu
         };
 

@@ -67,8 +67,6 @@ app.config(['$httpProvider', function ($httpProvider) {
                 // server 500 error returns with -1 on status.
                 //if (rejection.status === -1 && rejection.config.data.model) {
                 if (rejection.status === 500) {
-                    // todo: redirect to 500
-                    //$location.path("/500");
                     $('<div class="modal">' +
                         '<div class="modal-dialog" style="width:1024px;" role="document">' +
                         '<div class="modal-content">' +
@@ -88,6 +86,7 @@ app.config(['$httpProvider', function ($httpProvider) {
                         '</div>' +
                         '</div>' +
                         '</div>').modal()
+                    $location.path("/500");
                 }
                 return $q.reject(rejection);
             }

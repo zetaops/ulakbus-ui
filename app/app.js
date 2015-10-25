@@ -44,7 +44,9 @@ var app = angular.module(
             var urlfromqstr = location.href.split('?')[1].split('=')[1];
             backendurl = decodeURIComponent(urlfromqstr.replace(/\+/g, " "));
             document.cookie = "backendurl="+backendurl;
+            window.location.href = window.location.href.split('?')[0];
         }
+
         return {url: backendurl};
     })()).
 /**

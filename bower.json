@@ -16,7 +16,7 @@
     "angular-bootstrap": "0.13.1",
     "font-awesome": "4.3.0",
     "angular-schema-form": "0.8.3",
-    "angular-loading-bar": "~0.7.0",
+    "angular-loading-bar": "~0.8.0",
     "angular-ui-router": "~0.2.15",
     "angular-toggle-switch": "~1.2.1",
     "metisMenu": "~1.1.3",
