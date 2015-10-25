@@ -31,14 +31,14 @@ app.directive('headerNotification', function ($http, $interval, RESTURL) {
         templateUrl: 'shared/templates/directives/header-notification.html',
         restrict: 'E',
         replace: true,
-        //link: function ($scope) {
-        //    $interval(function () {
-        //        // todo: change url to backend
-        //        $http.post(RESTURL+"crud").success(function (data) {
-        //            $scope.notifications = data;
-        //        });
-        //    }, 15000);
-        //}
+        link: function ($scope) {
+            //$interval(function () {
+            //    // todo: change url to backend
+            //    $http.get(RESTURL.url+"notify").success(function (data) {
+            //        $scope.notifications = data;
+            //    });
+            //}, 15000);
+        }
     };
 });
 
@@ -141,9 +141,11 @@ app.directive('sidebar', ['$location', function () {
         replace: true,
         scope: {},
         controller: function ($scope, $rootScope, $http, RESTURL, $location, $timeout) {
+            $('#side-menu').metisMenu();
             $http.get(RESTURL.url + 'menu/').success(function (data) {
                 //$scope.allMenuItems = angular.copy(data.generic);
                 $scope.menuItems = data;
+                debugger;
                 // $scope.menuItems = []; // angular.copy($scope.allMenuItems);
 
                 // at start define breadcrumblinks for breadcrumb
