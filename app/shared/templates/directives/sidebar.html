@@ -7,18 +7,21 @@
             <!--<sidebar-search></sidebar-search>-->
             <li ui-sref-active="active">
                 <a href="#/dashboard" ng-click="breadcrumb(['Panel'])"><i class="fa fa-dashboard fa-fw"></i>
-                	<span class="menu-text">Panel</span>
+                	<span class="menu-text" ng-class="{hidden: $root.collapsed}">Panel</span>
                 </a>
             </li>
             
             <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == $index+1}">{{dropDown}}
                 <a href="" ng-click="check($index+1)">
-                    <i class="fa fa-wrench fa-fw" ng-class="{'fa-user': key == 'personel'}"></i>
-                    <span class="menu-text">{{ key }}</span>
+                    <i class="fa fa-fw fa-cogs"
+                       ng-class="{generic: 'fa fa-fw fa-wrench', ogrenci: 'fa fa-fw fa-book'}[key]"></i>
+                    <span class="menu-text" ng-class="{hidden: $root.collapsed}">{{ key }}</span>
+                    <span class="fa arrow" ng-class="{hidden: $root.collapsed}"></span>
                 </a>
-                <ul class="nav nav-second-level">
+                <ul class="nav nav-second-level" ng-class="{hidden: $root.collapsed}">
                     <li ng-repeat="v in item">
-                        <a ng-href="#/{{v[1]}}" ng-click="breadcrumb([key, v[0]])">{{v[0]}}</a>
+                        <a ng-href="#{{v.url}}/?{{v.param}}={{$root.selectedUser.key}}"
+                           ng-click="breadcrumb([key, v.text])">{{v.text}}</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
@@ -26,7 +29,7 @@
         </ul>
     </div>
     <!-- /.sidebar-collapse -->
-    
+
     
     <!-- sidebar-person-info -->
     <div class="sidebar-person-info">
@@ -69,7 +72,7 @@
     <!-- end of sidebar-person-info -->
     
     
-    <footer>
+    <footer ng-class="{hidden: $root.collapsed}">
     	<span>v <app-version></app-version> &copy; ZetaOps</span>
     </footer>
 </div>

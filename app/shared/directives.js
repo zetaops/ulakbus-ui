@@ -59,17 +59,19 @@ app.directive('collapseMenu', function ($timeout) {
 
             $scope.collapseToggle = function () {
                 if ($rootScope.collapsed === false) {
-					jQuery("span.menu-text").css("display" , "none");
+					//jQuery("span.menu-text, span.arrow, .sidebar footer").css("display" , "none");
                     jQuery(".sidebar").css("width" , "62px");
 					jQuery(".manager-view").css("width" , "calc(100% - 62px)");
-					jQuery(".sidebar footer").css("display" , "none");
+					//jQuery(".sidebar footer").css("display" , "none");
+                    //jQuery(".menu-text").hide();
                     $rootScope.collapsed = true;
                     $rootScope.sidebarPinned = false;
                 } else {
-					jQuery("span.menu-text").fadeIn(400);
+					jQuery("span.menu-text, span.arrow, .sidebar footer").fadeIn(400);
                     jQuery(".sidebar").css("width" , "250px");
 					jQuery(".manager-view").css("width" , "calc(100% - 250px)");
-					jQuery(".sidebar footer").fadeIn(400);
+					//jQuery(".sidebar footer").fadeIn(400);
+                    //jQuery(".menu-text").show();
                     $rootScope.collapsed = false;
                     $rootScope.sidebarPinned = true;
                 }
@@ -144,8 +146,7 @@ app.directive('sidebar', ['$location', function () {
             $('#side-menu').metisMenu();
             $http.get(RESTURL.url + 'menu/').success(function (data) {
                 //$scope.allMenuItems = angular.copy(data.generic);
-                $scope.menuItems = data;
-                debugger;
+                $scope.menuItems = {"generic": data.other};
                 // $scope.menuItems = []; // angular.copy($scope.allMenuItems);
 
                 // at start define breadcrumblinks for breadcrumb
@@ -164,20 +165,17 @@ app.directive('sidebar', ['$location', function () {
 
             $scope.openSidebar = function () {
                 if ($rootScope.sidebarPinned === false) {
-                    jQuery("span.menu-text").fadeIn(400);
+                    jQuery("span.menu-text, span.arrow, .sidebar footer, #side-menu").fadeIn(400);
                     jQuery(".sidebar").css("width" , "250px");
                     jQuery(".manager-view").css("width" , "calc(100% - 250px)");
-                    jQuery(".sidebar footer").fadeIn(400);
                     $rootScope.collapsed = false;
                 }
             };
 
             $scope.closeSidebar = function () {
                 if ($rootScope.sidebarPinned === false) {
-                    jQuery("span.menu-text").css("display" , "none");
                     jQuery(".sidebar").css("width" , "62px");
                     jQuery(".manager-view").css("width" , "calc(100% - 62px)");
-                    jQuery(".sidebar footer").css("display" , "none");
                     $rootScope.collapsed = true;
                 }
             };
@@ -187,9 +185,6 @@ app.directive('sidebar', ['$location', function () {
                     if (newindex > -1) {
                         $scope.menuItems = [$scope.allMenuItems[newindex]];
                         $scope.collapseVar = 1;
-                        $timeout(function () {
-                            $('#side-menu').metisMenu();
-                        });
                     }
                 });
 
@@ -211,6 +206,7 @@ app.directive('sidebar', ['$location', function () {
             $scope.breadcrumb = function (itemlist) {
                 $rootScope.breadcrumblinks = itemlist;
                 // showSaveButton is used for to show or not to show save button on top of the page
+                // todo: remove button
                 $rootScope.showSaveButton = false;
             };
 
