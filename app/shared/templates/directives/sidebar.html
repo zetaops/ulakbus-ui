@@ -14,13 +14,16 @@
             <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == $index+1}">{{dropDown}}
                 <a href="" ng-click="check($index+1)">
                     <i class="fa fa-fw fa-cogs"
-                       ng-class="{generic: 'fa fa-fw fa-wrench', ogrenci: 'fa fa-fw fa-book'}[key]"></i>
+                       ng-class="{
+                           'other': 'fa fa-fw fa-wrench',
+                           'ogrenci': 'fa fa-fw fa-university',
+                           'personel': 'fa fa-fw fa-users'}[key]"></i>
                     <span class="menu-text" ng-class="{hidden: $root.collapsed}">{{ key }}</span>
                     <span class="fa arrow" ng-class="{hidden: $root.collapsed}"></span>
                 </a>
                 <ul class="nav nav-second-level" ng-class="{hidden: $root.collapsed}">
                     <li ng-repeat="v in item">
-                        <a ng-href="#{{v.url}}/?{{v.param}}={{$root.selectedUser.key}}"
+                        <a ng-href="#{{v.url}}?{{v.param}}={{$root.selectedUser.key}}"
                            ng-click="breadcrumb([key, v.text])">{{v.text}}</a>
                     </li>
                 </ul>

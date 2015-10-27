@@ -32,12 +32,12 @@ app.directive('headerNotification', function ($http, $interval, RESTURL) {
         restrict: 'E',
         replace: true,
         link: function ($scope) {
-            //$interval(function () {
-            //    // todo: change url to backend
-            //    $http.get(RESTURL.url+"notify").success(function (data) {
-            //        $scope.notifications = data;
-            //    });
-            //}, 15000);
+            $interval(function () {
+                // todo: change url to backend
+                $http.get(RESTURL.url+"notify").success(function (data) {
+                    $scope.notifications = data;
+                });
+            }, 15000);
         }
     };
 });
@@ -146,7 +146,7 @@ app.directive('sidebar', ['$location', function () {
             $('#side-menu').metisMenu();
             $http.get(RESTURL.url + 'menu/').success(function (data) {
                 //$scope.allMenuItems = angular.copy(data.generic);
-                $scope.menuItems = {"generic": data.other};
+                $scope.menuItems = data;
                 // $scope.menuItems = []; // angular.copy($scope.allMenuItems);
 
                 // at start define breadcrumblinks for breadcrumb
