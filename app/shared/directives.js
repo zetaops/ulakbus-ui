@@ -59,19 +59,14 @@ app.directive('collapseMenu', function ($timeout) {
 
             $scope.collapseToggle = function () {
                 if ($rootScope.collapsed === false) {
-					//jQuery("span.menu-text, span.arrow, .sidebar footer").css("display" , "none");
                     jQuery(".sidebar").css("width" , "62px");
 					jQuery(".manager-view").css("width" , "calc(100% - 62px)");
-					//jQuery(".sidebar footer").css("display" , "none");
-                    //jQuery(".menu-text").hide();
                     $rootScope.collapsed = true;
                     $rootScope.sidebarPinned = false;
                 } else {
 					jQuery("span.menu-text, span.arrow, .sidebar footer").fadeIn(400);
                     jQuery(".sidebar").css("width" , "250px");
 					jQuery(".manager-view").css("width" , "calc(100% - 250px)");
-					//jQuery(".sidebar footer").fadeIn(400);
-                    //jQuery(".menu-text").show();
                     $rootScope.collapsed = false;
                     $rootScope.sidebarPinned = true;
                 }
@@ -126,7 +121,10 @@ app.directive('selectedUser', function () {
     return {
         templateUrl: 'shared/templates/directives/selected-user.html',
         restrict: 'E',
-        replace: true
+        replace: false,
+        link: function ($scope, $rootScope) {
+            $scope.selectedUser = $rootScope.selectedUser;
+        }
     };
 });
 
@@ -134,6 +132,7 @@ app.directive('selectedUser', function () {
  * sidebar directive
  * changes breadcrumb when an item selected
  * consists of menu items of related user or transaction
+ * controller communicates with dashboard controller to shape menu items and authz
  */
 
 app.directive('sidebar', ['$location', function () {
@@ -142,25 +141,32 @@ app.directive('sidebar', ['$location', function () {
         restrict: 'E',
         replace: true,
         scope: {},
-        controller: function ($scope, $rootScope, $http, RESTURL, $location, $timeout) {
-            $('#side-menu').metisMenu();
+        controller: function ($scope, $rootScope, $cookies, $http, RESTURL, $location, $timeout) {
+            var sidebarmenu = $('#side-menu');
+            sidebarmenu.metisMenu();
             $http.get(RESTURL.url + 'menu/').success(function (data) {
-                //$scope.allMenuItems = angular.copy(data.generic);
-                $scope.menuItems = data;
-                // $scope.menuItems = []; // angular.copy($scope.allMenuItems);
+                $scope.allMenuItems = angular.copy(data);
 
-                // at start define breadcrumblinks for breadcrumb
-                //angular.forEach(data.app_models, function (value, key) {
-                //    angular.forEach(value[1], function (v, k) {
-                //        if (v[1] === $location.path().split('/')[2]) {
-                //            $rootScope.breadcrumblinks = [value[0], v[0]];
-                //            $scope.menuItems = [$scope.allMenuItems[key]];
-                //        } else {
-                //            $rootScope.breadcrumblinks = ['Panel'];
-                //        }
-                //    });
-                //});
-                $timeout(function(){$('#side-menu').metisMenu()});
+                // broadcast for authorized menu items, consume in dashboard
+                $rootScope.$broadcast("authz", data);
+
+                $scope.menuItems = {"other": $scope.allMenuItems.other};
+
+                // if selecteduser on cookie then add related part to the menu
+
+                if ($cookies.get("selectedUserType")) {
+                    $scope.menuItems[$cookies.get("selectedUserType")] = $scope.allMenuItems[$cookies.get("selectedUserType")];
+                }
+
+                $timeout(function(){sidebarmenu.metisMenu()});
+            });
+
+            // changing menu items by listening for broadcast
+
+            $scope.$on("menuitems", function (event, data) {
+                $scope.menuItems[data] = $scope.allMenuItems[data];
+                $scope.menuItems["other"] = $scope.allMenuItems['other'];
+                $timeout(function(){sidebarmenu.metisMenu()});
             });
 
             $scope.openSidebar = function () {
@@ -218,7 +224,6 @@ app.directive('sidebar', ['$location', function () {
                     $scope.multiCollapseVar = y;
                 }
             };
-
         }
     };
 }]);
