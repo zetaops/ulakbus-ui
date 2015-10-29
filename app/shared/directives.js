@@ -33,8 +33,8 @@ app.directive('headerNotification', function ($http, $interval, RESTURL) {
         replace: true,
         link: function ($scope) {
             $interval(function () {
-                // todo: change url to backend
-                $http.get(RESTURL.url+"notify").success(function (data) {
+                // ignore loading bar here
+                $http.get(RESTURL.url+"notify", {ignoreLoadingBar: true}).success(function (data) {
                     $scope.notifications = data;
                 });
             }, 15000);
@@ -154,9 +154,9 @@ app.directive('sidebar', ['$location', function () {
 
                 // if selecteduser on cookie then add related part to the menu
 
-                if ($cookies.get("selectedUserType")) {
-                    $scope.menuItems[$cookies.get("selectedUserType")] = $scope.allMenuItems[$cookies.get("selectedUserType")];
-                }
+                //if ($cookies.get("selectedUserType")) {
+                //    $scope.menuItems[$cookies.get("selectedUserType")] = $scope.allMenuItems[$cookies.get("selectedUserType")];
+                //}
 
                 $timeout(function(){sidebarmenu.metisMenu()});
             });

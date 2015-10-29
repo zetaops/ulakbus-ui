@@ -17,7 +17,7 @@ describe('form service module', function () {
         it('should generate url', inject(['Generator',
                 function (Generator) {
                     expect(Generator.group).not.toBe(null);
-                    var generated_url = Generator.makeUrl('test');
+                    var generated_url = Generator.makePostUrl('test');
                     expect(generated_url).toEqual("http://api.ulakbus.net/test");
                 }])
         );
@@ -168,7 +168,7 @@ describe('form service module', function () {
         it('should get list',
             inject(function (Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectPOST(RESTURL.url + 'test', {cmd: 'list'})
+                $httpBackend.expectGET(RESTURL.url + 'test/')
                     .respond(200, {
                         items: {
                             "client_cmd": "list_objects", 
@@ -193,8 +193,8 @@ describe('form service module', function () {
                         }
                     });
 
-                var cred = {cmd: 'list'};
-                Generator.get_list({url: 'test', form_params: cred})
+                var cred = {cmd: 'list', param: "personel", object_id: "5821bc25a90aa1"};
+                Generator.get_list({url: 'test/', form_params: cred})
                     .then(function (data) {
                         expect(data.data.items.token).toEqual("0122b2843f504c15821bc25a90aa1370");
                     });

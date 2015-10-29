@@ -8,7 +8,7 @@
 'use strict';
 
 
-var crud = angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService']);
+var wf = angular.module('ulakbus.wf', ['ui.bootstrap', 'schemaForm', 'formService']);
 
 
 /**
@@ -16,16 +16,16 @@ var crud = angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formSe
  * which provide a form with form generator.
  */
 
-crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams) {
-    $scope.url = 'crud';
+crud.controller('WFAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams) {
+    $scope.url = $routeParams.model;
     $scope.form_params = {'model': $routeParams.model};
-    if ($routeParams.id) {
-        $scope.form_params['object_id'] = $routeParams.id;
-        $scope.form_params['cmd'] = 'edit';
-    }
-    else {
-        $scope.form_params['cmd'] = 'add';
-    }
+    //if ($routeParams.id) {
+    //    $scope.form_params['object_id'] = $routeParams.id;
+    //    $scope.form_params['cmd'] = 'edit';
+    //}
+    //else {
+    //    $scope.form_params['cmd'] = 'add';
+    //}
 
     // get form with generator
     if ($routeParams.model) {

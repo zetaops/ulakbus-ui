@@ -24,7 +24,7 @@
                 </a>
                 <ul class="nav nav-second-level" ng-class="{hidden: $root.collapsed}">
                     <li ng-repeat="v in item">
-                        <a ng-href="#{{v.url}}?{{v.param}}={{$root.selectedUser.key}}"
+                        <a ng-href="#{{v.url}}/{{v.param}}/{{$root.selectedUser.key}}"
                            ng-click="breadcrumb([key, v.text])">{{v.text}}</a>
                     </li>
                 </ul>

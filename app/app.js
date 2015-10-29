@@ -20,6 +20,7 @@ var app = angular.module(
         'ulakbus.auth',
         'ulakbus.error_pages',
         'ulakbus.crud',
+        'ulakbus.wf',
         'ulakbus.version',
         //'schemaForm',
         'gettext',

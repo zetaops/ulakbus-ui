@@ -9,8 +9,17 @@ var form_generator = angular.module('formService', ['general']);
 
 form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, FormDiff, $rootScope) {
     var generator = {};
-    generator.makeUrl = function (url) {
+    generator.makePostUrl = function (url) {
         return RESTURL.url + url;
+    };
+    generator.makeGetUrl = function (scope) {
+        if (scope.form_params.cmd === "list") {
+            var getparams = "";
+        }
+        if (scope.form_params.cmd === "show") {
+            var getparams = "?" + scope.form_params.param + "=" + scope.form_params.object_id;
+        }
+        return RESTURL.url + scope.url + scope.form_params.model + getparams;
     };
     generator.generate = function (scope, data) {
 
@@ -177,28 +186,25 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
     };
     generator.get_form = function (scope) {
         return $http
-            .post(generator.makeUrl(scope.url), scope.form_params)
+            .post(generator.makePostUrl(scope.url), scope.form_params)
             .then(function (res) {
                 return generator.generate(scope, res.data);
-                // todo: cover all other exceptions (4xx, 5xx)
             });
     };
     generator.get_list = function (scope) {
         return $http
-            .post(generator.makeUrl(scope.url), scope.form_params)
+            .get(generator.makeGetUrl(scope))
             .then(function (res) {
                 //generator.dateformatter(res);
                 return res;
-                // todo: cover all other exceptions (4xx, 5xx)
             });
     };
     generator.get_single_item = function (scope) {
         return $http
-            .post(generator.makeUrl(scope.url), scope.form_params)
+            .get(generator.makeGetUrl(scope))
             .then(function (res) {
                 //generator.dateformatter(res);
                 return res;
-                // todo: cover all other exceptions (4xx, 5xx)
             });
     };
     generator.isValidEmail = function (email) {
@@ -254,7 +260,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
             //data.form = get_diff;
         }
 
-        return $http.post(generator.makeUrl($scope.url), data);
+        return $http.post(generator.makePostUrl($scope.url), data);
             //.success(function () {
             //
             //})
