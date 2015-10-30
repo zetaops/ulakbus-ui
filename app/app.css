@@ -18,6 +18,22 @@ body {
     background-color:#999;
 }
 
+.badge {
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    position: absolute;
+    z-index: 1;
+    line-height: 19px;
+    top: 4px;
+    left: 2px;
+    background-color: rgba(220, 112, 0, 1);
+    border: 2px solid #a61229;
+    font-family: 'robotomedium';
+    font-weight: normal;
+}
+
 .form-control {
     box-shadow:none;
     border-radius:0;
