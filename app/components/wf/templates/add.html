@@ -1,5 +1,6 @@
 <h1>{{ schema.title }}</h1>
-<form id="formgenerated" name="formgenerated" sf-schema="schema" sf-form="form" sf-model="model"></form>
+<form id="formgenerated" name="formgenerated" sf-schema="schema" sf-form="form" sf-model="model"
+      ng-submit="onSubmit(formgenerated)"></form>
 
 <div ng-repeat="node in Node">
     <h3>{{ node.title }}
@@ -9,6 +10,7 @@
             </a>
         </span>
     </h3>
+
     <div class="node-table">
         <ng-include src="'shared/templates/nodeTable.html'"></ng-include>
     </div>
@@ -22,12 +24,13 @@
             </a>
         </span>
     </h3>
+
     <div class="list-node-table">
         <ng-include src="'shared/templates/nodeTable.html'"></ng-include>
     </div>
     <hr>
 </div>
 
-<button id="submitbutton" type="button" class="btn btn-primary" ng-click="onSubmit(formgenerated)">Kaydet</button>
+<!--<button id="submitbutton" type="button" class="btn btn-primary" ng-click="onSubmit(formgenerated)">Kaydet</button>-->
 <!-- <button type="button" class="btn btn-warning">Düzenle</button>  todo: make it conditional -->
 <!-- <button type="button" class="btn btn-danger">İptal</button> todo: turn back to previous page -->

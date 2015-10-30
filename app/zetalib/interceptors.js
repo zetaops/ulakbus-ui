@@ -10,7 +10,7 @@ app.config(['$httpProvider', function ($httpProvider) {
      * the interceptor for all requests to check response
      * 4xx - 5xx errors will be handled here
      */
-    $httpProvider.interceptors.push(function ($q, $rootScope, $location) {
+    $httpProvider.interceptors.push(function ($q, $rootScope, $location, $timeout) {
         return {
             'request': function (config) {
                 // todo: delete console logs
@@ -46,10 +46,9 @@ app.config(['$httpProvider', function ($httpProvider) {
                     $location.reload();
                 }
                 if (rejection.status === 401) {
+                    $location.path('/login');
                     if ($location.path() === "/login") {
                         console.log("show errors on login form");
-                    } else {
-                        $location.path('/login');
                     }
                 }
                 if (rejection.status === 403) {

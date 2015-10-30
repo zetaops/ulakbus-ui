@@ -17,7 +17,7 @@ describe('form service module', function () {
         it('should generate url', inject(['Generator',
                 function (Generator) {
                     expect(Generator.group).not.toBe(null);
-                    var generated_url = Generator.makePostUrl('test');
+                    var generated_url = Generator.makePostUrl({url: 'test'});
                     expect(generated_url).toEqual("http://api.ulakbus.net/test");
                 }])
         );
@@ -168,7 +168,7 @@ describe('form service module', function () {
         it('should get list',
             inject(function (Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectGET(RESTURL.url + 'test/')
+                $httpBackend.expectGET(RESTURL.url + 'test/personel')
                     .respond(200, {
                         items: {
                             "client_cmd": "list_objects", 
@@ -193,7 +193,7 @@ describe('form service module', function () {
                         }
                     });
 
-                var cred = {cmd: 'list', param: "personel", object_id: "5821bc25a90aa1"};
+                var cred = {cmd: 'list', model: "personel", object_id: "5821bc25a90aa1"};
                 Generator.get_list({url: 'test/', form_params: cred})
                     .then(function (data) {
                         expect(data.data.items.token).toEqual("0122b2843f504c15821bc25a90aa1370");
@@ -206,7 +206,7 @@ describe('form service module', function () {
         it('should get single item',
             inject(function (Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectPOST(RESTURL.url + 'test', {cmd: 'show'})
+                $httpBackend.expectGET(RESTURL.url + 'test/personel?personel=123')
                     .respond(200, {
                         items: {
                             "client_cmd": "show_object", 
@@ -219,8 +219,8 @@ describe('form service module', function () {
                         }
                     });
 
-                var cred = {cmd: 'show'};
-                Generator.get_list({url: 'test', form_params: cred})
+                var cred = {cmd: 'show', model: 'personel', param: 'personel', object_id: '123'};
+                Generator.get_single_item({url: 'test/', form_params: cred})
                     .then(function (data) {
                         expect(data.data.items.token).toEqual("da73993f439549e7855fd82deafbbc99");
                     });

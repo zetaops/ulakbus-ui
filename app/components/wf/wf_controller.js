@@ -38,11 +38,10 @@ crud.controller('WFAddEditCtrl', function ($scope, $rootScope, $location, $http,
         if (form.$valid) {
             Generator.submit($scope)
                 .success(function(data){
-                    debugger;
-                    $location.path('/crud/'+$scope.form_params.model).search(data);
+
                 })
                 .error(function(data){
-                    $scope.message = data.title;
+                    //$scope.message = data.title;
                 });
         }
     };

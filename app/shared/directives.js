@@ -26,7 +26,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
  * headerNotification directive for header
  */
 
-app.directive('headerNotification', function ($http, $interval, RESTURL) {
+app.directive('headerNotification', function ($http, $rootScope, $interval, RESTURL) {
     return {
         templateUrl: 'shared/templates/directives/header-notification.html',
         restrict: 'E',
@@ -35,9 +35,17 @@ app.directive('headerNotification', function ($http, $interval, RESTURL) {
             $interval(function () {
                 // ignore loading bar here
                 $http.get(RESTURL.url+"notify", {ignoreLoadingBar: true}).success(function (data) {
-                    $scope.notifications = data;
+                    // notification categories:
+                    // 1: tasks, 2: messages, 3: announcements, 4: recents
+                    $scope.notifications = {1: [], 2: [], 3: [], 4: []};
+
+                    angular.forEach(data.notifications, function (value, key) {
+                        $scope.notifications[value.type].push(value);
+                    });
+                    $rootScope.$broadcast("notifications", $scope.notifications);
+                    console.log($scope.notifications);
                 });
-            }, 15000);
+            }, 5000);
         }
     };
 });
@@ -144,22 +152,23 @@ app.directive('sidebar', ['$location', function () {
         controller: function ($scope, $rootScope, $cookies, $http, RESTURL, $location, $timeout) {
             var sidebarmenu = $('#side-menu');
             sidebarmenu.metisMenu();
-            $http.get(RESTURL.url + 'menu/').success(function (data) {
-                $scope.allMenuItems = angular.copy(data);
+            $http.get(RESTURL.url + 'menu/')
+                .success(function (data) {
+                    $scope.allMenuItems = angular.copy(data);
 
-                // broadcast for authorized menu items, consume in dashboard
-                $rootScope.$broadcast("authz", data);
+                    // broadcast for authorized menu items, consume in dashboard
+                    $rootScope.$broadcast("authz", data);
 
-                $scope.menuItems = {"other": $scope.allMenuItems.other};
+                    $scope.menuItems = {"other": $scope.allMenuItems.other};
 
-                // if selecteduser on cookie then add related part to the menu
+                    // if selecteduser on cookie then add related part to the menu
 
-                //if ($cookies.get("selectedUserType")) {
-                //    $scope.menuItems[$cookies.get("selectedUserType")] = $scope.allMenuItems[$cookies.get("selectedUserType")];
-                //}
+                    //if ($cookies.get("selectedUserType")) {
+                    //    $scope.menuItems[$cookies.get("selectedUserType")] = $scope.allMenuItems[$cookies.get("selectedUserType")];
+                    //}
 
-                $timeout(function(){sidebarmenu.metisMenu()});
-            });
+                    $timeout(function(){sidebarmenu.metisMenu()});
+                });
 
             // changing menu items by listening for broadcast
 

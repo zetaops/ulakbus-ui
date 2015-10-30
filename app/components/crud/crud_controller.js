@@ -38,7 +38,6 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
         if (form.$valid) {
             Generator.submit($scope)
                 .success(function(data){
-                    debugger;
                     $location.path('/crud/'+$scope.form_params.model).search(data);
                 })
                 .error(function(data){

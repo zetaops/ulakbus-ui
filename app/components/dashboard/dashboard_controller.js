@@ -69,4 +69,23 @@ angular.module('ulakbus.dashboard', ['ngRoute'])
         //    $rootScope.selectedUser = {name: $cookies.get("selectedUserName"), tcno: $cookies.get("selectedUserTcNo"), key: $cookies.get("selectedUserKey")};
         //}
 
+        $scope.$on("notifications", function (event, data) {
+            $scope.notifications = data;
+        });
+
+    })
+    .directive('sidebarNotifications', function () {
+
+        return {
+            templateUrl: 'shared/templates/directives/sidebar-notification.html',
+            restrict: 'E',
+            replace: true,
+            link: function ($scope) {
+                // sidebar notifications from rootScope broadcast
+
+                //$scope.$on("notifications", function (event, data) {
+                //    $scope.notifications = data;
+                //});
+            }
+        }
     });

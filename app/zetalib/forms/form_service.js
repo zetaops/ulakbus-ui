@@ -9,8 +9,8 @@ var form_generator = angular.module('formService', ['general']);
 
 form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, FormDiff, $rootScope) {
     var generator = {};
-    generator.makePostUrl = function (url) {
-        return RESTURL.url + url;
+    generator.makePostUrl = function (scope) {
+        return RESTURL.url + scope.url;
     };
     generator.makeGetUrl = function (scope) {
         if (scope.form_params.cmd === "list") {
@@ -61,6 +61,16 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
          */
         angular.forEach(scope.schema.properties, function (k, v) {
             // check if type is date and if type date found change it to string
+
+            if (k.type === 'submit' || k.type === 'button') {
+                //k.type = 'button';
+                angular.forEach(scope.form, function (value, key) {
+                    if (value === v) {
+                        k.type = 'button';
+                        scope.form[key] = {type: k.type, title: k.title, onClick: function(){scope.model[v]=1;generator.submit(scope);}};
+                    }
+                });
+            }
 
             if (k.type === 'date') {
                 k.type = 'string';
@@ -186,7 +196,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
     };
     generator.get_form = function (scope) {
         return $http
-            .post(generator.makePostUrl(scope.url), scope.form_params)
+            .post(generator.makePostUrl(scope), scope.form_params)
             .then(function (res) {
                 return generator.generate(scope, res.data);
             });
@@ -239,6 +249,11 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
             return deferred.promise;
         }
     };
+    // custom form submit for custom submit buttons
+    generator.genericSubmit = function ($scope, data) {
+        debugger;
+        return $http.post(generator.makePostUrl($scope), data);
+    };
     generator.submit = function ($scope) {
         // todo: diff for all submits to recognize form change. if no change returns to view with no submit
         angular.forEach($scope.ListNode, function (value, key) {
@@ -260,16 +275,14 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
             //data.form = get_diff;
         }
 
-        return $http.post(generator.makePostUrl($scope.url), data);
-            //.success(function () {
-            //
-            //})
-            //.then(function (res) {
-            //    if (res.data.client_cmd) {
-            //        console.log("record fin");
-            //        $location.path($scope.form_params.model);
-            //    }
-            //});
+        return $http.post(generator.makePostUrl($scope), data)
+            .success(function (data) {
+                // if return data consists forms key then trogger redraw the form with updated data
+                if (data.forms) {
+                    generator.generate($scope, data);
+                    $scope.$broadcast('schemaFormRedraw')
+                }
+            });
     };
     return generator;
 });
