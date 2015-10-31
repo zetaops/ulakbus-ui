@@ -1,7 +1,7 @@
 <ul class="nav navbar-top-links navbar-right">
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown">
-        	<div class="badge">+9</div>
+        	<div class="badge" ng-if="notifications[2].length > 0">{{notifications[2].length}}</div>
             <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-messages">
@@ -29,6 +29,7 @@
     <!-- /.dropdown -->
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown">
+            <div class="badge" ng-if="notifications[1].length > 0">{{notifications[1].length}}</div>
             <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <!--<ul class="dropdown-menu dropdown-tasks">-->
@@ -60,7 +61,7 @@
     <!-- /.dropdown -->
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown">
-        	<div class="badge">5</div>
+        	<div class="badge" ng-if="notifications[3].length > 0">{{notifications[3].length}}</div>
             <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <!--<ul class="dropdown-menu dropdown-alerts">-->
