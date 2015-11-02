@@ -9,11 +9,11 @@
 
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
-        .when('/500', {
+        .when('/error/500', {
             templateUrl: 'components/error_pages/500.html',
             controller: '500Ctrl'
         })
-        .when('/404', {
+        .when('/error/404', {
             templateUrl: 'components/error_pages/404.html',
             controller: '404Ctrl'
         });

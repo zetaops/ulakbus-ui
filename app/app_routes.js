@@ -1,6 +1,6 @@
 'use strict';
 
-app.config(['$routeProvider', function ($routeProvider) {
+app.config(['$routeProvider', function ($routeProvider, $route) {
     $routeProvider
         .when('/login', {
             templateUrl: 'components/auth/login.html',
@@ -10,25 +10,29 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'components/dashboard/dashboard.html',
             controller: 'DashCtrl'
         })
-        .when('/crud/:model/add', {
+        .when('/crud/:model/:id', {
             templateUrl: 'components/crud/templates/add.html',
-            controller: 'CRUDAddEditCtrl'
+            controller: 'CRUDAddEditCtrl',
+            reloadOnSearch: true
         })
-        .when('/crud/:model/edit/:id', {
-            templateUrl: 'components/crud/templates/add.html',
-            controller: 'CRUDAddEditCtrl'
-        })
+        //.when('/crud/:model/edit/:id', {
+        //    templateUrl: 'components/crud/templates/add.html',
+        //    controller: 'CRUDAddEditCtrl'
+        //})
         .when('/crud/:model', {
             templateUrl: 'components/crud/templates/list.html',
-            controller: 'CRUDListCtrl'
+            controller: 'CRUDListCtrl',
+            reloadOnSearch: true
         })
         .when('/crud/:model/:param/:id', {
             templateUrl: 'components/crud/templates/show.html',
-            controller: 'CRUDShowCtrl'
+            controller: 'CRUDShowCtrl',
+            reloadOnSearch: true
         })
-        .when('/:model/:id/', {
+        .when('/:model/', {
             templateUrl: 'components/wf/templates/add.html',
-            controller: 'WFAddEditCtrl'
+            controller: 'WFAddEditCtrl',
+            reloadOnSearch: true
         })
         .otherwise({redirectTo: '/dashboard'});
 }])

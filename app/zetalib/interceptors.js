@@ -61,7 +61,7 @@ app.config(['$httpProvider', function ($httpProvider) {
                 }
                 if (rejection.status === 404) {
                     console.log(404);
-                    $location.path("/404");
+                    $location.path("/error/404");
                 }
                 // server 500 error returns with -1 on status.
                 //if (rejection.status === -1 && rejection.config.data.model) {
@@ -84,8 +84,8 @@ app.config(['$httpProvider', function ($httpProvider) {
                         '</div>' +
                         '</div>' +
                         '</div>' +
-                        '</div>').modal()
-                    $location.path("/500");
+                        '</div>').modal();
+                    $location.path("/error/500");
                 }
                 return $q.reject(rejection);
             }

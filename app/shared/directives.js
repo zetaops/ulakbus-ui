@@ -149,7 +149,7 @@ app.directive('sidebar', ['$location', function () {
         restrict: 'E',
         replace: true,
         scope: {},
-        controller: function ($scope, $rootScope, $cookies, $http, RESTURL, $location, $timeout) {
+        controller: function ($scope, $rootScope, $cookies, $route, $http, RESTURL, $location, $timeout) {
             var sidebarmenu = $('#side-menu');
             sidebarmenu.metisMenu();
             $http.get(RESTURL.url + 'menu/')
@@ -218,7 +218,10 @@ app.directive('sidebar', ['$location', function () {
             };
 
             // breadcrumb function changes breadcrumb items and itemlist must be list
-            $scope.breadcrumb = function (itemlist) {
+            $scope.breadcrumb = function (itemlist, $event) {
+                //if ($event.target.href==location.href) {
+                //    $route.reload();
+                //}
                 $rootScope.breadcrumblinks = itemlist;
                 // showSaveButton is used for to show or not to show save button on top of the page
                 // todo: remove button
