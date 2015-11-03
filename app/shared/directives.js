@@ -32,7 +32,7 @@ app.directive('headerNotification', function ($http, $rootScope, $interval, REST
         restrict: 'E',
         replace: true,
         link: function ($scope) {
-            $interval(function () {
+            $scope.getNotifications = function () {
                 // ignore loading bar here
                 $http.get(RESTURL.url+"notify", {ignoreLoadingBar: true}).success(function (data) {
                     // notification categories:
@@ -44,7 +44,28 @@ app.directive('headerNotification', function ($http, $rootScope, $interval, REST
                     });
                     $rootScope.$broadcast("notifications", $scope.notifications);
                 });
+            };
+
+            $scope.getNotifications();
+
+            // check notifications every 5 seconds
+            $interval(function () {
+                $scope.getNotifications();
             }, 5000);
+
+            // when clicked mark as read notification
+            // it can be list of notifications
+            $scope.markAsRead = function (items) {
+                $http.post(RESTURL.url+"notify", {ignoreLoadingBar: true, read: items})
+                    .success(function (data) {
+                        console.log(data);
+                    });
+            };
+
+            // if markasread triggered outside the directive
+            $scope.$on("markasread", function (event, data) {
+                $scope.markAsRead(data);
+            });
         }
     };
 });

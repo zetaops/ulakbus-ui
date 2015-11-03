@@ -56,12 +56,12 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
 
             if (v.type === 'submit' || v.type === 'button') {
                 //k.type = 'button';
-                angular.forEach(scope.form, function (value, key) {
-                    if (value === v) {
-                        v.type = 'button';
-                        scope.form[key] = {type: v.type, title: v.title, onClick: function(){scope.model[v]=1;generator.submit(scope);}};
-                    }
-                });
+                debugger;
+                scope.form[scope.form.indexOf(k)] = {
+                    type: v.type,
+                    title: v.title,
+                    onClick: function(){scope.model[v]=1;generator.submit(scope);}
+                };
             }
 
             if (v.type === 'date') {
@@ -185,7 +185,8 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
 
             // generically change _id fields model value
 
-            if (k == scope.form_params.param) {
+            if (k == scope.form_params.param) {                    debugger;
+
                 scope.model[k] = scope.form_params.id;
                 scope.form.splice(scope.form.indexOf(k), 1);
             }

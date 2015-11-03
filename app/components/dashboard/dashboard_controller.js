@@ -73,6 +73,10 @@ angular.module('ulakbus.dashboard', ['ngRoute'])
             $scope.notifications = data;
         });
 
+        $scope.markAsRead = function (items) {
+            $rootScope.$broadcast("markasread", items);
+        }
+
     })
     .directive('sidebarNotifications', function () {
 

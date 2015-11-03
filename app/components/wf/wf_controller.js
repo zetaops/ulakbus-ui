@@ -17,7 +17,7 @@ var wf = angular.module('ulakbus.wf', ['ui.bootstrap', 'schemaForm', 'formServic
  */
 
 wf.controller('WFAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams) {
-    $scope.url = ""; debugger;
+    $scope.url = "";
     $scope.form_params = {'model': $routeParams.model};
     //if ($routeParams.id) {
     //    $scope.form_params['object_id'] = $routeParams.id;
