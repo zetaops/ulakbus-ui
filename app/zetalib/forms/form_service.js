@@ -52,17 +52,25 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
          * prepareforms checks input types and convert if necessary
          */
         angular.forEach(scope.schema.properties, function (v, k) {
-            // check if type is date and if type date found change it to string
+
+            // generically change _id fields model value
+
+            if (k == scope.form_params.param) {
+
+                scope.model[k] = scope.form_params.id;
+                scope.form.splice(scope.form.indexOf(k), 1);
+                return;
+            }
 
             if (v.type === 'submit' || v.type === 'button') {
-                //k.type = 'button';
-                debugger;
                 scope.form[scope.form.indexOf(k)] = {
                     type: v.type,
                     title: v.title,
                     onClick: function(){scope.model[v]=1;generator.submit(scope);}
                 };
             }
+
+            // check if type is date and if type date found change it to string
 
             if (v.type === 'date') {
                 v.type = 'string';
@@ -98,7 +106,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
             if (v.type === 'model') {
 
                 var formitem = scope.form[scope.form.indexOf(k)];
-                var modelscope = {"url": scope.url, "form_params": {model: v.model_name, param: scope.form_params.param, id: scope.form_params.id}};
+                var modelscope = {"url": scope.url, "form_params": {model: v.model_name}};
 
                 formitem = {
                     type: "template",
@@ -183,15 +191,9 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
 
             }
 
-            // generically change _id fields model value
-
-            if (k == scope.form_params.param) {                    debugger;
-
-                scope.model[k] = scope.form_params.id;
-                scope.form.splice(scope.form.indexOf(k), 1);
-            }
-
         });
+
+        console.log(scope.form);
 
         return scope;
     };
@@ -261,7 +263,6 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
     };
     // custom form submit for custom submit buttons
     generator.genericSubmit = function ($scope, data) {
-        debugger;
         return $http.post(generator.makePostUrl($scope), data);
     };
     generator.submit = function ($scope) {
@@ -393,7 +394,7 @@ form_generator.directive('modalForNodes', function ($modal) {
  * @return: openmodal directive
  */
 
-form_generator.directive('addModalForLinkedModel', function ($modal, Generator) {
+form_generator.directive('addModalForLinkedModel', function ($modal, $route, Generator) {
     return {
         link: function (scope, element) {
             element.on('click', function () {
@@ -405,7 +406,7 @@ form_generator.directive('addModalForLinkedModel', function ($modal, Generator) 
                     resolve: {
                         items: function () {
                             return Generator.get_form({
-                                url: 'crud',
+                                url: 'crud/',
                                 form_params: {'model': scope.form.model_name, "cmd": "add"}
                             });
                         }
@@ -414,6 +415,7 @@ form_generator.directive('addModalForLinkedModel', function ($modal, Generator) 
 
                 modalInstance.result.then(function (childmodel, key) {
                     Generator.submit(childmodel);
+                    $route.reload();
                 });
             });
         }
@@ -440,7 +442,7 @@ form_generator.directive('editModalForLinkedModel', function ($modal, Generator)
                     resolve: {
                         items: function () {
                             return Generator.get_form({
-                                url: 'crud',
+                                url: 'crud/',
                                 form_params: {'model': scope.form.title, "cmd": "add"}
                             });
                         }
