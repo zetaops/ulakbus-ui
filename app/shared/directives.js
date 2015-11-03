@@ -43,7 +43,6 @@ app.directive('headerNotification', function ($http, $rootScope, $interval, REST
                         $scope.notifications[value.type].push(value);
                     });
                     $rootScope.$broadcast("notifications", $scope.notifications);
-                    console.log($scope.notifications);
                 });
             }, 5000);
         }

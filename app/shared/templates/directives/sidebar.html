@@ -24,7 +24,10 @@
                 </a>
                 <ul class="nav nav-second-level" ng-class="{hidden: $root.collapsed}">
                     <li ng-repeat="v in item">
-                        <a ng-href="#{{v.url}}{{$root.selectedUser.key}}"
+                        <a ng-if="key == 'other'" ng-href="#{{v.url}}/{{$root.selectedUser.key}}"
+                           ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
+                        <a ng-if="key == 'ogrenci' || key ==  'personel'"
+                           ng-href="#{{v.url}}{{v.param}}/{{$root.selectedUser.key}}"
                            ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
                     </li>
                 </ul>

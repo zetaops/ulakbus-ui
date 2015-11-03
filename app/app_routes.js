@@ -10,29 +10,25 @@ app.config(['$routeProvider', function ($routeProvider, $route) {
             templateUrl: 'components/dashboard/dashboard.html',
             controller: 'DashCtrl'
         })
-        .when('/crud/:model/:id', {
+        .when('/crud/add/:model/:param/:id', {
             templateUrl: 'components/crud/templates/add.html',
-            controller: 'CRUDAddEditCtrl',
-            reloadOnSearch: true
+            controller: 'CRUDAddEditCtrl'
         })
-        //.when('/crud/:model/edit/:id', {
-        //    templateUrl: 'components/crud/templates/add.html',
-        //    controller: 'CRUDAddEditCtrl'
-        //})
-        .when('/crud/:model', {
-            templateUrl: 'components/crud/templates/list.html',
-            controller: 'CRUDListCtrl',
-            reloadOnSearch: true
+        .when('/crud/edit/:model/:param/:id/:key', {
+            templateUrl: 'components/crud/templates/add.html',
+            controller: 'CRUDAddEditCtrl'
         })
         .when('/crud/:model/:param/:id', {
+            templateUrl: 'components/crud/templates/list.html',
+            controller: 'CRUDListCtrl'
+        })
+        .when('/crud/detail/:model/:param/:id/:key', {
             templateUrl: 'components/crud/templates/show.html',
-            controller: 'CRUDShowCtrl',
-            reloadOnSearch: true
+            controller: 'CRUDShowCtrl'
         })
         .when('/:model/', {
             templateUrl: 'components/wf/templates/add.html',
-            controller: 'WFAddEditCtrl',
-            reloadOnSearch: true
+            controller: 'WFAddEditCtrl'
         })
         .otherwise({redirectTo: '/dashboard'});
 }])

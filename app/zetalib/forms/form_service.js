@@ -9,16 +9,8 @@ var form_generator = angular.module('formService', ['general']);
 
 form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, FormDiff, $rootScope) {
     var generator = {};
-    generator.makePostUrl = function (scope) {
-        return RESTURL.url + scope.url;
-    };
-    generator.makeGetUrl = function (scope) {
-        if (scope.form_params.cmd === "list") {
-            var getparams = "";
-        }
-        if (scope.form_params.cmd === "show") {
-            var getparams = "?" + scope.form_params.param + "=" + scope.form_params.object_id;
-        }
+    generator.makeUrl = function (scope) {
+        var getparams = "?" + scope.form_params.param + "=" + scope.form_params.id;
         return RESTURL.url + scope.url + scope.form_params.model + getparams;
     };
     generator.generate = function (scope, data) {
@@ -59,52 +51,60 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
         /**
          * prepareforms checks input types and convert if necessary
          */
-        angular.forEach(scope.schema.properties, function (k, v) {
+        angular.forEach(scope.schema.properties, function (v, k) {
             // check if type is date and if type date found change it to string
 
-            if (k.type === 'submit' || k.type === 'button') {
+            if (v.type === 'submit' || v.type === 'button') {
                 //k.type = 'button';
                 angular.forEach(scope.form, function (value, key) {
                     if (value === v) {
-                        k.type = 'button';
-                        scope.form[key] = {type: k.type, title: k.title, onClick: function(){scope.model[v]=1;generator.submit(scope);}};
+                        v.type = 'button';
+                        scope.form[key] = {type: v.type, title: v.title, onClick: function(){scope.model[v]=1;generator.submit(scope);}};
                     }
                 });
             }
 
-            if (k.type === 'date') {
-                k.type = 'string';
-                scope.model[v] = generator.dateformatter(scope.model[v]);
+            if (v.type === 'date') {
+                v.type = 'string';
+                scope.model[k] = generator.dateformatter(scope.model[k]);
 
                 $timeout(function () {
-                    jQuery('#' + v).datepicker({
+                    jQuery('#' + k).datepicker({
                         changeMonth: true,
                         changeYear: true,
                         dateFormat: "dd.mm.yy",
                         onSelect: function (date) {
-                            scope.model[v] = date;
+                            scope.model[k] = date;
                         }
                     });
                 });
             }
 
-            if (k.type === 'int' || k.type === 'float') {
-                k.type = 'number';
+            if (v.type === 'int' || v.type === 'float') {
+                v.type = 'number';
+            }
+
+            if (v.type === 'text_general') {
+                v.type = 'string';
+                v["x-schema-form"] = {
+                    "type": "textarea",
+                    //"placeholder": ""
+                }
             }
 
             // if type is model use foreignKey.html template to show them
 
-            if (k.type === 'model') {
+            if (v.type === 'model') {
 
-                var formitem = scope.form[scope.form.indexOf(v)];
-                var modelscope = {"url": scope.url, "form_params": {model: k.model_name}};
+                var formitem = scope.form[scope.form.indexOf(k)];
+                var modelscope = {"url": scope.url, "form_params": {model: v.model_name, param: scope.form_params.param, id: scope.form_params.id}};
 
                 formitem = {
                     type: "template",
                     templateUrl: "shared/templates/foreignKey.html",
-                    title: k.title,
-                    name: k.model_name,
-                    model_name: k.model_name,
+                    title: v.title,
+                    name: v.model_name,
+                    model_name: v.model_name,
                     titleMap: generator.get_list(modelscope).then(function (res) {
                         formitem.titleMap = [];
                         angular.forEach(res.data.nobjects, function (item) {
@@ -117,17 +117,17 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
                         });
                     }),
                     onSelect: function (item) {
-                        scope.model[v] = item.value;
+                        scope.model[k] = item.value;
                     },
                     onDropdownSelect: function(item, inputname) {
-                        scope.model[v] = item.value;
+                        scope.model[k] = item.value;
                         jQuery('input[name=' + inputname + ']').val(item.name);
                     }
                 };
 
                 // get model objects from db and add to select list
 
-                scope.form[scope.form.indexOf(v)] = formitem;
+                scope.form[scope.form.indexOf(k)] = formitem;
                 //scope.$broadcast('schemaFormRedraw');
 
                 // todo: make lines below work properly
@@ -136,50 +136,57 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
                 //}
             }
 
-            if (k.type === 'ListNode' || k.type === 'Node') {
+            if (v.type === 'ListNode' || v.type === 'Node') {
 
-                scope[k.type] = scope[k.type] || {};
+                scope[v.type] = scope[v.type] || {};
 
-                scope[k.type][v] = {
-                    title: k.title,
+                scope[v.type][k] = {
+                    title: v.title,
                     form: [],
                     schema: {
                         properties: {},
                         required: [],
-                        title: k.title,
+                        title: v.title,
                         type: "object",
-                        formType: k.type,
-                        model_name: v
+                        formType: v.type,
+                        model_name: k
                     },
                     url: scope.url
                 };
 
-                if (scope.model[v] === null) {
-                    scope[k.type][v].model = k.type === 'Node' ? {} : [];
+                if (scope.model[k] === null) {
+                    scope[v.type][k].model = v.type === 'Node' ? {} : [];
                 } else {
-                    scope[k.type][v].model = scope.model[v];
+                    scope[v.type][k].model = scope.model[k];
                 }
 
-                angular.forEach(k.schema, function (item) {
-                    scope[k.type][v].schema.properties[item.name] = item;
+                angular.forEach(v.schema, function (item) {
+                    scope[v.type][k].schema.properties[item.name] = item;
 
                     // prepare required fields
                     if (item.required === true && item.name !== 'idx') {
-                        scope[k.type][v].schema.required.push(item.name);
+                        scope[v.type][k].schema.required.push(item.name);
                     }
 
                     // idx field must be hidden
                     if (item.name === 'idx') {
-                        scope[k.type][v].form.push({type: 'string', key: item.name, htmlClass: 'hidden'});
+                        scope[v.type][k].form.push({type: 'string', key: item.name, htmlClass: 'hidden'});
                     } else {
-                        scope[k.type][v].form.push(item.name);
+                        scope[v.type][k].form.push(item.name);
                     }
 
                 });
 
                 // lengthModels is length of the listnode models. if greater than 0 show records on template
-                scope[k.type][v]['lengthModels'] = scope.model[v] ? 1 : 0;
+                scope[v.type][k]['lengthModels'] = scope.model[k] ? 1 : 0;
 
+            }
+
+            // generically change _id fields model value
+
+            if (k === scope.form_params.param + '_id') {
+                scope.model[k] = scope.form_params.id;
+                scope.form.splice(scope.form.indexOf(k), 1);
             }
 
         });
@@ -188,22 +195,23 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
     };
     generator.dateformatter = function (formObject) {
         var ndate = new Date(formObject);
-        if (ndate === 'Invalid Date') {
+        if (ndate == 'Invalid Date') {
             return '';
+        } else {
+            var newdatearray = [ndate.getDate(), ndate.getMonth(), ndate.getFullYear()];
+            return newdatearray.join('.');
         }
-        var newdatearray = [ndate.getDate(), ndate.getMonth(), ndate.getFullYear()];
-        return newdatearray.join('.');
     };
     generator.get_form = function (scope) {
         return $http
-            .post(generator.makePostUrl(scope), scope.form_params)
+            .post(generator.makeUrl(scope), scope.form_params)
             .then(function (res) {
                 return generator.generate(scope, res.data);
             });
     };
     generator.get_list = function (scope) {
         return $http
-            .get(generator.makeGetUrl(scope))
+            .get(generator.makeUrl(scope))
             .then(function (res) {
                 //generator.dateformatter(res);
                 return res;
@@ -211,7 +219,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
     };
     generator.get_single_item = function (scope) {
         return $http
-            .get(generator.makeGetUrl(scope))
+            .get(generator.makeUrl(scope))
             .then(function (res) {
                 //generator.dateformatter(res);
                 return res;
@@ -275,7 +283,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
             //data.form = get_diff;
         }
 
-        return $http.post(generator.makePostUrl($scope), data)
+        return $http.post(generator.makeUrl($scope), data)
             .success(function (data) {
                 // if return data consists forms key then trogger redraw the form with updated data
                 if (data.forms) {

@@ -17,10 +17,10 @@ var crud = angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formSe
  */
 
 crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams) {
-    $scope.url = 'crud';
-    $scope.form_params = {'model': $routeParams.model};
-    if ($routeParams.id) {
-        $scope.form_params['object_id'] = $routeParams.id;
+    $scope.url = 'crud/';
+    $scope.form_params = {'model': $routeParams.model, param: $routeParams.param, id: $routeParams.id};
+    if ($routeParams.key) {
+        $scope.form_params['key'] = $routeParams.key;
         $scope.form_params['cmd'] = 'edit';
     }
     else {
@@ -37,10 +37,10 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
 
         if (form.$valid) {
             Generator.submit($scope)
-                .success(function(data){
-                    $location.path('/crud/'+$scope.form_params.model).search(data);
+                .success(function (data) {
+                    $location.path('/crud/' + $scope.form_params.model).search(data);
                 })
-                .error(function(data){
+                .error(function (data) {
                     $scope.message = data.title;
                 });
         }
@@ -56,7 +56,7 @@ crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeP
     $scope.url = 'crud/';
     $scope.form_params = $routeParams;
 
-    if ($routeParams.nobjects){
+    if ($routeParams.nobjects) {
         $scope.nobjects = $routeParams.nobjects;
         $scope.model = $routeParams.model;
     } else {
@@ -72,16 +72,26 @@ crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeP
 /**
  * CRUD Show Controller
  */
-crud.controller('CRUDShowCtrl', function ($scope, $rootScope, Generator, $routeParams) {
+crud.controller('CRUDShowCtrl', function ($scope, $rootScope, $location, Generator, $routeParams) {
     $scope.url = 'crud/';
-    $scope.form_params = {"object_id": $routeParams.id, "cmd": "show", "model": $routeParams.model};
-    // call generator's get_single_itemfunc
+    $scope.form_params = {
+        "object_id": $routeParams.id,
+        "cmd": "show",
+        param: $routeParams.param,
+        "model": $routeParams.model
+    };
+    // call generator's get_single_item func
     Generator.get_single_item($scope).then(function (res) {
+        console.log(res.data.nobjects);
+        // if no data to show redirect to add/edit view
+        if (res.data.nobjects[0] === "-1") {
+            $location.path('crud/' + $scope.form_params.model + '/' + $scope.form_params.param + '/' + $scope.form_params.object_id + '/edit');
+        }
         $scope.listobjects = {};
         $scope.object = res.data.object;
 
         angular.forEach($scope.object, function (value, key) {
-            if(typeof value == 'object'){
+            if (typeof value == 'object') {
                 $scope.listobjects[key] = value;
                 delete $scope.object[key];
             }
