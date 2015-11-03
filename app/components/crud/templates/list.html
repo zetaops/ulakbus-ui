@@ -33,15 +33,16 @@
                 </td>
                 <th scope="row" style="text-align:center">{{$index}}</th>
                 <td ng-repeat="k in object track by $index" ng-if="nobjects[0]=='-1' && $index>0">
-                    <a ng-href="#/crud/edit/{{model}}/{{form_params.param}}/{{form_params.id}}{{object[0]}}">{{object[1]}}</a>
+                    <a ng-href="#/crud/detail/{{model}}/{{form_params.param}}/{{form_params.id}}/{{object[0]}}">{{object[1]}}</a>
                 </td>
 
                 <td ng-repeat="(key,value) in object track by $index" ng-if="nobjects[0]!='-1' && $index>0">
-                    <a ng-href="#/crud/edit/{{model}}/{{form_params.param}}/{{form_params.id}}{{object[0]}}" ng-if="$index==1">{{object[key]}}</a>
+                    <a ng-href="#/crud/detail/{{model}}/{{form_params.param}}/{{form_params.id}}/{{object[0]}}"
+                       ng-if="$index==1">{{object[key]}}</a>
                     <span ng-if="$index!=1">{{object[key]}}</span>
                 </td>
                 <td>
-                    <a ng-href="#/crud/edit/{{model}}/{{form_params.param}}/{{form_params.id}}{{object[0]}}">Edit</a>
+                    <a ng-href="#/crud/edit/{{model}}/{{form_params.param}}/{{form_params.id}}/{{object[0]}}">Edit</a>
                     <br>
                 </td>
             </tr>

@@ -82,6 +82,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
 
             if (v.type === 'int' || v.type === 'float') {
                 v.type = 'number';
+                scope.model[k] = parseInt(scope.model[k]);
             }
 
             if (v.type === 'text_general') {
@@ -184,7 +185,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
 
             // generically change _id fields model value
 
-            if (k === scope.form_params.param + '_id') {
+            if (k == scope.form_params.param) {
                 scope.model[k] = scope.form_params.id;
                 scope.form.splice(scope.form.indexOf(k), 1);
             }
@@ -219,7 +220,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
     };
     generator.get_single_item = function (scope) {
         return $http
-            .get(generator.makeUrl(scope))
+            .post(generator.makeUrl(scope), scope.form_params)
             .then(function (res) {
                 //generator.dateformatter(res);
                 return res;

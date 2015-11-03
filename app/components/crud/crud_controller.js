@@ -20,7 +20,7 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
     $scope.url = 'crud/';
     $scope.form_params = {'model': $routeParams.model, param: $routeParams.param, id: $routeParams.id};
     if ($routeParams.key) {
-        $scope.form_params['key'] = $routeParams.key;
+        $scope.form_params['object_id'] = $routeParams.key;
         $scope.form_params['cmd'] = 'edit';
     }
     else {
@@ -75,7 +75,8 @@ crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeP
 crud.controller('CRUDShowCtrl', function ($scope, $rootScope, $location, Generator, $routeParams) {
     $scope.url = 'crud/';
     $scope.form_params = {
-        "object_id": $routeParams.id,
+        "id": $routeParams.id,
+        "object_id": $routeParams.key,
         "cmd": "show",
         param: $routeParams.param,
         "model": $routeParams.model
@@ -84,9 +85,9 @@ crud.controller('CRUDShowCtrl', function ($scope, $rootScope, $location, Generat
     Generator.get_single_item($scope).then(function (res) {
         console.log(res.data.nobjects);
         // if no data to show redirect to add/edit view
-        if (res.data.nobjects[0] === "-1") {
-            $location.path('crud/' + $scope.form_params.model + '/' + $scope.form_params.param + '/' + $scope.form_params.object_id + '/edit');
-        }
+        //if (res.data.nobjects[0] === "-1") {
+        //    $location.path('crud/' + $scope.form_params.model + '/' + $scope.form_params.param + '/' + $scope.form_params.object_id + '/edit');
+        //}
         $scope.listobjects = {};
         $scope.object = res.data.object;
 
@@ -95,8 +96,9 @@ crud.controller('CRUDShowCtrl', function ($scope, $rootScope, $location, Generat
                 $scope.listobjects[key] = value;
                 delete $scope.object[key];
             }
-        });
+        });    debugger;
+
 
         $scope.model = $routeParams.model;
-    })
+    });
 });
