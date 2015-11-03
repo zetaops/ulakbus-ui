@@ -18,6 +18,22 @@ body {
     background-color:#999;
 }
 
+.badge {
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    position: absolute;
+    z-index: 1;
+    line-height: 19px;
+    top: 4px;
+    left: 2px;
+    background-color: rgba(220, 112, 0, 1);
+    border: 2px solid #a61229;
+    font-family: 'robotomedium';
+    font-weight: normal;
+}
+
 .form-control {
     box-shadow:none;
     border-radius:0;
@@ -485,7 +501,7 @@ select {
     width: 100%;
     max-height: calc(85% - 139px);
     background: #fff;
-	display:none;
+	/*display:none;*/ /** angular template will hndle this */
 }
 
 .sidebar-person-info .identity {
@@ -1592,3 +1608,31 @@ table.dataTable thead .sorting:after {
     background-size: 100px 100px;
 }
 
+
+/* page transitions */
+.slide {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.slide.ng-enter,
+.slide.ng-leave {
+    -webkit-transition: all 1s ease;
+    transition: all 1s ease;
+}
+.slide.ng-enter {
+    left: 100%;
+}
+.slide.ng-enter-active {
+    left: 0;
+}
+.slide.ng-leave {
+    left: 0;
+}
+.slide.ng-leave-active {
+    left: -100%;
+}
+
+/* end page transitions */

@@ -26,19 +26,26 @@ app.directive('logout', function ($http, $location, RESTURL) {
  * headerNotification directive for header
  */
 
-app.directive('headerNotification', function ($http, $interval, RESTURL) {
+app.directive('headerNotification', function ($http, $rootScope, $interval, RESTURL) {
     return {
         templateUrl: 'shared/templates/directives/header-notification.html',
         restrict: 'E',
         replace: true,
-        //link: function ($scope) {
-        //    $interval(function () {
-        //        // todo: change url to backend
-        //        $http.post(RESTURL+"crud").success(function (data) {
-        //            $scope.notifications = data;
-        //        });
-        //    }, 15000);
-        //}
+        link: function ($scope) {
+            $interval(function () {
+                // ignore loading bar here
+                $http.get(RESTURL.url+"notify", {ignoreLoadingBar: true}).success(function (data) {
+                    // notification categories:
+                    // 1: tasks, 2: messages, 3: announcements, 4: recents
+                    $scope.notifications = {1: [], 2: [], 3: [], 4: []};
+
+                    angular.forEach(data.notifications, function (value, key) {
+                        $scope.notifications[value.type].push(value);
+                    });
+                    $rootScope.$broadcast("notifications", $scope.notifications);
+                });
+            }, 5000);
+        }
     };
 });
 
@@ -47,28 +54,34 @@ app.directive('headerNotification', function ($http, $interval, RESTURL) {
  * toggle collapses sidebar menu when clicked menu button
  */
 
-app.directive('collapseMenu', function () {
+app.directive('collapseMenu', function ($timeout) {
     return {
         templateUrl: 'shared/templates/directives/menuCollapse.html',
         restrict: 'E',
         replace: true,
-        link: function ($scope) {
-            $scope.collapsed = false;
+        scope: {},
+        controller: function ($scope, $rootScope) {
+            $rootScope.collapsed = false;
+            $rootScope.sidebarPinned = false;
+
             $scope.collapseToggle = function () {
-                if ($scope.collapsed === false) {
-					jQuery("span.menu-text").css("display" , "none");
+                if ($rootScope.collapsed === false) {
                     jQuery(".sidebar").css("width" , "62px");
-					jQuery(".manager-view").css("z-index" , "9999").css("width" , "calc(100% - 62px)");
-					jQuery(".sidebar footer").css("display" , "none");
-                    $scope.collapsed = true;
+					jQuery(".manager-view").css("width" , "calc(100% - 62px)");
+                    $rootScope.collapsed = true;
+                    $rootScope.sidebarPinned = false;
                 } else {
-					jQuery("span.menu-text").fadeIn(400);
-                    jQuery(".sidebar").css("z-index" , "0").css("width" , "250px");
+					jQuery("span.menu-text, span.arrow, .sidebar footer").fadeIn(400);
+                    jQuery(".sidebar").css("width" , "250px");
 					jQuery(".manager-view").css("width" , "calc(100% - 250px)");
-					jQuery(".sidebar footer").fadeIn(400);
-                    $scope.collapsed = false;
+                    $rootScope.collapsed = false;
+                    $rootScope.sidebarPinned = true;
                 }
             };
+
+            $timeout(function(){
+                $scope.collapseToggle();
+            });
         }
     };
 });
@@ -108,9 +121,25 @@ app.directive('headerBreadcrumb', function () {
 });
 
 /**
+ * selected user directive
+ */
+
+app.directive('selectedUser', function () {
+    return {
+        templateUrl: 'shared/templates/directives/selected-user.html',
+        restrict: 'E',
+        replace: false,
+        link: function ($scope, $rootScope) {
+            $scope.selectedUser = $rootScope.selectedUser;
+        }
+    };
+});
+
+/**
  * sidebar directive
  * changes breadcrumb when an item selected
  * consists of menu items of related user or transaction
+ * controller communicates with dashboard controller to shape menu items and authz
  */
 
 app.directive('sidebar', ['$location', function () {
@@ -119,31 +148,57 @@ app.directive('sidebar', ['$location', function () {
         restrict: 'E',
         replace: true,
         scope: {},
-        controller: function ($scope, $rootScope, $http, RESTURL, $location, $timeout) {
-            $http.post(RESTURL.url + 'crud/').success(function (data) {
-                $scope.allMenuItems = angular.copy(data.app_models);
-                $scope.menuItems = []; // angular.copy($scope.allMenuItems);
-                // at start define breadcrumblinks for breadcrumb
-                angular.forEach(data.app_models, function (value, key) {
-                    angular.forEach(value[1], function (v, k) {
-                        if (v[1] === $location.path().split('/')[2]) {
-                            $rootScope.breadcrumblinks = [value[0], v[0]];
-                            $scope.menuItems = [$scope.allMenuItems[key]];
-                        } else {
-                            $rootScope.breadcrumblinks = ['Panel'];
-                        }
-                    });
+        controller: function ($scope, $rootScope, $cookies, $route, $http, RESTURL, $location, $timeout) {
+            var sidebarmenu = $('#side-menu');
+            sidebarmenu.metisMenu();
+            $http.get(RESTURL.url + 'menu/')
+                .success(function (data) {
+                    $scope.allMenuItems = angular.copy(data);
+
+                    // broadcast for authorized menu items, consume in dashboard
+                    $rootScope.$broadcast("authz", data);
+
+                    $scope.menuItems = {"other": $scope.allMenuItems.other};
+
+                    // if selecteduser on cookie then add related part to the menu
+
+                    //if ($cookies.get("selectedUserType")) {
+                    //    $scope.menuItems[$cookies.get("selectedUserType")] = $scope.allMenuItems[$cookies.get("selectedUserType")];
+                    //}
+
+                    $timeout(function(){sidebarmenu.metisMenu()});
                 });
+
+            // changing menu items by listening for broadcast
+
+            $scope.$on("menuitems", function (event, data) {
+                $scope.menuItems[data] = $scope.allMenuItems[data];
+                $scope.menuItems["other"] = $scope.allMenuItems['other'];
+                $timeout(function(){sidebarmenu.metisMenu()});
             });
+
+            $scope.openSidebar = function () {
+                if ($rootScope.sidebarPinned === false) {
+                    jQuery("span.menu-text, span.arrow, .sidebar footer, #side-menu").fadeIn(400);
+                    jQuery(".sidebar").css("width" , "250px");
+                    jQuery(".manager-view").css("width" , "calc(100% - 250px)");
+                    $rootScope.collapsed = false;
+                }
+            };
+
+            $scope.closeSidebar = function () {
+                if ($rootScope.sidebarPinned === false) {
+                    jQuery(".sidebar").css("width" , "62px");
+                    jQuery(".manager-view").css("width" , "calc(100% - 62px)");
+                    $rootScope.collapsed = true;
+                }
+            };
 
             $rootScope.$watch(function ($rootScope) {return $rootScope.section; },
                 function (newindex, oldindex) {
                     if (newindex > -1) {
                         $scope.menuItems = [$scope.allMenuItems[newindex]];
                         $scope.collapseVar = 1;
-                        $timeout(function () {
-                            $('#side-menu').metisMenu();
-                        });
                     }
                 });
 
@@ -162,9 +217,13 @@ app.directive('sidebar', ['$location', function () {
             };
 
             // breadcrumb function changes breadcrumb items and itemlist must be list
-            $scope.breadcrumb = function (itemlist) {
+            $scope.breadcrumb = function (itemlist, $event) {
+                //if ($event.target.href==location.href) {
+                //    $route.reload();
+                //}
                 $rootScope.breadcrumblinks = itemlist;
                 // showSaveButton is used for to show or not to show save button on top of the page
+                // todo: remove button
                 $rootScope.showSaveButton = false;
             };
 
@@ -176,7 +235,6 @@ app.directive('sidebar', ['$location', function () {
                     $scope.multiCollapseVar = y;
                 }
             };
-
         }
     };
 }]);

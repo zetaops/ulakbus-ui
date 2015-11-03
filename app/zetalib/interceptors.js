@@ -10,7 +10,7 @@ app.config(['$httpProvider', function ($httpProvider) {
      * the interceptor for all requests to check response
      * 4xx - 5xx errors will be handled here
      */
-    $httpProvider.interceptors.push(function ($q, $rootScope, $location) {
+    $httpProvider.interceptors.push(function ($q, $rootScope, $location, $timeout) {
         return {
             'request': function (config) {
                 // todo: delete console logs
@@ -46,10 +46,9 @@ app.config(['$httpProvider', function ($httpProvider) {
                     $location.reload();
                 }
                 if (rejection.status === 401) {
+                    $location.path('/login');
                     if ($location.path() === "/login") {
                         console.log("show errors on login form");
-                    } else {
-                        $location.path('/login');
                     }
                 }
                 if (rejection.status === 403) {
@@ -62,13 +61,11 @@ app.config(['$httpProvider', function ($httpProvider) {
                 }
                 if (rejection.status === 404) {
                     console.log(404);
-                    $location.path("/404");
+                    $location.path("/error/404");
                 }
                 // server 500 error returns with -1 on status.
                 //if (rejection.status === -1 && rejection.config.data.model) {
                 if (rejection.status === 500) {
-                    // todo: redirect to 500
-                    //$location.path("/500");
                     $('<div class="modal">' +
                         '<div class="modal-dialog" style="width:1024px;" role="document">' +
                         '<div class="modal-content">' +
@@ -87,7 +84,8 @@ app.config(['$httpProvider', function ($httpProvider) {
                         '</div>' +
                         '</div>' +
                         '</div>' +
-                        '</div>').modal()
+                        '</div>').modal();
+                    $location.path("/error/500");
                 }
                 return $q.reject(rejection);
             }
