@@ -17,7 +17,7 @@ describe('form service module', function () {
         it('should generate url', inject(['Generator',
                 function (Generator) {
                     expect(Generator.group).not.toBe(null);
-                    var generated_url = Generator.makePostUrl({url: 'test'});
+                    var generated_url = Generator.makeUrl({url: 'test', form_params: {}});
                     expect(generated_url).toEqual("http://api.ulakbus.net/test");
                 }])
         );
@@ -82,7 +82,8 @@ describe('form service module', function () {
                         },
                         model: {
                             email: 'test@test.com', id: 2, name: 'travolta'
-                        }
+                        },
+                        form_params: {}
                     };
 
                     var form_json = {
@@ -95,6 +96,7 @@ describe('form service module', function () {
                             }, required: [], type: 'object', title: 'servicetest'
                         },
                         model: {email: 'test@test.com', id: 2, name: 'travolta'},
+                        form_params: {}
                     };
 
                     var form_generated = Generator.prepareFormItems(scope);
@@ -206,7 +208,7 @@ describe('form service module', function () {
         it('should get single item',
             inject(function (Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectGET(RESTURL.url + 'test/personel?personel=123')
+                $httpBackend.expectPOST(RESTURL.url + 'test/personel?personel_id=123')
                     .respond(200, {
                         items: {
                             "client_cmd": "show_object", 
@@ -219,7 +221,7 @@ describe('form service module', function () {
                         }
                     });
 
-                var cred = {cmd: 'show', model: 'personel', param: 'personel', object_id: '123'};
+                var cred = {cmd: 'show', model: 'personel', param: 'personel_id', id: '123'};
                 Generator.get_single_item({url: 'test/', form_params: cred})
                     .then(function (data) {
                         expect(data.data.items.token).toEqual("da73993f439549e7855fd82deafbbc99");
@@ -232,14 +234,14 @@ describe('form service module', function () {
         it('should submit form',
             inject(function (Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectPOST(RESTURL.url + 'student/add')
+                $httpBackend.expectPOST(RESTURL.url + 'student/add/testmodel')
                     .respond(200, {data: 'OK'});
 
                 var scope = {
                     model: {email: 'test@test.com'},
                     form_params: {cmd: 'add', model: 'testmodel'},
                     token: '123456',
-                    url: 'student/add'
+                    url: 'student/add/'
                 };
                 Generator.submit(scope)
                     .success(function(){
