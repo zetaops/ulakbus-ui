@@ -12,7 +12,6 @@ auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, Gener
     $scope.url = 'login';
     $scope.form_params = {};
     $scope.form_params['clear_wf'] = 1;
-    // todo: change simple login when api ready
     Generator.get_form($scope).then(function(data){
         $scope.form = [
             { key: "username", type: "string", title: "Kullanıcı Adı"},
@@ -32,80 +31,4 @@ auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, Gener
             console.log("not valid");
         }
     }
-});
-
-auth.factory('LoginService', function ($http, $rootScope, $location, $log, $cookies, $window, Session, RESTURL) {
-    var loginService = {};
-
-    loginService.login = function (url, credentials) {
-        credentials = {login_crd: credentials, cmd: "do"};
-        return $http
-            .post(RESTURL.url + url, credentials)
-            .success(function (data, status, headers, config) {
-                //$window.sessionStorage.token = data.token;
-                //$rootScope.loggedInUser = true;
-            })
-            .error(function (data, status, headers, config) {
-                // Erase the token if the user fails to log in
-                //delete $window.sessionStorage.token;
-
-                // Handle login errors here
-                return data;
-            });
-        //.then(function (res) {
-        //    $log.info(res.data[0]);
-        //    res.data = res.data[0];
-        //    if (res.data.success) {
-        //        $rootScope.loggedInUser = true;
-        //        $location.path("/dashboard");
-        //        var session = Session.create(res.data.id, res.data.user.id,
-        //            res.data.user.role);
-        //        $log.info(session);
-        //        $cookies.put('sessionId', 123456);
-        //        console.log($cookies.getAll());
-        //        return res.data.user;
-        //    }
-        //});
-    };
-
-    loginService.logout = function() {
-        $http.post(RESTURL.url + 'logout', {}).then(function(){
-            $rootScope.loggedInUser = false;
-            $location.path("/login");
-        });
-    };
-
-    loginService.isAuthenticated = function () {
-        return !!Session.userId;
-    };
-
-    loginService.isAuthorized = function (authorizedRoles) {
-        if (!angular.isArray(authorizedRoles)) {
-            authorizedRoles = [authorizedRoles];
-        }
-        return (loginService.isAuthenticated() &&
-        loginService.indexOf(Session.userRole) !== -1);
-    };
-
-    loginService.isValidEmail = function (email) {
-        var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-        return re.test(email);
-    };
-
-    return loginService;
-});
-
-// TODO: initial service not working!!
-
-auth.service('Session', function () {
-    this.create = function (sessionId, userId, userRole) {
-        this.id = sessionId;
-        this.userId = userId;
-        this.userRole = userRole;
-    };
-    this.destroy = function () {
-        this.id = null;
-        this.userId = null;
-        this.userRole = null;
-    };
 });
