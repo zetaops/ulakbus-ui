@@ -10,8 +10,8 @@ var form_generator = angular.module('formService', ['general']);
 form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, FormDiff, $rootScope) {
     var generator = {};
     generator.makeUrl = function (scope) {
-        var getparams = "?" + scope.form_params.param + "=" + scope.form_params.id;
-        return RESTURL.url + scope.url + scope.form_params.model + getparams;
+        var getparams = scope.form_params.param ? "?" + scope.form_params.param + "=" + scope.form_params.id : "";
+        return RESTURL.url + scope.url + (scope.form_params.model || '') + getparams;
     };
     generator.generate = function (scope, data) {
 
