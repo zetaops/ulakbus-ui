@@ -16,8 +16,8 @@ var wf = angular.module('ulakbus.wf', ['ui.bootstrap', 'schemaForm', 'formServic
  * which provide a form with form generator.
  */
 
-crud.controller('WFAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams) {
-    $scope.url = $routeParams.model;
+wf.controller('WFAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams) {
+    $scope.url = ""; debugger;
     $scope.form_params = {'model': $routeParams.model};
     //if ($routeParams.id) {
     //    $scope.form_params['object_id'] = $routeParams.id;
@@ -49,11 +49,11 @@ crud.controller('WFAddEditCtrl', function ($scope, $rootScope, $location, $http,
 });
 
 /**
- * CRUD List Controller
+ * WorkFlow List Controller
  */
 
-crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeParams) {
-    $scope.url = 'crud/';
+wf.controller('WFListCtrl', function ($scope, $rootScope, Generator, $routeParams) {
+    $scope.url = "";
     $scope.form_params = $routeParams;
 
     if ($routeParams.nobjects){
@@ -70,10 +70,10 @@ crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeP
 });
 
 /**
- * CRUD Show Controller
+ * WorkFlow Show Controller
  */
-crud.controller('CRUDShowCtrl', function ($scope, $rootScope, Generator, $routeParams) {
-    $scope.url = 'crud/';
+wf.controller('WFShowCtrl', function ($scope, $rootScope, Generator, $routeParams) {
+    $scope.url = "";
     $scope.form_params = {"object_id": $routeParams.id, "cmd": "show", "model": $routeParams.model};
     // call generator's get_single_itemfunc
     Generator.get_single_item($scope).then(function (res) {
