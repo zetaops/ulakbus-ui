@@ -45,6 +45,7 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
                     $scope.message = data.title;
                 });
         }
+
     };
 
 });

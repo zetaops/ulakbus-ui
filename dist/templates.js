@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/add.html', 'components/crud/templates/edit.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/personelinfo/personelinfo.html', 'components/staff/templates/add.html', 'components/staff/templates/edit.html', 'components/staff/templates/list.html', 'components/staff/templates/show.html', 'components/student/student_add_template.html', 'components/student/student_list_template.html', 'components/types/types_template.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/nodeTable.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/add.html', 'components/crud/templates/edit.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/wf/templates/add.html', 'components/wf/templates/edit.html', 'components/wf/templates/list.html', 'components/wf/templates/show.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/nodeTable.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -22,7 +22,7 @@ angular.module("components/auth/login.html", []).run(["$templateCache", function
 angular.module("components/crud/templates/add.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/add.html",
     "<h1>{{ schema.title }}</h1>\n" +
-    "<form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"></form>\n" +
+    "<form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
     "\n" +
     "<div ng-repeat=\"node in Node\">\n" +
     "    <h3>{{ node.title }}\n" +
@@ -69,8 +69,17 @@ angular.module("components/crud/templates/edit.html", []).run(["$templateCache",
 angular.module("components/crud/templates/list.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/list.html",
     "<div class=\"starter-template\">\n" +
-    "    <h1>{{model}} <a href=\"#/{{model}}/add\"><button type=\"button\" class=\"btn btn-primary\">Ekle</button></a></h1>\n" +
-    "    <div class=\"tablescroll\">\n" +
+    "    <h1>{{model}}\n" +
+    "        <a href=\"#/crud/add/{{model}}/{{form_params.param}}/{{form_params.id}}\">\n" +
+    "            <button type=\"button\" class=\"btn btn-primary\">Ekle</button>\n" +
+    "        </a>\n" +
+    "    </h1>\n" +
+    "    <div class=\"row\" ng-if=\"!nobjects[1]\">\n" +
+    "            <div class=\"col-md-12\">\n" +
+    "                <p class=\"no-content\">Listelenecek içerik yok.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    <div class=\"tablescroll\" ng-if=\"nobjects[1]\">\n" +
     "        <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
     "            <thead>\n" +
     "            <tr>\n" +
@@ -93,16 +102,18 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                    </label>\n" +
     "                </td>\n" +
     "                <th scope=\"row\" style=\"text-align:center\">{{$index}}</th>\n" +
-    "                <td ng-repeat=\"k in object\" ng-if=\"nobjects[0]=='-1' && $index>0\">\n" +
-    "                    <a ng-href=\"#/{{model}}/{{object[0]}}\">{{object[1]}}</a>\n" +
+    "                <td ng-repeat=\"k in object track by $index\" ng-if=\"nobjects[0]=='-1' && $index>0\">\n" +
+    "                    <a ng-href=\"#/crud/detail/{{model}}/{{form_params.param}}/{{form_params.id}}/{{object[0]}}\">{{object[1]}}</a>\n" +
     "                </td>\n" +
     "\n" +
-    "                <td ng-repeat=\"(key,value) in object\" ng-if=\"nobjects[0]!='-1' && $index>0\">\n" +
-    "                    <a ng-href=\"#/{{model}}/{{object[0]}}\" ng-if=\"$index==1\">{{value}}</a>\n" +
-    "                    <span ng-if=\"$index!=1\">{{value}}</span>\n" +
+    "                <td ng-repeat=\"(key,value) in object track by $index\" ng-if=\"nobjects[0]!='-1' && $index>0\">\n" +
+    "                    <a ng-href=\"#/crud/detail/{{model}}/{{form_params.param}}/{{form_params.id}}/{{object[0]}}\"\n" +
+    "                       ng-if=\"$index==1\">{{object[key]}}</a>\n" +
+    "                    <span ng-if=\"$index!=1\">{{object[key]}}</span>\n" +
     "                </td>\n" +
     "                <td>\n" +
-    "                    <a ng-href=\"#/{{model}}/edit/{{object[0]}}\">Edit</a><br>\n" +
+    "                    <a ng-href=\"#/crud/edit/{{model}}/{{form_params.param}}/{{form_params.id}}/{{object[0]}}\">Edit</a>\n" +
+    "                    <br>\n" +
     "                </td>\n" +
     "            </tr>\n" +
     "            </tbody>\n" +
@@ -111,7 +122,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "    <br/>\n" +
     "    <hr/>\n" +
     "\n" +
-    "    <div class=\"btn-group\">\n" +
+    "    <div class=\"btn-group\" ng-if=\"nobjects[1]\">\n" +
     "        <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n" +
     "                aria-expanded=\"false\">\n" +
     "            İşlemler <span class=\"caret\"></span>\n" +
@@ -197,6 +208,7 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
     "\n" +
+    "		<!-- \n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"major-buttons\">\n" +
     "                <div class=\"col-md-4\">\n" +
@@ -213,256 +225,401 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
+    "		-->\n" +
+    "        \n" +
+    "        <div class=\"dashboard-main-search clearfix\">\n" +
+    "        	<div class=\"dashboard-student-search\">\n" +
+    "            	<center>\n" +
+    "                	<h3>ÖĞRENCİ</h3>\n" +
+    "                	<input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"student_kw\" ng-keyup=\"search('ogrenci')\">\n" +
+    "                    <span class=\"fa fa-search\" ng-click=\"search('ogrenci')\"></span>\n" +
+    "                 </center>\n" +
+    "                 <div class=\"dashboard-search-results\">\n" +
+    "                 	<ul ng-if=\"students.length > 0\">\n" +
+    "                    	<li ng-repeat=\"student in students\">\n" +
+    "                            <a href=\"javascript:void(0)\" ng-click=\"select(student, 'ogrenci')\">{{student}}</a>\n" +
+    "                        </li>\n" +
+    "                    </ul>\n" +
+    "                 </div>\n" +
+    "                 <!-- end of dashboard-student-search-results -->\n" +
+    "            </div>\n" +
+    "            <!-- end of dashboard-student-search -->\n" +
+    "            <div class=\"dashboard-personnel-search\">\n" +
+    "            	<center>\n" +
+    "                	<h3>PERSONEL</h3>\n" +
+    "                	<input type=\"text\" placeholder=\"Personel ara\" ng-model=\"staff_kw\" ng-keyup=\"search('personel')\">\n" +
+    "                    <span class=\"fa fa-search\" ng-click=\"search('personel')\"></span>\n" +
+    "                </center>\n" +
+    "                <div class=\"dashboard-search-results\">\n" +
+    "                 	<ul ng-if=\"staffs.length > 0\">\n" +
+    "                    	<li ng-repeat=\"staff in staffs\">\n" +
+    "                            <a href=\"javascript:void(0)\" ng-click=\"select(staff, 'personel')\">{{staff[0]}}</a>\n" +
+    "                        </li>\n" +
+    "                    </ul>\n" +
+    "                 </div>\n" +
+    "                 <!-- end of dashboard-personnel-search-results -->\n" +
+    "            </div>\n" +
+    "            <!-- end of dashboard-personnel-search -->\n" +
+    "        </div>\n" +
+    "		<!-- end of dashboard-main-search -->\n" +
+    "        \n" +
+    "		<div class=\"right-sidebar\">\n" +
     "\n" +
+    "        	<div class=\"right-sidebar-box\">\n" +
+    "            	<div class=\"right-sidebar-messages\">\n" +
+    "\n" +
+    "                	<div class=\"right-sidebar-title clearfix\">\n" +
+    "                		<h3>Mesajlar</h3>\n" +
+    "                        <span><a href=\"javascript:void(0)\">Tüm Mesajlar</a></span>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of right-sidebar-title -->\n" +
+    "\n" +
+    "                    <div class=\"right-sidebar-message-block\" ng-repeat=\"notify in notifications[2] | limitTo:5\">\n" +
+    "                    	<a class=\"clearfix\" href=\"javascript:void(0)\" ng-click=\"markAsRead(notify)\">\n" +
+    "                            <img src=\"../../../img/sample-profile-pic.jpg\">\n" +
+    "                            <div class=\"right-sidebar-message-content\">\n" +
+    "                                <div>{{notify.title}}</div>\n" +
+    "                                <div>{{notify.body}}</div>\n" +
+    "                                <div>16:05</div>\n" +
+    "                            </div>\n" +
+    "                            <!-- end of right-sidebar-message-content -->\n" +
+    "                        </a>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of right-sidebar-message-block -->\n" +
+    "\n" +
+    "                </div>\n" +
+    "                <!-- end of right-sidebar-messages -->\n" +
+    "            </div>\n" +
+    "            <!-- end of right-sidebar-box -->\n" +
+    "\n" +
+    "\n" +
+    "            <div class=\"right-sidebar-box\">\n" +
+    "            	<div class=\"right-sidebar-tasks\">\n" +
+    "\n" +
+    "                	<div class=\"right-sidebar-title clearfix\">\n" +
+    "                		<h3>Görevler</h3>\n" +
+    "                        <span><a href=\"javascript:void(0)\">Tüm Görevler</a></span>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of right-sidebar-title -->\n" +
+    "\n" +
+    "                    <!--<div class=\"right-sidebar-task-block\">-->\n" +
+    "                    	<!--<div class=\"task-type\">Devam Eden Görevler</div>-->\n" +
+    "                        <!--<a href=\"javascript:void(0)\">-->\n" +
+    "                            <!--<div class=\"task-title\">Öğrenci Kayıt</div>-->\n" +
+    "                            <!--<div class=\"progress\">-->\n" +
+    "                                <!--<div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"25\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"min-width: 2em; width:25%;\">-->\n" +
+    "                                <!--25%-->\n" +
+    "                                <!--</div>-->\n" +
+    "                            <!--</div>-->\n" +
+    "                            <!--&lt;!&ndash; end of progress &ndash;&gt;-->\n" +
+    "                        <!--</a>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                    <!-- end of right-sidebar-task-block -->\n" +
+    "\n" +
+    "                    <div class=\"right-sidebar-task-block\">\n" +
+    "                    	<!--<div class=\"task-type\">Onay Bekleyen Görevler</div>-->\n" +
+    "                        <a href=\"javascript:void(0)\" ng-click=\"markAsRead(notify)\" ng-repeat=\"notify in notifications[1] | limitTo:5\">\n" +
+    "                            <div class=\"task-title\">{{notify.title}}</div>\n" +
+    "                        </a>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of right-sidebar-task-block -->\n" +
+    "\n" +
+    "                </div>\n" +
+    "                <!-- end of right-sidebar-tasks -->\n" +
+    "            </div>\n" +
+    "            <!-- end of right-sidebar-box -->\n" +
+    "\n" +
+    "\n" +
+    "            <div class=\"right-sidebar-box\">\n" +
+    "            	<div class=\"right-sidebar-announcements\">\n" +
+    "\n" +
+    "                	<div class=\"right-sidebar-title clearfix\">\n" +
+    "                		<h3>Duyurular</h3>\n" +
+    "                        <span><a href=\"javascript:void(0)\">Tüm Duyurular</a></span>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of right-sidebar-title -->\n" +
+    "\n" +
+    "                    <div class=\"right-sidebar-announcement-block\">\n" +
+    "                        <a href=\"javascript:void(0)\" ng-click=\"markAsRead(notify)\"\n" +
+    "                           ng-repeat=\"notify in notifications[3] | limitTo:5\">{{notify\n" +
+    "                            .body}}</a>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of right-sidebar-status-block -->\n" +
+    "\n" +
+    "                </div>\n" +
+    "                <!-- end of right-sidebar-status -->\n" +
+    "            </div>\n" +
+    "            <!-- end of right-sidebar-box -->\n" +
+    "\n" +
+    "\n" +
+    "            <div class=\"right-sidebar-box\">\n" +
+    "            	<div class=\"right-sidebar-last-actions\">\n" +
+    "\n" +
+    "                	<div class=\"right-sidebar-title clearfix\">\n" +
+    "                		<h3>Son İşlemler</h3>\n" +
+    "                        <span><a href=\"javascript:void(0)\">Tüm İşlemler</a></span>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of right-sidebar-title -->\n" +
+    "\n" +
+    "                    <!--<div class=\"right-sidebar-last-action-block\">-->\n" +
+    "                        <!--<a href=\"javascript:void(0)\">Birinci dönem bitimine 10 gün kaldı.</a>-->\n" +
+    "                        <!--<a href=\"javascript:void(0)\">Ders seçimi işlemleri xx tarihinde başlayacaktır.</a>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                    <!-- end of right-sidebar-status-block -->\n" +
+    "\n" +
+    "                </div>\n" +
+    "                <!-- end of right-sidebar-status -->\n" +
+    "            </div>\n" +
+    "            <!-- end of right-sidebar-box -->\n" +
+    "\n" +
+    "        </div>\n" +
+    "		<!-- end of right-sidebar -->\n" +
+    "        \n" +
     "    </div>\n" +
     "</div>");
 }]);
 
-angular.module("components/personelinfo/personelinfo.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/personelinfo/personelinfo.html",
-    "<div ng-app=\"ulakbus.personelinfo\">\n" +
+angular.module("components/error_pages/404.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/error_pages/404.html",
+    "<div ng-app=\"ulakbus.error_pages\" class=\"error-page\">\n" +
     "    <div class=\"starter-template\">\n" +
-    "        \n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"error-block\">\n" +
+    "                <p>404</p>\n" +
+    "                <p>Dosya Bulunamıyor</p>\n" +
+    "                <a href=\"#/dashboard\"><button class=\"btn btn-warning\">Panel Sayfasına Dön</button></a>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("components/error_pages/500.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/error_pages/500.html",
+    "<div ng-app=\"ulakbus.error_pages\" class=\"error-page\">\n" +
+    "    <div class=\"starter-template\">\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"error-block\">\n" +
+    "                <p>500</p>\n" +
+    "                <p>Sunucu Hatası</p>\n" +
+    "                <a href=\"#/dashboard\"><button class=\"btn btn-warning\">Panel Sayfasına Dön</button></a>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("components/uitemplates/404.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/uitemplates/404.html",
+    "<div ng-app=\"ulakbus.uitemplates\" class=\"dashboard\">\n" +
+    "    <div class=\"starter-template\">\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div>\n" +
+    "                404.html\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("components/uitemplates/500.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/uitemplates/500.html",
+    "<div ng-app=\"ulakbus.uitemplates\" class=\"dashboard\">\n" +
+    "    <div class=\"starter-template\">\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div>500.html</div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("components/wf/templates/add.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/wf/templates/add.html",
+    "<h1>{{ schema.title }}</h1>\n" +
+    "<form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"\n" +
+    "      ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
+    "\n" +
+    "<div ng-repeat=\"node in Node\">\n" +
+    "    <h3>{{ node.title }}\n" +
+    "        <span ng-if=\"node.lengthModels < 1\">\n" +
+    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.schema.model_name}},Node\">\n" +
+    "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
+    "            </a>\n" +
+    "        </span>\n" +
+    "    </h3>\n" +
+    "\n" +
+    "    <div class=\"node-table\">\n" +
+    "        <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
+    "    </div>\n" +
+    "    <hr>\n" +
+    "</div>\n" +
+    "<div ng-repeat=\"node in ListNode\">\n" +
+    "    <h3>{{ node.title }}\n" +
+    "        <span>\n" +
+    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.schema.model_name}},ListNode,add\">\n" +
+    "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
+    "            </a>\n" +
+    "        </span>\n" +
+    "    </h3>\n" +
+    "\n" +
+    "    <div class=\"list-node-table\">\n" +
+    "        <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
+    "    </div>\n" +
+    "    <hr>\n" +
+    "</div>\n" +
+    "\n" +
+    "<!--<button id=\"submitbutton\" type=\"button\" class=\"btn btn-primary\" ng-click=\"onSubmit(formgenerated)\">Kaydet</button>-->\n" +
+    "<!-- <button type=\"button\" class=\"btn btn-warning\">Düzenle</button>  todo: make it conditional -->\n" +
+    "<!-- <button type=\"button\" class=\"btn btn-danger\">İptal</button> todo: turn back to previous page -->");
+}]);
+
+angular.module("components/wf/templates/edit.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/wf/templates/edit.html",
+    "<div ng-app=\"ulakbus.crud\">\n" +
+    "    <div class=\"col-md-6\">\n" +
+    "        <h1>{{ schema.title }}</h1>\n" +
+    "        <form name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("components/wf/templates/list.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/wf/templates/list.html",
+    "<div class=\"starter-template\">\n" +
+    "    <h1>{{model}} <a href=\"#/crud/{{model}}/add\"><button type=\"button\" class=\"btn btn-primary\">Ekle</button></a></h1>\n" +
+    "    <div class=\"row\" ng-if=\"!nobjects[1]\">\n" +
+    "            <div class=\"col-md-12\">\n" +
+    "                <p class=\"no-content\">Listelenecek içerik yok.</p>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    <div class=\"tablescroll\" ng-if=\"nobjects[1]\">\n" +
+    "        <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
+    "            <thead>\n" +
+    "            <tr>\n" +
+    "                <th colspan=\"2\">\n" +
+    "                    <label>\n" +
+    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                        Hepsini Seç\n" +
+    "                    </label>\n" +
+    "                </th>\n" +
+    "                <th ng-repeat=\"value in nobjects[0]\" ng-if=\"nobjects[0]!='-1'\">{{ value }}</th>\n" +
+    "                <th ng-if=\"nobjects[0]=='-1'\">{{ model }}</th>\n" +
+    "                <th>action</th>\n" +
+    "            </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "            <tr ng-repeat=\"object in nobjects\" ng-if=\"$index>0\">\n" +
+    "                <td width=\"60\">\n" +
+    "                    <label>\n" +
+    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    </label>\n" +
+    "                </td>\n" +
+    "                <th scope=\"row\" style=\"text-align:center\">{{$index}}</th>\n" +
+    "                <td ng-repeat=\"k in object track by $index\" ng-if=\"nobjects[0]=='-1' && $index>0\">\n" +
+    "                    <a ng-href=\"#/crud/{{model}}/{{object[0]}}\">{{object[1]}}</a>\n" +
+    "                </td>\n" +
+    "\n" +
+    "                <td ng-repeat=\"(key,value) in object track by $index\" ng-if=\"nobjects[0]!='-1' && $index>0\">\n" +
+    "                    <a ng-href=\"#/crud/{{model}}/{{object[0]}}\" ng-if=\"$index==1\">{{object[key]}}</a>\n" +
+    "                    <span ng-if=\"$index!=1\">{{object[key]}}</span>\n" +
+    "                </td>\n" +
+    "                <td>\n" +
+    "                    <a ng-href=\"#/crud/{{model}}/edit/{{object[0]}}\">Edit</a><br>\n" +
+    "                </td>\n" +
+    "            </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "    </div>\n" +
+    "    <br/>\n" +
+    "    <hr/>\n" +
+    "\n" +
+    "    <div class=\"btn-group\" ng-if=\"nobjects[1]\">\n" +
+    "        <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n" +
+    "                aria-expanded=\"false\">\n" +
+    "            İşlemler <span class=\"caret\"></span>\n" +
+    "        </button>\n" +
+    "        <ul class=\"dropdown-menu\">\n" +
+    "            <li><a href=\"\">İşlem 1</a></li>\n" +
+    "            <li><a href=\"\">İşlem 2</a></li>\n" +
+    "            <li><a href=\"\">İşlem 3</a></li>\n" +
+    "            <li role=\"separator\" class=\"divider\"></li>\n" +
+    "            <li><a href=\"\">İşlem 4</a></li>\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <hr>\n" +
+    "\n" +
+    "</div>");
+}]);
+
+angular.module("components/wf/templates/show.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/wf/templates/show.html",
+    "<!--<div class=\"starter-template\">-->\n" +
+    "    <!--<h1>{{model}}</h1>-->\n" +
+    "\n" +
+    "    <!--<p ng-repeat=\"(key, value) in object\"><span class=\"col-md-3\">{{ key }}:</span>{{value}}</p>-->\n" +
+    "<!--</div>-->\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"starter-template\">\n" +
+    "\n" +
     "        <div class=\"personnel-info-container\">\n" +
-    "        	<div class=\"personnel-info-left\">\n" +
-    "            	<div class=\"generic-profile-picture\">\n" +
-    "                	<img src=\"../../img/sample-profile-pic.jpg\" />\n" +
-    "                </div>\n" +
-    "                <ul>\n" +
-    "                	<li>Gökhan Boranalp</li>\n" +
-    "                    <li>Pozisyon</li>\n" +
-    "                	<li><i class=\"fa fa-phone\"></i> (+90) 123 456 7890</li>\n" +
-    "                    <li><i class=\"fa fa-envelope\"></i> samplemail@mail.com</li>\n" +
-    "                    <li><i class=\"fa fa-map-marker\"></i> Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR</li></li>\n" +
-    "                </ul>\n" +
-    "            </div>\n" +
-    "            <!-- end of personnel-info-left -->\n" +
-    "        	<div class=\"personnel-info-right\">\n" +
+    "            <div class=\"personnel-info-left\">\n" +
+    "\n" +
+    "                <!--<div class=\"generic-profile-picture\">-->\n" +
+    "                    <!--<img src=\"../../img/sample-profile-pic.jpg\" />-->\n" +
+    "                <!--</div>-->\n" +
     "                <div class=\"info-block\">\n" +
-    "                	<div class=\"info-block-header\">\n" +
-    "                    	<h2>Kişisel Bilgiler</h2>\n" +
+    "                    <div class=\"info-block-header\">\n" +
+    "                        <h1>{{model}}</h1>\n" +
     "                    </div>\n" +
     "                    <!-- end of info-block-header -->\n" +
-    "                    <div class=\"info-block-body\">\n" +
-    "                    	<dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Ad Soyad</dt>\n" +
-    "                            <dd>Gökhan Boranalp</dd>\n" +
-    "                        </dl>\n" +
+    "                    <div class=\"info-block-body\" ng-repeat=\"(key, value) in object\">\n" +
     "                        <dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Cinsiyet</dt>\n" +
-    "                            <dd>Erkek</dd>\n" +
+    "                            <dt>{{ key }}</dt>\n" +
+    "                            <dd>{{value}}</dd>\n" +
     "                        </dl>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-body -->\n" +
+    "                </div>\n" +
+    "                <!--<ul>-->\n" +
+    "                    <!--<li ng-repeat=\"(key, value) in object\"><span class=\"col-md-3\">{{ key }}:</span>{{value}}</li>-->\n" +
+    "                    <!--<li>Pozisyon</li>-->\n" +
+    "                    <!--<li><i class=\"fa fa-phone\"></i> (+90) 123 456 7890</li>-->\n" +
+    "                    <!--<li><i class=\"fa fa-envelope\"></i> samplemail@mail.com</li>-->\n" +
+    "                    <!--<li><i class=\"fa fa-map-marker\"></i> Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR</li></li>-->\n" +
+    "                <!--</ul>-->\n" +
+    "            </div>\n" +
+    "            <!-- end of personnel-info-left -->\n" +
+    "            <div class=\"personnel-info-right\">\n" +
+    "                <div class=\"info-block\" ng-repeat=\"(key, value) in listobjects\">\n" +
+    "                    <div class=\"info-block-header\">\n" +
+    "                        <h2>{{key}}</h2>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of info-block-header -->\n" +
+    "                    <div class=\"info-block-body\" ng-repeat=\"(k, v) in value\">\n" +
     "                        <dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Doğum Tarihi</dt>\n" +
-    "                            <dd>23/06/1970</dd>\n" +
-    "                        </dl>\n" +
-    "                        <dl class=\"dl-horizontal\">\n" +
-    "                            <dt>İkamet Adresi</dt>\n" +
-    "                            <dd>Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR</dd>\n" +
+    "                            <dt>{{k}}</dt>\n" +
+    "                            <dd>{{v}}</dd>\n" +
     "                        </dl>\n" +
     "                    </div>\n" +
     "                    <!-- end of info-block-body -->\n" +
     "                </div>\n" +
     "                <!-- end of info block -->\n" +
-    "                \n" +
-    "                <div class=\"info-block\">\n" +
-    "                	<div class=\"info-block-header\">\n" +
-    "                    	<h2>İletişim Bilgileri</h2>\n" +
-    "                    </div>\n" +
-    "                    <!-- end of info-block-header -->\n" +
-    "                    <div class=\"info-block-body\">\n" +
-    "                    	<dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Ev Telefonu</dt>\n" +
-    "                            <dd>-</dd>\n" +
-    "                        </dl>\n" +
-    "                        <dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Cep Telefonu</dt>\n" +
-    "                            <dd>(+90) 123 456 7890</dd>\n" +
-    "                        </dl>\n" +
-    "                        <dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Mail Adresi</dt>\n" +
-    "                            <dd>gokhan@zetaops.io</dd>\n" +
-    "                        </dl>\n" +
-    "                        <dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Diğer Mail Adresi</dt>\n" +
-    "                            <dd>-</dd>\n" +
-    "                        </dl>\n" +
-    "                    </div>\n" +
-    "                    <!-- end of info-block-body -->\n" +
-    "                </div>\n" +
     "                <!-- end of info block -->\n" +
     "            </div>\n" +
     "            <!-- personnel-info-left -->\n" +
     "        </div>\n" +
     "        <!-- end of personnel-info-container -->\n" +
-    "        \n" +
-    "        <div class=\"personnel-info-container personnel-info-edit\">\n" +
-    "        	<div class=\"personnel-info-left\">\n" +
-    "            	<div class=\"generic-profile-picture\">\n" +
-    "                	<img src=\"../../img/sample-profile-pic.jpg\" />\n" +
-    "                </div>\n" +
-    "                <div style=\"margin-top:10px; text-align:center;\">\n" +
-    "                <button type=\"button\" class=\"btn btn-primary\">Değiştir</button>\n" +
-    "                <button type=\"button\" class=\"btn btn-danger\">Sil</button>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "            <!-- end of personnel-info-left -->\n" +
-    "        	<div class=\"personnel-info-right\">\n" +
-    "                <div class=\"info-block\">\n" +
-    "                	<div class=\"info-block-header\">\n" +
-    "                    	<h2>Kişisel Bilgiler</h2>\n" +
-    "                    </div>\n" +
-    "                    <!-- end of info-block-header -->\n" +
-    "                    <div class=\"info-block-body\">\n" +
-    "                    	<dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Ad Soyad</dt>\n" +
-    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"Gökhan Boranalp\"></dd>\n" +
-    "                        </dl>\n" +
-    "                        <dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Pozisyon</dt>\n" +
-    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"Pozisyon\"></dd>\n" +
-    "                        </dl>\n" +
-    "                        <dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Cinsiyet</dt>\n" +
-    "                            <dd>\n" +
-    "                            	<select class=\"form-control\">\n" +
-    "                                  <option value=\"male\">Erkek</option>\n" +
-    "                                  <option value=\"female\">Kadın</option>\n" +
-    "                                </select>\n" +
-    "                            </dd>\n" +
-    "                        </dl>\n" +
-    "                        <dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Doğum Tarihi</dt>\n" +
-    "                            <dd>\n" +
-    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Angular JS - Bootstrap Date Picker Eklenecek\">\n" +
-    "                            </dd>\n" +
-    "                        </dl>\n" +
-    "                        <dl class=\"dl-horizontal\">\n" +
-    "                            <dt>İkamet Adresi</dt>\n" +
-    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR\"></dd>\n" +
-    "                        </dl>\n" +
-    "                    </div>\n" +
-    "                    <!-- end of info-block-body -->\n" +
-    "                </div>\n" +
-    "                <!-- end of info block -->\n" +
-    "                \n" +
-    "                <div class=\"info-block\">\n" +
-    "                	<div class=\"info-block-header\">\n" +
-    "                    	<h2>İletişim Bilgileri</h2>\n" +
-    "                    </div>\n" +
-    "                    <!-- end of info-block-header -->\n" +
-    "                    <div class=\"info-block-body\">\n" +
-    "                    	<dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Ev Telefonu</dt>\n" +
-    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"\"></dd>\n" +
-    "                        </dl>\n" +
-    "                        <dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Cep Telefonu</dt>\n" +
-    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"(+90) 123 456 7890 (Phone number mask uygulanacak)\"></dd>\n" +
-    "                        </dl>\n" +
-    "                        <dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Mail Adresi</dt>\n" +
-    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"gokhan@zetaops.io\"></dd>\n" +
-    "                        </dl>\n" +
-    "                        <dl class=\"dl-horizontal\">\n" +
-    "                            <dt>Diğer Mail Adresi</dt>\n" +
-    "                            <dd><input type=\"text\" class=\"form-control\" placeholder=\"\"></dd>\n" +
-    "                        </dl>\n" +
-    "                    </div>\n" +
-    "                    <!-- end of info-block-body -->\n" +
-    "                </div>\n" +
-    "                <!-- end of info block -->\n" +
-    "            </div>\n" +
-    "            <!-- personnel-info-left -->\n" +
-    "        </div>\n" +
-    "        <!-- end of personnel-info-container -->\n" +
-    "\n" +
-    "\n" +
-    "    </div>\n" +
-    "</div>");
-}]);
-
-angular.module("components/staff/templates/add.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/staff/templates/add.html",
-    "<div ng-app=\"ulakbus.staff\">\n" +
-    "    <ng-include src=\"'shared/templates/add.html'\"></ng-include>\n" +
-    "</div>");
-}]);
-
-angular.module("components/staff/templates/edit.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/staff/templates/edit.html",
-    "<div ng-app=\"ulakbus.staff\">\n" +
-    "    <div class=\"col-md-6\">\n" +
-    "        <h1>{{ schema.title }}</h1>\n" +
-    "        <form name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
-    "    </div>\n" +
-    "</div>");
-}]);
-
-angular.module("components/staff/templates/list.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/staff/templates/list.html",
-    "<table class=\"table table-bordered table-responsive\">\n" +
-    "    <thead>\n" +
-    "    <tr>\n" +
-    "        <!--<th>{{ staffs[0].key }}</th>-->\n" +
-    "        <th ng-repeat=\"(key,value) in staffs[0].data\">{{ key }}</th>\n" +
-    "        <th>action</th>\n" +
-    "    </tr>\n" +
-    "    </thead>\n" +
-    "    <tbody>\n" +
-    "    <tr ng-repeat=\"staff in staffs\">\n" +
-    "        <!--<td><a ng-href=\"#/staff/{{staff.id}}\">{{staff.name}}</a></td>-->\n" +
-    "        <td ng-repeat=\"(key,value) in staff.data\">{{value}}</td>\n" +
-    "        <td>\n" +
-    "            <a ng-href=\"#/staff/edit/{{staff.key}}\">Edit</a><br>\n" +
-    "            <a ng-href=\"#/staff/{{staff.key}}\">Show</a>\n" +
-    "        </td>\n" +
-    "    </tr>\n" +
-    "    </tbody>\n" +
-    "</table>");
-}]);
-
-angular.module("components/staff/templates/show.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/staff/templates/show.html",
-    "<p ng-repeat=\"(key, value) in staff\"><span class=\"col-md-3\">{{ key }}:</span>{{\n" +
-    "    value}}</p>");
-}]);
-
-angular.module("components/student/student_add_template.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/student/student_add_template.html",
-    "<div ng-app=\"ulakbus.student\">\n" +
-    "    <div class=\"col-md-6\">\n" +
-    "        <h1>{{ schema.title }}</h1>\n" +
-    "        <form name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
-    "    </div>\n" +
-    "</div>");
-}]);
-
-angular.module("components/student/student_list_template.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/student/student_list_template.html",
-    "<table class=\"table table-bordered\">\n" +
-    "    <thead>\n" +
-    "        <tr>\n" +
-    "            <th ng-repeat=\"(key,value) in students[0]\">{{ key }}</th>\n" +
-    "        </tr>\n" +
-    "    </thead>\n" +
-    "    <tbody>\n" +
-    "        <tr ng-repeat=\"student in students\">\n" +
-    "            <td ng-repeat=\"(key,value) in student\">{{value}}</td>\n" +
-    "            <td><a ng-href=\"#/s/edit/{{student.id}}\">Edit</a></td>\n" +
-    "        </tr>\n" +
-    "    </tbody>\n" +
-    "</table>");
-}]);
-
-angular.module("components/types/types_template.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/types/types_template.html",
-    "<div ng-app=\"ulakbus.types\">\n" +
-    "    <div class=\"col-md-6\">\n" +
-    "        <h1>{{ schema.title }}</h1>\n" +
-    "        <form name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
-    "    </div>\n" +
-    "</div>");
+    "    </div>");
 }]);
 
 angular.module("shared/templates/add.html", []).run(["$templateCache", function($templateCache) {
@@ -726,119 +883,81 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "<ul class=\"nav navbar-top-links navbar-right\">\n" +
     "    <li class=\"dropdown\">\n" +
     "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
+    "        	<div class=\"badge\" ng-if=\"notifications[2].length > 0\">{{notifications[2].length}}</div>\n" +
     "            <i class=\"fa fa-envelope fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
-    "        <!--<ul class=\"dropdown-menu dropdown-messages\">-->\n" +
-    "            <!--<li>-->\n" +
-    "                <!--<a href=\"#\">-->\n" +
-    "                    <!--<div>-->\n" +
-    "                        <!--<strong>John Smith</strong>-->\n" +
-    "                        <!--<span class=\"pull-right text-muted\">-->\n" +
-    "                            <!--<em>Yesterday</em>-->\n" +
-    "                        <!--</span>-->\n" +
-    "                    <!--</div>-->\n" +
-    "                    <!--<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>-->\n" +
-    "                <!--</a>-->\n" +
-    "            <!--</li>-->\n" +
-    "            <!--<li class=\"divider\"></li>-->\n" +
-    "            <!--<li>-->\n" +
-    "                <!--<a class=\"text-center\" href=\"#\">-->\n" +
-    "                    <!--<strong>Read All Messages</strong>-->\n" +
-    "                    <!--<i class=\"fa fa-angle-right\"></i>-->\n" +
-    "                <!--</a>-->\n" +
-    "            <!--</li>-->\n" +
-    "        <!--</ul>-->\n" +
+    "        <ul class=\"dropdown-menu dropdown-messages\" ng-if=\"notifications[2].length > 0\">\n" +
+    "            <li ng-repeat=\"notify in notifications[2] | limitTo: '8'\">\n" +
+    "                <a href=\"javascript:void(0)\" ng-click=\"markAsRead(notify)\">\n" +
+    "                    <div>\n" +
+    "                        <strong>{{notify.title}}</strong>\n" +
+    "                        <span class=\"pull-right text-muted\">\n" +
+    "                            <em>22 Ekim 2015</em>\n" +
+    "                        </span>\n" +
+    "                    </div>\n" +
+    "                    <div>{{notify.body}}...</div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a class=\"text-center\" href=\"javascript:void(0)\">\n" +
+    "                    <strong>Read All Messages</strong>\n" +
+    "                    <i class=\"fa fa-angle-right\"></i>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
     "        <!-- /.dropdown-messages -->\n" +
     "    </li>\n" +
     "    <!-- /.dropdown -->\n" +
     "    <li class=\"dropdown\">\n" +
     "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
+    "            <div class=\"badge\" ng-if=\"notifications[1].length > 0\">{{notifications[1].length}}</div>\n" +
     "            <i class=\"fa fa-tasks fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
-    "        <!--<ul class=\"dropdown-menu dropdown-tasks\">-->\n" +
-    "            <!--<li>-->\n" +
-    "                <!--<a href=\"#\">-->\n" +
-    "                    <!--<div>-->\n" +
-    "                        <!--<p>-->\n" +
-    "                            <!--<strong>Task 1</strong>-->\n" +
-    "                            <!--<span class=\"pull-right text-muted\">40% Complete</span>-->\n" +
-    "                        <!--</p>-->\n" +
+    "        <ul class=\"dropdown-menu dropdown-tasks\" ng-if=\"notifications[1].length > 0\">\n" +
+    "            <li ng-repeat=\"notify in notifications[1] | limitTo: '8'\">\n" +
+    "                <a href=\"javascript:void(0)\"  ng-click=\"markAsRead(notify)\">\n" +
+    "                    <div>\n" +
+    "                        <p>\n" +
+    "                            <strong>{{notify.title}}</strong>\n" +
+    "                            <span class=\"pull-right text-muted\">{{notify.body}}</span>\n" +
+    "                        </p>\n" +
+    "                        <!-- todo: progress bar will be used in future developments-->\n" +
     "                        <!--<div class=\"progress progress-striped active\">-->\n" +
     "                            <!--<div class=\"progress-bar progress-bar-success\" role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 40%\">-->\n" +
     "                                <!--<span class=\"sr-only\">40% Complete (success)</span>-->\n" +
     "                            <!--</div>-->\n" +
     "                        <!--</div>-->\n" +
-    "                    <!--</div>-->\n" +
-    "                <!--</a>-->\n" +
-    "            <!--</li>-->\n" +
-    "            <!--<li class=\"divider\"></li>-->\n" +
-    "            <!--<li>-->\n" +
-    "                <!--<a class=\"text-center\" href=\"#\">-->\n" +
-    "                    <!--<strong>See All Tasks</strong>-->\n" +
-    "                    <!--<i class=\"fa fa-angle-right\"></i>-->\n" +
-    "                <!--</a>-->\n" +
-    "            <!--</li>-->\n" +
-    "        <!--</ul>-->\n" +
+    "\n" +
+    "                    </div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a class=\"text-center\" href=\"javascript:void(0)\">\n" +
+    "                    <strong>See All Tasks</strong>\n" +
+    "                    <i class=\"fa fa-angle-right\"></i>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
     "        <!-- /.dropdown-tasks -->\n" +
     "    </li>\n" +
     "    <!-- /.dropdown -->\n" +
     "    <li class=\"dropdown\">\n" +
     "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
+    "        	<div class=\"badge\" ng-if=\"notifications[3].length > 0\">{{notifications[3].length}}</div>\n" +
     "            <i class=\"fa fa-bell fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
-    "        <!--<ul class=\"dropdown-menu dropdown-alerts\">-->\n" +
-    "            <!--<li>-->\n" +
-    "                <!--<a href=\"#\">-->\n" +
-    "                    <!--<div>-->\n" +
-    "                        <!--<i class=\"fa fa-comment fa-fw\"></i> New Comment-->\n" +
-    "                        <!--<span class=\"pull-right text-muted small\">4 minutes ago</span>-->\n" +
-    "                    <!--</div>-->\n" +
-    "                <!--</a>-->\n" +
-    "            <!--</li>-->\n" +
-    "            <!--<li class=\"divider\"></li>-->\n" +
-    "            <!--<li>-->\n" +
-    "                <!--<a href=\"#\">-->\n" +
-    "                    <!--<div>-->\n" +
-    "                        <!--<i class=\"fa fa-twitter fa-fw\"></i> 3 New Followers-->\n" +
-    "                        <!--<span class=\"pull-right text-muted small\">12 minutes ago</span>-->\n" +
-    "                    <!--</div>-->\n" +
-    "                <!--</a>-->\n" +
-    "            <!--</li>-->\n" +
-    "            <!--<li class=\"divider\"></li>-->\n" +
-    "            <!--<li>-->\n" +
-    "                <!--<a href=\"#\">-->\n" +
-    "                    <!--<div>-->\n" +
-    "                        <!--<i class=\"fa fa-envelope fa-fw\"></i> Message Sent-->\n" +
-    "                        <!--<span class=\"pull-right text-muted small\">4 minutes ago</span>-->\n" +
-    "                    <!--</div>-->\n" +
-    "                <!--</a>-->\n" +
-    "            <!--</li>-->\n" +
-    "            <!--<li class=\"divider\"></li>-->\n" +
-    "            <!--<li>-->\n" +
-    "                <!--<a href=\"#\">-->\n" +
-    "                    <!--<div>-->\n" +
-    "                        <!--<i class=\"fa fa-tasks fa-fw\"></i> New Task-->\n" +
-    "                        <!--<span class=\"pull-right text-muted small\">4 minutes ago</span>-->\n" +
-    "                    <!--</div>-->\n" +
-    "                <!--</a>-->\n" +
-    "            <!--</li>-->\n" +
-    "            <!--<li class=\"divider\"></li>-->\n" +
-    "            <!--<li>-->\n" +
-    "                <!--<a href=\"#\">-->\n" +
-    "                    <!--<div>-->\n" +
-    "                        <!--<i class=\"fa fa-upload fa-fw\"></i> Server Rebooted-->\n" +
-    "                        <!--<span class=\"pull-right text-muted small\">4 minutes ago</span>-->\n" +
-    "                    <!--</div>-->\n" +
-    "                <!--</a>-->\n" +
-    "            <!--</li>-->\n" +
-    "            <!--<li class=\"divider\"></li>-->\n" +
-    "            <!--<li>-->\n" +
-    "                <!--<a class=\"text-center\" href=\"#\">-->\n" +
-    "                    <!--<strong>See All Alerts</strong>-->\n" +
-    "                    <!--<i class=\"fa fa-angle-right\"></i>-->\n" +
-    "                <!--</a>-->\n" +
-    "            <!--</li>-->\n" +
-    "        <!--</ul>-->\n" +
+    "        <ul class=\"dropdown-menu dropdown-alerts\" ng-if=\"notifications[3].length > 0\">\n" +
+    "            <li>\n" +
+    "                <a href=\"javascript:void(0)\">\n" +
+    "                    <div>\n" +
+    "                        <i class=\"fa fa-comment fa-fw\"></i> New Comment\n" +
+    "                        <span class=\"pull-right text-muted small\">4 minutes ago</span>\n" +
+    "                    </div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
     "        <!-- /.dropdown-alerts -->\n" +
     "    </li>\n" +
     "    <!-- /.dropdown -->\n" +
@@ -847,9 +966,9 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "            <i class=\"fa fa-user fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-user\">\n" +
-    "            <li><a href=\"#\"><i class=\"fa fa-user fa-fw\"></i> Profil</a>\n" +
+    "            <li><a href=\"javascript:void(0)\"><i class=\"fa fa-user fa-fw\"></i> Profil</a>\n" +
     "            </li>\n" +
-    "            <li><a href=\"#\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar</a>\n" +
+    "            <li><a href=\"javascript:void(0)\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar</a>\n" +
     "            </li>\n" +
     "            <li class=\"divider\"></li>\n" +
     "            <li><a ui-sref=\"login\" href=\"javascript:void(0);\" logout><i class=\"fa fa-sign-out fa-fw\"></i> Çıkış</a>\n" +
@@ -865,17 +984,27 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
 
 angular.module("shared/templates/directives/header-sub-menu.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/header-sub-menu.html",
-    "<div class=\"manager-view-header container-fluid\" ng-class=\"{hidden: $root.loggedInUser != true}\">\n" +
+    "<div class=\"manager-view-header\">\n" +
     "    <div class=\"clearfix\">\n" +
     "        <header-breadcrumb></header-breadcrumb>\n" +
     "        <loaderdiv><div></div></loaderdiv>\n" +
     "        <!--<div class=\"loader\">Loading...</div>-->\n" +
+    "        <selected-user class=\"pull-right\"></selected-user>\n" +
     "    </div>\n" +
-    "    <div id=\"header-buttons\" ng-class=\"{hidden: $root.showSaveButton != true}\">\n" +
-    "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"triggerSubmit()\">Kaydet</button>\n" +
-    "        <!--<button type=\"button\" class=\"btn btn-warning\">Düzenle</button>-->\n" +
-    "        <!--<button type=\"button\" class=\"btn btn-danger\">İptal</button>-->\n" +
-    "    </div>\n" +
+    "    <!--<div id=\"header-buttons\" ng-class=\"{hidden: $root.showSaveButton != true}\">-->\n" +
+    "        <!--<button type=\"button\" class=\"btn btn-primary\" ng-click=\"triggerSubmit()\">Kaydet</button>-->\n" +
+    "        <!--&lt;!&ndash;<button type=\"button\" class=\"btn btn-warning\">Düzenle</button>&ndash;&gt;-->\n" +
+    "        <!--&lt;!&ndash;<button type=\"button\" class=\"btn btn-danger\">İptal</button>&ndash;&gt;-->\n" +
+    "    <!--</div>-->\n" +
+    "</div>");
+}]);
+
+angular.module("shared/templates/directives/menuCollapse.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/menuCollapse.html",
+    "<div class=\"sidebar-collapse-button\" ng-click=\"collapseToggle()\">\n" +
+    "    <div></div>\n" +
+    "    <div></div>\n" +
+    "    <div></div>\n" +
     "</div>");
 }]);
 
@@ -934,6 +1063,164 @@ angular.module("shared/templates/directives/notifications.html", []).run(["$temp
     "</div>");
 }]);
 
+angular.module("shared/templates/directives/selected-user.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/selected-user.html",
+    "<a href=\"#\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Tooltip on left\">İşlem: {{$root.selectedUser.name}}</a>\n" +
+    "\n" +
+    "<!-- sidebar-person-info -->\n" +
+    "<!--<div class=\"tooltip\" role=\"tooltip\">-->\n" +
+    "    <!--&lt;!&ndash;<button class=\"btn btn-primary close-sidebar-person-info\">Profili Kapat</button>&ndash;&gt;-->\n" +
+    "    <!--<div class=\"identity\">-->\n" +
+    "        <!--<div class=\"identity-header clearfix\">-->\n" +
+    "            <!--<img src=\"../../../img/sample-profile-pic.jpg\">-->\n" +
+    "            <!--<div class=\"pull-left\">-->\n" +
+    "                <!--<p class=\"identity-name\">{{$root.selectedUser.name}}</p>-->\n" +
+    "                <!--&lt;!&ndash;<p class=\"identity-surname\">Öğümsöğütlü</p>&ndash;&gt;-->\n" +
+    "            <!--</div>-->\n" +
+    "        <!--</div>-->\n" +
+    "        <!--&lt;!&ndash; end of identity-header &ndash;&gt;-->\n" +
+    "        <!--<div class=\"identity-info\">-->\n" +
+    "            <!--<div class=\"clearfix\">-->\n" +
+    "                <!--<span class=\"fa fa-phone\"></span> <div>539 241 65 08</div>-->\n" +
+    "            <!--</div>-->\n" +
+    "            <!--<div class=\"clearfix\">-->\n" +
+    "                <!--<span class=\"fa fa-envelope\"></span>-->\n" +
+    "                <!--<div>erkanogum@gmail.com</div>-->\n" +
+    "            <!--</div>-->\n" +
+    "            <!--<div class=\"clearfix\">-->\n" +
+    "                <!--<span class=\"fa fa-home\"></span>-->\n" +
+    "                <!--<div>İşçi Blokları Mah. 1524. sokak B Blok 6. Kat A Kanat 27 numara</div>-->\n" +
+    "            <!--</div>-->\n" +
+    "        <!--</div>-->\n" +
+    "    <!--</div>-->\n" +
+    "    <!--&lt;!&ndash; end of identity &ndash;&gt;-->\n" +
+    "    <!--<div class=\"person-actions\">-->\n" +
+    "        <!--<ul>-->\n" +
+    "            <!--<li><a href=\"#\"><span class=\"fa fa-trash\"></span> Action 1</a></li>-->\n" +
+    "            <!--<li><a href=\"#\"><span class=\"fa fa-trash\"></span> Action 2</a></li>-->\n" +
+    "            <!--<li><a href=\"#\"><span class=\"fa fa-trash\"></span> Action 3</a></li>-->\n" +
+    "            <!--<li><a href=\"#\"><span class=\"fa fa-trash\"></span> Action 4</a></li>-->\n" +
+    "            <!--<li><a href=\"#\"><span class=\"fa fa-trash\"></span> Action 5</a></li>-->\n" +
+    "        <!--</ul>-->\n" +
+    "    <!--</div>-->\n" +
+    "    <!--&lt;!&ndash; end of person-actions &ndash;&gt;-->\n" +
+    "<!--</div>-->\n" +
+    "<!-- end of sidebar-person-info -->");
+}]);
+
+angular.module("shared/templates/directives/sidebar-notification.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/sidebar-notification.html",
+    "<div class=\"right-sidebar\">\n" +
+    "\n" +
+    "    <div class=\"right-sidebar-box\">\n" +
+    "        <div class=\"right-sidebar-messages\">\n" +
+    "\n" +
+    "            <div class=\"right-sidebar-title clearfix\">\n" +
+    "                <h3>Mesajlar</h3>\n" +
+    "                <span><a href=\"javascript:void(0)\">Tüm Mesajlar</a></span>\n" +
+    "            </div>\n" +
+    "            <!-- end of right-sidebar-title -->\n" +
+    "\n" +
+    "            <div class=\"right-sidebar-message-block\" ng-repeat=\"notify in notifications[2] | limitTo:5\">\n" +
+    "                <a class=\"clearfix\" href=\"javascript:void(0)\">\n" +
+    "                    <img src=\"../../../img/sample-profile-pic.jpg\">\n" +
+    "                    <div class=\"right-sidebar-message-content\">\n" +
+    "                        <div>{{notify.title}}</div>\n" +
+    "                        <div>{{notify.body}}</div>\n" +
+    "                        <div>16:05</div>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of right-sidebar-message-content -->\n" +
+    "                </a>\n" +
+    "            </div>\n" +
+    "            <!-- end of right-sidebar-message-block -->\n" +
+    "\n" +
+    "        </div>\n" +
+    "        <!-- end of right-sidebar-messages -->\n" +
+    "    </div>\n" +
+    "    <!-- end of right-sidebar-box -->\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"right-sidebar-box\">\n" +
+    "        <div class=\"right-sidebar-tasks\">\n" +
+    "\n" +
+    "            <div class=\"right-sidebar-title clearfix\">\n" +
+    "                <h3>Görevler</h3>\n" +
+    "                <span><a href=\"javascript:void(0)\">Tüm Görevler</a></span>\n" +
+    "            </div>\n" +
+    "            <!-- end of right-sidebar-title -->\n" +
+    "\n" +
+    "            <!--<div class=\"right-sidebar-task-block\">-->\n" +
+    "            <!--<div class=\"task-type\">Devam Eden Görevler</div>-->\n" +
+    "            <!--<a href=\"javascript:void(0)\">-->\n" +
+    "            <!--<div class=\"task-title\">Öğrenci Kayıt</div>-->\n" +
+    "            <!--<div class=\"progress\">-->\n" +
+    "            <!--<div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"25\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"min-width: 2em; width:25%;\">-->\n" +
+    "            <!--25%-->\n" +
+    "            <!--</div>-->\n" +
+    "            <!--</div>-->\n" +
+    "            <!--&lt;!&ndash; end of progress &ndash;&gt;-->\n" +
+    "            <!--</a>-->\n" +
+    "            <!--</div>-->\n" +
+    "            <!-- end of right-sidebar-task-block -->\n" +
+    "\n" +
+    "            <div class=\"right-sidebar-task-block\">\n" +
+    "                <div class=\"task-type\">Onay Bekleyen Görevler</div>\n" +
+    "                <a href=\"javascript:void(0)\" ng-repeat=\"notify in notifications[1] | limitTo:5\">\n" +
+    "                    <div class=\"task-title\">{{notify.title}}</div>\n" +
+    "                </a>\n" +
+    "            </div>\n" +
+    "            <!-- end of right-sidebar-task-block -->\n" +
+    "\n" +
+    "        </div>\n" +
+    "        <!-- end of right-sidebar-tasks -->\n" +
+    "    </div>\n" +
+    "    <!-- end of right-sidebar-box -->\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"right-sidebar-box\">\n" +
+    "        <div class=\"right-sidebar-announcements\">\n" +
+    "\n" +
+    "            <div class=\"right-sidebar-title clearfix\">\n" +
+    "                <h3>Duyurular</h3>\n" +
+    "                <span><a href=\"javascript:void(0)\">Tüm Duyurular</a></span>\n" +
+    "            </div>\n" +
+    "            <!-- end of right-sidebar-title -->\n" +
+    "\n" +
+    "            <div class=\"right-sidebar-announcement-block\">\n" +
+    "                <a href=\"javascript:void(0)\" ng-repeat=\"notify in notifications[3] | limitTo:5\">{{notify.body}}</a>\n" +
+    "            </div>\n" +
+    "            <!-- end of right-sidebar-status-block -->\n" +
+    "\n" +
+    "        </div>\n" +
+    "        <!-- end of right-sidebar-status -->\n" +
+    "    </div>\n" +
+    "    <!-- end of right-sidebar-box -->\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"right-sidebar-box\">\n" +
+    "        <div class=\"right-sidebar-last-actions\">\n" +
+    "\n" +
+    "            <div class=\"right-sidebar-title clearfix\">\n" +
+    "                <h3>Son İşlemler</h3>\n" +
+    "                <span><a href=\"javascript:void(0)\">Tüm İşlemler</a></span>\n" +
+    "            </div>\n" +
+    "            <!-- end of right-sidebar-title -->\n" +
+    "\n" +
+    "            <div class=\"right-sidebar-last-action-block\">\n" +
+    "                <a href=\"javascript:void(0)\">Birinci dönem bitimine 10 gün kaldı.</a>\n" +
+    "                <a href=\"javascript:void(0)\">Ders seçimi işlemleri xx tarihinde başlayacaktır.</a>\n" +
+    "            </div>\n" +
+    "            <!-- end of right-sidebar-status-block -->\n" +
+    "\n" +
+    "        </div>\n" +
+    "        <!-- end of right-sidebar-status -->\n" +
+    "    </div>\n" +
+    "    <!-- end of right-sidebar-box -->\n" +
+    "\n" +
+    "</div>\n" +
+    "<!-- end of right-sidebar -->");
+}]);
+
 angular.module("shared/templates/directives/sidebar-search.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/sidebar-search.html",
     "");
@@ -941,29 +1228,48 @@ angular.module("shared/templates/directives/sidebar-search.html", []).run(["$tem
 
 angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/sidebar.html",
-    "<div class=\"navbar-default sidebar\" role=\"navigation\">\n" +
+    "<div class=\"navbar-default sidebar\" role=\"navigation\" ng-mouseenter=\"openSidebar()\" ng-mouseleave=\"closeSidebar()\">\n" +
     "	<div class=\"brand\">\n" +
     "    	<a href=\"\" class=\"logo\"><img src=\"/img/brand-logo.png\" /></a>\n" +
     "    </div>\n" +
+    "\n" +
     "    <div class=\"sidebar-nav navbar-collapse\">\n" +
     "        <ul class=\"nav in\" id=\"side-menu\" ng-class=\"{hidden: $root.loggedInUser != true}\">\n" +
     "            <!--<sidebar-search></sidebar-search>-->\n" +
     "            <li ui-sref-active=\"active\">\n" +
     "                <a href=\"#/dashboard\" ng-click=\"breadcrumb(['Panel'])\"><i class=\"fa fa-dashboard fa-fw\"></i>\n" +
-    "                Panel</a>\n" +
+    "                	<span class=\"menu-text\" ng-class=\"{hidden: $root.collapsed}\">Panel</span>\n" +
+    "                </a>\n" +
     "            </li>\n" +
+    "            \n" +
     "            <li ng-repeat=\"(key, item) in menuItems\" ng-class=\"{active: collapseVar == $index+1}\">{{dropDown}}\n" +
-    "                <a href=\"\" ng-click=\"check($index+1)\"><i class=\"fa fa-wrench fa-fw\"></i> {{ item[0] }}<span\n" +
-    "                        class=\"fa arrow\"></span></a>\n" +
-    "                <ul class=\"nav nav-second-level\">\n" +
-    "                    <li ng-repeat=\"(k, v) in item[1]\"><a href=\"#/{{v[1]}}\" ng-click=\"breadcrumb([item[0], v[0]])\">{{v[0]}}</a></li>\n" +
+    "                <a href=\"\" ng-click=\"check($index+1)\">\n" +
+    "                    <i class=\"fa fa-fw fa-cogs\"\n" +
+    "                       ng-class=\"{\n" +
+    "                           'other': 'fa fa-fw fa-wrench',\n" +
+    "                           'ogrenci': 'fa fa-fw fa-university',\n" +
+    "                           'personel': 'fa fa-fw fa-users'}[key]\"></i>\n" +
+    "                    <span class=\"menu-text\" ng-class=\"{hidden: $root.collapsed}\">{{ key }}</span>\n" +
+    "                    <span class=\"fa arrow\" ng-class=\"{hidden: $root.collapsed}\"></span>\n" +
+    "                </a>\n" +
+    "                <ul class=\"nav nav-second-level\" ng-class=\"{hidden: $root.collapsed}\">\n" +
+    "                    <li ng-repeat=\"v in item\">\n" +
+    "                        <a ng-if=\"key == 'other'\" ng-href=\"#{{v.url}}/{{$root.selectedUser.key}}\"\n" +
+    "                           ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
+    "                        <a ng-if=\"key == 'ogrenci' || key ==  'personel'\"\n" +
+    "                           ng-href=\"#{{v.url}}/{{v.param}}/{{$root.selectedUser.key}}\"\n" +
+    "                           ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
+    "                    </li>\n" +
     "                </ul>\n" +
     "                <!-- /.nav-second-level -->\n" +
     "            </li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
     "    <!-- /.sidebar-collapse -->\n" +
-    "    <footer>\n" +
+    "\n" +
+    "\n" +
+    "    \n" +
+    "    <footer ng-class=\"{hidden: $root.collapsed}\">\n" +
     "    	<span>v <app-version></app-version> &copy; ZetaOps</span>\n" +
     "    </footer>\n" +
     "</div>\n" +
@@ -1127,16 +1433,41 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "            {{form.title}}\n" +
     "        </label>\n" +
     "\n" +
-    "        <select ng-model=\"$$value$$\"\n" +
-    "                value=\"$$value$$\"\n" +
-    "                ng-model-options=\"form.ngModelOptions\"\n" +
-    "                ng-disabled=\"form.readonly\"\n" +
-    "                sf-changed=\"form\"\n" +
-    "                class=\"form-control {{form.fieldHtmlClass}}\"\n" +
-    "                schema-validate=\"form\"\n" +
-    "                ng-options=\"item.value as item.name for item in form.titleMap\"\n" +
-    "                name=\"{{form.key.slice(-1)[0]}}\">\n" +
-    "        </select>\n" +
+    "        <div class=\"form-group input-group\">\n" +
+    "            <span class=\"input-group-btn\">\n" +
+    "                <button class=\"btn btn-default dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\">\n" +
+    "                    <span class=\"caret\"></span>\n" +
+    "                </button>\n" +
+    "                <ul class=\"dropdown-menu\">\n" +
+    "                    <li ng-repeat=\"item in form.titleMap\">\n" +
+    "                        <a href=\"javascript:void(0)\" ng-click=\"form.onDropdownSelect(item, form.model_name)\">{{item\n" +
+    "                            .name}}</a>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "            </span>\n" +
+    "            <input type=\"text\"\n" +
+    "                   ng-model=\"$$value$$\"\n" +
+    "                   typeahead=\"item.name for item in form.titleMap\"\n" +
+    "                   typeahead-on-select=\"form.onSelect($item)\"\n" +
+    "                   placeholder=\"{{form.title}}\"\n" +
+    "                   ng-model-options=\"form.ngModelOptions\"\n" +
+    "                   ng-disabled=\"form.readonly\"\n" +
+    "                   sf-changed=\"form\"\n" +
+    "                   class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "                   schema-validate=\"form\"\n" +
+    "                   name=\"{{form.model_name}}\"/>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <!--<select ng-model=\"$$value$$\"-->\n" +
+    "        <!--value=\"$$value$$\"-->\n" +
+    "        <!--ng-model-options=\"form.ngModelOptions\"-->\n" +
+    "        <!--ng-disabled=\"form.readonly\"-->\n" +
+    "        <!--sf-changed=\"form\"-->\n" +
+    "        <!--class=\"form-control {{form.fieldHtmlClass}}\"-->\n" +
+    "        <!--schema-validate=\"form\"-->\n" +
+    "        <!--ng-options=\"item.value as item.name for item in form.titleMap\"-->\n" +
+    "        <!--name=\"{{form.key.slice(-1)[0]}}\">-->\n" +
+    "        <!--</select>-->\n" +
     "\n" +
     "        <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
     "    </div>\n" +
