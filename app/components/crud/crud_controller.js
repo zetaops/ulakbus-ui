@@ -38,12 +38,14 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
         if (form.$valid) {
             Generator.submit($scope)
                 .success(function (data) {
-                    $location.path('/crud/' + $scope.form_params.model).search(data);
+                    $location.path('/crud/' + $scope.form_params.model + '/' + $scope.form_params.param + '/' + $scope.form_params.id).search(data);
+
                 })
                 .error(function (data) {
                     $scope.message = data.title;
                 });
         }
+
     };
 
 });
@@ -83,10 +85,9 @@ crud.controller('CRUDShowCtrl', function ($scope, $rootScope, $location, Generat
     };
     // call generator's get_single_item func
     Generator.get_single_item($scope).then(function (res) {
-        console.log(res.data.nobjects);
         // if no data to show redirect to add/edit view
         //if (res.data.nobjects[0] === "-1") {
-        //    $location.path('crud/' + $scope.form_params.model + '/' + $scope.form_params.param + '/' + $scope.form_params.object_id + '/edit');
+        //    $location.path('crud/' + $scope.form_params.model + '/' + $scope.form_params.param + '/' + $scope.form_params.id + '/edit');
         //}
         $scope.listobjects = {};
         $scope.object = res.data.object;
@@ -96,7 +97,7 @@ crud.controller('CRUDShowCtrl', function ($scope, $rootScope, $location, Generat
                 $scope.listobjects[key] = value;
                 delete $scope.object[key];
             }
-        });    debugger;
+        });
 
 
         $scope.model = $routeParams.model;

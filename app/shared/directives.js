@@ -56,7 +56,7 @@ app.directive('headerNotification', function ($http, $rootScope, $interval, REST
             // when clicked mark as read notification
             // it can be list of notifications
             $scope.markAsRead = function (items) {
-                $http.post(RESTURL.url+"notify", {ignoreLoadingBar: true, read: items})
+                $http.post(RESTURL.url+"notify", {ignoreLoadingBar: true, read: [items]})
                     .success(function (data) {
                         console.log(data);
                     });
