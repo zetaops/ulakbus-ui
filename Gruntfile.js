@@ -80,7 +80,8 @@ module.exports = function (grunt) {
                     {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/shared/scripts/', src: 'theme.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
+                    //{expand: true, cwd: 'app/shared/scripts/', src: 'theme.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/shared/scripts/', src: 'jquery-ui.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
                 ]
 
             }
@@ -101,6 +102,8 @@ module.exports = function (grunt) {
                     "app/components/auth/auth_service.js",
                     "app/components/dashboard/dashboard_controller.js",
                     "app/components/crud/crud_controller.js",
+                    "app/components/error_pages/error_controller.js",
+                    "app/components/wf/wf_controller.js",
                     "app/components/version/version.js",
                     "app/components/version/interpolate-filter.js",
                     "app/components/version/version-directive.js"
@@ -109,24 +112,25 @@ module.exports = function (grunt) {
             },
             components: {
                 src: [
-                    "app/bower_components/jquery/dist/jquery.min.js",
-                    "app/bower_components/bootstrap/dist/js/bootstrap.min.js",
-                    "app/bower_components/angular-route/angular-route.min.js",
-                    "app/bower_components/angular-cookies/angular-cookies.min.js",
-                    "app/bower_components/angular-resource/angular-resource.min.js",
-                    "app/bower_components/angular-bootstrap/ui-bootstrap.min.js",
+                    //"app/bower_components/angular/angular.js",
+                    //"app/bower_components/jquery/dist/jquery.js",
+                    "app/bower_components/bootstrap/dist/js/bootstrap.js",
+                    "app/bower_components/angular-route/angular-route.js",
+                    "app/bower_components/angular-cookies/angular-cookies.js",
+                    "app/bower_components/angular-resource/angular-resource.js",
+                    "app/bower_components/angular-bootstrap/ui-bootstrap.js",
                     "app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
-                    "app/bower_components/angular-sanitize/angular-sanitize.min.js",
+                    "app/bower_components/angular-sanitize/angular-sanitize.js",
                     "app/bower_components/tv4/tv4.js",
                     "app/bower_components/objectpath/lib/ObjectPath.js",
-                    "app/bower_components/angular-schema-form/dist/schema-form.min.js",
-                    "app/bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
-                    "app/bower_components/angular-gettext/dist/angular-gettext.min.js",
-                    "app/bower_components/json3/lib/json3.min.js",
-                    "app/bower_components/angular-loading-bar/build/loading-bar.min.js",
-                    "app/bower_components/metisMenu/dist/metisMenu.min.js",
-                    "app/bower_components/Chart.js/Chart.min.js",
-                    "app/shared/scripts/jquery-ui.min.js"
+                    "app/bower_components/angular-schema-form/dist/schema-form.js",
+                    "app/bower_components/angular-schema-form/dist/bootstrap-decorator.js",
+                    "app/bower_components/angular-gettext/dist/angular-gettext.js",
+                    "app/bower_components/json3/lib/json3.js",
+                    "app/bower_components/angular-loading-bar/build/loading-bar.js",
+                    "app/bower_components/metisMenu/dist/metisMenu.js",
+                    "app/bower_components/Chart.js/Chart.js",
+                    //"app/shared/scripts/jquery-ui.min.js"
                 ],
                 dest: 'dist/bower_components/components.js'
             },
