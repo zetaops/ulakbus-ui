@@ -23,6 +23,16 @@ app.config(['$httpProvider', function ($httpProvider) {
             'response': function (response) {
                 //Will only be called for HTTP up to 300
 
+                if (response.data._debug_queries) {
+                    if (response.data._debug_queries.length > 0) {
+                        $rootScope.debug_queries = $rootScope.debug_queries || [];
+                        $rootScope.debug_queries.push({
+                            "url": response.config.url,
+                            "queries": response.data._debug_queries
+                        });
+                    }
+                }
+                
                 if (response.data.is_login === false) {
                     $rootScope.loggedInUser = response.data.is_login;
                     $location.path("/login");

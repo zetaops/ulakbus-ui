@@ -1,0 +1,29 @@
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default" ng-repeat="query in debug_queries">
+        <div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordion"
+             data-target="#collapse{{$index}}"
+             aria-expanded="true" aria-controls="collapseOne">
+            <h4 class="panel-title">{{query.url}}
+            </h4>
+        </div>
+        <div id="collapse{{$index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <ol>
+                        <li ng-repeat="query in query.queries">
+                            <table class="table">
+                                <tbody>
+                                <tr ng-repeat="(key, value) in query">
+                                    <td>{{key}}</td>
+                                    <td>{{value}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ol>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
