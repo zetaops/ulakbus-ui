@@ -103,6 +103,7 @@ module.exports = function (grunt) {
                     "app/components/dashboard/dashboard_controller.js",
                     "app/components/crud/crud_controller.js",
                     "app/components/debug/debug_controller.js",
+                    "app/components/devSettings/devSettings_controller.js",
                     "app/components/error_pages/error_controller.js",
                     "app/components/wf/wf_controller.js",
                     "app/components/version/version.js",

@@ -21,6 +21,7 @@ var app = angular.module(
         'ulakbus.error_pages',
         'ulakbus.crud',
         'ulakbus.debug',
+        'ulakbus.devSettings',
         'ulakbus.wf',
         'ulakbus.version',
         //'schemaForm',
@@ -41,12 +42,6 @@ var app = angular.module(
                     backendurl = item.split('=')[1];
                 }
             });
-        }
-        if (location.href.indexOf("backendurl") > -1){
-            var urlfromqstr = location.href.split('?')[1].split('=')[1];
-            backendurl = decodeURIComponent(urlfromqstr.replace(/\+/g, " "));
-            document.cookie = "backendurl="+backendurl;
-            window.location.href = window.location.href.split('?')[0];
         }
 
         return {url: backendurl};
