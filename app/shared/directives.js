@@ -26,7 +26,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
  * headerNotification directive for header
  */
 
-app.directive('headerNotification', function ($http, $rootScope, $interval, RESTURL) {
+app.directive('headerNotification', function ($http, $rootScope, $cookies, $interval, RESTURL) {
     return {
         templateUrl: 'shared/templates/directives/header-notification.html',
         restrict: 'E',
@@ -53,8 +53,10 @@ app.directive('headerNotification', function ($http, $rootScope, $interval, REST
 
             // check notifications every 5 seconds
             $interval(function () {
-                console.log('get notification call - interval');
-                $scope.getNotifications();
+                if ($cookies.get("notificate") == "on") {
+                    console.log('get notification call - interval');
+                    $scope.getNotifications();
+                }
             }, 5000);
 
             // when clicked mark as read notification

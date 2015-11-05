@@ -1,0 +1,28 @@
+<div class="table-responsive">
+    <table class="table">
+        <tbody>
+        <tr>
+            <td class="col-md-2">Backend Url:</td>
+            <td class="col-md-8">
+                <input class="form-control" type="text" placeholder="Backend Url Tanımla"
+                       value="{{backendurl}}"
+                       ng-model="backendurl">
+                <button class="btn btn-primary" ng-click="setbackendurl()">Kaydet</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Notifications:</td>
+            <td>
+                <button class="btn"
+                        ng-class="{'btn-success':notificate=='on', 'btn-danger':notificate=='off'}" ng-click="setnotification()">{{notificate}}</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Query Debug:</td>
+            <td>
+                <a href="#/debug/list">Goster</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
