@@ -32,16 +32,19 @@ app.directive('headerNotification', function ($http, $rootScope, $interval, REST
         restrict: 'E',
         replace: true,
         link: function ($scope) {
+            $scope.groupNotifications = function (notifications) {
+                // notification categories:
+                // 1: tasks, 2: messages, 3: announcements, 4: recents
+                $scope.notifications = {1: [], 2: [], 3: [], 4: []};
+
+                angular.forEach(notifications, function (value, key) {
+                    $scope.notifications[value.type].push(value);
+                });
+            };
             $scope.getNotifications = function () {
                 // ignore loading bar here
                 $http.get(RESTURL.url+"notify", {ignoreLoadingBar: true}).success(function (data) {
-                    // notification categories:
-                    // 1: tasks, 2: messages, 3: announcements, 4: recents
-                    $scope.notifications = {1: [], 2: [], 3: [], 4: []};
-
-                    angular.forEach(data.notifications, function (value, key) {
-                        $scope.notifications[value.type].push(value);
-                    });
+                    $scope.groupNotifications(data.notifications);
                     $rootScope.$broadcast("notifications", $scope.notifications);
                 });
             };
@@ -50,6 +53,7 @@ app.directive('headerNotification', function ($http, $rootScope, $interval, REST
 
             // check notifications every 5 seconds
             $interval(function () {
+                console.log('get notification call - interval');
                 $scope.getNotifications();
             }, 5000);
 
@@ -58,7 +62,8 @@ app.directive('headerNotification', function ($http, $rootScope, $interval, REST
             $scope.markAsRead = function (items) {
                 $http.post(RESTURL.url+"notify", {ignoreLoadingBar: true, read: [items]})
                     .success(function (data) {
-                        console.log(data);
+                        $scope.groupNotifications(data.notifications);
+                        $rootScope.$broadcast("notifications", $scope.notifications);
                     });
             };
 
