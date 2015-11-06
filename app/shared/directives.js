@@ -183,6 +183,21 @@ app.directive('sidebar', ['$location', function () {
                 .success(function (data) {
                     $scope.allMenuItems = angular.copy(data);
 
+                    function reGroupMenuItems(items) {
+                        var newItems = {};
+                        angular.forEach(items, function (value, key) {
+                            newItems[value.kategori] = newItems[value.kategori] || [];
+                            newItems[value.kategori].push(value);
+                        });
+                        return newItems;
+                    }
+
+                    angular.forEach($scope.allMenuItems, function (value, key) {
+                        $scope.allMenuItems[key] = reGroupMenuItems(value);
+                    });
+
+                    console.log($scope.allMenuItems);
+
                     // broadcast for authorized menu items, consume in dashboard
                     $rootScope.$broadcast("authz", data);
 

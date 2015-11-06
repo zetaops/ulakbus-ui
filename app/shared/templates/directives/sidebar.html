@@ -23,12 +23,23 @@
                     <span class="fa arrow" ng-class="{hidden: $root.collapsed}"></span>
                 </a>
                 <ul class="nav nav-second-level" ng-class="{hidden: $root.collapsed}">
-                    <li ng-repeat="v in item">
-                        <a ng-if="key == 'other'" ng-href="#{{v.url}}"
-                           ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
-                        <a ng-if="key == 'ogrenci' || key ==  'personel'"
-                           ng-href="#{{v.url}}/list?{{v.param}}={{$root.selectedUser.key}}"
-                           ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
+                    <li ng-repeat="(key2, item2) in item">
+                        <!--<a ng-if="key == 'other'" ng-href="#{{v.url}}"-->
+                           <!--ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>-->
+                        <!--<a ng-if="key == 'ogrenci' || key ==  'personel'"-->
+                           <!--ng-href="#{{v.url}}/list?{{v.param}}={{$root.selectedUser.key}}"-->
+                           <!--ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>-->
+                        <a href="#">{{key2}} <span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level collapse in" aria-expanded="true">
+                            <li ng-repeat="(k,v) in item2">
+                                <a ng-if="key == 'other'" ng-href="#{{v.url}}"
+                                ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
+                                <a ng-if="key == 'ogrenci' || key ==  'personel'"
+                                ng-href="#{{v.url}}/list?{{v.param}}={{$root.selectedUser.key}}"
+                                ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-third-level -->
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
