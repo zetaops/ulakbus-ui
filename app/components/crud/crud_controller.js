@@ -7,9 +7,7 @@
 
 'use strict';
 
-
 var crud = angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService']);
-
 
 /**
  * CRUDAddEditCtrl is a controller
@@ -18,7 +16,14 @@ var crud = angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formSe
 
 crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams) {
     $scope.url = 'crud/';
-    $scope.form_params = {'model': $routeParams.model, param: $routeParams.param, id: $routeParams.id};
+
+    angular.forEach($routeParams, function (value, key) {
+        if (key.indexOf('_id') > -1) {
+            $scope.param = key;
+            $scope.param_id = value;
+        }
+    });
+    $scope.form_params = {'model': $routeParams.model, param: $scope.param, id: $scope.param_id};
     if ($routeParams.key) {
         $scope.form_params['object_id'] = $routeParams.key;
         $scope.form_params['cmd'] = 'edit';
@@ -56,7 +61,14 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
 
 crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeParams) {
     $scope.url = 'crud/';
-    $scope.form_params = $routeParams;
+    angular.forEach($routeParams, function (value, key) {
+        if (key.indexOf('_id') > -1) {
+            $scope.param = key;
+            $scope.param_id = value;
+        }
+    });
+    //$scope.form_params = $routeParams;
+    $scope.form_params = {'model': $routeParams.model, param: $scope.param, id: $scope.param_id};
 
     if ($routeParams.nobjects) {
         $scope.nobjects = $routeParams.nobjects;
@@ -76,19 +88,23 @@ crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeP
  */
 crud.controller('CRUDShowCtrl', function ($scope, $rootScope, $location, Generator, $routeParams) {
     $scope.url = 'crud/';
+
+    angular.forEach($routeParams, function (value, key) {
+        if (key.indexOf('_id') > -1) {
+            $scope.param = key;
+            $scope.param_id = value;
+        }
+    });
+
     $scope.form_params = {
-        "id": $routeParams.id,
+        "id": $scope.param_id,
         "object_id": $routeParams.key,
         "cmd": "show",
-        param: $routeParams.param,
+        param: $scope.param,
         "model": $routeParams.model
     };
     // call generator's get_single_item func
     Generator.get_single_item($scope).then(function (res) {
-        // if no data to show redirect to add/edit view
-        //if (res.data.nobjects[0] === "-1") {
-        //    $location.path('crud/' + $scope.form_params.model + '/' + $scope.form_params.param + '/' + $scope.form_params.id + '/edit');
-        //}
         $scope.listobjects = {};
         $scope.object = res.data.object;
 
@@ -98,7 +114,6 @@ crud.controller('CRUDShowCtrl', function ($scope, $rootScope, $location, Generat
                 delete $scope.object[key];
             }
         });
-
 
         $scope.model = $routeParams.model;
     });

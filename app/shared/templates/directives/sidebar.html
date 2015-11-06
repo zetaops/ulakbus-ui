@@ -27,7 +27,7 @@
                         <a ng-if="key == 'other'" ng-href="#{{v.url}}"
                            ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
                         <a ng-if="key == 'ogrenci' || key ==  'personel'"
-                           ng-href="#{{v.url}}/{{v.param}}/{{$root.selectedUser.key}}"
+                           ng-href="#{{v.url}}/list?{{v.param}}={{$root.selectedUser.key}}"
                            ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
                     </li>
                 </ul>

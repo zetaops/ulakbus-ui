@@ -10,22 +10,42 @@ app.config(['$routeProvider', function ($routeProvider, $route) {
             templateUrl: 'components/dashboard/dashboard.html',
             controller: 'DashCtrl'
         })
-        .when('/crud/add/:model/:param/:id', {
-            templateUrl: 'components/crud/templates/add.html',
-            controller: 'CRUDAddEditCtrl'
-        })
-        .when('/crud/edit/:model/:param/:id/:key', {
-            templateUrl: 'components/crud/templates/add.html',
-            controller: 'CRUDAddEditCtrl'
-        })
-        .when('/crud/:model/:param/:id', {
+        //.when('/crud/:model/:param/:id/add', {
+        //    templateUrl: 'components/crud/templates/add.html',
+        //    controller: 'CRUDAddEditCtrl'
+        //})
+        //.when('/crud/:model/:param/:id/edit/:key', {
+        //    templateUrl: 'components/crud/templates/add.html',
+        //    controller: 'CRUDAddEditCtrl'
+        //})
+        //.when('/crud/:model/:param/:id/list', {
+        //    templateUrl: 'components/crud/templates/list.html',
+        //    controller: 'CRUDListCtrl'
+        //})
+        //.when('/crud/:model/:param/:id/detail/:key', {
+        //    templateUrl: 'components/crud/templates/show.html',
+        //    controller: 'CRUDShowCtrl'
+        //})
+
+        // use crud without selected user
+        .when('/crud/:model/list', {
             templateUrl: 'components/crud/templates/list.html',
             controller: 'CRUDListCtrl'
         })
-        .when('/crud/detail/:model/:param/:id/:key', {
+        .when('/crud/:model/add', {
+            templateUrl: 'components/crud/templates/add.html',
+            controller: 'CRUDAddEditCtrl'
+        })
+        .when('/crud/:model/edit/:key', {
+            templateUrl: 'components/crud/templates/add.html',
+            controller: 'CRUDAddEditCtrl'
+        })
+        .when('/crud/:model/detail/:key', {
             templateUrl: 'components/crud/templates/show.html',
             controller: 'CRUDShowCtrl'
         })
+
+        // wf links just need model
         .when('/:model/', {
             templateUrl: 'components/wf/templates/add.html',
             controller: 'WFAddEditCtrl'
