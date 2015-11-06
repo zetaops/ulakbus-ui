@@ -213,6 +213,38 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
             return newdatearray.join('.');
         }
     };
+    generator.itemLinksGenerator = function (scope, itemlist) {
+        angular.forEach(itemlist.data.nobjects, function (value, key) {
+            //var detailLink = "#/" + scope.url + "detail/" + scope.form_params.model;
+            //var addLink = "#/" + scope.url + "add/" + scope.form_params.model;
+            //var editLink = "#/" + scope.url + "edit/" + scope.form_params.model;
+            function makelink (page) {
+                if (value === '-1') {
+                    return;
+                }
+                
+                var link = "#" + scope.url + scope.form_params.model;
+
+                if (page === 'edit/' || page === 'detail/') {
+                    link += "/" + page + value[0];
+                }
+
+                if (page === 'add/') {
+                    link += "/add";
+                }
+
+                if (scope.form_params.param) {
+                    link += "?" + scope.form_params.param + "=" + scope.form_params.id;
+                }
+
+
+                return link;
+            }
+
+            itemlist.data.nobjects.addLink = makelink("add/");
+            value[2] = {detailLink: makelink("detail/"), editLink: makelink("edit/")};
+        });
+    };
     generator.get_form = function (scope) {
         return $http
             .post(generator.makeUrl(scope), scope.form_params)
@@ -225,6 +257,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
             .get(generator.makeUrl(scope))
             .then(function (res) {
                 //generator.dateformatter(res);
+                generator.itemLinksGenerator(scope, res);
                 return res;
             });
     };
