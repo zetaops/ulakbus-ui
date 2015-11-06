@@ -66,7 +66,14 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
                 scope.form[scope.form.indexOf(k)] = {
                     type: v.type,
                     title: v.title,
-                    onClick: function(){scope.model[v]=1;generator.submit(scope);}
+                    onClick: function(){
+                        if (v.cmd) {
+                            scope.model["cmd"] = v.cmd;
+                        } else {
+                            scope.model[k]=1;
+                        }
+                        generator.submit(scope);
+                    }
                 };
             }
 
