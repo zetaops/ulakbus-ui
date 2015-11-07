@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/add.html', 'components/crud/templates/edit.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/wf/templates/add.html', 'components/wf/templates/edit.html', 'components/wf/templates/list.html', 'components/wf/templates/show.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/nodeTable.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/add.html', 'components/crud/templates/edit.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/wf/templates/add.html', 'components/wf/templates/edit.html', 'components/wf/templates/list.html', 'components/wf/templates/show.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/nodeTable.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -70,15 +70,15 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
   $templateCache.put("components/crud/templates/list.html",
     "<div class=\"starter-template\">\n" +
     "    <h1>{{model}}\n" +
-    "        <a href=\"#/crud/add/{{model}}/{{form_params.param}}/{{form_params.id}}\">\n" +
+    "        <a href=\"{{nobjects.addLink}}\">\n" +
     "            <button type=\"button\" class=\"btn btn-primary\">Ekle</button>\n" +
     "        </a>\n" +
     "    </h1>\n" +
     "    <div class=\"row\" ng-if=\"!nobjects[1]\">\n" +
-    "            <div class=\"col-md-12\">\n" +
-    "                <p class=\"no-content\">Listelenecek içerik yok.</p>\n" +
-    "            </div>\n" +
+    "        <div class=\"col-md-12\">\n" +
+    "            <p class=\"no-content\">Listelenecek içerik yok.</p>\n" +
     "        </div>\n" +
+    "    </div>\n" +
     "    <div class=\"tablescroll\" ng-if=\"nobjects[1]\">\n" +
     "        <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
     "            <thead>\n" +
@@ -102,17 +102,17 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                    </label>\n" +
     "                </td>\n" +
     "                <th scope=\"row\" style=\"text-align:center\">{{$index}}</th>\n" +
-    "                <td ng-repeat=\"k in object track by $index\" ng-if=\"nobjects[0]=='-1' && $index>0\">\n" +
-    "                    <a ng-href=\"#/crud/detail/{{model}}/{{form_params.param}}/{{form_params.id}}/{{object[0]}}\">{{object[1]}}</a>\n" +
+    "                <!-- below 2 of object will not be listed there for ng repeat loops 2 less -->\n" +
+    "                <td ng-repeat=\"k in object track by $index\" ng-if=\"nobjects[0]=='-1' && $index>1\">\n" +
+    "                    <a ng-href=\"{{object[2].detailLink}}\">{{object[1]}}</a>\n" +
     "                </td>\n" +
     "\n" +
-    "                <td ng-repeat=\"(key,value) in object track by $index\" ng-if=\"nobjects[0]!='-1' && $index>0\">\n" +
-    "                    <a ng-href=\"#/crud/detail/{{model}}/{{form_params.param}}/{{form_params.id}}/{{object[0]}}\"\n" +
-    "                       ng-if=\"$index==1\">{{object[key]}}</a>\n" +
+    "                <td ng-repeat=\"(key,value) in object track by $index\" ng-if=\"nobjects[0]!='-1' && $index>1\">\n" +
+    "                    <a ng-href=\"{{object[2].detailLink}}\" ng-if=\"$index==1\">{{object[key]}}</a>\n" +
     "                    <span ng-if=\"$index!=1\">{{object[key]}}</span>\n" +
     "                </td>\n" +
     "                <td>\n" +
-    "                    <a ng-href=\"#/crud/edit/{{model}}/{{form_params.param}}/{{form_params.id}}/{{object[0]}}\">Edit</a>\n" +
+    "                    <a ng-href=\"{{object[2].editLink}}\">Edit</a>\n" +
     "                    <br>\n" +
     "                </td>\n" +
     "            </tr>\n" +
@@ -376,6 +376,71 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "		<!-- end of right-sidebar -->\n" +
     "        \n" +
     "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("components/debug/debug.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/debug/debug.html",
+    "<div class=\"panel-group\" id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\">\n" +
+    "    <div class=\"panel panel-default\" ng-repeat=\"query in debug_queries\">\n" +
+    "        <div class=\"panel-heading\" role=\"tab\" id=\"headingOne\" data-toggle=\"collapse\" data-parent=\"#accordion\"\n" +
+    "             data-target=\"#collapse{{$index}}\"\n" +
+    "             aria-expanded=\"true\" aria-controls=\"collapseOne\">\n" +
+    "            <h4 class=\"panel-title\">{{query.url}}\n" +
+    "            </h4>\n" +
+    "        </div>\n" +
+    "        <div id=\"collapse{{$index}}\" class=\"panel-collapse collapse in\" role=\"tabpanel\" aria-labelledby=\"headingOne\">\n" +
+    "            <div class=\"panel-body\">\n" +
+    "                <div class=\"table-responsive\">\n" +
+    "                    <ol>\n" +
+    "                        <li ng-repeat=\"query in query.queries\">\n" +
+    "                            <table class=\"table\">\n" +
+    "                                <tbody>\n" +
+    "                                <tr ng-repeat=\"(key, value) in query\">\n" +
+    "                                    <td>{{key}}</td>\n" +
+    "                                    <td>{{value}}</td>\n" +
+    "                                </tr>\n" +
+    "                                </tbody>\n" +
+    "                            </table>\n" +
+    "                        </li>\n" +
+    "                    </ol>\n" +
+    "\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("components/devSettings/devSettings.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/devSettings/devSettings.html",
+    "<div class=\"table-responsive\">\n" +
+    "    <table class=\"table\">\n" +
+    "        <tbody>\n" +
+    "        <tr>\n" +
+    "            <td class=\"col-md-2\">Backend Url:</td>\n" +
+    "            <td class=\"col-md-8\">\n" +
+    "                <input class=\"form-control\" type=\"text\" placeholder=\"Backend Url Tanımla\"\n" +
+    "                       value=\"{{backendurl}}\"\n" +
+    "                       ng-model=\"backendurl\">\n" +
+    "                <button class=\"btn btn-primary\" ng-click=\"setbackendurl()\">Kaydet</button>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "        <tr>\n" +
+    "            <td>Notifications:</td>\n" +
+    "            <td>\n" +
+    "                <button class=\"btn\"\n" +
+    "                        ng-class=\"{'btn-success':notificate=='on', 'btn-danger':notificate=='off'}\" ng-click=\"setnotification()\">{{notificate}}</button>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "        <tr>\n" +
+    "            <td>Query Debug:</td>\n" +
+    "            <td>\n" +
+    "                <a href=\"#/debug/list\">Goster</a>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
     "</div>");
 }]);
 
@@ -966,13 +1031,12 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "            <i class=\"fa fa-user fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-user\">\n" +
-    "            <li><a href=\"javascript:void(0)\"><i class=\"fa fa-user fa-fw\"></i> Profil</a>\n" +
-    "            </li>\n" +
-    "            <li><a href=\"javascript:void(0)\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar</a>\n" +
-    "            </li>\n" +
+    "            <li><a href=\"javascript:void(0)\"><i class=\"fa fa-user fa-fw\"></i> Profil</a></li>\n" +
     "            <li class=\"divider\"></li>\n" +
-    "            <li><a ui-sref=\"login\" href=\"javascript:void(0);\" logout><i class=\"fa fa-sign-out fa-fw\"></i> Çıkış</a>\n" +
-    "            </li>\n" +
+    "            <li><a href=\"javascript:void(0)\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar</a></li>\n" +
+    "            <li><a href=\"#/dev/settings\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar (Dev)</a></li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li><a ui-sref=\"login\" href=\"javascript:void(0);\" logout><i class=\"fa fa-sign-out fa-fw\"></i> Çıkış</a></li>\n" +
     "        </ul>\n" +
     "        <!-- /.dropdown-user -->\n" +
     "    </li>\n" +
@@ -1253,12 +1317,18 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "                    <span class=\"fa arrow\" ng-class=\"{hidden: $root.collapsed}\"></span>\n" +
     "                </a>\n" +
     "                <ul class=\"nav nav-second-level\" ng-class=\"{hidden: $root.collapsed}\">\n" +
-    "                    <li ng-repeat=\"v in item\">\n" +
-    "                        <a ng-if=\"key == 'other'\" ng-href=\"#{{v.url}}/{{$root.selectedUser.key}}\"\n" +
-    "                           ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
-    "                        <a ng-if=\"key == 'ogrenci' || key ==  'personel'\"\n" +
-    "                           ng-href=\"#{{v.url}}/{{v.param}}/{{$root.selectedUser.key}}\"\n" +
-    "                           ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
+    "                    <li ng-repeat=\"(key2, item2) in item\">\n" +
+    "                        <a href=\"#\">{{key2}} <span class=\"fa arrow\"></span></a>\n" +
+    "                        <ul class=\"nav nav-third-level collapse in\" aria-expanded=\"true\">\n" +
+    "                            <li ng-repeat=\"(k,v) in item2\">\n" +
+    "                                <a ng-if=\"key == 'other'\" ng-href=\"#{{v.url}}\"\n" +
+    "                                ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
+    "                                <a ng-if=\"key == 'ogrenci' || key ==  'personel'\"\n" +
+    "                                ng-href=\"#{{v.url}}/list?{{v.param}}={{$root.selectedUser.key}}\"\n" +
+    "                                ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
+    "                            </li>\n" +
+    "                        </ul>\n" +
+    "                        <!-- /.nav-third-level -->\n" +
     "                    </li>\n" +
     "                </ul>\n" +
     "                <!-- /.nav-second-level -->\n" +

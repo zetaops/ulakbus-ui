@@ -505,6 +505,7 @@ select {
 
 .sidebar .nav-third-level li a {
     padding-left: 52px;
+    font-size: 12px;
 }
 
 .sidebar-person-info {
