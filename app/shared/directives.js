@@ -177,31 +177,41 @@ app.directive('sidebar', ['$location', function () {
         replace: true,
         scope: {},
         controller: function ($scope, $rootScope, $cookies, $route, $http, RESTURL, $location, $timeout) {
+            $scope.prepareMenu = function (menuItems) {
+                var newMenuItems = {};
+                angular.forEach(menuItems, function (value, key) {
+                    angular.forEach(value, function (v, k) {
+                        newMenuItems[k] = v;
+                    });
+                });
+                return newMenuItems;
+            };
+
             var sidebarmenu = $('#side-menu');
             sidebarmenu.metisMenu();
             $http.get(RESTURL.url + 'menu/')
                 .success(function (data) {
                     $scope.allMenuItems = angular.copy(data);
 
-                    function reGroupMenuItems(items) {
+                    // regroup menu items based on their category
+                    function reGroupMenuItems(items, baseCategory) {
                         var newItems = {};
                         angular.forEach(items, function (value, key) {
                             newItems[value.kategori] = newItems[value.kategori] || [];
+                            value['baseCategory'] = baseCategory;
                             newItems[value.kategori].push(value);
                         });
                         return newItems;
                     }
 
                     angular.forEach($scope.allMenuItems, function (value, key) {
-                        $scope.allMenuItems[key] = reGroupMenuItems(value);
+                        $scope.allMenuItems[key] = reGroupMenuItems(value, key);
                     });
-
-                    console.log($scope.allMenuItems);
 
                     // broadcast for authorized menu items, consume in dashboard
                     $rootScope.$broadcast("authz", data);
 
-                    $scope.menuItems = {"other": $scope.allMenuItems.other};
+                    $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
 
                     // if selecteduser on cookie then add related part to the menu
 
@@ -215,8 +225,9 @@ app.directive('sidebar', ['$location', function () {
             // changing menu items by listening for broadcast
 
             $scope.$on("menuitems", function (event, data) {
-                $scope.menuItems[data] = $scope.allMenuItems[data];
-                $scope.menuItems["other"] = $scope.allMenuItems['other'];
+                var menu = {other: $scope.allMenuItems.other};
+                menu[data] = $scope.allMenuItems[data];
+                $scope.menuItems = $scope.prepareMenu(menu);
                 $timeout(function(){sidebarmenu.metisMenu()});
             });
 

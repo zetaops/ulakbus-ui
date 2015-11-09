@@ -83,7 +83,20 @@ module.exports = function (grunt) {
                     //{expand: true, cwd: 'app/shared/scripts/', src: 'theme.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/shared/scripts/', src: 'jquery-ui.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
                 ]
-
+            },
+            local_prod: {
+                files: [
+                    {expand: true, cwd: 'app/bower_components/font-awesome/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/img/', src: 'brand-logo.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/img/', src: 'loading_spinner.gif', dest: 'dist/img/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/styles/roboto/', src: '**/*', dest: 'dist/css/roboto/', flatten: false},
+                    {expand: true, cwd: 'app/styles/', src: 'jquery-ui.min.css', dest: 'dist/css/', flatten: true},
+                    {expand: true, cwd: 'app/styles/images/', src: '*', dest: 'dist/css/images/', flatten: true},
+                    {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/shared/scripts/', src: 'jquery-ui.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
+                ]
             }
         },
         concat: {
@@ -203,6 +216,13 @@ module.exports = function (grunt) {
                     atBegin: false
                 }
             },
+            local_prod: {
+                files: ['app/**/*.js', 'app/components/**/*.html', 'app/main.html', 'Gruntfile.js', '!app/tmp/*.js', '!app/app.js'],
+                tasks: ['env:prod', 'preprocess:prod', 'nggettext_compile', 'concat:js', 'concat:css', 'concat:components', 'copy:local_prod', 'html2js:prod', 'uglify:dist'],
+                options: {
+                    atBegin: false
+                }
+            },
             min: {
                 files: ['app/**/*.js', 'index.html', 'app/components/**/*.html'],
                 tasks: ['karma:unit', 'html2js:dist', 'concat:dist', 'uglify:dist'],
@@ -249,6 +269,12 @@ module.exports = function (grunt) {
                 options: {
                     port: 8080,
                     base: 'app'
+                }
+            },
+            prod_server: {
+                options: {
+                    port: 8080,
+                    base: 'dist'
                 }
             }
         },
@@ -307,18 +333,8 @@ module.exports = function (grunt) {
     grunt.registerTask('dev', ['env:dev', 'preprocess:dev', 'html2js:dev', 'connect:server', 'watch:dev']);
     grunt.registerTask('test', ['bower', 'karma:continuous']);
     grunt.registerTask('i18n', ['nggettext_extract', 'nggettext_compile']);
-    grunt.registerTask('default', [
-        'bower',
-        'env:prod',
-        'preprocess:prod',
-        'nggettext_compile',
-        'concat:js',
-        'concat:css',
-        'concat:components',
-        'copy:prod',
-        'html2js:prod',
-        'uglify:dist'
-    ]);
+    grunt.registerTask('local_prod', ['bower', 'env:prod', 'preprocess:prod', 'nggettext_compile', 'concat:js', 'concat:css', 'concat:components', 'copy:local_prod', 'html2js:prod', 'uglify:dist', 'connect:prod_server', 'watch:local_prod']);
+    grunt.registerTask('default', ['bower', 'env:prod', 'preprocess:prod', 'nggettext_compile', 'concat:js', 'concat:css', 'concat:components', 'copy:prod', 'html2js:prod', 'uglify:dist']);
     grunt.registerTask('branch', '', function () {
         // get branch name
         var branch = require('git-branch');
