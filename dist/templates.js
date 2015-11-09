@@ -1305,31 +1305,39 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "                	<span class=\"menu-text\" ng-class=\"{hidden: $root.collapsed}\">Panel</span>\n" +
     "                </a>\n" +
     "            </li>\n" +
-    "            \n" +
+    "\n" +
     "            <li ng-repeat=\"(key, item) in menuItems\" ng-class=\"{active: collapseVar == $index+1}\">{{dropDown}}\n" +
     "                <a href=\"\" ng-click=\"check($index+1)\">\n" +
     "                    <i class=\"fa fa-fw fa-cogs\"\n" +
     "                       ng-class=\"{\n" +
     "                           'other': 'fa fa-fw fa-wrench',\n" +
     "                           'ogrenci': 'fa fa-fw fa-university',\n" +
-    "                           'personel': 'fa fa-fw fa-users'}[key]\"></i>\n" +
+    "                           'personel': 'fa fa-fwkey-users'}[item[0].baseCategory]\"></i>\n" +
     "                    <span class=\"menu-text\" ng-class=\"{hidden: $root.collapsed}\">{{ key }}</span>\n" +
     "                    <span class=\"fa arrow\" ng-class=\"{hidden: $root.collapsed}\"></span>\n" +
     "                </a>\n" +
     "                <ul class=\"nav nav-second-level\" ng-class=\"{hidden: $root.collapsed}\">\n" +
-    "                    <li ng-repeat=\"(key2, item2) in item\">\n" +
-    "                        <a href=\"#\">{{key2}} <span class=\"fa arrow\"></span></a>\n" +
-    "                        <ul class=\"nav nav-third-level collapse in\" aria-expanded=\"true\">\n" +
-    "                            <li ng-repeat=\"(k,v) in item2\">\n" +
-    "                                <a ng-if=\"key == 'other'\" ng-href=\"#{{v.url}}\"\n" +
-    "                                ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
-    "                                <a ng-if=\"key == 'ogrenci' || key ==  'personel'\"\n" +
-    "                                ng-href=\"#{{v.url}}/list?{{v.param}}={{$root.selectedUser.key}}\"\n" +
-    "                                ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
-    "                            </li>\n" +
-    "                        </ul>\n" +
-    "                        <!-- /.nav-third-level -->\n" +
+    "                    <li ng-repeat=\"(k, v) in item\">\n" +
+    "                      <a ng-if=\"v['baseCategory'] == 'other'\" ng-href=\"#{{v.url}}\"\n" +
+    "                           ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
+    "                      <a ng-if=\"v['baseCategory'] == 'ogrenci' || v['baseCategory'] ==  'personel'\"\n" +
+    "                           ng-href=\"#{{v.url}}/list?{{v.param}}={{$root.selectedUser.key}}\"\n" +
+    "                           ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
     "                    </li>\n" +
+    "\n" +
+    "                    <!--<li ng-repeat=\"(key2, item2) in item\">-->\n" +
+    "                        <!--<a href=\"#\">{{key2}} <span class=\"fa arrow\"></span></a>-->\n" +
+    "                        <!--<ul class=\"nav nav-third-level collapse in\" aria-expanded=\"true\">-->\n" +
+    "                            <!--<li ng-repeat=\"(k,v) in item2\">-->\n" +
+    "                                <!--<a ng-if=\"key == 'other'\" ng-href=\"#{{v.url}}\"-->\n" +
+    "                                <!--ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>-->\n" +
+    "                                <!--<a ng-if=\"key == 'ogrenci' || key ==  'personel'\"-->\n" +
+    "                                <!--ng-href=\"#{{v.url}}/list?{{v.param}}={{$root.selectedUser.key}}\"-->\n" +
+    "                                <!--ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>-->\n" +
+    "                            <!--</li>-->\n" +
+    "                        <!--</ul>-->\n" +
+    "                        <!--&lt;!&ndash; /.nav-third-level &ndash;&gt;-->\n" +
+    "                    <!--</li>-->\n" +
     "                </ul>\n" +
     "                <!-- /.nav-second-level -->\n" +
     "            </li>\n" +

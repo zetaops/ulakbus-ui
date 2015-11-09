@@ -68,7 +68,8 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
                     title: v.title,
                     onClick: function(){
                         if (v.cmd) {
-                            scope.model["cmd"] = v.cmd;
+                            // todo: cmd property to form_params, test it!
+                            scope.form_params["cmd"] = v.cmd;
                         } else {
                             scope.model[k]=1;
                         }
@@ -215,9 +216,6 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
     };
     generator.itemLinksGenerator = function (scope, itemlist) {
         angular.forEach(itemlist.data.nobjects, function (value, key) {
-            //var detailLink = "#/" + scope.url + "detail/" + scope.form_params.model;
-            //var addLink = "#/" + scope.url + "add/" + scope.form_params.model;
-            //var editLink = "#/" + scope.url + "edit/" + scope.form_params.model;
             function makelink (page) {
                 if (value === '-1') {
                     return;
@@ -228,21 +226,19 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
                 if (page === 'edit/' || page === 'detail/') {
                     link += "/" + page + value[0];
                 }
-
                 if (page === 'add/') {
                     link += "/add";
                 }
-
                 if (scope.form_params.param) {
                     link += "?" + scope.form_params.param + "=" + scope.form_params.id;
                 }
-
-
                 return link;
             }
 
             itemlist.data.nobjects.addLink = makelink("add/");
-            value[2] = {detailLink: makelink("detail/"), editLink: makelink("edit/")};
+            if (value !== '-1') {
+                value[2] = {detailLink: makelink("detail/"), editLink: makelink("edit/")};
+            }
         });
     };
     generator.get_form = function (scope) {
@@ -316,7 +312,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
         var data = {
             "form": $scope.model,
             "cmd": $scope.form_params.cmd,
-            "subcmd": "do_list",
+            //"subcmd": "do_list",
             "model": $scope.form_params.model,
             "token": $scope.token
         };
