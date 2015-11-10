@@ -43,7 +43,6 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
         if (form.$valid) {
             Generator.submit($scope)
                 .success(function (data) {
-                    $location.path('/crud/' + $scope.form_params.model + '/' + $scope.form_params.param + '/' + $scope.form_params.id).search(data);
 
                 })
                 .error(function (data) {
@@ -67,18 +66,19 @@ crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeP
             $scope.param_id = value;
         }
     });
-    //$scope.form_params = $routeParams;
     $scope.form_params = {'model': $routeParams.model, param: $scope.param, id: $scope.param_id};
 
     if ($routeParams.nobjects) {
         $scope.nobjects = $routeParams.nobjects;
         $scope.model = $routeParams.model;
+        $scope.addLink = $routeParams.addLink;
     } else {
         // call generator's get_list func
         Generator.get_list($scope)
             .then(function (res) {
                 $scope.nobjects = res.data.nobjects;
                 $scope.model = $routeParams.model;
+                $scope.addLink = res.data.addLink;
             });
     }
 });

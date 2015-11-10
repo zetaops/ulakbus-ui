@@ -7,7 +7,7 @@
 
 var form_generator = angular.module('formService', ['general']);
 
-form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, FormDiff, $rootScope) {
+form_generator.factory('Generator', function ($http, $q, $timeout, $location, RESTURL, FormDiff, $rootScope) {
     var generator = {};
     generator.makeUrl = function (scope) {
         var getparams = scope.form_params.param ? "?" + scope.form_params.param + "=" + scope.form_params.id : "";
@@ -51,6 +51,13 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
         /**
          * prepareforms checks input types and convert if necessary
          */
+        //delete scope.form[7];
+        //scope.schema.properties.ulke.type = 'select';
+        //scope.schema.properties.ulke.titleMap = scope.form[7].titleMap;
+        //scope.schema.properties.ulke.replace = true;
+        //scope.form[7] = {key: "ulke", title: "Ulke"};
+        //scope.schema.properties.ulke.enum = [1, 2, 3, 4];
+        //scope.form.push('ulke');
         angular.forEach(scope.schema.properties, function (v, k) {
 
             // generically change _id fields model value
@@ -62,11 +69,24 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
                 return;
             }
 
+            //if (v.type === 'select') {
+            //    scope.form[scope.form.indexOf(k)] = {
+            //        type: "template",
+            //        title: v.title,
+            //        templateUrl: "shared/templates/select.html",
+            //        name: "ulke",
+            //        model_name: "ulke",
+            //        titleMap: [{name: "belcika", value: 1}, {name: "almanya", value: 2}, {name: "fransa", value: 3}, {name: "fransa1", value: 4}, {name: "fransa2", value: 5}]
+            //    }
+            //}
+
+
             if (v.type === 'submit' || v.type === 'button') {
                 scope.form[scope.form.indexOf(k)] = {
                     type: v.type,
                     title: v.title,
                     onClick: function(){
+                        delete scope.form_params.cmd;
                         if (v.cmd) {
                             // todo: cmd property to form_params, test it!
                             scope.form_params["cmd"] = v.cmd;
@@ -198,10 +218,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
                 scope[v.type][k]['lengthModels'] = scope.model[k] ? 1 : 0;
 
             }
-
         });
-
-        console.log(scope.form);
 
         return scope;
     };
@@ -215,12 +232,12 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
         }
     };
     generator.itemLinksGenerator = function (scope, itemlist) {
-        angular.forEach(itemlist.data.nobjects, function (value, key) {
+        angular.forEach(itemlist.nobjects, function (value, key) {
             function makelink (page) {
-                if (value === '-1') {
+                if (value === '-1' && page !== 'add/') {
                     return;
                 }
-                
+
                 var link = "#" + scope.url + scope.form_params.model;
 
                 if (page === 'edit/' || page === 'detail/') {
@@ -235,7 +252,11 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
                 return link;
             }
 
-            itemlist.data.nobjects.addLink = makelink("add/");
+            // call add link once
+            if (!itemlist.addLink) {
+                itemlist.addLink = makelink("add/");
+            }
+
             if (value !== '-1') {
                 value[2] = {detailLink: makelink("detail/"), editLink: makelink("edit/")};
             }
@@ -253,7 +274,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
             .get(generator.makeUrl(scope))
             .then(function (res) {
                 //generator.dateformatter(res);
-                generator.itemLinksGenerator(scope, res);
+                generator.itemLinksGenerator(scope, res.data);
                 return res;
             });
     };
@@ -312,7 +333,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
         var data = {
             "form": $scope.model,
             "cmd": $scope.form_params.cmd,
-            //"subcmd": "do_list",
+            "subcmd": "do_list",
             "model": $scope.form_params.model,
             "token": $scope.token
         };
@@ -329,6 +350,15 @@ form_generator.factory('Generator', function ($http, $q, $timeout, RESTURL, Form
                     generator.generate($scope, data);
                     $scope.$broadcast('schemaFormRedraw')
                 }
+
+                // if submit returns nobjects after save
+
+                if (data.nobjects) {
+                    generator.itemLinksGenerator($scope, data);
+                    data[$scope.form_params.param] = $scope.form_params.id;
+                    $location.path('/crud/' + $scope.form_params.model + '/list').search(angular.fromJson(data));
+                }
+
             });
     };
     return generator;
