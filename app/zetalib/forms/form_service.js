@@ -51,13 +51,16 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, RE
         /**
          * prepareforms checks input types and convert if necessary
          */
-        //delete scope.form[7];
-        //scope.schema.properties.ulke.type = 'select';
-        //scope.schema.properties.ulke.titleMap = scope.form[7].titleMap;
-        //scope.schema.properties.ulke.replace = true;
-        //scope.form[7] = {key: "ulke", title: "Ulke"};
-        //scope.schema.properties.ulke.enum = [1, 2, 3, 4];
-        //scope.form.push('ulke');
+
+        // todo: remove after backend fix
+        angular.forEach(scope.form, function (value, key) {
+            if (value.type === 'select') {
+                scope.schema.properties[value.key].type = 'select';
+                scope.schema.properties[value.key].titleMap = value.titleMap;
+                scope.form[key] = value.key;
+            }
+        });
+
         angular.forEach(scope.schema.properties, function (v, k) {
 
             // generically change _id fields model value
@@ -69,16 +72,16 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, RE
                 return;
             }
 
-            //if (v.type === 'select') {
-            //    scope.form[scope.form.indexOf(k)] = {
-            //        type: "template",
-            //        title: v.title,
-            //        templateUrl: "shared/templates/select.html",
-            //        name: "ulke",
-            //        model_name: "ulke",
-            //        titleMap: [{name: "belcika", value: 1}, {name: "almanya", value: 2}, {name: "fransa", value: 3}, {name: "fransa1", value: 4}, {name: "fransa2", value: 5}]
-            //    }
-            //}
+            if (v.type === 'select') {
+                scope.form[scope.form.indexOf(k)] = {
+                    type: "template",
+                    title: v.title,
+                    templateUrl: "shared/templates/select.html",
+                    name: k,
+                    key: k,
+                    titleMap: v.titleMap
+                };
+            }
 
 
             if (v.type === 'submit' || v.type === 'button') {
