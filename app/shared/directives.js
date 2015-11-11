@@ -332,7 +332,7 @@ app.directive('msgbox', function () {
     return {
         templateUrl: 'shared/templates/directives/msgbox.html',
         restrict: 'E',
-        replace: true
+        replace: false
     };
 });
 

@@ -18,6 +18,23 @@ body {
     background-color:#999;
 }
 
+.panel {
+	border:none;
+	-webkit-box-shadow:	0 0px 4px rgba(0,0,0,.15);
+	box-shadow: 0 0px 4px rgba(0,0,0,.15);
+}
+
+.panel-footer {
+    border-top: 1px solid #F3F3F3;
+	background-color:#fff;
+}
+
+.panel-info>.panel-heading {
+    background-color: #6CBECC;
+	border:none;
+	color:#fff;	
+}
+
 .badge {
     border-radius: 100%;
     width: 22px;
@@ -340,6 +357,7 @@ select {
 }
 
 .manager-view-content {
+	width: calc(100% - 300px);
     padding:35px 40px;
     overflow:auto;
     -webkit-flex-grow: 1;
@@ -1017,7 +1035,7 @@ table.dataTable thead .sorting:after {
 }
 
 .dashboard-main-search {
-	width: calc(100% - 300px);
+	
 }
 
 .dashboard-main-search .dashboard-student-search h3, 
@@ -1046,6 +1064,7 @@ table.dataTable thead .sorting:after {
     background-color: #FBF9F9;
 	cursor:pointer;	
 	color:#5A5A5A;
+	margin-left:-4px;
 }
 
 .dashboard-student-search {
