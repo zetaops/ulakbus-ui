@@ -61,8 +61,6 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             }
         });
 
-        debugger;
-
         angular.forEach(scope.schema.properties, function (v, k) {
 
             // generically change _id fields model value
@@ -340,7 +338,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
         var data = {
             "form": $scope.model,
             "cmd": $scope.form_params.cmd,
-            "subcmd": "do_list",
+            //"subcmd": "do_list",
             "model": $scope.form_params.model,
             "token": $scope.token
         };
@@ -349,8 +347,6 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             data.object_id = $scope.object_id;
             //data.form = get_diff;
         }
-
-        //debugger;
 
         return $http.post(generator.makeUrl($scope), data)
             .success(function (data) {
@@ -372,7 +368,6 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
                 if (data.msgbox) {
                     $scope.msgbox = data.msgbox;
                     var newElement = $compile( "<msgbox ></msgbox>" )( $scope );
-                    //debugger;
                     angular.element(document.querySelector('.main.ng-scope')).children().remove();
                     angular.element(document.querySelector('.main.ng-scope')).append( newElement );
                 }
