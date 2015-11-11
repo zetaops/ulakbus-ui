@@ -43,7 +43,7 @@ app.directive('headerNotification', function ($http, $rootScope, $cookies, $inte
             };
             $scope.getNotifications = function () {
                 // ignore loading bar here
-                $http.get(RESTURL.url+"notify", {ignoreLoadingBar: true}).success(function (data) {
+                $http.get(RESTURL.url + "notify", {ignoreLoadingBar: true}).success(function (data) {
                     $scope.groupNotifications(data.notifications);
                     $rootScope.$broadcast("notifications", $scope.notifications);
                 });
@@ -62,7 +62,7 @@ app.directive('headerNotification', function ($http, $rootScope, $cookies, $inte
             // when clicked mark as read notification
             // it can be list of notifications
             $scope.markAsRead = function (items) {
-                $http.post(RESTURL.url+"notify", {ignoreLoadingBar: true, read: [items]})
+                $http.post(RESTURL.url + "notify", {ignoreLoadingBar: true, read: [items]})
                     .success(function (data) {
                         $scope.groupNotifications(data.notifications);
                         $rootScope.$broadcast("notifications", $scope.notifications);
@@ -82,7 +82,7 @@ app.directive('headerNotification', function ($http, $rootScope, $cookies, $inte
  * toggle collapses sidebar menu when clicked menu button
  */
 
-app.directive('collapseMenu', function ($timeout) {
+app.directive('collapseMenu', function ($timeout, $window) {
     return {
         templateUrl: 'shared/templates/directives/menuCollapse.html',
         restrict: 'E',
@@ -93,21 +93,25 @@ app.directive('collapseMenu', function ($timeout) {
             $rootScope.sidebarPinned = false;
 
             $scope.collapseToggle = function () {
-                if ($rootScope.collapsed === false) {
-                    jQuery(".sidebar").css("width" , "62px");
-					jQuery(".manager-view").css("width" , "calc(100% - 62px)");
-                    $rootScope.collapsed = true;
-                    $rootScope.sidebarPinned = false;
-                } else {
-					jQuery("span.menu-text, span.arrow, .sidebar footer").fadeIn(400);
-                    jQuery(".sidebar").css("width" , "250px");
-					jQuery(".manager-view").css("width" , "calc(100% - 250px)");
-                    $rootScope.collapsed = false;
-                    $rootScope.sidebarPinned = true;
+                if ($window.innerWidth > '768') {
+                    if ($rootScope.collapsed === false) {
+                        jQuery(".sidebar").css("width", "62px");
+                        jQuery(".manager-view").css("width", "calc(100% - 62px)");
+                        $rootScope.collapsed = true;
+                        $rootScope.sidebarPinned = false;
+                    } else {
+
+                        jQuery("span.menu-text, span.arrow, .sidebar footer").fadeIn(400);
+                        jQuery(".sidebar").css("width", "250px");
+                        jQuery(".manager-view").css("width", "calc(100% - 250px)");
+                        $rootScope.collapsed = false;
+                        $rootScope.sidebarPinned = true;
+
+                    }
                 }
             };
 
-            $timeout(function(){
+            $timeout(function () {
                 $scope.collapseToggle();
             });
         }
@@ -116,21 +120,19 @@ app.directive('collapseMenu', function ($timeout) {
 
 /**
  * headerSubmenu directive
- * todo: will be deleted
  */
 
-app.directive('headerSubMenu', function () {
+app.directive('headerSubMenu', function ($location) {
     return {
         templateUrl: 'shared/templates/directives/header-sub-menu.html',
         restrict: 'E',
-        controller: "CRUDAddEditCtrl",
+        //controller: "CRUDAddEditCtrl",
         replace: true,
         link: function ($scope) {
-            $scope.triggerSubmit = function () {
-                // todo: double make it but single not solve this!
-                angular.element($('#submitbutton')).triggerHandler('click');
-                angular.element($('#submitbutton')).triggerHandler('click');
-            };
+            $scope.$on('$routeChangeStart', function () {
+                console.log($location.path());            //
+                $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
+            });
         }
     };
 });
@@ -176,7 +178,7 @@ app.directive('sidebar', ['$location', function () {
         restrict: 'E',
         replace: true,
         scope: {},
-        controller: function ($scope, $rootScope, $cookies, $route, $http, RESTURL, $location, $timeout) {
+        controller: function ($scope, $rootScope, $cookies, $route, $http, RESTURL, $location, $window, $timeout) {
             $scope.prepareMenu = function (menuItems) {
                 var newMenuItems = {};
                 angular.forEach(menuItems, function (value, key) {
@@ -219,7 +221,9 @@ app.directive('sidebar', ['$location', function () {
                     //    $scope.menuItems[$cookies.get("selectedUserType")] = $scope.allMenuItems[$cookies.get("selectedUserType")];
                     //}
 
-                    $timeout(function(){sidebarmenu.metisMenu()});
+                    $timeout(function () {
+                        sidebarmenu.metisMenu()
+                    });
                 });
 
             // changing menu items by listening for broadcast
@@ -228,27 +232,35 @@ app.directive('sidebar', ['$location', function () {
                 var menu = {other: $scope.allMenuItems.other};
                 menu[data] = $scope.allMenuItems[data];
                 $scope.menuItems = $scope.prepareMenu(menu);
-                $timeout(function(){sidebarmenu.metisMenu()});
+                $timeout(function () {
+                    sidebarmenu.metisMenu()
+                });
             });
 
             $scope.openSidebar = function () {
-                if ($rootScope.sidebarPinned === false) {
-                    jQuery("span.menu-text, span.arrow, .sidebar footer, #side-menu").fadeIn(400);
-                    jQuery(".sidebar").css("width" , "250px");
-                    jQuery(".manager-view").css("width" , "calc(100% - 250px)");
-                    $rootScope.collapsed = false;
+                if ($window.innerWidth > '768') {
+                    if ($rootScope.sidebarPinned === false) {
+                        jQuery("span.menu-text, span.arrow, .sidebar footer, #side-menu").fadeIn(400);
+                        jQuery(".sidebar").css("width", "250px");
+                        jQuery(".manager-view").css("width", "calc(100% - 250px)");
+                        $rootScope.collapsed = false;
+                    }
                 }
             };
 
             $scope.closeSidebar = function () {
-                if ($rootScope.sidebarPinned === false) {
-                    jQuery(".sidebar").css("width" , "62px");
-                    jQuery(".manager-view").css("width" , "calc(100% - 62px)");
-                    $rootScope.collapsed = true;
+                if ($window.innerWidth > '768') {
+                    if ($rootScope.sidebarPinned === false) {
+                        jQuery(".sidebar").css("width", "62px");
+                        jQuery(".manager-view").css("width", "calc(100% - 62px)");
+                        $rootScope.collapsed = true;
+                    }
                 }
             };
 
-            $rootScope.$watch(function ($rootScope) {return $rootScope.section; },
+            $rootScope.$watch(function ($rootScope) {
+                    return $rootScope.section;
+                },
                 function (newindex, oldindex) {
                     if (newindex > -1) {
                         $scope.menuItems = [$scope.allMenuItems[newindex]];

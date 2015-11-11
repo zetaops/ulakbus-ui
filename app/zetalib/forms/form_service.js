@@ -89,14 +89,17 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
                 scope.form[scope.form.indexOf(k)] = {
                     type: v.type,
                     title: v.title,
+                    style: "btn-primary",
                     onClick: function(){
                         delete scope.form_params.cmd;
+                        delete scope.form_params.flow;
                         if (v.cmd) {
-                            // todo: cmd property to form_params, test it!
                             scope.form_params["cmd"] = v.cmd;
-                        } else {
-                            scope.model[k]=1;
                         }
+                        if (v.flow) {
+                            scope.form_params["flow"] = v.flow;
+                        }
+                        scope.model[k]=1;
                         generator.submit(scope);
                     }
                 };
@@ -337,11 +340,16 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
         });
         var data = {
             "form": $scope.model,
-            "cmd": $scope.form_params.cmd,
             //"subcmd": "do_list",
             "model": $scope.form_params.model,
             "token": $scope.token
         };
+        if ($scope.form_params.cmd) {
+            data["cmd"] = $scope.form_params.cmd;
+        }
+        if ($scope.form_params.cmd) {
+            data["flow"] = $scope.form_params.flow;
+        }
         if ($scope.object_id) {
             //var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
             data.object_id = $scope.object_id;
