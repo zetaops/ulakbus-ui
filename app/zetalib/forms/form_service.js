@@ -7,7 +7,7 @@
 
 var form_generator = angular.module('formService', ['general']);
 
-form_generator.factory('Generator', function ($http, $q, $timeout, $location, RESTURL, FormDiff, $rootScope) {
+form_generator.factory('Generator', function ($http, $q, $timeout, $location, $compile, RESTURL, FormDiff, $rootScope) {
     var generator = {};
     generator.makeUrl = function (scope) {
         var getparams = scope.form_params.param ? "?" + scope.form_params.param + "=" + scope.form_params.id : "";
@@ -61,15 +61,18 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, RE
             }
         });
 
+        debugger;
+
         angular.forEach(scope.schema.properties, function (v, k) {
 
             // generically change _id fields model value
 
-            if (k == scope.form_params.param) {
-
-                scope.model[k] = scope.form_params.id;
-                scope.form.splice(scope.form.indexOf(k), 1);
-                return;
+            if ('form_params' in scope) {
+                if (k == scope.form_params.param) {
+                    scope.model[k] = scope.form_params.id;
+                    scope.form.splice(scope.form.indexOf(k), 1);
+                    return;
+                }
             }
 
             if (v.type === 'select') {
@@ -261,8 +264,9 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, RE
             }
 
             if (value !== '-1') {
-                value[2] = {detailLink: makelink("detail/"), editLink: makelink("edit/")};
+                value.push({detailLink: makelink("detail/"), editLink: makelink("edit/")});
             }
+            console.log(value);
         });
     };
     generator.get_form = function (scope) {
@@ -346,20 +350,31 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, RE
             //data.form = get_diff;
         }
 
+        //debugger;
+
         return $http.post(generator.makeUrl($scope), data)
             .success(function (data) {
-                // if return data consists forms key then trogger redraw the form with updated data
+                // if return data consists forms key then trigger redraw the form with updated data
                 if (data.forms) {
+                    delete $scope.form, $scope.model, $scope.schema, $scope.form_params.cmd;
                     generator.generate($scope, data);
                     $scope.$broadcast('schemaFormRedraw')
                 }
 
                 // if submit returns nobjects after save
-
                 if (data.nobjects) {
                     generator.itemLinksGenerator($scope, data);
                     data[$scope.form_params.param] = $scope.form_params.id;
                     $location.path('/crud/' + $scope.form_params.model + '/list').search(angular.fromJson(data));
+                }
+
+                // if submit returns msgbox after save
+                if (data.msgbox) {
+                    $scope.msgbox = data.msgbox;
+                    var newElement = $compile( "<msgbox ></msgbox>" )( $scope );
+                    //debugger;
+                    angular.element(document.querySelector('.main.ng-scope')).children().remove();
+                    angular.element(document.querySelector('.main.ng-scope')).append( newElement );
                 }
 
             });
