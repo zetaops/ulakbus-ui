@@ -325,6 +325,18 @@ app.directive('notifications', function () {
 });
 
 /**
+ * msgbox directive
+ */
+
+app.directive('msgbox', function () {
+    return {
+        templateUrl: 'shared/templates/directives/msgbox.html',
+        restrict: 'E',
+        replace: false
+    };
+});
+
+/**
  * search directive in sidebar
  */
 

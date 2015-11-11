@@ -13,15 +13,15 @@
         <table class="table table-bordered" style="background-color:#fff;">
             <thead>
             <tr>
-                <th colspan="2">
+                <td colspan="2">
                     <label>
                         <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
                         Hepsini Seç
                     </label>
-                </th>
-                <th ng-repeat="value in nobjects[0]" ng-if="nobjects[0]!='-1'">{{ value }}</th>
-                <th ng-if="nobjects[0]=='-1'">{{ model }}</th>
-                <th>action</th>
+                </td>
+                <td ng-repeat="value in nobjects[0]" ng-if="nobjects[0]!='-1' && !$last">{{ value }}</td>
+                <td ng-if="nobjects[0]=='-1'">{{ model }}</td>
+                <td>action</td>
             </tr>
             </thead>
             <tbody>
@@ -31,18 +31,18 @@
                         <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
                     </label>
                 </td>
-                <th scope="row" style="text-align:center">{{$index}}</th>
+                <td scope="row" style="text-align:center">{{$index}}</td>
                 <!-- below 2 of object will not be listed there for ng repeat loops 2 less -->
-                <td ng-repeat="k in object track by $index" ng-if="nobjects[0]=='-1' && $index>1">
-                    <a ng-href="{{object[2].detailLink}}">{{object[1]}}</a>
+                <td ng-repeat="k in object track by $index" ng-if="nobjects[0]=='-1' && $index>0 && !$last">
+                    <a ng-href="{{object[object.length-1].detailLink}}">{{object[1]}}</a>
                 </td>
 
-                <td ng-repeat="(key,value) in object track by $index" ng-if="nobjects[0]!='-1' && $index>1">
-                    <a ng-href="{{object[2].detailLink}}" ng-if="$index==1">{{object[key]}}</a>
+                <td ng-repeat="(key,value) in object track by $index" ng-if="nobjects[0]!='-1' && $index>0 && !$last">
+                    <a ng-href="{{object[object.length-1].detailLink}}" ng-if="$index==1">{{object[key]}}</a>
                     <span ng-if="$index!=1">{{object[key]}}</span>
                 </td>
                 <td>
-                    <a ng-href="{{object[2].editLink}}">Edit</a>
+                    <a ng-href="{{object[object.length-1].editLink}}">Edit</a>
                     <br>
                 </td>
             </tr>
