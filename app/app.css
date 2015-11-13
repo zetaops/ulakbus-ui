@@ -1636,3 +1636,6 @@ table.dataTable thead .sorting:after {
 }
 
 /* end page transitions */
+.movetobottom {
+    margin-right: 10px !important;
+}

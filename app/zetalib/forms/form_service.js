@@ -52,7 +52,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
          * prepareforms checks input types and convert if necessary
          */
 
-        // todo: remove after backend fix
+            // todo: remove after backend fix
         angular.forEach(scope.form, function (value, key) {
             if (value.type === 'select') {
                 scope.schema.properties[value.key].type = 'select';
@@ -89,8 +89,8 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
                 scope.form[scope.form.indexOf(k)] = {
                     type: v.type,
                     title: v.title,
-                    style: "btn-primary",
-                    onClick: function(){
+                    style: "btn-primary movetobottom hide pull-left",
+                    onClick: function () {
                         delete scope.form_params.cmd;
                         delete scope.form_params.flow;
                         if (v.cmd) {
@@ -99,10 +99,15 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
                         if (v.flow) {
                             scope.form_params["flow"] = v.flow;
                         }
-                        scope.model[k]=1;
+                        scope.model[k] = 1;
                         generator.submit(scope);
                     }
                 };
+                $timeout(function () {
+                    var buttons = angular.element(document.querySelector('.movetobottom'));
+                    angular.element(document.querySelector('.buttons-on-bottom')).append(buttons);
+                    buttons.removeClass('hide');
+                });
             }
 
             // check if type is date and if type date found change it to string
@@ -116,8 +121,9 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
                         changeMonth: true,
                         changeYear: true,
                         dateFormat: "dd.mm.yy",
-                        onSelect: function (date) {
+                        onSelect: function (date, inst) {
                             scope.model[k] = date;
+                            scope.$broadcast('schemaForm.error.'+k,'tv4-302',true);
                         }
                     });
                 });
@@ -155,7 +161,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
                             if (item !== res.data.nobjects[0]) {
                                 formitem.titleMap.push({
                                     "value": item[0],
-                                    "name": item[1] +' '+ (item[2] ? item[2] : '') + '...'
+                                    "name": item[1] + ' ' + (item[2] ? item[2] : '') + '...'
                                 });
                             }
                         });
@@ -163,7 +169,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
                     onSelect: function (item) {
                         scope.model[k] = item.value;
                     },
-                    onDropdownSelect: function(item, inputname) {
+                    onDropdownSelect: function (item, inputname) {
                         scope.model[k] = item.value;
                         jQuery('input[name=' + inputname + ']').val(item.name);
                     }
@@ -240,7 +246,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
     };
     generator.itemLinksGenerator = function (scope, itemlist) {
         angular.forEach(itemlist.nobjects, function (value, key) {
-            function makelink (page) {
+            function makelink(page) {
                 if (value === '-1' && page !== 'add/') {
                     return;
                 }
@@ -331,56 +337,62 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
         return $http.post(generator.makePostUrl($scope), data);
     };
     generator.submit = function ($scope) {
-        // todo: diff for all submits to recognize form change. if no change returns to view with no submit
-        angular.forEach($scope.ListNode, function (value, key) {
-            $scope.model[key] = value.model;
-        });
-        angular.forEach($scope.Node, function (value, key) {
-            $scope.model[key] = value.model;
-        });
-        var data = {
-            "form": $scope.model,
-            //"subcmd": "do_list",
-            "model": $scope.form_params.model,
-            "token": $scope.token
-        };
-        if ($scope.form_params.cmd) {
-            data["cmd"] = $scope.form_params.cmd;
-        }
-        if ($scope.form_params.cmd) {
-            data["flow"] = $scope.form_params.flow;
-        }
-        if ($scope.object_id) {
-            //var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
-            data.object_id = $scope.object_id;
-            //data.form = get_diff;
-        }
+        $scope.$broadcast('schemaFormValidate');
+        if ($scope.formgenerated.$valid) {
 
-        return $http.post(generator.makeUrl($scope), data)
-            .success(function (data) {
-                // if return data consists forms key then trigger redraw the form with updated data
-                if (data.forms) {
-                    delete $scope.form, $scope.model, $scope.schema, $scope.form_params.cmd;
-                    generator.generate($scope, data);
-                    $scope.$broadcast('schemaFormRedraw')
-                }
 
-                // if submit returns nobjects after save
-                if (data.nobjects) {
-                    generator.itemLinksGenerator($scope, data);
-                    data[$scope.form_params.param] = $scope.form_params.id;
-                    $location.path('/crud/' + $scope.form_params.model + '/list').search(angular.fromJson(data));
-                }
 
-                // if submit returns msgbox after save
-                if (data.msgbox) {
-                    $scope.msgbox = data.msgbox;
-                    var newElement = $compile( "<msgbox ></msgbox>" )( $scope );
-                    angular.element(document.querySelector('.main.ng-scope')).children().remove();
-                    angular.element(document.querySelector('.main.ng-scope')).append( newElement );
-                }
-
+            // todo: diff for all submits to recognize form change. if no change returns to view with no submit
+            angular.forEach($scope.ListNode, function (value, key) {
+                $scope.model[key] = value.model;
             });
+            angular.forEach($scope.Node, function (value, key) {
+                $scope.model[key] = value.model;
+            });
+            var data = {
+                "form": $scope.model,
+                //"subcmd": "do_list",
+                "model": $scope.form_params.model,
+                "token": $scope.token
+            };
+            if ($scope.form_params.cmd) {
+                data["cmd"] = $scope.form_params.cmd;
+            }
+            if ($scope.form_params.flow) {
+                data["flow"] = $scope.form_params.flow;
+            }
+            if ($scope.object_id) {
+                //var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
+                data.object_id = $scope.object_id;
+                //data.form = get_diff;
+            }
+
+            return $http.post(generator.makeUrl($scope), data)
+                .success(function (data) {
+                    // if return data consists forms key then trigger redraw the form with updated data
+                    if (data.forms) {
+                        delete $scope.form, $scope.model, $scope.schema, $scope.form_params.cmd;
+                        generator.generate($scope, data);
+                        $scope.$broadcast('schemaFormRedraw')
+                    }
+
+                    // if submit returns nobjects after save
+                    if (data.nobjects) {
+                        generator.itemLinksGenerator($scope, data);
+                        data[$scope.form_params.param] = $scope.form_params.id;
+                        $location.path('/crud/' + $scope.form_params.model + '/list').search(angular.fromJson(data));
+                    }
+
+                    // if submit returns msgbox after save
+                    if (data.msgbox) {
+                        $scope.msgbox = data.msgbox;
+                        var newElement = $compile("<msgbox ></msgbox>")($scope);
+                        angular.element(document.querySelector('.main.ng-scope')).children().remove();
+                        angular.element(document.querySelector('.main.ng-scope')).append(newElement);
+                    }
+
+                });
+        }
     };
     return generator;
 });

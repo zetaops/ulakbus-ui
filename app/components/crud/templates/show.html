@@ -1,58 +1,64 @@
-<!--<div class="starter-template">-->
-    <!--<h1>{{model}}</h1>-->
-
-    <!--<p ng-repeat="(key, value) in object"><span class="col-md-3">{{ key }}:</span>{{value}}</p>-->
-<!--</div>-->
-
-
-    <div class="starter-template">
-
-        <div class="personnel-info-container">
-            <div class="personnel-info-left">
-
-                <!--<div class="generic-profile-picture">-->
-                    <!--<img src="../../img/sample-profile-pic.jpg" />-->
-                <!--</div>-->
-                <div class="info-block">
-                    <div class="info-block-header">
-                        <h1>{{model}}</h1>
-                    </div>
-                    <!-- end of info-block-header -->
-                    <div class="info-block-body" ng-repeat="(key, value) in object">
-                        <dl class="dl-horizontal">
-                            <dt>{{ key }}</dt>
-                            <dd>{{value}}</dd>
-                        </dl>
-                    </div>
-                    <!-- end of info-block-body -->
-                </div>
-                <!--<ul>-->
-                    <!--<li ng-repeat="(key, value) in object"><span class="col-md-3">{{ key }}:</span>{{value}}</li>-->
-                    <!--<li>Pozisyon</li>-->
-                    <!--<li><i class="fa fa-phone"></i> (+90) 123 456 7890</li>-->
-                    <!--<li><i class="fa fa-envelope"></i> samplemail@mail.com</li>-->
-                    <!--<li><i class="fa fa-map-marker"></i> Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR</li></li>-->
-                <!--</ul>-->
-            </div>
-            <!-- end of personnel-info-left -->
-            <div class="personnel-info-right">
-                <div class="info-block" ng-repeat="(key, value) in listobjects">
-                    <div class="info-block-header">
-                        <h2>{{key}}</h2>
-                    </div>
-                    <!-- end of info-block-header -->
-                    <div class="info-block-body" ng-repeat="(k, v) in value">
-                        <dl class="dl-horizontal">
-                            <dt>{{k}}</dt>
-                            <dd>{{v}}</dd>
-                        </dl>
-                    </div>
-                    <!-- end of info-block-body -->
-                </div>
-                <!-- end of info block -->
-                <!-- end of info block -->
-            </div>
-            <!-- personnel-info-left -->
+<div class="starter-template container">
+    <!--<div class="personnel-info-container">-->
+        <div class="info-block-header">
+            <h1>{{model}}</h1>
         </div>
-        <!-- end of personnel-info-container -->
-    </div>
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                <tr ng-repeat="(key, value) in object">
+                    <td class="col-md-2">{{key}}</td>
+                    <td class="col-md-8">{{value}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--<div class="personnel-info-left">-->
+
+            <!--&lt;!&ndash;<div class="generic-profile-picture">&ndash;&gt;-->
+            <!--&lt;!&ndash;<img src="../../img/sample-profile-pic.jpg" />&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--<div class="info-block">-->
+                <!--<div class="info-block-header">-->
+                    <!--<h1>{{model}}</h1>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; end of info-block-header &ndash;&gt;-->
+                <!--<div class="info-block-body" ng-repeat="(key, value) in object">-->
+                    <!--<dl class="dl-horizontal">-->
+                        <!--<dt>{{ key }}</dt>-->
+                        <!--<dd>{{value}}</dd>-->
+                    <!--</dl>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; end of info-block-body &ndash;&gt;-->
+            <!--</div>-->
+            <!--&lt;!&ndash;<ul>&ndash;&gt;-->
+            <!--&lt;!&ndash;<li ng-repeat="(key, value) in object"><span class="col-md-3">{{ key }}:</span>{{value}}</li>&ndash;&gt;-->
+            <!--&lt;!&ndash;<li>Pozisyon</li>&ndash;&gt;-->
+            <!--&lt;!&ndash;<li><i class="fa fa-phone"></i> (+90) 123 456 7890</li>&ndash;&gt;-->
+            <!--&lt;!&ndash;<li><i class="fa fa-envelope"></i> samplemail@mail.com</li>&ndash;&gt;-->
+            <!--&lt;!&ndash;<li><i class="fa fa-map-marker"></i> Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR</li></li>&ndash;&gt;-->
+            <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+        <!--</div>-->
+        <!--&lt;!&ndash; end of personnel-info-left &ndash;&gt;-->
+        <!--<div class="personnel-info-right">-->
+            <!--<div class="info-block" ng-repeat="(key, value) in listobjects">-->
+                <!--<div class="info-block-header">-->
+                    <!--<h2>{{key}}</h2>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; end of info-block-header &ndash;&gt;-->
+                <!--<div class="info-block-body" ng-repeat="(k, v) in value">-->
+                    <!--<dl class="dl-horizontal">-->
+                        <!--<dt>{{k}}</dt>-->
+                        <!--<dd>{{v}}</dd>-->
+                    <!--</dl>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; end of info-block-body &ndash;&gt;-->
+            <!--</div>-->
+            <!--&lt;!&ndash; end of info block &ndash;&gt;-->
+            <!--&lt;!&ndash; end of info block &ndash;&gt;-->
+        <!--</div>-->
+        <!--&lt;!&ndash; personnel-info-left &ndash;&gt;-->
+    <!--</div>-->
+    <!-- end of personnel-info-container -->
+</div>

@@ -38,9 +38,10 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
     }
 
     $scope.onSubmit = function (form) {
-        $scope.$broadcast('schemaFormValidate');
+        //$scope.$broadcast('schemaFormValidate');
 
-        if (form.$valid) {
+        debugger;
+        //if (form.$valid) {
             Generator.submit($scope)
                 .success(function (data) {
 
@@ -48,7 +49,7 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
                 .error(function (data) {
                     $scope.message = data.title;
                 });
-        }
+        //}
 
     };
 
