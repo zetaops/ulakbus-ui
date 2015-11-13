@@ -273,7 +273,6 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             if (value !== '-1') {
                 value.push({detailLink: makelink("detail/"), editLink: makelink("edit/")});
             }
-            console.log(value);
         });
     };
     generator.get_form = function (scope) {
