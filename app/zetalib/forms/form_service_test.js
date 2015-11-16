@@ -173,21 +173,9 @@ describe('form service module', function () {
                 $httpBackend.expectGET(RESTURL.url + 'test/personel')
                     .respond(200, {
                         items: {
-                            "client_cmd": "list_objects", 
-                            "objects": [
-                            {
-                                "data": {
-                                    "ad": "firstname",
-                                    "tckn": "12345678910",
-                                    "timestamp": 1444133895215881,
-                                    "soyad": "lastname",
-                                    "deleted": false,
-                                    "cep_telefonu": "05552223333"
-                                },
-                                "key": "4MsKRH9435cdKOzKCITNPml5bhB"
-                            }],
+                            "client_cmd": "list_objects",
                             "is_login": true,
-                            "nobjects":[
+                            "objects":[
                                 ["Ad\u0131", "Soyad\u0131", "TC No", "Durum"], 
                                 ["4MsKRH9435cdKOzKCITNPml5bhB", "firstname", "lastname", "dksoap", false]
                                 ], 

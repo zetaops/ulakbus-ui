@@ -54,7 +54,6 @@ app.directive('headerNotification', function ($http, $rootScope, $cookies, $inte
             // check notifications every 5 seconds
             $interval(function () {
                 if ($cookies.get("notificate") == "on") {
-                    console.log('get notification call - interval');
                     $scope.getNotifications();
                 }
             }, 5000);
@@ -130,7 +129,6 @@ app.directive('headerSubMenu', function ($location) {
         replace: true,
         link: function ($scope) {
             $scope.$on('$routeChangeStart', function () {
-                console.log($location.path());            //
                 $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
             });
         }
@@ -201,6 +199,14 @@ app.directive('sidebar', ['$location', function () {
                         angular.forEach(items, function (value, key) {
                             newItems[value.kategori] = newItems[value.kategori] || [];
                             value['baseCategory'] = baseCategory;
+                            // todo: generate urls here
+                            //value['url'] = '#/wf' + value.wf;
+                            //if (value.model) {
+                            //    value['url'] += '/model/' + value.model;
+                            //}
+
+                            value['wf'] = value.url.split('/')[0];
+                            value['model'] = value.url.split('/')[1];
                             newItems[value.kategori].push(value);
                         });
                         return newItems;
@@ -210,7 +216,8 @@ app.directive('sidebar', ['$location', function () {
                         $scope.allMenuItems[key] = reGroupMenuItems(value, key);
                     });
 
-                    // broadcast for authorized menu items, consume in dashboard
+                    // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
+                    // related items
                     $rootScope.$broadcast("authz", data);
 
                     $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});

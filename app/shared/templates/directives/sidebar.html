@@ -24,26 +24,12 @@
                 </a>
                 <ul class="nav nav-second-level" ng-class="{hidden: $root.collapsed}">
                     <li ng-repeat="(k, v) in item">
-                      <a ng-if="v['baseCategory'] == 'other'" ng-href="#{{v.url}}"
+                      <a ng-if="v['baseCategory'] == 'other'" ng-href="#{{v.url}}" ng-
                            ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
                       <a ng-if="v['baseCategory'] == 'ogrenci' || v['baseCategory'] ==  'personel'"
-                           ng-href="#{{v.url}}/list?{{v.param}}={{$root.selectedUser.key}}"
+                           ng-href="#/{{v.wf}}/{{v.model}}?{{v.param}}={{$root.selectedUser.key}}"
                            ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
                     </li>
-
-                    <!--<li ng-repeat="(key2, item2) in item">-->
-                        <!--<a href="#">{{key2}} <span class="fa arrow"></span></a>-->
-                        <!--<ul class="nav nav-third-level collapse in" aria-expanded="true">-->
-                            <!--<li ng-repeat="(k,v) in item2">-->
-                                <!--<a ng-if="key == 'other'" ng-href="#{{v.url}}"-->
-                                <!--ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>-->
-                                <!--<a ng-if="key == 'ogrenci' || key ==  'personel'"-->
-                                <!--ng-href="#{{v.url}}/list?{{v.param}}={{$root.selectedUser.key}}"-->
-                                <!--ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                        <!--&lt;!&ndash; /.nav-third-level &ndash;&gt;-->
-                    <!--</li>-->
                 </ul>
                 <!-- /.nav-second-level -->
             </li>

@@ -4,12 +4,12 @@
             <button type="button" class="btn btn-primary">Ekle</button>
         </a>
     </h1>
-    <div class="row" ng-if="!nobjects[1]">
+    <div class="row" ng-if="!objects[1]">
         <div class="col-md-12">
             <p class="no-content">Listelenecek içerik yok.</p>
         </div>
     </div>
-    <div class="tablescroll" ng-if="nobjects[1]">
+    <div class="tablescroll" ng-if="objects[1]">
         <table class="table table-bordered" style="background-color:#fff;">
             <thead>
             <tr>
@@ -19,13 +19,13 @@
                         Hepsini Seç
                     </label>
                 </td>
-                <td ng-repeat="value in nobjects[0]" ng-if="nobjects[0]!='-1' && !$last">{{ value }}</td>
-                <td ng-if="nobjects[0]=='-1'">{{ model }}</td>
+                <td ng-repeat="value in objects[0]" ng-if="objects[0]!='-1' && !$last">{{ value }}</td>
+                <td ng-if="objects[0]=='-1'">{{ model }}</td>
                 <td>action</td>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="object in nobjects" ng-if="$index>0">
+            <tr ng-repeat="object in objects" ng-if="$index>0">
                 <td width="60">
                     <label>
                         <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
@@ -33,16 +33,16 @@
                 </td>
                 <td scope="row" style="text-align:center">{{$index}}</td>
                 <!-- below 2 of object will not be listed there for ng repeat loops 2 less -->
-                <td ng-repeat="k in object track by $index" ng-if="nobjects[0]=='-1' && $index>0 && !$last">
-                    <a ng-href="{{object[object.length-1].detailLink}}">{{object[1]}}</a>
+                <td ng-repeat="field in object.fields track by $index" ng-if="objects[0]=='-1'">
+                    <a ng-href="{{object.detailLink}}">{{field}}</a>
                 </td>
 
-                <td ng-repeat="(key,value) in object track by $index" ng-if="nobjects[0]!='-1' && $index>0 && !$last">
-                    <a ng-href="{{object[object.length-1].detailLink}}" ng-if="$index==1">{{object[key]}}</a>
+                <td ng-repeat="(key,value) in object.fieldset track by $index" ng-if="objects[0]!='-1'">
+                    <a ng-href="{{object.detailLink}}" ng-if="$index==1">{{object.fields}}</a>
                     <span ng-if="$index!=1">{{object[key]}}</span>
                 </td>
                 <td>
-                    <a ng-href="{{object[object.length-1].editLink}}">Edit</a>
+                    <a ng-href="{{object.editLink}}">Edit</a>
                     <br>
                 </td>
             </tr>
@@ -52,7 +52,7 @@
     <br/>
     <hr/>
 
-    <div class="btn-group" ng-if="nobjects[1]">
+    <div class="btn-group" ng-if="objects[1]">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
             İşlemler <span class="caret"></span>

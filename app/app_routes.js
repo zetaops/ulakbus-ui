@@ -10,45 +10,56 @@ app.config(['$routeProvider', function ($routeProvider, $route) {
             templateUrl: 'components/dashboard/dashboard.html',
             controller: 'DashCtrl'
         })
-        //.when('/crud/:model/:param/:id/add', {
-        //    templateUrl: 'components/crud/templates/add.html',
-        //    controller: 'CRUDAddEditCtrl'
-        //})
-        //.when('/crud/:model/:param/:id/edit/:key', {
-        //    templateUrl: 'components/crud/templates/add.html',
-        //    controller: 'CRUDAddEditCtrl'
-        //})
-        //.when('/crud/:model/:param/:id/list', {
-        //    templateUrl: 'components/crud/templates/list.html',
-        //    controller: 'CRUDListCtrl'
-        //})
-        //.when('/crud/:model/:param/:id/detail/:key', {
-        //    templateUrl: 'components/crud/templates/show.html',
-        //    controller: 'CRUDShowCtrl'
-        //})
+        .when('/dev/settings', {
+            templateUrl: 'components/devSettings/devSettings.html',
+            controller: 'DevSettingsCtrl'
+        })
+        .when('/debug/list', {
+            templateUrl: 'components/debug/debug.html',
+            controller: 'DebugCtrl'
+        })
 
         // use crud without selected user
-        .when('/crud/:model/list', {
+        // important: regex urls must be defined later than static ones
+        .when('/:wf/', {
+            templateUrl: 'components/wf/templates/add.html',
+            controller: 'CRUDCtrl'
+        })
+        .when('/:wf/list', {
             templateUrl: 'components/crud/templates/list.html',
             controller: 'CRUDListCtrl'
         })
-        .when('/crud/:model/add', {
+        .when('/:wf/add', {
             templateUrl: 'components/crud/templates/add.html',
             controller: 'CRUDAddEditCtrl'
         })
-        .when('/crud/:model/edit/:key', {
+        .when('/:wf/edit/:key', {
             templateUrl: 'components/crud/templates/add.html',
             controller: 'CRUDAddEditCtrl'
         })
-        .when('/crud/:model/detail/:key', {
+        .when('/:wf/detail/:key', {
             templateUrl: 'components/crud/templates/show.html',
             controller: 'CRUDShowCtrl'
         })
-
-        // wf links just need model
-        .when('/:model/', {
+        .when('/:wf/:model', {
             templateUrl: 'components/wf/templates/add.html',
-            controller: 'WFAddEditCtrl'
+            controller: 'CRUDCtrl'
+        })
+        .when('/:wf/:model/list', {
+            templateUrl: 'components/crud/templates/list.html',
+            controller: 'CRUDListCtrl'
+        })
+        .when('/:wf/:model/add', {
+            templateUrl: 'components/crud/templates/add.html',
+            controller: 'CRUDAddEditCtrl'
+        })
+        .when('/:wf/:model/edit/:key', {
+            templateUrl: 'components/crud/templates/add.html',
+            controller: 'CRUDAddEditCtrl'
+        })
+        .when('/:wf/:model/detail/:key', {
+            templateUrl: 'components/crud/templates/show.html',
+            controller: 'CRUDShowCtrl'
         })
         .otherwise({redirectTo: '/dashboard'});
 }])

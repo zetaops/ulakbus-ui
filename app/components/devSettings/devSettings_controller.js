@@ -7,14 +7,6 @@
 
 'use strict';
 
-app.config(['$routeProvider', function ($routeProvider) {
-    $routeProvider
-        .when('/dev/settings', {
-            templateUrl: 'components/devSettings/devSettings.html',
-            controller: 'DevSettingsCtrl'
-        });
-}]);
-
 angular.module('ulakbus.devSettings', ['ngRoute'])
 
     .controller('DevSettingsCtrl', function ($scope, $cookies, $rootScope, RESTURL) {
