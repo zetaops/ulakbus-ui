@@ -7,12 +7,22 @@
 
 var form_generator = angular.module('formService', ['general']);
 
+/**
+ * form service's Generator factory service handles all generic form operations
+ */
 form_generator.factory('Generator', function ($http, $q, $timeout, $location, $compile, RESTURL, FormDiff, $rootScope) {
     var generator = {};
     generator.makeUrl = function (scope) {
         var getparams = scope.form_params.param ? "?" + scope.form_params.param + "=" + scope.form_params.id : "";
         return RESTURL.url + scope.url + '/' + (scope.form_params.model || '') + getparams;
     };
+    /**
+     * generate function is inclusive for form generation
+     * defines given scope's client_cmd, model, schema, form, token, object_id objects
+     * @param scope
+     * @param data
+     * @returns {*}
+     */
     generator.generate = function (scope, data) {
 
         // if no form in response (in case of list and single item request) return scope
@@ -46,9 +56,20 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
 
         return scope;
     };
+    /**
+     * group function to group form layout by form meta data for layout
+     * @param formObject
+     * @returns {*}
+     */
     generator.group = function (formObject) {
         return formObject;
     };
+    /**
+     * prepareFormItems looks up fields of schema objects and changes their types to proper type for schemaform
+     * for listnode, node and model types it uses templates to generate modal
+     * @param scope
+     * @returns {*}
+     */
     generator.prepareFormItems = function (scope) {
         /**
          * prepareforms checks input types and convert if necessary
@@ -241,6 +262,11 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
 
         return scope;
     };
+    /**
+     * dateformatter handles all date fields and returns humanized and jquery datepicker format dates
+     * @param formObject
+     * @returns {*}
+     */
     generator.dateformatter = function (formObject) {
         var ndate = new Date(formObject);
         if (ndate == 'Invalid Date') {
@@ -250,6 +276,13 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             return newdatearray.join('.');
         }
     };
+    /**
+     * itemLinksGenerator function used for generic links for list items
+     * basicly creates add, edit, detail links
+     * @param scope
+     * @param itemlist
+     * @returns links
+     */
     generator.itemLinksGenerator = function (scope, itemlist) {
         angular.forEach(itemlist.objects, function (value, key) {
             function makelink(page) {
@@ -289,6 +322,11 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             }
         });
     };
+    /**
+     * gets form
+     * @param scope
+     * @returns {*}
+     */
     generator.get_form = function (scope) {
         return $http
             .post(generator.makeUrl(scope), scope.form_params)
@@ -296,6 +334,11 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
                 return generator.generate(scope, res.data);
             });
     };
+    /**
+     * gets list of related wf/model
+     * @param scope
+     * @returns {*}
+     */
     generator.get_list = function (scope) {
         return $http
             .get(generator.makeUrl(scope))
@@ -305,6 +348,11 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
                 return res;
             });
     };
+    /**
+     * gets single object with object_id
+     * @param scope
+     * @returns {*}
+     */
     generator.get_single_item = function (scope) {
         return $http
             .post(generator.makeUrl(scope), scope.form_params)
@@ -313,6 +361,12 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
                 return res;
             });
     };
+    /**
+     * get_wf is the main function for client_cmd based api calls
+     * based on response content it redirects to related path/controller with pathDecider function
+     * @param scope
+     * @returns {*}
+     */
     generator.get_wf = function (scope) {
         return $http
             .post(generator.makeUrl(scope), scope.form_params)
@@ -425,6 +479,11 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
         //}
     };
 
+    /**
+     * submit function is general function for submiting forms
+     * @param $scope
+     * @returns {*}
+     */
     generator.submit = function ($scope) {
 
         // todo: diff for all submits to recognize form change. if no change returns to view with no submit
