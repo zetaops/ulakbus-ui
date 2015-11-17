@@ -469,6 +469,11 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             redirectTo($scope, 'formwithlist');
         }
 
+        if (client_cmd.indexOf('show') > -1) {
+            generator.setPageData(data);
+            redirectTo($scope, 'detail');
+        }
+
         //todo: msgbox make it work
         // if submit returns msgbox after save
         //if (data.msgbox) {
@@ -516,7 +521,9 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
 
         return $http.post(generator.makeUrl($scope), data)
             .success(function (data) {
-                generator.pathDecider(data.client_cmd, $scope, data);
+                if (data.client_cmd) {
+                    generator.pathDecider(data.client_cmd, $scope, data);
+                }
             });
     };
     return generator;
