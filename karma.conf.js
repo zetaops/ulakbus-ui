@@ -32,7 +32,7 @@ module.exports = function (config) {
             'app/components/**/*.js'
         ],
 
-        autoWatch: true,
+        autoWatch: false,
 
         frameworks: ['jasmine'],
 

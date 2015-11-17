@@ -11,6 +11,10 @@ describe('form service module', function () {
 
     beforeEach(module('ulakbus'));
     beforeEach(module('formService'));
+    var location;
+    beforeEach(inject(function($location) {
+        location = $location;
+    }));
 
     describe('form service', function () {
 
@@ -18,7 +22,7 @@ describe('form service module', function () {
                 function (Generator) {
                     expect(Generator.group).not.toBe(null);
                     var generated_url = Generator.makeUrl({url: 'test', form_params: {}});
-                    expect(generated_url).toEqual("http://api.ulakbus.net/test");
+                    expect(generated_url).toEqual("http://api.ulakbus.net/test/");
                 }])
         );
 
@@ -110,7 +114,7 @@ describe('form service module', function () {
             function (Generator) {
                 expect(Generator.dateformatter).not.toBe(null);
                 var generated_date = Generator.dateformatter('2001-01-01T01:00:00Z');
-                expect(generated_date).toEqual('1.0.2001');
+                expect(generated_date).toEqual('1.1.2001');
             }])
         );
 
@@ -132,7 +136,7 @@ describe('form service module', function () {
         it('should get form',
             inject(function (Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectPOST(RESTURL.url + 'add_student', {cmd: 'add'})
+                $httpBackend.expectPOST(RESTURL.url + 'add_student/', {cmd: 'add'})
                     .respond(200, {
                         forms: {
                             schema: {
@@ -184,7 +188,7 @@ describe('form service module', function () {
                     });
 
                 var cred = {cmd: 'list', model: "personel", object_id: "5821bc25a90aa1"};
-                Generator.get_list({url: 'test/', form_params: cred})
+                Generator.get_list({url: 'test', form_params: cred})
                     .then(function (data) {
                         expect(data.data.items.token).toEqual("0122b2843f504c15821bc25a90aa1370");
                     });
@@ -210,7 +214,7 @@ describe('form service module', function () {
                     });
 
                 var cred = {cmd: 'show', model: 'personel', param: 'personel_id', id: '123'};
-                Generator.get_single_item({url: 'test/', form_params: cred})
+                Generator.get_single_item({url: 'test', form_params: cred})
                     .then(function (data) {
                         expect(data.data.items.token).toEqual("da73993f439549e7855fd82deafbbc99");
                     });
@@ -229,7 +233,7 @@ describe('form service module', function () {
                     model: {email: 'test@test.com'},
                     form_params: {cmd: 'add', model: 'testmodel'},
                     token: '123456',
-                    url: 'student/add/'
+                    url: 'student/add'
                 };
                 Generator.submit(scope)
                     .success(function(){
@@ -292,6 +296,97 @@ describe('form service module', function () {
                     var valid = Generator.isValidTCNo(invalidTCNos[i]);
                     expect(valid).toBeFalsy();
                 }
+            })
+        );
+        it('should get wf and redirect according to client_cmd',
+            inject(function (Generator, $httpBackend, RESTURL) {
+
+
+                $httpBackend.expectPOST(RESTURL.url + 'test/testModel?test=xyz123')
+                    .respond(200, {
+                        "client_cmd": "form",
+                        "object": {
+                            "ad": "name",
+                            "soyad": "lastname",
+                        },
+                        forms: {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    name: {type: "string", minLength: 2, title: "Name", description: "Name or alias"},
+                                    title: {
+                                        type: "string",
+                                        enum: ['dr', 'jr', 'sir', 'mrs', 'mr', 'NaN', 'dj']
+                                    }
+                                }
+                            },
+
+                            form: [
+                                "*",
+                                {
+                                    type: "submit",
+                                    title: "Save"
+                                }
+                            ],
+                            model: {}
+                        },
+                        "token": "da73993f439549e7855fd82deafbbc99",
+                        "is_login": true
+                    });
+                console.log(32131);
+
+                scope.url = 'test';
+                scope.form_params = {
+                    param: 'test',
+                    id:'xyz123',
+                    model:'testModel',
+                    object_id: 'xxx11',
+                    wf:'testModel'};
+
+                Generator.get_wf(scope);
+
+                $httpBackend.flush();
+                expect(location.path()).toEqual('/testModel/testModel/add');
+            })
+        );
+
+    });
+
+    describe('form service', function () {
+        var location, rootScope, scope, ctrl;
+        beforeEach(inject(function($location, $rootScope) {
+            location = $location;
+            rootScope = $rootScope;
+            scope = $rootScope.$new();
+            ctrl = $controller("CRUDCtrl", {$scope: scope});
+        }));
+
+        it('should generate itemlinks of objects in response data',
+            inject(function (Generator) {
+                var responseObject = {
+                    "objects": [
+                        "-1",
+                        {
+                            "fields": ["test object"],
+                            "actions": [{"cmd": "delete", "name": "Sil"}, {"wf": "manage_permissions", "name": "Yetkilendir", "mode": "modal"}],
+                            "do_list": true,
+                            "key": "xx10"},
+                        {
+                            "fields": ["test object 2"],
+                            "actions": [{"cmd": "delete", "name": "Sil"}, {"wf": "manage_permissions", "name": "Yetkilendir", "mode": "modal"}],
+                            "do_list": true,
+                            "key": "xx11"}
+                        ]
+                };
+                scope.url = 'test';
+                scope.form_params = {
+                    param: 'test',
+                    id:'xyz123',
+                    model:'testModel',
+                    object_id: 'xxx11',
+                    wf:'testModel'};
+                Generator.itemLinksGenerator(scope, responseObject);
+                expect(responseObject.objects[1].detailLink).toEqual('#test/testModel/detail/xx10?test=xyz123');
             })
         );
 

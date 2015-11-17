@@ -14,7 +14,7 @@ var crud = angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formSe
  */
 crud.service('CrudUtility', function () {
     return {
-        generateParam: function (scope, routeParams) {
+        generateParam: function (scope, routeParams, cmd) {
             // define api request url path
             scope.url = routeParams.wf;
             angular.forEach(routeParams, function (value, key) {
@@ -24,6 +24,7 @@ crud.service('CrudUtility', function () {
                 }
             });
             scope.form_params = {
+                cmd: cmd,
                 model: routeParams.model,
                 param: scope.param,
                 id: scope.param_id,
@@ -44,6 +45,7 @@ crud.service('CrudUtility', function () {
  *
  */
 crud.controller('CRUDCtrl', function ($scope, $routeParams, Generator, CrudUtility) {
+    // get required params by calling CrudUtility.generateParam function
     CrudUtility.generateParam($scope, $routeParams);
     Generator.get_wf($scope);
 });
@@ -54,13 +56,10 @@ crud.controller('CRUDCtrl', function ($scope, $routeParams, Generator, CrudUtili
  */
 
 crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams, CrudUtility) {
-    CrudUtility.generateParam($scope, $routeParams);
-
-    $scope.form_params['cmd'] = 'form';
+    CrudUtility.generateParam($scope, $routeParams, 'form');
 
     // get form with generator
     if ($routeParams.pageData) {
-        console.log(Generator.getPageData());
         Generator.generate($scope, Generator.getPageData());
     } else {
         Generator.get_form($scope);
@@ -80,8 +79,7 @@ crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $htt
  */
 
 crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeParams, CrudUtility) {
-    CrudUtility.generateParam($scope, $routeParams);
-    $scope.form_params['cmd'] = 'list';
+    CrudUtility.generateParam($scope, $routeParams, 'list');
 
     if ($routeParams.pageData) {
         var pageData = Generator.getPageData();
@@ -100,20 +98,29 @@ crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeP
  * CRUD Show Controller
  */
 crud.controller('CRUDShowCtrl', function ($scope, $rootScope, $location, Generator, $routeParams, CrudUtility) {
-    CrudUtility.generateParam($scope, $routeParams);
-    $scope.form_params['cmd'] = 'show';
-    // call generator's get_single_item func
-    Generator.get_single_item($scope).then(function (res) {
-        $scope.listobjects = {};
-        $scope.object = res.data.object;
-
+    CrudUtility.generateParam($scope, $routeParams, 'show');
+    // todo: refactor createListObjects func
+    var createListObjects = function () {
         angular.forEach($scope.object, function (value, key) {
             if (typeof value == 'object') {
                 $scope.listobjects[key] = value;
                 delete $scope.object[key];
             }
         });
+    };
 
-        $scope.model = $routeParams.model;
-    });
+    $scope.listobjects = {};
+
+    if ($routeParams.pageData) {
+        var pageData = Generator.getPageData();
+        $scope.object = pageData.object;
+    }
+    else {
+        // call generator's get_single_item func
+        Generator.get_single_item($scope).then(function (res) {
+            $scope.object = res.data.object;
+            $scope.model = $routeParams.model;
+        });
+    }
+    createListObjects();
 });
