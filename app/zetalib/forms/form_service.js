@@ -473,15 +473,6 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             generator.setPageData(data);
             redirectTo($scope, 'detail');
         }
-
-        //todo: msgbox make it work
-        // if submit returns msgbox after save
-        //if (data.msgbox) {
-        //    $scope.msgbox = data.msgbox;
-        //    var newElement = $compile("<msgbox ></msgbox>")($scope);
-        //    angular.element(document.querySelector('.main.ng-scope')).children().remove();
-        //    angular.element(document.querySelector('.main.ng-scope')).append(newElement);
-        //}
     };
 
     /**
@@ -523,6 +514,13 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             .success(function (data) {
                 if (data.client_cmd) {
                     generator.pathDecider(data.client_cmd, $scope, data);
+                }
+                if (data.msgbox) {
+                    $scope.msgbox = data.msgbox;
+                    var newElement = $compile("<msgbox></msgbox>")($scope);
+                    // this is the default action, which is removing page items and reload page with msgbox
+                    angular.element(document.querySelector('.main.ng-scope')).children().remove();
+                    angular.element(document.querySelector('.main.ng-scope')).append(newElement);
                 }
             });
     };

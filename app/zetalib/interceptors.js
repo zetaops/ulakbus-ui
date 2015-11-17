@@ -50,7 +50,41 @@ app.config(['$httpProvider', function ($httpProvider) {
                 return response;
             },
             'responseError': function (rejection) {
-                // if unauthorized then redirect to login page
+
+                var errorModal = function () {
+                    var codefield = "";
+                    if (rejection.data.error) {
+                        codefield = '<p><pre>' +
+                            rejection.data.error +
+                            '</pre></p>';
+                    }
+
+                    $('<div class="modal">' +
+                        '<div class="modal-dialog" style="width:1024px;" role="document">' +
+                        '<div class="modal-content">' +
+                        '<div class="modal-header">' +
+                        '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span' +
+                        ' aria-hidden="true">&times;</span></button>' +
+                        '<h4 class="modal-title" id="exampleModalLabel">' +
+                        rejection.status+ rejection.data.title +
+                        '</h4>' +
+                        '</div>' +
+                        '<div class="modal-body">' +
+                        '<div class="alert alert-danger">' +
+                        '<strong>' +
+                        rejection.data.description +
+                        '</strong>' +
+                        codefield +
+                        '</div>'+
+                        '</div>' +
+                        '<div class="modal-footer">' +
+                        '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>').modal();
+                };
+                errorModal();
 
                 if (rejection.status === 400) {
                     $location.reload();
@@ -62,6 +96,7 @@ app.config(['$httpProvider', function ($httpProvider) {
                     }
                 }
                 if (rejection.status === 403) {
+                    console.log(403);
                     if (rejection.data.is_login === true) {
                         $rootScope.loggedInUser = true;
                         if ($location.path() === "/login") {
@@ -69,6 +104,8 @@ app.config(['$httpProvider', function ($httpProvider) {
                         }
                     }
                 }
+                $rootScope.$broadcast('show_notifications', rejection.data);
+
                 if (rejection.status === 404) {
                     console.log(404);
                     $location.path("/error/404");
@@ -76,25 +113,6 @@ app.config(['$httpProvider', function ($httpProvider) {
                 // server 500 error returns with -1 on status.
                 //if (rejection.status === -1 && rejection.config.data.model) {
                 if (rejection.status === 500) {
-                    $('<div class="modal">' +
-                        '<div class="modal-dialog" style="width:1024px;" role="document">' +
-                        '<div class="modal-content">' +
-                        '<div class="modal-header">' +
-                        '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span' +
-                        ' aria-hidden="true">&times;</span></button>' +
-                        '<h4 class="modal-title" id="exampleModalLabel">500 Server Error</h4>' +
-                        '</div>' +
-                        '<div class="modal-body">' +
-                        '<p><pre>' +
-                        rejection.data.error +
-                        '</pre></p>' +
-                        '</div>' +
-                        '<div class="modal-footer">' +
-                        '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>').modal();
                     $location.path("/error/500");
                 }
                 return $q.reject(rejection);
