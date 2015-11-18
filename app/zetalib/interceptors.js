@@ -85,6 +85,11 @@ app.config(['$httpProvider', function ($httpProvider) {
                         '</div>').modal();
                 };
 
+                if (rejection.status === -1) {
+                    rejection.data = {title: "error", description : 'connection failed'};
+                    errorModal();
+                }
+
                 if (rejection.status === 400) {
                     $location.reload();
                 }
