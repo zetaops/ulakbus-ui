@@ -42,7 +42,10 @@
                     <span ng-if="$index!=1">{{field}}</span>
                 </td>
                 <td>
-                    <a ng-href="{{object.editLink}}">Edit</a>
+                    <button class="btn btn-primary" style="margin-right: 5px;" ng-repeat="action in object.actions"
+                            ng-if="action.show_as==='button'" ng-click="do_action(object)">{{action.name}}</button>
+                    <a ng-href="javascript:void(0)" ng-repeat="action in object.actions"
+                       ng-if="action.show_as==='link'" ng-click="do_action(object)">{{action.name}}</a>
                     <br>
                 </td>
             </tr>

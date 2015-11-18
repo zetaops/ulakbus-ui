@@ -276,6 +276,9 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             return newdatearray.join('.');
         }
     };
+    generator.doItemAction = function (object) {
+        debugger;
+    };
     /**
      * itemLinksGenerator function used for generic links for list items
      * basicly creates add, edit, detail links
