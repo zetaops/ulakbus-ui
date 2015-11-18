@@ -341,7 +341,7 @@ select {
 
 .manager-view-header {
     /*width:100%;*/
-    width: calc(100% - 300px);
+    /*width: calc(100% - 300px);*/
     padding:10px;
     background-color:#fff;
     border-bottom:1px solid #ccc;
@@ -1501,9 +1501,14 @@ table.dataTable thead .sorting:after {
         border-right-width: 14px;
         border-left-width: 0;
     }
+	
+	.sidebar {
+		width:100% !important;	
+	}
 
-    .brand {
-        text-align:center;
+    .brand,
+	footer {
+		display:none;
     }
 
     .logo img {
@@ -1519,18 +1524,12 @@ table.dataTable thead .sorting:after {
         overflow:auto;
     }
 	
-	.sidebar footer {
-		text-align: center;
-    	font-family: 'robotomedium';
-		background-color: #F1F1F1;
-		padding: 15px;
-		color: #A7A7A7;
-		border-bottom: 1px solid #ccc;	
-	}
-	
 	.sidebar-collapse-button {
 		display:none;	
 	}
+    .right-sidebar {
+        display: none;
+    }
 }
 
 
@@ -1650,7 +1649,9 @@ table.dataTable thead .sorting:after {
 }
 
 /* end page transitions */
-
+.movetobottom {
+    margin-right: 10px !important;
+}
 
 /*
  * metismenu - v1.1.3
