@@ -18,7 +18,7 @@ crud.service('CrudUtility', function () {
             // define api request url path
             scope.url = routeParams.wf;
             angular.forEach(routeParams, function (value, key) {
-                if (key.indexOf('_id') > -1) {
+                if (key.indexOf('_id') > -1 && key !== 'param_id') {
                     scope.param = key;
                     scope.param_id = value;
                 }
@@ -26,16 +26,16 @@ crud.service('CrudUtility', function () {
             scope.form_params = {
                 cmd: cmd,
                 model: routeParams.model,
-                param: scope.param,
-                id: scope.param_id,
+                param: scope.param || routeParams.param,
+                id: scope.param_id || routeParams.param_id,
                 wf: routeParams.wf,
                 object_id: routeParams.key
             };
             return scope;
         },
         listPageItems: function (scope, pageData) {
-            angular.forEach(['objects', 'model', 'addLink'], function (value, key) {
-                scope[value] = pageData[value];
+            angular.forEach(pageData, function (value, key) {
+                scope[key] = value;
             });
         }
     }
@@ -56,12 +56,12 @@ crud.controller('CRUDCtrl', function ($scope, $routeParams, Generator, CrudUtili
  */
 
 crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams, CrudUtility) {
-    CrudUtility.generateParam($scope, $routeParams, 'form');
-
     // get form with generator
     if ($routeParams.pageData) {
+        CrudUtility.generateParam($scope, Generator.getPageData(), 'form');
         Generator.generate($scope, Generator.getPageData());
     } else {
+        CrudUtility.generateParam($scope, $routeParams, 'form');
         Generator.get_form($scope);
     }
 
@@ -91,6 +91,10 @@ crud.controller('CRUDListCtrl', function ($scope, $rootScope, Generator, $routeP
             .then(function (res) {
                 CrudUtility.listPageItems($scope, res.Data);
             });
+    }
+
+    $scope.do_action = function (key, action) {
+        Generator.doItemAction($scope, key, action);
     }
 });
 
