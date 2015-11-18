@@ -13,7 +13,6 @@ app.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.interceptors.push(function ($q, $rootScope, $location, $timeout) {
         return {
             'request': function (config) {
-                // todo: delete console logs
                 if (config.method === "POST") {
                     // to prevent OPTIONS preflight request
                     config.headers["Content-Type"] = "text/plain";
@@ -100,7 +99,6 @@ app.config(['$httpProvider', function ($httpProvider) {
                     }
                 }
                 if (rejection.status === 403) {
-                    console.log(403);
                     if (rejection.data.is_login === true) {
                         $rootScope.loggedInUser = true;
                         if ($location.path() === "/login") {
@@ -112,15 +110,10 @@ app.config(['$httpProvider', function ($httpProvider) {
                 $rootScope.$broadcast('show_notifications', rejection.data);
 
                 if (rejection.status === 404) {
-                    console.log(404);
                     errorModal();
-                    //$location.path("/error/404");
                 }
-                // server 500 error returns with -1 on status.
-                //if (rejection.status === -1 && rejection.config.data.model) {
                 if (rejection.status === 500) {
                     errorModal();
-                    //$location.path("/error/500");
                 }
                 return $q.reject(rejection);
             }

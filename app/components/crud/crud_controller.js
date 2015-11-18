@@ -55,7 +55,7 @@ crud.controller('CRUDCtrl', function ($scope, $routeParams, Generator, CrudUtili
  * which provide a form with form generator.
  */
 
-crud.controller('CRUDAddEditCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams, CrudUtility) {
+crud.controller('CRUDFormCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams, CrudUtility) {
     // get form with generator
     if ($routeParams.pageData) {
         CrudUtility.generateParam($scope, Generator.getPageData(), 'form');

@@ -206,12 +206,6 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
                 // get model objects from db and add to select list
 
                 scope.form[scope.form.indexOf(k)] = formitem;
-                //scope.$broadcast('schemaFormRedraw');
-
-                // todo: make lines below work properly
-                //if (scope.model[v].indexOf("TMP_") > -1) {
-                //    scope.model[v] = null;
-                //}
             }
 
             if (v.type === 'ListNode' || v.type === 'Node') {
@@ -307,7 +301,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
 
                 link += "/" + page;
 
-                if (page === 'edit/' || page === 'detail/') {
+                if (value.key) {
                     link += value.key;
                 }
 
@@ -321,12 +315,12 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
 
             // call add link once
             if (!itemlist.addLink) {
-                itemlist.addLink = makelink("add/");
+                itemlist.addLink = makelink("form/");
             }
 
             if (value !== '-1') {
-                value.detailLink = makelink("detail/");
-                value.editLink = makelink("edit/");
+                value.detailLink = makelink("show/");
+                value.editLink = makelink("form/");
             }
         });
     };
@@ -453,41 +447,31 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             }
             $location.path(pathUrl).search(angular.fromJson({pageData: true}));
         }
-        if (client_cmd.indexOf('form') > -1 && client_cmd.indexOf('list') < 0) {
+
+        // client_cmd can be in ['list', 'form', 'show', 'reload', 'reset']
+
+        function dispatchClientCmd() {
             data[$scope.form_params.param] = $scope.form_params.id;
             data['model'] = $scope.form_params.model;
             data['wf'] = $scope.form_params.wf;
             data['param'] = $scope.form_params.param;
             data['param_id'] = $scope.form_params.id;
             generator.setPageData(data);
-            redirectTo($scope, 'add');
+            if (client_cmd[0] === 'list') {
+                generator.itemLinksGenerator($scope, data);
+            }
+
+            redirectTo($scope, client_cmd[0]);
         }
+        dispatchClientCmd();
 
-        if (client_cmd.indexOf('list') > -1 && client_cmd.indexOf('form') < 0) {
-            data[$scope.form_params.param] = $scope.form_params.id;
-            data['model'] = $scope.form_params.model;
-            data['wf'] = $scope.form_params.wf;
-            data['param'] = $scope.form_params.param;
-            data['param_id'] = $scope.form_params.id;
-
-            generator.setPageData(data);
-            generator.itemLinksGenerator($scope, data);
-
-            redirectTo($scope, 'list');
-        }
-
-        if (client_cmd.indexOf('form') > -1 && client_cmd.indexOf('list') > -1) {
-            // todo: will be tested
-            generator.generate($scope, data);
-            generator.itemLinksGenerator($scope, data);
-            data[$scope.form_params.param] = $scope.form_params.id;
-            redirectTo($scope, 'formwithlist');
-        }
-
-        if (client_cmd.indexOf('show') > -1) {
-            generator.setPageData(data);
-            redirectTo($scope, 'detail');
-        }
+        //if (client_cmd.indexOf('form') > -1 && client_cmd.indexOf('list') > -1) {
+        //    // todo: controller will be created and tested
+        //    generator.generate($scope, data);
+        //    generator.itemLinksGenerator($scope, data);
+        //    data[$scope.form_params.param] = $scope.form_params.id;
+        //    redirectTo($scope, 'formwithlist');
+        //}
     };
 
     /**

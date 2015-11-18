@@ -22,42 +22,42 @@ app.config(['$routeProvider', function ($routeProvider, $route) {
         // use crud without selected user
         // important: regex urls must be defined later than static ones
         .when('/:wf/', {
-            templateUrl: 'components/wf/templates/add.html',
+            templateUrl: 'components/crud/templates/form.html',
             controller: 'CRUDCtrl'
         })
         .when('/:wf/list', {
             templateUrl: 'components/crud/templates/list.html',
             controller: 'CRUDListCtrl'
         })
-        .when('/:wf/add', {
-            templateUrl: 'components/crud/templates/add.html',
-            controller: 'CRUDAddEditCtrl'
+        .when('/:wf/form', {
+            templateUrl: 'components/crud/templates/form.html',
+            controller: 'CRUDFormCtrl'
         })
-        .when('/:wf/edit/:key', {
-            templateUrl: 'components/crud/templates/add.html',
-            controller: 'CRUDAddEditCtrl'
+        .when('/:wf/form/:key', {
+            templateUrl: 'components/crud/templates/form.html',
+            controller: 'CRUDFormCtrl'
         })
-        .when('/:wf/detail/:key', {
+        .when('/:wf/show/:key', {
             templateUrl: 'components/crud/templates/show.html',
             controller: 'CRUDShowCtrl'
         })
         .when('/:wf/:model', {
-            templateUrl: 'components/wf/templates/add.html',
+            templateUrl: 'components/crud/templates/form.html',
             controller: 'CRUDCtrl'
         })
         .when('/:wf/:model/list', {
             templateUrl: 'components/crud/templates/list.html',
             controller: 'CRUDListCtrl'
         })
-        .when('/:wf/:model/add', {
-            templateUrl: 'components/crud/templates/add.html',
-            controller: 'CRUDAddEditCtrl'
+        .when('/:wf/:model/form', {
+            templateUrl: 'components/crud/templates/form.html',
+            controller: 'CRUDFormCtrl'
         })
-        .when('/:wf/:model/edit/:key', {
-            templateUrl: 'components/crud/templates/add.html',
-            controller: 'CRUDAddEditCtrl'
+        .when('/:wf/:model/form/:key', {
+            templateUrl: 'components/crud/templates/form.html',
+            controller: 'CRUDFormCtrl'
         })
-        .when('/:wf/:model/detail/:key', {
+        .when('/:wf/:model/show/:key', {
             templateUrl: 'components/crud/templates/show.html',
             controller: 'CRUDShowCtrl'
         })
