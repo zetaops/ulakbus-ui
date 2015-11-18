@@ -84,7 +84,6 @@ app.config(['$httpProvider', function ($httpProvider) {
                         '</div>' +
                         '</div>').modal();
                 };
-                errorModal();
 
                 if (rejection.status === 400) {
                     $location.reload();
@@ -103,16 +102,19 @@ app.config(['$httpProvider', function ($httpProvider) {
                             $location.path("/dashboard");
                         }
                     }
+                    errorModal();
                 }
                 $rootScope.$broadcast('show_notifications', rejection.data);
 
                 if (rejection.status === 404) {
                     console.log(404);
+                    errorModal();
                     $location.path("/error/404");
                 }
                 // server 500 error returns with -1 on status.
                 //if (rejection.status === -1 && rejection.config.data.model) {
                 if (rejection.status === 500) {
+                    errorModal();
                     $location.path("/error/500");
                 }
                 return $q.reject(rejection);
