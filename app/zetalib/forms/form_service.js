@@ -89,6 +89,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             // generically change _id fields model value
 
             if ('form_params' in scope) {
+                debugger;
                 if (k == scope.form_params.param) {
                     scope.model[k] = scope.form_params.id;
                     scope.form.splice(scope.form.indexOf(k), 1);
@@ -276,8 +277,12 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             return newdatearray.join('.');
         }
     };
-    generator.doItemAction = function (object) {
-        debugger;
+    generator.doItemAction = function ($scope, key, action) {
+        $scope.form_params.cmd = action.cmd;
+        $scope.form_params.object_id = key;
+        $scope.form_params.param = $scope.param;
+        $scope.form_params.id = $scope.param_id;
+        generator.get_wf($scope);
     };
     /**
      * itemLinksGenerator function used for generic links for list items
@@ -449,6 +454,11 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             $location.path(pathUrl).search(angular.fromJson({pageData: true}));
         }
         if (client_cmd.indexOf('form') > -1 && client_cmd.indexOf('list') < 0) {
+            data[$scope.form_params.param] = $scope.form_params.id;
+            data['model'] = $scope.form_params.model;
+            data['wf'] = $scope.form_params.wf;
+            data['param'] = $scope.form_params.param;
+            data['param_id'] = $scope.form_params.id;
             generator.setPageData(data);
             redirectTo($scope, 'add');
         }
@@ -457,6 +467,8 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             data[$scope.form_params.param] = $scope.form_params.id;
             data['model'] = $scope.form_params.model;
             data['wf'] = $scope.form_params.wf;
+            data['param'] = $scope.form_params.param;
+            data['param_id'] = $scope.form_params.id;
 
             generator.setPageData(data);
             generator.itemLinksGenerator($scope, data);

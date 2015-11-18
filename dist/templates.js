@@ -122,9 +122,11 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                </td>\n" +
     "                <td>\n" +
     "                    <button class=\"btn btn-primary\" style=\"margin-right: 5px;\" ng-repeat=\"action in object.actions\"\n" +
-    "                            ng-if=\"action.show_as==='button'\" ng-click=\"do_action(object)\">{{action.name}}</button>\n" +
+    "                            ng-if=\"action.show_as==='button'\" ng-click=\"do_action(object.key, action)\">{{action\n" +
+    "                        .name}}\n" +
+    "                    </button>\n" +
     "                    <a ng-href=\"javascript:void(0)\" ng-repeat=\"action in object.actions\"\n" +
-    "                       ng-if=\"action.show_as==='link'\" ng-click=\"do_action(object)\">{{action.name}}</a>\n" +
+    "                       ng-if=\"action.show_as==='link'\" ng-click=\"do_action(object.key, action)\">{{action.name}}</a>\n" +
     "                    <br>\n" +
     "                </td>\n" +
     "            </tr>\n" +
