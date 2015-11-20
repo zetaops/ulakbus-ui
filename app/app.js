@@ -22,7 +22,6 @@ var app = angular.module(
         'ulakbus.crud',
         'ulakbus.debug',
         'ulakbus.devSettings',
-        'ulakbus.wf',
         'ulakbus.version',
         //'schemaForm',
         'gettext',

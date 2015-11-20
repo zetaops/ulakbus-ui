@@ -1,9 +1,9 @@
 <div class="starter-template container">
-    <h1>{{model}}
-        <a href="{{addLink}}">
-            <button type="button" class="btn btn-primary">Ekle</button>
-        </a>
-    </h1>
+    <!--<h1>{{model}}-->
+        <!--<a href="{{addLink}}">-->
+            <!--<button type="button" class="btn btn-primary">Ekle</button>-->
+        <!--</a>-->
+    <!--</h1>-->
     <div class="row" ng-if="!objects[1]">
         <div class="col-md-12">
             <p class="no-content">Listelenecek içerik yok.</p>
@@ -19,8 +19,8 @@
                         Hepsini Seç
                     </label>
                 </td>
-                <td ng-repeat="value in objects[0]" ng-if="objects[0]!='-1'">{{ value }}</td>
-                <td ng-if="objects[0]=='-1'">{{ model || wf }}</td>
+                <td ng-repeat="value in objects[0]" ng-if="objects[0]!='-1'">{{ objects }}</td>
+                <td ng-if="objects[0]=='-1'">{{ schema.title||model}}</td>
                 <td>action</td>
             </tr>
             </thead>
@@ -34,11 +34,14 @@
                 <td scope="row" style="text-align:center">{{$index}}</td>
                 <!-- below 2 of object will not be listed there for ng repeat loops 2 less -->
                 <td ng-repeat="field in object.fields track by $index" ng-if="objects[0]=='-1'">
-                    <a ng-href="{{object.detailLink}}">{{field}}</a>
+                    <a ng-repeat="action in object.actions" ng-href="javascript:void(0)"
+                       ng-if="action.show_as==='link'&&action.fields.indexOf($parent.$index)>-1" ng-click="do_action(object.key, action)">{{field}}</a>
                 </td>
 
                 <td ng-repeat="field in object.fields track by $index" ng-if="objects[0]!='-1'">
-                    <a ng-href="{{object.detailLink}}" ng-if="$index==1">{{field}}</a>
+                    <a ng-repeat="action in object.actions" ng-href="javascript:void(0)"
+                       ng-if="action.show_as==='link'&&action.fields.indexOf($index)>-1"
+                       ng-click="do_action(object.key, action)">{{field}}</a>
                     <span ng-if="$index!=1">{{field}}</span>
                 </td>
                 <td>
@@ -46,8 +49,8 @@
                             ng-if="action.show_as==='button'" ng-click="do_action(object.key, action)">{{action
                         .name}}
                     </button>
-                    <a ng-href="javascript:void(0)" ng-repeat="action in object.actions"
-                       ng-if="action.show_as==='link'" ng-click="do_action(object.key, action)">{{action.name}}</a>
+                    <!--<a ng-href="javascript:void(0)" ng-repeat="action in object.actions"-->
+                       <!--ng-if="action.show_as==='link'" ng-click="do_action(object.key, action)">{{action.name}}</a>-->
                     <br>
                 </td>
             </tr>

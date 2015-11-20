@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/add.html', 'components/crud/templates/edit.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/wf/templates/add.html', 'components/wf/templates/edit.html', 'components/wf/templates/list.html', 'components/wf/templates/show.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -20,13 +20,21 @@ angular.module("components/auth/login.html", []).run(["$templateCache", function
     "</div>");
 }]);
 
-angular.module("components/crud/templates/add.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/crud/templates/add.html",
+angular.module("components/crud/templates/crud.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/crud/templates/crud.html",
+    "<crud-show-directive ng-if=\"object\"></crud-show-directive>\n" +
+    "<crud-form-directive ng-if=\"forms\"></crud-form-directive>\n" +
+    "<hr>\n" +
+    "<crud-list-directive ng-if=\"objects\"></crud-list-directive>");
+}]);
+
+angular.module("components/crud/templates/form.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/crud/templates/form.html",
     "<div class=\"container\">\n" +
     "    <h1>{{ schema.title }}</h1>\n" +
     "\n" +
     "    <form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"\n" +
-    "          ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
+    "          ng-submit=\"onSubmit(formgenerated)\" form-locator></form>\n" +
     "\n" +
     "    <div ng-repeat=\"node in Node\">\n" +
     "        <h3>{{ node.title }}\n" +
@@ -65,24 +73,14 @@ angular.module("components/crud/templates/add.html", []).run(["$templateCache", 
     "</div>");
 }]);
 
-angular.module("components/crud/templates/edit.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/crud/templates/edit.html",
-    "<div class=\"container\" ng-app=\"ulakbus.crud\">\n" +
-    "    <div class=\"col-md-6\">\n" +
-    "        <h1>{{ schema.title }}</h1>\n" +
-    "        <form name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
-    "    </div>\n" +
-    "</div>");
-}]);
-
 angular.module("components/crud/templates/list.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/list.html",
     "<div class=\"starter-template container\">\n" +
-    "    <h1>{{model}}\n" +
-    "        <a href=\"{{addLink}}\">\n" +
-    "            <button type=\"button\" class=\"btn btn-primary\">Ekle</button>\n" +
-    "        </a>\n" +
-    "    </h1>\n" +
+    "    <!--<h1>{{model}}-->\n" +
+    "        <!--<a href=\"{{addLink}}\">-->\n" +
+    "            <!--<button type=\"button\" class=\"btn btn-primary\">Ekle</button>-->\n" +
+    "        <!--</a>-->\n" +
+    "    <!--</h1>-->\n" +
     "    <div class=\"row\" ng-if=\"!objects[1]\">\n" +
     "        <div class=\"col-md-12\">\n" +
     "            <p class=\"no-content\">Listelenecek içerik yok.</p>\n" +
@@ -98,8 +96,8 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                        Hepsini Seç\n" +
     "                    </label>\n" +
     "                </td>\n" +
-    "                <td ng-repeat=\"value in objects[0]\" ng-if=\"objects[0]!='-1'\">{{ value }}</td>\n" +
-    "                <td ng-if=\"objects[0]=='-1'\">{{ model || wf }}</td>\n" +
+    "                <td ng-repeat=\"value in objects[0]\" ng-if=\"objects[0]!='-1'\">{{ objects }}</td>\n" +
+    "                <td ng-if=\"objects[0]=='-1'\">{{ schema.title||model}}</td>\n" +
     "                <td>action</td>\n" +
     "            </tr>\n" +
     "            </thead>\n" +
@@ -113,11 +111,14 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                <td scope=\"row\" style=\"text-align:center\">{{$index}}</td>\n" +
     "                <!-- below 2 of object will not be listed there for ng repeat loops 2 less -->\n" +
     "                <td ng-repeat=\"field in object.fields track by $index\" ng-if=\"objects[0]=='-1'\">\n" +
-    "                    <a ng-href=\"{{object.detailLink}}\">{{field}}</a>\n" +
+    "                    <a ng-repeat=\"action in object.actions\" ng-href=\"javascript:void(0)\"\n" +
+    "                       ng-if=\"action.show_as==='link'&&action.fields.indexOf($parent.$index)>-1\" ng-click=\"do_action(object.key, action)\">{{field}}</a>\n" +
     "                </td>\n" +
     "\n" +
     "                <td ng-repeat=\"field in object.fields track by $index\" ng-if=\"objects[0]!='-1'\">\n" +
-    "                    <a ng-href=\"{{object.detailLink}}\" ng-if=\"$index==1\">{{field}}</a>\n" +
+    "                    <a ng-repeat=\"action in object.actions\" ng-href=\"javascript:void(0)\"\n" +
+    "                       ng-if=\"action.show_as==='link'&&action.fields.indexOf($index)>-1\"\n" +
+    "                       ng-click=\"do_action(object.key, action)\">{{field}}</a>\n" +
     "                    <span ng-if=\"$index!=1\">{{field}}</span>\n" +
     "                </td>\n" +
     "                <td>\n" +
@@ -125,8 +126,8 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                            ng-if=\"action.show_as==='button'\" ng-click=\"do_action(object.key, action)\">{{action\n" +
     "                        .name}}\n" +
     "                    </button>\n" +
-    "                    <a ng-href=\"javascript:void(0)\" ng-repeat=\"action in object.actions\"\n" +
-    "                       ng-if=\"action.show_as==='link'\" ng-click=\"do_action(object.key, action)\">{{action.name}}</a>\n" +
+    "                    <!--<a ng-href=\"javascript:void(0)\" ng-repeat=\"action in object.actions\"-->\n" +
+    "                       <!--ng-if=\"action.show_as==='link'\" ng-click=\"do_action(object.key, action)\">{{action.name}}</a>-->\n" +
     "                    <br>\n" +
     "                </td>\n" +
     "            </tr>\n" +
@@ -523,179 +524,6 @@ angular.module("components/uitemplates/500.html", []).run(["$templateCache", fun
     "        </div>\n" +
     "\n" +
     "    </div>\n" +
-    "</div>");
-}]);
-
-angular.module("components/wf/templates/add.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/wf/templates/add.html",
-    "<div class=\"container\">\n" +
-    "    <h1>{{ schema.title }}</h1>\n" +
-    "\n" +
-    "    <form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"\n" +
-    "          ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
-    "\n" +
-    "    <div ng-repeat=\"node in Node\">\n" +
-    "        <h3>{{ node.title }}\n" +
-    "        <span ng-if=\"node.lengthModels < 1\">\n" +
-    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.schema.model_name}},Node\">\n" +
-    "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
-    "            </a>\n" +
-    "        </span>\n" +
-    "        </h3>\n" +
-    "\n" +
-    "        <div class=\"node-table\">\n" +
-    "            <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
-    "        </div>\n" +
-    "        <hr>\n" +
-    "    </div>\n" +
-    "    <div ng-repeat=\"node in ListNode\">\n" +
-    "        <h3>{{ node.title }}\n" +
-    "        <span>\n" +
-    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.schema.model_name}},ListNode,add\">\n" +
-    "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
-    "            </a>\n" +
-    "        </span>\n" +
-    "        </h3>\n" +
-    "\n" +
-    "        <div class=\"list-node-table\">\n" +
-    "            <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
-    "        </div>\n" +
-    "        <hr>\n" +
-    "    </div>\n" +
-    "</div>");
-}]);
-
-angular.module("components/wf/templates/edit.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/wf/templates/edit.html",
-    "<div class=\"container\" ng-app=\"ulakbus.crud\">\n" +
-    "    <div class=\"col-md-6\">\n" +
-    "        <h1>{{ schema.title }}</h1>\n" +
-    "        <form name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(formgenerated)\"></form>\n" +
-    "    </div>\n" +
-    "</div>");
-}]);
-
-angular.module("components/wf/templates/list.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/wf/templates/list.html",
-    "<div class=\"starter-template container\">\n" +
-    "    <h1>{{model}} <a href=\"#/crud/{{model}}/add\"><button type=\"button\" class=\"btn btn-primary\">Ekle</button></a></h1>\n" +
-    "    <div class=\"row\" ng-if=\"!nobjects[1]\">\n" +
-    "            <div class=\"col-md-12\">\n" +
-    "                <p class=\"no-content\">Listelenecek içerik yok.</p>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "    <div class=\"tablescroll\" ng-if=\"nobjects[1]\">\n" +
-    "        <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
-    "            <thead>\n" +
-    "            <tr>\n" +
-    "                <th colspan=\"2\">\n" +
-    "                    <label>\n" +
-    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                        Hepsini Seç\n" +
-    "                    </label>\n" +
-    "                </th>\n" +
-    "                <th ng-repeat=\"value in nobjects[0]\" ng-if=\"nobjects[0]!='-1'\">{{ value }}</th>\n" +
-    "                <th ng-if=\"nobjects[0]=='-1'\">{{ model }}</th>\n" +
-    "                <th>action</th>\n" +
-    "            </tr>\n" +
-    "            </thead>\n" +
-    "            <tbody>\n" +
-    "            <tr ng-repeat=\"object in nobjects\" ng-if=\"$index>0\">\n" +
-    "                <td width=\"60\">\n" +
-    "                    <label>\n" +
-    "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                    </label>\n" +
-    "                </td>\n" +
-    "                <th scope=\"row\" style=\"text-align:center\">{{$index}}</th>\n" +
-    "                <td ng-repeat=\"k in object track by $index\" ng-if=\"nobjects[0]=='-1' && $index>0\">\n" +
-    "                    <a ng-href=\"#/crud/{{model}}/{{object[0]}}\">{{object[1]}}</a>\n" +
-    "                </td>\n" +
-    "\n" +
-    "                <td ng-repeat=\"(key,value) in object track by $index\" ng-if=\"nobjects[0]!='-1' && $index>0\">\n" +
-    "                    <a ng-href=\"#/crud/{{model}}/{{object[0]}}\" ng-if=\"$index==1\">{{object[key]}}</a>\n" +
-    "                    <span ng-if=\"$index!=1\">{{object[key]}}</span>\n" +
-    "                </td>\n" +
-    "                <td>\n" +
-    "                    <a ng-href=\"#/crud/{{model}}/edit/{{object[0]}}\">Edit</a><br>\n" +
-    "                </td>\n" +
-    "            </tr>\n" +
-    "            </tbody>\n" +
-    "        </table>\n" +
-    "    </div>\n" +
-    "    <br/>\n" +
-    "    <hr/>\n" +
-    "\n" +
-    "    <div class=\"btn-group\" ng-if=\"nobjects[1]\">\n" +
-    "        <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n" +
-    "                aria-expanded=\"false\">\n" +
-    "            İşlemler <span class=\"caret\"></span>\n" +
-    "        </button>\n" +
-    "        <ul class=\"dropdown-menu\">\n" +
-    "            <li><a href=\"\">İşlem 1</a></li>\n" +
-    "            <li><a href=\"\">İşlem 2</a></li>\n" +
-    "            <li><a href=\"\">İşlem 3</a></li>\n" +
-    "            <li role=\"separator\" class=\"divider\"></li>\n" +
-    "            <li><a href=\"\">İşlem 4</a></li>\n" +
-    "        </ul>\n" +
-    "    </div>\n" +
-    "\n" +
-    "    <hr>\n" +
-    "\n" +
-    "</div>");
-}]);
-
-angular.module("components/wf/templates/show.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/wf/templates/show.html",
-    "<div class=\"starter-template container\">\n" +
-    "\n" +
-    "    <div class=\"personnel-info-container\">\n" +
-    "        <div class=\"personnel-info-left\">\n" +
-    "\n" +
-    "            <!--<div class=\"generic-profile-picture\">-->\n" +
-    "            <!--<img src=\"../../img/sample-profile-pic.jpg\" />-->\n" +
-    "            <!--</div>-->\n" +
-    "            <div class=\"info-block\">\n" +
-    "                <div class=\"info-block-header\">\n" +
-    "                    <h1>{{model}}</h1>\n" +
-    "                </div>\n" +
-    "                <!-- end of info-block-header -->\n" +
-    "                <div class=\"info-block-body\" ng-repeat=\"(key, value) in object\">\n" +
-    "                    <dl class=\"dl-horizontal\">\n" +
-    "                        <dt>{{ key }}</dt>\n" +
-    "                        <dd>{{value}}</dd>\n" +
-    "                    </dl>\n" +
-    "                </div>\n" +
-    "                <!-- end of info-block-body -->\n" +
-    "            </div>\n" +
-    "            <!--<ul>-->\n" +
-    "            <!--<li ng-repeat=\"(key, value) in object\"><span class=\"col-md-3\">{{ key }}:</span>{{value}}</li>-->\n" +
-    "            <!--<li>Pozisyon</li>-->\n" +
-    "            <!--<li><i class=\"fa fa-phone\"></i> (+90) 123 456 7890</li>-->\n" +
-    "            <!--<li><i class=\"fa fa-envelope\"></i> samplemail@mail.com</li>-->\n" +
-    "            <!--<li><i class=\"fa fa-map-marker\"></i> Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR</li></li>-->\n" +
-    "            <!--</ul>-->\n" +
-    "        </div>\n" +
-    "        <!-- end of personnel-info-left -->\n" +
-    "        <div class=\"personnel-info-right\">\n" +
-    "            <div class=\"info-block\" ng-repeat=\"(key, value) in listobjects\">\n" +
-    "                <div class=\"info-block-header\">\n" +
-    "                    <h2>{{key}}</h2>\n" +
-    "                </div>\n" +
-    "                <!-- end of info-block-header -->\n" +
-    "                <div class=\"info-block-body\" ng-repeat=\"(k, v) in value\">\n" +
-    "                    <dl class=\"dl-horizontal\">\n" +
-    "                        <dt>{{k}}</dt>\n" +
-    "                        <dd>{{v}}</dd>\n" +
-    "                    </dl>\n" +
-    "                </div>\n" +
-    "                <!-- end of info-block-body -->\n" +
-    "            </div>\n" +
-    "            <!-- end of info block -->\n" +
-    "            <!-- end of info block -->\n" +
-    "        </div>\n" +
-    "        <!-- personnel-info-left -->\n" +
-    "    </div>\n" +
-    "    <!-- end of personnel-info-container -->\n" +
     "</div>");
 }]);
 

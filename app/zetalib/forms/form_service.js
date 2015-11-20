@@ -10,7 +10,7 @@ var form_generator = angular.module('formService', ['general']);
 /**
  * form service's Generator factory service handles all generic form operations
  */
-form_generator.factory('Generator', function ($http, $q, $timeout, $location, $compile, RESTURL, FormDiff, $rootScope) {
+form_generator.factory('Generator', function ($http, $q, $timeout, $location, $route, $compile, $log, RESTURL, FormDiff, $rootScope) {
     var generator = {};
     generator.makeUrl = function (scope) {
         var getparams = scope.form_params.param ? "?" + scope.form_params.param + "=" + scope.form_params.id : "";
@@ -54,6 +54,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
         // here change to true because the view retrieves form from api
         $rootScope.showSaveButton = true;
 
+        $log.debug('scope at after generate', scope);
         return scope;
     };
     /**
@@ -89,7 +90,6 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             // generically change _id fields model value
 
             if ('form_params' in scope) {
-                debugger;
                 if (k == scope.form_params.param) {
                     scope.model[k] = scope.form_params.id;
                     scope.form.splice(scope.form.indexOf(k), 1);
@@ -113,7 +113,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
                 scope.form[scope.form.indexOf(k)] = {
                     type: v.type,
                     title: v.title,
-                    style: "btn-primary movetobottom hide pull-left",
+                    style: "btn-primary movetobottom hide",
                     onClick: function () {
                         delete scope.form_params.cmd;
                         delete scope.form_params.flow;
@@ -206,12 +206,6 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
                 // get model objects from db and add to select list
 
                 scope.form[scope.form.indexOf(k)] = formitem;
-                //scope.$broadcast('schemaFormRedraw');
-
-                // todo: make lines below work properly
-                //if (scope.model[v].indexOf("TMP_") > -1) {
-                //    scope.model[v] = null;
-                //}
             }
 
             if (v.type === 'ListNode' || v.type === 'Node') {
@@ -261,6 +255,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
             }
         });
 
+        $log.debug('scope at after prepareformitems', scope);
         return scope;
     };
     /**
@@ -284,57 +279,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
         $scope.form_params.id = $scope.param_id;
         generator.get_wf($scope);
     };
-    /**
-     * itemLinksGenerator function used for generic links for list items
-     * basicly creates add, edit, detail links
-     * @param scope
-     * @param itemlist
-     * @returns links
-     */
-    generator.itemLinksGenerator = function (scope, itemlist) {
-        angular.forEach(itemlist.objects, function (value, key) {
-            function makelink(page) {
-                if (value === '-1' && page !== 'add/') {
-                    return;
-                }
 
-                var link = "#" + scope.url;
-                if (scope.form_params) {
-                    if (scope.form_params.model) {
-                        link += '/' + scope.form_params.model;
-                    }
-                }
-
-                link += "/" + page;
-
-                if (page === 'edit/' || page === 'detail/') {
-                    link += value.key;
-                }
-
-                if (scope.form_params) {
-                    if (scope.form_params.param) {
-                        link += "?" + scope.form_params.param + "=" + scope.form_params.id;
-                    }
-                }
-                return link;
-            }
-
-            // call add link once
-            if (!itemlist.addLink) {
-                itemlist.addLink = makelink("add/");
-            }
-
-            if (value !== '-1') {
-                value.detailLink = makelink("detail/");
-                value.editLink = makelink("edit/");
-            }
-        });
-    };
-    /**
-     * gets form
-     * @param scope
-     * @returns {*}
-     */
     generator.get_form = function (scope) {
         return $http
             .post(generator.makeUrl(scope), scope.form_params)
@@ -351,21 +296,6 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
         return $http
             .get(generator.makeUrl(scope))
             .then(function (res) {
-                //generator.dateformatter(res);
-                generator.itemLinksGenerator(scope, res.data);
-                return res;
-            });
-    };
-    /**
-     * gets single object with object_id
-     * @param scope
-     * @returns {*}
-     */
-    generator.get_single_item = function (scope) {
-        return $http
-            .post(generator.makeUrl(scope), scope.form_params)
-            .then(function (res) {
-                //generator.dateformatter(res);
                 return res;
             });
     };
@@ -379,8 +309,7 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
         return $http
             .post(generator.makeUrl(scope), scope.form_params)
             .then(function (res) {
-                //generator.generate(scope, res.data);
-                generator.pathDecider(res.data.client_cmd, scope, res.data);
+                return generator.pathDecider(res.data.client_cmd, scope, res.data);
             });
     };
     generator.isValidEmail = function (email) {
@@ -445,49 +374,36 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
          * @param page
          */
         function redirectTo(scope, page){
-            var pathUrl = scope.form_params.wf;
+            var pathUrl = '/'+scope.form_params.wf;
             if (scope.form_params.model) {
-                pathUrl += '/' + scope.form_params.model + '/' + page;
+                pathUrl += '/' + scope.form_params.model + '/do/' + page;
             } else {
-                pathUrl += '/' + page;
+                pathUrl += '/do/' + page;
             }
-            $location.path(pathUrl).search(angular.fromJson({pageData: true}));
+            // todo add object url to path
+            // pathUrl += '/'+scope.form_params.object_id || '';
+
+            // if generated path url and the current path is equal route has to be reload
+            if ($location.path() === pathUrl) {return $route.reload();}
+            else {$location.path(pathUrl);}
+
+            $log.debug('pathDecider scope', scope);
         }
-        if (client_cmd.indexOf('form') > -1 && client_cmd.indexOf('list') < 0) {
+
+        // client_cmd can be in ['list', 'form', 'show', 'reload', 'reset']
+
+        function dispatchClientCmd() {
             data[$scope.form_params.param] = $scope.form_params.id;
             data['model'] = $scope.form_params.model;
             data['wf'] = $scope.form_params.wf;
             data['param'] = $scope.form_params.param;
             data['param_id'] = $scope.form_params.id;
+            data['pageData'] = true;
             generator.setPageData(data);
-            redirectTo($scope, 'add');
+
+            redirectTo($scope, client_cmd[0]);
         }
-
-        if (client_cmd.indexOf('list') > -1 && client_cmd.indexOf('form') < 0) {
-            data[$scope.form_params.param] = $scope.form_params.id;
-            data['model'] = $scope.form_params.model;
-            data['wf'] = $scope.form_params.wf;
-            data['param'] = $scope.form_params.param;
-            data['param_id'] = $scope.form_params.id;
-
-            generator.setPageData(data);
-            generator.itemLinksGenerator($scope, data);
-
-            redirectTo($scope, 'list');
-        }
-
-        if (client_cmd.indexOf('form') > -1 && client_cmd.indexOf('list') > -1) {
-            // todo: will be tested
-            generator.generate($scope, data);
-            generator.itemLinksGenerator($scope, data);
-            data[$scope.form_params.param] = $scope.form_params.id;
-            redirectTo($scope, 'formwithlist');
-        }
-
-        if (client_cmd.indexOf('show') > -1) {
-            generator.setPageData(data);
-            redirectTo($scope, 'detail');
-        }
+        dispatchClientCmd();
     };
 
     /**
@@ -506,24 +422,12 @@ form_generator.factory('Generator', function ($http, $q, $timeout, $location, $c
         });
         var data = {
             "form": $scope.model,
-            "token": $scope.token
+            "token": $scope.token,
+            "model": $scope.form_params.model,
+            "cmd": $scope.form_params.cmd,
+            "flow": $scope.form_params.flow,
+            "object_id": $scope.object_id
         };
-        if ($scope.form_params.model) {
-            data["model"] = $scope.form_params.model;
-        }
-
-        if ($scope.form_params.cmd) {
-            data["cmd"] = $scope.form_params.cmd;
-        }
-        if ($scope.form_params.flow) {
-            data["flow"] = $scope.form_params.flow;
-        }
-        // todo: remove object_id ?? why?
-        if ($scope.object_id) {
-            //var get_diff = FormDiff.get_diff($scope.model, $scope.initialModel);
-            data.object_id = $scope.object_id;
-            //data.form = get_diff;
-        }
 
         return $http.post(generator.makeUrl($scope), data)
             .success(function (data) {
@@ -647,8 +551,8 @@ form_generator.directive('addModalForLinkedModel', function ($modal, $route, Gen
                     resolve: {
                         items: function () {
                             return Generator.get_form({
-                                url: 'crud/',
-                                form_params: {'model': scope.form.model_name, "cmd": "add"}
+                                url: 'crud',
+                                form_params: {'model': scope.form.model_name, "cmd": "form"}
                             });
                         }
                     }
@@ -683,8 +587,8 @@ form_generator.directive('editModalForLinkedModel', function ($modal, Generator)
                     resolve: {
                         items: function () {
                             return Generator.get_form({
-                                url: 'crud/',
-                                form_params: {'model': scope.form.title, "cmd": "add"}
+                                url: 'crud',
+                                form_params: {'model': scope.form.title, "cmd": "form"}
                             });
                         }
                     }
