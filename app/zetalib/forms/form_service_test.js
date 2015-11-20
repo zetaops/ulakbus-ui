@@ -22,7 +22,7 @@ describe('form service module', function () {
                 function (Generator) {
                     expect(Generator.group).not.toBe(null);
                     var generated_url = Generator.makeUrl({url: 'test', form_params: {}});
-                    expect(generated_url).toEqual("http://api.ulakbus.net/test/");
+                    expect(generated_url).toEqual("//nightly.api.ulakbus.net/test/");
                 }])
         );
 
@@ -197,32 +197,6 @@ describe('form service module', function () {
             })
         );
 
-        it('should get single item',
-            inject(function (Generator, $httpBackend, RESTURL) {
-
-                $httpBackend.expectPOST(RESTURL.url + 'test/personel?personel_id=123')
-                    .respond(200, {
-                        items: {
-                            "client_cmd": "show_object", 
-                            "object": {
-                                "ad": "name",
-                                "soyad": "lastname",
-                            }, 
-                            "token": "da73993f439549e7855fd82deafbbc99", 
-                            "is_login": true
-                        }
-                    });
-
-                var cred = {cmd: 'show', model: 'personel', param: 'personel_id', id: '123'};
-                Generator.get_single_item({url: 'test', form_params: cred})
-                    .then(function (data) {
-                        expect(data.data.items.token).toEqual("da73993f439549e7855fd82deafbbc99");
-                    });
-
-                $httpBackend.flush();
-            })
-        );
-
         it('should submit form',
             inject(function (Generator, $httpBackend, RESTURL) {
 
@@ -333,9 +307,8 @@ describe('form service module', function () {
                         "token": "da73993f439549e7855fd82deafbbc99",
                         "is_login": true
                     });
-                console.log(32131);
 
-                scope.url = 'test';
+                //scope.url = 'test';
                 scope.form_params = {
                     param: 'test',
                     id:'xyz123',
@@ -360,35 +333,6 @@ describe('form service module', function () {
             scope = $rootScope.$new();
             ctrl = $controller("CRUDCtrl", {$scope: scope});
         }));
-
-        it('should generate itemlinks of objects in response data',
-            inject(function (Generator) {
-                var responseObject = {
-                    "objects": [
-                        "-1",
-                        {
-                            "fields": ["test object"],
-                            "actions": [{"cmd": "delete", "name": "Sil"}, {"wf": "manage_permissions", "name": "Yetkilendir", "mode": "modal"}],
-                            "do_list": true,
-                            "key": "xx10"},
-                        {
-                            "fields": ["test object 2"],
-                            "actions": [{"cmd": "delete", "name": "Sil"}, {"wf": "manage_permissions", "name": "Yetkilendir", "mode": "modal"}],
-                            "do_list": true,
-                            "key": "xx11"}
-                        ]
-                };
-                scope.url = 'test';
-                scope.form_params = {
-                    param: 'test',
-                    id:'xyz123',
-                    model:'testModel',
-                    object_id: 'xxx11',
-                    wf:'testModel'};
-                Generator.itemLinksGenerator(scope, responseObject);
-                expect(responseObject.objects[1].detailLink).toEqual('#test/testModel/detail/xx10?test=xyz123');
-            })
-        );
 
     });
 
