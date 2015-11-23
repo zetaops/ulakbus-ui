@@ -248,14 +248,6 @@ app.directive('logout', function ($http, $location, RESTURL) {
                             angular.forEach(items, function (value, key) {
                                 newItems[value.kategori] = newItems[value.kategori] || [];
                                 value['baseCategory'] = baseCategory;
-                                // todo: generate urls here
-                                //value['url'] = '#/wf' + value.wf;
-                                //if (value.model) {
-                                //    value['url'] += '/model/' + value.model;
-                                //}
-
-                                value['wf'] = value.url.split('/')[0];
-                                value['model'] = value.url.split('/')[1];
                                 newItems[value.kategori].push(value);
                             });
                             return newItems;
