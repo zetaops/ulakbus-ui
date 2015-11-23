@@ -1,4 +1,5 @@
 /**
+ * @license Ulakbus-UI
  * Copyright (C) 2015 ZetaOps Inc.
  *
  * This file is licensed under the GNU General Public License v3
@@ -14,7 +15,6 @@ var app = angular.module(
         'ngRoute',
         'ngSanitize',
         'ngCookies',
-        'general',
         'formService',
         'ulakbus.dashboard',
         'ulakbus.auth',

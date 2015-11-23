@@ -352,4 +352,11 @@ module.exports = function (grunt) {
             'uglify:branch'
         ]);
     });
+
+    grunt.registerTask('dgeni', 'Generate docs via dgeni.', function() {
+        var Dgeni = require('dgeni');
+        var done = this.async();
+        var dgeni = new Dgeni([require('./docs/docs_conf')]);
+        dgeni.generate().then(done);
+    });
 };
