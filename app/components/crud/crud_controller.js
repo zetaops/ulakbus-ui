@@ -66,12 +66,12 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                 });
                 angular.forEach(scope.objects, function (value, key) {
                     if (value!=='-1') {
-                        var linkIndexes = [];
+                        var linkIndexes = {};
                         angular.forEach(value.actions, function (v, k) {
-                            if (v.show_as === 'link') {linkIndexes= v.fields}
+                            if (v.show_as === 'link') {linkIndexes = v}
                         });
                         angular.forEach(value.fields, function (v, k) {
-                            scope.objects[key].fields[k] = {type: linkIndexes.indexOf(k) > -1 ? 'link' : 'str', content: v};
+                            scope.objects[key].fields[k] = {type: linkIndexes.fields.indexOf(k) > -1 ? 'link' : 'str', content: v, cmd: linkIndexes.cmd};
                         });
                     }
                 });
@@ -178,22 +178,23 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                 }
             };
 
-            $scope.do_action = function (key, action) {
-                Generator.doItemAction($scope, key, action);
+            $scope.do_action = function (key, cmd) {
+                Generator.doItemAction($scope, key, cmd);
             };
 
-            //$scope.searchForm = ['searchbox', {type: "submit", title: "Ara"}];
-            //$scope.searchSchema = {
-            //    type: "object",
-            //    properties: {searchbox: {type: "string", minLength: 2, title: "Ara", "x-schema-form": {placeholder: "Arama kriteri giriniz..."}}},
-            //    required: ['searchbox']
-            //};
-            //$scope.searchModel = {searchbox: ''};
-            //$scope.searchSubmit = function (form) {
-            //    if(form.$valid) {
-            //        Generator.submit({url: 'search', model: $scope.searchModel, form_params: {}});
-            //    }
-            //}
+            $scope.pagination = {page:1, total_pages:8};
+
+            $scope.getNumber = function (num) {
+                return new Array(num);
+            };
+
+            // reloadData must be a json object
+            $scope.reload = function (reloadData) {
+                $scope.form_params.cmd = $scope.reload_cmd;
+                $scope.form_params = angular.extend($scope.form_params, reloadData);
+                $log.debug('reload data', $scope);
+                Generator.get_wf($scope);
+            };
         }
 
         if ($routeParams.cmd === 'reload') {
