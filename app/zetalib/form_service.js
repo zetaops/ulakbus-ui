@@ -99,13 +99,13 @@ angular.module('formService', [])
              */
 
                 // todo: remove after backend fix
-            angular.forEach(scope.form, function (value, key) {
-                if (value.type === 'select') {
-                    scope.schema.properties[value.key].type = 'select';
-                    scope.schema.properties[value.key].titleMap = value.titleMap;
-                    scope.form[key] = value.key;
-                }
-            });
+            //angular.forEach(scope.form, function (value, key) {
+            //    if (value.type === 'select') {
+            //        scope.schema.properties[value.key].type = 'select';
+            //        scope.schema.properties[value.key].titleMap = value.titleMap;
+            //        scope.form[key] = value.key;
+            //    }
+            //});
 
             angular.forEach(scope.schema.properties, function (v, k) {
 

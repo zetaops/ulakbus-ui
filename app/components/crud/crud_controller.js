@@ -81,7 +81,13 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
     })
 
     /**
+     * @name CRUDCtrl
+     * @description
+     * CRUDCtrl controller is base controller for crud module to redirect to related controller
+     * This controller play an empty role for api calls.
+     * With response data, location path change to related controller
      *
+     * @returns {object}
      */
     .controller('CRUDCtrl', function ($scope, $routeParams, Generator, CrudUtility) {
         // get required params by calling CrudUtility.generateParam function
@@ -96,6 +102,12 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
      * Based on the client_cmd parameter it generates its scope items.
      * client_cmd can be in ['show', 'list', 'form', 'reload', 'refresh']
      * There are 3 directives to manipulate controllers scope objects in crud.html
+     *
+     * The controller works in 2 ways, with and without pageData.
+     * If pageData has set, using Generator's getPageData() function, sets its scope items. After getting pageData
+     * pageData must be set to `{pageData: false}` for clear scope of next job.
+     *
+     * If pageData has not set using Generator's get_wf() function gets scope items from api call.
      *
      * @returns {object}
      */
@@ -184,6 +196,16 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             //}
         }
 
+        if ($routeParams.cmd === 'reload') {
+            $scope.cmd = 'reload';
+            Generator.get_wf($scope);
+        }
+
+        if ($routeParams.cmd === 'reset') {
+            delete $scope.token;
+            $scope.cmd = 'reset';
+            Generator.get_wf($scope);
+        }
     })
 
     .directive('crudListDirective', function () {
