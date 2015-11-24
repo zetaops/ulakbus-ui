@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -90,7 +90,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                        Hepsini Seç\n" +
     "                    </label>\n" +
     "                </td>\n" +
-    "                <td ng-repeat=\"value in objects[0]\" ng-if=\"objects[0]!='-1'\">{{values }}</td>\n" +
+    "                <td ng-repeat=\"value in objects[0]\" ng-if=\"objects[0]!='-1'\">{{value}}</td>\n" +
     "                <td ng-if=\"objects[0]=='-1'\">{{ schema.title||model}}</td>\n" +
     "                <td>action</td>\n" +
     "            </tr>\n" +
@@ -113,7 +113,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "\n" +
     "                <td>\n" +
     "                    <button class=\"btn btn-primary\" style=\"margin-right: 5px;\" ng-repeat=\"action in object.actions\"\n" +
-    "                            ng-if=\"action.show_as==='button'\" ng-click=\"do_action(object.key, action)\">{{action\n" +
+    "                            ng-if=\"action.show_as==='button'\" ng-click=\"do_action(object.key, action.cmd)\">{{action\n" +
     "                        .name}}\n" +
     "                    </button>\n" +
     "                    <br>\n" +
@@ -1506,6 +1506,28 @@ angular.module("shared/templates/listnodeModalContent.html", []).run(["$template
 angular.module("shared/templates/modalContent.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/modalContent.html",
     "");
+}]);
+
+angular.module("shared/templates/multiselect.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/multiselect.html",
+    "<div class=\"form-group {{form.htmlClass}} schema-form-select\"\n" +
+    "     ng-class=\"{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}\">\n" +
+    "    <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
+    "        {{form.title}}\n" +
+    "    </label>\n" +
+    "    <select ng-model=\"$$value$$\"\n" +
+    "            ng-model-options=\"form.ngModelOptions\"\n" +
+    "            ng-disabled=\"form.readonly\"\n" +
+    "            sf-changed=\"form\"\n" +
+    "            class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "            schema-validate=\"form\"\n" +
+    "            ng-options=\"item.value as item.name for item in form.titleMap\"\n" +
+    "            name=\"{{form.key.slice(-1)[0]}}\"\n" +
+    "            id=\"{{form.key.slice(-1)[0]}}\" multiple>\n" +
+    "    </select>\n" +
+    "\n" +
+    "    <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
+    "</div>");
 }]);
 
 angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", function($templateCache) {
