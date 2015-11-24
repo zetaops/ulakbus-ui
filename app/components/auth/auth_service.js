@@ -1,4 +1,5 @@
 /**
+ * @license Ulakbus-UI
  * Copyright (C) 2015 ZetaOps Inc.
  *
  * This file is licensed under the GNU General Public License v3
@@ -31,10 +32,9 @@ auth.factory('LoginService', function ($http, $rootScope, $location, $log, Sessi
         $log.info("logout");
         return $http.post(RESTURL.url + 'logout', {}).success(function (data) {
             $rootScope.loggedInUser = false;
+            $log.info("loggedout");
             $location.path("/login");
         });
-        $log.info("loggedout");
-
     };
 
     loginService.isAuthenticated = function () {

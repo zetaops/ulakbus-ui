@@ -1,4 +1,5 @@
 /**
+ * @license Ulakbus-UI
  * Copyright (C) 2015 ZetaOps Inc.
  *
  * This file is licensed under the GNU General Public License v3
@@ -7,7 +8,7 @@
 
 'use strict';
 
-var auth = angular.module('ulakbus.auth', ['ngRoute', 'schemaForm', 'ngCookies', 'general']);
+var auth = angular.module('ulakbus.auth', ['ngRoute', 'schemaForm', 'ngCookies']);
 auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, Generator, LoginService) {
     $scope.url = 'login';
     $scope.form_params = {};

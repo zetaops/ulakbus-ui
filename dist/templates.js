@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -24,7 +24,7 @@ angular.module("components/crud/templates/crud.html", []).run(["$templateCache",
   $templateCache.put("components/crud/templates/crud.html",
     "<crud-show-directive ng-if=\"object\"></crud-show-directive>\n" +
     "<crud-form-directive ng-if=\"forms\"></crud-form-directive>\n" +
-    "<hr>\n" +
+    "<hr class=\"col-md-12\">\n" +
     "<crud-list-directive ng-if=\"objects\"></crud-list-directive>");
 }]);
 
@@ -66,21 +66,15 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
     "    </div>\n" +
     "\n" +
     "    <div class=\"buttons-on-bottom\"></div>\n" +
-    "\n" +
-    "    <!--<button id=\"submitbutton\" type=\"button\" class=\"btn btn-primary\" ng-click=\"onSubmit(formgenerated)\">Kaydet</button>-->\n" +
-    "    <!-- <button type=\"button\" class=\"btn btn-warning\">Düzenle</button>  todo: make it conditional -->\n" +
-    "    <!-- <button type=\"button\" class=\"btn btn-danger\">İptal</button> todo: turn back to previous page -->\n" +
     "</div>");
 }]);
 
 angular.module("components/crud/templates/list.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/list.html",
     "<div class=\"starter-template container\">\n" +
-    "    <!--<h1>{{model}}-->\n" +
-    "        <!--<a href=\"{{addLink}}\">-->\n" +
-    "            <!--<button type=\"button\" class=\"btn btn-primary\">Ekle</button>-->\n" +
-    "        <!--</a>-->\n" +
-    "    <!--</h1>-->\n" +
+    "    <search-directive ng-if=\"meta['allow_search']===true\"></search-directive>\n" +
+    "    <div class=\"clearfix\"></div>\n" +
+    "    <h1>{{form_params.model || form_params.wf}}</h1>\n" +
     "    <div class=\"row\" ng-if=\"!objects[1]\">\n" +
     "        <div class=\"col-md-12\">\n" +
     "            <p class=\"no-content\">Listelenecek içerik yok.</p>\n" +
@@ -96,7 +90,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                        Hepsini Seç\n" +
     "                    </label>\n" +
     "                </td>\n" +
-    "                <td ng-repeat=\"value in objects[0]\" ng-if=\"objects[0]!='-1'\">{{ objects }}</td>\n" +
+    "                <td ng-repeat=\"value in objects[0]\" ng-if=\"objects[0]!='-1'\">{{values }}</td>\n" +
     "                <td ng-if=\"objects[0]=='-1'\">{{ schema.title||model}}</td>\n" +
     "                <td>action</td>\n" +
     "            </tr>\n" +
@@ -109,25 +103,19 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                    </label>\n" +
     "                </td>\n" +
     "                <td scope=\"row\" style=\"text-align:center\">{{$index}}</td>\n" +
-    "                <!-- below 2 of object will not be listed there for ng repeat loops 2 less -->\n" +
-    "                <td ng-repeat=\"field in object.fields track by $index\" ng-if=\"objects[0]=='-1'\">\n" +
-    "                    <a ng-repeat=\"action in object.actions\" ng-href=\"javascript:void(0)\"\n" +
-    "                       ng-if=\"action.show_as==='link'&&action.fields.indexOf($parent.$index)>-1\" ng-click=\"do_action(object.key, action)\">{{field}}</a>\n" +
+    "\n" +
+    "                <td ng-repeat=\"field in object.fields track by $index\">\n" +
+    "                    <a ng-href=\"javascript:void(0)\"\n" +
+    "                       ng-if=\"field.type==='link'\"\n" +
+    "                       ng-click=\"do_action(object.key, action)\">{{field.content}}</a>\n" +
+    "                    <span ng-if=\"field.type==='str'\">{{field.content}}</span>\n" +
     "                </td>\n" +
     "\n" +
-    "                <td ng-repeat=\"field in object.fields track by $index\" ng-if=\"objects[0]!='-1'\">\n" +
-    "                    <a ng-repeat=\"action in object.actions\" ng-href=\"javascript:void(0)\"\n" +
-    "                       ng-if=\"action.show_as==='link'&&action.fields.indexOf($index)>-1\"\n" +
-    "                       ng-click=\"do_action(object.key, action)\">{{field}}</a>\n" +
-    "                    <span ng-if=\"$index!=1\">{{field}}</span>\n" +
-    "                </td>\n" +
     "                <td>\n" +
     "                    <button class=\"btn btn-primary\" style=\"margin-right: 5px;\" ng-repeat=\"action in object.actions\"\n" +
     "                            ng-if=\"action.show_as==='button'\" ng-click=\"do_action(object.key, action)\">{{action\n" +
     "                        .name}}\n" +
     "                    </button>\n" +
-    "                    <!--<a ng-href=\"javascript:void(0)\" ng-repeat=\"action in object.actions\"-->\n" +
-    "                       <!--ng-if=\"action.show_as==='link'\" ng-click=\"do_action(object.key, action)\">{{action.name}}</a>-->\n" +
     "                    <br>\n" +
     "                </td>\n" +
     "            </tr>\n" +
@@ -1047,6 +1035,13 @@ angular.module("shared/templates/directives/notifications.html", []).run(["$temp
     "    <!-- /.list-group -->\n" +
     "    <a href=\"#\" class=\"btn btn-default btn-block\">View All Alerts</a>\n" +
     "</div>");
+}]);
+
+angular.module("shared/templates/directives/search.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/search.html",
+    "<form class=\"form-inline col-md-8\" id=\"search\" name=\"search\" sf-schema=\"searchSchema\" sf-form=\"searchForm\"\n" +
+    "      sf-model=\"searchModel\"\n" +
+    "      ng-submit=\"searchSubmit(search)\"></form>");
 }]);
 
 angular.module("shared/templates/directives/selected-user.html", []).run(["$templateCache", function($templateCache) {
