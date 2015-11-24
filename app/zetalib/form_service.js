@@ -294,8 +294,8 @@ angular.module('formService', [])
                 return newdatearray.join('.');
             }
         };
-        generator.doItemAction = function ($scope, key, action) {
-            $scope.form_params.cmd = action.cmd;
+        generator.doItemAction = function ($scope, key, cmd) {
+            $scope.form_params.cmd = cmd;
             $scope.form_params.object_id = key;
             $scope.form_params.param = $scope.param;
             $scope.form_params.id = $scope.param_id;

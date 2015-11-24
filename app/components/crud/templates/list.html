@@ -34,7 +34,7 @@
                 <td ng-repeat="field in object.fields track by $index">
                     <a ng-href="javascript:void(0)"
                        ng-if="field.type==='link'"
-                       ng-click="do_action(object.key, action)">{{field.content}}</a>
+                       ng-click="do_action(object.key, field.cmd)">{{field.content}}</a>
                     <span ng-if="field.type==='str'">{{field.content}}</span>
                 </td>
 
@@ -65,6 +65,25 @@
             <li><a href="">İşlem 4</a></li>
         </ul>
     </div>
+
+    <nav ng-if="pagination" class="text-center">
+        <ul class="pagination">
+            <li ng-class="{disabled:pagination.page===1}">
+                <a href="javascript:void(0)" aria-label="Önceki" ng-click="reload({page:pagination.page-1})">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li ng-repeat="page in getNumber(pagination.total_pages) track by $index"
+                ng-class="{active:$index+1===pagination.page}">
+                <a href="javascript:void(0)" ng-click="reload({page:$index+1})">{{$index+1}}</a>
+            </li>
+            <li ng-class="{disabled:pagination.page===pagination.total_pages}">
+                <a href="javascript:void(0)" aria-label="Sonraki" ng-click="reload({page:pagination.page+1})">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <hr>
 
