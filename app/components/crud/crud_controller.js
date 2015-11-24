@@ -65,13 +65,17 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                     scope[key] = value;
                 });
                 angular.forEach(scope.objects, function (value, key) {
-                    if (value!=='-1') {
+                    if (key > 0) {
                         var linkIndexes = {};
                         angular.forEach(value.actions, function (v, k) {
                             if (v.show_as === 'link') {linkIndexes = v}
                         });
                         angular.forEach(value.fields, function (v, k) {
-                            scope.objects[key].fields[k] = {type: linkIndexes.fields.indexOf(k) > -1 ? 'link' : 'str', content: v, cmd: linkIndexes.cmd};
+                            if (value.actions.length > 0 && linkIndexes.fields){
+                                scope.objects[key].fields[k] = {type: linkIndexes.fields.indexOf(k) > -1 ? 'link' : 'str', content: v, cmd: linkIndexes.cmd};
+                            } else {
+                                scope.objects[key].fields[k] = {type: 'str', content: v};
+                            }
                         });
                     }
                 });
@@ -112,6 +116,18 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
      * @returns {object}
      */
     .controller('CRUDListFormCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams, CrudUtility) {
+        // reloadData must be a json object
+        $scope.reload = function (reloadData) {
+            $scope.form_params.cmd = $scope.reload_cmd;
+            $scope.form_params = angular.extend($scope.form_params, reloadData);
+            $log.debug('reload data', $scope);
+            Generator.get_wf($scope);
+        };
+
+        $scope.$on('reload_cmd', function(event, data){
+            $scope.reload_cmd = data;
+            $scope.reload({});
+        });
         if ($routeParams.cmd === 'show') {
             CrudUtility.generateParam($scope, $routeParams, $routeParams.cmd);
             // todo: refactor createListObjects func
@@ -197,13 +213,6 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             Generator.get_wf($scope);
         }
 
-        // reloadData must be a json object
-        $scope.reload = function (reloadData) {
-            $scope.form_params.cmd = $scope.reload_cmd;
-            $scope.form_params = angular.extend($scope.form_params, reloadData);
-            $log.debug('reload data', $scope);
-            Generator.get_wf($scope);
-        };
     })
 
     .directive('crudListDirective', function () {

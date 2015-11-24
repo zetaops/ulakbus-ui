@@ -17,7 +17,7 @@
                         Hepsini Seç
                     </label>
                 </td>
-                <td ng-repeat="value in objects[0]" ng-if="objects[0]!='-1'">{{values }}</td>
+                <td ng-repeat="value in objects[0]" ng-if="objects[0]!='-1'">{{value}}</td>
                 <td ng-if="objects[0]=='-1'">{{ schema.title||model}}</td>
                 <td>action</td>
             </tr>
@@ -40,7 +40,7 @@
 
                 <td>
                     <button class="btn btn-primary" style="margin-right: 5px;" ng-repeat="action in object.actions"
-                            ng-if="action.show_as==='button'" ng-click="do_action(object.key, action)">{{action
+                            ng-if="action.show_as==='button'" ng-click="do_action(object.key, action.cmd)">{{action
                         .name}}
                     </button>
                     <br>

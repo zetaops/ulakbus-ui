@@ -88,29 +88,19 @@ angular.module('formService', [])
             return formObject;
         };
         /**
+         * @name prepareFormItems
+         * @description
          * prepareFormItems looks up fields of schema objects and changes their types to proper type for schemaform
          * for listnode, node and model types it uses templates to generate modal
+         * prepareforms checks input types and convert if necessary
+         *
          * @param scope
          * @returns {*}
          */
         generator.prepareFormItems = function (scope) {
-            /**
-             * prepareforms checks input types and convert if necessary
-             */
-
-                // todo: remove after backend fix
-            //angular.forEach(scope.form, function (value, key) {
-            //    if (value.type === 'select') {
-            //        scope.schema.properties[value.key].type = 'select';
-            //        scope.schema.properties[value.key].titleMap = value.titleMap;
-            //        scope.form[key] = value.key;
-            //    }
-            //});
-
             angular.forEach(scope.schema.properties, function (v, k) {
 
                 // generically change _id fields model value
-
                 if ('form_params' in scope) {
                     if (k == scope.form_params.param) {
                         scope.model[k] = scope.form_params.id;
@@ -210,10 +200,10 @@ angular.module('formService', [])
                         titleMap: generator.get_list(modelscope).then(function (res) {
                             formitem.titleMap = [];
                             angular.forEach(res.data.objects, function (item) {
-                                if (item !== res.data.objects[0]) {
+                                if (item !== "-1") {
                                     formitem.titleMap.push({
-                                        "value": item[0],
-                                        "name": item[1] + ' ' + (item[2] ? item[2] : '') + '...'
+                                        "value": item.key,
+                                        "name": item.value
                                     });
                                 }
                             });
@@ -301,6 +291,7 @@ angular.module('formService', [])
             $scope.form_params.object_id = key;
             $scope.form_params.param = $scope.param;
             $scope.form_params.id = $scope.param_id;
+            $scope.form_params.token = $scope.token;
             generator.get_wf($scope);
         };
 
@@ -318,7 +309,7 @@ angular.module('formService', [])
          */
         generator.get_list = function (scope) {
             return $http
-                .get(generator.makeUrl(scope))
+                .post(generator.makeUrl(scope), scope.form_params)
                 .then(function (res) {
                     return res;
                 });
@@ -390,6 +381,7 @@ angular.module('formService', [])
          * @param data
          */
         generator.pathDecider = function (client_cmd, $scope, data) {
+            if (client_cmd[0] === 'reload' || client_cmd[0] === 'reset') {$rootScope.$broadcast('reload_cmd', client_cmd[0]); return;}
             /**
              * @name redirectTo
              * @description

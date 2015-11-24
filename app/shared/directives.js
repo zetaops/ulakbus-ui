@@ -130,7 +130,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
      * toggle collapses sidebar menu when clicked menu button
      */
 
-    .directive('collapseMenu', function ($timeout, $window) {
+    .directive('collapseMenu', function ($timeout, $window, $cookies) {
         return {
             templateUrl: 'shared/templates/directives/menuCollapse.html',
             restrict: 'E',
@@ -138,7 +138,8 @@ app.directive('logout', function ($http, $location, RESTURL) {
             scope: {},
             controller: function ($scope, $rootScope) {
                 $rootScope.collapsed = false;
-                $rootScope.sidebarPinned = false;
+                $rootScope.sidebarPinned = $cookies.get('sidebarPinned') || 0;
+                var cookieSidebar = {1:0,0:1};
 
                 $scope.collapseToggle = function () {
                     if ($window.innerWidth > '768') {
@@ -146,21 +147,24 @@ app.directive('logout', function ($http, $location, RESTURL) {
                             jQuery(".sidebar").css("width", "62px");
                             jQuery(".manager-view").css("width", "calc(100% - 62px)");
                             $rootScope.collapsed = true;
-                            $rootScope.sidebarPinned = false;
+                            $rootScope.sidebarPinned = 0;
+                            $cookies.put('sidebarPinned', cookieSidebar[$cookies.get('sidebarPinned')]);
                         } else {
 
                             jQuery("span.menu-text, span.arrow, .sidebar footer").fadeIn(400);
                             jQuery(".sidebar").css("width", "250px");
                             jQuery(".manager-view").css("width", "calc(100% - 250px)");
                             $rootScope.collapsed = false;
-                            $rootScope.sidebarPinned = true;
-
+                            $rootScope.sidebarPinned = 1;
+                            $cookies.put('sidebarPinned', cookieSidebar[$cookies.get('sidebarPinned')]);
                         }
                     }
                 };
 
                 $timeout(function () {
-                    $scope.collapseToggle();
+                    if ($cookies.get('sidebarPinned') === "0") {
+                        $scope.collapseToggle();
+                    }
                 });
             }
         };
@@ -287,7 +291,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
 
                 $scope.openSidebar = function () {
                     if ($window.innerWidth > '768') {
-                        if ($rootScope.sidebarPinned === false) {
+                        if ($rootScope.sidebarPinned === 0) {
                             jQuery("span.menu-text, span.arrow, .sidebar footer, #side-menu").fadeIn(400);
                             jQuery(".sidebar").css("width", "250px");
                             jQuery(".manager-view").css("width", "calc(100% - 250px)");
@@ -298,7 +302,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
 
                 $scope.closeSidebar = function () {
                     if ($window.innerWidth > '768') {
-                        if ($rootScope.sidebarPinned === false) {
+                        if ($rootScope.sidebarPinned === 0) {
                             jQuery(".sidebar").css("width", "62px");
                             jQuery(".manager-view").css("width", "calc(100% - 62px)");
                             $rootScope.collapsed = true;
