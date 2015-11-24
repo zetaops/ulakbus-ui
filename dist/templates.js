@@ -107,7 +107,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                <td ng-repeat=\"field in object.fields track by $index\">\n" +
     "                    <a ng-href=\"javascript:void(0)\"\n" +
     "                       ng-if=\"field.type==='link'\"\n" +
-    "                       ng-click=\"do_action(object.key, action)\">{{field.content}}</a>\n" +
+    "                       ng-click=\"do_action(object.key, field.cmd)\">{{field.content}}</a>\n" +
     "                    <span ng-if=\"field.type==='str'\">{{field.content}}</span>\n" +
     "                </td>\n" +
     "\n" +
@@ -138,6 +138,25 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "            <li><a href=\"\">İşlem 4</a></li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
+    "\n" +
+    "    <nav ng-if=\"pagination\" class=\"text-center\">\n" +
+    "        <ul class=\"pagination\">\n" +
+    "            <li ng-class=\"{disabled:pagination.page===1}\">\n" +
+    "                <a href=\"javascript:void(0)\" aria-label=\"Önceki\" ng-click=\"reload({page:pagination.page-1})\">\n" +
+    "                    <span aria-hidden=\"true\">&laquo;</span>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li ng-repeat=\"page in getNumber(pagination.total_pages) track by $index\"\n" +
+    "                ng-class=\"{active:$index+1===pagination.page}\">\n" +
+    "                <a href=\"javascript:void(0)\" ng-click=\"reload({page:$index+1})\">{{$index+1}}</a>\n" +
+    "            </li>\n" +
+    "            <li ng-class=\"{disabled:pagination.page===pagination.total_pages}\">\n" +
+    "                <a href=\"javascript:void(0)\" aria-label=\"Sonraki\" ng-click=\"reload({page:pagination.page+1})\">\n" +
+    "                    <span aria-hidden=\"true\">&raquo;</span>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
+    "    </nav>\n" +
     "\n" +
     "    <hr>\n" +
     "\n" +
