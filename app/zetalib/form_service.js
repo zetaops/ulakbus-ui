@@ -197,12 +197,14 @@ angular.module('formService', [])
                 if (v.type === 'model') {
 
                     var formitem = scope.form[scope.form.indexOf(k)];
-                    var modelscope = {"url": scope.url, "form_params": {model: v.model_name}};
+                    var modelscope = {"url": v.wf, "form_params": {model: v.model_name, cmd: v.list_cmd}};
 
                     formitem = {
                         type: "template",
                         templateUrl: "shared/templates/foreignKey.html",
                         title: v.title,
+                        wf: v.wf,
+                        add_cmd: v.add_cmd,
                         name: v.model_name,
                         model_name: v.model_name,
                         titleMap: generator.get_list(modelscope).then(function (res) {
@@ -597,15 +599,15 @@ angular.module('formService', [])
                         resolve: {
                             items: function () {
                                 return Generator.get_form({
-                                    url: 'crud',
-                                    form_params: {'model': scope.form.model_name, "cmd": "form"}
+                                    url: scope.form.wf,
+                                    form_params: {model: scope.form.model_name, cmd: scope.form.add_cmd}
                                 });
                             }
                         }
                     });
 
-                    modalInstance.result.then(function (childmodel, key) {
-                        Generator.submit(childmodel);
+                    modalInstance.result.then(function (childscope, key) {
+                        Generator.submit(childscope);
                         $route.reload();
                     });
                 });
