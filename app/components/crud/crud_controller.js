@@ -72,8 +72,14 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                         });
                         angular.forEach(value.fields, function (v, k) {
                             if (value.actions.length > 0 && linkIndexes.fields){
-                                scope.objects[key].fields[k] = {type: linkIndexes.fields.indexOf(k) > -1 ? 'link' : 'str', content: v, cmd: linkIndexes.cmd};
-                            } else {
+                                scope.objects[key].fields[k] = {
+                                    type: linkIndexes.fields.indexOf(k) > -1 ? 'link' : 'str',
+                                    content: v,
+                                    cmd: linkIndexes.cmd,
+                                    mode: linkIndexes.mode
+                                };
+                            }
+                            else {
                                 scope.objects[key].fields[k] = {type: 'str', content: v};
                             }
                         });
@@ -128,7 +134,31 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             $scope.reload_cmd = data;
             $scope.reload({});
         });
-        if ($routeParams.cmd === 'show') {
+
+        // we use form generator for generic forms. this makes form's scope to confuse on the path to generate form
+        // object by its name. to manage to locate the form to controllers scope we use a directive called form locator
+        // a bit dirty way to find form working on but solves our problem
+        $scope.$on('formLocator', function (event) {
+            $scope.formgenerated = event.targetScope.formgenerated;
+        });
+
+        $scope.onSubmit = function (form) {
+            $scope.$broadcast('schemaFormValidate');
+            if (form.$valid) {
+                Generator.submit($scope);
+            }
+        };
+
+        $scope.do_action = function (key, cmd, mode) {
+            Generator.doItemAction($scope, key, cmd, mode || 'normal');
+        };
+
+        $scope.getNumber = function (num) {
+            return new Array(num);
+        };
+
+        //
+        $scope.showCmd = function () {
             CrudUtility.generateParam($scope, $routeParams, $routeParams.cmd);
             // todo: refactor createListObjects func
             var createListObjects = function () {
@@ -155,9 +185,8 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                 });
             }
             createListObjects();
-        }
-
-        if ($routeParams.cmd === 'form' || $routeParams.cmd === 'list') {
+        };
+        $scope.listFormCmd = function () {
             // function to set scope objects
             var setpageobjects = function (data) {
                 CrudUtility.listPageItems($scope, data);
@@ -179,39 +208,25 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                 CrudUtility.generateParam($scope, $routeParams, $routeParams.cmd);
                 Generator.get_wf($scope);
             }
-
-            // we use form generator for generic forms. this makes form's scope to confuse on the path to generate form
-            // object by its name. to manage to locate the form to controllers scope we use a directive called form locator
-            // a bit dirty way to find form working on but solves our problem
-            $scope.$on('formLocator', function (event) {
-                $scope.formgenerated = event.targetScope.formgenerated;
-            });
-
-            $scope.onSubmit = function (form) {
-                $scope.$broadcast('schemaFormValidate');
-                if (form.$valid) {
-                    Generator.submit($scope);
-                }
-            };
-
-            $scope.do_action = function (key, cmd) {
-                Generator.doItemAction($scope, key, cmd);
-            };
-
-            $scope.getNumber = function (num) {
-                return new Array(num);
-            };
-        }
-
-        if ($routeParams.cmd === 'reload') {
+        };
+        $scope.reloadCmd = function () {
             $scope.reload({});
-        }
-
-        if ($routeParams.cmd === 'reset') {
+        };
+        $scope.resetCmd = function () {
             delete $scope.token;
             $scope.cmd = 'reset';
             Generator.get_wf($scope);
-        }
+        };
+
+        var executeCmd = {
+            show: $scope.showCmd,
+            list: $scope.listFormCmd,
+            form: $scope.listFormCmd,
+            reload: $scope.reloadCmd,
+            reset: $scope.resetCmd
+        };
+
+        return executeCmd[$routeParams.cmd]();
 
     })
 

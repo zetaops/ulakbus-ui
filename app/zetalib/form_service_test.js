@@ -6,15 +6,19 @@
  * (GPLv3).  See LICENSE.txt for details.
  */
 
-'use strict';
 
 describe('form service module', function () {
 
     beforeEach(module('ulakbus'));
     beforeEach(module('formService'));
     var location;
-    beforeEach(inject(function($location) {
+    beforeEach(inject(function($location, $injector) {
         location = $location;
+        // Set up the mock http service responses
+        $httpBackend = $injector.get('$httpBackend');
+        // backend definition common for all tests
+        authRequestHandler = $httpBackend.when('GET', /\.[0-9a-z]+$/i)
+            .respond({userId: 'userX'}, {'A-Token': 'xxx'});
     }));
 
     describe('form service', function () {
@@ -23,7 +27,7 @@ describe('form service module', function () {
                 function (Generator) {
                     expect(Generator.group).not.toBe(null);
                     var generated_url = Generator.makeUrl({url: 'test', form_params: {}});
-                    expect(generated_url).toEqual("//nightly.api.ulakbus.net/test/");
+                    expect(generated_url).toEqual("//api.ulakbus.net/test/");
                 }])
         );
 
@@ -175,15 +179,15 @@ describe('form service module', function () {
         it('should get list',
             inject(function (Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectGET(RESTURL.url + 'test/personel')
+                $httpBackend.expectPOST(RESTURL.url + 'test/personel', {cmd: 'list', model: "personel", object_id: "5821bc25a90aa1"})
                     .respond(200, {
                         items: {
                             "client_cmd": "list_objects",
                             "is_login": true,
                             "objects":[
-                                ["Ad\u0131", "Soyad\u0131", "TC No", "Durum"], 
+                                ["Ad\u0131", "Soyad\u0131", "TC No", "Durum"],
                                 ["4MsKRH9435cdKOzKCITNPml5bhB", "firstname", "lastname", "dksoap", false]
-                                ], 
+                                ],
                             "token": "0122b2843f504c15821bc25a90aa1370"
                         }
                     });
@@ -317,10 +321,12 @@ describe('form service module', function () {
                     object_id: 'xxx11',
                     wf:'testModel'};
 
+                scope.url = 'test';
+
                 Generator.get_wf(scope);
 
                 $httpBackend.flush();
-                expect(location.path()).toEqual('/testModel/testModel/add');
+                expect(location.path()).toEqual('/testModel/testModel/do/f');
             })
         );
 

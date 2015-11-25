@@ -1,7 +1,7 @@
 <div class="starter-template container">
     <search-directive ng-if="meta['allow_search']===true"></search-directive>
     <div class="clearfix"></div>
-    <h1>{{form_params.model || form_params.wf}}</h1>
+    <!--<h1>{{form_params.model || form_params.wf}}</h1>-->
     <div class="row" ng-if="!objects[1]">
         <div class="col-md-12">
             <p class="no-content">Listelenecek içerik yok.</p>
@@ -34,13 +34,14 @@
                 <td ng-repeat="field in object.fields track by $index">
                     <a ng-href="javascript:void(0)"
                        ng-if="field.type==='link'"
-                       ng-click="do_action(object.key, field.cmd)">{{field.content}}</a>
+                       ng-click="do_action(object.key, field.cmd, field.mode)">{{field.content}}</a>
                     <span ng-if="field.type==='str'">{{field.content}}</span>
                 </td>
 
                 <td>
                     <button class="btn btn-primary" style="margin-right: 5px;" ng-repeat="action in object.actions"
-                            ng-if="action.show_as==='button'" ng-click="do_action(object.key, action.cmd)">{{action
+                            ng-if="action.show_as==='button'"
+                            ng-click="do_action(object.key, action.cmd, action.mode)">{{action
                         .name}}
                     </button>
                     <br>
