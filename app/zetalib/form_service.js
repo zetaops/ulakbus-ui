@@ -122,10 +122,11 @@ angular.module('formService', [])
 
 
                 if (v.type === 'submit' || v.type === 'button') {
+                    var buttonPositions = {bottom: 'move-to-bottom', top: 'move-to-top', none: ''};
                     scope.form[scope.form.indexOf(k)] = {
                         type: v.type,
                         title: v.title,
-                        style: "btn-primary movetobottom hide",
+                        style: "btn-primary hide" + (buttonPositions[v.position] || "move-to-bottom"),
                         onClick: function () {
                             delete scope.form_params.cmd;
                             delete scope.form_params.flow;
@@ -144,8 +145,10 @@ angular.module('formService', [])
                         }
                     };
                     $timeout(function () {
-                        var buttons = angular.element(document.querySelector('.movetobottom'));
-                        angular.element(document.querySelector('.buttons-on-bottom')).append(buttons);
+                        var buttonsToBottom = angular.element(document.querySelector('.move-to-bottom'));
+                        angular.element(document.querySelector('.buttons-on-bottom')).append(buttonsToBottom);
+                        var buttonsToTop = angular.element(document.querySelector('.move-to-top'));
+                        angular.element(document.querySelector('.buttons-on-bottom')).append(buttonsToTop);
                         buttons.removeClass('hide');
                     });
                 }
