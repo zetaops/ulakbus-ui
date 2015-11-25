@@ -25,7 +25,7 @@ var app = angular.module(
         'ulakbus.version',
         //'schemaForm',
         'gettext',
-        'ulakbus.uitemplates',
+        'ulakbus.uitemplates'
     ]).
 /**
  * RESTURL is the url of rest api to talk
@@ -33,7 +33,7 @@ var app = angular.module(
  */
 constant("RESTURL", (function () {
     // todo: below backendurl definition is for development purpose and will be deleted
-    var backendurl = location.href.indexOf('nightly') ? "//nightly.api.ulakbus.net/" : "//api.ulakbus.net/";
+    var backendurl = location.href.indexOf('nightly') > -1 ? "//nightly.api.ulakbus.net/" : "//api.ulakbus.net/";
     if (document.cookie.indexOf("backendurl") > -1) {
         var cookiearray = document.cookie.split(';');
         angular.forEach(cookiearray, function (item) {

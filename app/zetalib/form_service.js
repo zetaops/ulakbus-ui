@@ -13,7 +13,7 @@
  * The `formService` module  provides generic services for auto generated forms.
  *
  */
-angular.module('formService', [])
+angular.module('formService', ['ui.bootstrap'])
 
     /**
      * @name Generator
@@ -98,6 +98,16 @@ angular.module('formService', [])
          * @returns {*}
          */
         generator.prepareFormItems = function (scope) {
+
+            // todo: remove after backend fix
+            angular.forEach(scope.form, function (value, key) {
+                if (value.type === 'select') {
+                    scope.schema.properties[value.key].type = 'select';
+                    scope.schema.properties[value.key].titleMap = value.titleMap;
+                    scope.form[key] = value.key;
+                }
+            });
+
             angular.forEach(scope.schema.properties, function (v, k) {
 
                 // generically change _id fields model value
@@ -122,10 +132,11 @@ angular.module('formService', [])
 
 
                 if (v.type === 'submit' || v.type === 'button') {
+                    var buttonPositions = {bottom: 'move-to-bottom', top: 'move-to-top', none: ''};
                     scope.form[scope.form.indexOf(k)] = {
                         type: v.type,
                         title: v.title,
-                        style: "btn-primary movetobottom hide",
+                        style: "btn-primary hide " + (buttonPositions[v.position] || "move-to-bottom"),
                         onClick: function () {
                             delete scope.form_params.cmd;
                             delete scope.form_params.flow;
@@ -143,15 +154,18 @@ angular.module('formService', [])
                             }
                         }
                     };
+                    // replace buttons according to their position values
                     $timeout(function () {
-                        var buttons = angular.element(document.querySelector('.movetobottom'));
-                        angular.element(document.querySelector('.buttons-on-bottom')).append(buttons);
-                        buttons.removeClass('hide');
+                        var buttonsToBottom = angular.element(document.querySelector('.move-to-bottom'));
+                        angular.element(document.querySelector('.buttons-on-bottom')).append(buttonsToBottom);
+                        var buttonsToTop = angular.element(document.querySelector('.move-to-top'));
+                        angular.element(document.querySelector('.buttons-on-bottom')).append(buttonsToTop);
+                        buttonsToBottom.removeClass('hide');
+                        buttonsToTop.removeClass('hide');
                     });
                 }
 
                 // check if type is date and if type date found change it to string
-
                 if (v.type === 'date') {
                     v.type = 'string';
                     scope.model[k] = generator.dateformatter(scope.model[k]);
@@ -177,13 +191,12 @@ angular.module('formService', [])
                 if (v.type === 'text_general') {
                     v.type = 'string';
                     v["x-schema-form"] = {
-                        "type": "textarea",
+                        "type": "textarea"
                         //"placeholder": ""
                     }
                 }
 
                 // if type is model use foreignKey.html template to show them
-
                 if (v.type === 'model') {
 
                     var formitem = scope.form[scope.form.indexOf(k)];
@@ -206,7 +219,15 @@ angular.module('formService', [])
                                         "name": item.value
                                     });
                                 }
+                                // get selected item from titleMap using model value
+                                if (item.key === scope.model[k]) {formitem.selected_item = {value: item.key, name: item.value};}
                             });
+                            // after rendering change input value to model value
+                            scope.$watch(document.querySelector('input[name='+ v.model_name+']'),
+                                function(){
+                                    angular.element(document.querySelector('input[name='+ v.model_name+']')).val(formitem.selected_item.name);
+                                }
+                            );
                         }),
                         onSelect: function (item) {
                             scope.model[k] = item.value;
@@ -286,13 +307,24 @@ angular.module('formService', [])
                 return newdatearray.join('.');
             }
         };
-        generator.doItemAction = function ($scope, key, cmd) {
-            $scope.form_params.cmd = cmd;
-            $scope.form_params.object_id = key;
-            $scope.form_params.param = $scope.param;
-            $scope.form_params.id = $scope.param_id;
-            $scope.form_params.token = $scope.token;
-            generator.get_wf($scope);
+        generator.doItemAction = function ($scope, key, cmd, mode) {
+            // mode could be in ['normal', 'modal', 'new'] . the default mode is 'normal' and it loads data on same
+            // tab without modal. 'modal' will use modal to manipulate data and do all actions in that modal. 'new'
+            // will be open new page with response data
+            var _do = {
+                normal: function(){
+                    $log.debug('normal mode starts');
+                    $scope.form_params.cmd = cmd;
+                    $scope.form_params.object_id = key;
+                    $scope.form_params.param = $scope.param;
+                    $scope.form_params.id = $scope.param_id;
+                    $scope.form_params.token = $scope.token;
+                    return generator.get_wf($scope);
+                },
+                modal: function(){$log.debug('modal mode is not not ready');},
+                new: function(){$log.debug('new mode is not not ready');}
+            };
+            return _do[mode]();
         };
 
         generator.get_form = function (scope) {
@@ -377,6 +409,7 @@ angular.module('formService', [])
 
         /**
          * pathDecider is used to redirect related path by looking up the data in response
+         * @param client_cmd
          * @param $scope
          * @param data
          */
@@ -388,7 +421,8 @@ angular.module('formService', [])
              * redirectTo function redirects to related controller and path with given data
              * before redirect setPageData must be called and pageData need to be defined
              * otherwise redirected path will call api for its data
-             * @param scope, page
+             * @param scope
+             * @param page
              */
             function redirectTo(scope, page) {
                 var pathUrl = '/' + scope.form_params.wf;

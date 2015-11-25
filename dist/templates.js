@@ -24,7 +24,6 @@ angular.module("components/crud/templates/crud.html", []).run(["$templateCache",
   $templateCache.put("components/crud/templates/crud.html",
     "<crud-show-directive ng-if=\"object\"></crud-show-directive>\n" +
     "<crud-form-directive ng-if=\"forms\"></crud-form-directive>\n" +
-    "<hr class=\"col-md-12\">\n" +
     "<crud-list-directive ng-if=\"objects\"></crud-list-directive>");
 }]);
 
@@ -32,6 +31,8 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
   $templateCache.put("components/crud/templates/form.html",
     "<div class=\"container\">\n" +
     "    <h1>{{ schema.title }}</h1>\n" +
+    "\n" +
+    "    <div class=\"buttons-on-top\"></div>\n" +
     "\n" +
     "    <form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"\n" +
     "          ng-submit=\"onSubmit(formgenerated)\" form-locator></form>\n" +
@@ -66,6 +67,7 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
     "    </div>\n" +
     "\n" +
     "    <div class=\"buttons-on-bottom\"></div>\n" +
+    "\n" +
     "</div>");
 }]);
 
@@ -74,7 +76,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "<div class=\"starter-template container\">\n" +
     "    <search-directive ng-if=\"meta['allow_search']===true\"></search-directive>\n" +
     "    <div class=\"clearfix\"></div>\n" +
-    "    <h1>{{form_params.model || form_params.wf}}</h1>\n" +
+    "    <!--<h1>{{form_params.model || form_params.wf}}</h1>-->\n" +
     "    <div class=\"row\" ng-if=\"!objects[1]\">\n" +
     "        <div class=\"col-md-12\">\n" +
     "            <p class=\"no-content\">Listelenecek içerik yok.</p>\n" +
@@ -107,13 +109,14 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                <td ng-repeat=\"field in object.fields track by $index\">\n" +
     "                    <a ng-href=\"javascript:void(0)\"\n" +
     "                       ng-if=\"field.type==='link'\"\n" +
-    "                       ng-click=\"do_action(object.key, field.cmd)\">{{field.content}}</a>\n" +
+    "                       ng-click=\"do_action(object.key, field.cmd, field.mode)\">{{field.content}}</a>\n" +
     "                    <span ng-if=\"field.type==='str'\">{{field.content}}</span>\n" +
     "                </td>\n" +
     "\n" +
     "                <td>\n" +
     "                    <button class=\"btn btn-primary\" style=\"margin-right: 5px;\" ng-repeat=\"action in object.actions\"\n" +
-    "                            ng-if=\"action.show_as==='button'\" ng-click=\"do_action(object.key, action.cmd)\">{{action\n" +
+    "                            ng-if=\"action.show_as==='button'\"\n" +
+    "                            ng-click=\"do_action(object.key, action.cmd, action.mode)\">{{action\n" +
     "                        .name}}\n" +
     "                    </button>\n" +
     "                    <br>\n" +
@@ -1455,7 +1458,7 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "                   sf-changed=\"form\"\n" +
     "                   class=\"form-control {{form.fieldHtmlClass}}\"\n" +
     "                   schema-validate=\"form\"\n" +
-    "                   name=\"{{form.model_name}}\"/>\n" +
+    "                   name=\"{{form.model_name}}\" value=\"{{form.selected_item}}\"/>\n" +
     "        </div>\n" +
     "\n" +
     "        <!--<select ng-model=\"$$value$$\"-->\n" +
