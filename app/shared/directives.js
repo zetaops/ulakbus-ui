@@ -139,7 +139,6 @@ app.directive('logout', function ($http, $location, RESTURL) {
             controller: function ($scope, $rootScope) {
                 $rootScope.collapsed = false;
                 $rootScope.sidebarPinned = $cookies.get('sidebarPinned') || 0;
-                var cookieSidebar = {1:0,0:1};
 
                 $scope.collapseToggle = function () {
                     if ($window.innerWidth > '768') {
@@ -148,15 +147,14 @@ app.directive('logout', function ($http, $location, RESTURL) {
                             jQuery(".manager-view").css("width", "calc(100% - 62px)");
                             $rootScope.collapsed = true;
                             $rootScope.sidebarPinned = 0;
-                            $cookies.put('sidebarPinned', cookieSidebar[$cookies.get('sidebarPinned')]);
+                            $cookies.put('sidebarPinned', 0);
                         } else {
-
                             jQuery("span.menu-text, span.arrow, .sidebar footer").fadeIn(400);
                             jQuery(".sidebar").css("width", "250px");
                             jQuery(".manager-view").css("width", "calc(100% - 250px)");
                             $rootScope.collapsed = false;
                             $rootScope.sidebarPinned = 1;
-                            $cookies.put('sidebarPinned', cookieSidebar[$cookies.get('sidebarPinned')]);
+                            $cookies.put('sidebarPinned', 1);
                         }
                     }
                 };
