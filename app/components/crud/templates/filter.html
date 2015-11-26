@@ -1,14 +1,51 @@
 <div>
+    <h2>Filtrele</h2>
     <div class="right-sidebar-box">
         <div class="right-sidebar-messages">
-
             <div class="right-sidebar-title clearfix">
+                <h3>Tarih Aralığı</h3>
+            </div>
+            <div class="right-sidebar-message-block">
+                <div class="col-md-6">
+                    <br>
+                    <label class="control-label" for="startDate">Baslangic</label>
+                    <input type="text" name="startDate" class="form-control filterDate"/>
+                </div>
+                <div class="col-md-6">
+                    <br>
+                    <label class="control-label" for="endDate">Bitis</label>
+                    <input type="text" name="endDate" class="form-control filterDate"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="right-sidebar-box">
+        <div class="right-sidebar-messages">
+            <div class="right-sidebar-title clearfix">
+                <br><br>
                 <h3>Filtre basligi</h3>
             </div>
-
             <div class="right-sidebar-message-block">
+                <div class="col-md-12">
+                    <br>
+                    <label class="control-label" for="filterSelect">Secim</label>
+                    <select name="filterSelect" id="filterSelect">
+                        <option value="1">option 1</option>
+                        <option value="2">option 2</option>
+                        <option value="3">option 3</option>
+                        <option value="4">option 4</option>
+                    </select>
+                </div>
             </div>
-
         </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div style="margin-top: 40px;">
+        <button type="button" class="btn btn-primary">Filtrele</button>
     </div>
 </div>

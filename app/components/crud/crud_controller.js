@@ -157,6 +157,23 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             return new Array(num);
         };
 
+        $timeout(function () {
+            jQuery('.filterDate').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "dd.mm.yy",
+                onSelect: function (date, inst) {
+                    //scope.model[k] = date;
+                    //if (scope.modalElements) {
+                    //    scope.validateModalDate(k);
+                    //}
+                    //else {
+                    //    scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
+                    //}
+                }
+            }).datepicker("setDate", new Date());
+        });
+
         //
         $scope.showCmd = function () {
             CrudUtility.generateParam($scope, $routeParams, $routeParams.cmd);
