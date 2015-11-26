@@ -260,4 +260,12 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                 scope.$emit('formLocator');
             }
         }
+    })
+
+    .directive('crudFilters', function() {
+        return {
+            templateUrl: 'components/crud/templates/filter.html',
+            restrict: 'E',
+            replace: true
+        };
     });

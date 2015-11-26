@@ -132,11 +132,16 @@ angular.module('formService', ['ui.bootstrap'])
 
 
                 if (v.type === 'submit' || v.type === 'button') {
-                    var buttonPositions = {bottom: 'move-to-bottom', top: 'move-to-top', none: ''};
+                    var buttonPositions = scope.modalElements ? scope.modalElements.buttonPositions : {bottom: 'move-to-bottom', top: 'move-to-top', none: ''};
+                    var workOnForm = scope.modalElements ? scope.modalElements.workOnForm : 'formgenerated';
+                    var workOnDiv = scope.modalElements ? scope.modalElements.workOnDiv : '';
+                    var buttonClass = (buttonPositions[v.position] || buttonPositions.bottom);
+                    var redirectTo = scope.modalElements ? false : true;
+
                     scope.form[scope.form.indexOf(k)] = {
                         type: v.type,
                         title: v.title,
-                        style: "btn-primary hide " + (buttonPositions[v.position] || "move-to-bottom"),
+                        style: "btn-primary hide " + buttonClass,
                         onClick: function () {
                             delete scope.form_params.cmd;
                             delete scope.form_params.flow;
@@ -148,20 +153,32 @@ angular.module('formService', ['ui.bootstrap'])
                             }
                             scope.model[k] = 1;
                             // todo: test it
-                            scope.$broadcast('schemaFormValidate');
-                            if (scope.formgenerated.$valid) {
-                                generator.submit(scope);
+                            if (scope.modalElements) {
+                                scope.submitModalForm();
+                            } else {
+                                scope.$broadcast('schemaFormValidate');
+                                if (scope[workOnForm].$valid) {
+                                    generator.submit(scope, redirectTo);
+                                    scope.$broadcast('disposeModal');
+                                }
                             }
                         }
                     };
                     // replace buttons according to their position values
                     $timeout(function () {
-                        var buttonsToBottom = angular.element(document.querySelector('.move-to-bottom'));
-                        angular.element(document.querySelector('.buttons-on-bottom')).append(buttonsToBottom);
-                        var buttonsToTop = angular.element(document.querySelector('.move-to-top'));
-                        angular.element(document.querySelector('.buttons-on-bottom')).append(buttonsToTop);
+                        var selectorBottom = '.buttons-on-bottom'+workOnDiv;
+                        //var selectorTop = '.buttons-on-top'+workOnDiv;
+
+                        var buttonsToBottom = angular.element(document.querySelector('.' + buttonClass));
+                        angular.element(document.querySelector(selectorBottom)).append(buttonsToBottom);
+                        //var buttonsToTop = angular.element(document.querySelector('.' + buttonClass));
+                        //angular.element(document.querySelector(selectorTop)).append(buttonsToTop);
+
+                        $log.debug(selectorBottom, buttonsToBottom);
+                        $log.debug(angular.element(document.querySelector(selectorBottom)));
+
                         buttonsToBottom.removeClass('hide');
-                        buttonsToTop.removeClass('hide');
+                        //buttonsToTop.removeClass('hide');
                     });
                 }
 
@@ -177,7 +194,12 @@ angular.module('formService', ['ui.bootstrap'])
                             dateFormat: "dd.mm.yy",
                             onSelect: function (date, inst) {
                                 scope.model[k] = date;
-                                scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
+                                if (scope.modalElements) {
+                                    scope.validateModalDate(k);
+                                }
+                                else {
+                                    scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
+                                }
                             }
                         });
                     });
@@ -210,6 +232,7 @@ angular.module('formService', ['ui.bootstrap'])
                         add_cmd: v.add_cmd,
                         name: v.model_name,
                         model_name: v.model_name,
+                        selected_item: {},
                         titleMap: generator.get_list(modelscope).then(function (res) {
                             formitem.titleMap = [];
                             angular.forEach(res.data.objects, function (item) {
@@ -220,12 +243,14 @@ angular.module('formService', ['ui.bootstrap'])
                                     });
                                 }
                                 // get selected item from titleMap using model value
-                                if (item.key === scope.model[k]) {formitem.selected_item = {value: item.key, name: item.value};}
+                                if (item.key === scope.model[k]) {
+                                    formitem.selected_item = {value: item.key, name: item.value};
+                                }
                             });
                             // after rendering change input value to model value
-                            scope.$watch(document.querySelector('input[name='+ v.model_name+']'),
-                                function(){
-                                    angular.element(document.querySelector('input[name='+ v.model_name+']')).val(formitem.selected_item.name);
+                            scope.$watch(document.querySelector('input[name=' + v.model_name + ']'),
+                                function () {
+                                    angular.element(document.querySelector('input[name=' + v.model_name + ']')).val(formitem.selected_item.name);
                                 }
                             );
                         }),
@@ -312,7 +337,7 @@ angular.module('formService', ['ui.bootstrap'])
             // tab without modal. 'modal' will use modal to manipulate data and do all actions in that modal. 'new'
             // will be open new page with response data
             var _do = {
-                normal: function(){
+                normal: function () {
                     $log.debug('normal mode starts');
                     $scope.form_params.cmd = cmd;
                     $scope.form_params.object_id = key;
@@ -321,8 +346,12 @@ angular.module('formService', ['ui.bootstrap'])
                     $scope.form_params.token = $scope.token;
                     return generator.get_wf($scope);
                 },
-                modal: function(){$log.debug('modal mode is not not ready');},
-                new: function(){$log.debug('new mode is not not ready');}
+                modal: function () {
+                    $log.debug('modal mode is not not ready');
+                },
+                new: function () {
+                    $log.debug('new mode is not not ready');
+                }
             };
             return _do[mode]();
         };
@@ -356,7 +385,16 @@ angular.module('formService', ['ui.bootstrap'])
             return $http
                 .post(generator.makeUrl(scope), scope.form_params)
                 .then(function (res) {
-                    return generator.pathDecider(res.data.client_cmd, scope, res.data);
+                    if (res.data.client_cmd) {
+                        return generator.pathDecider(res.data.client_cmd, scope, res.data);
+                    }
+                    if (res.data.msgbox) {
+                        scope.msgbox = res.data.msgbox;
+                        var newElement = $compile("<msgbox></msgbox>")(scope);
+                        // this is the default action, which is removing page items and reload page with msgbox
+                        angular.element(document.querySelector('.main.ng-scope')).children().remove();
+                        angular.element(document.querySelector('.main.ng-scope')).append(newElement);
+                    }
                 });
         };
         generator.isValidEmail = function (email) {
@@ -414,7 +452,10 @@ angular.module('formService', ['ui.bootstrap'])
          * @param data
          */
         generator.pathDecider = function (client_cmd, $scope, data) {
-            if (client_cmd[0] === 'reload' || client_cmd[0] === 'reset') {$rootScope.$broadcast('reload_cmd', client_cmd[0]); return;}
+            if (client_cmd[0] === 'reload' || client_cmd[0] === 'reset') {
+                $rootScope.$broadcast('reload_cmd', client_cmd[0]);
+                return;
+            }
             /**
              * @name redirectTo
              * @description
@@ -479,7 +520,7 @@ angular.module('formService', ['ui.bootstrap'])
          * @param $scope
          * @returns {*}
          */
-        generator.submit = function ($scope) {
+        generator.submit = function ($scope, redirectTo) {
 
             // todo: diff for all submits to recognize form change. if no change returns to view with no submit
             angular.forEach($scope.ListNode, function (value, key) {
@@ -499,15 +540,17 @@ angular.module('formService', ['ui.bootstrap'])
 
             return $http.post(generator.makeUrl($scope), data)
                 .success(function (data) {
-                    if (data.client_cmd) {
-                        generator.pathDecider(data.client_cmd, $scope, data);
-                    }
-                    if (data.msgbox) {
-                        $scope.msgbox = data.msgbox;
-                        var newElement = $compile("<msgbox></msgbox>")($scope);
-                        // this is the default action, which is removing page items and reload page with msgbox
-                        angular.element(document.querySelector('.main.ng-scope')).children().remove();
-                        angular.element(document.querySelector('.main.ng-scope')).append(newElement);
+                    if (redirectTo === true) {
+                        if (data.client_cmd) {
+                            generator.pathDecider(data.client_cmd, $scope, data);
+                        }
+                        if (data.msgbox) {
+                            $scope.msgbox = data.msgbox;
+                            var newElement = $compile("<msgbox></msgbox>")($scope);
+                            // this is the default action, which is removing page items and reload page with msgbox
+                            angular.element(document.querySelector('.main.ng-scope')).children().remove();
+                            angular.element(document.querySelector('.main.ng-scope')).append(newElement);
+                        }
                     }
                 });
         };
@@ -528,7 +571,21 @@ angular.module('formService', ['ui.bootstrap'])
             $scope[key] = items[key];
         });
 
-        Generator.prepareFormItems($scope);
+        $scope.$on('disposeModal', function () {
+            $scope.cancel();
+        });
+
+        $scope.$on('modalFormLocator', function (event) {
+            $scope.linkedModelForm = event.targetScope.linkedModelForm;
+        });
+        
+        $scope.$on('submitModalForm', function () {
+            $scope.onSubmit($scope.linkedModelForm);
+        });
+
+        $scope.$on('validateModalDate', function (event, field) {
+            $scope.$broadcast('schemaForm.error.' + field, 'tv4-302', true);
+        });
 
         $scope.onSubmit = function (form) {
             $scope.$broadcast('schemaFormValidate');
@@ -613,12 +670,13 @@ angular.module('formService', ['ui.bootstrap'])
      * @returns openmodal directive
      */
 
-    .directive('addModalForLinkedModel', function ($modal, $route, Generator) {
+    .directive('addModalForLinkedModel', function ($modal, $rootScope, $route, Generator) {
         return {
             link: function (scope, element) {
                 element.on('click', function () {
                     var modalInstance = $modal.open({
-                        animation: false,
+                        animation: true,
+                        backdrop:'static',
                         templateUrl: 'shared/templates/linkedModelModalContent.html',
                         controller: 'ModalCtrl',
                         size: 'lg',
@@ -626,19 +684,38 @@ angular.module('formService', ['ui.bootstrap'])
                             items: function () {
                                 return Generator.get_form({
                                     url: scope.form.wf,
-                                    form_params: {model: scope.form.model_name, cmd: scope.form.add_cmd}
+                                    form_params: {model: scope.form.model_name, cmd: scope.form.add_cmd},
+                                    modalElements: {
+                                        buttonPositions: {bottom: 'move-to-bottom-modal', top: 'move-to-top-modal', none: ''},
+                                        workOnForm: 'linkedModelForm',
+                                        workOnDiv: '-modal'
+                                    },
+                                    submitModalForm: function () {
+                                        $rootScope.$broadcast('submitModalForm');
+                                    },
+                                    validateModalDate: function (field) {
+                                        $rootScope.$broadcast('validateModalDate', field);
+                                    }
                                 });
                             }
                         }
                     });
 
                     modalInstance.result.then(function (childscope, key) {
-                        Generator.submit(childscope);
-                        $route.reload();
+                        Generator.submit(childscope, false);
+                        //$route.reload();
                     });
                 });
             }
         };
+    })
+
+    .directive('modalFormLocator', function () {
+        return {
+            link: function (scope) {
+                scope.$emit('modalFormLocator');
+            }
+        }
     })
 
     /**

@@ -24,10 +24,9 @@
                 </a>
                 <ul class="nav nav-second-level" ng-class="{hidden: $root.collapsed}">
                     <li ng-repeat="(k, v) in item">
-                      <a ng-if="v['baseCategory'] == 'other'" ng-href="#{{v.url}}" ng-
-                           ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
-                      <a ng-if="v['baseCategory'] == 'ogrenci' || v['baseCategory'] ==  'personel'"
-                           ng-href="#/{{v.wf}}/{{v.model}}?{{v.param}}={{$root.selectedUser.key}}"
+                      <!--<a ng-if="v.model" ng-href="#{{v.url}}" ng- -->
+                           <!--ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>-->
+                      <a ng-href="#/{{v.wf}}/{{v.model}}?{{v.param}}={{$root.selectedUser.key}}"
                            ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
                     </li>
                 </ul>

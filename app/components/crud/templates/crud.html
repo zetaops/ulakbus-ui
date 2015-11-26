@@ -1,3 +1,8 @@
-<crud-show-directive ng-if="object"></crud-show-directive>
-<crud-form-directive ng-if="forms"></crud-form-directive>
-<crud-list-directive ng-if="objects"></crud-list-directive>
+<div class="row">
+    <div class="col-md-8">
+        <crud-show-directive ng-if="object"></crud-show-directive>
+        <crud-form-directive ng-if="forms"></crud-form-directive>
+        <crud-list-directive ng-if="objects"></crud-list-directive>
+    </div>
+    <crud-filters ng-if="meta.allow_filters === true" class="col-md-4"></crud-filters>
+</div>
