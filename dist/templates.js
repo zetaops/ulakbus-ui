@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -22,9 +22,69 @@ angular.module("components/auth/login.html", []).run(["$templateCache", function
 
 angular.module("components/crud/templates/crud.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/crud.html",
-    "<crud-show-directive ng-if=\"object\"></crud-show-directive>\n" +
-    "<crud-form-directive ng-if=\"forms\"></crud-form-directive>\n" +
-    "<crud-list-directive ng-if=\"objects\"></crud-list-directive>");
+    "<div class=\"row\">\n" +
+    "    <div class=\"col-md-8\">\n" +
+    "        <crud-show-directive ng-if=\"object\"></crud-show-directive>\n" +
+    "        <crud-form-directive ng-if=\"forms\"></crud-form-directive>\n" +
+    "        <crud-list-directive ng-if=\"objects\"></crud-list-directive>\n" +
+    "    </div>\n" +
+    "    <crud-filters ng-if=\"meta.allow_filters === true\" class=\"col-md-4\"></crud-filters>\n" +
+    "</div>");
+}]);
+
+angular.module("components/crud/templates/filter.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/crud/templates/filter.html",
+    "<div>\n" +
+    "    <h2>Filtrele</h2>\n" +
+    "    <div class=\"right-sidebar-box\">\n" +
+    "        <div class=\"right-sidebar-messages\">\n" +
+    "            <div class=\"right-sidebar-title clearfix\">\n" +
+    "                <h3>Tarih Aralığı</h3>\n" +
+    "            </div>\n" +
+    "            <div class=\"right-sidebar-message-block\">\n" +
+    "                <div class=\"col-md-6\">\n" +
+    "                    <br>\n" +
+    "                    <label class=\"control-label\" for=\"startDate\">Baslangic</label>\n" +
+    "                    <input type=\"text\" name=\"startDate\" class=\"form-control filterDate\"/>\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-6\">\n" +
+    "                    <br>\n" +
+    "                    <label class=\"control-label\" for=\"endDate\">Bitis</label>\n" +
+    "                    <input type=\"text\" name=\"endDate\" class=\"form-control filterDate\"/>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"clearfix\"></div>\n" +
+    "\n" +
+    "    <div class=\"right-sidebar-box\">\n" +
+    "        <div class=\"right-sidebar-messages\">\n" +
+    "            <div class=\"right-sidebar-title clearfix\">\n" +
+    "                <br><br>\n" +
+    "                <h3>Filtre basligi</h3>\n" +
+    "            </div>\n" +
+    "            <div class=\"right-sidebar-message-block\">\n" +
+    "                <div class=\"col-md-12\">\n" +
+    "                    <br>\n" +
+    "                    <label class=\"control-label\" for=\"filterSelect\">Secim</label>\n" +
+    "                    <select name=\"filterSelect\" id=\"filterSelect\">\n" +
+    "                        <option value=\"1\">option 1</option>\n" +
+    "                        <option value=\"2\">option 2</option>\n" +
+    "                        <option value=\"3\">option 3</option>\n" +
+    "                        <option value=\"4\">option 4</option>\n" +
+    "                    </select>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"clearfix\"></div>\n" +
+    "\n" +
+    "    <div style=\"margin-top: 40px;\">\n" +
+    "        <button type=\"button\" class=\"btn btn-primary\">Filtrele</button>\n" +
+    "    </div>\n" +
+    "</div>");
 }]);
 
 angular.module("components/crud/templates/form.html", []).run(["$templateCache", function($templateCache) {
@@ -74,6 +134,7 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
 angular.module("components/crud/templates/list.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/list.html",
     "<div class=\"starter-template container\">\n" +
+    "    <sort-directive></sort-directive>\n" +
     "    <search-directive ng-if=\"meta['allow_search']===true\"></search-directive>\n" +
     "    <div class=\"clearfix\"></div>\n" +
     "    <!--<h1>{{form_params.model || form_params.wf}}</h1>-->\n" +
@@ -259,7 +320,7 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "		-->\n" +
     "        \n" +
     "        <div class=\"dashboard-main-search clearfix\">\n" +
-    "        	<div class=\"dashboard-student-search\">\n" +
+    "        	<div class=\"dashboard-student-search\" data-step=\"1\" data-intro=\"test intro\">\n" +
     "            	<center>\n" +
     "                	<h3>ÖĞRENCİ</h3>\n" +
     "                	<input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"student_kw\" ng-keyup=\"search('ogrenci')\">\n" +
@@ -1061,7 +1122,7 @@ angular.module("shared/templates/directives/notifications.html", []).run(["$temp
 
 angular.module("shared/templates/directives/search.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/search.html",
-    "<form class=\"form-inline col-md-8\" id=\"search\" name=\"search\" sf-schema=\"searchSchema\" sf-form=\"searchForm\"\n" +
+    "<form class=\"form-inline pull-right\" id=\"search\" name=\"search\" sf-schema=\"searchSchema\" sf-form=\"searchForm\"\n" +
     "      sf-model=\"searchModel\"\n" +
     "      ng-submit=\"searchSubmit(search)\"></form>");
 }]);
@@ -1257,10 +1318,9 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "                </a>\n" +
     "                <ul class=\"nav nav-second-level\" ng-class=\"{hidden: $root.collapsed}\">\n" +
     "                    <li ng-repeat=\"(k, v) in item\">\n" +
-    "                      <a ng-if=\"v['baseCategory'] == 'other'\" ng-href=\"#{{v.url}}\" ng-\n" +
-    "                           ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
-    "                      <a ng-if=\"v['baseCategory'] == 'ogrenci' || v['baseCategory'] ==  'personel'\"\n" +
-    "                           ng-href=\"#/{{v.wf}}/{{v.model}}?{{v.param}}={{$root.selectedUser.key}}\"\n" +
+    "                      <!--<a ng-if=\"v.model\" ng-href=\"#{{v.url}}\" ng- -->\n" +
+    "                           <!--ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>-->\n" +
+    "                      <a ng-href=\"#/{{v.wf}}/{{v.model}}?{{v.param}}={{$root.selectedUser.key}}\"\n" +
     "                           ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
@@ -1277,6 +1337,13 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "    </footer>\n" +
     "</div>\n" +
     "");
+}]);
+
+angular.module("shared/templates/directives/sort.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/sort.html",
+    "<form class=\"form-inline pull-left\" id=\"sort\" name=\"sort\" sf-schema=\"sortSchema\" sf-form=\"sortForm\"\n" +
+    "      sf-model=\"sortModel\"\n" +
+    "      ng-submit=\"sortSubmit(sort)\"></form>");
 }]);
 
 angular.module("shared/templates/directives/stats.html", []).run(["$templateCache", function($templateCache) {
@@ -1458,7 +1525,7 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "                   sf-changed=\"form\"\n" +
     "                   class=\"form-control {{form.fieldHtmlClass}}\"\n" +
     "                   schema-validate=\"form\"\n" +
-    "                   name=\"{{form.model_name}}\" value=\"{{form.selected_item}}\"/>\n" +
+    "                   name=\"{{form.model_name}}\"/>\n" +
     "        </div>\n" +
     "\n" +
     "        <!--<select ng-model=\"$$value$$\"-->\n" +
@@ -1486,10 +1553,15 @@ angular.module("shared/templates/linkedModelModalContent.html", []).run(["$templ
   $templateCache.put("shared/templates/linkedModelModalContent.html",
     "<div class=\"modal-body\">\n" +
     "    <h3>{{schema.title}}</h3>\n" +
-    "    <form name=\"linkedModelForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"></form>\n" +
+    "    <div class=\"buttons-on-top-modal\"></div>\n" +
+    "    <hr>\n" +
+    "    <form name=\"linkedModelForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" modal-form-locator></form>\n" +
+    "    <hr>\n" +
+    "    <div class=\"buttons-on-bottom-modal\"></div>\n" +
     "</div>\n" +
     "<div class=\"modal-footer\">\n" +
-    "    <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"onSubmit(linkedModelForm)\">OK</button>\n" +
+    "\n" +
+    "    <!--<button type=\"submit\" class=\"btn btn-primary\" ng-click=\"onSubmit(linkedModelForm)\">OK</button>-->\n" +
     "    <button type=\"button\" class=\"btn btn-warning\" ng-click=\"cancel()\">Cancel</button>\n" +
     "</div>");
 }]);
