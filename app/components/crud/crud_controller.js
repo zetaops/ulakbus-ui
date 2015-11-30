@@ -121,7 +121,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
      *
      * @returns {object}
      */
-    .controller('CRUDListFormCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams, CrudUtility) {
+    .controller('CRUDListFormCtrl', function ($scope, $rootScope, $location, $http, $log, $uibModal, $timeout, Generator, $routeParams, CrudUtility) {
         // reloadData must be a json object
         $scope.reload = function (reloadData) {
             $scope.form_params.cmd = $scope.reload_cmd;

@@ -1,8 +1,8 @@
 <div class="modal-body">
     <h3>{{schema.title}}</h3>
-    <form name="listnodeform" sf-schema="schema" sf-form="form" sf-model="model"></form>
+    <form name="modalForm" sf-schema="schema" sf-form="form" sf-model="model" modal-form-locator></form>
 </div>
 <div class="modal-footer">
-    <button type="submit" class="btn btn-primary" ng-click="onSubmit(listnodeform)">OK</button>
+    <button type="submit" class="btn btn-primary" ng-click="onNodeSubmit()">OK</button>
     <button type="button" class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>

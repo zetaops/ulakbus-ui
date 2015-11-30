@@ -14,7 +14,7 @@
     "angular-route": "1.4.x",
     "angular-resource": "1.4.x",
     "angular-cookies": "1.4.x",
-    "angular-bootstrap": "0.13.1",
+    "angular-bootstrap": "0.14.3",
     "font-awesome": "4.3.0",
     "angular-schema-form": "0.8.3",
     "angular-loading-bar": "~0.8.0",

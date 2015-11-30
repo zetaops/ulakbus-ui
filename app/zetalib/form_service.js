@@ -31,7 +31,8 @@ angular.module('formService', ['ui.bootstrap'])
          */
         generator.makeUrl = function (scope) {
             var getparams = scope.form_params.param ? "?" + scope.form_params.param + "=" + scope.form_params.id : "";
-            return RESTURL.url + scope.url + '/' + (scope.form_params.model || '') + getparams;
+            //return RESTURL.url + scope.url + '/' + (scope.form_params.model || '') + getparams;
+            return RESTURL.url + scope.url + getparams;
         };
         /**
          * @name generate
@@ -222,11 +223,71 @@ angular.module('formService', ['ui.bootstrap'])
                 if (v.type === 'model') {
 
                     var formitem = scope.form[scope.form.indexOf(k)];
-                    var modelscope = {"url": v.wf, "form_params": {model: v.model_name, cmd: v.list_cmd}};
+                    var modelScope = {"url": v.wf, "form_params": {model: v.model_name, cmd: v.list_cmd}};
+
+                    scope.$on('refreshTitleMap', function (event, data) {
+                        // todo: write a function to refresh titleMap after new item add to linkedModel
+                    });
+
+                    scope.generateTitleMap = function (modelScope) {
+                        generator.get_list(modelScope).then(function (res) {
+                            formitem.titleMap = [];
+                            angular.forEach(res.data.objects, function (item) {
+                                debugger;
+                                if (item !== "-1") {
+                                    formitem.titleMap.push({
+                                        "value": item.key,
+                                        "name": item.value
+                                    });
+                                }
+                                // get selected item from titleMap using model value
+                                if (item.key === scope.model[k]) {
+                                    formitem.selected_item = {value: item.key, name: item.value};
+                                }
+                            });
+                            // after rendering change input value to model value
+                            scope.$watch(document.querySelector('input[name=' + v.model_name + ']'),
+                                function () {
+                                    angular.element(document.querySelector('input[name=' + v.model_name + ']')).val(formitem.selected_item.name);
+                                }
+                            );
+                        })
+                    };
 
                     formitem = {
                         type: "template",
                         templateUrl: "shared/templates/foreignKey.html",
+                        title: v.title,
+                        wf: v.wf,
+                        add_cmd: v.add_cmd,
+                        name: v.model_name,
+                        model_name: v.model_name,
+                        selected_item: {},
+                        titleMap: scope.generateTitleMap(modelScope),
+                        onSelect: function (item) {
+                            scope.model[k] = item.value;
+                        },
+                        onDropdownSelect: function (item, inputname) {
+                            scope.model[k] = item.value;
+                            jQuery('input[name=' + inputname + ']').val(item.name);
+                        }
+                    };
+
+                    scope.form[scope.form.indexOf(k)] = formitem;
+                }
+
+                if (v.type === 'filter_interface') {
+
+                    var formitem = scope.form[scope.form.indexOf(k)];
+                    var modelscope = {"url": v.wf, "form_params": {model: v.model_name, cmd: v.list_cmd}};
+
+                    scope.$on('refreshTitleMap', function (event, data) {
+                        // todo: write a function to refresh titleMap after new item add to linkedModel
+                    });
+
+                    formitem = {
+                        type: "template",
+                        templateUrl: "shared/templates/multiselect.html",
                         title: v.title,
                         wf: v.wf,
                         add_cmd: v.add_cmd,
@@ -262,8 +323,6 @@ angular.module('formService', ['ui.bootstrap'])
                             jQuery('input[name=' + inputname + ']').val(item.name);
                         }
                     };
-
-                    // get model objects from db and add to select list
 
                     scope.form[scope.form.indexOf(k)] = formitem;
                 }
@@ -562,11 +621,11 @@ angular.module('formService', ['ui.bootstrap'])
      * @description
      * controller for listnode, node and linkedmodel modal and save data of it
      * @param items
-     * @requires $scope, $modalInstance, $route
+     * @requires $scope, $uibModalInstance, $route
      * @returns returns value for modal
      */
 
-    .controller('ModalCtrl', function ($scope, $modalInstance, Generator, items) {
+    .controller('ModalCtrl', function ($scope, $uibModalInstance, Generator, items) {
         angular.forEach(items, function (value, key) {
             $scope[key] = items[key];
         });
@@ -590,13 +649,19 @@ angular.module('formService', ['ui.bootstrap'])
         $scope.onSubmit = function (form) {
             $scope.$broadcast('schemaFormValidate');
             if (form.$valid) {
+
                 // send form to modalinstance result function
-                $modalInstance.close($scope);
+                $uibModalInstance.close($scope);
 
             }
         };
+
+        $scope.onNodeSubmit = function () {
+            $uibModalInstance.close($scope);
+        };
+
         $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
     })
 
@@ -604,15 +669,15 @@ angular.module('formService', ['ui.bootstrap'])
      * @name modalForNodes
      * @description
      * add modal directive for nodes
-     * @param $modal
+     * @param $uibModal
      * @returns openmodal directive
      */
 
-    .directive('modalForNodes', function ($modal) {
+    .directive('modalForNodes', function ($uibModal, Generator) {
         return {
             link: function (scope, element, attributes) {
                 element.on('click', function () {
-                    var modalInstance = $modal.open({
+                    var modalInstance = $uibModal.open({
                         animation: false,
                         templateUrl: 'shared/templates/listnodeModalContent.html',
                         controller: 'ModalCtrl',
@@ -635,7 +700,20 @@ angular.module('formService', ['ui.bootstrap'])
                                 // tell result.then function which item to edit
                                 node.edit = attribs[3];
 
-                                return node;
+                                scope.node.schema.wf = scope.node.url;
+
+                                angular.forEach(scope.node.schema.properties, function (value, key) {
+                                    scope.node.schema.properties[key].wf = scope.node.url;
+                                    scope.node.schema.properties[key].list_cmd = 'select_list';
+                                });
+
+                                var newscope = {
+                                    url: scope.node.url,
+                                    form_params: {model: scope.node.schema.model_name}
+                                };
+
+                                Generator.generate(newscope, {forms:scope.node});
+                                return scope.node;
                             }
                         }
                     });
@@ -666,15 +744,15 @@ angular.module('formService', ['ui.bootstrap'])
      * @name addModalForLinkedModel
      * @description
      * add modal directive for linked models
-     * @param $modal, Generator
+     * @param $uibModal, Generator
      * @returns openmodal directive
      */
 
-    .directive('addModalForLinkedModel', function ($modal, $rootScope, $route, Generator) {
+    .directive('addModalForLinkedModel', function ($uibModal, $rootScope, $route, Generator) {
         return {
             link: function (scope, element) {
                 element.on('click', function () {
-                    var modalInstance = $modal.open({
+                    var modalInstance = $uibModal.open({
                         animation: true,
                         backdrop:'static',
                         templateUrl: 'shared/templates/linkedModelModalContent.html',
@@ -722,17 +800,17 @@ angular.module('formService', ['ui.bootstrap'])
      * @name editModalForLinkedModel
      * @description
      * edit modal directive for linked models
-     * @param $modal, Generator
+     * @param $uibModal, Generator
      * @returns openmodal directive
      */
 
     // todo: useless modal check if any use cases?? and delete if useless
 
-    .directive('editModalForLinkedModel', function ($modal, Generator) {
+    .directive('editModalForLinkedModel', function ($uibModal, Generator) {
         return {
             link: function (scope, element) {
                 element.on('click', function () {
-                    var modalInstance = $modal.open({
+                    var modalInstance = $uibModal.open({
                         animation: false,
                         templateUrl: 'shared/templates/linkedModelModalContent.html',
                         controller: 'ModalCtrl',

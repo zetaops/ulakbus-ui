@@ -37,9 +37,10 @@
     </div>
     <!-- /.sidebar-collapse -->
 
-
-    
     <footer ng-class="{hidden: $root.collapsed}">
+        <a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().setOptions({
+        'nextLabel': 'Sonraki', 'prevLabel': 'Öncek', 'skipLabel': 'Atla', 'doneLabel': 'Bitir' }).start();">Yardım
+            Rehberi</a><br>
     	<span>v <app-version></app-version> &copy; ZetaOps</span>
     </footer>
 </div>

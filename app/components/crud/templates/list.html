@@ -1,5 +1,5 @@
 <div class="starter-template container">
-    <sort-directive></sort-directive>
+    <sort-directive ng-if="meta['allow_sort']===true"></sort-directive>
     <search-directive ng-if="meta['allow_search']===true"></search-directive>
     <div class="clearfix"></div>
     <!--<h1>{{form_params.model || form_params.wf}}</h1>-->

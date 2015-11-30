@@ -28,7 +28,7 @@ angular.module("components/crud/templates/crud.html", []).run(["$templateCache",
     "        <crud-form-directive ng-if=\"forms\"></crud-form-directive>\n" +
     "        <crud-list-directive ng-if=\"objects\"></crud-list-directive>\n" +
     "    </div>\n" +
-    "    <crud-filters ng-if=\"meta.allow_filters === true\" class=\"col-md-4\"></crud-filters>\n" +
+    "    <crud-filters ng-if=\"meta.allow_filters === true\" class=\"col-md-4 filtre\"></crud-filters>\n" +
     "</div>");
 }]);
 
@@ -299,28 +299,10 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
   $templateCache.put("components/dashboard/dashboard.html",
     "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
-    "\n" +
-    "		<!-- \n" +
-    "        <div class=\"row\">\n" +
-    "            <div class=\"major-buttons\">\n" +
-    "                <div class=\"col-md-4\">\n" +
-    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-personnel brand-bg\" ng-click=\"section(2)\"><i class=\"fa fa-user\"></i>\n" +
-    "                        PERSONEL İŞLERİ</button></a>\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-4\">\n" +
-    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-student brand-bg\" ng-click=\"section(0)\"><i\n" +
-    "                            class=\"fa fa-graduation-cap\"></i> ÖĞRENCİ İŞLERİ</button></a>\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-4\">\n" +
-    "                    <a href=\"\"><button type=\"button\" class=\"btn btn-system brand-bg\" ng-click=\"section(3)\"><i class=\"fa fa-gears\"></i>\n" +
-    "                        SİSTEM</button></a>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "		-->\n" +
     "        \n" +
     "        <div class=\"dashboard-main-search clearfix\">\n" +
-    "        	<div class=\"dashboard-student-search\" data-step=\"1\" data-intro=\"test intro\">\n" +
+    "        	<div class=\"dashboard-student-search\" data-step=\"2\"\n" +
+    "                 data-intro=\"isim veya tcno ile öğrenci araması yapabilirsiniz.\">\n" +
     "            	<center>\n" +
     "                	<h3>ÖĞRENCİ</h3>\n" +
     "                	<input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"student_kw\" ng-keyup=\"search('ogrenci')\">\n" +
@@ -336,7 +318,8 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                 <!-- end of dashboard-student-search-results -->\n" +
     "            </div>\n" +
     "            <!-- end of dashboard-student-search -->\n" +
-    "            <div class=\"dashboard-personnel-search\">\n" +
+    "            <div class=\"dashboard-personnel-search\" data-step=\"3\"\n" +
+    "                 data-intro=\"isim veya tcno ile personel araması yapabilirsiniz.\">\n" +
     "            	<center>\n" +
     "                	<h3>PERSONEL</h3>\n" +
     "                	<input type=\"text\" placeholder=\"Personel ara\" ng-model=\"staff_kw\" ng-keyup=\"search('personel')\">\n" +
@@ -357,7 +340,8 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "        \n" +
     "		<div class=\"right-sidebar\">\n" +
     "\n" +
-    "        	<div class=\"right-sidebar-box\">\n" +
+    "        	<div class=\"right-sidebar-box\" data-step=\"4\"\n" +
+    "                 data-intro=\"mesajlar, yapılan görevlerin son durumları, duyurular ve son yapılan işlemleri buradan takip edebilirsiniz.\">\n" +
     "            	<div class=\"right-sidebar-messages\">\n" +
     "\n" +
     "                	<div class=\"right-sidebar-title clearfix\">\n" +
@@ -392,21 +376,6 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                		<h3>Görevler</h3>\n" +
     "                        <span><a href=\"javascript:void(0)\">Tüm Görevler</a></span>\n" +
     "                    </div>\n" +
-    "                    <!-- end of right-sidebar-title -->\n" +
-    "\n" +
-    "                    <!--<div class=\"right-sidebar-task-block\">-->\n" +
-    "                    	<!--<div class=\"task-type\">Devam Eden Görevler</div>-->\n" +
-    "                        <!--<a href=\"javascript:void(0)\">-->\n" +
-    "                            <!--<div class=\"task-title\">Öğrenci Kayıt</div>-->\n" +
-    "                            <!--<div class=\"progress\">-->\n" +
-    "                                <!--<div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"25\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"min-width: 2em; width:25%;\">-->\n" +
-    "                                <!--25%-->\n" +
-    "                                <!--</div>-->\n" +
-    "                            <!--</div>-->\n" +
-    "                            <!--&lt;!&ndash; end of progress &ndash;&gt;-->\n" +
-    "                        <!--</a>-->\n" +
-    "                    <!--</div>-->\n" +
-    "                    <!-- end of right-sidebar-task-block -->\n" +
     "\n" +
     "                    <div class=\"right-sidebar-task-block\">\n" +
     "                    	<!--<div class=\"task-type\">Onay Bekleyen Görevler</div>-->\n" +
@@ -451,13 +420,6 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                		<h3>Son İşlemler</h3>\n" +
     "                        <span><a href=\"javascript:void(0)\">Tüm İşlemler</a></span>\n" +
     "                    </div>\n" +
-    "                    <!-- end of right-sidebar-title -->\n" +
-    "\n" +
-    "                    <!--<div class=\"right-sidebar-last-action-block\">-->\n" +
-    "                        <!--<a href=\"javascript:void(0)\">Birinci dönem bitimine 10 gün kaldı.</a>-->\n" +
-    "                        <!--<a href=\"javascript:void(0)\">Ders seçimi işlemleri xx tarihinde başlayacaktır.</a>-->\n" +
-    "                    <!--</div>-->\n" +
-    "                    <!-- end of right-sidebar-status-block -->\n" +
     "\n" +
     "                </div>\n" +
     "                <!-- end of right-sidebar-status -->\n" +
@@ -1298,7 +1260,8 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "    </div>\n" +
     "\n" +
     "    <div class=\"sidebar-nav navbar-collapse\">\n" +
-    "        <ul class=\"nav in\" id=\"side-menu\" ng-class=\"{hidden: $root.loggedInUser != true}\">\n" +
+    "        <ul class=\"nav in\" id=\"side-menu\" ng-class=\"{hidden: $root.loggedInUser != true}\" data-step=\"1\"\n" +
+    "            data-intro=\"seçilen personele veya öğrenciye göre ilgili menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz.\">\n" +
     "            <!--<sidebar-search></sidebar-search>-->\n" +
     "            <li ui-sref-active=\"active\">\n" +
     "                <a href=\"#/dashboard\" ng-click=\"breadcrumb(['Panel'])\"><i class=\"fa fa-dashboard fa-fw\"></i>\n" +
@@ -1330,9 +1293,10 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "    </div>\n" +
     "    <!-- /.sidebar-collapse -->\n" +
     "\n" +
-    "\n" +
-    "    \n" +
     "    <footer ng-class=\"{hidden: $root.collapsed}\">\n" +
+    "        <a class=\"btn btn-large btn-success\" href=\"javascript:void(0);\" onclick=\"javascript:introJs().setOptions({\n" +
+    "        'nextLabel': 'Sonraki', 'prevLabel': 'Öncek', 'skipLabel': 'Atla', 'doneLabel': 'Bitir' }).start();\">Yardım\n" +
+    "            Rehberi</a><br>\n" +
     "    	<span>v <app-version></app-version> &copy; ZetaOps</span>\n" +
     "    </footer>\n" +
     "</div>\n" +
@@ -1570,10 +1534,10 @@ angular.module("shared/templates/listnodeModalContent.html", []).run(["$template
   $templateCache.put("shared/templates/listnodeModalContent.html",
     "<div class=\"modal-body\">\n" +
     "    <h3>{{schema.title}}</h3>\n" +
-    "    <form name=\"listnodeform\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"></form>\n" +
+    "    <form name=\"modalForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" modal-form-locator></form>\n" +
     "</div>\n" +
     "<div class=\"modal-footer\">\n" +
-    "    <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"onSubmit(listnodeform)\">OK</button>\n" +
+    "    <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"onNodeSubmit()\">OK</button>\n" +
     "    <button type=\"button\" class=\"btn btn-warning\" ng-click=\"cancel()\">Cancel</button>\n" +
     "</div>");
 }]);
