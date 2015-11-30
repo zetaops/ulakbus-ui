@@ -1,57 +1,57 @@
-<div class="tablescroll">
-<table class="table table-bordered" style="background-color:#fff;">
-    <thead>
-    <tr ng-if="node.schema.formType=='Node'">
+<!--<div class="tablescroll">-->
+<!--<table class="table table-bordered" style="background-color:#fff;">-->
+    <!--<thead>-->
+    <!--<tr ng-if="node.schema.formType=='Node'">-->
+        <!--&lt;!&ndash;<th colspan="2">&ndash;&gt;-->
+            <!--&lt;!&ndash;<label>&ndash;&gt;-->
+                <!--&lt;!&ndash;<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">&ndash;&gt;-->
+                <!--&lt;!&ndash;Hepsini Seç&ndash;&gt;-->
+            <!--&lt;!&ndash;</label>&ndash;&gt;-->
+        <!--&lt;!&ndash;</th>&ndash;&gt;-->
+        <!--<th ng-repeat="(key,value) in node.model">{{ key }}</th>-->
+        <!--<th>İşlem</th>-->
+    <!--</tr>-->
+    <!--<tr ng-if="node.schema.formType=='ListNode'">-->
         <!--<th colspan="2">-->
             <!--<label>-->
                 <!--<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">-->
                 <!--Hepsini Seç-->
             <!--</label>-->
         <!--</th>-->
-        <th ng-repeat="(key,value) in node.model">{{ key }}</th>
-        <th>İşlem</th>
-    </tr>
-    <tr ng-if="node.schema.formType=='ListNode'">
-        <th colspan="2">
-            <label>
-                <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
-                Hepsini Seç
-            </label>
-        </th>
-        <th ng-repeat="(key,value) in node.model[0]">{{ key }}</th>
-        <th>İşlem</th>
-    </tr>
-    </thead>
-    <tbody ng-class="{hidden: node.lengthModels < 1}">
+        <!--<th ng-repeat="(key,value) in node.model[0]">{{ key }}</th>-->
+        <!--<th>İşlem</th>-->
+    <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody ng-class="{hidden: node.lengthModels < 1}">-->
 
-    <tr ng-if="node.schema.formType=='Node'">
+    <!--<tr ng-if="node.schema.formType=='Node'">-->
+        <!--&lt;!&ndash;<td width="60">&ndash;&gt;-->
+            <!--&lt;!&ndash;<label>&ndash;&gt;-->
+                <!--&lt;!&ndash;<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">&ndash;&gt;-->
+            <!--&lt;!&ndash;</label>&ndash;&gt;-->
+        <!--&lt;!&ndash;</td>&ndash;&gt;-->
+        <!--&lt;!&ndash;<th scope="row" style="text-align:center">1</th>&ndash;&gt;-->
+        <!--<td ng-repeat="value in node.model">{{ value }}</td>-->
+        <!--<td>-->
+            <!--<button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit">Düzenle</button><br>-->
+            <!--<button>Sil</button>-->
+        <!--</td>-->
+    <!--</tr>-->
+
+    <!--<tr ng-repeat="listnodemodel in node.model" ng-if="node.schema.formType=='ListNode'">-->
         <!--<td width="60">-->
             <!--<label>-->
                 <!--<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">-->
             <!--</label>-->
         <!--</td>-->
-        <!--<th scope="row" style="text-align:center">1</th>-->
-        <td ng-repeat="value in node.model">{{ value }}</td>
-        <td>
-            <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit">Düzenle</button><br>
-            <button>Sil</button>
-        </td>
-    </tr>
+        <!--<th scope="row" style="text-align:center">{{$index+1}}</th>-->
+        <!--<td ng-repeat="(k, v) in listnodemodel">{{ v }}</td>-->
+        <!--<td>-->
+            <!--<button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}">Düzenle</button><br>-->
+            <!--<button>Sil</button>-->
+        <!--</td>-->
+    <!--</tr>-->
 
-    <tr ng-repeat="listnodemodel in node.model" ng-if="node.schema.formType=='ListNode'">
-        <td width="60">
-            <label>
-                <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
-            </label>
-        </td>
-        <th scope="row" style="text-align:center">{{$index+1}}</th>
-        <td ng-repeat="(k, v) in listnodemodel">{{ v }}</td>
-        <td>
-            <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}">Düzenle</button><br>
-            <button>Sil</button>
-        </td>
-    </tr>
-
-    </tbody>
-</table>
-</div>
+    <!--</tbody>-->
+<!--</table>-->
+<!--</div>-->

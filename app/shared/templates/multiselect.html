@@ -1,0 +1,62 @@
+<div class="form-group {{form.htmlClass}} schema-form-select col-md-12"
+     ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}">
+    <div class="col-md-8">
+        <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">
+            {{form.title}}
+        </label>
+
+        <div class="row">
+            <div class="form-group input-group">
+                <input type="text"
+                       placeholder="{{form.title}} filtrele"
+                       class="form-control {{form.fieldHtmlClass}}"
+                       name="filter-interface"
+                       ng-model="form.filterValue"
+                       ng-keyup="form.appendFiltered(form.filterValue)"
+                />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <label for="filterItems">{{form.title}} Liste</label>
+                <select ng-model="selectedItemsModel"
+                        value="$$value$$"
+                        ng-model-options="form.ngModelOptions"
+                        ng-disabled="form.readonly"
+                        sf-changed="form"
+                        class="form-control {{form.fieldHtmlClass}}"
+                        schema-validate="form"
+                        ng-options="item as item.name for item in form.filteredItems"
+                        name="filterItems" multiple>
+                </select>
+            </div>
+
+
+            <div class="col-md-1">
+                <a href="javascript:void(0)" ng-click="form.select(selectedItemsModel)"><i class="fa fa-arrow-right fa-fw"></i></a><br>
+                <a href="javascript:void(0)" ng-click="form.deselect(selectedFilteredItemsModel)"><i class="fa fa-arrow-left fa-fw"></i></a>
+            </div>
+
+            <div class="col-md-5">
+                <label for="selectedItems">Seçilenler</label>
+                <select ng-model="selectedFilteredItemsModel"
+                        value="$$value$$"
+                        ng-model-options="form.ngModelOptions"
+                        ng-disabled="form.readonly"
+                        sf-changed="form"
+                        class="form-control {{form.fieldHtmlClass}}"
+                        schema-validate="form"
+                        ng-options="item as item.name for item in form.selectedFilteredItems"
+                        name="selectedItems" multiple>
+                </select>
+            </div>
+        </div>
+
+        <div class="help-block" sf-message="form.description"></div>
+    </div>
+    <div class="col-md-4">
+        <a href="javascript:void(0);" add-modal-for-linked-model>
+            <i class="fa fa-plus-circle fa-fw"></i>
+        </a>
+    </div>
+</div>

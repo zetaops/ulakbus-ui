@@ -100,6 +100,8 @@ angular.module('formService', ['ui.bootstrap'])
          */
         generator.prepareFormItems = function (scope) {
 
+            //scope.schema.properties.Permissions ? scope.schema.properties.Permissions['widget']='filter_interface':true;
+
             // todo: remove after backend fix
             angular.forEach(scope.form, function (value, key) {
                 if (value.type === 'select') {
@@ -157,10 +159,14 @@ angular.module('formService', ['ui.bootstrap'])
                             if (scope.modalElements) {
                                 scope.submitModalForm();
                             } else {
-                                scope.$broadcast('schemaFormValidate');
-                                if (scope[workOnForm].$valid) {
+                                if (v.validation === false) {
                                     generator.submit(scope, redirectTo);
-                                    scope.$broadcast('disposeModal');
+                                } else {
+                                    scope.$broadcast('schemaFormValidate');
+                                    if (scope[workOnForm].$valid) {
+                                        generator.submit(scope, redirectTo);
+                                        scope.$broadcast('disposeModal');
+                                    }
                                 }
                             }
                         }
@@ -225,15 +231,14 @@ angular.module('formService', ['ui.bootstrap'])
                     var formitem = scope.form[scope.form.indexOf(k)];
                     var modelScope = {"url": v.wf, "form_params": {model: v.model_name, cmd: v.list_cmd}};
 
-                    scope.$on('refreshTitleMap', function (event, data) {
+                    //scope.$on('refreshTitleMap', function (event, data) {
                         // todo: write a function to refresh titleMap after new item add to linkedModel
-                    });
+                    //});
 
                     scope.generateTitleMap = function (modelScope) {
                         generator.get_list(modelScope).then(function (res) {
                             formitem.titleMap = [];
                             angular.forEach(res.data.objects, function (item) {
-                                debugger;
                                 if (item !== "-1") {
                                     formitem.titleMap.push({
                                         "value": item.key,
@@ -276,25 +281,12 @@ angular.module('formService', ['ui.bootstrap'])
                     scope.form[scope.form.indexOf(k)] = formitem;
                 }
 
-                if (v.type === 'filter_interface') {
-
+                if ((v.type === 'ListNode' || v.type === 'Node') && v.widget === 'filter_interface') {
                     var formitem = scope.form[scope.form.indexOf(k)];
-                    var modelscope = {"url": v.wf, "form_params": {model: v.model_name, cmd: v.list_cmd}};
+                    var modelScope = {"url": v.wf || scope.wf, "form_params": {model: v.model_name || v.schema[0].model_name, cmd: v.list_cmd || 'select_list'}};
 
-                    scope.$on('refreshTitleMap', function (event, data) {
-                        // todo: write a function to refresh titleMap after new item add to linkedModel
-                    });
-
-                    formitem = {
-                        type: "template",
-                        templateUrl: "shared/templates/multiselect.html",
-                        title: v.title,
-                        wf: v.wf,
-                        add_cmd: v.add_cmd,
-                        name: v.model_name,
-                        model_name: v.model_name,
-                        selected_item: {},
-                        titleMap: generator.get_list(modelscope).then(function (res) {
+                    scope.generateTitleMap = function (modelScope) {
+                        generator.get_list(modelScope).then(function (res) {
                             formitem.titleMap = [];
                             angular.forEach(res.data.objects, function (item) {
                                 if (item !== "-1") {
@@ -314,20 +306,66 @@ angular.module('formService', ['ui.bootstrap'])
                                     angular.element(document.querySelector('input[name=' + v.model_name + ']')).val(formitem.selected_item.name);
                                 }
                             );
-                        }),
+                        })
+                    };
+
+                    formitem = {
+                        type: "template",
+                        templateUrl: "shared/templates/multiselect.html",
+                        title: v.title,
+                        wf: v.wf,
+                        add_cmd: v.add_cmd,
+                        name: v.model_name,
+                        model_name: v.model_name,
+                        filterValue: '',
+                        selected_item: {},
+                        filteredItems: [],
+                        selectedFilteredItems: [],
+                        titleMap: scope.generateTitleMap(modelScope),
                         onSelect: function (item) {
                             scope.model[k] = item.value;
                         },
                         onDropdownSelect: function (item, inputname) {
                             scope.model[k] = item.value;
                             jQuery('input[name=' + inputname + ']').val(item.name);
+                        },
+                        appendFiltered: function (filterValue) {
+                            formitem.filteredItems = [];
+                            if (filterValue.length > 2) {
+                                angular.forEach(formitem.titleMap, function (value, key) {
+                                    if (value.name.indexOf(filterValue) > -1) {
+                                        formitem.filteredItems.push(formitem.titleMap[key]);
+                                    }
+                                });
+                            }
+                            formitem.filteredItems = generator.get_diff_array(formitem.filteredItems, formitem.selectedFilteredItems);
+                        },
+                        select: function (selectedItemsModel) {
+                            formitem.selectedFilteredItems = formitem.selectedFilteredItems.concat(selectedItemsModel);
+                            formitem.appendFiltered(formitem.filterValue);
+                            scope.model[k] = formitem.dataToModel(selectedItemsModel);
+                        },
+                        deselect: function (selectedFilteredItemsModel) {
+                            formitem.selectedFilteredItems = generator.get_diff_array(formitem.selectedFilteredItems, selectedFilteredItemsModel);
+                            formitem.appendFiltered(formitem.filterValue);
+                            scope.model[k] = formitem.dataToModel(formitem.selectedFilteredItems);
+                        },
+                        dataToModel: function (data) {
+                            var dataValues = [];
+                            angular.forEach(data, function (value, key) {
+                                var dataKey = {};
+                                dataKey[v.schema[0].name]=value.value;
+                                dataValues.push(dataKey);
+                            });
+                            return dataValues;
                         }
                     };
 
                     scope.form[scope.form.indexOf(k)] = formitem;
+
                 }
 
-                if (v.type === 'ListNode' || v.type === 'Node') {
+                if ((v.type === 'ListNode' || v.type === 'Node') && v.widget !== 'filter_interface') {
 
                     scope[v.type] = scope[v.type] || {};
 
@@ -571,6 +609,16 @@ angular.module('formService', ['ui.bootstrap'])
                 if (typeof obj2[key] == 'object' && typeof obj1[key] == 'object')
                     result[key] = arguments.callee(obj1[key], obj2[key]);
             }
+            return result;
+        };
+
+        generator.get_diff_array = function (array1, array2) {
+            var result = [];
+            angular.forEach(array1, function (value, key) {
+                if (array2.indexOf(value) < 0) {
+                    result.push(value);
+                }
+            });
             return result;
         };
 
