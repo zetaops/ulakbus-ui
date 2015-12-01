@@ -250,12 +250,18 @@ angular.module('formService', ['ui.bootstrap'])
                                     formitem.selected_item = {value: item.key, name: item.value};
                                 }
                             });
-                            // after rendering change input value to model value
-                            scope.$watch(document.querySelector('input[name=' + v.model_name + ']'),
-                                function () {
-                                    angular.element(document.querySelector('input[name=' + v.model_name + ']')).val(formitem.selected_item.name);
-                                }
-                            );
+                            try {
+                                // after rendering change input value to model value
+                                scope.$watch(document.querySelector('input[name=' + v.model_name + ']'),
+                                    function () {
+                                        angular.element(document.querySelector('input[name=' + v.model_name + ']')).val(formitem.selected_item.name);
+                                    }
+                                );
+                            }
+                            catch (e) {
+                                $log.debug('exception', e);
+                            }
+
                         })
                     };
 
@@ -369,7 +375,8 @@ angular.module('formService', ['ui.bootstrap'])
 
                     scope[v.type] = scope[v.type] || {};
 
-                    scope[v.type][k] = {
+                    // no pass by reference
+                    scope[v.type][k] = angular.copy({
                         title: v.title,
                         form: [],
                         schema: {
@@ -381,13 +388,16 @@ angular.module('formService', ['ui.bootstrap'])
                             model_name: k
                         },
                         url: scope.url
-                    };
+                    });
 
-                    if (scope.model[k] === null) {
-                        scope[v.type][k].model = v.type === 'Node' ? {} : [];
-                    } else {
-                        scope[v.type][k].model = scope.model[k];
-                    }
+                    //if (scope.model[k] === null) {
+                    //    scope[v.type][k].model = v.type === 'Node' ? {} : [];
+                    //} else {
+                    //    scope[v.type][k].model = scope.model[k];
+                    //}
+
+                    scope[v.type][k].model = angular.copy(scope.model[k]) || {};
+                    if (v.type === 'ListNode') {scope[v.type][k].items = [];}
 
                     angular.forEach(v.schema, function (item) {
                         scope[v.type][k].schema.properties[item.name] = item;
@@ -761,6 +771,7 @@ angular.module('formService', ['ui.bootstrap'])
                                 };
 
                                 Generator.generate(newscope, {forms:scope.node});
+                                scope.model = {};
                                 return scope.node;
                             }
                         }
@@ -768,17 +779,17 @@ angular.module('formService', ['ui.bootstrap'])
 
                     modalInstance.result.then(function (childmodel, key) {
 
-                        if (childmodel.schema.formType === 'Node') {
-                            scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model = childmodel.model;
-                        }
-
-                        if (childmodel.schema.formType === 'ListNode') {
-                            if (childmodel.edit) {
-                                scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model[childmodel.edit] = childmodel.model;
-                            } else {
-                                scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model.push(childmodel.model);
-                            }
-                        }
+                        //if (childmodel.schema.formType === 'Node') {
+                        //    scope.$parent.model[childmodel.schema.model_name] = childmodel.model;
+                        //}
+                        //
+                        //if (childmodel.schema.formType === 'ListNode') {
+                        //    if (childmodel.edit) {
+                        //        scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model[childmodel.edit] = childmodel.model;
+                        //    } else {
+                        //        scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model.push(childmodel.model);
+                        //    }
+                        //}
 
                         scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].lengthModels += 1;
                     });

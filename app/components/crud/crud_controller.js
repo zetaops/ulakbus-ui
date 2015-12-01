@@ -46,6 +46,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                     wf: routeParams.wf,
                     object_id: routeParams.key
                 };
+                scope.form_params[scope.param] = scope.param_id;
                 scope.model = scope.form_params.model;
                 scope.wf = scope.form_params.wf;
                 scope.param = scope.form_params.param;

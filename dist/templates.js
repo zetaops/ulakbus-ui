@@ -134,7 +134,7 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
 angular.module("components/crud/templates/list.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/list.html",
     "<div class=\"starter-template container\">\n" +
-    "    <sort-directive></sort-directive>\n" +
+    "    <sort-directive ng-if=\"meta['allow_sort']===true\"></sort-directive>\n" +
     "    <search-directive ng-if=\"meta['allow_search']===true\"></search-directive>\n" +
     "    <div class=\"clearfix\"></div>\n" +
     "    <!--<h1>{{form_params.model || form_params.wf}}</h1>-->\n" +
@@ -1481,7 +1481,7 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "            </span>\n" +
     "            <input type=\"text\"\n" +
     "                   ng-model=\"$$value$$\"\n" +
-    "                   typeahead=\"item.name for item in form.titleMap\"\n" +
+    "                   uib-typeahead=\"item as item.name for item in form.titleMap | filter:{name:$viewValue}\"\n" +
     "                   typeahead-on-select=\"form.onSelect($item)\"\n" +
     "                   placeholder=\"{{form.title}}\"\n" +
     "                   ng-model-options=\"form.ngModelOptions\"\n" +
@@ -1549,23 +1549,67 @@ angular.module("shared/templates/modalContent.html", []).run(["$templateCache", 
 
 angular.module("shared/templates/multiselect.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/multiselect.html",
-    "<div class=\"form-group {{form.htmlClass}} schema-form-select\"\n" +
+    "<div class=\"form-group {{form.htmlClass}} schema-form-select col-md-12\"\n" +
     "     ng-class=\"{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}\">\n" +
-    "    <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
-    "        {{form.title}}\n" +
-    "    </label>\n" +
-    "    <select ng-model=\"$$value$$\"\n" +
-    "            ng-model-options=\"form.ngModelOptions\"\n" +
-    "            ng-disabled=\"form.readonly\"\n" +
-    "            sf-changed=\"form\"\n" +
-    "            class=\"form-control {{form.fieldHtmlClass}}\"\n" +
-    "            schema-validate=\"form\"\n" +
-    "            ng-options=\"item.value as item.name for item in form.titleMap\"\n" +
-    "            name=\"{{form.key.slice(-1)[0]}}\"\n" +
-    "            id=\"{{form.key.slice(-1)[0]}}\" multiple>\n" +
-    "    </select>\n" +
+    "    <div class=\"col-md-8\">\n" +
+    "        <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
+    "            {{form.title}}\n" +
+    "        </label>\n" +
     "\n" +
-    "    <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group input-group\">\n" +
+    "                <input type=\"text\"\n" +
+    "                       placeholder=\"{{form.title}} filtrele\"\n" +
+    "                       class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "                       name=\"filter-interface\"\n" +
+    "                       ng-model=\"form.filterValue\"\n" +
+    "                       ng-keyup=\"form.appendFiltered(form.filterValue)\"\n" +
+    "                />\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-5\">\n" +
+    "                <label for=\"filterItems\">{{form.title}} Liste</label>\n" +
+    "                <select ng-model=\"selectedItemsModel\"\n" +
+    "                        value=\"$$value$$\"\n" +
+    "                        ng-model-options=\"form.ngModelOptions\"\n" +
+    "                        ng-disabled=\"form.readonly\"\n" +
+    "                        sf-changed=\"form\"\n" +
+    "                        class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "                        schema-validate=\"form\"\n" +
+    "                        ng-options=\"item as item.name for item in form.filteredItems\"\n" +
+    "                        name=\"filterItems\" multiple>\n" +
+    "                </select>\n" +
+    "            </div>\n" +
+    "\n" +
+    "\n" +
+    "            <div class=\"col-md-1\">\n" +
+    "                <a href=\"javascript:void(0)\" ng-click=\"form.select(selectedItemsModel)\"><i class=\"fa fa-arrow-right fa-fw\"></i></a><br>\n" +
+    "                <a href=\"javascript:void(0)\" ng-click=\"form.deselect(selectedFilteredItemsModel)\"><i class=\"fa fa-arrow-left fa-fw\"></i></a>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div class=\"col-md-5\">\n" +
+    "                <label for=\"selectedItems\">Seçilenler</label>\n" +
+    "                <select ng-model=\"selectedFilteredItemsModel\"\n" +
+    "                        value=\"$$value$$\"\n" +
+    "                        ng-model-options=\"form.ngModelOptions\"\n" +
+    "                        ng-disabled=\"form.readonly\"\n" +
+    "                        sf-changed=\"form\"\n" +
+    "                        class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "                        schema-validate=\"form\"\n" +
+    "                        ng-options=\"item as item.name for item in form.selectedFilteredItems\"\n" +
+    "                        name=\"selectedItems\" multiple>\n" +
+    "                </select>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-4\">\n" +
+    "        <a href=\"javascript:void(0);\" add-modal-for-linked-model>\n" +
+    "            <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
+    "        </a>\n" +
+    "    </div>\n" +
     "</div>");
 }]);
 
