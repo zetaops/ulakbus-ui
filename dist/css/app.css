@@ -1649,7 +1649,7 @@ table.dataTable thead .sorting:after {
 }
 
 /* end page transitions */
-.move-to-bottom, .move-to-top {
+.move-to-bottom, .move-to-top, .move-to-bottom-modal, .move-to-top-modal {
     margin-right: 10px !important;
 }
 

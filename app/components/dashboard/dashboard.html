@@ -1,27 +1,9 @@
 <div ng-app="ulakbus.dashboard" class="dashboard">
     <div class="starter-template">
-
-		<!-- 
-        <div class="row">
-            <div class="major-buttons">
-                <div class="col-md-4">
-                    <a href=""><button type="button" class="btn btn-personnel brand-bg" ng-click="section(2)"><i class="fa fa-user"></i>
-                        PERSONEL İŞLERİ</button></a>
-                </div>
-                <div class="col-md-4">
-                    <a href=""><button type="button" class="btn btn-student brand-bg" ng-click="section(0)"><i
-                            class="fa fa-graduation-cap"></i> ÖĞRENCİ İŞLERİ</button></a>
-                </div>
-                <div class="col-md-4">
-                    <a href=""><button type="button" class="btn btn-system brand-bg" ng-click="section(3)"><i class="fa fa-gears"></i>
-                        SİSTEM</button></a>
-                </div>
-            </div>
-        </div>
-		-->
         
         <div class="dashboard-main-search clearfix">
-        	<div class="dashboard-student-search">
+        	<div class="dashboard-student-search" data-step="2"
+                 data-intro="isim veya tcno ile öğrenci araması yapabilirsiniz.">
             	<center>
                 	<h3>ÖĞRENCİ</h3>
                 	<input type="text" placeholder="Öğrenci ara" ng-model="student_kw" ng-keyup="search('ogrenci')">
@@ -37,7 +19,8 @@
                  <!-- end of dashboard-student-search-results -->
             </div>
             <!-- end of dashboard-student-search -->
-            <div class="dashboard-personnel-search">
+            <div class="dashboard-personnel-search" data-step="3"
+                 data-intro="isim veya tcno ile personel araması yapabilirsiniz.">
             	<center>
                 	<h3>PERSONEL</h3>
                 	<input type="text" placeholder="Personel ara" ng-model="staff_kw" ng-keyup="search('personel')">
@@ -58,7 +41,8 @@
         
 		<div class="right-sidebar">
 
-        	<div class="right-sidebar-box">
+        	<div class="right-sidebar-box" data-step="4"
+                 data-intro="mesajlar, yapılan görevlerin son durumları, duyurular ve son yapılan işlemleri buradan takip edebilirsiniz.">
             	<div class="right-sidebar-messages">
 
                 	<div class="right-sidebar-title clearfix">
@@ -93,21 +77,6 @@
                 		<h3>Görevler</h3>
                         <span><a href="javascript:void(0)">Tüm Görevler</a></span>
                     </div>
-                    <!-- end of right-sidebar-title -->
-
-                    <!--<div class="right-sidebar-task-block">-->
-                    	<!--<div class="task-type">Devam Eden Görevler</div>-->
-                        <!--<a href="javascript:void(0)">-->
-                            <!--<div class="task-title">Öğrenci Kayıt</div>-->
-                            <!--<div class="progress">-->
-                                <!--<div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:25%;">-->
-                                <!--25%-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--&lt;!&ndash; end of progress &ndash;&gt;-->
-                        <!--</a>-->
-                    <!--</div>-->
-                    <!-- end of right-sidebar-task-block -->
 
                     <div class="right-sidebar-task-block">
                     	<!--<div class="task-type">Onay Bekleyen Görevler</div>-->
@@ -152,13 +121,6 @@
                 		<h3>Son İşlemler</h3>
                         <span><a href="javascript:void(0)">Tüm İşlemler</a></span>
                     </div>
-                    <!-- end of right-sidebar-title -->
-
-                    <!--<div class="right-sidebar-last-action-block">-->
-                        <!--<a href="javascript:void(0)">Birinci dönem bitimine 10 gün kaldı.</a>-->
-                        <!--<a href="javascript:void(0)">Ders seçimi işlemleri xx tarihinde başlayacaktır.</a>-->
-                    <!--</div>-->
-                    <!-- end of right-sidebar-status-block -->
 
                 </div>
                 <!-- end of right-sidebar-status -->

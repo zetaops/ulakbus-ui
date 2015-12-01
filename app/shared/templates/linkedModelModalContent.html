@@ -1,8 +1,13 @@
 <div class="modal-body">
     <h3>{{schema.title}}</h3>
-    <form name="linkedModelForm" sf-schema="schema" sf-form="form" sf-model="model"></form>
+    <div class="buttons-on-top-modal"></div>
+    <hr>
+    <form name="linkedModelForm" sf-schema="schema" sf-form="form" sf-model="model" modal-form-locator></form>
+    <hr>
+    <div class="buttons-on-bottom-modal"></div>
 </div>
 <div class="modal-footer">
-    <button type="submit" class="btn btn-primary" ng-click="onSubmit(linkedModelForm)">OK</button>
+
+    <!--<button type="submit" class="btn btn-primary" ng-click="onSubmit(linkedModelForm)">OK</button>-->
     <button type="button" class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>

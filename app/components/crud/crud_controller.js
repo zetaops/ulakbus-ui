@@ -46,6 +46,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                     wf: routeParams.wf,
                     object_id: routeParams.key
                 };
+                scope.form_params[scope.param] = scope.param_id;
                 scope.model = scope.form_params.model;
                 scope.wf = scope.form_params.wf;
                 scope.param = scope.form_params.param;
@@ -121,7 +122,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
      *
      * @returns {object}
      */
-    .controller('CRUDListFormCtrl', function ($scope, $rootScope, $location, $http, $log, $modal, $timeout, Generator, $routeParams, CrudUtility) {
+    .controller('CRUDListFormCtrl', function ($scope, $rootScope, $location, $http, $log, $uibModal, $timeout, Generator, $routeParams, CrudUtility) {
         // reloadData must be a json object
         $scope.reload = function (reloadData) {
             $scope.form_params.cmd = $scope.reload_cmd;
@@ -156,6 +157,23 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
         $scope.getNumber = function (num) {
             return new Array(num);
         };
+
+        $timeout(function () {
+            jQuery('.filterDate').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "dd.mm.yy",
+                onSelect: function (date, inst) {
+                    //scope.model[k] = date;
+                    //if (scope.modalElements) {
+                    //    scope.validateModalDate(k);
+                    //}
+                    //else {
+                    //    scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
+                    //}
+                }
+            }).datepicker("setDate", new Date());
+        });
 
         //
         $scope.showCmd = function () {
@@ -260,4 +278,12 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                 scope.$emit('formLocator');
             }
         }
+    })
+
+    .directive('crudFilters', function() {
+        return {
+            templateUrl: 'components/crud/templates/filter.html',
+            restrict: 'E',
+            replace: true
+        };
     });

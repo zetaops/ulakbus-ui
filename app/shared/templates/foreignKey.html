@@ -19,7 +19,7 @@
             </span>
             <input type="text"
                    ng-model="$$value$$"
-                   typeahead="item.name for item in form.titleMap"
+                   uib-typeahead="item as item.name for item in form.titleMap | filter:{name:$viewValue}"
                    typeahead-on-select="form.onSelect($item)"
                    placeholder="{{form.title}}"
                    ng-model-options="form.ngModelOptions"

@@ -124,6 +124,56 @@ app.directive('logout', function ($http, $location, RESTURL) {
         };
     })
 
+    /**
+     *
+     */
+    .directive('sortDirective', function (Generator, $log) {
+        return {
+            templateUrl: 'shared/templates/directives/sort.html',
+            restrict: 'E',
+            replace: true,
+            link: function ($scope) {
+
+                // titleMap will be list
+                $scope.titleMap = [{ value: "artan", name: "Artan" }, { value: "azalan", name: "Azalan" }];
+                $scope.sortForm = [
+                    {key: 'sortbox', htmlClass: "pull-left", type: "select", titleMap: $scope.titleMap},
+                    {type: "submit", title: "Sırala", htmlClass: "pull-left"}];
+                $scope.sortSchema = {
+                    type: "object",
+                    properties: {
+                        sortbox: {
+                            type: "select",
+                            title: "Sırala"
+                        }
+                    },
+                    required: ['sortbox']
+                };
+                $scope.sortModel = {sortbox: ''};
+
+                $scope.sortSubmit = function (form) {
+                    $scope.$broadcast('schemaFormValidate');
+                    if (form.$valid) {
+                        var sortparams = {
+                            url: $scope.wf,
+                            token: $scope.$parent.token,
+                            object_id: $scope.$parent.object_id,
+                            form_params: {
+                                model: $scope.$parent.form_params.model,
+                                cmd: $scope.$parent.reload_cmd,
+                                flow: $scope.$parent.form_params.flow,
+                                param: 'sort',
+                                id: $scope.sortModel.sortbox
+                            }
+                        };
+
+                        Generator.submit(sortparams);
+                    }
+                }
+            }
+        };
+    })
+
 
     /**
      * collapseMenu directive
@@ -179,8 +229,10 @@ app.directive('logout', function ($http, $location, RESTURL) {
             //controller: "CRUDAddEditCtrl",
             replace: true,
             link: function ($scope) {
+                $scope.style = 'width:calc(100% - 300px);';
                 $scope.$on('$routeChangeStart', function () {
                     $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
+                    console.log('style of header', $location.path())
                 });
             }
         };

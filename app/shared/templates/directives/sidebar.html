@@ -4,7 +4,8 @@
     </div>
 
     <div class="sidebar-nav navbar-collapse">
-        <ul class="nav in" id="side-menu" ng-class="{hidden: $root.loggedInUser != true}">
+        <ul class="nav in" id="side-menu" ng-class="{hidden: $root.loggedInUser != true}" data-step="1"
+            data-intro="seçilen personele veya öğrenciye göre ilgili menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz.">
             <!--<sidebar-search></sidebar-search>-->
             <li ui-sref-active="active">
                 <a href="#/dashboard" ng-click="breadcrumb(['Panel'])"><i class="fa fa-dashboard fa-fw"></i>
@@ -24,10 +25,9 @@
                 </a>
                 <ul class="nav nav-second-level" ng-class="{hidden: $root.collapsed}">
                     <li ng-repeat="(k, v) in item">
-                      <a ng-if="v['baseCategory'] == 'other'" ng-href="#{{v.url}}" ng-
-                           ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
-                      <a ng-if="v['baseCategory'] == 'ogrenci' || v['baseCategory'] ==  'personel'"
-                           ng-href="#/{{v.wf}}/{{v.model}}?{{v.param}}={{$root.selectedUser.key}}"
+                      <!--<a ng-if="v.model" ng-href="#{{v.url}}" ng- -->
+                           <!--ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>-->
+                      <a ng-href="#/{{v.wf}}/{{v.model}}?{{v.param}}={{$root.selectedUser.key}}"
                            ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
                     </li>
                 </ul>
@@ -37,9 +37,10 @@
     </div>
     <!-- /.sidebar-collapse -->
 
-
-    
     <footer ng-class="{hidden: $root.collapsed}">
+        <a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().setOptions({
+        'nextLabel': 'Sonraki', 'prevLabel': 'Öncek', 'skipLabel': 'Atla', 'doneLabel': 'Bitir' }).start();">Yardım
+            Rehberi</a><br>
     	<span>v <app-version></app-version> &copy; ZetaOps</span>
     </footer>
 </div>
