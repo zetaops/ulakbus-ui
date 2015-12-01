@@ -135,7 +135,11 @@ angular.module('formService', ['ui.bootstrap'])
 
 
                 if (v.type === 'submit' || v.type === 'button') {
-                    var buttonPositions = scope.modalElements ? scope.modalElements.buttonPositions : {bottom: 'move-to-bottom', top: 'move-to-top', none: ''};
+                    var buttonPositions = scope.modalElements ? scope.modalElements.buttonPositions : {
+                        bottom: 'move-to-bottom',
+                        top: 'move-to-top',
+                        none: ''
+                    };
                     var workOnForm = scope.modalElements ? scope.modalElements.workOnForm : 'formgenerated';
                     var workOnDiv = scope.modalElements ? scope.modalElements.workOnDiv : '';
                     var buttonClass = (buttonPositions[v.position] || buttonPositions.bottom);
@@ -173,7 +177,7 @@ angular.module('formService', ['ui.bootstrap'])
                     };
                     // replace buttons according to their position values
                     $timeout(function () {
-                        var selectorBottom = '.buttons-on-bottom'+workOnDiv;
+                        var selectorBottom = '.buttons-on-bottom' + workOnDiv;
                         //var selectorTop = '.buttons-on-top'+workOnDiv;
 
                         var buttonsToBottom = angular.element(document.querySelector('.' + buttonClass));
@@ -191,6 +195,25 @@ angular.module('formService', ['ui.bootstrap'])
 
                 // check if type is date and if type date found change it to string
                 if (v.type === 'date') {
+                    scope.form[scope.form.indexOf(k)] = {
+                        key: k, name: k,
+                        validationMessage: {
+                            'dateNotValid': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>"
+                        },
+                        $asyncValidators: {
+                            'dateNotValid': function(value) {
+                                var deferred = $q.defer();
+                                $timeout(function(){
+                                    if (isNaN(Date.parse(value)) || value.split('.').length !== 3) {
+                                        deferred.reject();
+                                    } else {
+                                        deferred.resolve();
+                                    }
+                                }, 500);
+                                return deferred.promise;
+                            }
+                        }
+                    };
                     v.type = 'string';
                     scope.model[k] = generator.dateformatter(scope.model[k]);
 
@@ -232,7 +255,7 @@ angular.module('formService', ['ui.bootstrap'])
                     var modelScope = {"url": v.wf, "form_params": {model: v.model_name, cmd: v.list_cmd}};
 
                     //scope.$on('refreshTitleMap', function (event, data) {
-                        // todo: write a function to refresh titleMap after new item add to linkedModel
+                    // todo: write a function to refresh titleMap after new item add to linkedModel
                     //});
 
                     scope.generateTitleMap = function (modelScope) {
@@ -289,7 +312,10 @@ angular.module('formService', ['ui.bootstrap'])
 
                 if ((v.type === 'ListNode' || v.type === 'Node') && v.widget === 'filter_interface') {
                     var formitem = scope.form[scope.form.indexOf(k)];
-                    var modelScope = {"url": v.wf || scope.wf, "form_params": {model: v.model_name || v.schema[0].model_name, cmd: v.list_cmd || 'select_list'}};
+                    var modelScope = {
+                        "url": v.wf || scope.wf,
+                        "form_params": {model: v.model_name || v.schema[0].model_name, cmd: v.list_cmd || 'select_list'}
+                    };
 
                     scope.generateTitleMap = function (modelScope) {
                         generator.get_list(modelScope).then(function (res) {
@@ -360,7 +386,7 @@ angular.module('formService', ['ui.bootstrap'])
                             var dataValues = [];
                             angular.forEach(data, function (value, key) {
                                 var dataKey = {};
-                                dataKey[v.schema[0].name]=value.value;
+                                dataKey[v.schema[0].name] = value.value;
                                 dataValues.push(dataKey);
                             });
                             return dataValues;
@@ -390,26 +416,26 @@ angular.module('formService', ['ui.bootstrap'])
                         url: scope.url
                     });
 
-                    //if (scope.model[k] === null) {
-                    //    scope[v.type][k].model = v.type === 'Node' ? {} : [];
-                    //} else {
-                    //    scope[v.type][k].model = scope.model[k];
-                    //}
-
                     scope[v.type][k].model = angular.copy(scope.model[k]) || {};
-                    if (v.type === 'ListNode') {scope[v.type][k].items = [];}
+                    if (v.type === 'ListNode') {
+                        scope[v.type][k].items = [];
+                    }
 
                     angular.forEach(v.schema, function (item) {
-                        scope[v.type][k].schema.properties[item.name] = item;
+                        scope[v.type][k].schema.properties[item.name] = angular.copy(item);
 
                         // prepare required fields
                         if (item.required === true && item.name !== 'idx') {
-                            scope[v.type][k].schema.required.push(item.name);
+                            scope[v.type][k].schema.required.push(angular.copy(item.name));
                         }
 
                         // idx field must be hidden
                         if (item.name === 'idx') {
-                            scope[v.type][k].form.push({type: 'string', key: item.name, htmlClass: 'hidden'});
+                            scope[v.type][k].form.push({
+                                type: 'string',
+                                key: angular.copy(item.name),
+                                htmlClass: 'hidden'
+                            });
                         } else {
                             scope[v.type][k].form.push(item.name);
                         }
@@ -511,6 +537,10 @@ angular.module('formService', ['ui.bootstrap'])
         generator.isValidTCNo = function (tcno) {
             var re = /^([1-9]{1}[0-9]{9}[0,2,4,6,8]{1})$/i;
             return re.test(tcno);
+        };
+        generator.isValidDate = function (dateValue) {
+            var datevalid = Date.parse(dateValue) === Nan ? false : true;
+            return datevalid;
         };
         generator.asyncValidators = {
             emailNotValid: function (value) {
@@ -641,7 +671,7 @@ angular.module('formService', ['ui.bootstrap'])
 
             // todo: diff for all submits to recognize form change. if no change returns to view with no submit
             angular.forEach($scope.ListNode, function (value, key) {
-                $scope.model[key] = value.model;
+                $scope.model[key] = value.items;
             });
             angular.forEach($scope.Node, function (value, key) {
                 $scope.model[key] = value.model;
@@ -695,7 +725,7 @@ angular.module('formService', ['ui.bootstrap'])
         $scope.$on('modalFormLocator', function (event) {
             $scope.linkedModelForm = event.targetScope.linkedModelForm;
         });
-        
+
         $scope.$on('submitModalForm', function () {
             $scope.onSubmit($scope.linkedModelForm);
         });
@@ -715,7 +745,10 @@ angular.module('formService', ['ui.bootstrap'])
         };
 
         $scope.onNodeSubmit = function () {
-            $uibModalInstance.close($scope);
+            $scope.$broadcast('schemaFormValidate');
+            if ($scope.modalForm.$valid) {
+                $uibModalInstance.close($scope);
+            }
         };
 
         $scope.cancel = function () {
@@ -736,7 +769,8 @@ angular.module('formService', ['ui.bootstrap'])
             link: function (scope, element, attributes) {
                 element.on('click', function () {
                     var modalInstance = $uibModal.open({
-                        animation: false,
+                        animation: true,
+                        backdrop: 'static',
                         templateUrl: 'shared/templates/listnodeModalContent.html',
                         controller: 'ModalCtrl',
                         size: 'lg',
@@ -770,28 +804,28 @@ angular.module('formService', ['ui.bootstrap'])
                                     form_params: {model: scope.node.schema.model_name}
                                 };
 
-                                Generator.generate(newscope, {forms:scope.node});
-                                scope.model = {};
-                                return scope.node;
+                                Generator.generate(newscope, {forms: scope.node});
+                                return newscope;
                             }
                         }
                     });
 
                     modalInstance.result.then(function (childmodel, key) {
 
-                        //if (childmodel.schema.formType === 'Node') {
-                        //    scope.$parent.model[childmodel.schema.model_name] = childmodel.model;
-                        //}
-                        //
-                        //if (childmodel.schema.formType === 'ListNode') {
-                        //    if (childmodel.edit) {
-                        //        scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model[childmodel.edit] = childmodel.model;
-                        //    } else {
-                        //        scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].model.push(childmodel.model);
-                        //    }
-                        //}
+                        var listNodeItem = scope.$parent[childmodel.schema.formType][childmodel.schema.model_name];
+                        if (childmodel.schema.formType === 'Node') {
+                            listNodeItem.model = angular.copy(childmodel.model);
+                            listNodeItem.lengthModels += 1;
+                        }
 
-                        scope.$parent[childmodel.schema.formType][childmodel.schema.model_name].lengthModels += 1;
+                        if (childmodel.schema.formType === 'ListNode') {
+                            if (childmodel.edit) {
+                                listNodeItem.model[childmodel.edit] = childmodel.model;
+                            } else {
+                                listNodeItem.items.push(angular.copy(childmodel.model));
+                            }
+                            listNodeItem.lengthModels += 1;
+                        }
                     });
                 });
             }
@@ -813,7 +847,7 @@ angular.module('formService', ['ui.bootstrap'])
                 element.on('click', function () {
                     var modalInstance = $uibModal.open({
                         animation: true,
-                        backdrop:'static',
+                        backdrop: 'static',
                         templateUrl: 'shared/templates/linkedModelModalContent.html',
                         controller: 'ModalCtrl',
                         size: 'lg',
@@ -823,7 +857,11 @@ angular.module('formService', ['ui.bootstrap'])
                                     url: scope.form.wf,
                                     form_params: {model: scope.form.model_name, cmd: scope.form.add_cmd},
                                     modalElements: {
-                                        buttonPositions: {bottom: 'move-to-bottom-modal', top: 'move-to-top-modal', none: ''},
+                                        buttonPositions: {
+                                            bottom: 'move-to-bottom-modal',
+                                            top: 'move-to-top-modal',
+                                            none: ''
+                                        },
                                         workOnForm: 'linkedModelForm',
                                         workOnDiv: '-modal'
                                     },
