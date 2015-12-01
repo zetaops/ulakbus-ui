@@ -109,7 +109,7 @@ module.exports = function (grunt) {
                     "app/app_routes.js",
                     "app/zetalib/interceptors.js",
                     "app/zetalib/general.js",
-                    "app/zetalib/forms/form_service.js",
+                    "app/zetalib/form_service.js",
                     "app/shared/directives.js",
                     "app/components/auth/auth_controller.js",
                     "app/components/auth/auth_service.js",
