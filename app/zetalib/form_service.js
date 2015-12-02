@@ -31,7 +31,6 @@ angular.module('formService', ['ui.bootstrap'])
          */
         generator.makeUrl = function (scope) {
             var getparams = scope.form_params.param ? "?" + scope.form_params.param + "=" + scope.form_params.id : "";
-            //return RESTURL.url + scope.url + '/' + (scope.form_params.model || '') + getparams;
             return RESTURL.url + scope.url + getparams;
         };
         /**
@@ -71,10 +70,6 @@ angular.module('formService', ['ui.bootstrap'])
 
             scope.object_id = scope.form_params.object_id;
 
-            // showSaveButton is used for to show or not to show save button on top of the page
-            // here change to true because the view retrieves form from api
-            $rootScope.showSaveButton = true;
-
             $log.debug('scope at after generate', scope);
             return scope;
         };
@@ -100,9 +95,6 @@ angular.module('formService', ['ui.bootstrap'])
          */
         generator.prepareFormItems = function (scope) {
 
-            //scope.schema.properties.Permissions ? scope.schema.properties.Permissions['widget']='filter_interface':true;
-
-            // todo: remove after backend fix
             angular.forEach(scope.form, function (value, key) {
                 if (value.type === 'select') {
                     scope.schema.properties[value.key].type = 'select';
@@ -185,9 +177,6 @@ angular.module('formService', ['ui.bootstrap'])
                         //var buttonsToTop = angular.element(document.querySelector('.' + buttonClass));
                         //angular.element(document.querySelector(selectorTop)).append(buttonsToTop);
 
-                        $log.debug(selectorBottom, buttonsToBottom);
-                        $log.debug(angular.element(document.querySelector(selectorBottom)));
-
                         buttonsToBottom.removeClass('hide');
                         //buttonsToTop.removeClass('hide');
                     });
@@ -201,9 +190,9 @@ angular.module('formService', ['ui.bootstrap'])
                             'dateNotValid': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>"
                         },
                         $asyncValidators: {
-                            'dateNotValid': function(value) {
+                            'dateNotValid': function (value) {
                                 var deferred = $q.defer();
-                                $timeout(function(){
+                                $timeout(function () {
                                     if (isNaN(Date.parse(value)) || value.split('.').length !== 3) {
                                         deferred.reject();
                                     } else {
@@ -291,6 +280,8 @@ angular.module('formService', ['ui.bootstrap'])
                     formitem = {
                         type: "template",
                         templateUrl: "shared/templates/foreignKey.html",
+                        // formName will be used in modal return to save item on form
+                        formName: k,
                         title: v.title,
                         wf: v.wf,
                         add_cmd: v.add_cmd,
@@ -327,24 +318,25 @@ angular.module('formService', ['ui.bootstrap'])
                                         "name": item.value
                                     });
                                 }
-                                // get selected item from titleMap using model value
-                                if (item.key === scope.model[k]) {
-                                    formitem.selected_item = {value: item.key, name: item.value};
-                                }
                             });
-                            // after rendering change input value to model value
-                            scope.$watch(document.querySelector('input[name=' + v.model_name + ']'),
-                                function () {
-                                    angular.element(document.querySelector('input[name=' + v.model_name + ']')).val(formitem.selected_item.name);
-                                }
-                            );
+                            formitem.filteredItems = generator.get_diff_array(angular.copy(formitem.titleMap), angular.copy(formitem.selectedFilteredItems));
                         })
                     };
+
+                    var modelItems = [];
+                    angular.forEach(scope.model[k], function (value, mkey) {
+                        modelItems.push({
+                            "value": value[v.schema[0].name].key,
+                            "name": value[v.schema[0].name].unicode
+                        })
+                    });
 
                     formitem = {
                         type: "template",
                         templateUrl: "shared/templates/multiselect.html",
                         title: v.title,
+                        // formName will be used in modal return to save item on form
+                        formName: k,
                         wf: v.wf,
                         add_cmd: v.add_cmd,
                         name: v.model_name,
@@ -352,7 +344,7 @@ angular.module('formService', ['ui.bootstrap'])
                         filterValue: '',
                         selected_item: {},
                         filteredItems: [],
-                        selectedFilteredItems: [],
+                        selectedFilteredItems: modelItems,
                         titleMap: scope.generateTitleMap(modelScope),
                         onSelect: function (item) {
                             scope.model[k] = item.value;
@@ -362,8 +354,8 @@ angular.module('formService', ['ui.bootstrap'])
                             jQuery('input[name=' + inputname + ']').val(item.name);
                         },
                         appendFiltered: function (filterValue) {
-                            formitem.filteredItems = [];
                             if (filterValue.length > 2) {
+                                formitem.filteredItems = [];
                                 angular.forEach(formitem.titleMap, function (value, key) {
                                     if (value.name.indexOf(filterValue) > -1) {
                                         formitem.filteredItems.push(formitem.titleMap[key]);
@@ -373,13 +365,16 @@ angular.module('formService', ['ui.bootstrap'])
                             formitem.filteredItems = generator.get_diff_array(formitem.filteredItems, formitem.selectedFilteredItems);
                         },
                         select: function (selectedItemsModel) {
+                            if(!selectedItemsModel){return;}
                             formitem.selectedFilteredItems = formitem.selectedFilteredItems.concat(selectedItemsModel);
                             formitem.appendFiltered(formitem.filterValue);
                             scope.model[k] = formitem.dataToModel(selectedItemsModel);
                         },
                         deselect: function (selectedFilteredItemsModel) {
-                            formitem.selectedFilteredItems = generator.get_diff_array(formitem.selectedFilteredItems, selectedFilteredItemsModel);
+                            if(!selectedFilteredItemsModel){return;}
+                            formitem.selectedFilteredItems = generator.get_diff_array(angular.copy(formitem.selectedFilteredItems), angular.copy(selectedFilteredItemsModel));
                             formitem.appendFiltered(formitem.filterValue);
+                            formitem.filteredItems = formitem.filteredItems.concat(selectedFilteredItemsModel);
                             scope.model[k] = formitem.dataToModel(formitem.selectedFilteredItems);
                         },
                         dataToModel: function (data) {
@@ -619,8 +614,6 @@ angular.module('formService', ['ui.bootstrap'])
                 else {
                     $location.path(pathUrl);
                 }
-
-                $log.debug('pathDecider scope', scope);
             }
 
             // client_cmd can be in ['list', 'form', 'show', 'reload', 'reset']
@@ -655,7 +648,7 @@ angular.module('formService', ['ui.bootstrap'])
         generator.get_diff_array = function (array1, array2) {
             var result = [];
             angular.forEach(array1, function (value, key) {
-                if (array2.indexOf(value) < 0) {
+                if (angular.toJson(array2).indexOf(value.value) < 0) {
                     result.push(value);
                 }
             });
@@ -843,7 +836,7 @@ angular.module('formService', ['ui.bootstrap'])
 
     .directive('addModalForLinkedModel', function ($uibModal, $rootScope, $route, Generator) {
         return {
-            link: function (scope, element) {
+            link: function (scope, element, attributes) {
                 element.on('click', function () {
                     var modalInstance = $uibModal.open({
                         animation: true,
@@ -853,10 +846,12 @@ angular.module('formService', ['ui.bootstrap'])
                         size: 'lg',
                         resolve: {
                             items: function () {
+                                var formName = attributes.addModalForLinkedModel;
                                 return Generator.get_form({
                                     url: scope.form.wf,
                                     form_params: {model: scope.form.model_name, cmd: scope.form.add_cmd},
                                     modalElements: {
+                                        // define button position properties
                                         buttonPositions: {
                                             bottom: 'move-to-bottom-modal',
                                             top: 'move-to-top-modal',
@@ -870,14 +865,35 @@ angular.module('formService', ['ui.bootstrap'])
                                     },
                                     validateModalDate: function (field) {
                                         $rootScope.$broadcast('validateModalDate', field);
-                                    }
+                                    },
+                                    formName: formName
                                 });
                             }
                         }
                     });
 
                     modalInstance.result.then(function (childscope, key) {
-                        Generator.submit(childscope, false);
+                        var formName = childscope.formName;
+                        Generator.submit(childscope, false)
+                            .success(function (data) {
+                                // response data contains object_id and unicode
+                                // scope.model can be reached via prototype chain
+                                scope.model[formName] = data.forms.model.object_key;
+                                // scope.form prototype chain returns this form item
+                                scope.form.titleMap.push({
+                                    value: data.forms.model.object_key,
+                                    name: data.forms.model.unicode
+                                });
+                                scope.form.selected_item = {
+                                    value: data.forms.model.object_key,
+                                    name: data.forms.model.unicode
+                                };
+                                scope.$watch(document.querySelector('input[name=' + scope.form.model_name + ']'),
+                                    function () {
+                                        angular.element(document.querySelector('input[name=' + scope.form.model_name + ']')).val(scope.form.selected_item.name);
+                                    }
+                                );
+                            });
                         //$route.reload();
                     });
                 });

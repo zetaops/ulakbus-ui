@@ -1462,10 +1462,11 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
   $templateCache.put("shared/templates/foreignKey.html",
     "<div class=\"form-group {{form.htmlClass}} schema-form-select col-md-12\"\n" +
     "     ng-class=\"{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}\">\n" +
-    "    <div class=\"col-md-8\">\n" +
+    "    <div class=\"col-md-12\">\n" +
     "        <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
     "            {{form.title}}\n" +
     "        </label>\n" +
+    "        <a><i class=\"fa fa-plus-circle fa-fw\" add-modal-for-linked-model=\"{{form.formName}}\"></i></a>\n" +
     "\n" +
     "        <div class=\"form-group input-group\">\n" +
     "            <span class=\"input-group-btn\">\n" +
@@ -1504,11 +1505,6 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "        <!--</select>-->\n" +
     "\n" +
     "        <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
-    "    </div>\n" +
-    "    <div class=\"col-md-4\">\n" +
-    "        <a href=\"javascript:void(0);\" add-modal-for-linked-model>\n" +
-    "            <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
-    "        </a>\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -1579,24 +1575,23 @@ angular.module("shared/templates/multiselect.html", []).run(["$templateCache", f
   $templateCache.put("shared/templates/multiselect.html",
     "<div class=\"form-group {{form.htmlClass}} schema-form-select col-md-12\"\n" +
     "     ng-class=\"{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}\">\n" +
-    "    <div class=\"col-md-8\">\n" +
+    "    <div class=\"col-md-12\">\n" +
     "        <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
     "            {{form.title}}\n" +
     "        </label>\n" +
+    "        <a><i class=\"fa fa-plus-circle fa-fw\" add-modal-for-linked-model=\"{{form.formName}}\"></i></a>\n" +
     "\n" +
     "        <div class=\"row\">\n" +
-    "            <div class=\"form-group input-group\">\n" +
+    "            <div class=\"col-md-12\">\n" +
     "                <input type=\"text\"\n" +
     "                       placeholder=\"{{form.title}} filtrele\"\n" +
     "                       class=\"form-control {{form.fieldHtmlClass}}\"\n" +
     "                       name=\"filter-interface\"\n" +
     "                       ng-model=\"form.filterValue\"\n" +
-    "                       ng-keyup=\"form.appendFiltered(form.filterValue)\"\n" +
-    "                />\n" +
+    "                       ng-keyup=\"form.appendFiltered(form.filterValue)\"/>\n" +
     "            </div>\n" +
-    "        </div>\n" +
-    "        <div class=\"row\">\n" +
-    "            <div class=\"col-md-5\">\n" +
+    "\n" +
+    "            <div class=\"col-md-12\">\n" +
     "                <label for=\"filterItems\">{{form.title}} Liste</label>\n" +
     "                <select ng-model=\"selectedItemsModel\"\n" +
     "                        value=\"$$value$$\"\n" +
@@ -1610,13 +1605,12 @@ angular.module("shared/templates/multiselect.html", []).run(["$templateCache", f
     "                </select>\n" +
     "            </div>\n" +
     "\n" +
-    "\n" +
-    "            <div class=\"col-md-1\">\n" +
-    "                <a href=\"javascript:void(0)\" ng-click=\"form.select(selectedItemsModel)\"><i class=\"fa fa-arrow-right fa-fw\"></i></a><br>\n" +
-    "                <a href=\"javascript:void(0)\" ng-click=\"form.deselect(selectedFilteredItemsModel)\"><i class=\"fa fa-arrow-left fa-fw\"></i></a>\n" +
+    "            <div class=\"col-md-12 text-center\">\n" +
+    "                <a><i class=\"fa fa-arrow-down fa-fw\" ng-click=\"form.select(selectedItemsModel)\"></i></a>\n" +
+    "                <a><i class=\"fa fa-arrow-up fa-fw\" ng-click=\"form.deselect(selectedFilteredItemsModel)\"></i></a>\n" +
     "            </div>\n" +
     "\n" +
-    "            <div class=\"col-md-5\">\n" +
+    "            <div class=\"col-md-12\">\n" +
     "                <label for=\"selectedItems\">Seçilenler</label>\n" +
     "                <select ng-model=\"selectedFilteredItemsModel\"\n" +
     "                        value=\"$$value$$\"\n" +
@@ -1633,11 +1627,11 @@ angular.module("shared/templates/multiselect.html", []).run(["$templateCache", f
     "\n" +
     "        <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
     "    </div>\n" +
-    "    <div class=\"col-md-4\">\n" +
-    "        <a href=\"javascript:void(0);\" add-modal-for-linked-model>\n" +
-    "            <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
-    "        </a>\n" +
-    "    </div>\n" +
+    "    <!--<div class=\"col-md-4\">-->\n" +
+    "        <!--<a href=\"javascript:void(0);\" add-modal-for-linked-model>-->\n" +
+    "            <!--<i class=\"fa fa-plus-circle fa-fw\"></i>-->\n" +
+    "        <!--</a>-->\n" +
+    "    <!--</div>-->\n" +
     "</div>");
 }]);
 

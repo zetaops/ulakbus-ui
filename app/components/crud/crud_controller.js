@@ -39,7 +39,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                     }
                 });
                 scope.form_params = {
-                    cmd: cmd,
+                    //cmd: cmd,
                     model: routeParams.model,
                     param: scope.param || routeParams.param,
                     id: scope.param_id || routeParams.param_id,

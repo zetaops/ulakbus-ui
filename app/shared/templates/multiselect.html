@@ -1,23 +1,22 @@
 <div class="form-group {{form.htmlClass}} schema-form-select col-md-12"
      ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">
             {{form.title}}
         </label>
+        <a><i class="fa fa-plus-circle fa-fw" add-modal-for-linked-model="{{form.formName}}"></i></a>
 
         <div class="row">
-            <div class="form-group input-group">
+            <div class="col-md-12">
                 <input type="text"
                        placeholder="{{form.title}} filtrele"
                        class="form-control {{form.fieldHtmlClass}}"
                        name="filter-interface"
                        ng-model="form.filterValue"
-                       ng-keyup="form.appendFiltered(form.filterValue)"
-                />
+                       ng-keyup="form.appendFiltered(form.filterValue)"/>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5">
+
+            <div class="col-md-12">
                 <label for="filterItems">{{form.title}} Liste</label>
                 <select ng-model="selectedItemsModel"
                         value="$$value$$"
@@ -31,13 +30,12 @@
                 </select>
             </div>
 
-
-            <div class="col-md-1">
-                <a href="javascript:void(0)" ng-click="form.select(selectedItemsModel)"><i class="fa fa-arrow-right fa-fw"></i></a><br>
-                <a href="javascript:void(0)" ng-click="form.deselect(selectedFilteredItemsModel)"><i class="fa fa-arrow-left fa-fw"></i></a>
+            <div class="col-md-12 text-center">
+                <a><i class="fa fa-arrow-down fa-fw" ng-click="form.select(selectedItemsModel)"></i></a>
+                <a><i class="fa fa-arrow-up fa-fw" ng-click="form.deselect(selectedFilteredItemsModel)"></i></a>
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-12">
                 <label for="selectedItems">Seçilenler</label>
                 <select ng-model="selectedFilteredItemsModel"
                         value="$$value$$"
@@ -54,9 +52,9 @@
 
         <div class="help-block" sf-message="form.description"></div>
     </div>
-    <div class="col-md-4">
-        <a href="javascript:void(0);" add-modal-for-linked-model>
-            <i class="fa fa-plus-circle fa-fw"></i>
-        </a>
-    </div>
+    <!--<div class="col-md-4">-->
+        <!--<a href="javascript:void(0);" add-modal-for-linked-model>-->
+            <!--<i class="fa fa-plus-circle fa-fw"></i>-->
+        <!--</a>-->
+    <!--</div>-->
 </div>
