@@ -1506,7 +1506,7 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "        <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-4\">\n" +
-    "        <a href=\"javascript:void(0);\" add-modal-for-linked-model>\n" +
+    "        <a href=\"javascript:void(0);\" add-modal-for-linked-model=\"{{form.formName}}\">\n" +
     "            <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
     "        </a>\n" +
     "    </div>\n" +

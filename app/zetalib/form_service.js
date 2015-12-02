@@ -291,6 +291,8 @@ angular.module('formService', ['ui.bootstrap'])
                     formitem = {
                         type: "template",
                         templateUrl: "shared/templates/foreignKey.html",
+                        // formName will be used in modal return to save item on form
+                        formName: k,
                         title: v.title,
                         wf: v.wf,
                         add_cmd: v.add_cmd,
@@ -843,7 +845,7 @@ angular.module('formService', ['ui.bootstrap'])
 
     .directive('addModalForLinkedModel', function ($uibModal, $rootScope, $route, Generator) {
         return {
-            link: function (scope, element) {
+            link: function (scope, element, attributes) {
                 element.on('click', function () {
                     var modalInstance = $uibModal.open({
                         animation: true,
@@ -853,10 +855,12 @@ angular.module('formService', ['ui.bootstrap'])
                         size: 'lg',
                         resolve: {
                             items: function () {
+                                var formName = attributes.addModalForLinkedModel;
                                 return Generator.get_form({
                                     url: scope.form.wf,
                                     form_params: {model: scope.form.model_name, cmd: scope.form.add_cmd},
                                     modalElements: {
+                                        // define button position properties
                                         buttonPositions: {
                                             bottom: 'move-to-bottom-modal',
                                             top: 'move-to-top-modal',
@@ -870,14 +874,29 @@ angular.module('formService', ['ui.bootstrap'])
                                     },
                                     validateModalDate: function (field) {
                                         $rootScope.$broadcast('validateModalDate', field);
-                                    }
+                                    },
+                                    formName: formName
                                 });
                             }
                         }
                     });
 
                     modalInstance.result.then(function (childscope, key) {
-                        Generator.submit(childscope, false);
+                        var formName = childscope.formName;
+                        Generator.submit(childscope, false)
+                            .success(function (data) {
+                                // response data contains object_id and unicode
+                                // scope.model can be reached via prototype chain
+                                scope.model[formName] = data.forms.model.object_key;
+                                // scope.form prototype chain returns this form item
+                                scope.form.titleMap.push({value: data.forms.model.object_key, name: data.forms.model.unicode});
+                                scope.form.selected_item = {value: data.forms.model.object_key, name: data.forms.model.unicode};
+                                scope.$watch(document.querySelector('input[name=' + scope.form.model_name + ']'),
+                                    function () {
+                                        angular.element(document.querySelector('input[name=' + scope.form.model_name + ']')).val(scope.form.selected_item.name);
+                                    }
+                                );
+                            });
                         //$route.reload();
                     });
                 });
