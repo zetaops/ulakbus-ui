@@ -319,17 +319,20 @@ angular.module('formService', ['ui.bootstrap'])
                                     });
                                 }
                             });
-                            formitem.filteredItems = generator.get_diff_array(angular.copy(formitem.titleMap), angular.copy(formitem.selectedFilteredItems));
+                            formitem.filteredItems = generator.get_diff_array(angular.copy(formitem.titleMap), angular.copy(formitem.selectedFilteredItems), 1);
                         })
                     };
 
                     var modelItems = [];
+                    var modelKeys = [];
                     angular.forEach(scope.model[k], function (value, mkey) {
                         modelItems.push({
                             "value": value[v.schema[0].name].key,
                             "name": value[v.schema[0].name].unicode
-                        })
+                        });
+                        modelKeys.push(value[v.schema[0].name].key);
                     });
+                    scope.model[k] = angular.copy(modelKeys);
 
                     formitem = {
                         type: "template",
@@ -346,13 +349,6 @@ angular.module('formService', ['ui.bootstrap'])
                         filteredItems: [],
                         selectedFilteredItems: modelItems,
                         titleMap: scope.generateTitleMap(modelScope),
-                        onSelect: function (item) {
-                            scope.model[k] = item.value;
-                        },
-                        onDropdownSelect: function (item, inputname) {
-                            scope.model[k] = item.value;
-                            jQuery('input[name=' + inputname + ']').val(item.name);
-                        },
                         appendFiltered: function (filterValue) {
                             if (filterValue.length > 2) {
                                 formitem.filteredItems = [];
@@ -368,14 +364,14 @@ angular.module('formService', ['ui.bootstrap'])
                             if(!selectedItemsModel){return;}
                             formitem.selectedFilteredItems = formitem.selectedFilteredItems.concat(selectedItemsModel);
                             formitem.appendFiltered(formitem.filterValue);
-                            scope.model[k] = formitem.dataToModel(selectedItemsModel);
+                            scope.model[k] = (scope.model[k] || []).concat(formitem.dataToModel(selectedItemsModel));
                         },
                         deselect: function (selectedFilteredItemsModel) {
                             if(!selectedFilteredItemsModel){return;}
                             formitem.selectedFilteredItems = generator.get_diff_array(angular.copy(formitem.selectedFilteredItems), angular.copy(selectedFilteredItemsModel));
                             formitem.appendFiltered(formitem.filterValue);
                             formitem.filteredItems = formitem.filteredItems.concat(selectedFilteredItemsModel);
-                            scope.model[k] = formitem.dataToModel(formitem.selectedFilteredItems);
+                            scope.model[k] = generator.get_diff_array(scope.model[k] || [], formitem.dataToModel(selectedFilteredItemsModel));
                         },
                         dataToModel: function (data) {
                             var dataValues = [];
@@ -645,11 +641,17 @@ angular.module('formService', ['ui.bootstrap'])
             return result;
         };
 
-        generator.get_diff_array = function (array1, array2) {
+        generator.get_diff_array = function (array1, array2, way) {
             var result = [];
             angular.forEach(array1, function (value, key) {
-                if (angular.toJson(array2).indexOf(value.value) < 0) {
-                    result.push(value);
+                if (way === 1) {
+                    if (angular.toJson(array2).indexOf(value.value) < 0) {
+                        result.push(value);
+                    }
+                } else {
+                    if (angular.toJson(array2).indexOf(angular.toJson(value)) < 0) {
+                        result.push(value);
+                    }
                 }
             });
             return result;
