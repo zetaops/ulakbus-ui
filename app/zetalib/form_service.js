@@ -323,15 +323,15 @@ angular.module('formService', ['ui.bootstrap'])
                     };
 
                     var modelItems = [];
-                    var modelKeys = [];
+                    //var modelKeys = [];
                     angular.forEach(scope.model[k], function (value, mkey) {
                         modelItems.push({
                             "value": value[v.schema[0].name].key,
                             "name": value[v.schema[0].name].unicode
                         });
-                        modelKeys.push(value[v.schema[0].name].key);
+                        //modelKeys.push(value[v.schema[0].name].key);
                     });
-                    scope.model[k] = angular.copy(modelKeys);
+                    scope.model[k] = angular.copy(modelItems);
 
                     formitem = {
                         type: "template",
