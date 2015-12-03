@@ -193,7 +193,8 @@ angular.module('formService', ['ui.bootstrap'])
                             'dateNotValid': function (value) {
                                 var deferred = $q.defer();
                                 $timeout(function () {
-                                    if (isNaN(Date.parse(value)) || value.split('.').length !== 3) {
+                                    var dateValue = d = value.split('.');
+                                    if (isNaN(Date.parse([d[1],d[0],d[2]].join('.'))) || dateValue.length !== 3) {
                                         deferred.reject();
                                     } else {
                                         deferred.resolve();
@@ -216,9 +217,7 @@ angular.module('formService', ['ui.bootstrap'])
                                 if (scope.modalElements) {
                                     scope.validateModalDate(k);
                                 }
-                                else {
-                                    scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
-                                }
+                                scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
                             }
                         });
                     });
@@ -407,7 +406,6 @@ angular.module('formService', ['ui.bootstrap'])
                         url: scope.url
                     });
 
-                    scope[v.type][k].model = angular.copy(scope.model[k]) || {};
                     if (v.type === 'ListNode') {
                         scope[v.type][k].items = [];
                     }
@@ -431,7 +429,13 @@ angular.module('formService', ['ui.bootstrap'])
                             scope[v.type][k].form.push(item.name);
                         }
 
+                        if (item.type === 'date') {
+                            scope.model[k][item.name] = generator.dateformatter(scope.model[k][item.name]);
+                        }
+
                     });
+
+                    scope[v.type][k].model = angular.copy(scope.model[k]) || {};
 
                     // lengthModels is length of the listnode models. if greater than 0 show records on template
                     scope[v.type][k]['lengthModels'] = scope.model[k] ? 1 : 0;
@@ -581,7 +585,7 @@ angular.module('formService', ['ui.bootstrap'])
          */
         generator.pathDecider = function (client_cmd, $scope, data) {
             if (client_cmd[0] === 'reload' || client_cmd[0] === 'reset') {
-                $rootScope.$broadcast('reload_cmd', client_cmd[0]);
+                $rootScope.$broadcast('reload_cmd', $scope.reload_cmd);
                 return;
             }
             /**

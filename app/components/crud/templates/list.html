@@ -68,7 +68,7 @@
         </ul>
     </div>
 
-    <nav ng-if="pagination" class="text-center">
+    <nav ng-if="pagination && pagination.total_pages > 1" class="text-center">
         <ul class="pagination">
             <li ng-class="{disabled:pagination.page===1}">
                 <a href="javascript:void(0)" aria-label="Önceki" ng-click="reload({page:pagination.page-1})">
