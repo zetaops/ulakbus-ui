@@ -203,7 +203,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "        </ul>\n" +
     "    </div>\n" +
     "\n" +
-    "    <nav ng-if=\"pagination\" class=\"text-center\">\n" +
+    "    <nav ng-if=\"pagination && pagination.total_pages > 1\" class=\"text-center\">\n" +
     "        <ul class=\"pagination\">\n" +
     "            <li ng-class=\"{disabled:pagination.page===1}\">\n" +
     "                <a href=\"javascript:void(0)\" aria-label=\"Önceki\" ng-click=\"reload({page:pagination.page-1})\">\n" +
