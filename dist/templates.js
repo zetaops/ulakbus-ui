@@ -39,17 +39,17 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
     "    <div class=\"right-sidebar-box\">\n" +
     "        <div class=\"right-sidebar-messages\">\n" +
     "            <div class=\"right-sidebar-title clearfix\">\n" +
-    "                <h3>Tarih Aralığı</h3>\n" +
+    "                <h3>Tarİh Aralığı</h3>\n" +
     "            </div>\n" +
     "            <div class=\"right-sidebar-message-block\">\n" +
     "                <div class=\"col-md-6\">\n" +
     "                    <br>\n" +
-    "                    <label class=\"control-label\" for=\"startDate\">Baslangic</label>\n" +
+    "                    <label class=\"control-label\" for=\"startDate\">Başlangıç</label>\n" +
     "                    <input type=\"text\" name=\"startDate\" class=\"form-control filterDate\"/>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-6\">\n" +
     "                    <br>\n" +
-    "                    <label class=\"control-label\" for=\"endDate\">Bitis</label>\n" +
+    "                    <label class=\"control-label\" for=\"endDate\">Bitiş</label>\n" +
     "                    <input type=\"text\" name=\"endDate\" class=\"form-control filterDate\"/>\n" +
     "                </div>\n" +
     "            </div>\n" +
@@ -62,17 +62,17 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
     "        <div class=\"right-sidebar-messages\">\n" +
     "            <div class=\"right-sidebar-title clearfix\">\n" +
     "                <br><br>\n" +
-    "                <h3>Filtre basligi</h3>\n" +
+    "                <h3>Fİltre başlığı</h3>\n" +
     "            </div>\n" +
     "            <div class=\"right-sidebar-message-block\">\n" +
     "                <div class=\"col-md-12\">\n" +
     "                    <br>\n" +
-    "                    <label class=\"control-label\" for=\"filterSelect\">Secim</label>\n" +
+    "                    <label class=\"control-label\" for=\"filterSelect\">Seçim</label>\n" +
     "                    <select name=\"filterSelect\" id=\"filterSelect\">\n" +
-    "                        <option value=\"1\">option 1</option>\n" +
-    "                        <option value=\"2\">option 2</option>\n" +
-    "                        <option value=\"3\">option 3</option>\n" +
-    "                        <option value=\"4\">option 4</option>\n" +
+    "                        <option value=\"1\">opsiyon 1</option>\n" +
+    "                        <option value=\"2\">opsiyon 2</option>\n" +
+    "                        <option value=\"3\">opsiyon 3</option>\n" +
+    "                        <option value=\"4\">opsiyon 4</option>\n" +
     "                    </select>\n" +
     "                </div>\n" +
     "            </div>\n" +
