@@ -1,11 +1,26 @@
 <div>
     <h2>Filtrele</h2>
-    <div class="right-sidebar-box">
-        <div class="right-sidebar-messages">
-            <div class="right-sidebar-title clearfix">
-                <h3>Tarİh Aralığı</h3>
+    <div ng-repeat="filter in list_filters">
+        <div>
+            <div class=" clearfix">
+                <h3>{{filter.verbose_name}}</h3>
             </div>
-            <div class="right-sidebar-message-block">
+
+            <div ng-if="filter.type==='check' || !filter.type">
+                <div class="checkbox" ng-repeat="filterItem in filter.values">
+                    <input type="checkbox" name="filter_group[]" value="{{filterItem.value}}"/>{{filterItem.name}}<br />
+                </div>
+            </div>
+
+            <div ng-if="filter.type==='select'">
+                <div class="col-md-12">
+                    <select name="filterSelect" id="filterSelect" class="form-control">
+                        <option ng-repeat="filterItem in filter.values" value="{{filterItem.value}}">{{filterItem.name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div ng-if="filter.type==='date'">
                 <div class="col-md-6">
                     <br>
                     <label class="control-label" for="startDate">Başlangıç</label>
@@ -22,30 +37,7 @@
 
     <div class="clearfix"></div>
 
-    <div class="right-sidebar-box">
-        <div class="right-sidebar-messages">
-            <div class="right-sidebar-title clearfix">
-                <br><br>
-                <h3>Fİltre başlığı</h3>
-            </div>
-            <div class="right-sidebar-message-block">
-                <div class="col-md-12">
-                    <br>
-                    <label class="control-label" for="filterSelect">Seçim</label>
-                    <select name="filterSelect" id="filterSelect">
-                        <option value="1">opsiyon 1</option>
-                        <option value="2">opsiyon 2</option>
-                        <option value="3">opsiyon 3</option>
-                        <option value="4">opsiyon 4</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="clearfix"></div>
-
     <div style="margin-top: 40px;">
-        <button type="button" class="btn btn-primary">Filtrele</button>
+        <button type="button" class="btn btn-warning" ng-click="filterSubmit()">Filtrele</button>
     </div>
 </div>

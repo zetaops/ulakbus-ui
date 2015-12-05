@@ -13,12 +13,12 @@
     </tr>
     <tr ng-if="node.schema.formType=='ListNode'">
         <th colspan="2">
-            <label>
-                <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
-                Hepsini Seç
-            </label>
+            <!--<label>-->
+                <!--<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">-->
+                <!--Hepsini Seç-->
+            <!--</label>-->
         </th>
-        <th ng-repeat="(key,value) in node.model track by $index">{{ key }}</th>
+        <th ng-repeat="(key,value) in node.items track by $index" ng-if="key!=='idx' && $index === 0">{{ value.verbose_name }}</th>
         <th>İşlem</th>
     </tr>
     </thead>
@@ -34,21 +34,21 @@
         <td ng-repeat="value in node.model track by $index">{{ value }}</td>
         <td>
             <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit">Düzenle</button><br>
-            <button>Sil</button>
+            <button ng-click="remove(node)">Sil</button>
         </td>
     </tr>
 
     <tr ng-repeat="listnodemodel in node.items track by $index" ng-if="node.schema.formType=='ListNode'">
         <td width="60">
-            <label>
-                <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
-            </label>
+            <!--<label>-->
+                <!--<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">-->
+            <!--</label>-->
         </td>
         <th scope="row" style="text-align:center">{{$index+1}}</th>
-        <td ng-repeat="(k, v) in listnodemodel track by $index">{{ v }}</td>
+        <td ng-repeat="(k, v) in listnodemodel track by $index" ng-if="k!=='idx'">{{ v.unicode }}</td>
         <td>
             <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}">Düzenle</button><br>
-            <button>Sil</button>
+            <button ng-click="remove(listnodemodel)">Sil</button>
         </td>
     </tr>
 

@@ -140,7 +140,7 @@ angular.module('formService', ['ui.bootstrap'])
                     scope.form[scope.form.indexOf(k)] = {
                         type: v.type,
                         title: v.title,
-                        style: "btn-primary hide " + buttonClass,
+                        style: "btn-danger hide " + buttonClass,
                         onClick: function () {
                             delete scope.form_params.cmd;
                             delete scope.form_params.flow;
@@ -179,7 +179,7 @@ angular.module('formService', ['ui.bootstrap'])
 
                         buttonsToBottom.removeClass('hide');
                         //buttonsToTop.removeClass('hide');
-                    });
+                    }, 500);
                 }
 
                 // check if type is date and if type date found change it to string
@@ -216,11 +216,11 @@ angular.module('formService', ['ui.bootstrap'])
                                 scope.model[k] = date;
                                 if (scope.modalElements) {
                                     scope.validateModalDate(k);
+                                    scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
                                 }
-                                scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
                             }
                         });
-                    });
+                    }, 1000);
                 }
 
                 if (v.type === 'int' || v.type === 'float') {
@@ -257,7 +257,7 @@ angular.module('formService', ['ui.bootstrap'])
                                     });
                                 }
                                 // get selected item from titleMap using model value
-                                if (item.key === scope.model[k]) {
+                                if (item.key===scope.model[k]) {
                                     formitem.selected_item = {value: item.key, name: item.value};
                                 }
                             });
@@ -270,6 +270,7 @@ angular.module('formService', ['ui.bootstrap'])
                                 );
                             }
                             catch (e) {
+                                angular.element(document.querySelector('input[name=' + v.model_name + ']')).val(formitem.selected_item.name);
                                 $log.debug('exception', e);
                             }
 
@@ -390,6 +391,7 @@ angular.module('formService', ['ui.bootstrap'])
                 }
 
                 if ((v.type === 'ListNode' || v.type === 'Node') && v.widget !== 'filter_interface') {
+                //if (v.type === 'ListNode' || v.type === 'Node') {
 
                     scope[v.type] = scope[v.type] || {};
 
@@ -409,7 +411,7 @@ angular.module('formService', ['ui.bootstrap'])
                     });
 
                     if (v.type === 'ListNode') {
-                        scope[v.type][k].items = [];
+                        scope[v.type][k].items = angular.copy(scope.model[k] || []);
                     }
 
                     angular.forEach(v.schema, function (item) {
@@ -421,13 +423,7 @@ angular.module('formService', ['ui.bootstrap'])
                         }
 
                         // idx field must be hidden
-                        if (item.name === 'idx') {
-                            scope[v.type][k].form.push({
-                                type: 'string',
-                                key: angular.copy(item.name),
-                                htmlClass: 'hidden'
-                            });
-                        } else {
+                        if (item.name !== 'idx') {
                             scope[v.type][k].form.push(item.name);
                         }
 
@@ -437,7 +433,19 @@ angular.module('formService', ['ui.bootstrap'])
 
                     });
 
-                    scope[v.type][k].model = angular.copy(scope.model[k]) || {};
+                    if (scope.model[k]) {
+                        angular.forEach(scope.model[k], function (value, key) {
+                            angular.forEach(value, function (y, x) {
+                                if (y.constructor===Object) {
+                                    scope.model[k][key][x] = y.key;
+                                }
+                            });
+                        });
+                    }
+
+                    scope.model[k] = scope.model[k] || [];
+
+                    scope[v.type][k].model = scope.model[k];
 
                     // lengthModels is length of the listnode models. if greater than 0 show records on template
                     scope[v.type][k]['lengthModels'] = scope.model[k] ? 1 : 0;
@@ -672,7 +680,7 @@ angular.module('formService', ['ui.bootstrap'])
 
             // todo: diff for all submits to recognize form change. if no change returns to view with no submit
             angular.forEach($scope.ListNode, function (value, key) {
-                $scope.model[key] = value.items;
+                $scope.model[key] = value.model;
             });
             angular.forEach($scope.Node, function (value, key) {
                 $scope.model[key] = value.model;
@@ -683,8 +691,11 @@ angular.module('formService', ['ui.bootstrap'])
                 "model": $scope.form_params.model,
                 "cmd": $scope.form_params.cmd,
                 "flow": $scope.form_params.flow,
-                "object_id": $scope.object_id
+                "object_id": $scope.object_id,
+                "filter": $scope.filter
             };
+
+            debugger;
 
             return $http.post(generator.makeUrl($scope), data)
                 .success(function (data) {
@@ -738,10 +749,8 @@ angular.module('formService', ['ui.bootstrap'])
         $scope.onSubmit = function (form) {
             $scope.$broadcast('schemaFormValidate');
             if (form.$valid) {
-
                 // send form to modalinstance result function
                 $uibModalInstance.close($scope);
-
             }
         };
 
@@ -772,6 +781,7 @@ angular.module('formService', ['ui.bootstrap'])
                     var modalInstance = $uibModal.open({
                         animation: true,
                         backdrop: 'static',
+                        keyboard: false,
                         templateUrl: 'shared/templates/listnodeModalContent.html',
                         controller: 'ModalCtrl',
                         size: 'lg',
@@ -802,10 +812,13 @@ angular.module('formService', ['ui.bootstrap'])
 
                                 var newscope = {
                                     url: scope.node.url,
-                                    form_params: {model: scope.node.schema.model_name}
+                                    form_params: {model: scope.node.schema.model_name},
+                                    edit: attribs[3]
                                 };
 
                                 Generator.generate(newscope, {forms: scope.node});
+                                // modal will add only one item to listNode, so just need one model (not array)
+                                newscope.model = angular.copy(newscope.model[node.edit] || newscope.model[0] || {});
                                 return newscope;
                             }
                         }
@@ -820,10 +833,25 @@ angular.module('formService', ['ui.bootstrap'])
                         }
 
                         if (childmodel.schema.formType === 'ListNode') {
+                            // reformat listnode model
+                            var reformattedModel = {};
+                            angular.forEach(childmodel.model, function (value, key) {
+                                if (key.indexOf('_id') > -1) {
+                                    angular.forEach(childmodel.form, function (v, k) {
+                                        if (v.formName === key) {
+                                            //if (!childmodel.model[key].key) {
+                                                function indexInTitleMap(element,index,array){if(element['value']===value){return element;}}
+                                                reformattedModel[key] = {"key": value, "unicode": v.titleMap.find(indexInTitleMap).name};
+                                            //}
+                                        }
+                                    });
+                                }
+                            });
                             if (childmodel.edit) {
                                 listNodeItem.model[childmodel.edit] = childmodel.model;
                             } else {
-                                listNodeItem.items.push(angular.copy(childmodel.model));
+                                listNodeItem.model.push(angular.copy(childmodel.model));
+                                listNodeItem.items.push(reformattedModel);
                             }
                             listNodeItem.lengthModels += 1;
                         }
@@ -849,6 +877,7 @@ angular.module('formService', ['ui.bootstrap'])
                     var modalInstance = $uibModal.open({
                         animation: true,
                         backdrop: 'static',
+                        keyboard: false,
                         templateUrl: 'shared/templates/linkedModelModalContent.html',
                         controller: 'ModalCtrl',
                         size: 'lg',
@@ -866,7 +895,7 @@ angular.module('formService', ['ui.bootstrap'])
                                             none: ''
                                         },
                                         workOnForm: 'linkedModelForm',
-                                        workOnDiv: '-modal'
+                                        workOnDiv: '-modal'+formName
                                     },
                                     submitModalForm: function () {
                                         $rootScope.$broadcast('submitModalForm');

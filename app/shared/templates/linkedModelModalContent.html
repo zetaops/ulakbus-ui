@@ -1,6 +1,6 @@
-<div class="modal-body">
+<div class="modal-body" style="overflow: auto;">
     <h3>{{schema.title}}</h3>
-    <div class="buttons-on-top-modal"></div>
+    <div class="buttons-on-top-modal{{formName}}"></div>
     <hr>
     <form name="linkedModelForm" sf-schema="schema" sf-form="form" sf-model="model" modal-form-locator></form>
     <div ng-repeat="node in Node">
@@ -32,7 +32,7 @@
         <hr>
     </div>
     <hr>
-    <div class="buttons-on-bottom-modal"></div>
+    <div class="buttons-on-bottom-modal{{formName}}"></div>
 </div>
 <div class="modal-footer">
 

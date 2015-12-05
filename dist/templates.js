@@ -36,12 +36,27 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
   $templateCache.put("components/crud/templates/filter.html",
     "<div>\n" +
     "    <h2>Filtrele</h2>\n" +
-    "    <div class=\"right-sidebar-box\">\n" +
-    "        <div class=\"right-sidebar-messages\">\n" +
-    "            <div class=\"right-sidebar-title clearfix\">\n" +
-    "                <h3>Tarİh Aralığı</h3>\n" +
+    "    <div ng-repeat=\"filter in list_filters\">\n" +
+    "        <div>\n" +
+    "            <div class=\" clearfix\">\n" +
+    "                <h3>{{filter.verbose_name}}</h3>\n" +
     "            </div>\n" +
-    "            <div class=\"right-sidebar-message-block\">\n" +
+    "\n" +
+    "            <div ng-if=\"filter.type==='check' || !filter.type\">\n" +
+    "                <div class=\"checkbox\" ng-repeat=\"filterItem in filter.values\">\n" +
+    "                    <input type=\"checkbox\" name=\"filter_group[]\" value=\"{{filterItem.value}}\"/>{{filterItem.name}}<br />\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div ng-if=\"filter.type==='select'\">\n" +
+    "                <div class=\"col-md-12\">\n" +
+    "                    <select name=\"filterSelect\" id=\"filterSelect\" class=\"form-control\">\n" +
+    "                        <option ng-repeat=\"filterItem in filter.values\" value=\"{{filterItem.value}}\">{{filterItem.name}}</option>\n" +
+    "                    </select>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div ng-if=\"filter.type==='date'\">\n" +
     "                <div class=\"col-md-6\">\n" +
     "                    <br>\n" +
     "                    <label class=\"control-label\" for=\"startDate\">Başlangıç</label>\n" +
@@ -58,31 +73,8 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
     "\n" +
     "    <div class=\"clearfix\"></div>\n" +
     "\n" +
-    "    <div class=\"right-sidebar-box\">\n" +
-    "        <div class=\"right-sidebar-messages\">\n" +
-    "            <div class=\"right-sidebar-title clearfix\">\n" +
-    "                <br><br>\n" +
-    "                <h3>Fİltre başlığı</h3>\n" +
-    "            </div>\n" +
-    "            <div class=\"right-sidebar-message-block\">\n" +
-    "                <div class=\"col-md-12\">\n" +
-    "                    <br>\n" +
-    "                    <label class=\"control-label\" for=\"filterSelect\">Seçim</label>\n" +
-    "                    <select name=\"filterSelect\" id=\"filterSelect\">\n" +
-    "                        <option value=\"1\">opsiyon 1</option>\n" +
-    "                        <option value=\"2\">opsiyon 2</option>\n" +
-    "                        <option value=\"3\">opsiyon 3</option>\n" +
-    "                        <option value=\"4\">opsiyon 4</option>\n" +
-    "                    </select>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "\n" +
-    "    <div class=\"clearfix\"></div>\n" +
-    "\n" +
     "    <div style=\"margin-top: 40px;\">\n" +
-    "        <button type=\"button\" class=\"btn btn-primary\">Filtrele</button>\n" +
+    "        <button type=\"button\" class=\"btn btn-warning\" ng-click=\"filterSubmit()\">Filtrele</button>\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -133,7 +125,7 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
 
 angular.module("components/crud/templates/list.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/list.html",
-    "<div class=\"starter-template container\">\n" +
+    "<div class=\"starter-template\">\n" +
     "    <sort-directive ng-if=\"meta['allow_sort']===true\"></sort-directive>\n" +
     "    <search-directive ng-if=\"meta['allow_search']===true\"></search-directive>\n" +
     "    <div class=\"clearfix\"></div>\n" +
@@ -148,7 +140,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "            <thead>\n" +
     "            <tr>\n" +
     "                <td colspan=\"2\">\n" +
-    "                    <label>\n" +
+    "                    <label ng-if=\"meta.allow_selection === true\">\n" +
     "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
     "                        Hepsini Seç\n" +
     "                    </label>\n" +
@@ -161,7 +153,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "            <tbody>\n" +
     "            <tr ng-repeat=\"object in objects\" ng-if=\"$index>0\">\n" +
     "                <td width=\"60\">\n" +
-    "                    <label>\n" +
+    "                    <label ng-if=\"meta.allow_selection === true\">\n" +
     "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
     "                    </label>\n" +
     "                </td>\n" +
@@ -175,7 +167,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                </td>\n" +
     "\n" +
     "                <td>\n" +
-    "                    <button class=\"btn btn-primary\" style=\"margin-right: 5px;\" ng-repeat=\"action in object.actions\"\n" +
+    "                    <button class=\"btn btn-info\" style=\"margin-right: 5px;\" ng-repeat=\"action in object.actions\"\n" +
     "                            ng-if=\"action.show_as==='button'\"\n" +
     "                            ng-click=\"do_action(object.key, action.cmd, action.mode)\">{{action\n" +
     "                        .name}}\n" +
@@ -190,7 +182,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "    <hr/>\n" +
     "\n" +
     "    <div class=\"btn-group\" ng-if=\"objects[1]\">\n" +
-    "        <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n" +
+    "        <button type=\"button\" class=\"btn btn-info dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n" +
     "                aria-expanded=\"false\">\n" +
     "            İşlemler <span class=\"caret\"></span>\n" +
     "        </button>\n" +
@@ -1511,9 +1503,9 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
 
 angular.module("shared/templates/linkedModelModalContent.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/linkedModelModalContent.html",
-    "<div class=\"modal-body\">\n" +
+    "<div class=\"modal-body\" style=\"overflow: auto;\">\n" +
     "    <h3>{{schema.title}}</h3>\n" +
-    "    <div class=\"buttons-on-top-modal\"></div>\n" +
+    "    <div class=\"buttons-on-top-modal{{formName}}\"></div>\n" +
     "    <hr>\n" +
     "    <form name=\"linkedModelForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" modal-form-locator></form>\n" +
     "    <div ng-repeat=\"node in Node\">\n" +
@@ -1545,7 +1537,7 @@ angular.module("shared/templates/linkedModelModalContent.html", []).run(["$templ
     "        <hr>\n" +
     "    </div>\n" +
     "    <hr>\n" +
-    "    <div class=\"buttons-on-bottom-modal\"></div>\n" +
+    "    <div class=\"buttons-on-bottom-modal{{formName}}\"></div>\n" +
     "</div>\n" +
     "<div class=\"modal-footer\">\n" +
     "\n" +
@@ -1652,12 +1644,12 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "    </tr>\n" +
     "    <tr ng-if=\"node.schema.formType=='ListNode'\">\n" +
     "        <th colspan=\"2\">\n" +
-    "            <label>\n" +
-    "                <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                Hepsini Seç\n" +
-    "            </label>\n" +
+    "            <!--<label>-->\n" +
+    "                <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "                <!--Hepsini Seç-->\n" +
+    "            <!--</label>-->\n" +
     "        </th>\n" +
-    "        <th ng-repeat=\"(key,value) in node.model track by $index\">{{ key }}</th>\n" +
+    "        <th ng-repeat=\"(key,value) in node.items track by $index\" ng-if=\"key!=='idx' && $index === 0\">{{ value.verbose_name }}</th>\n" +
     "        <th>İşlem</th>\n" +
     "    </tr>\n" +
     "    </thead>\n" +
@@ -1673,21 +1665,21 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "        <td ng-repeat=\"value in node.model track by $index\">{{ value }}</td>\n" +
     "        <td>\n" +
     "            <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit\">Düzenle</button><br>\n" +
-    "            <button>Sil</button>\n" +
+    "            <button ng-click=\"remove(node)\">Sil</button>\n" +
     "        </td>\n" +
     "    </tr>\n" +
     "\n" +
     "    <tr ng-repeat=\"listnodemodel in node.items track by $index\" ng-if=\"node.schema.formType=='ListNode'\">\n" +
     "        <td width=\"60\">\n" +
-    "            <label>\n" +
-    "                <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "            </label>\n" +
+    "            <!--<label>-->\n" +
+    "                <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "            <!--</label>-->\n" +
     "        </td>\n" +
     "        <th scope=\"row\" style=\"text-align:center\">{{$index+1}}</th>\n" +
-    "        <td ng-repeat=\"(k, v) in listnodemodel track by $index\">{{ v }}</td>\n" +
+    "        <td ng-repeat=\"(k, v) in listnodemodel track by $index\" ng-if=\"k!=='idx'\">{{ v.unicode }}</td>\n" +
     "        <td>\n" +
     "            <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}\">Düzenle</button><br>\n" +
-    "            <button>Sil</button>\n" +
+    "            <button ng-click=\"remove(listnodemodel)\">Sil</button>\n" +
     "        </td>\n" +
     "    </tr>\n" +
     "\n" +

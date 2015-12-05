@@ -86,7 +86,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
             restrict: 'E',
             replace: true,
             link: function ($scope) {
-                $scope.searchForm = [{key: 'searchbox', htmlClass: "pull-left"}, {type: "submit", title: "Ara", htmlClass: "pull-left"}];
+                $scope.searchForm = [{key: 'searchbox', htmlClass: "pull-left"}, {type: "submit", title: "Ara", style:"btn-info", htmlClass: "pull-left"}];
                 $scope.searchSchema = {
                     type: "object",
                     properties: {

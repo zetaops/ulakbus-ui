@@ -1,4 +1,4 @@
-<div class="starter-template container">
+<div class="starter-template">
     <sort-directive ng-if="meta['allow_sort']===true"></sort-directive>
     <search-directive ng-if="meta['allow_search']===true"></search-directive>
     <div class="clearfix"></div>
@@ -13,7 +13,7 @@
             <thead>
             <tr>
                 <td colspan="2">
-                    <label>
+                    <label ng-if="meta.allow_selection === true">
                         <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
                         Hepsini Seç
                     </label>
@@ -26,7 +26,7 @@
             <tbody>
             <tr ng-repeat="object in objects" ng-if="$index>0">
                 <td width="60">
-                    <label>
+                    <label ng-if="meta.allow_selection === true">
                         <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
                     </label>
                 </td>
@@ -40,7 +40,7 @@
                 </td>
 
                 <td>
-                    <button class="btn btn-primary" style="margin-right: 5px;" ng-repeat="action in object.actions"
+                    <button class="btn btn-info" style="margin-right: 5px;" ng-repeat="action in object.actions"
                             ng-if="action.show_as==='button'"
                             ng-click="do_action(object.key, action.cmd, action.mode)">{{action
                         .name}}
@@ -55,7 +55,7 @@
     <hr/>
 
     <div class="btn-group" ng-if="objects[1]">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
             İşlemler <span class="caret"></span>
         </button>

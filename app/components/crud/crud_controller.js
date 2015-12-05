@@ -150,6 +150,16 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             }
         };
 
+        $scope.filter = {};
+
+        $scope.addToFilter = function (field, filterValue) {
+
+        };
+
+        $scope.filterSubmit = function () {
+
+        };
+
         $scope.do_action = function (key, cmd, mode) {
             Generator.doItemAction($scope, key, cmd, mode || 'normal');
         };

@@ -145,7 +145,7 @@ module.exports = function (grunt) {
                     "app/bower_components/angular-loading-bar/build/loading-bar.js",
                     "app/bower_components/metisMenu/dist/metisMenu.js",
                     "app/bower_components/Chart.js/Chart.js",
-                    //"app/shared/scripts/jquery-ui.min.js"
+                    "app/bower_components/intro.js/intro.js"
                 ],
                 dest: 'dist/bower_components/components.js'
             },
@@ -157,7 +157,9 @@ module.exports = function (grunt) {
                         "app/app.css",
                         "app/bower_components/metisMenu/dist/metisMenu.min.css",
                         "app/bower_components/angular-loading-bar/build/loading-bar.min.css",
-                        "app/bower_components/font-awesome/css/font-awesome.min.css"
+                        "app/bower_components/font-awesome/css/font-awesome.min.css",
+                        "app/bower_components/intro.js/intro.css",
+                        "app/bower_components/intro.js/themes/introjs-nassim.css"
                     ]
                 }
             },
@@ -193,17 +195,21 @@ module.exports = function (grunt) {
                     "app/bower_components/json3/lib/json3.min.js",
                     "app/bower_components/angular-loading-bar/build/loading-bar.min.js",
                     "app/bower_components/metisMenu/dist/metisMenu.min.js",
-                    "app/bower_components/Chart.js/Chart.min.js"
+                    "app/bower_components/Chart.js/Chart.min.js",
+                    "app/bower_components/intro.js/minified/intro.min.js"
                 ],
                 dest: 'dist/<%= grunt.branchname %>/bower_components/components.js'
             },
             css_branch: {
                 src: [
+                    "app/bower_components/angular-bootstrap/ui-bootstrap-csp.css",
                     "app/bower_components/bootstrap/dist/css/bootstrap.min.css",
                     "app/app.css",
                     "app/bower_components/metisMenu/dist/metisMenu.min.css",
                     "app/bower_components/angular-loading-bar/build/loading-bar.min.css",
-                    "app/bower_components/font-awesome/css/font-awesome.min.css"
+                    "app/bower_components/font-awesome/css/font-awesome.min.css",
+                    "app/bower_components/intro.js/minified/intro.min.css",
+                    "app/bower_components/intro.js/themes/introjs-nassim.css"
                 ],
                 dest: 'dist/<%= grunt.branchname %>/css/app.css'
             }
