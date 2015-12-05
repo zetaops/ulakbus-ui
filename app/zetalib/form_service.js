@@ -240,7 +240,7 @@ angular.module('formService', ['ui.bootstrap'])
                 if (v.type === 'model') {
 
                     var formitem = scope.form[scope.form.indexOf(k)];
-                    var modelScope = {"url": v.wf, "form_params": {model: v.model_name, cmd: v.list_cmd}};
+                    var modelScope = {"url": v.wf, "wf": v.wf, "form_params": {model: v.model_name, cmd: v.list_cmd}};
 
                     //scope.$on('refreshTitleMap', function (event, data) {
                     // todo: write a function to refresh titleMap after new item add to linkedModel
@@ -304,7 +304,7 @@ angular.module('formService', ['ui.bootstrap'])
                 if ((v.type === 'ListNode' || v.type === 'Node') && v.widget === 'filter_interface') {
                     var formitem = scope.form[scope.form.indexOf(k)];
                     var modelScope = {
-                        "url": v.wf || scope.wf,
+                        "url": v.wf || scope.wf, "wf": v.wf || scope.wf,
                         "form_params": {model: v.model_name || v.schema[0].model_name, cmd: v.list_cmd || 'select_list'}
                     };
 
@@ -407,7 +407,8 @@ angular.module('formService', ['ui.bootstrap'])
                             formType: v.type,
                             model_name: k
                         },
-                        url: scope.url
+                        url: scope.url,
+                        wf: scope.wf
                     });
 
                     if (v.type === 'ListNode') {
@@ -811,6 +812,7 @@ angular.module('formService', ['ui.bootstrap'])
                                 });
 
                                 var newscope = {
+                                    wf: scope.node.wf,
                                     url: scope.node.url,
                                     form_params: {model: scope.node.schema.model_name},
                                     edit: attribs[3]
@@ -851,7 +853,9 @@ angular.module('formService', ['ui.bootstrap'])
                                 listNodeItem.model[childmodel.edit] = childmodel.model;
                             } else {
                                 listNodeItem.model.push(angular.copy(childmodel.model));
-                                listNodeItem.items.push(reformattedModel);
+                                if (reformattedModel !== {}) {
+                                    listNodeItem.items.push(reformattedModel);
+                                }
                             }
                             listNodeItem.lengthModels += 1;
                         }
@@ -886,6 +890,7 @@ angular.module('formService', ['ui.bootstrap'])
                                 var formName = attributes.addModalForLinkedModel;
                                 return Generator.get_form({
                                     url: scope.form.wf,
+                                    wf: scope.form.wf,
                                     form_params: {model: scope.form.model_name, cmd: scope.form.add_cmd},
                                     modalElements: {
                                         // define button position properties
