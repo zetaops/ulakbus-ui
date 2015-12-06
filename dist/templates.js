@@ -222,68 +222,31 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
 angular.module("components/crud/templates/show.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/show.html",
     "<div class=\"starter-template container\">\n" +
-    "    <!--<div class=\"personnel-info-container\">-->\n" +
+    "    <div ng-repeat=\"obj in object\">\n" +
     "        <div class=\"info-block-header\">\n" +
     "            <h1>{{model}}</h1>\n" +
     "        </div>\n" +
     "        <div class=\"table-responsive\">\n" +
     "            <table class=\"table\">\n" +
-    "                <tbody>\n" +
-    "                <tr ng-repeat=\"(key, value) in object\">\n" +
-    "                    <td class=\"col-md-2\">{{key}}</td>\n" +
-    "                    <td class=\"col-md-8\">{{value}}</td>\n" +
-    "                </tr>\n" +
+    "                <thead ng-if=\"obj.type==='table-multiRow'\">\n" +
+    "                    <tr>\n" +
+    "                        <td ng-repeat=\"(key, value) in obj[0]\">{{key}}</td>\n" +
+    "                    </tr>\n" +
+    "                </thead>\n" +
+    "                <tbody ng-if=\"obj.type==='table-multiRow'\">\n" +
+    "                    <tr ng-repeat=\"row in obj.fields\">\n" +
+    "                        <td ng-repeat=\"(k,v) in row\">{{v}}</td>\n" +
+    "                    </tr>\n" +
+    "                </tbody>\n" +
+    "                <tbody ng-if=\"obj.type==='table'\">\n" +
+    "                    <tr ng-repeat=\"(key, value) in obj.fields\">\n" +
+    "                        <td class=\"col-md-2\">{{key}}</td>\n" +
+    "                        <td class=\"col-md-8\">{{value}}</td>\n" +
+    "                    </tr>\n" +
     "                </tbody>\n" +
     "            </table>\n" +
     "        </div>\n" +
-    "\n" +
-    "        <!--<div class=\"personnel-info-left\">-->\n" +
-    "\n" +
-    "            <!--&lt;!&ndash;<div class=\"generic-profile-picture\">&ndash;&gt;-->\n" +
-    "            <!--&lt;!&ndash;<img src=\"../../img/sample-profile-pic.jpg\" />&ndash;&gt;-->\n" +
-    "            <!--&lt;!&ndash;</div>&ndash;&gt;-->\n" +
-    "            <!--<div class=\"info-block\">-->\n" +
-    "                <!--<div class=\"info-block-header\">-->\n" +
-    "                    <!--<h1>{{model}}</h1>-->\n" +
-    "                <!--</div>-->\n" +
-    "                <!--&lt;!&ndash; end of info-block-header &ndash;&gt;-->\n" +
-    "                <!--<div class=\"info-block-body\" ng-repeat=\"(key, value) in object\">-->\n" +
-    "                    <!--<dl class=\"dl-horizontal\">-->\n" +
-    "                        <!--<dt>{{ key }}</dt>-->\n" +
-    "                        <!--<dd>{{value}}</dd>-->\n" +
-    "                    <!--</dl>-->\n" +
-    "                <!--</div>-->\n" +
-    "                <!--&lt;!&ndash; end of info-block-body &ndash;&gt;-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--&lt;!&ndash;<ul>&ndash;&gt;-->\n" +
-    "            <!--&lt;!&ndash;<li ng-repeat=\"(key, value) in object\"><span class=\"col-md-3\">{{ key }}:</span>{{value}}</li>&ndash;&gt;-->\n" +
-    "            <!--&lt;!&ndash;<li>Pozisyon</li>&ndash;&gt;-->\n" +
-    "            <!--&lt;!&ndash;<li><i class=\"fa fa-phone\"></i> (+90) 123 456 7890</li>&ndash;&gt;-->\n" +
-    "            <!--&lt;!&ndash;<li><i class=\"fa fa-envelope\"></i> samplemail@mail.com</li>&ndash;&gt;-->\n" +
-    "            <!--&lt;!&ndash;<li><i class=\"fa fa-map-marker\"></i> Gülbahçe Mah. İzmir Teknoloji Geliştirme Bölgesi A9 Blok 215/A IYTE Campus, URLA/IZMIR</li></li>&ndash;&gt;-->\n" +
-    "            <!--&lt;!&ndash;</ul>&ndash;&gt;-->\n" +
-    "        <!--</div>-->\n" +
-    "        <!--&lt;!&ndash; end of personnel-info-left &ndash;&gt;-->\n" +
-    "        <!--<div class=\"personnel-info-right\">-->\n" +
-    "            <!--<div class=\"info-block\" ng-repeat=\"(key, value) in listobjects\">-->\n" +
-    "                <!--<div class=\"info-block-header\">-->\n" +
-    "                    <!--<h2>{{key}}</h2>-->\n" +
-    "                <!--</div>-->\n" +
-    "                <!--&lt;!&ndash; end of info-block-header &ndash;&gt;-->\n" +
-    "                <!--<div class=\"info-block-body\" ng-repeat=\"(k, v) in value\">-->\n" +
-    "                    <!--<dl class=\"dl-horizontal\">-->\n" +
-    "                        <!--<dt>{{k}}</dt>-->\n" +
-    "                        <!--<dd>{{v}}</dd>-->\n" +
-    "                    <!--</dl>-->\n" +
-    "                <!--</div>-->\n" +
-    "                <!--&lt;!&ndash; end of info-block-body &ndash;&gt;-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--&lt;!&ndash; end of info block &ndash;&gt;-->\n" +
-    "            <!--&lt;!&ndash; end of info block &ndash;&gt;-->\n" +
-    "        <!--</div>-->\n" +
-    "        <!--&lt;!&ndash; personnel-info-left &ndash;&gt;-->\n" +
-    "    <!--</div>-->\n" +
-    "    <!-- end of personnel-info-container -->\n" +
+    "    </div>\n" +
     "</div>");
 }]);
 
@@ -606,19 +569,21 @@ angular.module("shared/templates/datefield.html", []).run(["$templateCache", fun
     "               class=\"form-control {{form.fieldHtmlClass}} datepickerfield\"\n" +
     "               id=\"{{form.key.slice(-1)[0]}}\"\n" +
     "               ng-model-options=\"form.ngModelOptions\"\n" +
-    "               ng-model=\"dt\"\n" +
+    "               ng-model=\"$$value$$\"\n" +
     "               ng-disabled=\"form.readonly\"\n" +
     "               schema-validate=\"form\"\n" +
     "               name=\"{{form.key.slice(-1)[0]}}\"\n" +
     "               aria-describedby=\"{{form.key.slice(-1)[0] + 'Status'}}\"\n" +
     "\n" +
-    "               type=\"date\"\n" +
-    "               datepicker-popup\n" +
-    "               is-open=\"status.opened\"\n" +
-    "               date-disabled=\"disabled(date, mode)\"\n" +
-    "               close-text=\"Close\"/>\n" +
+    "               type=\"text\"\n" +
+    "               uib-datepicker-popup=\"{{form.format}}\"\n" +
+    "               is-open=\"form.status.opened\"\n" +
+    "               close-text=\"Kapat\"\n" +
+    "               current-text=\"Bugün\"\n" +
+    "               clear-text=\"Temizle\"\n" +
+    "               ng-click=\"form.open($event)\"/>\n" +
     "        <span class=\"input-group-btn\">\n" +
-    "            <button type=\"button\" class=\"btn btn-default\" ng-click=\"open($event)\">\n" +
+    "            <button type=\"button\" class=\"btn btn-default\" ng-click=\"form.open($event)\">\n" +
     "                <i class=\"glyphicon glyphicon-calendar\"></i>\n" +
     "            </button>\n" +
     "        </span>\n" +

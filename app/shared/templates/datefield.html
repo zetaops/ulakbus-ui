@@ -4,6 +4,11 @@
            for="{{form.key.slice(-1)[0]}}">{{form.title}}</label>
 
     <p class="input-group">
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="form.open($event)">
+                <i class="fa fa-calendar"></i>
+            </button>
+        </span>
         <input ng-if="!form.fieldAddonLeft && !form.fieldAddonRight"
                ng-show="form.key"
                step="any"
@@ -12,22 +17,20 @@
                class="form-control {{form.fieldHtmlClass}} datepickerfield"
                id="{{form.key.slice(-1)[0]}}"
                ng-model-options="form.ngModelOptions"
-               ng-model="dt"
+               ng-model="form.modelDate"
                ng-disabled="form.readonly"
                schema-validate="form"
                name="{{form.key.slice(-1)[0]}}"
                aria-describedby="{{form.key.slice(-1)[0] + 'Status'}}"
 
-               type="date"
-               datepicker-popup
-               is-open="status.opened"
-               date-disabled="disabled(date, mode)"
-               close-text="Close"/>
-        <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="open($event)">
-                <i class="glyphicon glyphicon-calendar"></i>
-            </button>
-        </span>
+               type="{{form.type}}"
+               uib-datepicker-popup="{{form.format}}"
+               is-open="form.status.opened"
+               close-text="Kapat"
+               current-text="Bugün"
+               clear-text="Temizle"
+               ng-click="form.open($event)"/>
+
     </p>
 
     <!--<input ng-if="!form.fieldAddonLeft && !form.fieldAddonRight"-->

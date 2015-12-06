@@ -184,43 +184,43 @@ angular.module('formService', ['ui.bootstrap'])
 
                 // check if type is date and if type date found change it to string
                 if (v.type === 'date') {
+                    var modelDate = angular.copy(scope.model[k]);
+                    scope.model[k] = generator.dateformatter(scope.model[k]);
                     scope.form[scope.form.indexOf(k)] = {
-                        key: k, name: k,
+                        key: k, name: k, title: v.title,
+                        type: 'template',
+                        modelDate: new Date(modelDate),
+                        templateUrl: 'shared/templates/datefield.html',
                         validationMessage: {
-                            'dateNotValid': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>"
+                            'dateNotValid': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>",
+                            302: 'Bu alan zorunludur.'
                         },
                         $asyncValidators: {
                             'dateNotValid': function (value) {
                                 var deferred = $q.defer();
                                 $timeout(function () {
-                                    var dateValue = d = value.split('.');
-                                    if (isNaN(Date.parse([d[1],d[0],d[2]].join('.'))) || dateValue.length !== 3) {
-                                        deferred.reject();
-                                    } else {
+                                    scope.model[k] = angular.copy(generator.dateformatter(value));
+                                    if (value.constructor === Date) {
                                         deferred.resolve();
                                     }
-                                }, 500);
+                                    else {
+                                        var dateValue = d = value.split('.');
+                                        if (isNaN(Date.parse([d[1], d[0], d[2]].join('.'))) || dateValue.length !== 3) {
+                                            deferred.reject();
+                                        } else {
+                                            deferred.resolve();
+                                        }
+                                    }
+                                });
                                 return deferred.promise;
                             }
-                        }
+                        },
+                        status: {opened: false},
+                        open: function ($event) {
+                            this.status.opened = true;
+                        },
+                        format: 'dd.MM.yyyy'
                     };
-                    v.type = 'string';
-                    scope.model[k] = generator.dateformatter(scope.model[k]);
-
-                    $timeout(function () {
-                        jQuery('#' + k).datepicker({
-                            changeMonth: true,
-                            changeYear: true,
-                            dateFormat: "dd.mm.yy",
-                            onSelect: function (date, inst) {
-                                scope.model[k] = date;
-                                if (scope.modalElements) {
-                                    scope.validateModalDate(k);
-                                    scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
-                                }
-                            }
-                        });
-                    }, 1000);
                 }
 
                 if (v.type === 'int' || v.type === 'float') {
@@ -257,7 +257,7 @@ angular.module('formService', ['ui.bootstrap'])
                                     });
                                 }
                                 // get selected item from titleMap using model value
-                                if (item.key===scope.model[k]) {
+                                if (item.key === scope.model[k]) {
                                     formitem.selected_item = {value: item.key, name: item.value};
                                 }
                             });
@@ -363,13 +363,17 @@ angular.module('formService', ['ui.bootstrap'])
                             formitem.filteredItems = generator.get_diff_array(formitem.filteredItems, formitem.selectedFilteredItems);
                         },
                         select: function (selectedItemsModel) {
-                            if(!selectedItemsModel){return;}
+                            if (!selectedItemsModel) {
+                                return;
+                            }
                             formitem.selectedFilteredItems = formitem.selectedFilteredItems.concat(selectedItemsModel);
                             formitem.appendFiltered(formitem.filterValue);
                             scope.model[k] = (scope.model[k] || []).concat(formitem.dataToModel(selectedItemsModel));
                         },
                         deselect: function (selectedFilteredItemsModel) {
-                            if(!selectedFilteredItemsModel){return;}
+                            if (!selectedFilteredItemsModel) {
+                                return;
+                            }
                             formitem.selectedFilteredItems = generator.get_diff_array(angular.copy(formitem.selectedFilteredItems), angular.copy(selectedFilteredItemsModel));
                             formitem.appendFiltered(formitem.filterValue);
                             formitem.filteredItems = formitem.filteredItems.concat(selectedFilteredItemsModel);
@@ -391,7 +395,7 @@ angular.module('formService', ['ui.bootstrap'])
                 }
 
                 if ((v.type === 'ListNode' || v.type === 'Node') && v.widget !== 'filter_interface') {
-                //if (v.type === 'ListNode' || v.type === 'Node') {
+                    //if (v.type === 'ListNode' || v.type === 'Node') {
 
                     scope[v.type] = scope[v.type] || {};
 
@@ -437,7 +441,7 @@ angular.module('formService', ['ui.bootstrap'])
                     if (scope.model[k]) {
                         angular.forEach(scope.model[k], function (value, key) {
                             angular.forEach(value, function (y, x) {
-                                if (y.constructor===Object) {
+                                if (y.constructor === Object) {
                                     scope.model[k][key][x] = y.key;
                                 }
                             });
@@ -467,7 +471,8 @@ angular.module('formService', ['ui.bootstrap'])
             if (ndate == 'Invalid Date') {
                 return '';
             } else {
-                var newdatearray = [ndate.getDate(), ndate.getMonth() + 1, ndate.getFullYear()];
+
+                var newdatearray = [("0" + ndate.getDate()).slice(-2), ndate.getMonth() + 1, ndate.getFullYear()];
                 return newdatearray.join('.');
             }
         };
@@ -545,7 +550,7 @@ angular.module('formService', ['ui.bootstrap'])
             return re.test(tcno);
         };
         generator.isValidDate = function (dateValue) {
-            var datevalid = Date.parse(dateValue) === Nan ? false : true;
+            var datevalid = Date.parse(dateValue) === NaN ? false : true;
             return datevalid;
         };
         generator.asyncValidators = {
@@ -696,8 +701,6 @@ angular.module('formService', ['ui.bootstrap'])
                 "filter": $scope.filter
             };
 
-            debugger;
-
             return $http.post(generator.makeUrl($scope), data)
                 .success(function (data) {
                     if (redirectTo === true) {
@@ -842,8 +845,16 @@ angular.module('formService', ['ui.bootstrap'])
                                     angular.forEach(childmodel.form, function (v, k) {
                                         if (v.formName === key) {
                                             //if (!childmodel.model[key].key) {
-                                                function indexInTitleMap(element,index,array){if(element['value']===value){return element;}}
-                                                reformattedModel[key] = {"key": value, "unicode": v.titleMap.find(indexInTitleMap).name};
+                                            function indexInTitleMap(element, index, array) {
+                                                if (element['value'] === value) {
+                                                    return element;
+                                                }
+                                            }
+
+                                            reformattedModel[key] = {
+                                                "key": value,
+                                                "unicode": v.titleMap.find(indexInTitleMap).name
+                                            };
                                             //}
                                         }
                                     });
@@ -900,7 +911,7 @@ angular.module('formService', ['ui.bootstrap'])
                                             none: ''
                                         },
                                         workOnForm: 'linkedModelForm',
-                                        workOnDiv: '-modal'+formName
+                                        workOnDiv: '-modal' + formName
                                     },
                                     submitModalForm: function () {
                                         $rootScope.$broadcast('submitModalForm');
