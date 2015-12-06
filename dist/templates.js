@@ -561,6 +561,11 @@ angular.module("shared/templates/datefield.html", []).run(["$templateCache", fun
     "           for=\"{{form.key.slice(-1)[0]}}\">{{form.title}}</label>\n" +
     "\n" +
     "    <p class=\"input-group\">\n" +
+    "        <span class=\"input-group-btn\">\n" +
+    "            <button type=\"button\" class=\"btn btn-default\" ng-click=\"form.open($event)\">\n" +
+    "                <i class=\"fa fa-calendar\"></i>\n" +
+    "            </button>\n" +
+    "        </span>\n" +
     "        <input ng-if=\"!form.fieldAddonLeft && !form.fieldAddonRight\"\n" +
     "               ng-show=\"form.key\"\n" +
     "               step=\"any\"\n" +
@@ -569,24 +574,20 @@ angular.module("shared/templates/datefield.html", []).run(["$templateCache", fun
     "               class=\"form-control {{form.fieldHtmlClass}} datepickerfield\"\n" +
     "               id=\"{{form.key.slice(-1)[0]}}\"\n" +
     "               ng-model-options=\"form.ngModelOptions\"\n" +
-    "               ng-model=\"$$value$$\"\n" +
+    "               ng-model=\"form.modelDate\"\n" +
     "               ng-disabled=\"form.readonly\"\n" +
     "               schema-validate=\"form\"\n" +
     "               name=\"{{form.key.slice(-1)[0]}}\"\n" +
     "               aria-describedby=\"{{form.key.slice(-1)[0] + 'Status'}}\"\n" +
     "\n" +
-    "               type=\"text\"\n" +
+    "               type=\"{{form.type}}\"\n" +
     "               uib-datepicker-popup=\"{{form.format}}\"\n" +
     "               is-open=\"form.status.opened\"\n" +
     "               close-text=\"Kapat\"\n" +
     "               current-text=\"Bugün\"\n" +
     "               clear-text=\"Temizle\"\n" +
     "               ng-click=\"form.open($event)\"/>\n" +
-    "        <span class=\"input-group-btn\">\n" +
-    "            <button type=\"button\" class=\"btn btn-default\" ng-click=\"form.open($event)\">\n" +
-    "                <i class=\"glyphicon glyphicon-calendar\"></i>\n" +
-    "            </button>\n" +
-    "        </span>\n" +
+    "\n" +
     "    </p>\n" +
     "\n" +
     "    <!--<input ng-if=\"!form.fieldAddonLeft && !form.fieldAddonRight\"-->\n" +

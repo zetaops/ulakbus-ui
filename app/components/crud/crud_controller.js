@@ -196,6 +196,11 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                         delete $scope.object[key];
                     }
                 });
+                if ($scope.object.constructor === Array) {
+                    $log.debug('new type show object')
+                } else {
+                    $scope.object = [{type: 'table', fields: angular.copy($scope.object)}];
+                }
             };
 
             $scope.listobjects = {};
