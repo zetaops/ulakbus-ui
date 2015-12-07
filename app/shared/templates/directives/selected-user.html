@@ -1,41 +1,8 @@
-<a href="#" data-toggle="tooltip" data-placement="bottom" title="Tooltip on left">İşlem: {{$root.selectedUser.name}}</a>
-
-<!-- sidebar-person-info -->
-<!--<div class="tooltip" role="tooltip">-->
-    <!--&lt;!&ndash;<button class="btn btn-primary close-sidebar-person-info">Profili Kapat</button>&ndash;&gt;-->
-    <!--<div class="identity">-->
-        <!--<div class="identity-header clearfix">-->
-            <!--<img src="../../../img/sample-profile-pic.jpg">-->
-            <!--<div class="pull-left">-->
-                <!--<p class="identity-name">{{$root.selectedUser.name}}</p>-->
-                <!--&lt;!&ndash;<p class="identity-surname">Öğümsöğütlü</p>&ndash;&gt;-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash; end of identity-header &ndash;&gt;-->
-        <!--<div class="identity-info">-->
-            <!--<div class="clearfix">-->
-                <!--<span class="fa fa-phone"></span> <div>539 241 65 08</div>-->
-            <!--</div>-->
-            <!--<div class="clearfix">-->
-                <!--<span class="fa fa-envelope"></span>-->
-                <!--<div>erkanogum@gmail.com</div>-->
-            <!--</div>-->
-            <!--<div class="clearfix">-->
-                <!--<span class="fa fa-home"></span>-->
-                <!--<div>İşçi Blokları Mah. 1524. sokak B Blok 6. Kat A Kanat 27 numara</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--&lt;!&ndash; end of identity &ndash;&gt;-->
-    <!--<div class="person-actions">-->
-        <!--<ul>-->
-            <!--<li><a href="#"><span class="fa fa-trash"></span> Action 1</a></li>-->
-            <!--<li><a href="#"><span class="fa fa-trash"></span> Action 2</a></li>-->
-            <!--<li><a href="#"><span class="fa fa-trash"></span> Action 3</a></li>-->
-            <!--<li><a href="#"><span class="fa fa-trash"></span> Action 4</a></li>-->
-            <!--<li><a href="#"><span class="fa fa-trash"></span> Action 5</a></li>-->
-        <!--</ul>-->
-    <!--</div>-->
-    <!--&lt;!&ndash; end of person-actions &ndash;&gt;-->
-<!--</div>-->
-<!-- end of sidebar-person-info -->
+<span uib-popover-template="dynamicPopover.templateUrl"
+      popover-title="{{dynamicPopover.title}}"
+      popover-trigger="click"
+      popover-placement="bottom"
+      type="button"
+      ng-if="selectedUser"
+      class="">İşlem yapılan kişi: <i class="fa fa-fw fa-user"></i> <b>{{selectedUser.name}}</b> <i
+        class="fa fa-caret-down"></i></span>

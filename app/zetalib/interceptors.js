@@ -83,7 +83,7 @@ app.config(['$httpProvider', function ($httpProvider) {
                         '</div>'+
                         '</div>' +
                         '<div class="modal-footer">' +
-                        '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                        '<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
@@ -91,7 +91,9 @@ app.config(['$httpProvider', function ($httpProvider) {
                 };
 
                 if (rejection.status === -1) {
-                    rejection.data = {title: "error", description : 'connection failed'};
+                    rejection.status = 'Sunucu hatası'
+                    rejection.data = {title: "", description : 'Sunucu bağlantısında bir hata oluştu.' +
+                    'Lütfen yetkili personelle iletişime geçiniz.'};
                     errorModal();
                 }
 

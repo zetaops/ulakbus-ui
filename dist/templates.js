@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/checkboxFilter.html', 'components/crud/templates/crud.html', 'components/crud/templates/dateFilter.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/selectFilter.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/checkboxFilter.html', 'components/crud/templates/crud.html', 'components/crud/templates/dateFilter.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/selectFilter.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -1158,47 +1158,42 @@ angular.module("shared/templates/directives/search.html", []).run(["$templateCac
 
 angular.module("shared/templates/directives/selected-user.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/selected-user.html",
-    "<a href=\"#\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Tooltip on left\">İşlem: {{$root.selectedUser.name}}</a>\n" +
+    "<span uib-popover-template=\"dynamicPopover.templateUrl\"\n" +
+    "      popover-title=\"{{dynamicPopover.title}}\"\n" +
+    "      popover-trigger=\"click\"\n" +
+    "      popover-placement=\"bottom\"\n" +
+    "      type=\"button\"\n" +
+    "      ng-if=\"selectedUser\"\n" +
+    "      class=\"\">İşlem yapılan kişi: <i class=\"fa fa-fw fa-user\"></i> <b>{{selectedUser.name}}</b> <i\n" +
+    "        class=\"fa fa-caret-down\"></i></span>");
+}]);
+
+angular.module("shared/templates/directives/selectedUserPopover.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/selectedUserPopover.html",
+    "<div style=\"width:400px;\">\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-6\">\n" +
+    "            <img src=\"img/sample-profile-pic.jpg\" alt=\"{{dynamicPopover.name}}\" class=\"img-thumbnail\">\n" +
+    "        </div>\n" +
+    "    </div>\n" +
     "\n" +
-    "<!-- sidebar-person-info -->\n" +
-    "<!--<div class=\"tooltip\" role=\"tooltip\">-->\n" +
-    "    <!--&lt;!&ndash;<button class=\"btn btn-primary close-sidebar-person-info\">Profili Kapat</button>&ndash;&gt;-->\n" +
-    "    <!--<div class=\"identity\">-->\n" +
-    "        <!--<div class=\"identity-header clearfix\">-->\n" +
-    "            <!--<img src=\"../../../img/sample-profile-pic.jpg\">-->\n" +
-    "            <!--<div class=\"pull-left\">-->\n" +
-    "                <!--<p class=\"identity-name\">{{$root.selectedUser.name}}</p>-->\n" +
-    "                <!--&lt;!&ndash;<p class=\"identity-surname\">Öğümsöğütlü</p>&ndash;&gt;-->\n" +
-    "            <!--</div>-->\n" +
-    "        <!--</div>-->\n" +
-    "        <!--&lt;!&ndash; end of identity-header &ndash;&gt;-->\n" +
-    "        <!--<div class=\"identity-info\">-->\n" +
-    "            <!--<div class=\"clearfix\">-->\n" +
-    "                <!--<span class=\"fa fa-phone\"></span> <div>539 241 65 08</div>-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--<div class=\"clearfix\">-->\n" +
-    "                <!--<span class=\"fa fa-envelope\"></span>-->\n" +
-    "                <!--<div>erkanogum@gmail.com</div>-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--<div class=\"clearfix\">-->\n" +
-    "                <!--<span class=\"fa fa-home\"></span>-->\n" +
-    "                <!--<div>İşçi Blokları Mah. 1524. sokak B Blok 6. Kat A Kanat 27 numara</div>-->\n" +
-    "            <!--</div>-->\n" +
-    "        <!--</div>-->\n" +
-    "    <!--</div>-->\n" +
-    "    <!--&lt;!&ndash; end of identity &ndash;&gt;-->\n" +
-    "    <!--<div class=\"person-actions\">-->\n" +
-    "        <!--<ul>-->\n" +
-    "            <!--<li><a href=\"#\"><span class=\"fa fa-trash\"></span> Action 1</a></li>-->\n" +
-    "            <!--<li><a href=\"#\"><span class=\"fa fa-trash\"></span> Action 2</a></li>-->\n" +
-    "            <!--<li><a href=\"#\"><span class=\"fa fa-trash\"></span> Action 3</a></li>-->\n" +
-    "            <!--<li><a href=\"#\"><span class=\"fa fa-trash\"></span> Action 4</a></li>-->\n" +
-    "            <!--<li><a href=\"#\"><span class=\"fa fa-trash\"></span> Action 5</a></li>-->\n" +
-    "        <!--</ul>-->\n" +
-    "    <!--</div>-->\n" +
-    "    <!--&lt;!&ndash; end of person-actions &ndash;&gt;-->\n" +
-    "<!--</div>-->\n" +
-    "<!-- end of sidebar-person-info -->");
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-6\">\n" +
+    "            <table class=\"table table-condensed\">\n" +
+    "                <tbody>\n" +
+    "                <tr>\n" +
+    "                    <td>Ad:</td>\n" +
+    "                    <td>{{dynamicPopover.name}}</td>\n" +
+    "                </tr>\n" +
+    "                <tr>\n" +
+    "                    <td>TC Kimlik No:</td>\n" +
+    "                    <td>{{dynamicPopover.tcno}}</td>\n" +
+    "                </tr>\n" +
+    "                </tbody>\n" +
+    "            </table>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>");
 }]);
 
 angular.module("shared/templates/directives/sidebar-notification.html", []).run(["$templateCache", function($templateCache) {
@@ -1338,11 +1333,14 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "\n" +
     "            <li ng-repeat=\"(key, item) in menuItems\" ng-class=\"{active: collapseVar == $index+1}\">{{dropDown}}\n" +
     "                <a href=\"\" ng-click=\"check($index+1)\">\n" +
-    "                    <i class=\"fa fa-fw fa-cogs\"\n" +
+    "                    <i class=\"fa fa-fw\"\n" +
     "                       ng-class=\"{\n" +
-    "                           'other': 'fa fa-fw fa-wrench',\n" +
-    "                           'ogrenci': 'fa fa-fw fa-university',\n" +
-    "                           'personel': 'fa fa-fwkey-users'}[item[0].baseCategory]\"></i>\n" +
+    "                           'Admin': 'fa fa-fw fa-terminal',\n" +
+    "                           'Genel': 'fa fa-fw fa-graduation-cap',\n" +
+    "                           'Alt Kategori': 'fa fa-fw fa-tags',\n" +
+    "                           'Kadro Islemleri': 'fa fa-fw fa-users',\n" +
+    "                           'Seçime Uygun Görevler':'fa fa-fw fa-users'\n" +
+    "                           }[item[0].kategori]\"></i>\n" +
     "                    <span class=\"menu-text\" ng-class=\"{hidden: $root.collapsed}\">{{ key }}</span>\n" +
     "                    <span class=\"fa arrow\" ng-class=\"{hidden: $root.collapsed}\"></span>\n" +
     "                </a>\n" +
@@ -1350,7 +1348,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "                    <li ng-repeat=\"(k, v) in item\">\n" +
     "                      <!--<a ng-if=\"v.model\" ng-href=\"#{{v.url}}\" ng- -->\n" +
     "                           <!--ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>-->\n" +
-    "                      <a ng-href=\"#/{{v.wf}}/{{v.model}}?{{v.param}}={{$root.selectedUser.key}}\"\n" +
+    "                      <a ng-href=\"#/{{v.wf}}/{{v.model}}?{{v.param}}={{selectedUser.key}}\"\n" +
     "                           ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
     "                    </li>\n" +
     "                </ul>\n" +

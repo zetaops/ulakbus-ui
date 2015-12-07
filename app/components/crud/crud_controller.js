@@ -16,7 +16,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
      * Crud Utility is a service to provide functionality for Crud controllers
      * @returns {object}
      */
-    .service('CrudUtility', function ($log) {
+    .service('CrudUtility', function ($log, $rootScope) {
         return {
             /**
              * @name generateParam
@@ -50,6 +50,8 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
 
                 if (scope.param_id) {
                     scope.form_params.filters.push({field: scope.param, values: [scope.param_id], type: 'check'});
+                    // do not use selected user, get and broadcast data of user in param_id
+                    $rootScope.$broadcast('selectedUserTrigger', [scope.param, scope.param_id]);
                 }
 
                 scope.model = scope.form_params.model;

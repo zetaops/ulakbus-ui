@@ -15,11 +15,14 @@
 
             <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == $index+1}">{{dropDown}}
                 <a href="" ng-click="check($index+1)">
-                    <i class="fa fa-fw fa-cogs"
+                    <i class="fa fa-fw"
                        ng-class="{
-                           'other': 'fa fa-fw fa-wrench',
-                           'ogrenci': 'fa fa-fw fa-university',
-                           'personel': 'fa fa-fwkey-users'}[item[0].baseCategory]"></i>
+                           'Admin': 'fa fa-fw fa-terminal',
+                           'Genel': 'fa fa-fw fa-graduation-cap',
+                           'Alt Kategori': 'fa fa-fw fa-tags',
+                           'Kadro Islemleri': 'fa fa-fw fa-users',
+                           'Seçime Uygun Görevler':'fa fa-fw fa-users'
+                           }[item[0].kategori]"></i>
                     <span class="menu-text" ng-class="{hidden: $root.collapsed}">{{ key }}</span>
                     <span class="fa arrow" ng-class="{hidden: $root.collapsed}"></span>
                 </a>
@@ -27,7 +30,7 @@
                     <li ng-repeat="(k, v) in item">
                       <!--<a ng-if="v.model" ng-href="#{{v.url}}" ng- -->
                            <!--ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>-->
-                      <a ng-href="#/{{v.wf}}/{{v.model}}?{{v.param}}={{$root.selectedUser.key}}"
+                      <a ng-href="#/{{v.wf}}/{{v.model}}?{{v.param}}={{selectedUser.key}}"
                            ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
                     </li>
                 </ul>

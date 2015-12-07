@@ -97,7 +97,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
                             "x-schema-form": {placeholder: "Arama kriteri giriniz..."}
                         }
                     },
-                    required: ['searchbox']
+                    required: []
                 };
                 $scope.searchModel = {searchbox: ''};
 
@@ -255,13 +255,31 @@ app.directive('logout', function ($http, $location, RESTURL) {
      * selected user directive
      */
 
-    .directive('selectedUser', function () {
+    .directive('selectedUser', function ($http, RESTURL) {
         return {
             templateUrl: 'shared/templates/directives/selected-user.html',
             restrict: 'E',
-            replace: false,
+            replace: true,
             link: function ($scope, $rootScope) {
-                $scope.selectedUser = $rootScope.selectedUser;
+                $scope.$on('selectedUser', function ($event, data) {
+                    $scope.selectedUser = data;
+                    $scope.dynamicPopover = {
+                        content: '',
+                        name: data.name,
+                        tcno: data.tcno,
+                        key: data.key,
+                        templateUrl: 'shared/templates/directives/selectedUserPopover.html',
+                        title: 'İşlem Yapılan Kişi'
+                    };
+                });
+                $scope.$on('selectedUserTrigger', function ($event, data) {
+                    var postToApi = {model: 'Personel', cmd: 'show', id: data[1]};
+                    //postToApi[data[0]]=data[1];
+                    $http.get(RESTURL.url + 'ara/personel/'+ data[1]).success(
+                        function (data) {
+                        }
+                    );
+                })
             }
         };
     })
@@ -324,7 +342,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
                         //}
 
                         $timeout(function () {
-                            sidebarmenu.metisMenu()
+                            sidebarmenu.metisMenu();
                         });
                     });
 
@@ -338,6 +356,10 @@ app.directive('logout', function ($http, $location, RESTURL) {
                     $timeout(function () {
                         sidebarmenu.metisMenu()
                     });
+                });
+
+                $scope.$on('selectedUser', function ($event, data) {
+                    $scope.selectedUser = data;
                 });
 
                 $scope.openSidebar = function () {
