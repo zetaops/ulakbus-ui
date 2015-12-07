@@ -12,7 +12,7 @@
                  <div class="dashboard-search-results">
                  	<ul ng-if="students.length > 0">
                     	<li ng-repeat="student in students">
-                            <a href="javascript:void(0)" ng-click="select(student, 'ogrenci')">{{student}}</a>
+                            <a href="javascript:void(0)" ng-click="select(student, 'ogrenci')">{{student[0]}}</a>
                         </li>
                     </ul>
                  </div>

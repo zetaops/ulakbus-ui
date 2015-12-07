@@ -39,6 +39,7 @@ app.config(['$httpProvider', function ($httpProvider) {
                 }
                 if (response.data.is_login === true) {
                     $rootScope.loggedInUser = true;
+                    $rootScope.loginAttempt = 1; // this needs for popup errors
                     if ($location.path() === "/login") {
                         $location.path("/dashboard");
                     }
@@ -52,6 +53,10 @@ app.config(['$httpProvider', function ($httpProvider) {
             'responseError': function (rejection) {
 
                 var errorModal = function () {
+                    if ($rootScope.loginAttempt === 0) {
+                        console.log('not logged in, no alert message triggered');
+                        return;
+                    }
                     var codefield = "";
                     if (rejection.data.error) {
                         codefield = '<p><pre>' +

@@ -79,9 +79,7 @@ module.exports = function (grunt) {
                     {expand: true, cwd: 'app/styles/images/', src: '*', dest: 'dist/css/images/', flatten: true},
                     {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
-                    //{expand: true, cwd: 'app/shared/scripts/', src: 'theme.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/shared/scripts/', src: 'jquery-ui.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
+                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
                 ]
             },
             local_prod: {
@@ -94,8 +92,7 @@ module.exports = function (grunt) {
                     {expand: true, cwd: 'app/styles/images/', src: '*', dest: 'dist/css/images/', flatten: true},
                     {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/shared/scripts/', src: 'jquery-ui.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
+                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
                 ]
             }
         },
@@ -127,8 +124,7 @@ module.exports = function (grunt) {
             },
             components: {
                 src: [
-                    //"app/bower_components/angular/angular.js",
-                    //"app/bower_components/jquery/dist/jquery.js",
+                    "app/bower_components/angular-i18n/angular-locale_tr.js",
                     "app/bower_components/bootstrap/dist/js/bootstrap.js",
                     "app/bower_components/angular-route/angular-route.js",
                     "app/bower_components/angular-cookies/angular-cookies.js",
@@ -179,7 +175,7 @@ module.exports = function (grunt) {
             },
             components_branch: {
                 src: [
-                    //"app/bower_components/jquery/dist/jquery.min.js",
+                    "app/bower_components/angular-i18n/angular-locale_tr.js",
                     "app/bower_components/angular-route/angular-route.min.js",
                     "app/bower_components/angular-cookies/angular-cookies.min.js",
                     "app/bower_components/angular-resource/angular-resource.min.js",

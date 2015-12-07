@@ -184,12 +184,17 @@ angular.module('formService', ['ui.bootstrap'])
 
                 // check if type is date and if type date found change it to string
                 if (v.type === 'date') {
-                    var modelDate = angular.copy(scope.model[k]);
+                    if (isNaN(new Date(scope.model[k]))) {
+                        var modelDate;
+                    }
+                    else {
+                        var modelDate = new Date(scope.model[k]);
+                    }
                     scope.model[k] = generator.dateformatter(scope.model[k]);
                     scope.form[scope.form.indexOf(k)] = {
                         key: k, name: k, title: v.title,
                         type: 'template',
-                        modelDate: new Date(modelDate),
+                        modelDate: modelDate,
                         templateUrl: 'shared/templates/datefield.html',
                         validationMessage: {
                             'dateNotValid': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>",
@@ -200,6 +205,9 @@ angular.module('formService', ['ui.bootstrap'])
                                 var deferred = $q.defer();
                                 $timeout(function () {
                                     scope.model[k] = angular.copy(generator.dateformatter(value));
+                                    if (scope.schema.required.indexOf(k) > -1) {
+                                        deferred.resolve();
+                                    }
                                     if (value.constructor === Date) {
                                         deferred.resolve();
                                     }

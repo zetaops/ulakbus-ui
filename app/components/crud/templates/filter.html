@@ -1,5 +1,6 @@
 <div>
     <h2>Filtrele</h2>
+
     <div ng-repeat="filter in list_filters">
         <div>
             <div class=" clearfix">
@@ -8,28 +9,57 @@
 
             <div ng-if="filter.type==='check' || !filter.type">
                 <div class="checkbox" ng-repeat="filterItem in filter.values">
-                    <input type="checkbox" name="filter_group[]" value="{{filterItem.value}}"/>{{filterItem.name}}<br />
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="filter_group[]" value="{{filterItem.value}}"/>
+                        {{filterItem.name}}
+                    </label>
                 </div>
             </div>
 
             <div ng-if="filter.type==='select'">
                 <div class="col-md-12">
                     <select name="filterSelect" id="filterSelect" class="form-control">
-                        <option ng-repeat="filterItem in filter.values" value="{{filterItem.value}}">{{filterItem.name}}</option>
+                        <option ng-repeat="filterItem in filter.values" value="{{filterItem.value}}">
+                            {{filterItem.name}}
+                        </option>
                     </select>
                 </div>
             </div>
 
             <div ng-if="filter.type==='date'">
-                <div class="col-md-6">
-                    <br>
+                <div class="col-md-12">
                     <label class="control-label" for="startDate">Başlangıç</label>
-                    <input type="text" name="startDate" class="form-control filterDate"/>
+
+                    <p class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="dateFilterOpen($event, 'startOpened')">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </span>
+                        <input type="text" name="startDate" class="form-control" ng-model="filterStartDate"
+                               uib-datepicker-popup="{{format}}"
+                               is-open="status.startOpened"
+                               close-text="Kapat"
+                               current-text="Bugün"
+                               clear-text="Temizle"
+                               ng-click="dateFilterOpen($event, 'startOpened')"/></p>
                 </div>
-                <div class="col-md-6">
-                    <br>
+                <div class="col-md-12">
                     <label class="control-label" for="endDate">Bitiş</label>
-                    <input type="text" name="endDate" class="form-control filterDate"/>
+
+                    <p class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="dateFilterOpen($event, 'endOpened')">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </span>
+                        <input type="text" name="endDate" class="form-control" ng-model="filterEndDate"
+                               uib-datepicker-popup="{{format}}"
+                               is-open="status.endOpened"
+                               close-text="Kapat"
+                               current-text="Bugün"
+                               clear-text="Temizle"
+                               ng-click="dateFilterOpen($event, 'endOpened')"/></p>
                 </div>
             </div>
         </div>

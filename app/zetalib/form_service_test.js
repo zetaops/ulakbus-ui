@@ -12,7 +12,7 @@ describe('form service module', function () {
     beforeEach(module('ulakbus'));
     beforeEach(module('formService'));
     var location;
-    beforeEach(inject(function($location, $injector) {
+    beforeEach(inject(function ($location, $injector) {
         location = $location;
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
@@ -24,63 +24,20 @@ describe('form service module', function () {
     describe('form service', function () {
 
         it('should generate url', inject(['Generator',
-                function (Generator) {
-                    expect(Generator.group).not.toBe(null);
-                    var generated_url = Generator.makeUrl({url: 'test', form_params: {}});
-                    expect(generated_url).toEqual("//api.ulakbus.net/test/");
-                }])
+            function (Generator) {
+                expect(Generator.group).not.toBe(null);
+                var generated_url = Generator.makeUrl({url: 'test', form_params: {}});
+                expect(generated_url).toEqual("//api.ulakbus.net/test/");
+            }])
         );
 
         it('should generate form', inject(['Generator',
-                function (Generator) {
-                    expect(Generator.generate).not.toBe(null);
+            function (Generator) {
+                expect(Generator.generate).not.toBe(null);
 
-                    var scope = {form_params: {object_id: '123456'}};
-                    var data = {
-                        forms: {
-                            form: ['email', 'id', 'name'],
-                            schema: {
-                                properties: {
-                                    email: {title: 'email', type: 'email'},
-                                    id: {title: 'id', type: 'int'},
-                                    name: {title: 'name', type: 'string'}
-                                }, required: [], type: 'object', title: 'servicetest'
-                            },
-                            model: {
-                                email: 'test@test.com', id: 2, name: 'travolta'
-                            }
-                        },
-                        token: "b1d8fa68ae3d47bdb580a89f76192447"
-                    };
-
-                    var form_json = {
-                        form_params: {object_id: '123456'},
-                        form: ['email', 'id', 'name'],
-                        schema: {
-                            properties: {
-                                email: {title: 'email', type: 'email'},
-                                id: {title: 'id', type: 'number'},
-                                name: {title: 'name', type: 'string'}
-                            }, required: [], type: 'object', title: 'servicetest'
-                        },
-                        model: {email: 'test@test.com', id: 2, name: 'travolta'},
-                        token: "b1d8fa68ae3d47bdb580a89f76192447",
-                        initialModel: {email: 'test@test.com', id: 2, name: 'travolta'},
-                        object_id: '123456'
-                    };
-
-                    var form_generated = Generator.generate(scope, data);
-
-
-                    expect(form_generated).toEqual(form_json);
-                }])
-        );
-
-        it('should prepare form items', inject(['Generator',
-                function (Generator) {
-                    expect(Generator.prepareFormItems).not.toBe(null);
-
-                    var scope = {
+                var scope = {form_params: {object_id: '123456'}};
+                var data = {
+                    forms: {
                         form: ['email', 'id', 'name'],
                         schema: {
                             properties: {
@@ -91,31 +48,88 @@ describe('form service module', function () {
                         },
                         model: {
                             email: 'test@test.com', id: 2, name: 'travolta'
-                        },
-                        form_params: {}
-                    };
+                        }
+                    },
+                    token: "b1d8fa68ae3d47bdb580a89f76192447"
+                };
 
-                    var form_json = {
-                        form: ['email', 'id', 'name'],
-                        schema: {
-                            properties: {
-                                email: {title: 'email', type: 'email'},
-                                id: {title: 'id', type: 'number'},
-                                name: {title: 'name', type: 'string'}
-                            }, required: [], type: 'object', title: 'servicetest'
-                        },
-                        model: {email: 'test@test.com', id: 2, name: 'travolta'},
-                        form_params: {}
-                    };
+                var form_json = {
+                    form_params: {object_id: '123456'},
+                    form: ['email', 'id', 'name'],
+                    schema: {
+                        properties: {
+                            email: {title: 'email', type: 'email'},
+                            id: {title: 'id', type: 'number'},
+                            name: {title: 'name', type: 'string'}
+                        }, required: [], type: 'object', title: 'servicetest'
+                    },
+                    model: {email: 'test@test.com', id: 2, name: 'travolta'},
+                    token: "b1d8fa68ae3d47bdb580a89f76192447",
+                    initialModel: {email: 'test@test.com', id: 2, name: 'travolta'},
+                    object_id: '123456'
+                };
 
-                    var form_generated = Generator.prepareFormItems(scope);
+                var form_generated = Generator.generate(scope, data);
 
 
-                    expect(form_generated).toEqual(form_json);
-                }])
+                expect(form_generated).toEqual(form_json);
+            }])
         );
 
-        it('should format date', inject(['Generator', 
+        it('should prepare form items', inject(['Generator',
+            function (Generator) {
+                expect(Generator.prepareFormItems).not.toBe(null);
+
+                var scope = {
+                    form: ['email', 'id', 'name', 'save', 'select', 'date'],
+                    schema: {
+                        properties: {
+                            email: {title: 'email', type: 'email'},
+                            id: {title: 'id', type: 'int'},
+                            name: {title: 'name', type: 'string'},
+                            save: {title: 'save', type: 'submit'},
+                            select: {title: 'select', type: 'select'},
+                            date: {title: 'date', type: 'date'},
+                            text_general: {title: 'text_general', type: 'text_general'},
+                            model: {title: 'model', type: 'model'},
+                            node: {title: 'Node', type: 'Node'},
+                            listnode: {title: 'ListNode', type: 'ListNode'}
+                        }, required: [], type: 'object', title: 'servicetest'
+                    },
+                    model: {
+                        email: 'test@test.com', id: 2, name: 'travolta',
+                        save: {title: 'save', type: 'submit'},
+                        select: 2,
+                        date: '12.12.2012',
+                        text_general: 'test',
+                        model: '32gy1ukf3qiryv',
+                        node: '',
+                        listnode: ''
+                    },
+                    form_params: {}
+                };
+
+                var form_json = {
+                    form: ['email', 'id', 'name'],
+                    schema: {
+                        properties: {
+                            email: {title: 'email', type: 'email'},
+                            id: {title: 'id', type: 'number'},
+                            name: {title: 'name', type: 'string'}
+                        }, required: [], type: 'object', title: 'servicetest'
+                    },
+                    model: {email: 'test@test.com', id: 2, name: 'travolta'},
+                    form_params: {}
+                };
+
+                var form_generated = Generator.prepareFormItems(scope);
+
+
+                expect(form_generated).toEqual(form_json);
+            }])
+        );
+
+        it('should format date', inject(['Generator',
             function (Generator) {
                 expect(Generator.dateformatter).not.toBe(null);
                 var generated_date = Generator.dateformatter('2001-01-01T01:00:00Z');
@@ -124,22 +138,21 @@ describe('form service module', function () {
         );
 
         it('should group form', inject(['Generator',
-                function (Generator) {
-                    expect(Generator.group).not.toBe(null);
+            function (Generator) {
+                expect(Generator.group).not.toBe(null);
 
-                    var group_json = {
-                        group_objects: {
-                            1: ['email', 'name'],
-                            2: ['password']
-                        }
-                    };
-                    var grouped_form = Generator.group(group_json);
-                    expect(grouped_form).toEqual(group_json);
-                }])
+                var group_json = {
+                    group_objects: {
+                        1: ['email', 'name'],
+                        2: ['password']
+                    }
+                };
+                var grouped_form = Generator.group(group_json);
+                expect(grouped_form).toEqual(group_json);
+            }])
         );
 
-        it('should get form',
-            inject(function (Generator, $httpBackend, RESTURL) {
+        it('should get form', inject(function (Generator, $httpBackend, RESTURL) {
 
                 $httpBackend.expectPOST(RESTURL.url + 'add_student/', {cmd: 'add'})
                     .respond(200, {
@@ -179,15 +192,19 @@ describe('form service module', function () {
         it('should get list',
             inject(function (Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectPOST(RESTURL.url + 'test/personel', {cmd: 'list', model: "personel", object_id: "5821bc25a90aa1"})
+                $httpBackend.expectPOST(RESTURL.url + 'test/personel', {
+                        cmd: 'list',
+                        model: "personel",
+                        object_id: "5821bc25a90aa1"
+                    })
                     .respond(200, {
                         items: {
                             "client_cmd": "list_objects",
                             "is_login": true,
-                            "objects":[
+                            "objects": [
                                 ["Ad\u0131", "Soyad\u0131", "TC No", "Durum"],
                                 ["4MsKRH9435cdKOzKCITNPml5bhB", "firstname", "lastname", "dksoap", false]
-                                ],
+                            ],
                             "token": "0122b2843f504c15821bc25a90aa1370"
                         }
                     });
@@ -215,7 +232,7 @@ describe('form service module', function () {
                     url: 'student/add'
                 };
                 Generator.submit(scope)
-                    .success(function(){
+                    .success(function () {
 
                     })
                     .then(function (data) {
@@ -226,7 +243,7 @@ describe('form service module', function () {
         );
 
         it('should validate email',
-            inject(function(Generator){
+            inject(function (Generator) {
                 var validEmails = [
                     'test@test.com',
                     'test@test.co.uk',
@@ -253,7 +270,7 @@ describe('form service module', function () {
         );
 
         it('should validate tcNo',
-            inject(function(Generator){
+            inject(function (Generator) {
                 var validTCNos = [
                     '12345678902',
                     '18307990654'
@@ -277,6 +294,38 @@ describe('form service module', function () {
                 }
             })
         );
+
+        it('should validate date',
+            inject(function (Generator) {
+                var validDates = [
+                    '12.12.2012',
+                    '12/12/2012'
+                ];
+
+                var invalidDates = [
+                    '00000000000',
+                    'dsad',
+                    '0.0.0',
+                    '12.15.2012',
+                    ''
+                ];
+
+                for (var i in validDates) {
+                    var valid = Generator.isValidDate(validDates[i]);
+                    console.log(validDates[i]);
+                    expect(valid).toBeTruthy();
+                }
+                for (var i in invalidDates) {
+                    console.log(invalidDates[i]);
+
+                    var valid = Generator.isValidDate(invalidDates[i]);
+
+                    console.log(valid)
+                    expect(valid).toBeFalsy();
+                }
+            })
+        );
+
         it('should get wf and redirect according to client_cmd',
             inject(function (Generator, $httpBackend, RESTURL) {
 
@@ -316,10 +365,11 @@ describe('form service module', function () {
                 //scope.url = 'test';
                 scope.form_params = {
                     param: 'test',
-                    id:'xyz123',
-                    model:'testModel',
+                    id: 'xyz123',
+                    model: 'testModel',
                     object_id: 'xxx11',
-                    wf:'testModel'};
+                    wf: 'testModel'
+                };
 
                 scope.url = 'test';
 
@@ -331,7 +381,7 @@ describe('form service module', function () {
         );
 
         it('should return diff object',
-            inject( function (Generator) {
+            inject(function (Generator) {
                 expect(Generator.get_diff).not.toBe(null);
 
                 // test cases - testing for success
@@ -378,7 +428,7 @@ describe('form service module', function () {
 
     describe('form service', function () {
         var location, rootScope, scope, ctrl;
-        beforeEach(inject(function($location, $rootScope) {
+        beforeEach(inject(function ($location, $rootScope) {
             location = $location;
             rootScope = $rootScope;
             scope = $rootScope.$new();
@@ -403,15 +453,15 @@ describe('form service module', function () {
     // here begin the directive tests
     var compile, scope, directiveElem;
 
-    beforeEach(function(){
-        inject(function($compile, $rootScope){
+    beforeEach(function () {
+        inject(function ($compile, $rootScope) {
             compile = $compile;
             scope = $rootScope.$new();
         });
         // directiveElem = getCompiledElement();
     });
 
-    function getCompiledElement(){
+    function getCompiledElement() {
         var element = angular.element('<div modal-for-nodes="Personel,ListNode,add"></div>');
         var compiledElement = compile(element)(scope);
         scope.$digest();

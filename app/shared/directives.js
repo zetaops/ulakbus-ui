@@ -331,8 +331,9 @@ app.directive('logout', function ($http, $location, RESTURL) {
                 // changing menu items by listening for broadcast
 
                 $scope.$on("menuitems", function (event, data) {
-                    var menu = {other: $scope.allMenuItems.other};
+                    var menu = {};
                     menu[data] = $scope.allMenuItems[data];
+                    menu['other'] = $scope.allMenuItems.other;
                     $scope.menuItems = $scope.prepareMenu(menu);
                     $timeout(function () {
                         sidebarmenu.metisMenu()

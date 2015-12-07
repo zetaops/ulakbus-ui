@@ -51,6 +51,7 @@ app.config(['$routeProvider', function ($routeProvider, $route) {
     .run(function ($rootScope) {
 
         $rootScope.loggedInUser = true;
+        $rootScope.loginAttempt = 0;
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
             // will be used when needed
         });

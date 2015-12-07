@@ -29,24 +29,29 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
              * @returns {*}
              */
             generateParam: function (scope, routeParams, cmd) {
-                // define api request url path
                 scope.url = routeParams.wf;
-                // why do this??
+
                 angular.forEach(routeParams, function (value, key) {
                     if (key.indexOf('_id') > -1 && key !== 'param_id') {
                         scope.param = key;
                         scope.param_id = value;
                     }
                 });
+
                 scope.form_params = {
                     //cmd: cmd,
                     model: routeParams.model,
                     param: scope.param || routeParams.param,
                     id: scope.param_id || routeParams.param_id,
                     wf: routeParams.wf,
-                    object_id: routeParams.key
+                    object_id: routeParams.key,
+                    filters: []
                 };
-                scope.form_params[scope.param] = scope.param_id;
+
+                if (scope.param_id) {
+                    scope.form_params.filters.push({field: scope.param, values: [scope.param_id], type: 'check'});
+                }
+
                 scope.model = scope.form_params.model;
                 scope.wf = scope.form_params.wf;
                 scope.param = scope.form_params.param;
@@ -150,16 +155,6 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             }
         };
 
-        $scope.filter = {};
-
-        $scope.addToFilter = function (field, filterValue) {
-
-        };
-
-        $scope.filterSubmit = function () {
-
-        };
-
         $scope.do_action = function (key, cmd, mode) {
             Generator.doItemAction($scope, key, cmd, mode || 'normal');
         };
@@ -168,22 +163,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             return new Array(num);
         };
 
-        $timeout(function () {
-            jQuery('.filterDate').datepicker({
-                changeMonth: true,
-                changeYear: true,
-                dateFormat: "dd.mm.yy",
-                onSelect: function (date, inst) {
-                    //scope.model[k] = date;
-                    //if (scope.modalElements) {
-                    //    scope.validateModalDate(k);
-                    //}
-                    //else {
-                    //    scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
-                    //}
-                }
-            }).datepicker("setDate", new Date());
-        });
+        ;
 
         //
         $scope.showCmd = function () {
@@ -299,6 +279,70 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
         return {
             templateUrl: 'components/crud/templates/filter.html',
             restrict: 'E',
-            replace: true
+            replace: true,
+            link: function ($scope) {
+                $scope.filters = {};
+                angular.forEach($scope.listFilters, function (value, key) {
+                    $scope.filters[value.field] = {field: value.field, values: [], type: value.type};
+                    //if (value.type === 'date') {
+                    //    $scope.form_params.filters.push({field: value.field, values: [$scope.filterStartDate, $scope.filterEndDate], type: value.type});
+                    //}
+                });
+                $scope.filterStartDate;
+                $scope.filterEndDate;
+                $scope.status = {startOpened: false, endOpened: false};
+                $scope.dateFilterOpen = function ($event, which) {
+                    this.status[which] = true;
+                };
+                $scope.format = 'dd.MM.yyyy'
+            }
         };
+    })
+    .directive('dateFilter', function () {
+        return {
+            templateUrl: 'components/crud/templates/dateFilter.html',
+            restrict: 'E',
+            replace: true,
+            link: function ($scope) {
+                $scope.filterStartDate;
+                $scope.filterEndDate;
+                $scope.status = {startOpened: false, endOpened: false};
+                $scope.dateFilterOpen = function ($event, which) {
+                    this.status[which] = true;
+                };
+                $scope.format = 'dd.MM.yyyy'
+            }
+        }
+    })
+    .directive('checkboxFilter', function () {
+        return {
+            templateUrl: 'components/crud/templates/dateFilter.html',
+            restrict: 'E',
+            replace: true,
+            link: function ($scope) {
+                $scope.filterStartDate;
+                $scope.filterEndDate;
+                $scope.status = {startOpened: false, endOpened: false};
+                $scope.dateFilterOpen = function ($event, which) {
+                    this.status[which] = true;
+                };
+                $scope.format = 'dd.MM.yyyy'
+            }
+        }
+    })
+    .directive('selectFilter', function () {
+        return {
+            templateUrl: 'components/crud/templates/dateFilter.html',
+            restrict: 'E',
+            replace: true,
+            link: function ($scope) {
+                $scope.filterStartDate;
+                $scope.filterEndDate;
+                $scope.status = {startOpened: false, endOpened: false};
+                $scope.dateFilterOpen = function ($event, which) {
+                    this.status[which] = true;
+                };
+                $scope.format = 'dd.MM.yyyy'
+            }
+        }
     });

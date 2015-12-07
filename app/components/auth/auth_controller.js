@@ -9,7 +9,7 @@
 'use strict';
 
 var auth = angular.module('ulakbus.auth', ['ngRoute', 'schemaForm', 'ngCookies']);
-auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, Generator, LoginService) {
+auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, $rootScope, $log, Generator, LoginService) {
     $scope.url = 'login';
     $scope.form_params = {};
     $scope.form_params['clear_wf'] = 1;
@@ -23,13 +23,16 @@ auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, Gener
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {
+            $rootScope.loginAttempt = 1;
             LoginService.login($scope.url, $scope.model)
                 .error(function(data){
                     $scope.message = data.title;
                 })
         }
         else {
-            console.log("not valid");
+            $log.debug("not valid");
         }
-    }
+    };
+    $log.debug('login attempt: ', $rootScope.loginAttempt);
+
 });
