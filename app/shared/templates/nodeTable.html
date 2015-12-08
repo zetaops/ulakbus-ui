@@ -18,9 +18,9 @@
                 <!--Hepsini Seç-->
             <!--</label>-->
         </th>
-        <th ng-repeat="(key,value) in node.items track by $index" ng-if="key!=='idx' && $index === 0">
+        <th ng-repeat="(key,value) in node.items[0] track by $index" ng-if="key!=='idx'">
             <span ng-if="value.verbose_name">{{ value.verbose_name }}</span>
-            <span ng-if="!value.verbose_name">{{value[0].key}}</span>
+            <span ng-if="!value.verbose_name">{{key}}</span>
         </th>
         <th>İşlem</th>
     </tr>
@@ -37,7 +37,7 @@
         <td ng-repeat="value in node.model track by $index">{{ value }}</td>
         <td>
             <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit">Düzenle</button><br>
-            <button ng-click="remove(node)">Sil</button>
+            <button ng-click="remove(node, 'Node', $index)">Sil</button>
         </td>
     </tr>
 
@@ -48,10 +48,10 @@
             <!--</label>-->
         </td>
         <th scope="row" style="text-align:center">{{$index+1}}</th>
-        <td ng-repeat="(k, v) in listnodemodel track by $index" ng-if="k!=='idx'">{{ v.unicode }}</td>
+        <td ng-repeat="(k, v) in listnodemodel track by $index" ng-if="k!=='idx'">{{ v.unicode || v }}</td>
         <td>
             <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}">Düzenle</button><br>
-            <button ng-click="remove(listnodemodel)">Sil</button>
+            <button ng-click="remove(node, 'ListNode', $index)">Sil</button>
         </td>
     </tr>
 

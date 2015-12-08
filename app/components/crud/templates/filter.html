@@ -1,13 +1,15 @@
-<div>
-    <h2>Filtrele</h2>
+<div style="background: white;">
+    <h4>Filtrele</h4>
+    <hr>
 
     <div ng-repeat="filter in list_filters">
         <div>
             <div class=" clearfix">
-                <h3>{{filter.verbose_name}}</h3>
+                <h5 ng-click="collapseFilter(filter.field)">{{filter.verbose_name}}
+                    <i class="fa fa-fw fa-caret-down"></i></h5>
             </div>
 
-            <div ng-if="filter.type==='check' || !filter.type">
+            <div ng-if="filter.type==='check' || !filter.type" uib-collapse="filterCollapsed[filter.field]">
                 <div class="checkbox" ng-repeat="filterItem in filter.values">
                     <label class="checkbox-inline">
                         <input type="checkbox" name="filter_group[]" ng-model="filterList[filter.field].model[filterItem.value]"
@@ -17,7 +19,7 @@
                 </div>
             </div>
 
-            <div ng-if="filter.type==='select'">
+            <div ng-if="filter.type==='select'"  uib-collapse="filterCollapsed[filter.field]">
                 <div class="col-md-12">
                     <select name="filterSelect" id="filterSelect" class="form-control">
                         <option ng-repeat="filterItem in filter.values" value="{{filterItem.value}}">
@@ -27,7 +29,7 @@
                 </div>
             </div>
 
-            <div ng-if="filter.type==='date'">
+            <div ng-if="filter.type==='date'"  uib-collapse="filterCollapsed[filter.field]">
                 <div class="col-md-12">
                     <label class="control-label" for="startDate">Başlangıç</label>
 

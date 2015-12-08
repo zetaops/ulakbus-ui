@@ -875,6 +875,11 @@ angular.module('formService', ['ui.bootstrap'])
                             });
                             if (childmodel.edit) {
                                 listNodeItem.model[childmodel.edit] = childmodel.model;
+                                if (Object.keys(reformattedModel).length > 0) {
+                                    listNodeItem.items[childmodel.edit] = reformattedModel;
+                                } else {
+                                    listNodeItem.items[childmodel.edit] = angular.copy(childmodel.model);
+                                }
                             } else {
                                 listNodeItem.model.push(angular.copy(childmodel.model));
                                 if (Object.keys(reformattedModel).length > 0) {

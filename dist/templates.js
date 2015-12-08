@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/checkboxFilter.html', 'components/crud/templates/crud.html', 'components/crud/templates/dateFilter.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/selectFilter.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -20,22 +20,6 @@ angular.module("components/auth/login.html", []).run(["$templateCache", function
     "</div>");
 }]);
 
-angular.module("components/crud/templates/checkboxFilter.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/crud/templates/checkboxFilter.html",
-    "<div class=\" clearfix\">\n" +
-    "    <h3>{{filter.verbose_name}}</h3>\n" +
-    "</div>\n" +
-    "\n" +
-    "<div ng-if=\"filter.type==='check' || !filter.type\">\n" +
-    "    <div class=\"checkbox\" ng-repeat=\"filterItem in filter.values\">\n" +
-    "        <label class=\"checkbox-inline\">\n" +
-    "            <input type=\"checkbox\" name=\"filter_group[]\" value=\"{{filterItem.value}}\"/>\n" +
-    "            {{filterItem.name}}\n" +
-    "        </label>\n" +
-    "    </div>\n" +
-    "</div>");
-}]);
-
 angular.module("components/crud/templates/crud.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/crud.html",
     "<div class=\"row\">\n" +
@@ -48,64 +32,20 @@ angular.module("components/crud/templates/crud.html", []).run(["$templateCache",
     "</div>");
 }]);
 
-angular.module("components/crud/templates/dateFilter.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/crud/templates/dateFilter.html",
-    "<div class=\" clearfix\">\n" +
-    "    <h3>{{filter.verbose_name}}</h3>\n" +
-    "</div>\n" +
-    "\n" +
-    "<div ng-if=\"filter.type==='date'\">\n" +
-    "    <div class=\"col-md-12\">\n" +
-    "        <label class=\"control-label\" for=\"startDate\">Başlangıç</label>\n" +
-    "\n" +
-    "        <p class=\"input-group\">\n" +
-    "                        <span class=\"input-group-btn\">\n" +
-    "                            <button type=\"button\" class=\"btn btn-default\"\n" +
-    "                                    ng-click=\"dateFilterOpen($event, 'startOpened')\">\n" +
-    "                                <i class=\"fa fa-calendar\"></i>\n" +
-    "                            </button>\n" +
-    "                        </span>\n" +
-    "            <input type=\"text\" name=\"startDate\" class=\"form-control\" ng-model=\"filterStartDate\"\n" +
-    "                   uib-datepicker-popup=\"{{format}}\"\n" +
-    "                   is-open=\"status.startOpened\"\n" +
-    "                   close-text=\"Kapat\"\n" +
-    "                   current-text=\"Bugün\"\n" +
-    "                   clear-text=\"Temizle\"\n" +
-    "                   ng-click=\"dateFilterOpen($event, 'startOpened')\"/></p>\n" +
-    "    </div>\n" +
-    "    <div class=\"col-md-12\">\n" +
-    "        <label class=\"control-label\" for=\"endDate\">Bitiş</label>\n" +
-    "\n" +
-    "        <p class=\"input-group\">\n" +
-    "                        <span class=\"input-group-btn\">\n" +
-    "                            <button type=\"button\" class=\"btn btn-default\"\n" +
-    "                                    ng-click=\"dateFilterOpen($event, 'endOpened')\">\n" +
-    "                                <i class=\"fa fa-calendar\"></i>\n" +
-    "                            </button>\n" +
-    "                        </span>\n" +
-    "            <input type=\"text\" name=\"endDate\" class=\"form-control\" ng-model=\"filterEndDate\"\n" +
-    "                   uib-datepicker-popup=\"{{format}}\"\n" +
-    "                   is-open=\"status.endOpened\"\n" +
-    "                   close-text=\"Kapat\"\n" +
-    "                   current-text=\"Bugün\"\n" +
-    "                   clear-text=\"Temizle\"\n" +
-    "                   ng-click=\"dateFilterOpen($event, 'endOpened')\"/></p>\n" +
-    "    </div>\n" +
-    "</div>");
-}]);
-
 angular.module("components/crud/templates/filter.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/filter.html",
-    "<div>\n" +
-    "    <h2>Filtrele</h2>\n" +
+    "<div style=\"background: white;\">\n" +
+    "    <h4>Filtrele</h4>\n" +
+    "    <hr>\n" +
     "\n" +
     "    <div ng-repeat=\"filter in list_filters\">\n" +
     "        <div>\n" +
     "            <div class=\" clearfix\">\n" +
-    "                <h3>{{filter.verbose_name}}</h3>\n" +
+    "                <h5 ng-click=\"collapseFilter(filter.field)\">{{filter.verbose_name}}\n" +
+    "                    <i class=\"fa fa-fw fa-caret-down\"></i></h5>\n" +
     "            </div>\n" +
     "\n" +
-    "            <div ng-if=\"filter.type==='check' || !filter.type\">\n" +
+    "            <div ng-if=\"filter.type==='check' || !filter.type\" uib-collapse=\"filterCollapsed[filter.field]\">\n" +
     "                <div class=\"checkbox\" ng-repeat=\"filterItem in filter.values\">\n" +
     "                    <label class=\"checkbox-inline\">\n" +
     "                        <input type=\"checkbox\" name=\"filter_group[]\" ng-model=\"filterList[filter.field].model[filterItem.value]\"\n" +
@@ -115,7 +55,7 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
     "                </div>\n" +
     "            </div>\n" +
     "\n" +
-    "            <div ng-if=\"filter.type==='select'\">\n" +
+    "            <div ng-if=\"filter.type==='select'\"  uib-collapse=\"filterCollapsed[filter.field]\">\n" +
     "                <div class=\"col-md-12\">\n" +
     "                    <select name=\"filterSelect\" id=\"filterSelect\" class=\"form-control\">\n" +
     "                        <option ng-repeat=\"filterItem in filter.values\" value=\"{{filterItem.value}}\">\n" +
@@ -125,7 +65,7 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
     "                </div>\n" +
     "            </div>\n" +
     "\n" +
-    "            <div ng-if=\"filter.type==='date'\">\n" +
+    "            <div ng-if=\"filter.type==='date'\"  uib-collapse=\"filterCollapsed[filter.field]\">\n" +
     "                <div class=\"col-md-12\">\n" +
     "                    <label class=\"control-label\" for=\"startDate\">Başlangıç</label>\n" +
     "\n" +
@@ -177,7 +117,7 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
 angular.module("components/crud/templates/form.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/form.html",
     "<div class=\"container\">\n" +
-    "    <h1>{{ schema.title }}</h1>\n" +
+    "    <h3>{{ schema.title }}</h3>\n" +
     "\n" +
     "    <div class=\"buttons-on-top\"></div>\n" +
     "\n" +
@@ -314,29 +254,12 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "</div>");
 }]);
 
-angular.module("components/crud/templates/selectFilter.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/crud/templates/selectFilter.html",
-    "<div class=\" clearfix\">\n" +
-    "    <h3>{{filter.verbose_name}}</h3>\n" +
-    "</div>\n" +
-    "\n" +
-    "<div ng-if=\"filter.type==='select'\">\n" +
-    "    <div class=\"col-md-12\">\n" +
-    "        <select name=\"filterSelect\" id=\"filterSelect\" class=\"form-control\">\n" +
-    "            <option ng-repeat=\"filterItem in filter.values\" value=\"{{filterItem.value}}\">\n" +
-    "                {{filterItem.name}}\n" +
-    "            </option>\n" +
-    "        </select>\n" +
-    "    </div>\n" +
-    "</div>");
-}]);
-
 angular.module("components/crud/templates/show.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/show.html",
     "<div class=\"starter-template container\">\n" +
     "    <div ng-repeat=\"obj in object\">\n" +
     "        <div class=\"info-block-header\">\n" +
-    "            <h1>{{model}}</h1>\n" +
+    "            <h3>{{model}}</h3>\n" +
     "        </div>\n" +
     "        <div class=\"table-responsive\">\n" +
     "            <table class=\"table\">\n" +
@@ -1671,9 +1594,9 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "                <!--Hepsini Seç-->\n" +
     "            <!--</label>-->\n" +
     "        </th>\n" +
-    "        <th ng-repeat=\"(key,value) in node.items track by $index\" ng-if=\"key!=='idx' && $index === 0\">\n" +
+    "        <th ng-repeat=\"(key,value) in node.items[0] track by $index\" ng-if=\"key!=='idx'\">\n" +
     "            <span ng-if=\"value.verbose_name\">{{ value.verbose_name }}</span>\n" +
-    "            <span ng-if=\"!value.verbose_name\">{{value[0].key}}</span>\n" +
+    "            <span ng-if=\"!value.verbose_name\">{{key}}</span>\n" +
     "        </th>\n" +
     "        <th>İşlem</th>\n" +
     "    </tr>\n" +
@@ -1690,7 +1613,7 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "        <td ng-repeat=\"value in node.model track by $index\">{{ value }}</td>\n" +
     "        <td>\n" +
     "            <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit\">Düzenle</button><br>\n" +
-    "            <button ng-click=\"remove(node)\">Sil</button>\n" +
+    "            <button ng-click=\"remove(node, 'Node', $index)\">Sil</button>\n" +
     "        </td>\n" +
     "    </tr>\n" +
     "\n" +
@@ -1701,10 +1624,10 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "            <!--</label>-->\n" +
     "        </td>\n" +
     "        <th scope=\"row\" style=\"text-align:center\">{{$index+1}}</th>\n" +
-    "        <td ng-repeat=\"(k, v) in listnodemodel track by $index\" ng-if=\"k!=='idx'\">{{ v.unicode }}</td>\n" +
+    "        <td ng-repeat=\"(k, v) in listnodemodel track by $index\" ng-if=\"k!=='idx'\">{{ v.unicode || v }}</td>\n" +
     "        <td>\n" +
     "            <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}\">Düzenle</button><br>\n" +
-    "            <button ng-click=\"remove(listnodemodel)\">Sil</button>\n" +
+    "            <button ng-click=\"remove(node, 'ListNode', $index)\">Sil</button>\n" +
     "        </td>\n" +
     "    </tr>\n" +
     "\n" +

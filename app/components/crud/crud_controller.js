@@ -150,6 +150,12 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             $scope.formgenerated = event.targetScope.formgenerated;
         });
 
+        // remove function removes node or listnode item from model data
+        $scope.remove = function (item, type, index) {
+            $scope[type][item.title].model.splice(index, 1);
+            $scope[type][item.title].items.splice(index, 1);
+        }
+
         $scope.onSubmit = function (form) {
             $scope.$broadcast('schemaFormValidate');
             if (form.$valid) {
@@ -285,11 +291,16 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             link: function ($scope) {
                 $scope.form_params.filters = $scope.form_params.filters || {};
                 $scope.filterList = {};
+                $scope.filterCollapsed = {};
                 $scope.$watch('list_filters', function () {
                     angular.forEach($scope.list_filters, function (value, key) {
                         $scope.filterList[value.field] = {values: value.values || [], type: value.type};
+                        $scope.filterCollapsed[value.field] = Object.keys($scope.filterCollapsed).length > 0 ? true : false;
                     });
                 });
+                $scope.collapseFilter = function (field) {
+                    $scope.filterCollapsed[field] = !$scope.filterCollapsed[field];
+                };
                 $scope.status = {startOpened: false, endOpened: false};
                 $scope.dateFilterOpen = function ($event, which) {
                     this.status[which] = true;
@@ -313,52 +324,4 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                 }
             }
         };
-    })
-    .directive('dateFilter', function () {
-        return {
-            templateUrl: 'components/crud/templates/dateFilter.html',
-            restrict: 'E',
-            replace: true,
-            link: function ($scope) {
-                $scope.filterStartDate;
-                $scope.filterEndDate;
-                $scope.status = {startOpened: false, endOpened: false};
-                $scope.dateFilterOpen = function ($event, which) {
-                    this.status[which] = true;
-                };
-                $scope.format = 'dd.MM.yyyy'
-            }
-        }
-    })
-    .directive('checkboxFilter', function () {
-        return {
-            templateUrl: 'components/crud/templates/dateFilter.html',
-            restrict: 'E',
-            replace: true,
-            link: function ($scope) {
-                $scope.filterStartDate;
-                $scope.filterEndDate;
-                $scope.status = {startOpened: false, endOpened: false};
-                $scope.dateFilterOpen = function ($event, which) {
-                    this.status[which] = true;
-                };
-                $scope.format = 'dd.MM.yyyy'
-            }
-        }
-    })
-    .directive('selectFilter', function () {
-        return {
-            templateUrl: 'components/crud/templates/dateFilter.html',
-            restrict: 'E',
-            replace: true,
-            link: function ($scope) {
-                $scope.filterStartDate;
-                $scope.filterEndDate;
-                $scope.status = {startOpened: false, endOpened: false};
-                $scope.dateFilterOpen = function ($event, which) {
-                    this.status[which] = true;
-                };
-                $scope.format = 'dd.MM.yyyy'
-            }
-        }
     });

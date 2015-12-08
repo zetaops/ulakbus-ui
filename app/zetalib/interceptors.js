@@ -11,7 +11,7 @@ app.config(['$httpProvider', function ($httpProvider) {
      * the interceptor for all requests to check response
      * 4xx - 5xx errors will be handled here
      */
-    $httpProvider.interceptors.push(function ($q, $rootScope, $location, $timeout) {
+    $httpProvider.interceptors.push(function ($q, $rootScope, $location, $timeout, $log) {
         return {
             'request': function (config) {
                 if (config.method === "POST") {
@@ -54,7 +54,7 @@ app.config(['$httpProvider', function ($httpProvider) {
 
                 var errorModal = function () {
                     if ($rootScope.loginAttempt === 0) {
-                        console.log('not logged in, no alert message triggered');
+                        $log.debug('not logged in, no alert message triggered');
                         return;
                     }
                     var codefield = "";
@@ -88,6 +88,14 @@ app.config(['$httpProvider', function ($httpProvider) {
                         '</div>' +
                         '</div>' +
                         '</div>').modal();
+                    try {
+                        $('pre:not(.hljs)').each(function(i, block) {
+                            hljs.highlightBlock(block);
+                        });
+                    }
+                    catch (e) {
+                        $log.debug('Exception: ', e.message);
+                    }
                 };
 
                 if (rejection.status === -1) {
@@ -103,7 +111,7 @@ app.config(['$httpProvider', function ($httpProvider) {
                 if (rejection.status === 401) {
                     $location.path('/login');
                     if ($location.path() === "/login") {
-                        console.log("show errors on login form");
+                        $log.debug("show errors on login form");
                     }
                 }
                 if (rejection.status === 403) {
