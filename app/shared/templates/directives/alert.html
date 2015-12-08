@@ -1,0 +1,8 @@
+<div ng-repeat="alert in alerts" style="position: fixed; top:70px; right:20px; z-index: 999;">
+    <div class="alert" ng-class="{'info':'alert-info', 'error': 'alert-danger', 'warning': 'alert-warning'}[alert.type]">
+        <b>
+            {{alert.title}}
+        </b>
+        <p>{{alert.msg}}</p>
+    </div>
+</div>

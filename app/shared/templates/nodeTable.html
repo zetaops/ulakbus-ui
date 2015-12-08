@@ -18,7 +18,10 @@
                 <!--Hepsini Seç-->
             <!--</label>-->
         </th>
-        <th ng-repeat="(key,value) in node.items track by $index" ng-if="key!=='idx' && $index === 0">{{ value.verbose_name }}</th>
+        <th ng-repeat="(key,value) in node.items track by $index" ng-if="key!=='idx' && $index === 0">
+            <span ng-if="value.verbose_name">{{ value.verbose_name }}</span>
+            <span ng-if="!value.verbose_name">{{value[0].key}}</span>
+        </th>
         <th>İşlem</th>
     </tr>
     </thead>

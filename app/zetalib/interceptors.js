@@ -94,7 +94,7 @@ app.config(['$httpProvider', function ($httpProvider) {
                     rejection.status = 'Sunucu hatası'
                     rejection.data = {title: "", description : 'Sunucu bağlantısında bir hata oluştu.' +
                     'Lütfen yetkili personelle iletişime geçiniz.'};
-                    errorModal();
+                    $rootScope.$broadcast('alertBox', {title: rejection.status, msg: rejection.data.description, type: 'error'});
                 }
 
                 if (rejection.status === 400) {

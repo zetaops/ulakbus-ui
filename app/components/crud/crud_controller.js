@@ -45,13 +45,13 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                     id: scope.param_id || routeParams.param_id,
                     wf: routeParams.wf,
                     object_id: routeParams.key,
-                    filters: []
+                    filters: {}
                 };
 
                 if (scope.param_id) {
-                    scope.form_params.filters.push({field: scope.param, values: [scope.param_id], type: 'check'});
+                    scope.form_params.filters[scope.param] = {values: [scope.param_id], type: 'check'};
                     // do not use selected user, get and broadcast data of user in param_id
-                    $rootScope.$broadcast('selectedUserTrigger', [scope.param, scope.param_id]);
+                    //$rootScope.$broadcast('selectedUserTrigger', [scope.param, scope.param_id]);
                 }
 
                 scope.model = scope.form_params.model;
@@ -277,26 +277,40 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
         }
     })
 
-    .directive('crudFilters', function() {
+    .directive('crudFilters', function(Generator) {
         return {
             templateUrl: 'components/crud/templates/filter.html',
             restrict: 'E',
             replace: true,
             link: function ($scope) {
-                $scope.filters = {};
-                angular.forEach($scope.listFilters, function (value, key) {
-                    $scope.filters[value.field] = {field: value.field, values: [], type: value.type};
-                    //if (value.type === 'date') {
-                    //    $scope.form_params.filters.push({field: value.field, values: [$scope.filterStartDate, $scope.filterEndDate], type: value.type});
-                    //}
+                $scope.form_params.filters = $scope.form_params.filters || {};
+                $scope.filterList = {};
+                $scope.$watch('list_filters', function () {
+                    angular.forEach($scope.list_filters, function (value, key) {
+                        $scope.filterList[value.field] = {values: value.values || [], type: value.type};
+                    });
                 });
-                $scope.filterStartDate;
-                $scope.filterEndDate;
                 $scope.status = {startOpened: false, endOpened: false};
                 $scope.dateFilterOpen = function ($event, which) {
                     this.status[which] = true;
                 };
-                $scope.format = 'dd.MM.yyyy'
+                $scope.format = 'dd.MM.yyyy';
+                $scope.filterSubmit = function () {
+                    angular.forEach($scope.filterList, function (value, key) {
+                        if (value.model) {
+                            if (value.type === 'date') {
+                                var dateValues = [null, null];
+                                angular.forEach(value.model, function (v, k) {
+                                    dateValues[k] = Generator.dateformatter(v);
+                                });
+                                $scope.form_params.filters[key] = {values: dateValues, type: value.type};
+                            } else {
+                                $scope.form_params.filters[key] = {values: Object.keys(value.model), type: value.type || 'check'};
+                            }
+                        }
+                    });
+                    Generator.get_wf($scope);
+                }
             }
         };
     })

@@ -473,6 +473,27 @@ app.directive('logout', function ($http, $location, RESTURL) {
         };
     })
 
+
+    /**
+     * alert directive
+     */
+
+    .directive('alertBox', function ($timeout) {
+        return {
+            templateUrl: 'shared/templates/directives/alert.html',
+            restrict: 'E',
+            replace: true,
+            link: function ($scope) {
+                $scope.$on('alertBox', function ($event, data) {
+                    $timeout(function () {
+                        delete $scope.alerts;
+                    }, 5000);
+                    $scope.alerts = [data];
+                });
+            }
+        };
+    })
+
     /**
      * search directive in sidebar
      */

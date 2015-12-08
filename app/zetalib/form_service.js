@@ -866,14 +866,21 @@ angular.module('formService', ['ui.bootstrap'])
                                             //}
                                         }
                                     });
+                                } else {
+                                    reformattedModel[key] = {
+                                        "key": key,
+                                        "unicode": value
+                                    };
                                 }
                             });
                             if (childmodel.edit) {
                                 listNodeItem.model[childmodel.edit] = childmodel.model;
                             } else {
                                 listNodeItem.model.push(angular.copy(childmodel.model));
-                                if (reformattedModel !== {}) {
+                                if (Object.keys(reformattedModel).length > 0) {
                                     listNodeItem.items.push(reformattedModel);
+                                } else {
+                                    listNodeItem.items.push(angular.copy(childmodel.model));
                                 }
                             }
                             listNodeItem.lengthModels += 1;

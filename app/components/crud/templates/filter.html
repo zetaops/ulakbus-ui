@@ -10,7 +10,8 @@
             <div ng-if="filter.type==='check' || !filter.type">
                 <div class="checkbox" ng-repeat="filterItem in filter.values">
                     <label class="checkbox-inline">
-                        <input type="checkbox" name="filter_group[]" value="{{filterItem.value}}"/>
+                        <input type="checkbox" name="filter_group[]" ng-model="filterList[filter.field].model[filterItem.value]"
+                               value="{{filterItem.value}}"/>
                         {{filterItem.name}}
                     </label>
                 </div>
@@ -36,7 +37,8 @@
                                 <i class="fa fa-calendar"></i>
                             </button>
                         </span>
-                        <input type="text" name="startDate" class="form-control" ng-model="filterStartDate"
+                        <input type="text" name="startDate" class="form-control"
+                               ng-model="filterList[filter.field].model[0]"
                                uib-datepicker-popup="{{format}}"
                                is-open="status.startOpened"
                                close-text="Kapat"
@@ -53,7 +55,8 @@
                                 <i class="fa fa-calendar"></i>
                             </button>
                         </span>
-                        <input type="text" name="endDate" class="form-control" ng-model="filterEndDate"
+                        <input type="text" name="endDate" class="form-control"
+                               ng-model="filterList[filter.field].model[1]"
                                uib-datepicker-popup="{{format}}"
                                is-open="status.endOpened"
                                close-text="Kapat"

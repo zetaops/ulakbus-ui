@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/checkboxFilter.html', 'components/crud/templates/crud.html', 'components/crud/templates/dateFilter.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/selectFilter.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/checkboxFilter.html', 'components/crud/templates/crud.html', 'components/crud/templates/dateFilter.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/selectFilter.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -108,7 +108,8 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
     "            <div ng-if=\"filter.type==='check' || !filter.type\">\n" +
     "                <div class=\"checkbox\" ng-repeat=\"filterItem in filter.values\">\n" +
     "                    <label class=\"checkbox-inline\">\n" +
-    "                        <input type=\"checkbox\" name=\"filter_group[]\" value=\"{{filterItem.value}}\"/>\n" +
+    "                        <input type=\"checkbox\" name=\"filter_group[]\" ng-model=\"filterList[filter.field].model[filterItem.value]\"\n" +
+    "                               value=\"{{filterItem.value}}\"/>\n" +
     "                        {{filterItem.name}}\n" +
     "                    </label>\n" +
     "                </div>\n" +
@@ -134,7 +135,8 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
     "                                <i class=\"fa fa-calendar\"></i>\n" +
     "                            </button>\n" +
     "                        </span>\n" +
-    "                        <input type=\"text\" name=\"startDate\" class=\"form-control\" ng-model=\"filterStartDate\"\n" +
+    "                        <input type=\"text\" name=\"startDate\" class=\"form-control\"\n" +
+    "                               ng-model=\"filterList[filter.field].model[0]\"\n" +
     "                               uib-datepicker-popup=\"{{format}}\"\n" +
     "                               is-open=\"status.startOpened\"\n" +
     "                               close-text=\"Kapat\"\n" +
@@ -151,7 +153,8 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
     "                                <i class=\"fa fa-calendar\"></i>\n" +
     "                            </button>\n" +
     "                        </span>\n" +
-    "                        <input type=\"text\" name=\"endDate\" class=\"form-control\" ng-model=\"filterEndDate\"\n" +
+    "                        <input type=\"text\" name=\"endDate\" class=\"form-control\"\n" +
+    "                               ng-model=\"filterList[filter.field].model[1]\"\n" +
     "                               uib-datepicker-popup=\"{{format}}\"\n" +
     "                               is-open=\"status.endOpened\"\n" +
     "                               close-text=\"Kapat\"\n" +
@@ -752,6 +755,18 @@ angular.module("shared/templates/datefield.html", []).run(["$templateCache", fun
     "");
 }]);
 
+angular.module("shared/templates/directives/alert.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/alert.html",
+    "<div ng-repeat=\"alert in alerts\" style=\"position: fixed; top:70px; right:20px; z-index: 999;\">\n" +
+    "    <div class=\"alert\" ng-class=\"{'info':'alert-info', 'error': 'alert-danger', 'warning': 'alert-warning'}[alert.type]\">\n" +
+    "        <b>\n" +
+    "            {{alert.title}}\n" +
+    "        </b>\n" +
+    "        <p>{{alert.msg}}</p>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
 angular.module("shared/templates/directives/chat.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/chat.html",
     "<div class=\"chat-panel panel panel-default\">\n" +
@@ -1025,73 +1040,7 @@ angular.module("shared/templates/directives/msgbox.html", []).run(["$templateCac
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "</div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "<!--<div class=\"row\">-->\n" +
-    "\n" +
-    "    <!--<div class=\"col-lg-4\">-->\n" +
-    "        <!--<div class=\"panel panel-primary\">-->\n" +
-    "            <!--<div class=\"panel-heading\">-->\n" +
-    "                <!--Primary Panel-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--<div class=\"panel-body\">-->\n" +
-    "                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--<div class=\"panel-footer\">-->\n" +
-    "                <!--Panel Footer-->\n" +
-    "            <!--</div>-->\n" +
-    "        <!--</div>-->\n" +
-    "    <!--</div>-->\n" +
-    "\n" +
-    "    <!--<div class=\"col-lg-4\">-->\n" +
-    "        <!--<div class=\"panel panel-green\">-->\n" +
-    "            <!--<div class=\"panel-heading\">-->\n" +
-    "                <!--Success Panel-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--<div class=\"panel-body\">-->\n" +
-    "                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--<div class=\"panel-footer\">-->\n" +
-    "                <!--Panel Footer-->\n" +
-    "            <!--</div>-->\n" +
-    "        <!--</div>-->\n" +
-    "        <!--&lt;!&ndash; /.col-lg-4 &ndash;&gt;-->\n" +
-    "    <!--</div>-->\n" +
-    "\n" +
-    "    <!--<div class=\"col-lg-4\">-->\n" +
-    "        <!--<div class=\"panel panel-yellow\">-->\n" +
-    "            <!--<div class=\"panel-heading\">-->\n" +
-    "                <!--Warning Panel-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--<div class=\"panel-body\">-->\n" +
-    "                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--<div class=\"panel-footer\">-->\n" +
-    "                <!--Panel Footer-->\n" +
-    "            <!--</div>-->\n" +
-    "        <!--</div>-->\n" +
-    "        <!--&lt;!&ndash; /.col-lg-4 &ndash;&gt;-->\n" +
-    "    <!--</div>-->\n" +
-    "<!--</div>-->\n" +
-    "\n" +
-    "<!--<div class=\"row\">-->\n" +
-    "    <!--<div class=\"col-lg-4\">-->\n" +
-    "        <!--<div class=\"panel panel-red\">-->\n" +
-    "            <!--<div class=\"panel-heading\">-->\n" +
-    "                <!--Danger Panel-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--<div class=\"panel-body\">-->\n" +
-    "                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--<div class=\"panel-footer\">-->\n" +
-    "                <!--Panel Footer-->\n" +
-    "            <!--</div>-->\n" +
-    "        <!--</div>-->\n" +
-    "        <!--&lt;!&ndash; /.col-lg-4 &ndash;&gt;-->\n" +
-    "    <!--</div>-->\n" +
-    "<!--</div>-->");
+    "</div>");
 }]);
 
 angular.module("shared/templates/directives/notifications.html", []).run(["$templateCache", function($templateCache) {
@@ -1722,7 +1671,10 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "                <!--Hepsini Seç-->\n" +
     "            <!--</label>-->\n" +
     "        </th>\n" +
-    "        <th ng-repeat=\"(key,value) in node.items track by $index\" ng-if=\"key!=='idx' && $index === 0\">{{ value.verbose_name }}</th>\n" +
+    "        <th ng-repeat=\"(key,value) in node.items track by $index\" ng-if=\"key!=='idx' && $index === 0\">\n" +
+    "            <span ng-if=\"value.verbose_name\">{{ value.verbose_name }}</span>\n" +
+    "            <span ng-if=\"!value.verbose_name\">{{value[0].key}}</span>\n" +
+    "        </th>\n" +
     "        <th>İşlem</th>\n" +
     "    </tr>\n" +
     "    </thead>\n" +
