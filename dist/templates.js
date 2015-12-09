@@ -116,7 +116,7 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
 
 angular.module("components/crud/templates/form.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/form.html",
-    "<div class=\"container\">\n" +
+    "<div>\n" +
     "    <h3>{{ schema.title }}</h3>\n" +
     "\n" +
     "    <div class=\"buttons-on-top\"></div>\n" +
@@ -1189,9 +1189,6 @@ angular.module("shared/templates/directives/sidebar-search.html", []).run(["$tem
 angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/sidebar.html",
     "<div class=\"navbar-default sidebar\" role=\"navigation\" ng-mouseenter=\"openSidebar()\" ng-mouseleave=\"closeSidebar()\">\n" +
-    "	<div class=\"brand\">\n" +
-    "    	<a href=\"#/dashboard\" class=\"logo\"><img src=\"/img/brand-logo.png\" /></a>\n" +
-    "    </div>\n" +
     "\n" +
     "    <div class=\"sidebar-nav navbar-collapse\">\n" +
     "        <ul class=\"nav in\" id=\"side-menu\" ng-class=\"{hidden: $root.loggedInUser != true}\" data-step=\"1\"\n" +

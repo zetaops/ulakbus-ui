@@ -1449,7 +1449,7 @@ table.dataTable thead .sorting:after {
 		overflow-y: auto;
 		position: absolute;
 		width: 100%;
-		max-height: calc(85% - 139px);
+		max-height: calc(100% - 139px);
 	}
 	
 	footer {

@@ -104,19 +104,33 @@ button.brand-bg:hover {
 }
 
 .brand {
-	height:98px;
-    border-bottom:1px solid #ccc;
+	position: absolute;
+    width: 120px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
 }
 
-.logo {
+a.logo {
+	height: 42px;
+    display: block;
+	text-align: center;
+    line-height: 38px;
+	opacity: 0.8;
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}
 
+a.logo:hover {
+	opacity:1;
 }
 
 .logo img {
-    width: 80%;
-    margin-left: 8%;
-    margin-top: 22px;
-    margin-bottom: 22px;
+	width: 100px;
 }
 
 /** END OF BRAND **/
@@ -353,7 +367,7 @@ select {
 }
 
 .manager-view-content {
-    padding:35px 40px;
+    padding:5px 40px;
     overflow:auto;
     -webkit-flex-grow: 1;
     flex-grow: 1;
@@ -1049,6 +1063,7 @@ table.dataTable thead .sorting:after {
     border-right: none;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
+	margin-right: -5px;
 }
 
 .dashboard-main-search .fa {
@@ -1447,7 +1462,7 @@ table.dataTable thead .sorting:after {
 		overflow-y: auto;
 		position: absolute;
 		width: 100%;
-		max-height: calc(85% - 139px);
+		max-height: calc(100% - 139px);
 	}
 	
 	footer {
