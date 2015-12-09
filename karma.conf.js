@@ -72,7 +72,7 @@ module.exports = function (config) {
         reporters: ['progress', 'coverage'],
 
         preprocessors: {
-            'app/app.js': ['coverage'],
+            //'app/app.js': ['coverage'],
             'app/components/auth/*.js': ['coverage'],
             'app/components/crud/*.js': ['coverage'],
             'app/components/dashboard/*.js': ['coverage'],

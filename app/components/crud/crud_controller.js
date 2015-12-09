@@ -9,6 +9,9 @@
 'use strict';
 
 angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
+    .config(function (sfErrorMessageProvider) {
+        sfErrorMessageProvider.setDefaultMessage(302, 'Bu alan zorunludur.')
+    })
 
     /**
      * @name CrudUtility

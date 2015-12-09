@@ -558,8 +558,7 @@ angular.module('formService', ['ui.bootstrap'])
             return re.test(tcno);
         };
         generator.isValidDate = function (dateValue) {
-            var datevalid = Date.parse(dateValue) === NaN ? false : true;
-            return datevalid;
+            return !isNaN(Date.parse(dateValue));
         };
         generator.asyncValidators = {
             emailNotValid: function (value) {

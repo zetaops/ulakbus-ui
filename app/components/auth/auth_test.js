@@ -20,38 +20,72 @@ describe('ulakbus.auth module', function () {
             expect('ulakbus.auth.LoginCtrl').toBeDefined();
         }));
 
-        it('should validate email', inject(['LoginService',
-                function (LoginService) {
-                    expect(LoginService.isValidEmail).not.toBe(null);
+        var $controller;
+        var $rootScope;
 
-                    // test cases - testing for success
-                    var validEmails = [
-                        'test@test.com',
-                        'test@test.co.uk',
-                        'test734ltylytkliytkryety9ef@jb-fe.com'
-                    ];
+        beforeEach(inject(function (_$controller_) {
+            $controller = _$controller_;
+        }));
 
-                    // test cases - testing for failure
-                    var invalidEmails = [
-                        'test@testcom',
-                        'test@ test.co.uk',
-                        'ghgf@fe.com.co.',
-                        'tes@t@test.com',
-                        ''
-                    ];
+        beforeEach(inject(function ($injector) {
+            $httpBackend = $injector.get('$httpBackend');
+            $rootScope = $injector.get('$rootScope');
+        }));
 
-                    // you can loop through arrays of test cases like this
-                    for (var i in validEmails) {
-                        var valid = LoginService.isValidEmail(validEmails[i]);
-                        expect(valid).toBeTruthy();
-                    }
-                    for (var i in invalidEmails) {
-                        var valid = LoginService.isValidEmail(invalidEmails[i]);
-                        expect(valid).toBeFalsy();
-                    }
+        it('should get login form', inject(
+            function ($rootScope, $httpBackend, RESTURL) {
+                $httpBackend.expectPOST(RESTURL.url + 'login', {cmd: ''})
+                    .respond(200, {});
 
-                }])
+                var $scope = $rootScope.$new();
+                $scope['url'] = 'login';
+                $scope['form_params'] = {clear_wf: 1};
+                var controller = $controller('LoginCtrl', {$scope: $scope});
+
+                expect($scope.onSubmit).toBeDefined();
+                //expect($scope.loginForm).toBeDefined();
+                //
+                //$scope.onSubmit($scope.loginForm);
+            })
         );
+
+        it('should validate email', inject(['LoginService',
+            function (LoginService) {
+                expect(LoginService.isValidEmail).not.toBe(null);
+
+                // test cases - testing for success
+                var validEmails = [
+                    'test@test.com',
+                    'test@test.co.uk',
+                    'test734ltylytkliytkryety9ef@jb-fe.com'
+                ];
+
+                // test cases - testing for failure
+                var invalidEmails = [
+                    'test@testcom',
+                    'test@ test.co.uk',
+                    'ghgf@fe.com.co.',
+                    'tes@t@test.com',
+                    ''
+                ];
+
+                // you can loop through arrays of test cases like this
+                for (var i in validEmails) {
+                    var valid = LoginService.isValidEmail(validEmails[i]);
+                    expect(valid).toBeTruthy();
+                }
+                for (var i in invalidEmails) {
+                    var valid = LoginService.isValidEmail(invalidEmails[i]);
+                    expect(valid).toBeFalsy();
+                }
+
+            }])
+        );
+
+        it('should submit form', inject(function ($httpBackend, RESTURL) {
+
+
+        }));
 
         it('ensures user can log in', function (LoginService, $httpBackend, RESTURL) {
             // todo: after backend api ready implement this
@@ -62,7 +96,11 @@ describe('ulakbus.auth module', function () {
 
                 // use httpBackend to imitate login api
 
-                $httpBackend.expectPOST(RESTURL.url + 'login', {email: 'test@test.com', password: 'password', cmd: 'do'})
+                $httpBackend.expectPOST(RESTURL.url + 'login', {
+                        email: 'test@test.com',
+                        password: 'password',
+                        cmd: 'do'
+                    })
                     // todo: with real api change response data from list to obj
                     .respond(200, [{
                         'id': 1, 'user': {

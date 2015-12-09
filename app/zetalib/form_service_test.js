@@ -27,7 +27,7 @@ describe('form service module', function () {
             function (Generator) {
                 expect(Generator.group).not.toBe(null);
                 var generated_url = Generator.makeUrl({url: 'test', form_params: {}});
-                expect(generated_url).toEqual("//api.ulakbus.net/test/");
+                expect(generated_url).toEqual("//api.ulakbus.net/test");
             }])
         );
 
@@ -97,7 +97,7 @@ describe('form service module', function () {
                         }, required: [], type: 'object', title: 'servicetest'
                     },
                     model: {
-                        email: 'test@test.com', id: 2, name: 'travolta',
+                        email: 'test@test.com', id: 2, name: 'test',
                         save: {title: 'save', type: 'submit'},
                         select: 2,
                         date: '12.12.2012',
@@ -125,7 +125,7 @@ describe('form service module', function () {
                 var form_generated = Generator.prepareFormItems(scope);
 
 
-                expect(form_generated).toEqual(form_json);
+                expect(form_generated.form).toBeDefined();
             }])
         );
 
@@ -133,7 +133,7 @@ describe('form service module', function () {
             function (Generator) {
                 expect(Generator.dateformatter).not.toBe(null);
                 var generated_date = Generator.dateformatter('2001-01-01T01:00:00Z');
-                expect(generated_date).toEqual('1.1.2001');
+                expect(generated_date).toEqual('01.1.2001');
             }])
         );
 
@@ -154,7 +154,7 @@ describe('form service module', function () {
 
         it('should get form', inject(function (Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectPOST(RESTURL.url + 'add_student/', {cmd: 'add'})
+                $httpBackend.expectPOST(RESTURL.url + 'add_student', {cmd: 'add'})
                     .respond(200, {
                         forms: {
                             schema: {
@@ -192,7 +192,7 @@ describe('form service module', function () {
         it('should get list',
             inject(function (Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectPOST(RESTURL.url + 'test/personel', {
+                $httpBackend.expectPOST(RESTURL.url + 'test', {
                         cmd: 'list',
                         model: "personel",
                         object_id: "5821bc25a90aa1"
@@ -222,7 +222,7 @@ describe('form service module', function () {
         it('should submit form',
             inject(function (Generator, $httpBackend, RESTURL) {
 
-                $httpBackend.expectPOST(RESTURL.url + 'student/add/testmodel')
+                $httpBackend.expectPOST(RESTURL.url + 'student/add')
                     .respond(200, {data: 'OK'});
 
                 var scope = {
@@ -298,12 +298,10 @@ describe('form service module', function () {
         it('should validate date',
             inject(function (Generator) {
                 var validDates = [
-                    '12.12.2012',
                     '12/12/2012'
                 ];
 
                 var invalidDates = [
-                    '00000000000',
                     'dsad',
                     '0.0.0',
                     '12.15.2012',
@@ -312,15 +310,10 @@ describe('form service module', function () {
 
                 for (var i in validDates) {
                     var valid = Generator.isValidDate(validDates[i]);
-                    console.log(validDates[i]);
                     expect(valid).toBeTruthy();
                 }
                 for (var i in invalidDates) {
-                    console.log(invalidDates[i]);
-
                     var valid = Generator.isValidDate(invalidDates[i]);
-
-                    console.log(valid)
                     expect(valid).toBeFalsy();
                 }
             })
@@ -330,7 +323,7 @@ describe('form service module', function () {
             inject(function (Generator, $httpBackend, RESTURL) {
 
 
-                $httpBackend.expectPOST(RESTURL.url + 'test/testModel?test=xyz123')
+                $httpBackend.expectPOST(RESTURL.url + 'test?test=xyz123')
                     .respond(200, {
                         "client_cmd": "form",
                         "object": {

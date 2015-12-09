@@ -14,27 +14,40 @@ describe('dashboard controller module', function () {
     beforeEach(module('ulakbus.dashboard'));
 
     var $controller;
+    var $rootScope;
 
     beforeEach(inject(function (_$controller_) {
         $controller = _$controller_;
     }));
 
-    var $rootScope;
-	beforeEach(inject(function(_$rootScope_) {
-		$rootScope = _$rootScope_;
-	}));
+    beforeEach(inject(function ($injector) {
+        $httpBackend = $injector.get('$httpBackend');
+        $rootScope = $injector.get('$rootScope');
+    }));
 
     describe('dashboard controller', function () {
-
-        it('should define DashCtrl', inject(function ($controller) {
-            expect($controller).toBeDefined();
+        it('should define DashCtrl', inject(function () {
+            expect('ulakbus.dashboard.DashCtrl').toBeDefined();
         }));
 
-        //it('should define section', function() {
-        //    var $scope = {};
-        //    var controller = $controller('DashCtrl', { $scope: $scope });
-        //    $scope.section('test_section');
-        //    expect($rootScope.section).toBe('test_section');
-        //});
+        it('should execute DashCtrl functions', inject(function ($rootScope, RESTURL) {
+            $httpBackend.expectGET(RESTURL.url + 'ara/personel/123')
+                .respond(200, {});
+
+            var $scope = $rootScope.$new();
+            var controller = $controller('DashCtrl', { $scope: $scope });
+
+            $scope.student_kw = "123";
+            $scope.staff_kw = "123";
+            $scope.section(1);
+            $scope.$broadcast('authz', {});
+            $scope.search('personel');
+            $scope.search('ogrenci');
+            $scope.getItems('personel', '123');
+            $scope.select(['test name', '12345678', 'y37wgycuir7']);
+            $scope.$broadcast('notifications', {});
+            $scope.markAsRead(['123']);
+
+        }));
     });
 });
