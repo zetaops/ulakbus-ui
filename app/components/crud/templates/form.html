@@ -9,7 +9,7 @@
     <div ng-repeat="node in Node">
         <h3>{{ node.title }}
         <span ng-if="node.lengthModels < 1">
-            <a href="javascript:void(0);" modal-for-nodes="{{node.schema.model_name}},Node">
+            <a modal-for-nodes="{{node.schema.model_name}},Node">
                 <i class="fa fa-plus-circle fa-fw"></i>
             </a>
         </span>
@@ -23,7 +23,7 @@
     <div ng-repeat="node in ListNode">
         <h3>{{ node.title }}
         <span>
-            <a href="javascript:void(0);" modal-for-nodes="{{node.schema.model_name}},ListNode,add">
+            <a modal-for-nodes="{{node.schema.model_name}},ListNode,add">
                 <i class="fa fa-plus-circle fa-fw"></i>
             </a>
         </span>

@@ -4,15 +4,15 @@
         <div class="dashboard-main-search clearfix">
         	<div class="dashboard-student-search" data-step="2"
                  data-intro="isim veya tcno ile öğrenci araması yapabilirsiniz.">
-            	<center>
+            	<div class="text-center">
                 	<h3>ÖĞRENCİ</h3>
                 	<input type="text" placeholder="Öğrenci ara" ng-model="student_kw" ng-keyup="search('ogrenci')">
                     <span class="fa fa-search" ng-click="search('ogrenci')"></span>
-                 </center>
+                 </div>
                  <div class="dashboard-search-results">
                  	<ul ng-if="students.length > 0">
                     	<li ng-repeat="student in students">
-                            <a href="javascript:void(0)" ng-click="select(student, 'ogrenci')">{{student[0]}}</a>
+                            <a role="button" ng-click="select(student, 'ogrenci')">{{student[0]}}</a>
                         </li>
                     </ul>
                  </div>
@@ -21,15 +21,15 @@
             <!-- end of dashboard-student-search -->
             <div class="dashboard-personnel-search" data-step="3"
                  data-intro="isim veya tcno ile personel araması yapabilirsiniz.">
-            	<center>
+            	<div class="text-center">
                 	<h3>PERSONEL</h3>
                 	<input type="text" placeholder="Personel ara" ng-model="staff_kw" ng-keyup="search('personel')">
                     <span class="fa fa-search" ng-click="search('personel')"></span>
-                </center>
+                </div>
                 <div class="dashboard-search-results">
                  	<ul ng-if="staffs.length > 0">
                     	<li ng-repeat="staff in staffs">
-                            <a href="javascript:void(0)" ng-click="select(staff, 'personel')">{{staff[0]}}</a>
+                            <a role="button" ng-click="select(staff, 'personel')">{{staff[0]}}</a>
                         </li>
                     </ul>
                  </div>
@@ -47,12 +47,12 @@
 
                 	<div class="right-sidebar-title clearfix">
                 		<h3>Mesajlar</h3>
-                        <span><a href="javascript:void(0)">Tüm Mesajlar</a></span>
+                        <span><a role="button">Tüm Mesajlar</a></span>
                     </div>
                     <!-- end of right-sidebar-title -->
 
                     <div class="right-sidebar-message-block" ng-repeat="notify in notifications[2] | limitTo:5">
-                    	<a class="clearfix" href="javascript:void(0)" ng-click="markAsRead(notify)">
+                    	<a class="clearfix" ng-click="markAsRead(notify)">
                             <img src="../../../img/sample-profile-pic.jpg">
                             <div class="right-sidebar-message-content">
                                 <div>{{notify.title}}</div>
@@ -75,12 +75,12 @@
 
                 	<div class="right-sidebar-title clearfix">
                 		<h3>Görevler</h3>
-                        <span><a href="javascript:void(0)">Tüm Görevler</a></span>
+                        <span><a role="button">Tüm Görevler</a></span>
                     </div>
 
                     <div class="right-sidebar-task-block">
                     	<!--<div class="task-type">Onay Bekleyen Görevler</div>-->
-                        <a href="javascript:void(0)" ng-click="markAsRead(notify)" ng-repeat="notify in notifications[1] | limitTo:5">
+                        <a ng-click="markAsRead(notify)" ng-repeat="notify in notifications[1] | limitTo:5">
                             <div class="task-title">{{notify.title}}</div>
                         </a>
                     </div>
@@ -97,12 +97,12 @@
 
                 	<div class="right-sidebar-title clearfix">
                 		<h3>Duyurular</h3>
-                        <span><a href="javascript:void(0)">Tüm Duyurular</a></span>
+                        <span><a role="button">Tüm Duyurular</a></span>
                     </div>
                     <!-- end of right-sidebar-title -->
 
                     <div class="right-sidebar-announcement-block">
-                        <a href="javascript:void(0)" ng-click="markAsRead(notify)"
+                        <a ng-click="markAsRead(notify)"
                            ng-repeat="notify in notifications[3] | limitTo:5">{{notify
                             .body}}</a>
                     </div>
@@ -119,7 +119,7 @@
 
                 	<div class="right-sidebar-title clearfix">
                 		<h3>Son İşlemler</h3>
-                        <span><a href="javascript:void(0)">Tüm İşlemler</a></span>
+                        <span><a role="button">Tüm İşlemler</a></span>
                     </div>
 
                 </div>

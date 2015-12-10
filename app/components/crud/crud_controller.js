@@ -146,6 +146,12 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             $scope.reload({});
         });
 
+        // search directive updates objects after search results
+        $scope.$on('updateObjects', function ($event, data) {
+            $scope.objects = data;
+            CrudUtility.listPageItems($scope, {objects: $scope.objects});
+        });
+
         // we use form generator for generic forms. this makes form's scope to confuse on the path to generate form
         // object by its name. to manage to locate the form to controllers scope we use a directive called form locator
         // a bit dirty way to find form working on but solves our problem
@@ -203,7 +209,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             }
             else {
                 // call generator's get_single_item func
-                Generator.get_single_item($scope).then(function (res) {
+                Generator.get_wf($scope).then(function (res) {
                     $scope.object = res.data.object;
                     $scope.model = $routeParams.model;
                 });

@@ -1,6 +1,8 @@
-<ul class="breadcrumb">
-    <li ng-repeat="link in $root.breadcrumblinks" ng-class="{'active':$last}">
-        <a href="#" ng-if="!$last">{{link}}</a>
-        <span ng-if="$last">{{link}}</span>
-    </li>
-</ul>
+<button type="button" class="close breadcrumb pull-left"><i class="fa fa-angle-left"></i> Geri </button>
+<!--<ul class="breadcrumb">-->
+    <!--<li ng-repeat="link in $root.breadcrumblinks" ng-class="{'active':$last}">-->
+        <!--<a href="#" ng-if="!$last">{{link}}</a>-->
+        <!--<span ng-if="$last">{{link}}</span>-->
+    <!--</li>-->
+<!--</ul>-->
+<button type="button" class="close breadcrumb pull-right" ng-click="goBack()">İleri <i class="fa fa-angle-right"></i></button>

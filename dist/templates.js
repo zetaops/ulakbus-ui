@@ -127,7 +127,7 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
     "    <div ng-repeat=\"node in Node\">\n" +
     "        <h3>{{ node.title }}\n" +
     "        <span ng-if=\"node.lengthModels < 1\">\n" +
-    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.schema.model_name}},Node\">\n" +
+    "            <a modal-for-nodes=\"{{node.schema.model_name}},Node\">\n" +
     "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
     "            </a>\n" +
     "        </span>\n" +
@@ -141,7 +141,7 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
     "    <div ng-repeat=\"node in ListNode\">\n" +
     "        <h3>{{ node.title }}\n" +
     "        <span>\n" +
-    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.schema.model_name}},ListNode,add\">\n" +
+    "            <a modal-for-nodes=\"{{node.schema.model_name}},ListNode,add\">\n" +
     "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
     "            </a>\n" +
     "        </span>\n" +
@@ -195,8 +195,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                <td scope=\"row\" style=\"text-align:center\">{{$index}}</td>\n" +
     "\n" +
     "                <td ng-repeat=\"field in object.fields track by $index\">\n" +
-    "                    <a ng-href=\"javascript:void(0)\"\n" +
-    "                       ng-if=\"field.type==='link'\"\n" +
+    "                    <a role=\"button\" ng-if=\"field.type==='link'\"\n" +
     "                       ng-click=\"do_action(object.key, field.cmd, field.mode)\">{{field.content}}</a>\n" +
     "                    <span ng-if=\"field.type==='str'\">{{field.content}}</span>\n" +
     "                </td>\n" +
@@ -233,16 +232,16 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "    <nav ng-if=\"pagination && pagination.total_pages > 1\" class=\"text-center\">\n" +
     "        <ul class=\"pagination\">\n" +
     "            <li ng-class=\"{disabled:pagination.page===1}\">\n" +
-    "                <a href=\"javascript:void(0)\" aria-label=\"Önceki\" ng-click=\"reload({page:pagination.page-1})\">\n" +
+    "                <a aria-label=\"Önceki\" ng-click=\"reload({page:pagination.page-1})\">\n" +
     "                    <span aria-hidden=\"true\">&laquo;</span>\n" +
     "                </a>\n" +
     "            </li>\n" +
     "            <li ng-repeat=\"page in getNumber(pagination.total_pages) track by $index\"\n" +
     "                ng-class=\"{active:$index+1===pagination.page}\">\n" +
-    "                <a href=\"javascript:void(0)\" ng-click=\"reload({page:$index+1})\">{{$index+1}}</a>\n" +
+    "                <a ng-click=\"reload({page:$index+1})\">{{$index+1}}</a>\n" +
     "            </li>\n" +
     "            <li ng-class=\"{disabled:pagination.page===pagination.total_pages}\">\n" +
-    "                <a href=\"javascript:void(0)\" aria-label=\"Sonraki\" ng-click=\"reload({page:pagination.page+1})\">\n" +
+    "                <a aria-label=\"Sonraki\" ng-click=\"reload({page:pagination.page+1})\">\n" +
     "                    <span aria-hidden=\"true\">&raquo;</span>\n" +
     "                </a>\n" +
     "            </li>\n" +
@@ -293,15 +292,15 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "        <div class=\"dashboard-main-search clearfix\">\n" +
     "        	<div class=\"dashboard-student-search\" data-step=\"2\"\n" +
     "                 data-intro=\"isim veya tcno ile öğrenci araması yapabilirsiniz.\">\n" +
-    "            	<center>\n" +
+    "            	<div class=\"text-center\">\n" +
     "                	<h3>ÖĞRENCİ</h3>\n" +
     "                	<input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"student_kw\" ng-keyup=\"search('ogrenci')\">\n" +
     "                    <span class=\"fa fa-search\" ng-click=\"search('ogrenci')\"></span>\n" +
-    "                 </center>\n" +
+    "                 </div>\n" +
     "                 <div class=\"dashboard-search-results\">\n" +
     "                 	<ul ng-if=\"students.length > 0\">\n" +
     "                    	<li ng-repeat=\"student in students\">\n" +
-    "                            <a href=\"javascript:void(0)\" ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</a>\n" +
+    "                            <a role=\"button\" ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</a>\n" +
     "                        </li>\n" +
     "                    </ul>\n" +
     "                 </div>\n" +
@@ -310,15 +309,15 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "            <!-- end of dashboard-student-search -->\n" +
     "            <div class=\"dashboard-personnel-search\" data-step=\"3\"\n" +
     "                 data-intro=\"isim veya tcno ile personel araması yapabilirsiniz.\">\n" +
-    "            	<center>\n" +
+    "            	<div class=\"text-center\">\n" +
     "                	<h3>PERSONEL</h3>\n" +
     "                	<input type=\"text\" placeholder=\"Personel ara\" ng-model=\"staff_kw\" ng-keyup=\"search('personel')\">\n" +
     "                    <span class=\"fa fa-search\" ng-click=\"search('personel')\"></span>\n" +
-    "                </center>\n" +
+    "                </div>\n" +
     "                <div class=\"dashboard-search-results\">\n" +
     "                 	<ul ng-if=\"staffs.length > 0\">\n" +
     "                    	<li ng-repeat=\"staff in staffs\">\n" +
-    "                            <a href=\"javascript:void(0)\" ng-click=\"select(staff, 'personel')\">{{staff[0]}}</a>\n" +
+    "                            <a role=\"button\" ng-click=\"select(staff, 'personel')\">{{staff[0]}}</a>\n" +
     "                        </li>\n" +
     "                    </ul>\n" +
     "                 </div>\n" +
@@ -336,12 +335,12 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "\n" +
     "                	<div class=\"right-sidebar-title clearfix\">\n" +
     "                		<h3>Mesajlar</h3>\n" +
-    "                        <span><a href=\"javascript:void(0)\">Tüm Mesajlar</a></span>\n" +
+    "                        <span><a role=\"button\">Tüm Mesajlar</a></span>\n" +
     "                    </div>\n" +
     "                    <!-- end of right-sidebar-title -->\n" +
     "\n" +
     "                    <div class=\"right-sidebar-message-block\" ng-repeat=\"notify in notifications[2] | limitTo:5\">\n" +
-    "                    	<a class=\"clearfix\" href=\"javascript:void(0)\" ng-click=\"markAsRead(notify)\">\n" +
+    "                    	<a class=\"clearfix\" ng-click=\"markAsRead(notify)\">\n" +
     "                            <img src=\"../../../img/sample-profile-pic.jpg\">\n" +
     "                            <div class=\"right-sidebar-message-content\">\n" +
     "                                <div>{{notify.title}}</div>\n" +
@@ -364,12 +363,12 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "\n" +
     "                	<div class=\"right-sidebar-title clearfix\">\n" +
     "                		<h3>Görevler</h3>\n" +
-    "                        <span><a href=\"javascript:void(0)\">Tüm Görevler</a></span>\n" +
+    "                        <span><a role=\"button\">Tüm Görevler</a></span>\n" +
     "                    </div>\n" +
     "\n" +
     "                    <div class=\"right-sidebar-task-block\">\n" +
     "                    	<!--<div class=\"task-type\">Onay Bekleyen Görevler</div>-->\n" +
-    "                        <a href=\"javascript:void(0)\" ng-click=\"markAsRead(notify)\" ng-repeat=\"notify in notifications[1] | limitTo:5\">\n" +
+    "                        <a ng-click=\"markAsRead(notify)\" ng-repeat=\"notify in notifications[1] | limitTo:5\">\n" +
     "                            <div class=\"task-title\">{{notify.title}}</div>\n" +
     "                        </a>\n" +
     "                    </div>\n" +
@@ -386,12 +385,12 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "\n" +
     "                	<div class=\"right-sidebar-title clearfix\">\n" +
     "                		<h3>Duyurular</h3>\n" +
-    "                        <span><a href=\"javascript:void(0)\">Tüm Duyurular</a></span>\n" +
+    "                        <span><a role=\"button\">Tüm Duyurular</a></span>\n" +
     "                    </div>\n" +
     "                    <!-- end of right-sidebar-title -->\n" +
     "\n" +
     "                    <div class=\"right-sidebar-announcement-block\">\n" +
-    "                        <a href=\"javascript:void(0)\" ng-click=\"markAsRead(notify)\"\n" +
+    "                        <a ng-click=\"markAsRead(notify)\"\n" +
     "                           ng-repeat=\"notify in notifications[3] | limitTo:5\">{{notify\n" +
     "                            .body}}</a>\n" +
     "                    </div>\n" +
@@ -408,7 +407,7 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "\n" +
     "                	<div class=\"right-sidebar-title clearfix\">\n" +
     "                		<h3>Son İşlemler</h3>\n" +
-    "                        <span><a href=\"javascript:void(0)\">Tüm İşlemler</a></span>\n" +
+    "                        <span><a role=\"button\">Tüm İşlemler</a></span>\n" +
     "                    </div>\n" +
     "\n" +
     "                </div>\n" +
@@ -559,7 +558,7 @@ angular.module("shared/templates/add.html", []).run(["$templateCache", function(
     "<div ng-repeat=\"node in Node\">\n" +
     "    <h3>{{ node.title }}\n" +
     "        <span ng-if=\"node.lengthModels < 1\">\n" +
-    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.title}},Node\">\n" +
+    "            <a modal-for-nodes=\"{{node.title}},Node\">\n" +
     "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
     "            </a>\n" +
     "        </span>\n" +
@@ -572,7 +571,7 @@ angular.module("shared/templates/add.html", []).run(["$templateCache", function(
     "<div ng-repeat=\"node in ListNode\">\n" +
     "    <h3>{{ node.title }}\n" +
     "        <span>\n" +
-    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.title}},ListNode\">\n" +
+    "            <a modal-for-nodes=\"{{node.title}},ListNode\">\n" +
     "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
     "            </a>\n" +
     "        </span>\n" +
@@ -813,12 +812,14 @@ angular.module("shared/templates/directives/chat.html", []).run(["$templateCache
 
 angular.module("shared/templates/directives/header-breadcrumb.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/header-breadcrumb.html",
-    "<ul class=\"breadcrumb\">\n" +
-    "    <li ng-repeat=\"link in $root.breadcrumblinks\" ng-class=\"{'active':$last}\">\n" +
-    "        <a href=\"#\" ng-if=\"!$last\">{{link}}</a>\n" +
-    "        <span ng-if=\"$last\">{{link}}</span>\n" +
-    "    </li>\n" +
-    "</ul>");
+    "<button type=\"button\" class=\"close breadcrumb pull-left\"><i class=\"fa fa-angle-left\"></i> Geri </button>\n" +
+    "<!--<ul class=\"breadcrumb\">-->\n" +
+    "    <!--<li ng-repeat=\"link in $root.breadcrumblinks\" ng-class=\"{'active':$last}\">-->\n" +
+    "        <!--<a href=\"#\" ng-if=\"!$last\">{{link}}</a>-->\n" +
+    "        <!--<span ng-if=\"$last\">{{link}}</span>-->\n" +
+    "    <!--</li>-->\n" +
+    "<!--</ul>-->\n" +
+    "<button type=\"button\" class=\"close breadcrumb pull-right\" ng-click=\"goBack()\">İleri <i class=\"fa fa-angle-right\"></i></button>");
 }]);
 
 angular.module("shared/templates/directives/header-notification.html", []).run(["$templateCache", function($templateCache) {
@@ -831,7 +832,7 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-messages\" ng-if=\"notifications[2].length > 0\">\n" +
     "            <li ng-repeat=\"notify in notifications[2] | limitTo: '8'\">\n" +
-    "                <a href=\"javascript:void(0)\" ng-click=\"markAsRead(notify)\">\n" +
+    "                <a ng-click=\"markAsRead(notify)\">\n" +
     "                    <div>\n" +
     "                        <strong>{{notify.title}}</strong>\n" +
     "                        <span class=\"pull-right text-muted\">\n" +
@@ -843,7 +844,7 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "            </li>\n" +
     "            <li class=\"divider\"></li>\n" +
     "            <li>\n" +
-    "                <a class=\"text-center\" href=\"javascript:void(0)\">\n" +
+    "                <a class=\"text-center\">\n" +
     "                    <strong>Read All Messages</strong>\n" +
     "                    <i class=\"fa fa-angle-right\"></i>\n" +
     "                </a>\n" +
@@ -859,7 +860,7 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-tasks\" ng-if=\"notifications[1].length > 0\">\n" +
     "            <li ng-repeat=\"notify in notifications[1] | limitTo: '8'\">\n" +
-    "                <a href=\"javascript:void(0)\"  ng-click=\"markAsRead(notify)\">\n" +
+    "                <a  ng-click=\"markAsRead(notify)\">\n" +
     "                    <div>\n" +
     "                        <p>\n" +
     "                            <strong>{{notify.title}}</strong>\n" +
@@ -877,7 +878,7 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "            </li>\n" +
     "            <li class=\"divider\"></li>\n" +
     "            <li>\n" +
-    "                <a class=\"text-center\" href=\"javascript:void(0)\">\n" +
+    "                <a class=\"text-center\">\n" +
     "                    <strong>See All Tasks</strong>\n" +
     "                    <i class=\"fa fa-angle-right\"></i>\n" +
     "                </a>\n" +
@@ -893,7 +894,7 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-alerts\" ng-if=\"notifications[3].length > 0\">\n" +
     "            <li>\n" +
-    "                <a href=\"javascript:void(0)\">\n" +
+    "                <a role=\"button\">\n" +
     "                    <div>\n" +
     "                        <i class=\"fa fa-comment fa-fw\"></i> New Comment\n" +
     "                        <span class=\"pull-right text-muted small\">4 minutes ago</span>\n" +
@@ -909,9 +910,9 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "            <i class=\"fa fa-user fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-user\">\n" +
-    "            <li><a href=\"javascript:void(0)\"><i class=\"fa fa-user fa-fw\"></i> Profil</a></li>\n" +
+    "            <li><a role=\"button\"><i class=\"fa fa-user fa-fw\"></i> Profil</a></li>\n" +
     "            <li class=\"divider\"></li>\n" +
-    "            <li><a href=\"javascript:void(0)\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar</a></li>\n" +
+    "            <li><a role=\"button\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar</a></li>\n" +
     "            <li><a href=\"#/dev/settings\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar (Dev)</a></li>\n" +
     "            <li class=\"divider\"></li>\n" +
     "            <li><a ui-sref=\"login\" href=\"javascript:void(0);\" logout><i class=\"fa fa-sign-out fa-fw\"></i> Çıkış</a></li>\n" +
@@ -930,8 +931,6 @@ angular.module("shared/templates/directives/header-sub-menu.html", []).run(["$te
     "    <div class=\"clearfix\">\n" +
     "        <header-breadcrumb></header-breadcrumb>\n" +
     "        <loaderdiv><div></div></loaderdiv>\n" +
-    "        <!--<div class=\"loader\">Loading...</div>-->\n" +
-    "        <selected-user class=\"pull-right\"></selected-user>\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -1077,12 +1076,12 @@ angular.module("shared/templates/directives/sidebar-notification.html", []).run(
     "\n" +
     "            <div class=\"right-sidebar-title clearfix\">\n" +
     "                <h3>Mesajlar</h3>\n" +
-    "                <span><a href=\"javascript:void(0)\">Tüm Mesajlar</a></span>\n" +
+    "                <span><a role=\"button\">Tüm Mesajlar</a></span>\n" +
     "            </div>\n" +
     "            <!-- end of right-sidebar-title -->\n" +
     "\n" +
     "            <div class=\"right-sidebar-message-block\" ng-repeat=\"notify in notifications[2] | limitTo:5\">\n" +
-    "                <a class=\"clearfix\" href=\"javascript:void(0)\">\n" +
+    "                <a class=\"clearfix\">\n" +
     "                    <img src=\"../../../img/sample-profile-pic.jpg\">\n" +
     "                    <div class=\"right-sidebar-message-content\">\n" +
     "                        <div>{{notify.title}}</div>\n" +
@@ -1105,13 +1104,13 @@ angular.module("shared/templates/directives/sidebar-notification.html", []).run(
     "\n" +
     "            <div class=\"right-sidebar-title clearfix\">\n" +
     "                <h3>Görevler</h3>\n" +
-    "                <span><a href=\"javascript:void(0)\">Tüm Görevler</a></span>\n" +
+    "                <span><a role=\"button\">Tüm Görevler</a></span>\n" +
     "            </div>\n" +
     "            <!-- end of right-sidebar-title -->\n" +
     "\n" +
     "            <!--<div class=\"right-sidebar-task-block\">-->\n" +
     "            <!--<div class=\"task-type\">Devam Eden Görevler</div>-->\n" +
-    "            <!--<a href=\"javascript:void(0)\">-->\n" +
+    "            <!--<a role=\"button\">-->\n" +
     "            <!--<div class=\"task-title\">Öğrenci Kayıt</div>-->\n" +
     "            <!--<div class=\"progress\">-->\n" +
     "            <!--<div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"25\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"min-width: 2em; width:25%;\">-->\n" +
@@ -1125,7 +1124,7 @@ angular.module("shared/templates/directives/sidebar-notification.html", []).run(
     "\n" +
     "            <div class=\"right-sidebar-task-block\">\n" +
     "                <div class=\"task-type\">Onay Bekleyen Görevler</div>\n" +
-    "                <a href=\"javascript:void(0)\" ng-repeat=\"notify in notifications[1] | limitTo:5\">\n" +
+    "                <a ng-repeat=\"notify in notifications[1] | limitTo:5\">\n" +
     "                    <div class=\"task-title\">{{notify.title}}</div>\n" +
     "                </a>\n" +
     "            </div>\n" +
@@ -1142,12 +1141,12 @@ angular.module("shared/templates/directives/sidebar-notification.html", []).run(
     "\n" +
     "            <div class=\"right-sidebar-title clearfix\">\n" +
     "                <h3>Duyurular</h3>\n" +
-    "                <span><a href=\"javascript:void(0)\">Tüm Duyurular</a></span>\n" +
+    "                <span><a role=\"button\">Tüm Duyurular</a></span>\n" +
     "            </div>\n" +
     "            <!-- end of right-sidebar-title -->\n" +
     "\n" +
     "            <div class=\"right-sidebar-announcement-block\">\n" +
-    "                <a href=\"javascript:void(0)\" ng-repeat=\"notify in notifications[3] | limitTo:5\">{{notify.body}}</a>\n" +
+    "                <a ng-repeat=\"notify in notifications[3] | limitTo:5\">{{notify.body}}</a>\n" +
     "            </div>\n" +
     "            <!-- end of right-sidebar-status-block -->\n" +
     "\n" +
@@ -1162,13 +1161,13 @@ angular.module("shared/templates/directives/sidebar-notification.html", []).run(
     "\n" +
     "            <div class=\"right-sidebar-title clearfix\">\n" +
     "                <h3>Son İşlemler</h3>\n" +
-    "                <span><a href=\"javascript:void(0)\">Tüm İşlemler</a></span>\n" +
+    "                <span><a role=\"button\">Tüm İşlemler</a></span>\n" +
     "            </div>\n" +
     "            <!-- end of right-sidebar-title -->\n" +
     "\n" +
     "            <div class=\"right-sidebar-last-action-block\">\n" +
-    "                <a href=\"javascript:void(0)\">Birinci dönem bitimine 10 gün kaldı.</a>\n" +
-    "                <a href=\"javascript:void(0)\">Ders seçimi işlemleri xx tarihinde başlayacaktır.</a>\n" +
+    "                <a role=\"button\">Birinci dönem bitimine 10 gün kaldı.</a>\n" +
+    "                <a role=\"button\">Ders seçimi işlemleri xx tarihinde başlayacaktır.</a>\n" +
     "            </div>\n" +
     "            <!-- end of right-sidebar-status-block -->\n" +
     "\n" +
@@ -1190,43 +1189,110 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
   $templateCache.put("shared/templates/directives/sidebar.html",
     "<div class=\"navbar-default sidebar\" role=\"navigation\" ng-mouseenter=\"openSidebar()\" ng-mouseleave=\"closeSidebar()\">\n" +
     "\n" +
-    "    <div class=\"sidebar-nav navbar-collapse\">\n" +
-    "        <ul class=\"nav in\" id=\"side-menu\" ng-class=\"{hidden: $root.loggedInUser != true}\" data-step=\"1\"\n" +
-    "            data-intro=\"seçilen personele veya öğrenciye göre ilgili menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz.\">\n" +
-    "            <!--<sidebar-search></sidebar-search>-->\n" +
-    "            <li ui-sref-active=\"active\">\n" +
-    "                <a href=\"#/dashboard\" ng-click=\"breadcrumb(['Panel'])\"><i class=\"fa fa-dashboard fa-fw\"></i>\n" +
-    "                	<span class=\"menu-text\" ng-class=\"{hidden: $root.collapsed}\">Panel</span>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
+    "    <div class=\"sidebar-container\">\n" +
+    "        <!-- sidebar-person-info -->\n" +
+    "        <div class=\"sidebar-person-info\">\n" +
+    "            <!--<button class=\"btn btn-primary close-sidebar-person-info\">Profili Kapat</button>-->\n" +
+    "            <div class=\"identity\">\n" +
+    "                <button type=\"button\" class=\"close\" ng-class=\"{hidden: $root.collapsed || !selectedUser}\"\n" +
+    "                        ng-click=\"deselectUser()\"\n" +
+    "                        aria-label=\"Close\"><span\n" +
+    "                        aria-hidden=\"true\">&times;</span></button>\n" +
+    "                <div class=\"identity-header clearfix\">\n" +
+    "                    <img ng-src=\"{{selectedUser ? '/img/sample-profile-pic.jpg' : '/img/empty-profile-pic.jpg'}}\">\n" +
+    "                    <div class=\"pull-left\" ng-class=\"{hidden: $root.collapsed}\">\n" +
+    "                        <p class=\"identity-name\">{{selectedUser.name || 'Kişi seçilmedi.'}}</p>\n" +
+    "                        <p class=\"identity-surname\">{{selectedUser.surname}}</p>\n" +
+    "                        <p>{{selectedUser ? 'TCNo: ' + selectedUser.tcno : ''}}</p>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "                <!-- end of identity-header -->\n" +
+    "                <!--<div class=\"identity-info\" ng-class=\"{hidden: $root.collapsed}\">-->\n" +
     "\n" +
-    "            <li ng-repeat=\"(key, item) in menuItems\" ng-class=\"{active: collapseVar == $index+1}\">{{dropDown}}\n" +
-    "                <a href=\"\" ng-click=\"check($index+1)\">\n" +
-    "                    <i class=\"fa fa-fw\"\n" +
-    "                       ng-class=\"{\n" +
-    "                           'Admin': 'fa fa-fw fa-terminal',\n" +
-    "                           'Genel': 'fa fa-fw fa-graduation-cap',\n" +
-    "                           'Alt Kategori': 'fa fa-fw fa-tags',\n" +
-    "                           'Kadro Islemleri': 'fa fa-fw fa-users',\n" +
-    "                           'Seçime Uygun Görevler':'fa fa-fw fa-users'\n" +
-    "                           }[item[0].kategori]\"></i>\n" +
-    "                    <span class=\"menu-text\" ng-class=\"{hidden: $root.collapsed}\">{{ key }}</span>\n" +
-    "                    <span class=\"fa arrow\" ng-class=\"{hidden: $root.collapsed}\"></span>\n" +
-    "                </a>\n" +
-    "                <ul class=\"nav nav-second-level\" ng-class=\"{hidden: $root.collapsed}\">\n" +
-    "                    <li ng-repeat=\"(k, v) in item\">\n" +
-    "                      <!--<a ng-if=\"v.model\" ng-href=\"#{{v.url}}\" ng- -->\n" +
-    "                           <!--ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>-->\n" +
-    "                      <a ng-href=\"#/{{v.wf}}/{{v.model}}?{{v.param}}={{selectedUser.key}}\"\n" +
-    "                           ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
+    "                    <!--<div class=\"clearfix\">-->\n" +
+    "                        <!--<span class=\"fa fa-envelope\"></span>-->\n" +
+    "                        <!--<div>erkanogum@gmail.com</div>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                    <!--<div class=\"clearfix\">-->\n" +
+    "                        <!--<span class=\"fa fa-home\"></span>-->\n" +
+    "                        <!--<div>İşçi Blokları Mah. 1524. sokak B Blok 6. Kat A Kanat 27 numara</div>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                <!--</div>-->\n" +
+    "\n" +
+    "            </div>\n" +
+    "            <!-- end of identity -->\n" +
+    "            <div class=\"\">\n" +
+    "                <ul class=\"nav in\" id=\"side-user-menu\" ng-class=\"{hidden: !selectedMenuItems}\" data-step=\"2\"\n" +
+    "                    data-intro=\"seçilen personele veya öğrenciye göre ilgili menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz.\">\n" +
+    "\n" +
+    "\n" +
+    "                    <li ng-repeat=\"(key, item) in selectedMenuItems\" ng-class=\"{active: collapseVar == $index+1}\">{{dropDown}}\n" +
+    "                        <a href=\"\" ng-click=\"check($index+1)\">\n" +
+    "                            <i class=\"fa fa-fw\"\n" +
+    "                               ng-class=\"{\n" +
+    "                               'Admin': 'fa fa-fw fa-terminal',\n" +
+    "                               'Genel': 'fa fa-fw fa-graduation-cap',\n" +
+    "                               'Alt Kategori': 'fa fa-fw fa-tags',\n" +
+    "                               'Kadro Islemleri': 'fa fa-fw fa-users',\n" +
+    "                               'Seçime Uygun Görevler':'fa fa-fw fa-user'\n" +
+    "                               }[item[0].kategori]\"></i>\n" +
+    "                            <span class=\"menu-text\" ng-class=\"{hidden: $root.collapsed}\">{{ key }}</span>\n" +
+    "                            <span class=\"fa arrow\" ng-class=\"{hidden: $root.collapsed}\"></span>\n" +
+    "                        </a>\n" +
+    "                        <ul class=\"nav nav-second-level\" ng-class=\"{hidden: $root.collapsed}\">\n" +
+    "                            <li ng-repeat=\"(k, v) in item\">\n" +
+    "                                <!--<a ng-if=\"v.model\" ng-href=\"#{{v.url}}\" ng- -->\n" +
+    "                                <!--ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>-->\n" +
+    "                                <a ng-href=\"#/{{v.wf}}/{{v.model}}?{{v.param}}={{selectedUser.key}}\"\n" +
+    "                                   ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
+    "                            </li>\n" +
+    "                        </ul>\n" +
+    "                        <!-- /.nav-second-level -->\n" +
     "                    </li>\n" +
     "                </ul>\n" +
-    "                <!-- /.nav-second-level -->\n" +
-    "            </li>\n" +
-    "        </ul>\n" +
-    "    </div>\n" +
-    "    <!-- /.sidebar-collapse -->\n" +
+    "            </div>\n" +
+    "            <!-- end of person-actions -->\n" +
+    "        </div>\n" +
+    "        <!-- end of sidebar-person-info -->\n" +
     "\n" +
+    "        <div class=\"sidebar-nav navbar-collapse\">\n" +
+    "            <ul class=\"nav in\" id=\"side-menu\" ng-class=\"{hidden: $root.loggedInUser != true}\" data-step=\"1\"\n" +
+    "                data-intro=\"Genel menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz.\">\n" +
+    "                <!--<sidebar-search></sidebar-search>-->\n" +
+    "                <li ui-sref-active=\"active\">\n" +
+    "                    <a href=\"#/dashboard\" ng-click=\"breadcrumb(['Panel'])\"><i class=\"fa fa-dashboard fa-fw\"></i>\n" +
+    "                        <span class=\"menu-text\" ng-class=\"{hidden: $root.collapsed}\">Panel</span>\n" +
+    "                    </a>\n" +
+    "                </li>\n" +
+    "\n" +
+    "                <li ng-repeat=\"(key, item) in menuItems\" ng-class=\"{active: collapseVar == $index+1}\">{{dropDown}}\n" +
+    "                    <a href=\"\" ng-click=\"check($index+1)\">\n" +
+    "                        <i class=\"fa fa-fw\"\n" +
+    "                           ng-class=\"{\n" +
+    "                               'Admin': 'fa fa-fw fa-terminal',\n" +
+    "                               'Genel': 'fa fa-fw fa-graduation-cap',\n" +
+    "                               'Alt Kategori': 'fa fa-fw fa-tags',\n" +
+    "                               'Kadro Islemleri': 'fa fa-fw fa-users',\n" +
+    "                               'Seçime Uygun Görevler':'fa fa-fw fa-user'\n" +
+    "                               }[item[0].kategori]\"></i>\n" +
+    "                        <span class=\"menu-text\" ng-class=\"{hidden: $root.collapsed}\">{{ key }}</span>\n" +
+    "                        <span class=\"fa arrow\" ng-class=\"{hidden: $root.collapsed}\"></span>\n" +
+    "                    </a>\n" +
+    "                    <ul class=\"nav nav-second-level\" ng-class=\"{hidden: $root.collapsed}\">\n" +
+    "                        <li ng-repeat=\"(k, v) in item\">\n" +
+    "                            <!--<a ng-if=\"v.model\" ng-href=\"#{{v.url}}\" ng- -->\n" +
+    "                            <!--ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>-->\n" +
+    "                            <a ng-href=\"#/{{v.wf}}/{{v.model}}?{{v.param}}={{selectedUser.key}}\"\n" +
+    "                               ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
+    "                        </li>\n" +
+    "                    </ul>\n" +
+    "                    <!-- /.nav-second-level -->\n" +
+    "                </li>\n" +
+    "            </ul>\n" +
+    "        </div>\n" +
+    "        <!-- /.sidebar-collapse -->\n" +
+    "\n" +
+    "    </div>\n" +
     "    <footer ng-class=\"{hidden: $root.collapsed}\">\n" +
     "        <a class=\"btn btn-large btn-success\" href=\"javascript:void(0);\" onclick=\"javascript:introJs().setOptions({\n" +
     "        'nextLabel': 'Sonraki', 'prevLabel': 'Öncek', 'skipLabel': 'Atla', 'doneLabel': 'Bitir' }).start();\">Yardım\n" +
@@ -1400,7 +1466,7 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "        <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
     "            {{form.title}}\n" +
     "        </label>\n" +
-    "        <a><i class=\"fa fa-plus-circle fa-fw\" add-modal-for-linked-model=\"{{form.formName}}\"></i></a>\n" +
+    "        <a role=\"button\"><i class=\"fa fa-plus-circle fa-fw\" add-modal-for-linked-model=\"{{form.formName}}\"></i></a>\n" +
     "\n" +
     "        <div class=\"form-group input-group\">\n" +
     "            <span class=\"input-group-btn\">\n" +
@@ -1409,7 +1475,7 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "                </button>\n" +
     "                <ul class=\"dropdown-menu\">\n" +
     "                    <li ng-repeat=\"item in form.titleMap\">\n" +
-    "                        <a href=\"javascript:void(0)\" ng-click=\"form.onDropdownSelect(item, form.model_name)\">{{item\n" +
+    "                        <a ng-click=\"form.onDropdownSelect(item, form.model_name)\">{{item\n" +
     "                            .name}}</a>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
@@ -1453,7 +1519,7 @@ angular.module("shared/templates/linkedModelModalContent.html", []).run(["$templ
     "    <div ng-repeat=\"node in Node\">\n" +
     "        <h3>{{ node.title }}\n" +
     "        <span ng-if=\"node.lengthModels < 1\">\n" +
-    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.schema.model_name}},Node\">\n" +
+    "            <a modal-for-nodes=\"{{node.schema.model_name}},Node\">\n" +
     "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
     "            </a>\n" +
     "        </span>\n" +
@@ -1467,7 +1533,7 @@ angular.module("shared/templates/linkedModelModalContent.html", []).run(["$templ
     "    <div ng-repeat=\"node in ListNode\">\n" +
     "        <h3>{{ node.title }}\n" +
     "        <span>\n" +
-    "            <a href=\"javascript:void(0);\" modal-for-nodes=\"{{node.schema.model_name}},ListNode,add\">\n" +
+    "            <a modal-for-nodes=\"{{node.schema.model_name}},ListNode,add\">\n" +
     "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
     "            </a>\n" +
     "        </span>\n" +
@@ -1513,7 +1579,7 @@ angular.module("shared/templates/multiselect.html", []).run(["$templateCache", f
     "        <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
     "            {{form.title}}\n" +
     "        </label>\n" +
-    "        <a><i class=\"fa fa-plus-circle fa-fw\" add-modal-for-linked-model=\"{{form.formName}}\"></i></a>\n" +
+    "        <a role=\"button\"><i class=\"fa fa-plus-circle fa-fw\" add-modal-for-linked-model=\"{{form.formName}}\"></i></a>\n" +
     "\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"col-md-12\">\n" +
@@ -1540,8 +1606,8 @@ angular.module("shared/templates/multiselect.html", []).run(["$templateCache", f
     "            </div>\n" +
     "\n" +
     "            <div class=\"col-md-12 text-center\">\n" +
-    "                <a><i class=\"fa fa-arrow-down fa-fw\" ng-click=\"form.select(selectedItemsModel)\"></i></a>\n" +
-    "                <a><i class=\"fa fa-arrow-up fa-fw\" ng-click=\"form.deselect(selectedFilteredItemsModel)\"></i></a>\n" +
+    "                <a role=\"button\"><i class=\"fa fa-arrow-down fa-fw\" ng-click=\"form.select(selectedItemsModel)\"></i></a>\n" +
+    "                <a role=\"button\"><i class=\"fa fa-arrow-up fa-fw\" ng-click=\"form.deselect(selectedFilteredItemsModel)\"></i></a>\n" +
     "            </div>\n" +
     "\n" +
     "            <div class=\"col-md-12\">\n" +
@@ -1562,7 +1628,7 @@ angular.module("shared/templates/multiselect.html", []).run(["$templateCache", f
     "        <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
     "    </div>\n" +
     "    <!--<div class=\"col-md-4\">-->\n" +
-    "        <!--<a href=\"javascript:void(0);\" add-modal-for-linked-model>-->\n" +
+    "        <!--<a add-modal-for-linked-model>-->\n" +
     "            <!--<i class=\"fa fa-plus-circle fa-fw\"></i>-->\n" +
     "        <!--</a>-->\n" +
     "    <!--</div>-->\n" +

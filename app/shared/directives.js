@@ -80,7 +80,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
     /**
      *
      */
-    .directive('searchDirective', function (Generator, $log) {
+    .directive('searchDirective', function (Generator, $log, $rootScope) {
         return {
             templateUrl: 'shared/templates/directives/search.html',
             restrict: 'E',
@@ -117,9 +117,12 @@ app.directive('logout', function ($http, $location, RESTURL) {
                             }
                         };
 
-                        Generator.submit(searchparams);
+                        Generator.submit(searchparams).success(function (data) {
+                            // update objects item of page scope
+                            $rootScope.$broadcast('updateObjects', data.objects);
+                        });
                     }
-                }
+                };
             }
         };
     })
@@ -243,16 +246,22 @@ app.directive('logout', function ($http, $location, RESTURL) {
      * produces breadcrumb with related links
      */
 
-    .directive('headerBreadcrumb', function () {
+    .directive('headerBreadcrumb', function ($location) {
         return {
             templateUrl: 'shared/templates/directives/header-breadcrumb.html',
             restrict: 'E',
-            replace: true
+            replace: false,
+            link: function ($scope) {
+                $scope.goBack = function () {
+                    $location.state();
+                }
+            }
         };
     })
 
     /**
      * selected user directive
+     * todo: unused
      */
 
     .directive('selectedUser', function ($http, RESTURL) {
@@ -309,6 +318,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
                 };
 
                 var sidebarmenu = $('#side-menu');
+                var sidebarUserMenu = $('#side-user-menu');
                 sidebarmenu.metisMenu();
                 $http.get(RESTURL.url + 'menu/')
                     .success(function (data) {
@@ -343,6 +353,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
 
                         $timeout(function () {
                             sidebarmenu.metisMenu();
+                            sidebarUserMenu.metisMenu();
                         });
                     });
 
@@ -351,16 +362,23 @@ app.directive('logout', function ($http, $location, RESTURL) {
                 $scope.$on("menuitems", function (event, data) {
                     var menu = {};
                     menu[data] = $scope.allMenuItems[data];
-                    menu['other'] = $scope.allMenuItems.other;
-                    $scope.menuItems = $scope.prepareMenu(menu);
+                    //menu['other'] = $scope.allMenuItems.other;
+                    $scope.selectedMenuItems = $scope.prepareMenu(menu);
                     $timeout(function () {
-                        sidebarmenu.metisMenu()
+                        sidebarmenu.metisMenu();
+                        sidebarUserMenu.metisMenu();
+
                     });
                 });
 
                 $scope.$on('selectedUser', function ($event, data) {
                     $scope.selectedUser = data;
                 });
+
+                $scope.deselectUser = function () {
+                    delete $scope.selectedUser;
+                    delete $scope.selectedMenuItems;
+                };
 
                 $scope.openSidebar = function () {
                     if ($window.innerWidth > '768') {
@@ -409,13 +427,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
 
                 // breadcrumb function changes breadcrumb items and itemlist must be list
                 $scope.breadcrumb = function (itemlist, $event) {
-                    //if ($event.target.href==location.href) {
-                    //    $route.reload();
-                    //}
                     $rootScope.breadcrumblinks = itemlist;
-                    // showSaveButton is used for to show or not to show save button on top of the page
-                    // todo: remove button
-                    $rootScope.showSaveButton = false;
                 };
 
                 $scope.multiCheck = function (y) {

@@ -4,7 +4,7 @@
         <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">
             {{form.title}}
         </label>
-        <a><i class="fa fa-plus-circle fa-fw" add-modal-for-linked-model="{{form.formName}}"></i></a>
+        <a role="button"><i class="fa fa-plus-circle fa-fw" add-modal-for-linked-model="{{form.formName}}"></i></a>
 
         <div class="row">
             <div class="col-md-12">
@@ -31,8 +31,8 @@
             </div>
 
             <div class="col-md-12 text-center">
-                <a><i class="fa fa-arrow-down fa-fw" ng-click="form.select(selectedItemsModel)"></i></a>
-                <a><i class="fa fa-arrow-up fa-fw" ng-click="form.deselect(selectedFilteredItemsModel)"></i></a>
+                <a role="button"><i class="fa fa-arrow-down fa-fw" ng-click="form.select(selectedItemsModel)"></i></a>
+                <a role="button"><i class="fa fa-arrow-up fa-fw" ng-click="form.deselect(selectedFilteredItemsModel)"></i></a>
             </div>
 
             <div class="col-md-12">
@@ -53,7 +53,7 @@
         <div class="help-block" sf-message="form.description"></div>
     </div>
     <!--<div class="col-md-4">-->
-        <!--<a href="javascript:void(0);" add-modal-for-linked-model>-->
+        <!--<a add-modal-for-linked-model>-->
             <!--<i class="fa fa-plus-circle fa-fw"></i>-->
         <!--</a>-->
     <!--</div>-->
