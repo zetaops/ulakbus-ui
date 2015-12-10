@@ -1,78 +1,80 @@
-<div style="background: white;">
-    <h4>Filtrele</h4>
-    <hr>
-
-    <div ng-repeat="filter in list_filters">
-        <div>
-            <div class=" clearfix">
-                <h5 ng-click="collapseFilter(filter.field)">{{filter.verbose_name}}
-                    <i class="fa fa-fw fa-caret-down"></i></h5>
-            </div>
-
-            <div ng-if="filter.type==='check' || !filter.type" uib-collapse="filterCollapsed[filter.field]">
-                <div class="checkbox" ng-repeat="filterItem in filter.values">
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="filter_group[]" ng-model="filterList[filter.field].model[filterItem.value]"
-                               value="{{filterItem.value}}"/>
-                        {{filterItem.name}}
-                    </label>
+<div>
+	<div class="filter-inner">
+        <h4>Filtrele</h4>
+        <hr>
+    
+        <div ng-repeat="filter in list_filters">
+            <div>
+                <div class=" clearfix">
+                    <h5 ng-click="collapseFilter(filter.field)">{{filter.verbose_name}}
+                        <i class="fa fa-fw fa-caret-down"></i></h5>
                 </div>
-            </div>
-
-            <div ng-if="filter.type==='select'"  uib-collapse="filterCollapsed[filter.field]">
-                <div class="col-md-12">
-                    <select name="filterSelect" id="filterSelect" class="form-control">
-                        <option ng-repeat="filterItem in filter.values" value="{{filterItem.value}}">
+    
+                <div ng-if="filter.type==='check' || !filter.type" uib-collapse="filterCollapsed[filter.field]">
+                    <div class="checkbox" ng-repeat="filterItem in filter.values">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="filter_group[]" ng-model="filterList[filter.field].model[filterItem.value]"
+                                   value="{{filterItem.value}}"/>
                             {{filterItem.name}}
-                        </option>
-                    </select>
+                        </label>
+                    </div>
                 </div>
-            </div>
-
-            <div ng-if="filter.type==='date'"  uib-collapse="filterCollapsed[filter.field]">
-                <div class="col-md-12">
-                    <label class="control-label" for="startDate">Başlangıç</label>
-
-                    <p class="input-group">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="dateFilterOpen($event, 'startOpened')">
-                                <i class="fa fa-calendar"></i>
-                            </button>
-                        </span>
-                        <input type="text" name="startDate" class="form-control"
-                               ng-model="filterList[filter.field].model[0]"
-                               uib-datepicker-popup="{{format}}"
-                               is-open="status.startOpened"
-                               close-text="Kapat"
-                               current-text="Bugün"
-                               clear-text="Temizle"
-                               ng-click="dateFilterOpen($event, 'startOpened')"/></p>
+    
+                <div ng-if="filter.type==='select'"  uib-collapse="filterCollapsed[filter.field]">
+                    <div class="col-md-12">
+                        <select name="filterSelect" id="filterSelect" class="form-control">
+                            <option ng-repeat="filterItem in filter.values" value="{{filterItem.value}}">
+                                {{filterItem.name}}
+                            </option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-md-12">
-                    <label class="control-label" for="endDate">Bitiş</label>
-
-                    <p class="input-group">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="dateFilterOpen($event, 'endOpened')">
-                                <i class="fa fa-calendar"></i>
-                            </button>
-                        </span>
-                        <input type="text" name="endDate" class="form-control"
-                               ng-model="filterList[filter.field].model[1]"
-                               uib-datepicker-popup="{{format}}"
-                               is-open="status.endOpened"
-                               close-text="Kapat"
-                               current-text="Bugün"
-                               clear-text="Temizle"
-                               ng-click="dateFilterOpen($event, 'endOpened')"/></p>
+    
+                <div ng-if="filter.type==='date'"  uib-collapse="filterCollapsed[filter.field]">
+                    <div class="col-md-12">
+                        <label class="control-label" for="startDate">Başlangıç</label>
+    
+                        <p class="input-group">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="dateFilterOpen($event, 'startOpened')">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                            <input type="text" name="startDate" class="form-control"
+                                   ng-model="filterList[filter.field].model[0]"
+                                   uib-datepicker-popup="{{format}}"
+                                   is-open="status.startOpened"
+                                   close-text="Kapat"
+                                   current-text="Bugün"
+                                   clear-text="Temizle"
+                                   ng-click="dateFilterOpen($event, 'startOpened')"/></p>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="control-label" for="endDate">Bitiş</label>
+    
+                        <p class="input-group">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="dateFilterOpen($event, 'endOpened')">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                            <input type="text" name="endDate" class="form-control"
+                                   ng-model="filterList[filter.field].model[1]"
+                                   uib-datepicker-popup="{{format}}"
+                                   is-open="status.endOpened"
+                                   close-text="Kapat"
+                                   current-text="Bugün"
+                                   clear-text="Temizle"
+                                   ng-click="dateFilterOpen($event, 'endOpened')"/></p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="clearfix"></div>
-
-    <div style="margin-top: 40px;">
-        <button type="button" class="btn btn-warning" ng-click="filterSubmit()">Filtrele</button>
+    
+        <div class="clearfix"></div>
+    
+        <div style="margin-top: 40px;">
+            <button type="button" class="btn btn-warning" ng-click="filterSubmit()">Filtrele</button>
+        </div>
     </div>
 </div>
