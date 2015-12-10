@@ -76,24 +76,32 @@ describe('form service module', function () {
             }])
         );
 
+        it('should generate function returns when no forms', inject['Generator',
+            function (Generator) {
+                var responseData = Generator.generate({testkey: 'testvalue'}, {form:{}});
+                expect(responseData = {testkey: 'testvalue'});
+            }]
+        );
+
         it('should prepare form items', inject(['Generator',
             function (Generator) {
                 expect(Generator.prepareFormItems).not.toBe(null);
 
                 var scope = {
-                    form: ['email', 'id', 'name', 'save', 'select', 'date'],
+                    form: ['email', 'id', 'name', 'save', 'select', 'date', 'date2', 'text_general', 'model', 'node', 'listnode'],
                     schema: {
                         properties: {
                             email: {title: 'email', type: 'email'},
                             id: {title: 'id', type: 'int'},
                             name: {title: 'name', type: 'string'},
                             save: {title: 'save', type: 'submit'},
-                            select: {title: 'select', type: 'select'},
+                            select: {title: 'select', type: 'select', key: 'select'},
                             date: {title: 'date', type: 'date'},
+                            date2: {title: 'date', type: 'date'},
                             text_general: {title: 'text_general', type: 'text_general'},
                             model: {title: 'model', type: 'model'},
                             node: {title: 'Node', type: 'Node'},
-                            listnode: {title: 'ListNode', type: 'ListNode'}
+                            listnode: {title: 'ListNode', type: 'ListNode', widget: 'filter_interface', schema: [{'name': 'testname'}]}
                         }, required: [], type: 'object', title: 'servicetest'
                     },
                     model: {
@@ -101,12 +109,13 @@ describe('form service module', function () {
                         save: {title: 'save', type: 'submit'},
                         select: 2,
                         date: '12.12.2012',
+                        date2: 'abc',
                         text_general: 'test',
                         model: '32gy1ukf3qiryv',
                         node: '',
                         listnode: ''
                     },
-                    form_params: {}
+                    form_params: {param: 'id', param_id: '123'}
                 };
 
                 var form_json = {
@@ -223,20 +232,23 @@ describe('form service module', function () {
             inject(function (Generator, $httpBackend, RESTURL) {
 
                 $httpBackend.expectPOST(RESTURL.url + 'student/add')
-                    .respond(200, {data: 'OK'});
+                    .respond(200, {data: {'client_cmd': 'list', msgbox: 'test message'}});
 
                 var scope = {
+                    ListNode: {key1: 'val1'},
+                    Node: {key2: 'val2'},
                     model: {email: 'test@test.com'},
                     form_params: {cmd: 'add', model: 'testmodel'},
                     token: '123456',
-                    url: 'student/add'
+                    url: 'student/add',
+                    wf: 'test'
                 };
-                Generator.submit(scope)
+                Generator.submit(scope, true)
                     .success(function () {
 
                     })
-                    .then(function (data) {
-                        expect(data.data).toEqual({data: 'OK'});
+                    .then(function (res) {
+                        expect(res.data).toEqual({'data': {'client_cmd': 'list', msgbox: 'test message'}});
                     });
                 $httpBackend.flush();
             })
@@ -351,6 +363,7 @@ describe('form service module', function () {
                             ],
                             model: {}
                         },
+                        "msgbox": "test message",
                         "token": "da73993f439549e7855fd82deafbbc99",
                         "is_login": true
                     });
@@ -416,6 +429,13 @@ describe('form service module', function () {
                 expect(different2).toEqual(diff2);
             })
         );
+
+        it('should return diff array',
+            inject(function (Generator) {
+                var diff = Generator.get_diff_array([1,2,3], [2]);
+                expect(diff).toEqual([1,3]);
+            })
+        )
 
     });
 

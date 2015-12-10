@@ -10,6 +10,7 @@ describe('crud controller module', function () {
 
     beforeEach(module('ulakbus'));
     beforeEach(module('ulakbus.crud'));
+    beforeEach(module('formService'));
 
     beforeEach(inject(function ($injector) {
         $httpBackend = $injector.get('$httpBackend');
@@ -37,11 +38,17 @@ describe('crud controller module', function () {
         }));
 
         it('should generate params', inject(['CrudUtility', function (CrudUtility) {
+            var scope = {
+                'objects': [
+                    ['test1', 'test2'],
+                    {'actions': [
+                        {'show_as': 'link', 'fields': ['test1']},
+                        {'show_as': 'link', 'fields': ['test2']}
+                    ]}
+                ]
+            }
             CrudUtility.generateParam({}, {'test_id': 'test'}, 'form');
-            CrudUtility.listPageItems({
-                'objects': [[], {
-                    'actions': [{'show_as': 'link', 'fields': [0,1]}]
-                }]}, {'test_id': 'test'});
+            CrudUtility.listPageItems(scope, {'test_id': 'test'});
             expect($controller).toBeDefined();
         }]));
 
@@ -51,7 +58,7 @@ describe('crud controller module', function () {
 
             var $scope = $rootScope.$new();
             var $routeParams = {cmd: 'form'};
-            var controller = $controller('CRUDListFormCtrl', { $scope: $scope, $routeParams: $routeParams });
+            var controller = $controller('CRUDListFormCtrl', {$scope: $scope, $routeParams: $routeParams});
 
         }));
 
@@ -60,8 +67,35 @@ describe('crud controller module', function () {
                 .respond(200, {});
 
             var $scope = $rootScope.$new();
+            $scope.meta = {'allow_filters': true};
             var $routeParams = {cmd: 'list'};
-            var controller = $controller('CRUDListFormCtrl', { $scope: $scope, $routeParams: $routeParams });
+            var controller = $controller('CRUDListFormCtrl', {$scope: $scope, $routeParams: $routeParams});
+            $scope.$broadcast('reload_cmd', 'list');
+
+            $scope.$broadcast('updateObjects', ['test', 'headers']);
+
+            $scope.ListNode = {test: {model: ['test', 'data'], items: ['test', 'data']}};
+            $scope.remove({title: 'test'}, 'ListNode', 0);
+
+            $scope.getNumber(3);
+
+            $scope.token = '1j2j3';
+            $scope.resetCmd();
+        }));
+
+        it('should execute CRUDListFormCtrl with show cmd', inject(function ($rootScope, Generator) {
+            var $scope = $rootScope.$new();
+            var $routeParams = {cmd: 'show'};
+            $scope.object = [];
+            var controller = $controller('CRUDListFormCtrl', {$scope: $scope, $routeParams: $routeParams});
+
+            $scope.object = {test: {}};
+            var controller = $controller('CRUDListFormCtrl', {$scope: $scope, $routeParams: $routeParams});
+
+            $scope.pageData = true;
+            Generator.setPageData($scope);
+            var controller = $controller('CRUDListFormCtrl', {$scope: $scope, $routeParams: $routeParams});
+
 
         }));
 
@@ -73,11 +107,11 @@ describe('crud controller module', function () {
             $scope.form_params = {};
             $scope.reload_cmd = 'list';
             var $routeParams = {cmd: 'reload'};
-            var controller = $controller('CRUDListFormCtrl', { $scope: $scope, $routeParams: $routeParams });
+            var controller = $controller('CRUDListFormCtrl', {$scope: $scope, $routeParams: $routeParams});
 
         }));
 
-        it('generates crud-filters directive', inject(function($rootScope) {
+        it('generates crud-filters directive', inject(function ($rootScope) {
             // Compile a piece of HTML containing the directive
             var $scope = $rootScope.$new();
             $scope.form_params = {filters: []};
