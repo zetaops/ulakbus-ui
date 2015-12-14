@@ -386,6 +386,46 @@ describe('form service module', function () {
             })
         );
 
+        it('doItemAction should do given action',
+            inject(function (Generator, $httpBackend, RESTURL) {
+                $httpBackend.expectPOST(RESTURL.url + 'otherwf')
+                    .respond(200, {
+                        "client_cmd": "form",
+                        "object": {"ad": "name", "soyad": "lastname",},
+                        forms: {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    name: {type: "string", minLength: 2, title: "Name", description: "Name or alias"},
+                                    title: {type: "string", title: "title"}
+                                }
+                            },
+                            form: ["*"],
+                            model: {}
+                        },
+                        "msgbox": "test message",
+                        "token": "da73993f439549e7855fd82deafbbc99",
+                        "is_login": true
+                    });
+
+                //scope.url = 'test';
+                scope.form_params = {
+                    param: 'test',
+                    id: 'xyz123',
+                    model: 'testModel',
+                    object_id: 'xxx11',
+                    wf: 'testModel'
+                };
+
+                scope.url = 'test';
+
+                Generator.doItemAction(scope, 'testkey123', 'list', 'otherwf', 'normal');
+
+                $httpBackend.flush();
+                expect(location.path()).toEqual('/otherwf/do/f');
+            })
+        );
+
         it('should return diff object',
             inject(function (Generator) {
                 expect(Generator.get_diff).not.toBe(null);

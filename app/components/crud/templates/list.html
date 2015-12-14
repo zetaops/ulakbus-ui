@@ -34,14 +34,14 @@
 
                 <td ng-repeat="field in object.fields track by $index">
                     <a role="button" ng-if="field.type==='link'"
-                       ng-click="do_action(object.key, field.cmd, field.mode)">{{field.content}}</a>
+                       ng-click="do_action(object.key, field)">{{field.content}}</a>
                     <span ng-if="field.type==='str'">{{field.content}}</span>
                 </td>
 
                 <td>
                     <button class="btn btn-info" style="margin-right: 5px;" ng-repeat="action in object.actions"
                             ng-if="action.show_as==='button'"
-                            ng-click="do_action(object.key, action.cmd, action.mode)">{{action
+                            ng-click="do_action(object.key, action)">{{action
                         .name}}
                     </button>
                     <br>

@@ -172,15 +172,13 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             }
         };
 
-        $scope.do_action = function (key, cmd, mode) {
-            Generator.doItemAction($scope, key, cmd, mode || 'normal');
+        $scope.do_action = function (key, todo) {
+            Generator.doItemAction($scope, key, todo.cmd, todo.wf, todo.mode || 'normal');
         };
 
         $scope.getNumber = function (num) {
             return new Array(num);
         };
-
-        ;
 
         //
         $scope.showCmd = function () {

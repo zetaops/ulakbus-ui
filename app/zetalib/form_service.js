@@ -150,6 +150,10 @@ angular.module('formService', ['ui.bootstrap'])
                             if (v.flow) {
                                 scope.form_params["flow"] = v.flow;
                             }
+                            if (v.wf) {
+                                delete scope.form_params["cmd"];
+                                scope.form_params["wf"] = v.wf;
+                            }
                             scope.model[k] = 1;
                             // todo: test it
                             if (scope.modalElements) {
@@ -484,7 +488,7 @@ angular.module('formService', ['ui.bootstrap'])
                 return newdatearray.join('.');
             }
         };
-        generator.doItemAction = function ($scope, key, cmd, mode) {
+        generator.doItemAction = function ($scope, key, cmd, wf, mode) {
             // mode could be in ['normal', 'modal', 'new'] . the default mode is 'normal' and it loads data on same
             // tab without modal. 'modal' will use modal to manipulate data and do all actions in that modal. 'new'
             // will be open new page with response data
@@ -492,10 +496,18 @@ angular.module('formService', ['ui.bootstrap'])
                 normal: function () {
                     $log.debug('normal mode starts');
                     $scope.form_params.cmd = cmd;
+                    if (wf) {
+                        $scope.url = wf;
+                        $scope.form_params.wf = wf;
+                        delete $scope.token;
+                        delete $scope.form_params.model;
+                        delete $scope.form_params.cmd
+                    }
                     $scope.form_params.object_id = key;
                     $scope.form_params.param = $scope.param;
                     $scope.form_params.id = $scope.param_id;
                     $scope.form_params.token = $scope.token;
+
                     return generator.get_wf($scope);
                 },
                 modal: function () {
