@@ -20,13 +20,18 @@ auth.controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, $root
             { type: 'submit', title: 'Giriş Yap' }
         ];
     });
+    $scope.loggingIn = false;
     $scope.onSubmit = function (form) {
         $scope.$broadcast('schemaFormValidate');
         if (form.$valid) {
+            $scope.loggingIn = true;
             $rootScope.loginAttempt = 1;
             LoginService.login($scope.url, $scope.model)
                 .error(function(data){
                     $scope.message = data.title;
+                })
+                .then(function () {
+                    $scope.loggingIn = false;
                 })
         }
         else {

@@ -87,6 +87,23 @@ a:hover {
     margin-bottom: 0;
 }
 
+.buttons-on-bottom {
+	float:left;
+}
+
+.filter-inner {
+	background-color: #fff;
+    padding: 15px;
+    margin-top: 104px;
+    border: 1px solid #E6E6E6;	
+}
+
+.filter-inner h4 {
+	font-family: 'robotobold';
+    color: #333;
+    letter-spacing: 0.5px;
+}
+
 /** BRAND **/
 
 .brand-bg {
@@ -570,6 +587,7 @@ select {
 	margin:10px auto;
 	float:left;
 	margin-right:10px;
+	border: 1px solid #E4E4E4;
 }
 
 .sidebar-person-info .identity p.identity-name {
@@ -1476,7 +1494,6 @@ table.dataTable thead .sorting:after {
 		padding: 15px;
 		width:100%;
 		text-align:center;
-        background: whitesmoke;
 	}
 	
 	footer span {
@@ -1565,6 +1582,10 @@ table.dataTable thead .sorting:after {
 }
 
 
+
+
+
+
 @media (max-width: 1000px) {
     .personnel-info-container {
         width:500px;
@@ -1612,7 +1633,7 @@ table.dataTable thead .sorting:after {
 
 .tablescroll{
     width: 100%;
-    overflow-x:scroll;
+    overflow-x:auto;
     overflow-y:visible;
     padding-bottom:1px;
 }

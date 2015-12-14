@@ -12,6 +12,7 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
+                    <li class="text-center"><a><span class="loader"></span></a></li>
                     <li ng-repeat="item in form.titleMap">
                         <a ng-click="form.onDropdownSelect(item, form.model_name)">{{item
                             .name}}</a>
@@ -20,7 +21,7 @@
             </span>
             <input type="text"
                    ng-model="$$value$$"
-                   uib-typeahead="item as item.name for item in form.titleMap | filter:{name:$viewValue}"
+                   uib-typeahead="item as item.name for item in form.getTitleMap($viewValue) | filter:{name:$viewValue}"
                    typeahead-on-select="form.onSelect($item)"
                    placeholder="{{form.title}}"
                    ng-model-options="form.ngModelOptions"
