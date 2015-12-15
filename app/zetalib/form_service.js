@@ -282,12 +282,12 @@ angular.module('formService', ['ui.bootstrap'])
                                 try{
                                     scope.$watch(document.querySelector('input[name=' + v.model_name + ']'),
                                         function () {
-                                            angular.element(document.querySelector('input[name=' + v.model_name + ']')).val(data.data.object.unicode);
+                                            angular.element(document.querySelector('input[name=' + k + ']')).val(data.data.object.unicode);
                                         }
                                     );
                                 }
                                 catch(e) {
-                                    angular.element(document.querySelector('input[name=' + v.model_name + ']')).val(data.data.object.unicode);
+                                    angular.element(document.querySelector('input[name=' + k + ']')).val(data.data.object.unicode);
                                     $log.debug('exception', e);
                                 }
 
@@ -302,7 +302,7 @@ angular.module('formService', ['ui.bootstrap'])
                         title: v.title,
                         wf: v.wf,
                         add_cmd: v.add_cmd,
-                        name: v.model_name,
+                        name: k,
                         model_name: v.model_name,
                         selected_item: {},
                         titleMap: [],

@@ -78,16 +78,34 @@ describe('form service module', function () {
 
         it('should generate function returns when no forms', inject['Generator',
             function (Generator) {
-                var responseData = Generator.generate({testkey: 'testvalue'}, {form:{}});
+                var responseData = Generator.generate({testkey: 'testvalue'}, {form: {}});
                 expect(responseData = {testkey: 'testvalue'});
             }]
         );
 
-        it('should prepare form items', inject(['Generator',
-            function (Generator) {
+        it('should prepare form items', inject(
+            function (Generator, $httpBackend, RESTURL) {
                 expect(Generator.prepareFormItems).not.toBe(null);
 
+                $httpBackend.expectPOST(RESTURL.url + 'test', {
+                        cmd: 'list',
+                        model: "personel",
+                        object_id: "5821bc25a90aa1"
+                    })
+                    .respond(200, {
+                        items: {
+                            "client_cmd": "list_objects",
+                            "is_login": true,
+                            "objects": [
+                                ["Ad\u0131", "Soyad\u0131", "TC No", "Durum"],
+                                ["4MsKRH9435cdKOzKCITNPml5bhB", "firstname", "lastname", "dksoap", false]
+                            ],
+                            "token": "0122b2843f504c15821bc25a90aa1370"
+                        }
+                    });
+
                 var scope = {
+                    wf: 'test',
                     form: ['email', 'id', 'name', 'save', 'select', 'date', 'date2', 'text_general', 'model', 'node', 'listnode'],
                     schema: {
                         properties: {
@@ -99,9 +117,14 @@ describe('form service module', function () {
                             date: {title: 'date', type: 'date'},
                             date2: {title: 'date', type: 'date'},
                             text_general: {title: 'text_general', type: 'text_general'},
-                            model: {title: 'model', type: 'model'},
+                            model: {title: 'model', type: 'model', model_name: 'modelfield', list_cmd: 'list'},
                             node: {title: 'Node', type: 'Node'},
-                            listnode: {title: 'ListNode', type: 'ListNode', widget: 'filter_interface', schema: [{'name': 'testname'}]}
+                            listnode: {
+                                title: 'ListNode',
+                                type: 'ListNode',
+                                widget: 'filter_interface',
+                                schema: [{'name': 'testname'}]
+                            }
                         }, required: [], type: 'object', title: 'servicetest'
                     },
                     model: {
@@ -118,24 +141,12 @@ describe('form service module', function () {
                     form_params: {param: 'id', param_id: '123'}
                 };
 
-                var form_json = {
-                    form: ['email', 'id', 'name'],
-                    schema: {
-                        properties: {
-                            email: {title: 'email', type: 'email'},
-                            id: {title: 'id', type: 'number'},
-                            name: {title: 'name', type: 'string'}
-                        }, required: [], type: 'object', title: 'servicetest'
-                    },
-                    model: {email: 'test@test.com', id: 2, name: 'travolta'},
-                    form_params: {}
-                };
-
                 var form_generated = Generator.prepareFormItems(scope);
 
 
                 expect(form_generated.form).toBeDefined();
-            }])
+                expect(form_generated.form[7].type).toEqual('template')
+            })
         );
 
         it('should format date', inject(['Generator',
@@ -472,8 +483,8 @@ describe('form service module', function () {
 
         it('should return diff array',
             inject(function (Generator) {
-                var diff = Generator.get_diff_array([1,2,3], [2]);
-                expect(diff).toEqual([1,3]);
+                var diff = Generator.get_diff_array([1, 2, 3], [2]);
+                expect(diff).toEqual([1, 3]);
             })
         )
 

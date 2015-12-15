@@ -10,7 +10,7 @@
 
 // TODO: login url change with correct one
 
-auth.factory('LoginService', function ($http, $rootScope, $location, $log, Session, RESTURL) {
+auth.factory('LoginService', function ($http, $rootScope, $location, $log, RESTURL) {
     var loginService = {};
 
     loginService.login = function (url, credentials) {
@@ -29,24 +29,12 @@ auth.factory('LoginService', function ($http, $rootScope, $location, $log, Sessi
     };
 
     loginService.logout = function () {
-        $log.info("logout");
+        $log.debug("logout");
         return $http.post(RESTURL.url + 'logout', {}).success(function (data) {
             $rootScope.loggedInUser = false;
-            $log.info("loggedout");
+            $log.debug("loggedout");
             $location.path("/login");
         });
-    };
-
-    loginService.isAuthenticated = function () {
-        return !!Session.userId;
-    };
-
-    loginService.isAuthorized = function (authorizedRoles) {
-        if (!angular.isArray(authorizedRoles)) {
-            authorizedRoles = [authorizedRoles];
-        }
-        return (loginService.isAuthenticated() &&
-        loginService.indexOf(Session.userRole) !== -1);
     };
 
     loginService.isValidEmail = function (email) {
@@ -55,19 +43,4 @@ auth.factory('LoginService', function ($http, $rootScope, $location, $log, Sessi
     };
 
     return loginService;
-});
-
-// TODO: initial service not working!!
-
-auth.service('Session', function () {
-    this.create = function (sessionId, userId, userRole) {
-        this.id = sessionId;
-        this.userId = userId;
-        this.userRole = userRole;
-    };
-    this.destroy = function () {
-        this.id = null;
-        this.userId = null;
-        this.userRole = null;
-    };
 });
