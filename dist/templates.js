@@ -1,16 +1,4 @@
-angular.module('templates-prod', ['components/auth/fieldset.html', 'components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
-
-angular.module("components/auth/fieldset.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("components/auth/fieldset.html",
-    "<div ng-app=\"ulakbus.fieldset\" class=\"\">\n" +
-    "    <div style=\"margin-top: 50px;\">\n" +
-    "        <span class=\"label label-warning\">{{message}}</span>\n" +
-    "\n" +
-    "        <form name=\"loginForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"\n" +
-    "              ng-submit=\"onSubmit(loginForm)\"></form>\n" +
-    "    </div>\n" +
-    "</div>");
-}]);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -1466,11 +1454,12 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "\n" +
     "        <div class=\"form-group input-group\">\n" +
     "            <span class=\"input-group-btn\">\n" +
-    "                <button class=\"btn btn-default dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\">\n" +
+    "                <button class=\"btn btn-default dropdown-toggle\" type=\"button\" ng-click=\"form.getDropdownTitleMap()\"\n" +
+    "                        data-toggle=\"dropdown\">\n" +
     "                    <span class=\"caret\"></span>\n" +
     "                </button>\n" +
     "                <ul class=\"dropdown-menu\">\n" +
-    "                    <li class=\"text-center\"><a><span class=\"loader\"></span></a></li>\n" +
+    "                    <li class=\"text-center\" ng-if=\"form.gettingTitleMap\"><a><span class=\"loader\"></span></a></li>\n" +
     "                    <li ng-repeat=\"item in form.titleMap\">\n" +
     "                        <a ng-click=\"form.onDropdownSelect(item, form.model_name)\">{{item\n" +
     "                            .name}}</a>\n" +
@@ -1479,8 +1468,10 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "            </span>\n" +
     "            <input type=\"text\"\n" +
     "                   ng-model=\"$$value$$\"\n" +
-    "                   uib-typeahead=\"item as item.name for item in form.getTitleMap($viewValue) | filter:{name:$viewValue}\"\n" +
+    "                   uib-typeahead=\"item as item.name for item in form.getTitleMap($viewValue)\"\n" +
     "                   typeahead-on-select=\"form.onSelect($item)\"\n" +
+    "                   typeahead-loading=\"loadingTitleMap\" typeahead-no-results=\"noResults\"\n" +
+    "                   typeahead-wait-ms=\"500\"\n" +
     "                   placeholder=\"{{form.title}}\"\n" +
     "                   ng-model-options=\"form.ngModelOptions\"\n" +
     "                   ng-disabled=\"form.readonly\"\n" +
@@ -1488,6 +1479,10 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "                   class=\"form-control {{form.fieldHtmlClass}}\"\n" +
     "                   schema-validate=\"form\"\n" +
     "                   name=\"{{form.model_name}}\"/>\n" +
+    "        </div>\n" +
+    "        <div ng-show=\"loadingTitleMap\" class=\"loader\"></div>\n" +
+    "        <div ng-show=\"noResults\">\n" +
+    "            <i class=\"fa fa-close\"></i> bulunamadı\n" +
     "        </div>\n" +
     "\n" +
     "        <!--<select ng-model=\"$$value$$\"-->\n" +

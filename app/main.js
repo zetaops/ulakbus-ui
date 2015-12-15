@@ -67,14 +67,22 @@ constant("USER_ROLES", {
     staff: "staff",
     dean: "dean"
 }).
-constant('AUTH_EVENTS', {
-    loginSuccess: 'auth-login-success',
-    loginFailed: 'auth-login-failed',
-    logoutSuccess: 'auth-logout-success',
-    sessionTimeout: 'auth-session-timeout',
-    notAuthenticated: 'auth-not-authenticated',
-    notAuthorized: 'auth-not-authorized'
-});
+    constant('AUTH_EVENTS', {
+        loginSuccess: 'auth-login-success',
+        loginFailed: 'auth-login-failed',
+        logoutSuccess: 'auth-logout-success',
+        sessionTimeout: 'auth-session-timeout',
+        notAuthenticated: 'auth-not-authenticated',
+        notAuthorized: 'auth-not-authorized'
+    })
+    .config(function ($logProvider) {
+        // @if NODE_ENV='PRODUCTION'
+        $logProvider.debugEnabled(false);
+        // @endif
+        // @if NODE_ENV='DEVELOPMENT'
+        $logProvider.debugEnabled(true);
+        // @endif
+    });
 
 
 // test the code with strict di mode to see if it works when minified
