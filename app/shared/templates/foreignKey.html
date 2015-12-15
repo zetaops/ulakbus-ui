@@ -8,11 +8,12 @@
 
         <div class="form-group input-group">
             <span class="input-group-btn">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" ng-click="form.getDropdownTitleMap()"
+                        data-toggle="dropdown">
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li class="text-center"><a><span class="loader"></span></a></li>
+                    <li class="text-center" ng-if="form.gettingTitleMap"><a><span class="loader"></span></a></li>
                     <li ng-repeat="item in form.titleMap">
                         <a ng-click="form.onDropdownSelect(item, form.model_name)">{{item
                             .name}}</a>
@@ -21,8 +22,10 @@
             </span>
             <input type="text"
                    ng-model="$$value$$"
-                   uib-typeahead="item as item.name for item in form.getTitleMap($viewValue) | filter:{name:$viewValue}"
+                   uib-typeahead="item as item.name for item in form.getTitleMap($viewValue)"
                    typeahead-on-select="form.onSelect($item)"
+                   typeahead-loading="loadingTitleMap" typeahead-no-results="noResults"
+                   typeahead-wait-ms="500"
                    placeholder="{{form.title}}"
                    ng-model-options="form.ngModelOptions"
                    ng-disabled="form.readonly"
@@ -30,6 +33,10 @@
                    class="form-control {{form.fieldHtmlClass}}"
                    schema-validate="form"
                    name="{{form.model_name}}"/>
+        </div>
+        <div ng-show="loadingTitleMap" class="loader"></div>
+        <div ng-show="noResults">
+            <i class="fa fa-close"></i> bulunamadı
         </div>
 
         <!--<select ng-model="$$value$$"-->

@@ -259,7 +259,7 @@ angular.module('formService', ['ui.bootstrap'])
                     //});
 
                     scope.generateTitleMap = function (modelScope) {
-                        generator.get_list(modelScope).then(function (res) {
+                        return generator.get_list(modelScope).then(function (res) {
                             formitem.titleMap = [];
                             angular.forEach(res.data.objects, function (item) {
                                 if (item !== "-1") {
@@ -268,26 +268,31 @@ angular.module('formService', ['ui.bootstrap'])
                                         "name": item.value
                                     });
                                 }
-                                // get selected item from titleMap using model value
-                                if (item.key === scope.model[k]) {
-                                    formitem.selected_item = {value: item.key, name: item.value};
-                                }
                             });
-                            try {
-                                // after rendering change input value to model value
-                                scope.$watch(document.querySelector('input[name=' + v.model_name + ']'),
-                                    function () {
-                                        angular.element(document.querySelector('input[name=' + v.model_name + ']')).val(formitem.selected_item.name);
-                                    }
-                                );
-                            }
-                            catch (e) {
-                                angular.element(document.querySelector('input[name=' + v.model_name + ']')).val(formitem.selected_item.name);
-                                $log.debug('exception', e);
-                            }
 
-                        })
+                            return formitem.titleMap;
+
+                        });
                     };
+
+                    // get selected item from titleMap using model value
+                    if (scope.model[k]) {
+                        generator.get_list({url: 'crud', form_params: {model: v.model_name, object_id: scope.model[k], cmd: 'show'}})
+                            .then(function (data) {
+                                try{
+                                    scope.$watch(document.querySelector('input[name=' + v.model_name + ']'),
+                                        function () {
+                                            angular.element(document.querySelector('input[name=' + v.model_name + ']')).val(data.data.object.unicode);
+                                        }
+                                    );
+                                }
+                                catch(e) {
+                                    angular.element(document.querySelector('input[name=' + v.model_name + ']')).val(data.data.object.unicode);
+                                    $log.debug('exception', e);
+                                }
+
+                            });
+                    }
 
                     formitem = {
                         type: "template",
@@ -300,13 +305,30 @@ angular.module('formService', ['ui.bootstrap'])
                         name: v.model_name,
                         model_name: v.model_name,
                         selected_item: {},
-                        titleMap: scope.generateTitleMap(modelScope),
+                        titleMap: [],
                         onSelect: function (item) {
                             scope.model[k] = item.value;
                         },
                         onDropdownSelect: function (item, inputname) {
                             scope.model[k] = item.value;
                             jQuery('input[name=' + inputname + ']').val(item.name);
+                        },
+                        getTitleMap: function (viewValue) {
+                            modelScope.form_params.query = viewValue;
+                            return scope.generateTitleMap(modelScope);
+                        },
+                        getDropdownTitleMap: function () {
+                            formitem.gettingTitleMap = true;
+                            if (formitem.titleMap.length > 0) {
+                                formitem.gettingTitleMap = false;
+                            } else {
+                                scope.generateTitleMap(modelScope)
+                                    .then(function (data) {
+                                        formitem.titleMap = data;
+                                        formitem.gettingTitleMap = false;
+                                    });
+                            }
+
                         }
                     };
 

@@ -235,7 +235,6 @@ app.directive('logout', function ($http, $location, RESTURL) {
                 $scope.style = 'width:calc(100% - 300px);';
                 $scope.$on('$routeChangeStart', function () {
                     $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
-                    console.log('style of header', $location.path())
                 });
             }
         };
