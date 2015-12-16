@@ -75,13 +75,101 @@ angular.module('formService', ['ui.bootstrap'])
         };
         /**
          * @name group
-         * @param formObject
+         * @param scope
          * @description
          * group function to group form layout by form meta data for layout
+         *
+         * grouping will use an object like below when parsing its items:
+         *
+         * grouping = [
+         *  {
+         *      "groups": [
+         *          {
+         *              "group_title": "title1",
+         *              "items": ["item1", "item2", "item3", "item4"],
+         *          }
+         *      ],
+         *      "layout": "4",
+         *      "collapse": False
+         *  },
+         *  {
+         *      "groups": [
+         *          {
+         *              "group_title": "title2",
+         *              "items": ["item5", "item6"],
+         *          }
+         *      ],
+         *      "layout": "2",
+         *      "collapse": False
+         *  }]
+         *
          * @returns {object}
          */
-        generator.group = function (formObject) {
-            return formObject;
+        generator.group = function (scope) {
+
+            if (!scope.grouping) {return scope;}
+
+            var newForm = [];
+
+            var extractFormItem = function (itemList) {
+                var extractedList = [];
+                angular.forEach(itemList, function (value, key) {
+                    var item = getFormItem(value);
+                    if (item) {extractedList.push(item);}
+                });
+
+                $log.debug('extractedList: ', extractedList);
+
+                return extractedList;
+            };
+
+            var getFormItem = function (item) {
+                var formItem;
+                if (scope.form.indexOf(item) > -1) {
+                    formItem = scope.form[scope.form.indexOf(item)];
+                    scope.form.splice(scope.form.indexOf(item), 1);
+                    return formItem;
+                } else {
+                    angular.forEach(scope.form, function (value, key) {
+                        if (value.key === item) {
+                            formItem = value;
+                            scope.form.splice(key, 1);
+                            return;
+                        }
+                    });
+                    return formItem;
+                }
+            };
+
+            var makeGroup = function (itemsToGroup) {
+                var subItems = [];
+                angular.forEach(itemsToGroup, function (value, key) {
+                    subItems.push({
+                        type: 'fieldset',
+                        items: extractFormItem(value.items),
+                        title: value.group_title
+                    });
+                });
+                return subItems;
+            };
+
+            angular.forEach(scope.grouping, function (value, key) {
+                newForm.push(
+                    {
+                        type: 'fieldset',
+                        items: makeGroup(value.groups),
+                        htmlClass: 'col-md-' + value.layout,
+                        title: value.group_title
+                    }
+                )
+            });
+
+            $log.debug('grouped form: ', newForm);
+            $log.debug('rest of form: ', scope.form);
+            $log.debug('form united: ', newForm.concat(scope.form));
+
+            scope.form = newForm.concat(scope.form);
+            return scope;
         };
         /**
          * @name prepareFormItems
@@ -277,16 +365,19 @@ angular.module('formService', ['ui.bootstrap'])
 
                     // get selected item from titleMap using model value
                     if (scope.model[k]) {
-                        generator.get_list({url: 'crud', form_params: {model: v.model_name, object_id: scope.model[k], cmd: 'show'}})
+                        generator.get_list({
+                                url: 'crud',
+                                form_params: {model: v.model_name, object_id: scope.model[k], cmd: 'show'}
+                            })
                             .then(function (data) {
-                                try{
+                                try {
                                     scope.$watch(document.querySelector('input[name=' + v.model_name + ']'),
                                         function () {
                                             angular.element(document.querySelector('input[name=' + k + ']')).val(data.data.object.unicode);
                                         }
                                     );
                                 }
-                                catch(e) {
+                                catch (e) {
                                     angular.element(document.querySelector('input[name=' + k + ']')).val(data.data.object.unicode);
                                     $log.debug('exception', e);
                                 }
@@ -303,6 +394,7 @@ angular.module('formService', ['ui.bootstrap'])
                         wf: v.wf,
                         add_cmd: v.add_cmd,
                         name: k,
+                        key:k,
                         model_name: v.model_name,
                         selected_item: {},
                         titleMap: [],
@@ -493,7 +585,7 @@ angular.module('formService', ['ui.bootstrap'])
             });
 
             $log.debug('scope at after prepareformitems', scope);
-            return scope;
+            return generator.group(scope);
         };
         /**
          * dateformatter handles all date fields and returns humanized and jquery datepicker format dates
@@ -510,22 +602,26 @@ angular.module('formService', ['ui.bootstrap'])
                 return newdatearray.join('.');
             }
         };
-        generator.doItemAction = function ($scope, key, cmd, wf, mode) {
+        generator.doItemAction = function ($scope, key, todo, mode) {
             // mode could be in ['normal', 'modal', 'new'] . the default mode is 'normal' and it loads data on same
             // tab without modal. 'modal' will use modal to manipulate data and do all actions in that modal. 'new'
             // will be open new page with response data
             var _do = {
                 normal: function () {
                     $log.debug('normal mode starts');
-                    $scope.form_params.cmd = cmd;
-                    if (wf) {
-                        $scope.url = wf;
-                        $scope.form_params.wf = wf;
+                    $scope.form_params.cmd = todo.cmd;
+                    if (todo.wf) {
+                        $scope.url = todo.wf;
+                        $scope.form_params.wf = todo.wf;
                         delete $scope.token;
                         delete $scope.form_params.model;
                         delete $scope.form_params.cmd
                     }
-                    $scope.form_params.object_id = key;
+                    if (todo.object_key) {
+                        $scope.form_params[todo.object_key] = key;
+                    } else {
+                        $scope.form_params.object_id = key;
+                    }
                     $scope.form_params.param = $scope.param;
                     $scope.form_params.id = $scope.param_id;
                     $scope.form_params.token = $scope.token;

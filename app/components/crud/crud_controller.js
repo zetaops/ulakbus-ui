@@ -173,7 +173,8 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
         };
 
         $scope.do_action = function (key, todo) {
-            Generator.doItemAction($scope, key, todo.cmd, todo.wf, todo.mode || 'normal');
+            //Generator.doItemAction($scope, key, todo.cmd, todo.wf, todo.mode || 'normal');
+            Generator.doItemAction($scope, key, todo, todo.mode || 'normal');
         };
 
         $scope.getNumber = function (num) {
