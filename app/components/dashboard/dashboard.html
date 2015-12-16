@@ -7,12 +7,16 @@
             	<div class="text-center">
                 	<h3>ÖĞRENCİ</h3>
                 	<input type="text" placeholder="Öğrenci ara" ng-model="student_kw" ng-keyup="search('ogrenci')">
-                    <span class="fa fa-search" ng-click="search('ogrenci')"></span>
+                    <span class="bordered-fa-icon fa fa-search" ng-click="search('ogrenci')"></span>
                  </div>
                  <div class="dashboard-search-results">
                  	<ul ng-if="students.length > 0">
                     	<li ng-repeat="student in students">
-                            <a role="button" ng-click="select(student, 'ogrenci')">{{student[0]}}</a>
+                            <a role="button">
+                                <span ng-click="select(student, 'ogrenci')">{{student[0]}}</span>
+                                <i class="fa fa-fw fa-info-circle pull-right" popover-placement="bottom"
+                                   uib-popover-template="userPopover.templateUrl"
+                                   ng-click="get_info('Ogrenci', student[2])"></i></a>
                         </li>
                     </ul>
                  </div>
@@ -24,12 +28,17 @@
             	<div class="text-center">
                 	<h3>PERSONEL</h3>
                 	<input type="text" placeholder="Personel ara" ng-model="staff_kw" ng-keyup="search('personel')">
-                    <span class="fa fa-search" ng-click="search('personel')"></span>
+                    <span class="bordered-fa-icon fa fa-search" ng-click="search('personel')"></span>
                 </div>
                 <div class="dashboard-search-results">
                  	<ul ng-if="staffs.length > 0">
                     	<li ng-repeat="staff in staffs">
-                            <a role="button" ng-click="select(staff, 'personel')">{{staff[0]}}</a>
+                            <a role="button">
+                                <span ng-click="select(staff, 'personel')">{{staff[0]}}</span>
+                                <i class="fa fa-fw fa-info-circle pull-right"
+                                   popover-placement="bottom"
+                                   uib-popover-template="userPopover.templateUrl"
+                                   ng-click="get_info('Personel', staff[2])"></i></a>
                         </li>
                     </ul>
                  </div>

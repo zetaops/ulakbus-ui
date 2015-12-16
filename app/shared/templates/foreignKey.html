@@ -1,10 +1,10 @@
 <div class="form-group {{form.htmlClass}} schema-form-select col-md-12"
      ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}">
-    <div class="col-md-12">
         <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">
             {{form.title}}
         </label>
-        <a role="button"><i class="fa fa-plus-circle fa-fw" add-modal-for-linked-model="{{form.formName}}"></i></a>
+        <button class="btn btn-default">Ekle <i class="fa fa-plus-circle fa-fw"
+                                  add-modal-for-linked-model="{{form.formName}}"></i></button>
 
         <div class="form-group input-group">
             <span class="input-group-btn">
@@ -15,7 +15,7 @@
                 <ul class="dropdown-menu">
                     <li class="text-center" ng-if="form.gettingTitleMap"><a><span class="loader"></span></a></li>
                     <li ng-repeat="item in form.titleMap">
-                        <a ng-click="form.onDropdownSelect(item, form.model_name)">{{item
+                        <a ng-click="form.onDropdownSelect(item, form.name)">{{item
                             .name}}</a>
                     </li>
                 </ul>
@@ -32,7 +32,7 @@
                    sf-changed="form"
                    class="form-control {{form.fieldHtmlClass}}"
                    schema-validate="form"
-                   name="{{form.model_name}}"/>
+                   name="{{form.name}}"/>
         </div>
         <div ng-show="loadingTitleMap" class="loader"></div>
         <div ng-show="noResults">
@@ -51,5 +51,4 @@
         <!--</select>-->
 
         <div class="help-block" sf-message="form.description"></div>
-    </div>
 </div>

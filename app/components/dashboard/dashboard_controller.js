@@ -8,9 +8,12 @@
 
 'use strict';
 
-angular.module('ulakbus.dashboard', ['ngRoute'])
+angular.module('ulakbus.dashboard', [])
+    .config(function ($uibTooltipProvider) {
+        $uibTooltipProvider.setTriggers({'click': 'mouseleave'});
+    })
 
-    .controller('DashCtrl', function ($scope, $rootScope, $timeout, $http, $cookies, RESTURL) {
+    .controller('DashCtrl', function ($scope, $rootScope, $timeout, $http, $cookies, RESTURL, Generator) {
         $scope.section = function (section_index) {
             $rootScope.section = section_index;
         };
@@ -48,6 +51,18 @@ angular.module('ulakbus.dashboard', ['ngRoute'])
 
         $scope.getItems = function (where, what) {
             return $http.get(RESTURL.url + 'ara/' + where + '/' + what);
+        };
+
+        $scope.userPopover = {templateUrl: 'components/dashboard/user-info.html'};
+
+        $scope.get_info = function (type, key) {
+            Generator.get_list({url: 'crud', form_params: {model: type, object_id: key, cmd: 'show'}})
+                .then(function (data) {
+                    $scope.userPopover.name = data.data.object.unicode;
+                    $scope.userPopover.tcno = data.data.object.tckn;
+
+                    //debugger;
+                })
         };
 
         $scope.select = function (who, type) {
