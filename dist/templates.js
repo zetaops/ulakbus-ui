@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -279,12 +279,16 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "            	<div class=\"text-center\">\n" +
     "                	<h3>ÖĞRENCİ</h3>\n" +
     "                	<input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"student_kw\" ng-keyup=\"search('ogrenci')\">\n" +
-    "                    <span class=\"fa fa-search\" ng-click=\"search('ogrenci')\"></span>\n" +
+    "                    <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('ogrenci')\"></span>\n" +
     "                 </div>\n" +
     "                 <div class=\"dashboard-search-results\">\n" +
     "                 	<ul ng-if=\"students.length > 0\">\n" +
     "                    	<li ng-repeat=\"student in students\">\n" +
-    "                            <a role=\"button\" ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</a>\n" +
+    "                            <a role=\"button\">\n" +
+    "                                <span ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</span>\n" +
+    "                                <i class=\"fa fa-fw fa-info-circle pull-right\" popover-placement=\"bottom\"\n" +
+    "                                   uib-popover-template=\"userPopover.templateUrl\"\n" +
+    "                                   ng-click=\"get_info('Ogrenci', student[2])\"></i></a>\n" +
     "                        </li>\n" +
     "                    </ul>\n" +
     "                 </div>\n" +
@@ -296,12 +300,17 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "            	<div class=\"text-center\">\n" +
     "                	<h3>PERSONEL</h3>\n" +
     "                	<input type=\"text\" placeholder=\"Personel ara\" ng-model=\"staff_kw\" ng-keyup=\"search('personel')\">\n" +
-    "                    <span class=\"fa fa-search\" ng-click=\"search('personel')\"></span>\n" +
+    "                    <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('personel')\"></span>\n" +
     "                </div>\n" +
     "                <div class=\"dashboard-search-results\">\n" +
     "                 	<ul ng-if=\"staffs.length > 0\">\n" +
     "                    	<li ng-repeat=\"staff in staffs\">\n" +
-    "                            <a role=\"button\" ng-click=\"select(staff, 'personel')\">{{staff[0]}}</a>\n" +
+    "                            <a role=\"button\">\n" +
+    "                                <span ng-click=\"select(staff, 'personel')\">{{staff[0]}}</span>\n" +
+    "                                <i class=\"fa fa-fw fa-info-circle pull-right\"\n" +
+    "                                   popover-placement=\"bottom\"\n" +
+    "                                   uib-popover-template=\"userPopover.templateUrl\"\n" +
+    "                                   ng-click=\"get_info('Personel', staff[2])\"></i></a>\n" +
     "                        </li>\n" +
     "                    </ul>\n" +
     "                 </div>\n" +
@@ -402,6 +411,34 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "        </div>\n" +
     "		<!-- end of right-sidebar -->\n" +
     "        \n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("components/dashboard/user-info.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/dashboard/user-info.html",
+    "<div style=\"width:400px;\">\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-6\">\n" +
+    "            <img src=\"img/sample-profile-pic.jpg\" alt=\"{{userPopover.name}}\" class=\"img-thumbnail\">\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-6\">\n" +
+    "            <table class=\"table table-condensed\">\n" +
+    "                <tbody>\n" +
+    "                <tr>\n" +
+    "                    <td>Ad Soyad:</td>\n" +
+    "                    <td>{{userPopover.name}}</td>\n" +
+    "                </tr>\n" +
+    "                <tr>\n" +
+    "                    <td>TC Kimlik No:</td>\n" +
+    "                    <td>{{userPopover.tcno}}</td>\n" +
+    "                </tr>\n" +
+    "                </tbody>\n" +
+    "            </table>\n" +
+    "        </div>\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -792,6 +829,11 @@ angular.module("shared/templates/directives/chat.html", []).run(["$templateCache
     "    </div>\n" +
     "    <!-- /.panel-footer -->\n" +
     "</div>");
+}]);
+
+angular.module("shared/templates/directives/guide-help.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/guide-help.html",
+    "");
 }]);
 
 angular.module("shared/templates/directives/header-breadcrumb.html", []).run(["$templateCache", function($templateCache) {
@@ -1446,11 +1488,11 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
   $templateCache.put("shared/templates/foreignKey.html",
     "<div class=\"form-group {{form.htmlClass}} schema-form-select col-md-12\"\n" +
     "     ng-class=\"{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}\">\n" +
-    "    <div class=\"col-md-12\">\n" +
     "        <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
     "            {{form.title}}\n" +
     "        </label>\n" +
-    "        <a role=\"button\"><i class=\"fa fa-plus-circle fa-fw\" add-modal-for-linked-model=\"{{form.formName}}\"></i></a>\n" +
+    "        <button class=\"btn btn-default\">Ekle <i class=\"fa fa-plus-circle fa-fw\"\n" +
+    "                                  add-modal-for-linked-model=\"{{form.formName}}\"></i></button>\n" +
     "\n" +
     "        <div class=\"form-group input-group\">\n" +
     "            <span class=\"input-group-btn\">\n" +
@@ -1461,7 +1503,7 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "                <ul class=\"dropdown-menu\">\n" +
     "                    <li class=\"text-center\" ng-if=\"form.gettingTitleMap\"><a><span class=\"loader\"></span></a></li>\n" +
     "                    <li ng-repeat=\"item in form.titleMap\">\n" +
-    "                        <a ng-click=\"form.onDropdownSelect(item, form.model_name)\">{{item\n" +
+    "                        <a ng-click=\"form.onDropdownSelect(item, form.name)\">{{item\n" +
     "                            .name}}</a>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
@@ -1478,7 +1520,7 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "                   sf-changed=\"form\"\n" +
     "                   class=\"form-control {{form.fieldHtmlClass}}\"\n" +
     "                   schema-validate=\"form\"\n" +
-    "                   name=\"{{form.model_name}}\"/>\n" +
+    "                   name=\"{{form.name}}\"/>\n" +
     "        </div>\n" +
     "        <div ng-show=\"loadingTitleMap\" class=\"loader\"></div>\n" +
     "        <div ng-show=\"noResults\">\n" +
@@ -1497,7 +1539,6 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "        <!--</select>-->\n" +
     "\n" +
     "        <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
-    "    </div>\n" +
     "</div>");
 }]);
 

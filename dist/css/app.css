@@ -1084,7 +1084,7 @@ table.dataTable thead .sorting:after {
 	margin-right: -5px;
 }
 
-.dashboard-main-search .fa {
+.bordered-fa-icon {
 	padding: 10px 15px;
     border: 1px solid #e0e0e0;
     border-bottom-right-radius: 3px;
