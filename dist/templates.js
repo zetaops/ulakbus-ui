@@ -1509,7 +1509,7 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "                </ul>\n" +
     "            </span>\n" +
     "            <input type=\"text\"\n" +
-    "                   ng-model=\"$$value$$\"\n" +
+    "                   ng-model=\"form.model\"\n" +
     "                   uib-typeahead=\"item as item.name for item in form.getTitleMap($viewValue)\"\n" +
     "                   typeahead-on-select=\"form.onSelect($item)\"\n" +
     "                   typeahead-loading=\"loadingTitleMap\" typeahead-no-results=\"noResults\"\n" +
