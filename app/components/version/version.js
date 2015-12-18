@@ -5,4 +5,4 @@ angular.module('ulakbus.version', [
   'ulakbus.version.version-directive'
 ])
 
-.value('version', '0.6.4');
+.value('version', '0.6.5');
