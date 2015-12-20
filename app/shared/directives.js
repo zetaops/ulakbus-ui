@@ -86,7 +86,12 @@ app.directive('logout', function ($http, $location, RESTURL) {
             restrict: 'E',
             replace: true,
             link: function ($scope) {
-                $scope.searchForm = [{key: 'searchbox', htmlClass: "pull-left"}, {type: "submit", title: "Ara", style:"btn-info", htmlClass: "pull-left"}];
+                $scope.searchForm = [{key: 'searchbox', htmlClass: "pull-left"}, {
+                    type: "submit",
+                    title: "Ara",
+                    style: "btn-info",
+                    htmlClass: "pull-left"
+                }];
                 $scope.searchSchema = {
                     type: "object",
                     properties: {
@@ -138,7 +143,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
             link: function ($scope) {
 
                 // titleMap will be list
-                $scope.titleMap = [{ value: "artan", name: "Artan" }, { value: "azalan", name: "Azalan" }];
+                $scope.titleMap = [{value: "artan", name: "Artan"}, {value: "azalan", name: "Azalan"}];
                 $scope.sortForm = [
                     {key: 'sortbox', htmlClass: "pull-left", type: "select", titleMap: $scope.titleMap},
                     {type: "submit", title: "Sırala", htmlClass: "pull-left"}];
@@ -283,7 +288,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
                 $scope.$on('selectedUserTrigger', function ($event, data) {
                     var postToApi = {model: 'Personel', cmd: 'show', id: data[1]};
                     //postToApi[data[0]]=data[1];
-                    $http.get(RESTURL.url + 'ara/personel/'+ data[1]).success(
+                    $http.get(RESTURL.url + 'ara/personel/' + data[1]).success(
                         function (data) {
                         }
                     );
@@ -519,6 +524,31 @@ app.directive('logout', function ($http, $location, RESTURL) {
                 $scope.selectedMenu = 'home';
             }
         };
+    })
+
+    .directive("fileread", function ($timeout) {
+        return {
+            scope: {
+                fileread: "="
+            },
+            link: function (scope, element, attributes) {
+                element.bind("change", function (changeEvent) {
+                    var reader = new FileReader();
+                    reader.onload = function (loadEvent) {
+                        scope.$apply(function () {
+                            scope.fileread = loadEvent.target.result;
+                        });
+                        $timeout(function () {
+                            scope.$parent.model[changeEvent.target.name] = {
+                                file_name: changeEvent.target.files[0].name,
+                                file_content: scope.$parent.model[changeEvent.target.name]
+                            }
+                        });
+                    }
+                    reader.readAsDataURL(changeEvent.target.files[0]);
+                });
+            }
+        }
     });
 
 //app.directive('timeline', function () {

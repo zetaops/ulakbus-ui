@@ -1,0 +1,21 @@
+<div class="form-group {{form.htmlClass}} schema-form-select col-md-12"
+     ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}">
+    <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">
+        {{form.title}}
+    </label>
+
+    <div class="form-group input-group">
+        <input type="file"
+               ng-model="$$value$$"
+               fileread="$$value$$"
+               placeholder="dosya/imaj seçiniz"
+               ng-model-options="form.ngModelOptions"
+               ng-disabled="form.readonly"
+               sf-changed="form"
+               class="form-control {{form.fieldHtmlClass}}"
+               schema-validate="form"
+               name="{{form.name}}"/>
+    </div>
+
+    <div class="help-block" sf-message="form.description"></div>
+</div>

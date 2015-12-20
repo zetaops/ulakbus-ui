@@ -206,6 +206,18 @@ angular.module('formService', ['ui.bootstrap'])
                     }
                 }
 
+                if (v.type === 'file') {
+                    scope.form[scope.form.indexOf(k)] = {
+                        type: "template",
+                        title: v.title,
+                        templateUrl: "shared/templates/filefield.html",
+                        name: k,
+                        key: k,
+                        titleMap: v.titleMap
+                    };
+                    v.type = 'string';
+                }
+
                 if (v.type === 'select') {
                     scope.form[scope.form.indexOf(k)] = {
                         type: "template",
@@ -216,7 +228,6 @@ angular.module('formService', ['ui.bootstrap'])
                         titleMap: v.titleMap
                     };
                 }
-
 
                 if (v.type === 'submit' || v.type === 'button') {
                     var buttonPositions = scope.modalElements ? scope.modalElements.buttonPositions : {
@@ -528,7 +539,6 @@ angular.module('formService', ['ui.bootstrap'])
                 }
 
                 if ((v.type === 'ListNode' || v.type === 'Node') && v.widget !== 'filter_interface') {
-                    //if (v.type === 'ListNode' || v.type === 'Node') {
 
                     scope[v.type] = scope[v.type] || {};
 
@@ -542,10 +552,15 @@ angular.module('formService', ['ui.bootstrap'])
                             title: v.title,
                             type: "object",
                             formType: v.type,
-                            model_name: k
+                            model_name: k,
+                            inline_edit: scope.inline_edit
                         },
                         url: scope.url,
-                        wf: scope.wf
+                        wf: scope.wf,
+                        nodeModelChange: function (item) {
+                            debugger;
+                        }
+
                     });
 
                     if (v.type === 'ListNode') {
