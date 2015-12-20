@@ -838,14 +838,14 @@ angular.module("shared/templates/directives/guide-help.html", []).run(["$templat
 
 angular.module("shared/templates/directives/header-breadcrumb.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/header-breadcrumb.html",
-    "<button type=\"button\" class=\"close breadcrumb pull-left\"><i class=\"fa fa-angle-left\"></i> Geri </button>\n" +
+    "<!--<button type=\"button\" class=\"close breadcrumb pull-left\"><i class=\"fa fa-angle-left\"></i> Geri </button>-->\n" +
     "<!--<ul class=\"breadcrumb\">-->\n" +
     "    <!--<li ng-repeat=\"link in $root.breadcrumblinks\" ng-class=\"{'active':$last}\">-->\n" +
     "        <!--<a href=\"#\" ng-if=\"!$last\">{{link}}</a>-->\n" +
     "        <!--<span ng-if=\"$last\">{{link}}</span>-->\n" +
     "    <!--</li>-->\n" +
     "<!--</ul>-->\n" +
-    "<button type=\"button\" class=\"close breadcrumb pull-right\" ng-click=\"goBack()\">İleri <i class=\"fa fa-angle-right\"></i></button>");
+    "<!--<button type=\"button\" class=\"close breadcrumb pull-right\" ng-click=\"goBack()\">İleri <i class=\"fa fa-angle-right\"></i></button>-->");
 }]);
 
 angular.module("shared/templates/directives/header-notification.html", []).run(["$templateCache", function($templateCache) {
@@ -854,7 +854,8 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "    <li class=\"dropdown\">\n" +
     "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
     "        	<div class=\"badge\" ng-if=\"notifications[2].length > 0\">{{notifications[2].length}}</div>\n" +
-    "            <i class=\"fa fa-envelope fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
+    "            <i class=\"fa fa-envelope fa-fw\" tooltip-placement=\"bottom\" uib-tooltip=\"Mesajlar\"></i>  <i\n" +
+    "                class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-messages\" ng-if=\"notifications[2].length > 0\">\n" +
     "            <li ng-repeat=\"notify in notifications[2] | limitTo: '8'\">\n" +
@@ -882,7 +883,8 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "    <li class=\"dropdown\">\n" +
     "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
     "            <div class=\"badge\" ng-if=\"notifications[1].length > 0\">{{notifications[1].length}}</div>\n" +
-    "            <i class=\"fa fa-tasks fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
+    "            <i class=\"fa fa-tasks fa-fw\" tooltip-placement=\"bottom\" uib-tooltip=\"Görevler\"></i>  <i\n" +
+    "                class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-tasks\" ng-if=\"notifications[1].length > 0\">\n" +
     "            <li ng-repeat=\"notify in notifications[1] | limitTo: '8'\">\n" +
@@ -916,7 +918,8 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "    <li class=\"dropdown\">\n" +
     "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
     "        	<div class=\"badge\" ng-if=\"notifications[3].length > 0\">{{notifications[3].length}}</div>\n" +
-    "            <i class=\"fa fa-bell fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
+    "            <i class=\"fa fa-bell fa-fw\" tooltip-placement=\"bottom\" uib-tooltip=\"Duyurular\"></i>  <i\n" +
+    "                class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-alerts\" ng-if=\"notifications[3].length > 0\">\n" +
     "            <li>\n" +
@@ -933,7 +936,8 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "    <!-- /.dropdown -->\n" +
     "    <li class=\"dropdown\">\n" +
     "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
-    "            <i class=\"fa fa-user fa-fw\"></i>  <i class=\"fa fa-caret-down\"></i>\n" +
+    "            <i class=\"fa fa-user fa-fw\" tooltip-placement=\"bottom\" uib-tooltip=\"Profil\"></i>  <i\n" +
+    "                class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-user\">\n" +
     "            <li><a role=\"button\"><i class=\"fa fa-user fa-fw\"></i> Profil</a></li>\n" +
@@ -1509,9 +1513,9 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "                </ul>\n" +
     "            </span>\n" +
     "            <input type=\"text\"\n" +
-    "                   ng-model=\"form.model\"\n" +
+    "                   ng-model=\"$$value$$\"\n" +
     "                   uib-typeahead=\"item as item.name for item in form.getTitleMap($viewValue)\"\n" +
-    "                   typeahead-on-select=\"form.onSelect($item)\"\n" +
+    "                   typeahead-on-select=\"form.onSelect($item, form.name)\"\n" +
     "                   typeahead-loading=\"loadingTitleMap\" typeahead-no-results=\"noResults\"\n" +
     "                   typeahead-wait-ms=\"500\"\n" +
     "                   placeholder=\"{{form.title}}\"\n" +

@@ -107,7 +107,9 @@ angular.module('formService', ['ui.bootstrap'])
          */
         generator.group = function (scope) {
 
-            if (!scope.grouping) {return scope;}
+            if (!scope.grouping) {
+                return scope;
+            }
 
             var newForm = [];
 
@@ -115,7 +117,9 @@ angular.module('formService', ['ui.bootstrap'])
                 var extractedList = [];
                 angular.forEach(itemList, function (value, key) {
                     var item = getFormItem(value);
-                    if (item) {extractedList.push(item);}
+                    if (item) {
+                        extractedList.push(item);
+                    }
                 });
 
                 $log.debug('extractedList: ', extractedList);
@@ -394,32 +398,35 @@ angular.module('formService', ['ui.bootstrap'])
                         wf: v.wf,
                         add_cmd: v.add_cmd,
                         name: k,
-                        key:k,
+                        key: k,
                         model_name: v.model_name,
                         selected_item: {},
                         titleMap: [],
-                        onSelect: function (item) {
+                        onSelect: function (item, inputname) {
                             scope.model[k] = item.value;
+                            $timeout(function () {
+                                document.querySelector('input[name=' + inputname + ']').value = item.name;
+                            });
                         },
                         onDropdownSelect: function (item, inputname) {
                             scope.model[k] = item.value;
-                            jQuery('input[name=' + inputname + ']').val(item.name);
+                            $timeout(function () {
+                                document.querySelector('input[name=' + inputname + ']').value = item.name;
+                            });
                         },
                         getTitleMap: function (viewValue) {
                             modelScope.form_params.query = viewValue;
                             return scope.generateTitleMap(modelScope);
                         },
                         getDropdownTitleMap: function () {
+                            delete modelScope.form_params.query;
                             formitem.gettingTitleMap = true;
-                            if (formitem.titleMap.length > 0) {
-                                formitem.gettingTitleMap = false;
-                            } else {
-                                scope.generateTitleMap(modelScope)
-                                    .then(function (data) {
-                                        formitem.titleMap = data;
-                                        formitem.gettingTitleMap = false;
-                                    });
-                            }
+                            scope.generateTitleMap(modelScope)
+                                .then(function (data) {
+                                    formitem.titleMap = data;
+                                    formitem.gettingTitleMap = false;
+                                });
+
 
                         }
                     };

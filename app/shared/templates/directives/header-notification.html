@@ -2,7 +2,8 @@
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown">
         	<div class="badge" ng-if="notifications[2].length > 0">{{notifications[2].length}}</div>
-            <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            <i class="fa fa-envelope fa-fw" tooltip-placement="bottom" uib-tooltip="Mesajlar"></i>  <i
+                class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-messages" ng-if="notifications[2].length > 0">
             <li ng-repeat="notify in notifications[2] | limitTo: '8'">
@@ -30,7 +31,8 @@
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown">
             <div class="badge" ng-if="notifications[1].length > 0">{{notifications[1].length}}</div>
-            <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            <i class="fa fa-tasks fa-fw" tooltip-placement="bottom" uib-tooltip="Görevler"></i>  <i
+                class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-tasks" ng-if="notifications[1].length > 0">
             <li ng-repeat="notify in notifications[1] | limitTo: '8'">
@@ -64,7 +66,8 @@
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown">
         	<div class="badge" ng-if="notifications[3].length > 0">{{notifications[3].length}}</div>
-            <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            <i class="fa fa-bell fa-fw" tooltip-placement="bottom" uib-tooltip="Duyurular"></i>  <i
+                class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-alerts" ng-if="notifications[3].length > 0">
             <li>
@@ -81,7 +84,8 @@
     <!-- /.dropdown -->
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            <i class="fa fa-user fa-fw" tooltip-placement="bottom" uib-tooltip="Profil"></i>  <i
+                class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
             <li><a role="button"><i class="fa fa-user fa-fw"></i> Profil</a></li>
