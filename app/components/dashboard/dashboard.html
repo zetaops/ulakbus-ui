@@ -1,24 +1,45 @@
 <div ng-app="ulakbus.dashboard" class="dashboard">
     <div class="starter-template">
-
-        <div class="dashboard-main-search clearfix">
-
-            <div class="row">
+    
+    
+    	<div class="row">
+    
+            <div class="col-md-6 user-info">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="panel-title">Giriş Yapan Kullanıcı Bilgileri</div>
                     </div>
                     <div class="panel-body">
                         <div class="col-md-4 col-md-offset-4 text-center">
-                            <img class="img-circle img-responsive" src="{{$root.current_user.avatar}}"
-                                 alt="{{$root.current_user.username}}">
-                            <p>{{$root.current_user.name}} {{$root.current_user.surname}}</p>
+                            <img class="img-circle user-pic" src="{{$root.current_user.avatar}}" alt="{{$root.current_user.username}}">
+                            <p class="user-name">{{$root.current_user.name}} {{$root.current_user.surname}}</p>
                         </div>
                     </div>
                 </div>
             </div>
+    
+        	<div class="col-md-6 quick-links">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">Hızlı İşlemler</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-6 text-center link-buttons" ng-repeat="menu in $root.quick_menu">
+                            <a ng-href="#/{{menu[0].wf}}/{{menu[0].model}}?{{menu[0].param}}={{selectedUser.key}}">
+                                {{menu[0].text}} 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+		<!-- end of row -->
+        
+        <div class="dashboard-main-search clearfix">
+            
             <div class="row" ng-if="$root.current_user.is_staff">
-
+				<div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="panel-title">Arama</div>
@@ -72,21 +93,8 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="panel-title">Hızlı İşlemler</div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="col-md-6 text-center" ng-repeat="menu in $root.quick_menu">
-                            <a ng-href="#/{{menu[0].wf}}/{{menu[0].model}}?{{menu[0].param}}={{selectedUser.key}}">
-                                {{menu[0].text}} <i class="fa fa-connectdevelop"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+			</div>
+            
         </div>
         <!-- end of dashboard-main-search -->
 
