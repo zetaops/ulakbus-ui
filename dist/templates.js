@@ -272,25 +272,46 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
   $templateCache.put("components/dashboard/dashboard.html",
     "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
-    "\n" +
-    "        <div class=\"dashboard-main-search clearfix\">\n" +
-    "\n" +
-    "            <div class=\"row\">\n" +
+    "    \n" +
+    "    \n" +
+    "    	<div class=\"row\">\n" +
+    "    \n" +
+    "            <div class=\"col-md-6 user-info\">\n" +
     "                <div class=\"panel panel-default\">\n" +
     "                    <div class=\"panel-heading\">\n" +
     "                        <div class=\"panel-title\">Giriş Yapan Kullanıcı Bilgileri</div>\n" +
     "                    </div>\n" +
     "                    <div class=\"panel-body\">\n" +
     "                        <div class=\"col-md-4 col-md-offset-4 text-center\">\n" +
-    "                            <img class=\"img-circle img-responsive\" src=\"{{$root.current_user.avatar}}\"\n" +
-    "                                 alt=\"{{$root.current_user.username}}\">\n" +
-    "                            <p>{{$root.current_user.name}} {{$root.current_user.surname}}</p>\n" +
+    "                            <img class=\"img-circle user-pic\" src=\"{{$root.current_user.avatar}}\" alt=\"{{$root.current_user.username}}\">\n" +
+    "                            <p class=\"user-name\">{{$root.current_user.name}} {{$root.current_user.surname}}</p>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
     "            </div>\n" +
+    "    \n" +
+    "        	<div class=\"col-md-6 quick-links\">\n" +
+    "                <div class=\"panel panel-default\">\n" +
+    "                    <div class=\"panel-heading\">\n" +
+    "                        <div class=\"panel-title\">Hızlı İşlemler</div>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"panel-body\">\n" +
+    "                        <div class=\"col-md-6 text-center link-buttons\" ng-repeat=\"menu in $root.quick_menu\">\n" +
+    "                            <a ng-href=\"#/{{menu[0].wf}}/{{menu[0].model}}?{{menu[0].param}}={{selectedUser.key}}\">\n" +
+    "                                {{menu[0].text}} \n" +
+    "                            </a>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "            \n" +
+    "        </div>\n" +
+    "		<!-- end of row -->\n" +
+    "        \n" +
+    "        <div class=\"dashboard-main-search clearfix\">\n" +
+    "            \n" +
     "            <div class=\"row\" ng-if=\"$root.current_user.is_staff\">\n" +
-    "\n" +
+    "				<div class=\"col-md-12\">\n" +
     "                <div class=\"panel panel-default\">\n" +
     "                    <div class=\"panel-heading\">\n" +
     "                        <div class=\"panel-title\">Arama</div>\n" +
@@ -345,21 +366,8 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                    </div>\n" +
     "                </div>\n" +
     "            </div>\n" +
-    "\n" +
-    "            <div class=\"row\">\n" +
-    "                <div class=\"panel panel-default\">\n" +
-    "                    <div class=\"panel-heading\">\n" +
-    "                        <div class=\"panel-title\">Hızlı İşlemler</div>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"panel-body\">\n" +
-    "                        <div class=\"col-md-6 text-center\" ng-repeat=\"menu in $root.quick_menu\">\n" +
-    "                            <a ng-href=\"#/{{menu[0].wf}}/{{menu[0].model}}?{{menu[0].param}}={{selectedUser.key}}\">\n" +
-    "                                {{menu[0].text}} <i class=\"fa fa-connectdevelop\"></i>\n" +
-    "                            </a>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
+    "			</div>\n" +
+    "            \n" +
     "        </div>\n" +
     "        <!-- end of dashboard-main-search -->\n" +
     "\n" +

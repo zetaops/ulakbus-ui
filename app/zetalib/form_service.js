@@ -838,6 +838,17 @@ angular.module('formService', ['ui.bootstrap'])
             return result;
         };
 
+        // get item unicode name from titleMap using this method
+        generator.item_from_array = function (item, key, array) {
+            var result = item;
+            angular.forEach(array, function (value, key) {
+                if (value.value === item) {
+                    result = value.name;
+                }
+            });
+            return result;
+        };
+
         /**
          * submit function is general function for submiting forms
          * @param $scope
@@ -1022,7 +1033,7 @@ angular.module('formService', ['ui.bootstrap'])
                                 } else {
                                     reformattedModel[key] = {
                                         "key": key,
-                                        "unicode": value
+                                        "unicode": Generator.item_from_array(value, key, childmodel.schema.properties[key].titleMap)
                                     };
                                 }
                             });
