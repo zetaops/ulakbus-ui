@@ -302,7 +302,7 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                             data-intro=\"isim veya tcno ile öğrenci araması yapabilirsiniz.\">\n" +
     "                            <div class=\"text-center\">\n" +
     "                                <h3>ÖĞRENCİ</h3>\n" +
-    "                                <input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"student_kw\"\n" +
+    "                                <input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"keyword.student\"\n" +
     "                                       ng-keyup=\"search('ogrenci')\">\n" +
     "                                <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('ogrenci')\"></span>\n" +
     "                            </div>\n" +
@@ -324,7 +324,7 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                             data-intro=\"isim veya tcno ile personel araması yapabilirsiniz.\">\n" +
     "                            <div class=\"text-center\">\n" +
     "                                <h3>PERSONEL</h3>\n" +
-    "                                <input type=\"text\" placeholder=\"Personel ara\" ng-model=\"staff_kw\"\n" +
+    "                                <input type=\"text\" placeholder=\"Personel ara\" ng-model=\"keyword.staff\"\n" +
     "                                       ng-keyup=\"search('personel')\">\n" +
     "                                <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('personel')\"></span>\n" +
     "                            </div>\n" +
@@ -1267,7 +1267,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "\n" +
     "    <div class=\"sidebar-container\">\n" +
     "        <!-- sidebar-person-info -->\n" +
-    "        <div class=\"sidebar-person-info\" ng-if=\"$root.current_user.is_staff\">\n" +
+    "        <div class=\"sidebar-person-info\" ng-show=\"$root.current_user.is_staff\">\n" +
     "            <!--<button class=\"btn btn-primary close-sidebar-person-info\">Profili Kapat</button>-->\n" +
     "            <div class=\"identity\">\n" +
     "                <button type=\"button\" class=\"close\" ng-class=\"{hidden: $root.collapsed || !selectedUser}\"\n" +

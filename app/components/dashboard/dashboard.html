@@ -30,7 +30,7 @@
                              data-intro="isim veya tcno ile öğrenci araması yapabilirsiniz.">
                             <div class="text-center">
                                 <h3>ÖĞRENCİ</h3>
-                                <input type="text" placeholder="Öğrenci ara" ng-model="student_kw"
+                                <input type="text" placeholder="Öğrenci ara" ng-model="keyword.student"
                                        ng-keyup="search('ogrenci')">
                                 <span class="bordered-fa-icon fa fa-search" ng-click="search('ogrenci')"></span>
                             </div>
@@ -52,7 +52,7 @@
                              data-intro="isim veya tcno ile personel araması yapabilirsiniz.">
                             <div class="text-center">
                                 <h3>PERSONEL</h3>
-                                <input type="text" placeholder="Personel ara" ng-model="staff_kw"
+                                <input type="text" placeholder="Personel ara" ng-model="keyword.staff"
                                        ng-keyup="search('personel')">
                                 <span class="bordered-fa-icon fa fa-search" ng-click="search('personel')"></span>
                             </div>

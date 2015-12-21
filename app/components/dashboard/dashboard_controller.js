@@ -23,8 +23,7 @@ angular.module('ulakbus.dashboard', [])
             $scope.menuitems = data;
         });
 
-        $scope.student_kw = "";
-        $scope.staff_kw = "";
+        $scope.keyword = {student: "", staff: ""};
 
         $scope.students = [];
         $scope.staffs = [];
@@ -33,20 +32,20 @@ angular.module('ulakbus.dashboard', [])
             $timeout(function () {
                 if (where === 'personel') {
                     // if input length greater than 2 search for the value
-                    if ($scope.staff_kw.length > 2) {
-                        $scope.getItems(where, $scope.staff_kw).success(function (data) {
+                    if ($scope.keyword.staff.length > 2) {
+                        $scope.getItems(where, $scope.keyword.staff).success(function (data) {
                             $scope.staffs = data.results;
                         });
                     }
                 }
                 if (where === 'ogrenci') {
-                    if ($scope.student_kw.length > 2) {
-                        $scope.getItems(where, $scope.student_kw).success(function (data) {
+                    if ($scope.keyword.student.length > 2) {
+                        $scope.getItems(where, $scope.keyword.student).success(function (data) {
                             $scope.students = data.results;
                         })
                     }
                 }
-            });
+            }, 500);
         };
 
         $scope.getItems = function (where, what) {

@@ -380,7 +380,6 @@ app.directive('logout', function ($http, $location, RESTURL) {
                     $timeout(function () {
                         sidebarmenu.metisMenu();
                         sidebarUserMenu.metisMenu();
-
                     });
                 });
 
