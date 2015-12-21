@@ -50,6 +50,7 @@ angular.module('ulakbus.dashboard', [])
         };
 
         $scope.getItems = function (where, what) {
+            $scope.showResults = true;
             return $http.get(RESTURL.url + 'ara/' + where + '/' + what);
         };
 
@@ -69,12 +70,22 @@ angular.module('ulakbus.dashboard', [])
             $rootScope.$broadcast('selectedUser', {name: who[0], tcno: who[1], key: who[2]});
             // get 'who's related transactions and manipulate sidebar menu
             $rootScope.$broadcast("menuitems", type);
+            $scope.showResults = false;
 
         };
 
         $scope.$on("notifications", function (event, data) {
             $scope.notifications = data;
         });
+
+        $scope.$on('selectedUser', function ($event, data) {
+            $scope.selectedUser = data;
+        });
+
+        $scope.deselectUser = function () {
+            delete $scope.selectedUser;
+            delete $scope.selectedMenuItems;
+        };
 
         $scope.markAsRead = function (items) {
             $rootScope.$broadcast("markasread", items);

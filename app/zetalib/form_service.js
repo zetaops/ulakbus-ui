@@ -504,6 +504,7 @@ angular.module('formService', ['ui.bootstrap'])
                                     }
                                 });
                             }
+                            if (filterValue <= 2) { formitem.filteredItems = formitem.titleMap}
                             formitem.filteredItems = generator.get_diff_array(formitem.filteredItems, formitem.selectedFilteredItems);
                         },
                         select: function (selectedItemsModel) {

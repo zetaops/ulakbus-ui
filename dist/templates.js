@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -272,68 +272,113 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
   $templateCache.put("components/dashboard/dashboard.html",
     "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
-    "        \n" +
+    "\n" +
     "        <div class=\"dashboard-main-search clearfix\">\n" +
-    "        	<div class=\"dashboard-student-search\" data-step=\"2\"\n" +
-    "                 data-intro=\"isim veya tcno ile öğrenci araması yapabilirsiniz.\">\n" +
-    "            	<div class=\"text-center\">\n" +
-    "                	<h3>ÖĞRENCİ</h3>\n" +
-    "                	<input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"student_kw\" ng-keyup=\"search('ogrenci')\">\n" +
-    "                    <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('ogrenci')\"></span>\n" +
-    "                 </div>\n" +
-    "                 <div class=\"dashboard-search-results\">\n" +
-    "                 	<ul ng-if=\"students.length > 0\">\n" +
-    "                    	<li ng-repeat=\"student in students\">\n" +
-    "                            <a role=\"button\">\n" +
-    "                                <span ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</span>\n" +
-    "                                <i class=\"fa fa-fw fa-info-circle pull-right\" popover-placement=\"bottom\"\n" +
-    "                                   uib-popover-template=\"userPopover.templateUrl\"\n" +
-    "                                   ng-click=\"get_info('Ogrenci', student[2])\"></i></a>\n" +
-    "                        </li>\n" +
-    "                    </ul>\n" +
-    "                 </div>\n" +
-    "                 <!-- end of dashboard-student-search-results -->\n" +
-    "            </div>\n" +
-    "            <!-- end of dashboard-student-search -->\n" +
-    "            <div class=\"dashboard-personnel-search\" data-step=\"3\"\n" +
-    "                 data-intro=\"isim veya tcno ile personel araması yapabilirsiniz.\">\n" +
-    "            	<div class=\"text-center\">\n" +
-    "                	<h3>PERSONEL</h3>\n" +
-    "                	<input type=\"text\" placeholder=\"Personel ara\" ng-model=\"staff_kw\" ng-keyup=\"search('personel')\">\n" +
-    "                    <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('personel')\"></span>\n" +
+    "\n" +
+    "            <div class=\"row\">\n" +
+    "                <div class=\"panel panel-default\">\n" +
+    "                    <div class=\"panel-heading collapsed\" data-toggle=\"collapse\" data-target=\"#user-info\"\n" +
+    "                         aria-expanded=\"true\" aria-controls=\"user-info\">\n" +
+    "                        <div class=\"panel-title\">Giriş Yapan Kullanıcı Bilgileri</div>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"panel-body collapse\" id=\"user-info\">\n" +
+    "                        <div class=\"col-md-4 col-md-offset-4 text-center\">\n" +
+    "                            <img class=\"img-circle img-responsive\" src=\"{{$root.current_user.avatar}}\"\n" +
+    "                                 alt=\"{{$root.current_user.username}}\">\n" +
+    "                            <p>{{$root.current_user.name}} {{$root.current_user.surname}}</p>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
     "                </div>\n" +
-    "                <div class=\"dashboard-search-results\">\n" +
-    "                 	<ul ng-if=\"staffs.length > 0\">\n" +
-    "                    	<li ng-repeat=\"staff in staffs\">\n" +
-    "                            <a role=\"button\">\n" +
-    "                                <span ng-click=\"select(staff, 'personel')\">{{staff[0]}}</span>\n" +
-    "                                <i class=\"fa fa-fw fa-info-circle pull-right\"\n" +
-    "                                   popover-placement=\"bottom\"\n" +
-    "                                   uib-popover-template=\"userPopover.templateUrl\"\n" +
-    "                                   ng-click=\"get_info('Personel', staff[2])\"></i></a>\n" +
-    "                        </li>\n" +
-    "                    </ul>\n" +
-    "                 </div>\n" +
-    "                 <!-- end of dashboard-personnel-search-results -->\n" +
     "            </div>\n" +
-    "            <!-- end of dashboard-personnel-search -->\n" +
+    "            <div class=\"row\" ng-if=\"$root.current_user.is_staff\">\n" +
+    "\n" +
+    "                <div class=\"panel panel-default\">\n" +
+    "                    <div class=\"panel-heading\" data-toggle=\"collapse\" data-target=\"#search_users\"\n" +
+    "                         aria-expanded=\"true\" aria-controls=\"search_users\">\n" +
+    "                        <div class=\"panel-title\">Arama</div>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"panel-body\" id=\"search_users\">\n" +
+    "                        <div class=\"dashboard-student-search\" data-step=\"2\"\n" +
+    "                             data-intro=\"isim veya tcno ile öğrenci araması yapabilirsiniz.\">\n" +
+    "                            <div class=\"text-center\">\n" +
+    "                                <h3>ÖĞRENCİ</h3>\n" +
+    "                                <input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"student_kw\"\n" +
+    "                                       ng-keyup=\"search('ogrenci')\">\n" +
+    "                                <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('ogrenci')\"></span>\n" +
+    "                            </div>\n" +
+    "                            <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
+    "                                <ul ng-if=\"students.length > 0\">\n" +
+    "                                    <li ng-repeat=\"student in students\">\n" +
+    "                                        <a role=\"button\">\n" +
+    "                                            <span ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</span>\n" +
+    "                                            <i class=\"fa fa-fw fa-info-circle pull-right\" popover-placement=\"bottom\"\n" +
+    "                                               uib-popover-template=\"userPopover.templateUrl\"\n" +
+    "                                               ng-click=\"get_info('Ogrenci', student[2])\"></i></a>\n" +
+    "                                    </li>\n" +
+    "                                </ul>\n" +
+    "                            </div>\n" +
+    "                            <!-- end of dashboard-student-search-results -->\n" +
+    "                        </div>\n" +
+    "                        <!-- end of dashboard-student-search -->\n" +
+    "                        <div class=\"dashboard-personnel-search\" data-step=\"3\"\n" +
+    "                             data-intro=\"isim veya tcno ile personel araması yapabilirsiniz.\">\n" +
+    "                            <div class=\"text-center\">\n" +
+    "                                <h3>PERSONEL</h3>\n" +
+    "                                <input type=\"text\" placeholder=\"Personel ara\" ng-model=\"staff_kw\"\n" +
+    "                                       ng-keyup=\"search('personel')\">\n" +
+    "                                <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('personel')\"></span>\n" +
+    "                            </div>\n" +
+    "                            <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
+    "                                <ul ng-if=\"staffs.length > 0\">\n" +
+    "                                    <li ng-repeat=\"staff in staffs\">\n" +
+    "                                        <a role=\"button\">\n" +
+    "                                            <span ng-click=\"select(staff, 'personel')\">{{staff[0]}}</span>\n" +
+    "                                            <i class=\"fa fa-fw fa-info-circle pull-right\"\n" +
+    "                                               popover-placement=\"bottom\"\n" +
+    "                                               uib-popover-template=\"userPopover.templateUrl\"\n" +
+    "                                               ng-click=\"get_info('Personel', staff[2])\"></i></a>\n" +
+    "                                    </li>\n" +
+    "                                </ul>\n" +
+    "                            </div>\n" +
+    "                            <!-- end of dashboard-personnel-search-results -->\n" +
+    "                        </div>\n" +
+    "                        <!-- end of dashboard-personnel-search -->\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div class=\"row\">\n" +
+    "                <div class=\"panel panel-default\">\n" +
+    "                    <div class=\"panel-heading\" data-toggle=\"collapse\" data-target=\"#quick-menu-items\"\n" +
+    "                         aria-expanded=\"true\" aria-controls=\"quick-menu-items\">\n" +
+    "                        <div class=\"panel-title\">Hızlı İşlemler</div>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"panel-body\" id=\"quick-menu-items\">\n" +
+    "                        <div class=\"col-md-6 text-center\" ng-repeat=\"menu in $root.quick_menu\">\n" +
+    "                            <a ng-href=\"#/{{menu[0].wf}}/{{menu[0].model}}?{{menu[0].param}}={{selectedUser.key}}\">\n" +
+    "                                {{menu[0].text}} <i class=\"fa fa-connectdevelop\"></i>\n" +
+    "                            </a>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
     "        </div>\n" +
-    "		<!-- end of dashboard-main-search -->\n" +
-    "        \n" +
-    "		<div class=\"right-sidebar\">\n" +
+    "        <!-- end of dashboard-main-search -->\n" +
     "\n" +
-    "        	<div class=\"right-sidebar-box\" data-step=\"4\"\n" +
+    "        <div class=\"right-sidebar\">\n" +
+    "\n" +
+    "            <div class=\"right-sidebar-box\" data-step=\"4\"\n" +
     "                 data-intro=\"mesajlar, yapılan görevlerin son durumları, duyurular ve son yapılan işlemleri buradan takip edebilirsiniz.\">\n" +
-    "            	<div class=\"right-sidebar-messages\">\n" +
+    "                <div class=\"right-sidebar-messages\">\n" +
     "\n" +
-    "                	<div class=\"right-sidebar-title clearfix\">\n" +
-    "                		<h3>Mesajlar</h3>\n" +
+    "                    <div class=\"right-sidebar-title clearfix\">\n" +
+    "                        <h3>Mesajlar</h3>\n" +
     "                        <span><a role=\"button\">Tüm Mesajlar</a></span>\n" +
     "                    </div>\n" +
     "                    <!-- end of right-sidebar-title -->\n" +
     "\n" +
     "                    <div class=\"right-sidebar-message-block\" ng-repeat=\"notify in notifications[2] | limitTo:5\">\n" +
-    "                    	<a class=\"clearfix\" ng-click=\"markAsRead(notify)\">\n" +
+    "                        <a class=\"clearfix\" ng-click=\"markAsRead(notify)\">\n" +
     "                            <img src=\"../../../img/sample-profile-pic.jpg\">\n" +
     "                            <div class=\"right-sidebar-message-content\">\n" +
     "                                <div>{{notify.title}}</div>\n" +
@@ -352,15 +397,15 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "\n" +
     "\n" +
     "            <div class=\"right-sidebar-box\">\n" +
-    "            	<div class=\"right-sidebar-tasks\">\n" +
+    "                <div class=\"right-sidebar-tasks\">\n" +
     "\n" +
-    "                	<div class=\"right-sidebar-title clearfix\">\n" +
-    "                		<h3>Görevler</h3>\n" +
+    "                    <div class=\"right-sidebar-title clearfix\">\n" +
+    "                        <h3>Görevler</h3>\n" +
     "                        <span><a role=\"button\">Tüm Görevler</a></span>\n" +
     "                    </div>\n" +
     "\n" +
     "                    <div class=\"right-sidebar-task-block\">\n" +
-    "                    	<!--<div class=\"task-type\">Onay Bekleyen Görevler</div>-->\n" +
+    "                        <!--<div class=\"task-type\">Onay Bekleyen Görevler</div>-->\n" +
     "                        <a ng-click=\"markAsRead(notify)\" ng-repeat=\"notify in notifications[1] | limitTo:5\">\n" +
     "                            <div class=\"task-title\">{{notify.title}}</div>\n" +
     "                        </a>\n" +
@@ -374,10 +419,10 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "\n" +
     "\n" +
     "            <div class=\"right-sidebar-box\">\n" +
-    "            	<div class=\"right-sidebar-announcements\">\n" +
+    "                <div class=\"right-sidebar-announcements\">\n" +
     "\n" +
-    "                	<div class=\"right-sidebar-title clearfix\">\n" +
-    "                		<h3>Duyurular</h3>\n" +
+    "                    <div class=\"right-sidebar-title clearfix\">\n" +
+    "                        <h3>Duyurular</h3>\n" +
     "                        <span><a role=\"button\">Tüm Duyurular</a></span>\n" +
     "                    </div>\n" +
     "                    <!-- end of right-sidebar-title -->\n" +
@@ -396,10 +441,10 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "\n" +
     "\n" +
     "            <div class=\"right-sidebar-box\">\n" +
-    "            	<div class=\"right-sidebar-last-actions\">\n" +
+    "                <div class=\"right-sidebar-last-actions\">\n" +
     "\n" +
-    "                	<div class=\"right-sidebar-title clearfix\">\n" +
-    "                		<h3>Son İşlemler</h3>\n" +
+    "                    <div class=\"right-sidebar-title clearfix\">\n" +
+    "                        <h3>Son İşlemler</h3>\n" +
     "                        <span><a role=\"button\">Tüm İşlemler</a></span>\n" +
     "                    </div>\n" +
     "\n" +
@@ -409,8 +454,8 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "            <!-- end of right-sidebar-box -->\n" +
     "\n" +
     "        </div>\n" +
-    "		<!-- end of right-sidebar -->\n" +
-    "        \n" +
+    "        <!-- end of right-sidebar -->\n" +
+    "\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -936,7 +981,8 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "    <!-- /.dropdown -->\n" +
     "    <li class=\"dropdown\">\n" +
     "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
-    "            <i class=\"fa fa-user fa-fw\" tooltip-placement=\"bottom\" uib-tooltip=\"Profil\"></i>  <i\n" +
+    "            <i class=\"fa fa-user fa-fw\" tooltip-placement=\"bottom\"\n" +
+    "               uib-tooltip=\"Profil\"></i>&nbsp;{{$root.current_user.username}}&nbsp;<i\n" +
     "                class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-user\">\n" +
@@ -1221,7 +1267,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "\n" +
     "    <div class=\"sidebar-container\">\n" +
     "        <!-- sidebar-person-info -->\n" +
-    "        <div class=\"sidebar-person-info\">\n" +
+    "        <div class=\"sidebar-person-info\" ng-if=\"$root.current_user.is_staff\">\n" +
     "            <!--<button class=\"btn btn-primary close-sidebar-person-info\">Profili Kapat</button>-->\n" +
     "            <div class=\"identity\">\n" +
     "                <button type=\"button\" class=\"close\" ng-class=\"{hidden: $root.collapsed || !selectedUser}\"\n" +
@@ -1488,6 +1534,31 @@ angular.module("shared/templates/fieldset.html", []).run(["$templateCache", func
     "");
 }]);
 
+angular.module("shared/templates/filefield.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/filefield.html",
+    "<div class=\"form-group {{form.htmlClass}} schema-form-select col-md-12\"\n" +
+    "     ng-class=\"{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}\">\n" +
+    "    <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
+    "        {{form.title}}\n" +
+    "    </label>\n" +
+    "\n" +
+    "    <div class=\"form-group input-group\">\n" +
+    "        <input type=\"file\"\n" +
+    "               ng-model=\"$$value$$\"\n" +
+    "               fileread=\"$$value$$\"\n" +
+    "               placeholder=\"dosya/imaj seçiniz\"\n" +
+    "               ng-model-options=\"form.ngModelOptions\"\n" +
+    "               ng-disabled=\"form.readonly\"\n" +
+    "               sf-changed=\"form\"\n" +
+    "               class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "               schema-validate=\"form\"\n" +
+    "               name=\"{{form.name}}\"/>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
+    "</div>");
+}]);
+
 angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/foreignKey.html",
     "<div class=\"form-group {{form.htmlClass}} schema-form-select col-md-12\"\n" +
@@ -1675,64 +1746,72 @@ angular.module("shared/templates/multiselect.html", []).run(["$templateCache", f
 angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/nodeTable.html",
     "<div class=\"tablescroll\">\n" +
-    "<table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
-    "    <thead>\n" +
-    "    <tr ng-if=\"node.schema.formType=='Node'\">\n" +
-    "        <!--<th colspan=\"2\">-->\n" +
+    "    <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
+    "        <thead>\n" +
+    "        <tr ng-if=\"node.schema.formType=='Node'\">\n" +
+    "            <!--<th colspan=\"2\">-->\n" +
     "            <!--<label>-->\n" +
+    "            <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "            <!--Hepsini Seç-->\n" +
+    "            <!--</label>-->\n" +
+    "            <!--</th>-->\n" +
+    "            <th ng-repeat=\"(key,value) in node.model track by $index\">{{ key }}</th>\n" +
+    "            <th>İşlem</th>\n" +
+    "        </tr>\n" +
+    "        <tr ng-if=\"node.schema.formType=='ListNode'\">\n" +
+    "            <th colspan=\"2\">\n" +
+    "                <!--<label>-->\n" +
     "                <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
     "                <!--Hepsini Seç-->\n" +
-    "            <!--</label>-->\n" +
-    "        <!--</th>-->\n" +
-    "        <th ng-repeat=\"(key,value) in node.model track by $index\">{{ key }}</th>\n" +
-    "        <th>İşlem</th>\n" +
-    "    </tr>\n" +
-    "    <tr ng-if=\"node.schema.formType=='ListNode'\">\n" +
-    "        <th colspan=\"2\">\n" +
-    "            <!--<label>-->\n" +
-    "                <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
-    "                <!--Hepsini Seç-->\n" +
-    "            <!--</label>-->\n" +
-    "        </th>\n" +
-    "        <th ng-repeat=\"(key,value) in node.items[0] track by $index\" ng-if=\"key!=='idx'\">\n" +
-    "            <span ng-if=\"value.verbose_name\">{{ value.verbose_name }}</span>\n" +
-    "            <span ng-if=\"!value.verbose_name\">{{key}}</span>\n" +
-    "        </th>\n" +
-    "        <th>İşlem</th>\n" +
-    "    </tr>\n" +
-    "    </thead>\n" +
-    "    <tbody ng-class=\"{hidden: node.lengthModels < 1}\">\n" +
+    "                <!--</label>-->\n" +
+    "            </th>\n" +
+    "            <th ng-repeat=\"(key,value) in node.items[0] track by $index\" ng-if=\"key!=='idx'\">\n" +
+    "                <span ng-if=\"value.verbose_name\">{{ value.verbose_name }}</span>\n" +
+    "                <span ng-if=\"!value.verbose_name\">{{key}}</span>\n" +
+    "            </th>\n" +
+    "            <th>İşlem</th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody ng-class=\"{hidden: node.lengthModels < 1}\">\n" +
     "\n" +
-    "    <tr ng-if=\"node.schema.formType=='Node'\">\n" +
-    "        <!--<td width=\"60\">-->\n" +
+    "        <tr ng-if=\"node.schema.formType=='Node'\">\n" +
+    "            <!--<td width=\"60\">-->\n" +
     "            <!--<label>-->\n" +
-    "                <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "            <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
     "            <!--</label>-->\n" +
-    "        <!--</td>-->\n" +
-    "        <!--<th scope=\"row\" style=\"text-align:center\">1</th>-->\n" +
-    "        <td ng-repeat=\"value in node.model track by $index\">{{ value }}</td>\n" +
-    "        <td>\n" +
-    "            <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit\">Düzenle</button><br>\n" +
-    "            <button ng-click=\"remove(node, 'Node', $index)\">Sil</button>\n" +
-    "        </td>\n" +
-    "    </tr>\n" +
+    "            <!--</td>-->\n" +
+    "            <!--<th scope=\"row\" style=\"text-align:center\">1</th>-->\n" +
+    "            <td ng-repeat=\"value in node.model track by $index\">{{ value }}</td>\n" +
+    "            <td>\n" +
+    "                <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit\">Düzenle</button>\n" +
+    "                <br>\n" +
+    "                <button ng-click=\"remove(node, 'Node', $index)\">Sil</button>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
     "\n" +
-    "    <tr ng-repeat=\"listnodemodel in node.items track by $index\" ng-if=\"node.schema.formType=='ListNode'\">\n" +
-    "        <td width=\"60\">\n" +
-    "            <!--<label>-->\n" +
+    "        <tr ng-repeat=\"listnodemodel in node.items track by $index\" ng-init=\"outerIndex=$index\" ng-if=\"node.schema.formType=='ListNode'\">\n" +
+    "            <td width=\"60\">\n" +
+    "                <!--<label>-->\n" +
     "                <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
-    "            <!--</label>-->\n" +
-    "        </td>\n" +
-    "        <th scope=\"row\" style=\"text-align:center\">{{$index+1}}</th>\n" +
-    "        <td ng-repeat=\"(k, v) in listnodemodel track by $index\" ng-if=\"k!=='idx'\">{{ v.unicode || v }}</td>\n" +
-    "        <td>\n" +
-    "            <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}\">Düzenle</button><br>\n" +
-    "            <button ng-click=\"remove(node, 'ListNode', $index)\">Sil</button>\n" +
-    "        </td>\n" +
-    "    </tr>\n" +
+    "                <!--</label>-->\n" +
+    "            </td>\n" +
+    "            <th scope=\"row\" style=\"text-align:center\">{{$index+1}}</th>\n" +
+    "            <td ng-repeat=\"(k, v) in listnodemodel track by $index\" ng-init=\"innerIndex=$index\" ng-if=\"k!=='idx'\">\n" +
+    "                <span ng-if=\"!node.schema.inline_edit || node.schema.inline_edit.indexOf(k) < 0\">{{ v.unicode || v }}</span>\n" +
+    "                <input type=\"node.schema.formType\" ng-if=\"node.schema.inline_edit.indexOf(k) > -1\"\n" +
+    "                       ng-model=\"node.model[outerIndex][k]\"\n" +
+    "                       ng-change=\"nodeModelChange(this)\">\n" +
+    "            </td>\n" +
+    "            <td>\n" +
+    "                <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}\">Düzenle\n" +
+    "                </button>\n" +
+    "                <br>\n" +
+    "                <button ng-click=\"remove(node, 'ListNode', $index)\">Sil</button>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
     "\n" +
-    "    </tbody>\n" +
-    "</table>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
     "</div>");
 }]);
 

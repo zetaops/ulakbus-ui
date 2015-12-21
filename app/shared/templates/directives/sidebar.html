@@ -2,7 +2,7 @@
 
     <div class="sidebar-container">
         <!-- sidebar-person-info -->
-        <div class="sidebar-person-info">
+        <div class="sidebar-person-info" ng-if="$root.current_user.is_staff">
             <!--<button class="btn btn-primary close-sidebar-person-info">Profili Kapat</button>-->
             <div class="identity">
                 <button type="button" class="close" ng-class="{hidden: $root.collapsed || !selectedUser}"

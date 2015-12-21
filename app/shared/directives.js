@@ -340,12 +340,21 @@ app.directive('logout', function ($http, $location, RESTURL) {
                         }
 
                         angular.forEach($scope.allMenuItems, function (value, key) {
-                            $scope.allMenuItems[key] = reGroupMenuItems(value, key);
+                            if (key !== 'current_user' && key !== 'settings') {
+                                $scope.allMenuItems[key] = reGroupMenuItems(value, key);
+                            }
                         });
+
+                        // quick menus to dashboard via rootscope
+
+                        $rootScope.quick_menu = reGroupMenuItems(data.quick_menu, 'quick_menus');
+                        delete data.quick_menu;
 
                         // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
                         // related items
                         $rootScope.$broadcast("authz", data);
+
+                        $rootScope.current_user = data.current_user;
 
                         $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
 
