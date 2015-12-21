@@ -291,7 +291,8 @@ angular.module('formService', ['ui.bootstrap'])
 
                 // check if type is date and if type date found change it to string
                 if (v.type === 'date') {
-                    scope.model[k] = generator.dateformatter(scope.model[k] || new Date());
+                    $log.debug('date:', scope.model[k]);
+                    scope.model[k] = generator.dateformatter(scope.model[k]);
                     scope.form[scope.form.indexOf(k)] = {
                         key: k, name: k, title: v.title,
                         type: 'template',
@@ -313,7 +314,7 @@ angular.module('formService', ['ui.bootstrap'])
                                     }
                                     else {
                                         var dateValue = d = value.split('.');
-                                        if (isNaN(Date.parse([d[1], d[0], d[2]].join('.'))) || dateValue.length !== 3) {
+                                        if (isNaN(Date.parse(value)) || dateValue.length !== 3) {
                                             deferred.reject();
                                         } else {
                                             deferred.resolve();
@@ -329,7 +330,7 @@ angular.module('formService', ['ui.bootstrap'])
                         },
                         format: 'dd.MM.yyyy',
                         onSelect: function () {
-                            scope.model[k] = generator.dateformatter(scope.model[k]);
+                            scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
                         }
                     };
                 }
@@ -361,11 +362,13 @@ angular.module('formService', ['ui.bootstrap'])
                         return generator.get_list(modelScope).then(function (res) {
                             formitem.titleMap = [];
                             angular.forEach(res.data.objects, function (item) {
-                                if (item !== "-1") {
+                                if (item !== -1) {
                                     formitem.titleMap.push({
                                         "value": item.key,
                                         "name": item.value
                                     });
+                                } else {
+                                    formitem.focusToInput = true;
                                 }
                             });
 
@@ -445,7 +448,7 @@ angular.module('formService', ['ui.bootstrap'])
                     var formitem = scope.form[scope.form.indexOf(k)];
                     var modelScope = {
                         "url": v.wf || scope.wf, "wf": v.wf || scope.wf,
-                        "form_params": {model: v.model_name || v.schema[0].model_name, cmd: v.list_cmd || 'select_list'}
+                        "form_params": {model: v.model_name || v.schema[0].model_name, cmd: v.list_cmd || 'select_list', query: ''}
                     };
 
                     scope.generateTitleMap = function (modelScope) {
@@ -560,10 +563,6 @@ angular.module('formService', ['ui.bootstrap'])
 
                     });
 
-                    if (v.type === 'ListNode') {
-                        scope[v.type][k].items = angular.copy(scope.model[k] || []);
-                    }
-
                     angular.forEach(v.schema, function (item) {
                         scope[v.type][k].schema.properties[item.name] = angular.copy(item);
 
@@ -586,6 +585,29 @@ angular.module('formService', ['ui.bootstrap'])
                         }
 
 
+                    });
+
+                    $timeout(function () {
+                        if (v.type === 'ListNode') {
+                            scope[v.type][k].items = angular.copy(scope.model[k] || []);
+                            angular.forEach(scope[v.type][k].items, function (value, key) {
+                                if (value.constructor === Object) {
+                                    angular.forEach(value, function (x, y) {
+                                        try {
+                                            if (scope[v.type][k].schema.properties[y].type === 'date') {
+                                                scope[v.type][k].items[key][y] = generator.dateformatter(x);
+                                                scope[v.type][k].model[key][y] = generator.dateformatter(x);
+                                            }
+                                            if (scope[v.type][k].schema.properties[y].type === 'select') {
+                                                scope[v.type][k].items[key][y] = generator.item_from_array(x.toString(), scope[v.type][k].schema.properties[y].titleMap)
+                                            }
+                                        } catch (e) {
+                                            $log.debug('Field is not date');
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     });
 
                     if (scope.model[k]) {
@@ -618,12 +640,11 @@ angular.module('formService', ['ui.bootstrap'])
          */
         generator.dateformatter = function (formObject) {
             var ndate = new Date(formObject);
-            if (ndate == 'Invalid Date') {
+            if (isNaN(ndate)) {
                 return '';
             } else {
-
-                var newdatearray = [("0" + ndate.getDate()).slice(-2), ndate.getMonth() + 1, ndate.getFullYear()];
-                return newdatearray.join('.');
+                var newdatearray = moment(ndate).format('DD.MM.YYYY');
+                return newdatearray;
             }
         };
         generator.doItemAction = function ($scope, key, todo, mode) {
@@ -839,7 +860,7 @@ angular.module('formService', ['ui.bootstrap'])
         };
 
         // get item unicode name from titleMap using this method
-        generator.item_from_array = function (item, key, array) {
+        generator.item_from_array = function (item, array) {
             var result = item;
             angular.forEach(array, function (value, key) {
                 if (value.value === item) {
@@ -857,6 +878,15 @@ angular.module('formService', ['ui.bootstrap'])
         generator.submit = function ($scope, redirectTo) {
 
             // todo: diff for all submits to recognize form change. if no change returns to view with no submit
+            var convertDate = function (model) {
+                angular.forEach(model, function (value, key) {
+                    if (value && value.constructor === Date) {
+                        model[key] = generator.dateformatter(value);
+                    }
+                    if (value && value.constructor === Object) {convertDate(value);}
+                });
+            };
+
             angular.forEach($scope.ListNode, function (value, key) {
                 $scope.model[key] = value.model;
             });
@@ -1033,7 +1063,7 @@ angular.module('formService', ['ui.bootstrap'])
                                 } else {
                                     reformattedModel[key] = {
                                         "key": key,
-                                        "unicode": Generator.item_from_array(value, key, childmodel.schema.properties[key].titleMap)
+                                        "unicode": Generator.item_from_array(value, childmodel.schema.properties[key].titleMap)
                                     };
                                 }
                             });

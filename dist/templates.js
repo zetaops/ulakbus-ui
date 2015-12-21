@@ -697,21 +697,6 @@ angular.module("shared/templates/datefield.html", []).run(["$templateCache", fun
     "\n" +
     "    </p>\n" +
     "\n" +
-    "    <!--<input ng-if=\"!form.fieldAddonLeft && !form.fieldAddonRight\"-->\n" +
-    "    <!--ng-show=\"form.key\"-->\n" +
-    "    <!--type=\"{{form.type}}\"-->\n" +
-    "    <!--step=\"any\"-->\n" +
-    "    <!--sf-changed=\"form\"-->\n" +
-    "    <!--placeholder=\"{{form.placeholder}}\"-->\n" +
-    "    <!--class=\"form-control {{form.fieldHtmlClass}}\"-->\n" +
-    "    <!--id=\"{{form.key.slice(-1)[0]}}\"-->\n" +
-    "    <!--ng-model-options=\"form.ngModelOptions\"-->\n" +
-    "    <!--ng-model=\"$$value$$\"-->\n" +
-    "    <!--ng-disabled=\"form.readonly\"-->\n" +
-    "    <!--schema-validate=\"form\"-->\n" +
-    "    <!--name=\"{{form.key.slice(-1)[0]}}\"-->\n" +
-    "    <!--aria-describedby=\"{{form.key.slice(-1)[0] + 'Status'}}\">-->\n" +
-    "\n" +
     "    <div ng-if=\"form.fieldAddonLeft || form.fieldAddonRight\"\n" +
     "         ng-class=\"{'input-group': (form.fieldAddonLeft || form.fieldAddonRight)}\">\n" +
     "    <span ng-if=\"form.fieldAddonLeft\"\n" +
@@ -1570,13 +1555,15 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
   $templateCache.put("shared/templates/foreignKey.html",
     "<div class=\"form-group {{form.htmlClass}} schema-form-select col-md-12\"\n" +
     "     ng-class=\"{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}\">\n" +
-    "        <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
-    "            {{form.title}}\n" +
-    "        </label>\n" +
-    "        <button class=\"btn btn-default\">Ekle <i class=\"fa fa-plus-circle fa-fw\"\n" +
-    "                                  add-modal-for-linked-model=\"{{form.formName}}\"></i></button>\n" +
+    "    <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
+    "        {{form.title}}\n" +
+    "    </label>\n" +
+    "    <a role=\"button\"><i class=\"fa fa-plus-circle fa-fw\" style=\"font-size: 24px;\"\n" +
+    "                        add-modal-for-linked-model=\"{{form.formName}}\"></i></a>\n" +
     "\n" +
-    "        <div class=\"form-group input-group\">\n" +
+    "    <div class=\"form-group input-group\" tooltip-enable=\"form.focusToInput\"\n" +
+    "         tooltip-is-open=\"form.focusToInput\"\n" +
+    "         tooltip-placement=\"bottom\" uib-tooltip=\"Arama sonucu çok fazla, filtre ediniz.\">\n" +
     "            <span class=\"input-group-btn\">\n" +
     "                <button class=\"btn btn-default dropdown-toggle\" type=\"button\" ng-click=\"form.getDropdownTitleMap()\"\n" +
     "                        data-toggle=\"dropdown\">\n" +
@@ -1590,37 +1577,37 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "                    </li>\n" +
     "                </ul>\n" +
     "            </span>\n" +
-    "            <input type=\"text\"\n" +
-    "                   ng-model=\"$$value$$\"\n" +
-    "                   uib-typeahead=\"item as item.name for item in form.getTitleMap($viewValue)\"\n" +
-    "                   typeahead-on-select=\"form.onSelect($item, form.name)\"\n" +
-    "                   typeahead-loading=\"loadingTitleMap\" typeahead-no-results=\"noResults\"\n" +
-    "                   typeahead-wait-ms=\"500\"\n" +
-    "                   placeholder=\"{{form.title}}\"\n" +
-    "                   ng-model-options=\"form.ngModelOptions\"\n" +
-    "                   ng-disabled=\"form.readonly\"\n" +
-    "                   sf-changed=\"form\"\n" +
-    "                   class=\"form-control {{form.fieldHtmlClass}}\"\n" +
-    "                   schema-validate=\"form\"\n" +
-    "                   name=\"{{form.name}}\"/>\n" +
-    "        </div>\n" +
-    "        <div ng-show=\"loadingTitleMap\" class=\"loader\"></div>\n" +
-    "        <div ng-show=\"noResults\">\n" +
-    "            <i class=\"fa fa-close\"></i> bulunamadı\n" +
-    "        </div>\n" +
+    "        <input type=\"text\"\n" +
+    "               ng-model=\"$$value$$\"\n" +
+    "               uib-typeahead=\"item as item.name for item in form.getTitleMap($viewValue)\"\n" +
+    "               typeahead-on-select=\"form.onSelect($item, form.name)\"\n" +
+    "               typeahead-loading=\"loadingTitleMap\" typeahead-no-results=\"noResults\"\n" +
+    "               typeahead-wait-ms=\"500\"\n" +
+    "               placeholder=\"{{form.title}}\"\n" +
+    "               ng-model-options=\"form.ngModelOptions\"\n" +
+    "               ng-disabled=\"form.readonly\"\n" +
+    "               sf-changed=\"form\"\n" +
+    "               class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "               schema-validate=\"form\"\n" +
+    "               name=\"{{form.name}}\"/>\n" +
+    "    </div>\n" +
+    "    <div ng-show=\"loadingTitleMap\" class=\"loader\"></div>\n" +
+    "    <div ng-show=\"noResults\">\n" +
+    "        <i class=\"fa fa-close\"></i> bulunamadı\n" +
+    "    </div>\n" +
     "\n" +
-    "        <!--<select ng-model=\"$$value$$\"-->\n" +
-    "        <!--value=\"$$value$$\"-->\n" +
-    "        <!--ng-model-options=\"form.ngModelOptions\"-->\n" +
-    "        <!--ng-disabled=\"form.readonly\"-->\n" +
-    "        <!--sf-changed=\"form\"-->\n" +
-    "        <!--class=\"form-control {{form.fieldHtmlClass}}\"-->\n" +
-    "        <!--schema-validate=\"form\"-->\n" +
-    "        <!--ng-options=\"item.value as item.name for item in form.titleMap\"-->\n" +
-    "        <!--name=\"{{form.key.slice(-1)[0]}}\">-->\n" +
-    "        <!--</select>-->\n" +
+    "    <!--<select ng-model=\"$$value$$\"-->\n" +
+    "    <!--value=\"$$value$$\"-->\n" +
+    "    <!--ng-model-options=\"form.ngModelOptions\"-->\n" +
+    "    <!--ng-disabled=\"form.readonly\"-->\n" +
+    "    <!--sf-changed=\"form\"-->\n" +
+    "    <!--class=\"form-control {{form.fieldHtmlClass}}\"-->\n" +
+    "    <!--schema-validate=\"form\"-->\n" +
+    "    <!--ng-options=\"item.value as item.name for item in form.titleMap\"-->\n" +
+    "    <!--name=\"{{form.key.slice(-1)[0]}}\">-->\n" +
+    "    <!--</select>-->\n" +
     "\n" +
-    "        <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
+    "    <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
     "</div>");
 }]);
 
@@ -1665,7 +1652,7 @@ angular.module("shared/templates/linkedModelModalContent.html", []).run(["$templ
     "<div class=\"modal-footer\">\n" +
     "\n" +
     "    <!--<button type=\"submit\" class=\"btn btn-primary\" ng-click=\"onSubmit(linkedModelForm)\">OK</button>-->\n" +
-    "    <button type=\"button\" class=\"btn btn-warning\" ng-click=\"cancel()\">Cancel</button>\n" +
+    "    <button type=\"button\" class=\"btn btn-warning\" ng-click=\"cancel()\">İptal</button>\n" +
     "</div>");
 }]);
 
@@ -1676,8 +1663,8 @@ angular.module("shared/templates/listnodeModalContent.html", []).run(["$template
     "    <form name=\"modalForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" modal-form-locator></form>\n" +
     "</div>\n" +
     "<div class=\"modal-footer\">\n" +
-    "    <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"onNodeSubmit()\">OK</button>\n" +
-    "    <button type=\"button\" class=\"btn btn-warning\" ng-click=\"cancel()\">Cancel</button>\n" +
+    "    <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"onNodeSubmit()\">Tamam</button>\n" +
+    "    <button type=\"button\" class=\"btn btn-warning\" ng-click=\"cancel()\">İptal</button>\n" +
     "</div>");
 }]);
 
