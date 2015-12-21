@@ -17,11 +17,12 @@
                class="form-control {{form.fieldHtmlClass}} datepickerfield"
                id="{{form.key.slice(-1)[0]}}"
                ng-model-options="form.ngModelOptions"
-               ng-model="form.modelDate"
+               ng-model="$$value$$"
                ng-disabled="form.readonly"
                schema-validate="form"
                name="{{form.key.slice(-1)[0]}}"
                aria-describedby="{{form.key.slice(-1)[0] + 'Status'}}"
+               ng-change="form.onSelect()"
 
                type="{{form.type}}"
                uib-datepicker-popup="{{form.format}}"

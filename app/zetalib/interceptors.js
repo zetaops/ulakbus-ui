@@ -121,7 +121,7 @@ app.config(['$httpProvider', function ($httpProvider) {
                             $location.path("/dashboard");
                         }
                     }
-                    errorModal();
+                    //errorModal();
                 }
                 $rootScope.$broadcast('show_notifications', rejection.data);
 

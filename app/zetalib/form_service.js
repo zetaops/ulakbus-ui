@@ -291,17 +291,10 @@ angular.module('formService', ['ui.bootstrap'])
 
                 // check if type is date and if type date found change it to string
                 if (v.type === 'date') {
-                    if (isNaN(new Date(scope.model[k]))) {
-                        var modelDate;
-                    }
-                    else {
-                        var modelDate = new Date(scope.model[k]);
-                    }
-                    scope.model[k] = generator.dateformatter(scope.model[k]);
+                    scope.model[k] = generator.dateformatter(scope.model[k] || new Date());
                     scope.form[scope.form.indexOf(k)] = {
                         key: k, name: k, title: v.title,
                         type: 'template',
-                        modelDate: modelDate,
                         templateUrl: 'shared/templates/datefield.html',
                         validationMessage: {
                             'dateNotValid': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>",
@@ -334,7 +327,10 @@ angular.module('formService', ['ui.bootstrap'])
                         open: function ($event) {
                             this.status.opened = true;
                         },
-                        format: 'dd.MM.yyyy'
+                        format: 'dd.MM.yyyy',
+                        onSelect: function () {
+                            scope.model[k] = generator.dateformatter(scope.model[k]);
+                        }
                     };
                 }
 
@@ -581,9 +577,14 @@ angular.module('formService', ['ui.bootstrap'])
                             scope[v.type][k].form.push(item.name);
                         }
 
-                        if (item.type === 'date') {
-                            scope.model[k][item.name] = generator.dateformatter(scope.model[k][item.name]);
+                        try {
+                            if (item.type === 'date') {
+                                scope.model[k][item.name] = generator.dateformatter(scope.model[k][item.name]);
+                            }
+                        } catch (e) {
+                            $log.debug('Error: ', e.message);
                         }
+
 
                     });
 
@@ -983,7 +984,7 @@ angular.module('formService', ['ui.bootstrap'])
 
                                 Generator.generate(newscope, {forms: scope.node});
                                 // modal will add only one item to listNode, so just need one model (not array)
-                                newscope.model = angular.copy(newscope.model[node.edit] || newscope.model[0] || {});
+                                newscope.model = newscope.model[node.edit] || newscope.model[0] || {};
                                 return newscope;
                             }
                         }

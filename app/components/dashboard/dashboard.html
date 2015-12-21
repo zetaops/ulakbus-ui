@@ -25,7 +25,8 @@
                     </div>
                     <div class="panel-body">
                         <div class="dashboard-student-search" data-step="2"
-                             data-intro="isim veya tcno ile öğrenci araması yapabilirsiniz.">
+                             data-intro="isim veya tcno ile öğrenci araması yapabilirsiniz."
+                             ng-show="menuitems.ogrenci">
                             <div class="text-center">
                                 <h3>ÖĞRENCİ</h3>
                                 <input type="text" placeholder="Öğrenci ara" ng-model="keyword.student"
@@ -47,7 +48,7 @@
                         </div>
                         <!-- end of dashboard-student-search -->
                         <div class="dashboard-personnel-search" data-step="3"
-                             data-intro="isim veya tcno ile personel araması yapabilirsiniz.">
+                             data-intro="isim veya tcno ile personel araması yapabilirsiniz." ng-show="menuitems.personel">
                             <div class="text-center">
                                 <h3>PERSONEL</h3>
                                 <input type="text" placeholder="Personel ara" ng-model="keyword.staff"

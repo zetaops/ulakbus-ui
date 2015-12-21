@@ -297,7 +297,8 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                    </div>\n" +
     "                    <div class=\"panel-body\">\n" +
     "                        <div class=\"dashboard-student-search\" data-step=\"2\"\n" +
-    "                             data-intro=\"isim veya tcno ile öğrenci araması yapabilirsiniz.\">\n" +
+    "                             data-intro=\"isim veya tcno ile öğrenci araması yapabilirsiniz.\"\n" +
+    "                             ng-show=\"menuitems.ogrenci\">\n" +
     "                            <div class=\"text-center\">\n" +
     "                                <h3>ÖĞRENCİ</h3>\n" +
     "                                <input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"keyword.student\"\n" +
@@ -319,7 +320,7 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                        </div>\n" +
     "                        <!-- end of dashboard-student-search -->\n" +
     "                        <div class=\"dashboard-personnel-search\" data-step=\"3\"\n" +
-    "                             data-intro=\"isim veya tcno ile personel araması yapabilirsiniz.\">\n" +
+    "                             data-intro=\"isim veya tcno ile personel araması yapabilirsiniz.\" ng-show=\"menuitems.personel\">\n" +
     "                            <div class=\"text-center\">\n" +
     "                                <h3>PERSONEL</h3>\n" +
     "                                <input type=\"text\" placeholder=\"Personel ara\" ng-model=\"keyword.staff\"\n" +
@@ -671,11 +672,12 @@ angular.module("shared/templates/datefield.html", []).run(["$templateCache", fun
     "               class=\"form-control {{form.fieldHtmlClass}} datepickerfield\"\n" +
     "               id=\"{{form.key.slice(-1)[0]}}\"\n" +
     "               ng-model-options=\"form.ngModelOptions\"\n" +
-    "               ng-model=\"form.modelDate\"\n" +
+    "               ng-model=\"$$value$$\"\n" +
     "               ng-disabled=\"form.readonly\"\n" +
     "               schema-validate=\"form\"\n" +
     "               name=\"{{form.key.slice(-1)[0]}}\"\n" +
     "               aria-describedby=\"{{form.key.slice(-1)[0] + 'Status'}}\"\n" +
+    "               ng-change=\"form.onSelect()\"\n" +
     "\n" +
     "               type=\"{{form.type}}\"\n" +
     "               uib-datepicker-popup=\"{{form.format}}\"\n" +
