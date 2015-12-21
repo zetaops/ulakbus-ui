@@ -5,11 +5,10 @@
 
             <div class="row">
                 <div class="panel panel-default">
-                    <div class="panel-heading collapsed" data-toggle="collapse" data-target="#user-info"
-                         aria-expanded="true" aria-controls="user-info">
+                    <div class="panel-heading">
                         <div class="panel-title">Giriş Yapan Kullanıcı Bilgileri</div>
                     </div>
-                    <div class="panel-body collapse" id="user-info">
+                    <div class="panel-body">
                         <div class="col-md-4 col-md-offset-4 text-center">
                             <img class="img-circle img-responsive" src="{{$root.current_user.avatar}}"
                                  alt="{{$root.current_user.username}}">
@@ -21,11 +20,10 @@
             <div class="row" ng-if="$root.current_user.is_staff">
 
                 <div class="panel panel-default">
-                    <div class="panel-heading" data-toggle="collapse" data-target="#search_users"
-                         aria-expanded="true" aria-controls="search_users">
+                    <div class="panel-heading">
                         <div class="panel-title">Arama</div>
                     </div>
-                    <div class="panel-body" id="search_users">
+                    <div class="panel-body">
                         <div class="dashboard-student-search" data-step="2"
                              data-intro="isim veya tcno ile öğrenci araması yapabilirsiniz.">
                             <div class="text-center">
@@ -77,11 +75,10 @@
 
             <div class="row">
                 <div class="panel panel-default">
-                    <div class="panel-heading" data-toggle="collapse" data-target="#quick-menu-items"
-                         aria-expanded="true" aria-controls="quick-menu-items">
+                    <div class="panel-heading">
                         <div class="panel-title">Hızlı İşlemler</div>
                     </div>
-                    <div class="panel-body" id="quick-menu-items">
+                    <div class="panel-body">
                         <div class="col-md-6 text-center" ng-repeat="menu in $root.quick_menu">
                             <a ng-href="#/{{menu[0].wf}}/{{menu[0].model}}?{{menu[0].param}}={{selectedUser.key}}">
                                 {{menu[0].text}} <i class="fa fa-connectdevelop"></i>

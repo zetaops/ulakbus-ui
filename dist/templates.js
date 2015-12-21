@@ -277,11 +277,10 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "\n" +
     "            <div class=\"row\">\n" +
     "                <div class=\"panel panel-default\">\n" +
-    "                    <div class=\"panel-heading collapsed\" data-toggle=\"collapse\" data-target=\"#user-info\"\n" +
-    "                         aria-expanded=\"true\" aria-controls=\"user-info\">\n" +
+    "                    <div class=\"panel-heading\">\n" +
     "                        <div class=\"panel-title\">Giriş Yapan Kullanıcı Bilgileri</div>\n" +
     "                    </div>\n" +
-    "                    <div class=\"panel-body collapse\" id=\"user-info\">\n" +
+    "                    <div class=\"panel-body\">\n" +
     "                        <div class=\"col-md-4 col-md-offset-4 text-center\">\n" +
     "                            <img class=\"img-circle img-responsive\" src=\"{{$root.current_user.avatar}}\"\n" +
     "                                 alt=\"{{$root.current_user.username}}\">\n" +
@@ -293,11 +292,10 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "            <div class=\"row\" ng-if=\"$root.current_user.is_staff\">\n" +
     "\n" +
     "                <div class=\"panel panel-default\">\n" +
-    "                    <div class=\"panel-heading\" data-toggle=\"collapse\" data-target=\"#search_users\"\n" +
-    "                         aria-expanded=\"true\" aria-controls=\"search_users\">\n" +
+    "                    <div class=\"panel-heading\">\n" +
     "                        <div class=\"panel-title\">Arama</div>\n" +
     "                    </div>\n" +
-    "                    <div class=\"panel-body\" id=\"search_users\">\n" +
+    "                    <div class=\"panel-body\">\n" +
     "                        <div class=\"dashboard-student-search\" data-step=\"2\"\n" +
     "                             data-intro=\"isim veya tcno ile öğrenci araması yapabilirsiniz.\">\n" +
     "                            <div class=\"text-center\">\n" +
@@ -349,11 +347,10 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "\n" +
     "            <div class=\"row\">\n" +
     "                <div class=\"panel panel-default\">\n" +
-    "                    <div class=\"panel-heading\" data-toggle=\"collapse\" data-target=\"#quick-menu-items\"\n" +
-    "                         aria-expanded=\"true\" aria-controls=\"quick-menu-items\">\n" +
+    "                    <div class=\"panel-heading\">\n" +
     "                        <div class=\"panel-title\">Hızlı İşlemler</div>\n" +
     "                    </div>\n" +
-    "                    <div class=\"panel-body\" id=\"quick-menu-items\">\n" +
+    "                    <div class=\"panel-body\">\n" +
     "                        <div class=\"col-md-6 text-center\" ng-repeat=\"menu in $root.quick_menu\">\n" +
     "                            <a ng-href=\"#/{{menu[0].wf}}/{{menu[0].model}}?{{menu[0].param}}={{selectedUser.key}}\">\n" +
     "                                {{menu[0].text}} <i class=\"fa fa-connectdevelop\"></i>\n" +
