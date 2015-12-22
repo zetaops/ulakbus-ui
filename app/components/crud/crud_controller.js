@@ -10,7 +10,9 @@
 
 angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
     .config(function (sfErrorMessageProvider) {
-        sfErrorMessageProvider.setDefaultMessage(302, 'Bu alan zorunludur.')
+        sfErrorMessageProvider.setDefaultMessage(302, 'Bu alan zorunludur.');
+        sfErrorMessageProvider.setDefaultMessage(200, 'En az {{schema.minLength}} değer giriniz.');
+        sfErrorMessageProvider.setDefaultMessage(201, 'En fazla {{schema.minLength}} değer giriniz.');
     })
 
     /**

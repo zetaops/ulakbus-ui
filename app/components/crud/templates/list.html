@@ -12,8 +12,8 @@
         <table class="table table-bordered" style="background-color:#fff;">
             <thead>
             <tr>
-                <td colspan="2">
-                    <label ng-if="meta.allow_selection === true">
+                <td ng-if="meta.allow_selection === true">
+                    <label>
                         <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
                         Hepsini Seç
                     </label>
@@ -25,12 +25,12 @@
             </thead>
             <tbody>
             <tr ng-repeat="object in objects" ng-if="$index>0">
-                <td width="60">
-                    <label ng-if="meta.allow_selection === true">
+                <td width="60" ng-if="meta.allow_selection === true">
+                    <label>
                         <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
                     </label>
                 </td>
-                <td scope="row" style="text-align:center">{{$index}}</td>
+                <!--<td scope="row" style="text-align:center">{{$index}}</td>-->
 
                 <td ng-repeat="field in object.fields track by $index">
                     <a role="button" ng-if="field.type==='link'"

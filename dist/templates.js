@@ -175,8 +175,8 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "        <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
     "            <thead>\n" +
     "            <tr>\n" +
-    "                <td colspan=\"2\">\n" +
-    "                    <label ng-if=\"meta.allow_selection === true\">\n" +
+    "                <td ng-if=\"meta.allow_selection === true\">\n" +
+    "                    <label>\n" +
     "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
     "                        Hepsini Seç\n" +
     "                    </label>\n" +
@@ -188,12 +188,12 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "            </thead>\n" +
     "            <tbody>\n" +
     "            <tr ng-repeat=\"object in objects\" ng-if=\"$index>0\">\n" +
-    "                <td width=\"60\">\n" +
-    "                    <label ng-if=\"meta.allow_selection === true\">\n" +
+    "                <td width=\"60\" ng-if=\"meta.allow_selection === true\">\n" +
+    "                    <label>\n" +
     "                        <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
     "                    </label>\n" +
     "                </td>\n" +
-    "                <td scope=\"row\" style=\"text-align:center\">{{$index}}</td>\n" +
+    "                <!--<td scope=\"row\" style=\"text-align:center\">{{$index}}</td>-->\n" +
     "\n" +
     "                <td ng-repeat=\"field in object.fields track by $index\">\n" +
     "                    <a role=\"button\" ng-if=\"field.type==='link'\"\n" +

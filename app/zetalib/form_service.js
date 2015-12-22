@@ -902,7 +902,8 @@ angular.module('formService', ['ui.bootstrap'])
                 "cmd": $scope.form_params.cmd,
                 "flow": $scope.form_params.flow,
                 "object_id": $scope.object_id,
-                "filter": $scope.filter
+                "filter": $scope.filter,
+                "query": $scope.form_params.query
             };
 
             return $http.post(generator.makeUrl($scope), data)
