@@ -20,7 +20,7 @@ angular.module('formService', ['ui.bootstrap'])
      * @description
      * form service's Generator factory service handles all generic form operations
      */
-    .factory('Generator', function ($http, $q, $timeout, $location, $route, $compile, $log, RESTURL, $rootScope) {
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope) {
         var generator = {};
         /**
          * @name makeUrl
@@ -213,7 +213,9 @@ angular.module('formService', ['ui.bootstrap'])
                         templateUrl: "shared/templates/filefield.html",
                         name: k,
                         key: k,
-                        titleMap: v.titleMap
+                        fileInsert: function () {
+                            $scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
+                        }
                     };
                     v.type = 'string';
                 }
@@ -904,7 +906,18 @@ angular.module('formService', ['ui.bootstrap'])
             };
 
             return $http.post(generator.makeUrl($scope), data)
-                .success(function (data) {
+                .success(function (data, status, headers) {
+                    if (headers('content-type') === "application/pdf") {
+                        var a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+                        var file = new Blob([data], {type: 'application/pdf'});
+                        var fileURL = URL.createObjectURL(file);
+                        var fileName = $scope.schema.title;
+                        a.href = fileURL;
+                        a.download = fileName;
+                        a.click();
+                    }
                     if (redirectTo === true) {
                         if (data.client_cmd) {
                             generator.pathDecider(data.client_cmd, $scope, data);

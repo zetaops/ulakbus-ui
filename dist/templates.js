@@ -181,7 +181,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                        Hepsini Seç\n" +
     "                    </label>\n" +
     "                </td>\n" +
-    "                <td ng-repeat=\"value in objects[0]\" ng-if=\"objects[0]!='-1'\">{{value}}</td>\n" +
+    "                <td ng-repeat=\"value in objects[0] track by $index\" ng-if=\"objects[0]!='-1'\">{{value}}</td>\n" +
     "                <td ng-if=\"objects[0]=='-1'\">{{ schema.title||model}}</td>\n" +
     "                <td>action</td>\n" +
     "            </tr>\n" +
@@ -202,7 +202,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                </td>\n" +
     "\n" +
     "                <td>\n" +
-    "                    <button class=\"btn btn-info\" style=\"margin-right: 5px;\" ng-repeat=\"action in object.actions\"\n" +
+    "                    <button class=\"btn btn-info\" style=\"margin-right: 5px;\" ng-repeat=\"action in object.actions track by $index\"\n" +
     "                            ng-if=\"action.show_as==='button'\"\n" +
     "                            ng-click=\"do_action(object.key, action)\">{{action\n" +
     "                        .name}}\n" +
@@ -272,10 +272,10 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
   $templateCache.put("components/dashboard/dashboard.html",
     "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
-    "    \n" +
-    "    \n" +
-    "    	<div class=\"row\">\n" +
-    "    \n" +
+    "\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "\n" +
     "            <div class=\"col-md-6 user-info\">\n" +
     "                <div class=\"panel panel-default\">\n" +
     "                    <div class=\"panel-heading\">\n" +
@@ -283,91 +283,94 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                    </div>\n" +
     "                    <div class=\"panel-body\">\n" +
     "                        <div class=\"col-md-4 col-md-offset-4 text-center\">\n" +
-    "                            <img class=\"img-circle user-pic\" src=\"{{$root.current_user.avatar}}\" alt=\"{{$root.current_user.username}}\">\n" +
+    "                            <img class=\"img-circle user-pic\" src=\"{{$root.current_user.avatar}}\"\n" +
+    "                                 alt=\"{{$root.current_user.username}}\">\n" +
     "                            <p class=\"user-name\">{{$root.current_user.name}} {{$root.current_user.surname}}</p>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
     "            </div>\n" +
-    "    \n" +
-    "        	<div class=\"col-md-6 quick-links\">\n" +
+    "\n" +
+    "            <div class=\"col-md-6 quick-links\">\n" +
     "                <div class=\"panel panel-default\">\n" +
     "                    <div class=\"panel-heading\">\n" +
     "                        <div class=\"panel-title\">Hızlı İşlemler</div>\n" +
     "                    </div>\n" +
     "                    <div class=\"panel-body\">\n" +
     "                        <div class=\"col-md-6 text-center link-buttons\" ng-repeat=\"menu in $root.quick_menu\">\n" +
-    "                            <a ng-href=\"#/{{menu[0].wf}}/{{menu[0].model}}?{{menu[0].param}}={{selectedUser.key}}\">\n" +
-    "                                {{menu[0].text}} \n" +
+    "                            <a ng-repeat=\"item in menu\"\n" +
+    "                               ng-href=\"#/{{item.wf}}/{{item.model}}?{{item.param}}={{selectedUser.key}}\">\n" +
+    "                                {{item.text}}\n" +
     "                            </a>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
     "            </div>\n" +
-    "            \n" +
+    "\n" +
     "        </div>\n" +
-    "		<!-- end of row -->\n" +
-    "        \n" +
+    "        <!-- end of row -->\n" +
+    "\n" +
     "        <div class=\"dashboard-main-search clearfix\">\n" +
-    "            \n" +
-    "            <div class=\"row\" ng-if=\"$root.current_user.is_staff\">\n" +
-    "				<div class=\"col-md-12\">\n" +
-    "                <div class=\"panel panel-default\">\n" +
-    "                    <div class=\"panel-heading\">\n" +
-    "                        <div class=\"panel-title\">Arama</div>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"panel-body\">\n" +
-    "                        <div class=\"dashboard-student-search\" data-step=\"2\"\n" +
-    "                             data-intro=\"isim veya tcno ile öğrenci araması yapabilirsiniz.\"\n" +
-    "                             ng-show=\"menuitems.ogrenci\">\n" +
-    "                            <div class=\"text-center\">\n" +
-    "                                <h3>ÖĞRENCİ</h3>\n" +
-    "                                <input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"keyword.student\"\n" +
-    "                                       ng-keyup=\"search('ogrenci')\">\n" +
-    "                                <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('ogrenci')\"></span>\n" +
-    "                            </div>\n" +
-    "                            <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
-    "                                <ul ng-if=\"students.length > 0\">\n" +
-    "                                    <li ng-repeat=\"student in students\">\n" +
-    "                                        <a role=\"button\">\n" +
-    "                                            <span ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</span>\n" +
-    "                                            <i class=\"fa fa-fw fa-info-circle pull-right\" popover-placement=\"bottom\"\n" +
-    "                                               uib-popover-template=\"userPopover.templateUrl\"\n" +
-    "                                               ng-click=\"get_info('Ogrenci', student[2])\"></i></a>\n" +
-    "                                    </li>\n" +
-    "                                </ul>\n" +
-    "                            </div>\n" +
-    "                            <!-- end of dashboard-student-search-results -->\n" +
+    "\n" +
+    "            <div class=\"row\" ng-show=\"$root.current_user.is_staff\">\n" +
+    "                <div class=\"col-md-12\">\n" +
+    "                    <div class=\"panel panel-default\">\n" +
+    "                        <div class=\"panel-heading\">\n" +
+    "                            <div class=\"panel-title\">Arama</div>\n" +
     "                        </div>\n" +
-    "                        <!-- end of dashboard-student-search -->\n" +
-    "                        <div class=\"dashboard-personnel-search\" data-step=\"3\"\n" +
-    "                             data-intro=\"isim veya tcno ile personel araması yapabilirsiniz.\" ng-show=\"menuitems.personel\">\n" +
-    "                            <div class=\"text-center\">\n" +
-    "                                <h3>PERSONEL</h3>\n" +
-    "                                <input type=\"text\" placeholder=\"Personel ara\" ng-model=\"keyword.staff\"\n" +
-    "                                       ng-keyup=\"search('personel')\">\n" +
-    "                                <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('personel')\"></span>\n" +
+    "                        <div class=\"panel-body\">\n" +
+    "                            <div class=\"dashboard-student-search\" data-step=\"2\"\n" +
+    "                                 data-intro=\"isim veya tcno ile öğrenci araması yapabilirsiniz.\"\n" +
+    "                                 ng-show=\"$root.searchInputs.ogrenci\">\n" +
+    "                                <div class=\"text-center\">\n" +
+    "                                    <h3>ÖĞRENCİ</h3>\n" +
+    "                                    <input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"keyword.student\"\n" +
+    "                                           ng-keyup=\"search('ogrenci')\">\n" +
+    "                                    <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('ogrenci')\"></span>\n" +
+    "                                </div>\n" +
+    "                                <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
+    "                                    <ul ng-if=\"students.length > 0\">\n" +
+    "                                        <li ng-repeat=\"student in students\">\n" +
+    "                                            <a role=\"button\">\n" +
+    "                                                <span ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</span>\n" +
+    "                                                <i class=\"fa fa-fw fa-info-circle pull-right\" popover-placement=\"bottom\"\n" +
+    "                                                   uib-popover-template=\"userPopover.templateUrl\"\n" +
+    "                                                   ng-click=\"get_info('Ogrenci', student[2])\"></i></a>\n" +
+    "                                        </li>\n" +
+    "                                    </ul>\n" +
+    "                                </div>\n" +
+    "                                <!-- end of dashboard-student-search-results -->\n" +
     "                            </div>\n" +
-    "                            <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
-    "                                <ul ng-if=\"staffs.length > 0\">\n" +
-    "                                    <li ng-repeat=\"staff in staffs\">\n" +
-    "                                        <a role=\"button\">\n" +
-    "                                            <span ng-click=\"select(staff, 'personel')\">{{staff[0]}}</span>\n" +
-    "                                            <i class=\"fa fa-fw fa-info-circle pull-right\"\n" +
-    "                                               popover-placement=\"bottom\"\n" +
-    "                                               uib-popover-template=\"userPopover.templateUrl\"\n" +
-    "                                               ng-click=\"get_info('Personel', staff[2])\"></i></a>\n" +
-    "                                    </li>\n" +
-    "                                </ul>\n" +
+    "                            <!-- end of dashboard-student-search -->\n" +
+    "                            <div class=\"dashboard-personnel-search\" data-step=\"3\"\n" +
+    "                                 data-intro=\"isim veya tcno ile personel araması yapabilirsiniz.\"\n" +
+    "                                 ng-show=\"$root.searchInputs.personel\">\n" +
+    "                                <div class=\"text-center\">\n" +
+    "                                    <h3>PERSONEL</h3>\n" +
+    "                                    <input type=\"text\" placeholder=\"Personel ara\" ng-model=\"keyword.staff\"\n" +
+    "                                           ng-keyup=\"search('personel')\">\n" +
+    "                                    <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('personel')\"></span>\n" +
+    "                                </div>\n" +
+    "                                <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
+    "                                    <ul ng-if=\"staffs.length > 0\">\n" +
+    "                                        <li ng-repeat=\"staff in staffs\">\n" +
+    "                                            <a role=\"button\">\n" +
+    "                                                <span ng-click=\"select(staff, 'personel')\">{{staff[0]}}</span>\n" +
+    "                                                <i class=\"fa fa-fw fa-info-circle pull-right\"\n" +
+    "                                                   popover-placement=\"bottom\"\n" +
+    "                                                   uib-popover-template=\"userPopover.templateUrl\"\n" +
+    "                                                   ng-click=\"get_info('Personel', staff[2])\"></i></a>\n" +
+    "                                        </li>\n" +
+    "                                    </ul>\n" +
+    "                                </div>\n" +
+    "                                <!-- end of dashboard-personnel-search-results -->\n" +
     "                            </div>\n" +
-    "                            <!-- end of dashboard-personnel-search-results -->\n" +
+    "                            <!-- end of dashboard-personnel-search -->\n" +
     "                        </div>\n" +
-    "                        <!-- end of dashboard-personnel-search -->\n" +
     "                    </div>\n" +
     "                </div>\n" +
     "            </div>\n" +
-    "			</div>\n" +
-    "            \n" +
+    "\n" +
     "        </div>\n" +
     "        <!-- end of dashboard-main-search -->\n" +
     "\n" +
@@ -1544,6 +1547,7 @@ angular.module("shared/templates/filefield.html", []).run(["$templateCache", fun
     "               sf-changed=\"form\"\n" +
     "               class=\"form-control {{form.fieldHtmlClass}}\"\n" +
     "               schema-validate=\"form\"\n" +
+    "               ng-change=\"form.fileInsert()\"\n" +
     "               name=\"{{form.name}}\"/>\n" +
     "    </div>\n" +
     "\n" +

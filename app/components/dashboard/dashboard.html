@@ -1,9 +1,9 @@
 <div ng-app="ulakbus.dashboard" class="dashboard">
     <div class="starter-template">
-    
-    
-    	<div class="row">
-    
+
+
+        <div class="row">
+
             <div class="col-md-6 user-info">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -11,91 +11,94 @@
                     </div>
                     <div class="panel-body">
                         <div class="col-md-4 col-md-offset-4 text-center">
-                            <img class="img-circle user-pic" src="{{$root.current_user.avatar}}" alt="{{$root.current_user.username}}">
+                            <img class="img-circle user-pic" src="{{$root.current_user.avatar}}"
+                                 alt="{{$root.current_user.username}}">
                             <p class="user-name">{{$root.current_user.name}} {{$root.current_user.surname}}</p>
                         </div>
                     </div>
                 </div>
             </div>
-    
-        	<div class="col-md-6 quick-links">
+
+            <div class="col-md-6 quick-links">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="panel-title">Hızlı İşlemler</div>
                     </div>
                     <div class="panel-body">
                         <div class="col-md-6 text-center link-buttons" ng-repeat="menu in $root.quick_menu">
-                            <a ng-href="#/{{menu[0].wf}}/{{menu[0].model}}?{{menu[0].param}}={{selectedUser.key}}">
-                                {{menu[0].text}} 
+                            <a ng-repeat="item in menu"
+                               ng-href="#/{{item.wf}}/{{item.model}}?{{item.param}}={{selectedUser.key}}">
+                                {{item.text}}
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
         </div>
-		<!-- end of row -->
-        
+        <!-- end of row -->
+
         <div class="dashboard-main-search clearfix">
-            
-            <div class="row" ng-if="$root.current_user.is_staff">
-				<div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="panel-title">Arama</div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="dashboard-student-search" data-step="2"
-                             data-intro="isim veya tcno ile öğrenci araması yapabilirsiniz."
-                             ng-show="menuitems.ogrenci">
-                            <div class="text-center">
-                                <h3>ÖĞRENCİ</h3>
-                                <input type="text" placeholder="Öğrenci ara" ng-model="keyword.student"
-                                       ng-keyup="search('ogrenci')">
-                                <span class="bordered-fa-icon fa fa-search" ng-click="search('ogrenci')"></span>
-                            </div>
-                            <div class="dashboard-search-results" ng-show="showResults">
-                                <ul ng-if="students.length > 0">
-                                    <li ng-repeat="student in students">
-                                        <a role="button">
-                                            <span ng-click="select(student, 'ogrenci')">{{student[0]}}</span>
-                                            <i class="fa fa-fw fa-info-circle pull-right" popover-placement="bottom"
-                                               uib-popover-template="userPopover.templateUrl"
-                                               ng-click="get_info('Ogrenci', student[2])"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- end of dashboard-student-search-results -->
+
+            <div class="row" ng-show="$root.current_user.is_staff">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="panel-title">Arama</div>
                         </div>
-                        <!-- end of dashboard-student-search -->
-                        <div class="dashboard-personnel-search" data-step="3"
-                             data-intro="isim veya tcno ile personel araması yapabilirsiniz." ng-show="menuitems.personel">
-                            <div class="text-center">
-                                <h3>PERSONEL</h3>
-                                <input type="text" placeholder="Personel ara" ng-model="keyword.staff"
-                                       ng-keyup="search('personel')">
-                                <span class="bordered-fa-icon fa fa-search" ng-click="search('personel')"></span>
+                        <div class="panel-body">
+                            <div class="dashboard-student-search" data-step="2"
+                                 data-intro="isim veya tcno ile öğrenci araması yapabilirsiniz."
+                                 ng-show="$root.searchInputs.ogrenci">
+                                <div class="text-center">
+                                    <h3>ÖĞRENCİ</h3>
+                                    <input type="text" placeholder="Öğrenci ara" ng-model="keyword.student"
+                                           ng-keyup="search('ogrenci')">
+                                    <span class="bordered-fa-icon fa fa-search" ng-click="search('ogrenci')"></span>
+                                </div>
+                                <div class="dashboard-search-results" ng-show="showResults">
+                                    <ul ng-if="students.length > 0">
+                                        <li ng-repeat="student in students">
+                                            <a role="button">
+                                                <span ng-click="select(student, 'ogrenci')">{{student[0]}}</span>
+                                                <i class="fa fa-fw fa-info-circle pull-right" popover-placement="bottom"
+                                                   uib-popover-template="userPopover.templateUrl"
+                                                   ng-click="get_info('Ogrenci', student[2])"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- end of dashboard-student-search-results -->
                             </div>
-                            <div class="dashboard-search-results" ng-show="showResults">
-                                <ul ng-if="staffs.length > 0">
-                                    <li ng-repeat="staff in staffs">
-                                        <a role="button">
-                                            <span ng-click="select(staff, 'personel')">{{staff[0]}}</span>
-                                            <i class="fa fa-fw fa-info-circle pull-right"
-                                               popover-placement="bottom"
-                                               uib-popover-template="userPopover.templateUrl"
-                                               ng-click="get_info('Personel', staff[2])"></i></a>
-                                    </li>
-                                </ul>
+                            <!-- end of dashboard-student-search -->
+                            <div class="dashboard-personnel-search" data-step="3"
+                                 data-intro="isim veya tcno ile personel araması yapabilirsiniz."
+                                 ng-show="$root.searchInputs.personel">
+                                <div class="text-center">
+                                    <h3>PERSONEL</h3>
+                                    <input type="text" placeholder="Personel ara" ng-model="keyword.staff"
+                                           ng-keyup="search('personel')">
+                                    <span class="bordered-fa-icon fa fa-search" ng-click="search('personel')"></span>
+                                </div>
+                                <div class="dashboard-search-results" ng-show="showResults">
+                                    <ul ng-if="staffs.length > 0">
+                                        <li ng-repeat="staff in staffs">
+                                            <a role="button">
+                                                <span ng-click="select(staff, 'personel')">{{staff[0]}}</span>
+                                                <i class="fa fa-fw fa-info-circle pull-right"
+                                                   popover-placement="bottom"
+                                                   uib-popover-template="userPopover.templateUrl"
+                                                   ng-click="get_info('Personel', staff[2])"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- end of dashboard-personnel-search-results -->
                             </div>
-                            <!-- end of dashboard-personnel-search-results -->
+                            <!-- end of dashboard-personnel-search -->
                         </div>
-                        <!-- end of dashboard-personnel-search -->
                     </div>
                 </div>
             </div>
-			</div>
-            
+
         </div>
         <!-- end of dashboard-main-search -->
 

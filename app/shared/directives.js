@@ -117,8 +117,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
                                 model: $scope.$parent.form_params.model,
                                 cmd: $scope.$parent.reload_cmd,
                                 flow: $scope.$parent.form_params.flow,
-                                param: 'query',
-                                id: $scope.searchModel.searchbox
+                                query: $scope.searchModel.searchbox
                             }
                         };
 
@@ -310,7 +309,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
             restrict: 'E',
             replace: true,
             scope: {},
-            controller: function ($scope, $rootScope, $cookies, $route, $http, RESTURL, $location, $window, $timeout) {
+            controller: function ($scope, $rootScope, $cookies, $route, $http, RESTURL, $log, $location, $window, $timeout) {
                 $scope.prepareMenu = function (menuItems) {
                     var newMenuItems = {};
                     angular.forEach(menuItems, function (value, key) {
@@ -349,6 +348,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
 
                         $rootScope.quick_menu = reGroupMenuItems(data.quick_menu, 'quick_menus');
                         delete data.quick_menu;
+                        $log.debug('quick menu', $rootScope.quick_menu);
 
                         // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
                         // related items

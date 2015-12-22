@@ -20,7 +20,7 @@ angular.module('ulakbus.dashboard', [])
 
         // to show search box based on authz
         $scope.$on("authz", function (event, data) {
-            $scope.menuitems = data;
+            $rootScope.searchInputs = data;
         });
 
         $scope.keyword = {student: "", staff: ""};
