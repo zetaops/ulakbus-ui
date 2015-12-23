@@ -1378,7 +1378,8 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "                               'Genel': 'fa fa-fw fa-graduation-cap',\n" +
     "                               'Alt Kategori': 'fa fa-fw fa-tags',\n" +
     "                               'Kadro Islemleri': 'fa fa-fw fa-users',\n" +
-    "                               'Seçime Uygun Görevler':'fa fa-fw fa-user'\n" +
+    "                               'Seçime Uygun Görevler':'fa fa-fw fa-user',\n" +
+    "                               'Raporlar': 'fa fa-pie-chart'\n" +
     "                               }[item[0].kategori]\"></i>\n" +
     "                        <span class=\"menu-text\" ng-class=\"{hidden: $root.collapsed}\">{{ key }}</span>\n" +
     "                        <span class=\"fa arrow\" ng-class=\"{hidden: $root.collapsed}\"></span>\n" +
