@@ -315,7 +315,7 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "\n" +
     "        <div class=\"dashboard-main-search clearfix\">\n" +
     "\n" +
-    "            <div class=\"row\" ng-show=\"$root.current_user.is_staff\">\n" +
+    "            <div class=\"row\" ng-show=\"$root.current_user.can_search\">\n" +
     "                <div class=\"col-md-12\">\n" +
     "                    <div class=\"panel panel-default\">\n" +
     "                        <div class=\"panel-heading\">\n" +
@@ -1296,7 +1296,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "\n" +
     "    <div class=\"sidebar-container\">\n" +
     "        <!-- sidebar-person-info -->\n" +
-    "        <div class=\"sidebar-person-info\" ng-show=\"$root.current_user.is_staff\">\n" +
+    "        <div class=\"sidebar-person-info\" ng-show=\"$root.current_user.can_search\">\n" +
     "            <!--<button class=\"btn btn-primary close-sidebar-person-info\">Profili Kapat</button>-->\n" +
     "            <div class=\"identity\">\n" +
     "                <button type=\"button\" class=\"close\" ng-class=\"{hidden: $root.collapsed || !selectedUser}\"\n" +
