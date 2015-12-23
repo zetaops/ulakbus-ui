@@ -515,7 +515,7 @@ select {
 }
 
 .sidebar ul li a {
-	height:40px;
+	/*height:40px;*/
 	overflow:hidden;
 }
 
