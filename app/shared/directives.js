@@ -347,6 +347,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
                         // quick menus to dashboard via rootscope
 
                         $rootScope.quick_menu = reGroupMenuItems(data.quick_menu, 'quick_menus');
+                        $rootScope.quick_menu = data.quick_menu;
                         delete data.quick_menu;
                         $log.debug('quick menu', $rootScope.quick_menu);
 

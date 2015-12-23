@@ -21,7 +21,7 @@ angular.module("components/auth/login.html", []).run(["$templateCache", function
 
 angular.module("components/crud/templates/crud.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/crud.html",
-    "<div class=\"row\">\n" +
+    "<div class=\"container-fluid\">\n" +
     "    <div ng-class=\"{'col-md-8': meta.allow_filters}\">\n" +
     "        <h3>{{ schema.title }}</h3>\n" +
     "        <crud-show-directive ng-if=\"object\"></crud-show-directive>\n" +
@@ -182,7 +182,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                </td>\n" +
     "                <td ng-repeat=\"value in objects[0] track by $index\" ng-if=\"objects[0]!='-1'\">{{value}}</td>\n" +
     "                <td ng-if=\"objects[0]=='-1'\">{{ schema.title||model}}</td>\n" +
-    "                <td>action</td>\n" +
+    "                <td>İşlem</td>\n" +
     "            </tr>\n" +
     "            </thead>\n" +
     "            <tbody>\n" +
@@ -299,8 +299,9 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                        <div class=\"panel-title\">Hızlı İşlemler</div>\n" +
     "                    </div>\n" +
     "                    <div class=\"panel-body\">\n" +
-    "                        <div class=\"col-md-6 text-center link-buttons\" ng-repeat=\"menu in $root.quick_menu\">\n" +
-    "                            <a ng-repeat=\"item in menu\"\n" +
+    "                        <div class=\"col-md-6 text-center link-buttons\"\n" +
+    "                             ng-repeat=\"item in $root.quick_menu track by $index\">\n" +
+    "                            <a\n" +
     "                               ng-href=\"#/{{item.wf}}/{{item.model}}?{{item.param}}={{selectedUser.key}}\">\n" +
     "                                {{item.text}}\n" +
     "                            </a>\n" +
@@ -385,7 +386,9 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                            <div class=\"panel-title\">Duyurular</div>\n" +
     "                        </div>\n" +
     "                        <div class=\"panel-body\">\n" +
-    "\n" +
+    "                            <a ng-click=\"markAsRead(notify)\"\n" +
+    "                               ng-repeat=\"notify in notifications[3] | limitTo:5\">{{notify\n" +
+    "                                .body}}</a>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -405,6 +408,7 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                        <span><a role=\"button\">Tüm Mesajlar</a></span>\n" +
     "                    </div>\n" +
     "                    <!-- end of right-sidebar-title -->\n" +
+    "                    <p ng-show=\"notifications[2].length === 0\" class=\"text-center\">Görüntülenecek içerik yok.</p>\n" +
     "\n" +
     "                    <div class=\"right-sidebar-message-block\" ng-repeat=\"notify in notifications[2] | limitTo:5\">\n" +
     "                        <a class=\"clearfix\" ng-click=\"markAsRead(notify)\">\n" +
@@ -433,6 +437,8 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                        <span><a role=\"button\">Tüm Görevler</a></span>\n" +
     "                    </div>\n" +
     "\n" +
+    "                    <p ng-show=\"notifications[1].length === 0\" class=\"text-center\">Görüntülenecek içerik yok.</p>\n" +
+    "\n" +
     "                    <div class=\"right-sidebar-task-block\">\n" +
     "                        <!--<div class=\"task-type\">Onay Bekleyen Görevler</div>-->\n" +
     "                        <a ng-click=\"markAsRead(notify)\" ng-repeat=\"notify in notifications[1] | limitTo:5\">\n" +
@@ -447,25 +453,25 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "            <!-- end of right-sidebar-box -->\n" +
     "\n" +
     "\n" +
-    "            <div class=\"right-sidebar-box\">\n" +
-    "                <div class=\"right-sidebar-announcements\">\n" +
+    "            <!--<div class=\"right-sidebar-box\">-->\n" +
+    "                <!--<div class=\"right-sidebar-announcements\">-->\n" +
     "\n" +
-    "                    <div class=\"right-sidebar-title clearfix\">\n" +
-    "                        <h3>Duyurular</h3>\n" +
-    "                        <span><a role=\"button\">Tüm Duyurular</a></span>\n" +
-    "                    </div>\n" +
-    "                    <!-- end of right-sidebar-title -->\n" +
+    "                    <!--<div class=\"right-sidebar-title clearfix\">-->\n" +
+    "                        <!--<h3>Duyurular</h3>-->\n" +
+    "                        <!--<span><a role=\"button\">Tüm Duyurular</a></span>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                    <!--&lt;!&ndash; end of right-sidebar-title &ndash;&gt;-->\n" +
     "\n" +
-    "                    <div class=\"right-sidebar-announcement-block\">\n" +
-    "                        <a ng-click=\"markAsRead(notify)\"\n" +
-    "                           ng-repeat=\"notify in notifications[3] | limitTo:5\">{{notify\n" +
-    "                            .body}}</a>\n" +
-    "                    </div>\n" +
-    "                    <!-- end of right-sidebar-status-block -->\n" +
+    "                    <!--<div class=\"right-sidebar-announcement-block\">-->\n" +
+    "                        <!--<a ng-click=\"markAsRead(notify)\"-->\n" +
+    "                           <!--ng-repeat=\"notify in notifications[3] | limitTo:5\">{{notify-->\n" +
+    "                            <!--.body}}</a>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                    <!--&lt;!&ndash; end of right-sidebar-status-block &ndash;&gt;-->\n" +
     "\n" +
-    "                </div>\n" +
-    "                <!-- end of right-sidebar-status -->\n" +
-    "            </div>\n" +
+    "                <!--</div>-->\n" +
+    "                <!--&lt;!&ndash; end of right-sidebar-status &ndash;&gt;-->\n" +
+    "            <!--</div>-->\n" +
     "            <!-- end of right-sidebar-box -->\n" +
     "\n" +
     "\n" +
@@ -475,6 +481,14 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                    <div class=\"right-sidebar-title clearfix\">\n" +
     "                        <h3>Son İşlemler</h3>\n" +
     "                        <span><a role=\"button\">Tüm İşlemler</a></span>\n" +
+    "                    </div>\n" +
+    "\n" +
+    "                    <p class=\"text-center\">Görüntülenecek içerik yok.</p>\n" +
+    "\n" +
+    "                    <div class=\"right-sidebar-task-block\">\n" +
+    "                        <a>\n" +
+    "                            <div class=\"task-title\"></div>\n" +
+    "                        </a>\n" +
     "                    </div>\n" +
     "\n" +
     "                </div>\n" +

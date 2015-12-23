@@ -28,8 +28,9 @@
                         <div class="panel-title">Hızlı İşlemler</div>
                     </div>
                     <div class="panel-body">
-                        <div class="col-md-6 text-center link-buttons" ng-repeat="menu in $root.quick_menu">
-                            <a ng-repeat="item in menu"
+                        <div class="col-md-6 text-center link-buttons"
+                             ng-repeat="item in $root.quick_menu track by $index">
+                            <a
                                ng-href="#/{{item.wf}}/{{item.model}}?{{item.param}}={{selectedUser.key}}">
                                 {{item.text}}
                             </a>
@@ -114,7 +115,9 @@
                             <div class="panel-title">Duyurular</div>
                         </div>
                         <div class="panel-body">
-
+                            <a ng-click="markAsRead(notify)"
+                               ng-repeat="notify in notifications[3] | limitTo:5">{{notify
+                                .body}}</a>
                         </div>
                     </div>
                 </div>
@@ -134,6 +137,7 @@
                         <span><a role="button">Tüm Mesajlar</a></span>
                     </div>
                     <!-- end of right-sidebar-title -->
+                    <p ng-show="notifications[2].length === 0" class="text-center">Görüntülenecek içerik yok.</p>
 
                     <div class="right-sidebar-message-block" ng-repeat="notify in notifications[2] | limitTo:5">
                         <a class="clearfix" ng-click="markAsRead(notify)">
@@ -162,6 +166,8 @@
                         <span><a role="button">Tüm Görevler</a></span>
                     </div>
 
+                    <p ng-show="notifications[1].length === 0" class="text-center">Görüntülenecek içerik yok.</p>
+
                     <div class="right-sidebar-task-block">
                         <!--<div class="task-type">Onay Bekleyen Görevler</div>-->
                         <a ng-click="markAsRead(notify)" ng-repeat="notify in notifications[1] | limitTo:5">
@@ -176,25 +182,25 @@
             <!-- end of right-sidebar-box -->
 
 
-            <div class="right-sidebar-box">
-                <div class="right-sidebar-announcements">
+            <!--<div class="right-sidebar-box">-->
+                <!--<div class="right-sidebar-announcements">-->
 
-                    <div class="right-sidebar-title clearfix">
-                        <h3>Duyurular</h3>
-                        <span><a role="button">Tüm Duyurular</a></span>
-                    </div>
-                    <!-- end of right-sidebar-title -->
+                    <!--<div class="right-sidebar-title clearfix">-->
+                        <!--<h3>Duyurular</h3>-->
+                        <!--<span><a role="button">Tüm Duyurular</a></span>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash; end of right-sidebar-title &ndash;&gt;-->
 
-                    <div class="right-sidebar-announcement-block">
-                        <a ng-click="markAsRead(notify)"
-                           ng-repeat="notify in notifications[3] | limitTo:5">{{notify
-                            .body}}</a>
-                    </div>
-                    <!-- end of right-sidebar-status-block -->
+                    <!--<div class="right-sidebar-announcement-block">-->
+                        <!--<a ng-click="markAsRead(notify)"-->
+                           <!--ng-repeat="notify in notifications[3] | limitTo:5">{{notify-->
+                            <!--.body}}</a>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash; end of right-sidebar-status-block &ndash;&gt;-->
 
-                </div>
-                <!-- end of right-sidebar-status -->
-            </div>
+                <!--</div>-->
+                <!--&lt;!&ndash; end of right-sidebar-status &ndash;&gt;-->
+            <!--</div>-->
             <!-- end of right-sidebar-box -->
 
 
@@ -204,6 +210,14 @@
                     <div class="right-sidebar-title clearfix">
                         <h3>Son İşlemler</h3>
                         <span><a role="button">Tüm İşlemler</a></span>
+                    </div>
+
+                    <p class="text-center">Görüntülenecek içerik yok.</p>
+
+                    <div class="right-sidebar-task-block">
+                        <a>
+                            <div class="task-title"></div>
+                        </a>
                     </div>
 
                 </div>
