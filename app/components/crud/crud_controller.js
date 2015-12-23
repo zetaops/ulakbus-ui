@@ -183,25 +183,21 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             return new Array(num);
         };
 
-        //
-        $scope.showCmd = function () {
-            CrudUtility.generateParam($scope, $routeParams, $routeParams.cmd);
-            // todo: refactor createListObjects func
-            var createListObjects = function () {
-                angular.forEach($scope.object, function (value, key) {
-                    if (typeof value == 'object') {
-                        $scope.listobjects[key] = value;
-                        delete $scope.object[key];
-                    }
-                });
-                if ($scope.object.constructor === Array) {
-                    $log.debug('new type show object')
+        $scope.createListObjects = function () {
+            if ($scope.object.constructor === Array) {
+                $log.debug('new type show object')
+            } else {
+                if ($scope.object.type) {
+                    $scope.object = [$scope.object];
                 } else {
                     $scope.object = [{type: 'table', fields: angular.copy($scope.object)}];
                 }
-            };
+            }
+        };
 
-            $scope.listobjects = {};
+        $scope.showCmd = function () {
+            CrudUtility.generateParam($scope, $routeParams, $routeParams.cmd);
+            // todo: refactor createListObjects func
 
             var pageData = Generator.getPageData();
             if (pageData.pageData === true) {
@@ -215,7 +211,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                     $scope.model = $routeParams.model;
                 });
             }
-            createListObjects();
+            $scope.createListObjects();
         };
         $scope.listFormCmd = function () {
             // function to set scope objects
@@ -233,6 +229,9 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                 $log.debug('pagedata', pageData.pageData);
                 CrudUtility.generateParam($scope, pageData, $routeParams.cmd);
                 setpageobjects(pageData, pageData);
+                if ($scope.second_client_cmd) {
+                    $scope.createListObjects();
+                }
             }
             // if pageData didn't defined or is {pageData: false} go get data from api with get_wf function
             if (pageData.pageData === undefined || pageData.pageData === false) {

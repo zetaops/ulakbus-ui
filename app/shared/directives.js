@@ -353,6 +353,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
                         // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
                         // related items
                         $rootScope.$broadcast("authz", data);
+                        $rootScope.searchInputs = data;
 
                         $rootScope.current_user = data.current_user;
 

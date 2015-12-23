@@ -22,12 +22,13 @@ angular.module("components/auth/login.html", []).run(["$templateCache", function
 angular.module("components/crud/templates/crud.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/crud.html",
     "<div class=\"row\">\n" +
-    "    <div class=\"col-md-8\">\n" +
+    "    <div ng-class=\"{'col-md-8': meta.allow_filters}\">\n" +
+    "        <h3>{{ schema.title }}</h3>\n" +
     "        <crud-show-directive ng-if=\"object\"></crud-show-directive>\n" +
     "        <crud-form-directive ng-if=\"forms\"></crud-form-directive>\n" +
     "        <crud-list-directive ng-if=\"objects\"></crud-list-directive>\n" +
     "    </div>\n" +
-    "    <crud-filters ng-if=\"meta.allow_filters === true\" class=\"col-md-4 filtre\"></crud-filters>\n" +
+    "    <crud-filters ng-show=\"meta.allow_filters === true\" class=\"col-md-4 filtre\"></crud-filters>\n" +
     "</div>");
 }]);
 
@@ -49,8 +50,8 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
     "                    <div class=\"checkbox\" ng-repeat=\"filterItem in filter.values\">\n" +
     "                        <label class=\"checkbox-inline\">\n" +
     "                            <input type=\"checkbox\" name=\"filter_group[]\" ng-model=\"filterList[filter.field].model[filterItem.value]\"\n" +
-    "                                   value=\"{{filterItem.value}}\"/>\n" +
-    "                            {{filterItem.name}}\n" +
+    "                                   value=\"{{filterItem.value || filterItem[0]}}\"/>\n" +
+    "                            {{filterItem.name || filterItem[1]}}\n" +
     "                        </label>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -118,8 +119,6 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
 angular.module("components/crud/templates/form.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/form.html",
     "<div>\n" +
-    "    <h3>{{ schema.title }}</h3>\n" +
-    "\n" +
     "    <div class=\"buttons-on-top\"></div>\n" +
     "\n" +
     "    <form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"\n" +
@@ -239,21 +238,21 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
 
 angular.module("components/crud/templates/show.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/show.html",
-    "<div class=\"starter-template container\">\n" +
-    "    <div ng-repeat=\"obj in object\">\n" +
+    "<div class=\"starter-template\">\n" +
+    "    <div ng-repeat=\"obj in object\" class=\"detail-page\">\n" +
     "        <div class=\"info-block-header\">\n" +
-    "            <h3>{{model}}</h3>\n" +
+    "            <h3>{{obj.title}}</h3>\n" +
     "        </div>\n" +
     "        <div class=\"table-responsive\">\n" +
     "            <table class=\"table\">\n" +
     "                <thead ng-if=\"obj.type==='table-multiRow'\">\n" +
     "                    <tr>\n" +
-    "                        <td ng-repeat=\"(key, value) in obj[0]\">{{key}}</td>\n" +
+    "                        <td ng-repeat=\"(key, value) in obj.fields[0]\">{{key}}</td>\n" +
     "                    </tr>\n" +
     "                </thead>\n" +
     "                <tbody ng-if=\"obj.type==='table-multiRow'\">\n" +
     "                    <tr ng-repeat=\"row in obj.fields\">\n" +
-    "                        <td ng-repeat=\"(k,v) in row\">{{v}}</td>\n" +
+    "                        <td ng-repeat=\"(k,v) in row track by $index\">{{v}}</td>\n" +
     "                    </tr>\n" +
     "                </tbody>\n" +
     "                <tbody ng-if=\"obj.type==='table'\">\n" +
@@ -271,7 +270,7 @@ angular.module("components/crud/templates/show.html", []).run(["$templateCache",
 angular.module("components/dashboard/dashboard.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/dashboard/dashboard.html",
     "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard\">\n" +
-    "    <div class=\"starter-template\">\n" +
+    "    <div class=\"starter-template\" style=\"width: calc(100% - 300px);\">\n" +
     "\n" +
     "\n" +
     "        <div class=\"row\">\n" +
@@ -282,10 +281,13 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "                        <div class=\"panel-title\">Giriş Yapan Kullanıcı Bilgileri</div>\n" +
     "                    </div>\n" +
     "                    <div class=\"panel-body\">\n" +
-    "                        <div class=\"col-md-4 col-md-offset-4 text-center\">\n" +
-    "                            <img class=\"img-circle user-pic\" src=\"{{$root.current_user.avatar}}\"\n" +
+    "                        <div class=\"col-md-6\">\n" +
+    "                            <img class=\"img-rounded user-pic\"\n" +
+    "                                 src=\"{{$root.current_user.avatar || 'img/empty-profile-pic.jpg'}}\"\n" +
     "                                 alt=\"{{$root.current_user.username}}\">\n" +
-    "                            <p class=\"user-name\">{{$root.current_user.name}} {{$root.current_user.surname}}</p>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-6\">\n" +
+    "                            <p class=\"user-name\">{{$root.current_user.name}}<br>{{$root.current_user.surname}}</p>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -373,6 +375,24 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "\n" +
     "        </div>\n" +
     "        <!-- end of dashboard-main-search -->\n" +
+    "\n" +
+    "        <div class=\"dashboard-main-anouncement clearfix\">\n" +
+    "\n" +
+    "            <div class=\"row\">\n" +
+    "                <div class=\"col-md-12\">\n" +
+    "                    <div class=\"panel panel-default\">\n" +
+    "                        <div class=\"panel-heading\">\n" +
+    "                            <div class=\"panel-title\">Duyurular</div>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"panel-body\">\n" +
+    "\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "        <!-- end of dashboard-main-anouncement -->\n" +
     "\n" +
     "        <div class=\"right-sidebar\">\n" +
     "\n" +

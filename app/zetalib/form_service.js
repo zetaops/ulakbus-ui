@@ -825,6 +825,7 @@ angular.module('formService', ['ui.bootstrap'])
                 data['param'] = $scope.form_params.param;
                 data['param_id'] = $scope.form_params.id;
                 data['pageData'] = true;
+                data['second_client_cmd'] = client_cmd[1];
                 generator.setPageData(data);
 
                 redirectTo($scope, client_cmd[0]);

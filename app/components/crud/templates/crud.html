@@ -1,8 +1,9 @@
 <div class="row">
-    <div class="col-md-8">
+    <div ng-class="{'col-md-8': meta.allow_filters}">
+        <h3>{{ schema.title }}</h3>
         <crud-show-directive ng-if="object"></crud-show-directive>
         <crud-form-directive ng-if="forms"></crud-form-directive>
         <crud-list-directive ng-if="objects"></crud-list-directive>
     </div>
-    <crud-filters ng-if="meta.allow_filters === true" class="col-md-4 filtre"></crud-filters>
+    <crud-filters ng-show="meta.allow_filters === true" class="col-md-4 filtre"></crud-filters>
 </div>

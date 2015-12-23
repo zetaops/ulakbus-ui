@@ -147,7 +147,8 @@ module.exports = function (grunt) {
                     "app/bower_components/angular-loading-bar/build/loading-bar.js",
                     "app/bower_components/metisMenu/dist/metisMenu.js",
                     "app/bower_components/Chart.js/Chart.js",
-                    "app/bower_components/intro.js/intro.js"
+                    "app/bower_components/intro.js/intro.js",
+                    "app/bower_components/moment/min/moment.min.js"
                 ],
                 dest: 'dist/bower_components/components.js'
             },
@@ -198,7 +199,8 @@ module.exports = function (grunt) {
                     "app/bower_components/angular-loading-bar/build/loading-bar.min.js",
                     "app/bower_components/metisMenu/dist/metisMenu.min.js",
                     "app/bower_components/Chart.js/Chart.min.js",
-                    "app/bower_components/intro.js/minified/intro.min.js"
+                    "app/bower_components/intro.js/minified/intro.min.js",
+                    "app/bower_components/moment/min/moment.min.js"
                 ],
                 dest: 'dist/<%= grunt.branchname %>/bower_components/components.js'
             },

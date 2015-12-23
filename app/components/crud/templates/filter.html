@@ -14,8 +14,8 @@
                     <div class="checkbox" ng-repeat="filterItem in filter.values">
                         <label class="checkbox-inline">
                             <input type="checkbox" name="filter_group[]" ng-model="filterList[filter.field].model[filterItem.value]"
-                                   value="{{filterItem.value}}"/>
-                            {{filterItem.name}}
+                                   value="{{filterItem.value || filterItem[0]}}"/>
+                            {{filterItem.name || filterItem[1]}}
                         </label>
                     </div>
                 </div>

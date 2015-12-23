@@ -1,5 +1,5 @@
 <div ng-app="ulakbus.dashboard" class="dashboard">
-    <div class="starter-template">
+    <div class="starter-template" style="width: calc(100% - 300px);">
 
 
         <div class="row">
@@ -10,10 +10,13 @@
                         <div class="panel-title">Giriş Yapan Kullanıcı Bilgileri</div>
                     </div>
                     <div class="panel-body">
-                        <div class="col-md-4 col-md-offset-4 text-center">
-                            <img class="img-circle user-pic" src="{{$root.current_user.avatar}}"
+                        <div class="col-md-6">
+                            <img class="img-rounded user-pic"
+                                 src="{{$root.current_user.avatar || 'img/empty-profile-pic.jpg'}}"
                                  alt="{{$root.current_user.username}}">
-                            <p class="user-name">{{$root.current_user.name}} {{$root.current_user.surname}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="user-name">{{$root.current_user.name}}<br>{{$root.current_user.surname}}</p>
                         </div>
                     </div>
                 </div>
@@ -101,6 +104,24 @@
 
         </div>
         <!-- end of dashboard-main-search -->
+
+        <div class="dashboard-main-anouncement clearfix">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="panel-title">Duyurular</div>
+                        </div>
+                        <div class="panel-body">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- end of dashboard-main-anouncement -->
 
         <div class="right-sidebar">
 

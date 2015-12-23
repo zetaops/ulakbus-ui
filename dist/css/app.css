@@ -104,6 +104,16 @@ a:hover {
     letter-spacing: 0.5px;
 }
 
+/** DETAIL PAGE **/
+
+.detail-page {
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #E6E6E6;
+}
+
+/** END DETAIL PAGE **/
+
 /** BRAND **/
 
 .brand-bg {
@@ -384,7 +394,6 @@ select {
 }
 
 .manager-view-content {
-	width: calc(100% - 300px);
     padding:25px 40px;
     overflow:auto;
     -webkit-flex-grow: 1;
@@ -1294,8 +1303,7 @@ table.dataTable thead .sorting:after {
 }
 
 .dashboard .user-pic {
-	width:150px;
-	height:150px;	
+	width:100%;
 }
 
 .dashboard .panel-default > .panel-heading {
@@ -1316,7 +1324,7 @@ table.dataTable thead .sorting:after {
 }
 
 .dashboard .quick-links .panel-default {
-	height:	274px;
+	/*height:	274px;*/
 }
 
 .dashboard .quick-links .panel-body,
