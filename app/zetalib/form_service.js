@@ -215,7 +215,9 @@ angular.module('formService', ['ui.bootstrap'])
                         key: k,
                         fileInsert: function () {
                             $scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
-                        }
+                        },
+                        imageSrc: scope.model[k] ? $rootScope.settings.static_url + scope.model[k] : '',
+                        avatar: k === 'avatar' ? true : false
                     };
                     v.type = 'string';
                 }

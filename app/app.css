@@ -1735,3 +1735,24 @@ table.dataTable thead .sorting:after {
 .move-to-bottom, .move-to-top, .move-to-bottom-modal, .move-to-top-modal {
     margin-right: 10px !important;
 }
+
+/* file upload button */
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+/* end file upload */

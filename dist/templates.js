@@ -1571,7 +1571,8 @@ angular.module("shared/templates/filefield.html", []).run(["$templateCache", fun
     "        {{form.title}}\n" +
     "    </label>\n" +
     "\n" +
-    "    <div class=\"form-group input-group\">\n" +
+    "    <div class=\"form-group input-group fileUpload btn btn-primary\">\n" +
+    "        <span>Dosya seç</span>\n" +
     "        <input type=\"file\"\n" +
     "               ng-model=\"$$value$$\"\n" +
     "               fileread=\"$$value$$\"\n" +
@@ -1579,11 +1580,14 @@ angular.module("shared/templates/filefield.html", []).run(["$templateCache", fun
     "               ng-model-options=\"form.ngModelOptions\"\n" +
     "               ng-disabled=\"form.readonly\"\n" +
     "               sf-changed=\"form\"\n" +
-    "               class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "               class=\"form-control {{form.fieldHtmlClass}} upload\"\n" +
     "               schema-validate=\"form\"\n" +
     "               ng-change=\"form.fileInsert()\"\n" +
     "               name=\"{{form.name}}\"/>\n" +
     "    </div>\n" +
+    "\n" +
+    "    <img ng-show=\"form.avatar\" src=\"{{form.imageSrc || 'img/empty-profile-pic.jpg'}}\" alt=\"\" id=\"image-preview\" style=\"width:\n" +
+    "        100px;\" class=\"pull-left\">\n" +
     "\n" +
     "    <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
     "</div>");

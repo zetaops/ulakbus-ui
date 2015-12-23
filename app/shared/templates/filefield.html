@@ -4,7 +4,8 @@
         {{form.title}}
     </label>
 
-    <div class="form-group input-group">
+    <div class="form-group input-group fileUpload btn btn-primary">
+        <span>Dosya seç</span>
         <input type="file"
                ng-model="$$value$$"
                fileread="$$value$$"
@@ -12,11 +13,14 @@
                ng-model-options="form.ngModelOptions"
                ng-disabled="form.readonly"
                sf-changed="form"
-               class="form-control {{form.fieldHtmlClass}}"
+               class="form-control {{form.fieldHtmlClass}} upload"
                schema-validate="form"
                ng-change="form.fileInsert()"
                name="{{form.name}}"/>
     </div>
+
+    <img ng-show="form.avatar" src="{{form.imageSrc || 'img/empty-profile-pic.jpg'}}" alt="" id="image-preview" style="width:
+        100px;" class="pull-left">
 
     <div class="help-block" sf-message="form.description"></div>
 </div>

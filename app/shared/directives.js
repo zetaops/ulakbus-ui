@@ -357,6 +357,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
                         $rootScope.searchInputs = data;
 
                         $rootScope.current_user = data.current_user;
+                        $rootScope.settings = data.settings;
 
                         $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
 
@@ -553,6 +554,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
                                 file_name: changeEvent.target.files[0].name,
                                 file_content: scope.$parent.model[changeEvent.target.name]
                             }
+                            document.querySelector('#image-preview').src = URL.createObjectURL(changeEvent.target.files[0]);
                         });
                     }
                     reader.readAsDataURL(changeEvent.target.files[0]);
