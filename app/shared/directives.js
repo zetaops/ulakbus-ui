@@ -357,7 +357,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
                         $rootScope.searchInputs = data;
 
                         $rootScope.current_user = data.current_user;
-                        if (data.ogreci || data.personel) {
+                        if (data.ogrenci || data.personel) {
                             $rootScope.current_user.can_search = true;
                         }
                         $rootScope.settings = data.settings;

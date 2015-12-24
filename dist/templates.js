@@ -1755,15 +1755,6 @@ angular.module("shared/templates/multiselect.html", []).run(["$templateCache", f
     "            </div>\n" +
     "\n" +
     "            <div class=\"col-md-12\">\n" +
-    "                <input type=\"text\"\n" +
-    "                       placeholder=\"Seçim filtrele\"\n" +
-    "                       class=\"form-control {{form.fieldHtmlClass}}\"\n" +
-    "                       name=\"filter-interface\"\n" +
-    "                       ng-model=\"form.filterValue\"\n" +
-    "                       ng-keyup=\"form.appendFiltered(form.filterValue)\"/>\n" +
-    "            </div>\n" +
-    "\n" +
-    "            <div class=\"col-md-12\">\n" +
     "                <label for=\"selectedItems\">Seçilenler</label>\n" +
     "                <select ng-model=\"selectedFilteredItemsModel\"\n" +
     "                        value=\"$$value$$\"\n" +
