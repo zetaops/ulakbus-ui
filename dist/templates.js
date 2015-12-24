@@ -272,47 +272,6 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard\">\n" +
     "    <div class=\"starter-template\" style=\"width: calc(100% - 300px);\">\n" +
     "\n" +
-    "\n" +
-    "        <div class=\"row\">\n" +
-    "\n" +
-    "            <div class=\"col-md-6 user-info\">\n" +
-    "                <div class=\"panel panel-default\">\n" +
-    "                    <div class=\"panel-heading\">\n" +
-    "                        <div class=\"panel-title\">Giriş Yapan Kullanıcı Bilgileri</div>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"panel-body\">\n" +
-    "                        <div class=\"col-md-6\">\n" +
-    "                            <img class=\"img-rounded user-pic\"\n" +
-    "                                 src=\"{{$root.current_user.avatar || 'img/empty-profile-pic.jpg'}}\"\n" +
-    "                                 alt=\"{{$root.current_user.username}}\">\n" +
-    "                        </div>\n" +
-    "                        <div class=\"col-md-6\">\n" +
-    "                            <p class=\"user-name\">{{$root.current_user.name}}<br>{{$root.current_user.surname}}</p>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "\n" +
-    "            <div class=\"col-md-6 quick-links\">\n" +
-    "                <div class=\"panel panel-default\">\n" +
-    "                    <div class=\"panel-heading\">\n" +
-    "                        <div class=\"panel-title\">Hızlı İşlemler</div>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"panel-body\">\n" +
-    "                        <div class=\"col-md-6 text-center link-buttons\"\n" +
-    "                             ng-repeat=\"item in $root.quick_menu track by $index\">\n" +
-    "                            <a\n" +
-    "                               ng-href=\"#/{{item.wf}}/{{item.model}}?{{item.param}}={{selectedUser.key}}\">\n" +
-    "                                {{item.text}}\n" +
-    "                            </a>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "\n" +
-    "        </div>\n" +
-    "        <!-- end of row -->\n" +
-    "\n" +
     "        <div class=\"dashboard-main-search clearfix\">\n" +
     "\n" +
     "            <div class=\"row\" ng-show=\"$root.current_user.can_search\">\n" +
@@ -376,6 +335,46 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "\n" +
     "        </div>\n" +
     "        <!-- end of dashboard-main-search -->\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "\n" +
+    "            <div class=\"col-md-6 user-info\">\n" +
+    "                <div class=\"panel panel-default\">\n" +
+    "                    <div class=\"panel-heading\">\n" +
+    "                        <div class=\"panel-title\">Giriş Yapan Kullanıcı Bilgileri</div>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"panel-body\">\n" +
+    "                        <div class=\"col-md-6\">\n" +
+    "                            <img class=\"img-rounded user-pic\"\n" +
+    "                                 src=\"{{$root.current_user.avatar || 'img/empty-profile-pic.jpg'}}\"\n" +
+    "                                 alt=\"{{$root.current_user.username}}\">\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-6\">\n" +
+    "                            <p class=\"user-name\">{{$root.current_user.name}}<br>{{$root.current_user.surname}}</p>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div class=\"col-md-6 quick-links\">\n" +
+    "                <div class=\"panel panel-default\">\n" +
+    "                    <div class=\"panel-heading\">\n" +
+    "                        <div class=\"panel-title\">Hızlı İşlemler</div>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"panel-body\">\n" +
+    "                        <div class=\"col-md-6 text-center link-buttons\"\n" +
+    "                             ng-repeat=\"item in $root.quick_menu track by $index\">\n" +
+    "                            <a\n" +
+    "                               ng-href=\"#/{{item.wf}}/{{item.model}}?{{item.param}}={{selectedUser.key}}\">\n" +
+    "                                {{item.text}}\n" +
+    "                            </a>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "        <!-- end of row -->\n" +
     "\n" +
     "        <div class=\"dashboard-main-anouncement clearfix\">\n" +
     "\n" +
@@ -1011,7 +1010,7 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "    <li class=\"dropdown\">\n" +
     "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
     "            <i class=\"fa fa-user fa-fw\" tooltip-placement=\"bottom\"\n" +
-    "               uib-tooltip=\"Profil\"></i>&nbsp;{{$root.current_user.username}}&nbsp;<i\n" +
+    "               uib-tooltip=\"Profil\"></i>&nbsp;{{$root.current_user.name}}&nbsp;{{$root.current_user.surname}}&nbsp;<i\n" +
     "                class=\"fa fa-caret-down\"></i>\n" +
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-user\">\n" +
@@ -1331,8 +1330,8 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "                    data-intro=\"seçilen personele veya öğrenciye göre ilgili menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz.\">\n" +
     "\n" +
     "\n" +
-    "                    <li ng-repeat=\"(key, item) in selectedMenuItems\" ng-class=\"{active: collapseVar == $index+1}\">{{dropDown}}\n" +
-    "                        <a href=\"\" ng-click=\"check($index+1)\">\n" +
+    "                    <li ng-repeat=\"(key, item) in selectedMenuItems\" ng-class=\"{active: collapseVar == $index+100}\">{{dropDown}}\n" +
+    "                        <a href=\"\" ng-click=\"check($index+100)\">\n" +
     "                            <i class=\"fa fa-fw\"\n" +
     "                               ng-class=\"{\n" +
     "                               'Admin': 'fa fa-fw fa-terminal',\n" +
@@ -1753,6 +1752,15 @@ angular.module("shared/templates/multiselect.html", []).run(["$templateCache", f
     "            <div class=\"col-md-12 text-center\">\n" +
     "                <a role=\"button\"><i class=\"fa fa-arrow-down fa-fw\" ng-click=\"form.select(selectedItemsModel)\"></i></a>\n" +
     "                <a role=\"button\"><i class=\"fa fa-arrow-up fa-fw\" ng-click=\"form.deselect(selectedFilteredItemsModel)\"></i></a>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div class=\"col-md-12\">\n" +
+    "                <input type=\"text\"\n" +
+    "                       placeholder=\"Seçim filtrele\"\n" +
+    "                       class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "                       name=\"filter-interface\"\n" +
+    "                       ng-model=\"form.filterValue\"\n" +
+    "                       ng-keyup=\"form.appendFiltered(form.filterValue)\"/>\n" +
     "            </div>\n" +
     "\n" +
     "            <div class=\"col-md-12\">\n" +
