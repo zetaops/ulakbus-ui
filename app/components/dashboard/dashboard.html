@@ -1,47 +1,6 @@
 <div ng-app="ulakbus.dashboard" class="dashboard">
     <div class="starter-template" style="width: calc(100% - 300px);">
 
-
-        <div class="row">
-
-            <div class="col-md-6 user-info">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="panel-title">Giriş Yapan Kullanıcı Bilgileri</div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="col-md-6">
-                            <img class="img-rounded user-pic"
-                                 src="{{$root.current_user.avatar || 'img/empty-profile-pic.jpg'}}"
-                                 alt="{{$root.current_user.username}}">
-                        </div>
-                        <div class="col-md-6">
-                            <p class="user-name">{{$root.current_user.name}}<br>{{$root.current_user.surname}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 quick-links">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="panel-title">Hızlı İşlemler</div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="col-md-6 text-center link-buttons"
-                             ng-repeat="item in $root.quick_menu track by $index">
-                            <a
-                               ng-href="#/{{item.wf}}/{{item.model}}?{{item.param}}={{selectedUser.key}}">
-                                {{item.text}}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <!-- end of row -->
-
         <div class="dashboard-main-search clearfix">
 
             <div class="row" ng-show="$root.current_user.can_search">
@@ -105,6 +64,46 @@
 
         </div>
         <!-- end of dashboard-main-search -->
+
+        <div class="row">
+
+            <div class="col-md-6 user-info">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">Giriş Yapan Kullanıcı Bilgileri</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-6">
+                            <img class="img-rounded user-pic"
+                                 src="{{$root.current_user.avatar || 'img/empty-profile-pic.jpg'}}"
+                                 alt="{{$root.current_user.username}}">
+                        </div>
+                        <div class="col-md-6">
+                            <p class="user-name">{{$root.current_user.name}}<br>{{$root.current_user.surname}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 quick-links">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">Hızlı İşlemler</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-6 text-center link-buttons"
+                             ng-repeat="item in $root.quick_menu track by $index">
+                            <a
+                               ng-href="#/{{item.wf}}/{{item.model}}?{{item.param}}={{selectedUser.key}}">
+                                {{item.text}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- end of row -->
 
         <div class="dashboard-main-anouncement clearfix">
 
