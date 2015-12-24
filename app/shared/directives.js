@@ -384,7 +384,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
                     //menu['other'] = $scope.allMenuItems.other;
                     $scope.selectedMenuItems = $scope.prepareMenu(menu);
                     $timeout(function () {
-                        sidebarmenu.metisMenu();
+                        //sidebarmenu.metisMenu();
                         sidebarUserMenu.metisMenu();
                     });
                 });
@@ -425,7 +425,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
                     function (newindex, oldindex) {
                         if (newindex > -1) {
                             $scope.menuItems = [$scope.allMenuItems[newindex]];
-                            $scope.collapseVar = 1;
+                            $scope.collapseVar = 0;
                         }
                     });
 
