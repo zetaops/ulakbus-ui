@@ -385,18 +385,18 @@ angular.module('formService', ['ui.bootstrap'])
                     if (scope.model[k]) {
                         generator.get_list({
                                 url: 'crud',
-                                form_params: {model: v.model_name, object_id: scope.model[k], cmd: 'show'}
+                                form_params: {model: v.model_name, object_id: scope.model[k], cmd: 'object_name'}
                             })
                             .then(function (data) {
                                 try {
                                     scope.$watch(document.querySelector('input[name=' + v.model_name + ']'),
                                         function () {
-                                            angular.element(document.querySelector('input[name=' + k + ']')).val(data.data.object.unicode);
+                                            document.querySelector('input[name=' + k + ']').value = data.data.object_name;
                                         }
                                     );
                                 }
                                 catch (e) {
-                                    angular.element(document.querySelector('input[name=' + k + ']')).val(data.data.object.unicode);
+                                    document.querySelector('input[name=' + k + ']').value = data.data.object_name;
                                     $log.debug('exception', e);
                                 }
 
