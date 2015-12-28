@@ -14,13 +14,16 @@
  *
  */
 angular.module('formService', ['ui.bootstrap'])
+    .service('Moment', function(){
+        return window.moment;
+    })
 
     /**
      * @name Generator
      * @description
      * form service's Generator factory service handles all generic form operations
      */
-    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope) {
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment) {
         var generator = {};
         /**
          * @name makeUrl
@@ -647,7 +650,8 @@ angular.module('formService', ['ui.bootstrap'])
             if (isNaN(ndate)) {
                 return '';
             } else {
-                var newdatearray = moment(ndate).format('DD.MM.YYYY');
+                var newdatearray = Moment(ndate).format('DD.MM.YYYY');
+                $log.debug('date formatted: ', newdatearray);
                 return newdatearray;
             }
         };
@@ -739,30 +743,30 @@ angular.module('formService', ['ui.bootstrap'])
         generator.isValidDate = function (dateValue) {
             return !isNaN(Date.parse(dateValue));
         };
-        generator.asyncValidators = {
-            emailNotValid: function (value) {
-                var deferred = $q.defer();
-                $timeout(function () {
-                    if (generator.isValidEmail(value)) {
-                        deferred.resolve();
-                    } else {
-                        deferred.reject();
-                    }
-                }, 500);
-                return deferred.promise;
-            },
-            tcNoNotValid: function (value) {
-                var deferred = $q.defer();
-                $timeout(function () {
-                    if (generator.isValidTCNo(value)) {
-                        deferred.resolve();
-                    } else {
-                        deferred.reject();
-                    }
-                }, 500);
-                return deferred.promise;
-            }
-        };
+        //generator.asyncValidators = {
+        //    emailNotValid: function (value) {
+        //        var deferred = $q.defer();
+        //        $timeout(function () {
+        //            if (generator.isValidEmail(value)) {
+        //                deferred.resolve();
+        //            } else {
+        //                deferred.reject();
+        //            }
+        //        }, 500);
+        //        return deferred.promise;
+        //    },
+        //    tcNoNotValid: function (value) {
+        //        var deferred = $q.defer();
+        //        $timeout(function () {
+        //            if (generator.isValidTCNo(value)) {
+        //                deferred.resolve();
+        //            } else {
+        //                deferred.reject();
+        //            }
+        //        }, 500);
+        //        return deferred.promise;
+        //    }
+        //};
 
 
         /**
@@ -838,13 +842,17 @@ angular.module('formService', ['ui.bootstrap'])
 
         generator.get_diff = function (obj1, obj2) {
             var result = {};
-            for (key in obj1) {
-                if (obj2[key] != obj1[key]) result[key] = obj1[key];
-                if (typeof obj2[key] == 'array' && typeof obj1[key] == 'array')
+            angular.forEach(obj1, function (value, key) {
+                if (obj2[key] != obj1[key]) {
+                    result[key] = angular.copy(obj1[key])
+                }
+                if (obj2[key].constructor === Array && obj1[key].constructor === Array) {
                     result[key] = arguments.callee(obj1[key], obj2[key]);
-                if (typeof obj2[key] == 'object' && typeof obj1[key] == 'object')
+                }
+                if (obj2[key].constructor === Object && obj1[key].constructor === Object) {
                     result[key] = arguments.callee(obj1[key], obj2[key]);
-            }
+                }
+            });
             return result;
         };
 

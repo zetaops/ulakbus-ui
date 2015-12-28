@@ -26,6 +26,7 @@ module.exports = function (config) {
             'app/bower_components/angular-schema-form/dist/schema-form.js',
             'app/bower_components/angular-schema-form/dist/bootstrap-decorator.min.js',
             'app/bower_components/angular-mocks/angular-mocks.js',
+            'app/bower_components/moment/min/moment.min.js',
             'app/app.js',
             'app/app_routes.js',
             'app/zetalib/**/*.js',

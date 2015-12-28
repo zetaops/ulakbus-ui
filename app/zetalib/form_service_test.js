@@ -11,6 +11,7 @@ describe('form service module', function () {
 
     beforeEach(module('ulakbus'));
     beforeEach(module('formService'));
+
     var location;
     beforeEach(inject(function ($location, $injector) {
         location = $location;
@@ -153,7 +154,7 @@ describe('form service module', function () {
             function (Generator) {
                 expect(Generator.dateformatter).not.toBe(null);
                 var generated_date = Generator.dateformatter('2001-01-01T01:00:00Z');
-                expect(generated_date).toEqual('01.1.2001');
+                expect(generated_date).toEqual('01.01.2001');
             }])
         );
 
@@ -161,14 +162,34 @@ describe('form service module', function () {
             function (Generator) {
                 expect(Generator.group).not.toBe(null);
 
-                var group_json = {
-                    group_objects: {
-                        1: ['email', 'name'],
-                        2: ['password']
-                    }
+                var scope = {
+                    form: ['email', 'id', 'name', 'save'],
+                    schema: {
+                        properties: {
+                            email: {title: 'email', type: 'email'},
+                            id: {title: 'id', type: 'int'},
+                            name: {title: 'name', type: 'string'},
+                            save: {title: 'save', type: 'submit'}
+                        }, required: [], type: 'object', title: 'servicetest'
+                    },
+                    grouping: [
+                        {
+                            "group_title": "title-1",
+                            "items": ["email", "id"],
+                            "layout": "4",
+                            "collapse": false
+                        },
+                        {
+                            "group_title": "title-2",
+                            "items": ["name", "save"],
+                            "layout": "2",
+                            "collapse": false
+                        }
+                    ]
                 };
-                var grouped_form = Generator.group(group_json);
-                expect(grouped_form).toEqual(group_json);
+
+                var grouped_scope = Generator.group(scope);
+                expect(grouped_scope.form[0].type).toEqual('fieldset');
             }])
         );
 
@@ -345,7 +366,6 @@ describe('form service module', function () {
         it('should get wf and redirect according to client_cmd',
             inject(function (Generator, $httpBackend, RESTURL) {
 
-
                 $httpBackend.expectPOST(RESTURL.url + 'test?test=xyz123')
                     .respond(200, {
                         "client_cmd": "form",
@@ -389,11 +409,28 @@ describe('form service module', function () {
                 };
 
                 scope.url = 'test';
-
                 Generator.get_wf(scope);
 
                 $httpBackend.flush();
                 expect(location.path()).toEqual('/testModel/testModel/do/f');
+            })
+        );
+
+        it('should get wf and put msgbox to scope',
+            inject(function (Generator, $httpBackend, RESTURL) {
+
+                scope.form_params = {};
+
+                $httpBackend.expectPOST(RESTURL.url + 'testmsgbox')
+                    .respond(200, {
+                        "msgbox": "test message"
+                    });
+
+                scope.url = 'testmsgbox';
+                Generator.get_wf(scope);
+
+                $httpBackend.flush();
+                expect(scope.msgbox).toEqual("test message");
             })
         );
 
@@ -430,10 +467,13 @@ describe('form service module', function () {
 
                 scope.url = 'test';
 
-                Generator.doItemAction(scope, 'testkey123', 'list', 'otherwf', 'normal');
+                Generator.doItemAction(scope, 'testkey123', {cmd: 'list', wf: 'otherwf', object_key: '4321'}, 'normal');
 
                 $httpBackend.flush();
                 expect(location.path()).toEqual('/otherwf/do/f');
+
+                Generator.doItemAction(scope, 'testkey123', {cmd: 'list', wf: 'otherwf', object_key: '4321'}, 'modal');
+                Generator.doItemAction(scope, 'testkey123', {cmd: 'list', wf: 'otherwf', object_key: '4321'}, 'new');
             })
         );
 
@@ -443,8 +483,8 @@ describe('form service module', function () {
 
                 // test cases - testing for success
                 var same_json = [
-                    {email: 'test@test.com', id: 2, name: 'travolta'},
-                    {email: 'test@test.com', id: 2, name: 'travolta'}
+                    {email: 'test@test.com', id: 2, name: 'travolta', foo: {'a':1}, foo2: [1,2,3]},
+                    {email: 'test@test.com', id: 2, name: 'travolta', foo: {'a':1}, foo2: [1,2,3]}
                 ];
 
                 // test cases - testing for failure
@@ -462,10 +502,16 @@ describe('form service module', function () {
                 var different_json = [
                     {},
                     {email: 'test1@test.com', id: 2, name: 'john'}
+                ];
+
+                var notEqual = [
+                    {email: 'test@test.com', id: 2, name: 'Travolta', foo: {'a':1, 'b': 2}, foo2: [1,2,3]},
+                    {email: 'test@test.com', id: 2, name: 'travolta', foo: {'a':1}, foo2: [1,2,3]}
                 ]
 
                 var diff = {email: 'test1@test.com', name: 'john'};
                 var diff2 = {email: 'test1@test.com', id: 2, name: 'john'};
+                var noequal = {email: 'test1@test.com', id: 2, name: 'john'};
                 var nodiff = {};
 
                 var same = Generator.get_diff(same_json[0], same_json[1]);
@@ -478,6 +524,9 @@ describe('form service module', function () {
 
                 var different2 = Generator.get_diff(different_json[1], different_json[0]);
                 expect(different2).toEqual(diff2);
+
+                var not_equal = Generator.get_diff(notEqual[1], notEqual[0]);
+                expect(not_equal).toEqual(noequal);
             })
         );
 
