@@ -82,11 +82,10 @@
         <!-- /.dropdown-alerts -->
     </li>
     <!-- /.dropdown -->
-    <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-user fa-fw" tooltip-placement="bottom"
-               uib-tooltip="Profil"></i>&nbsp;{{$root.current_user.name}}&nbsp;{{$root.current_user.surname}}&nbsp;<i
-                class="fa fa-caret-down"></i>
+    <li class="dropdown" style="border-left:1px solid #891723;">
+        <a class="dropdown-toggle" data-toggle="dropdown" style="padding-top: 7px; padding-bottom: 6px;">
+            <img src="../../../img/sample-profile-pic.jpg" class="header-profile">&nbsp;{{$root.current_user.name}}&nbsp;{{$root.current_user.surname}}&nbsp;
+            <i class="fa fa-caret-down" style="margin-left:3px;"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
             <li><a role="button"><i class="fa fa-user fa-fw"></i> Profil</a></li>
