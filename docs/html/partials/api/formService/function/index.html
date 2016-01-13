@@ -1,0 +1,142 @@
+
+<h1>Function components in <code>formService</code></h1>
+
+
+
+<div class="component-breakdown">
+  <div>
+    <table class="definition-table">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/makeUrl">makeUrl</a></td>
+        <td><p>this function generates url combining backend url and the related object properties for http requests</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/generate">generate</a></td>
+        <td><ul>
+<li>generate function is inclusive for form generation
+defines given scope&#39;s client_cmd, model, schema, form, token, object_id objects</li>
+</ul>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/group">group</a></td>
+        <td><p>group function to group form layout by form meta data for layout</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/prepareFormItems">prepareFormItems</a></td>
+        <td><p>prepareFormItems looks up fields of schema objects and changes their types to proper type for schemaform
+for listnode, node and model types it uses templates to generate modal
+prepareforms checks input types and convert if necessary</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/dateformatter">dateformatter</a></td>
+        <td><p>dateformatter handles all date fields and returns humanized and jquery datepicker format dates</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/doItemAction">doItemAction</a></td>
+        <td><p>mode could be in [&#39;normal&#39;, &#39;modal&#39;, &#39;new&#39;] . the default mode is &#39;normal&#39; and it loads data on same
+tab without modal. &#39;modal&#39; will use modal to manipulate data and do all actions in that modal. &#39;new&#39;
+will be open new page with response data</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/get_form">get_form</a></td>
+        <td><p>Communicates with api with given scope object.</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/get_list">get_list</a></td>
+        <td><p>gets list of related wf/model</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/get_wf">get_wf</a></td>
+        <td><p>get_wf is the main function for client_cmd based api calls
+based on response content it redirects to related path/controller with pathDecider function</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/isValidEmail">isValidEmail</a></td>
+        <td><p>checks if given value is a valid email address.</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/isValidTCNo">isValidTCNo</a></td>
+        <td><p>checks if given value is a valid identity number for Turkey.</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/isValidDate">isValidDate</a></td>
+        <td><p>checks if given value can be parsed as Date object</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/pageData">pageData</a></td>
+        <td><p>pageData object is moving object from response to controller
+with this object controller will not need to call the api for response object to work on to</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/pathDecider">pathDecider</a></td>
+        <td><p>pathDecider is used to redirect related path by looking up the data in response</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/redirectTo">redirectTo</a></td>
+        <td><p>redirectTo function redirects to related controller and path with given data
+before redirect setPageData must be called and pageData need to be defined
+otherwise redirected path will call api for its data</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/get_diff">get_diff</a></td>
+        <td></td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/get_diff_array">get_diff_array</a></td>
+        <td><p>extracts items of second array from the first array</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/item_from_array">item_from_array</a></td>
+        <td><p>get item unicode name from titleMap</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/formService/function/submit">submit</a></td>
+        <td><p>submit function is general function for submiting forms.
+redirectTo param is used for redirect if return value will be evaluated in a new page.</p>
+</td>
+      </tr>
+      
+    </table>
+  </div>
+</div>
+
