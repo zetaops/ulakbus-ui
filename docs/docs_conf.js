@@ -7,7 +7,8 @@ var Package = require('dgeni').Package;
 // the jsdoc and nunjucks packages defined in the dgeni-packages npm module.
 module.exports = new Package('docs_conf', [
     require('dgeni-packages/jsdoc'),
-    require('dgeni-packages/nunjucks')
+    require('dgeni-packages/nunjucks'),
+    require('dgeni-packages/links')
 ])
 
 // Configure our dgeni-example package. We can ask the Dgeni dependency injector
@@ -42,5 +43,5 @@ module.exports = new Package('docs_conf', [
         templateFinder.templatePatterns.unshift('docs-template.html');
 
         // Specify where the writeFilesProcessor will write our generated doc files
-        writeFilesProcessor.outputFolder  = 'documentation';
+        writeFilesProcessor.outputFolder  = 'docs/html';
     });
