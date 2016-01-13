@@ -7,6 +7,7 @@
  */
 
 /**
+ * @ngdoc module
  * @name formService
  * @description
  *
@@ -19,14 +20,18 @@ angular.module('formService', ['ui.bootstrap'])
     })
 
     /**
+     * @ngdoc service
      * @name Generator
+     * @module formService
      * @description
      * form service's Generator factory service handles all generic form operations
      */
     .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment) {
         var generator = {};
         /**
+         * @ngdoc function
          * @name makeUrl
+         * @module formService
          * @description
          * this function generates url combining backend url and the related object properties for http requests
          * @param scope
@@ -37,11 +42,13 @@ angular.module('formService', ['ui.bootstrap'])
             return RESTURL.url + scope.url + getparams;
         };
         /**
+         * @ngdoc function
          * @name generate
+         * @module formService
          * @param scope
          * @param data
          * @description
-         * # generate function is inclusive for form generation
+         * - generate function is inclusive for form generation
          * defines given scope's client_cmd, model, schema, form, token, object_id objects
          *
          * @returns {string}
@@ -77,14 +84,16 @@ angular.module('formService', ['ui.bootstrap'])
             return scope;
         };
         /**
+         * @ngdoc function
          * @name group
+         * @module formService
          * @param scope
          * @description
          * group function to group form layout by form meta data for layout
          *
          * grouping will use an object like below when parsing its items:
          *
-         * grouping = [
+         * `grouping = [
          *  {
          *      "groups": [
          *          {
@@ -104,7 +113,7 @@ angular.module('formService', ['ui.bootstrap'])
          *      ],
          *      "layout": "2",
          *      "collapse": False
-         *  }]
+         *  }]`
          *
          * @returns {object}
          */
@@ -179,7 +188,9 @@ angular.module('formService', ['ui.bootstrap'])
             return scope;
         };
         /**
+         * @ngdoc function
          * @name prepareFormItems
+         * @module formService
          * @description
          * prepareFormItems looks up fields of schema objects and changes their types to proper type for schemaform
          * for listnode, node and model types it uses templates to generate modal
@@ -641,6 +652,10 @@ angular.module('formService', ['ui.bootstrap'])
             return generator.group(scope);
         };
         /**
+         * @ngdoc function
+         * @name dateformatter
+         * @module formService
+         * @description
          * dateformatter handles all date fields and returns humanized and jquery datepicker format dates
          * @param formObject
          * @returns {*}
@@ -655,10 +670,22 @@ angular.module('formService', ['ui.bootstrap'])
                 return newdatearray;
             }
         };
+        /**
+         * @ngdoc function
+         * @name doItemAction
+         * @module formService
+         * @description
+         * mode could be in ['normal', 'modal', 'new'] . the default mode is 'normal' and it loads data on same
+         * tab without modal. 'modal' will use modal to manipulate data and do all actions in that modal. 'new'
+         * will be open new page with response data
+         *
+         * @param $scope
+         * @param key
+         * @param todo
+         * @param mode
+         * @returns {*}
+         */
         generator.doItemAction = function ($scope, key, todo, mode) {
-            // mode could be in ['normal', 'modal', 'new'] . the default mode is 'normal' and it loads data on same
-            // tab without modal. 'modal' will use modal to manipulate data and do all actions in that modal. 'new'
-            // will be open new page with response data
             var _do = {
                 normal: function () {
                     $log.debug('normal mode starts');
@@ -691,6 +718,15 @@ angular.module('formService', ['ui.bootstrap'])
             return _do[mode]();
         };
 
+        /**
+         * @ngdoc function
+         * @name get_form
+         * @module formService
+         * @description
+         * Communicates with api with given scope object.
+         * @param scope
+         * @returns {*}
+         */
         generator.get_form = function (scope) {
             return $http
                 .post(generator.makeUrl(scope), scope.form_params)
@@ -699,6 +735,10 @@ angular.module('formService', ['ui.bootstrap'])
                 });
         };
         /**
+         * @ngdoc function
+         * @name get_list
+         * @module formService
+         * @description
          * gets list of related wf/model
          * @param scope
          * @returns {*}
@@ -711,6 +751,10 @@ angular.module('formService', ['ui.bootstrap'])
                 });
         };
         /**
+         * @ngdoc function
+         * @name get_wf
+         * @module formService
+         * @description
          * get_wf is the main function for client_cmd based api calls
          * based on response content it redirects to related path/controller with pathDecider function
          * @param scope
@@ -732,44 +776,50 @@ angular.module('formService', ['ui.bootstrap'])
                     }
                 });
         };
+        /**
+         * @ngdoc function
+         * @name isValidEmail
+         * @module formService
+         * @description
+         * checks if given value is a valid email address.
+         * @param email
+         * @returns {boolean}
+         */
         generator.isValidEmail = function (email) {
             var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
             return re.test(email);
         };
+        /**
+         * @ngdoc function
+         * @name isValidTCNo
+         * @module formService
+         * @description
+         * checks if given value is a valid identity number for Turkey.
+         * @param tcno
+         * @returns {boolean}
+         */
         generator.isValidTCNo = function (tcno) {
             var re = /^([1-9]{1}[0-9]{9}[0,2,4,6,8]{1})$/i;
             return re.test(tcno);
         };
+        /**
+         * @ngdoc function
+         * @name isValidDate
+         * @module formService
+         * @description
+         * checks if given value can be parsed as Date object
+         * @param dateValue
+         * @returns {boolean}
+         */
         generator.isValidDate = function (dateValue) {
             return !isNaN(Date.parse(dateValue));
         };
-        //generator.asyncValidators = {
-        //    emailNotValid: function (value) {
-        //        var deferred = $q.defer();
-        //        $timeout(function () {
-        //            if (generator.isValidEmail(value)) {
-        //                deferred.resolve();
-        //            } else {
-        //                deferred.reject();
-        //            }
-        //        }, 500);
-        //        return deferred.promise;
-        //    },
-        //    tcNoNotValid: function (value) {
-        //        var deferred = $q.defer();
-        //        $timeout(function () {
-        //            if (generator.isValidTCNo(value)) {
-        //                deferred.resolve();
-        //            } else {
-        //                deferred.reject();
-        //            }
-        //        }, 500);
-        //        return deferred.promise;
-        //    }
-        //};
-
 
         /**
+         * @ngdoc function
+         * @name pageData
+         * @module formService
+         * @description
          * pageData object is moving object from response to controller
          * with this object controller will not need to call the api for response object to work on to
          * @type {{}}
@@ -784,6 +834,10 @@ angular.module('formService', ['ui.bootstrap'])
 
 
         /**
+         * @ngdoc function
+         * @name pathDecider
+         * @module formService
+         * @description
          * pathDecider is used to redirect related path by looking up the data in response
          * @param client_cmd
          * @param $scope
@@ -795,7 +849,9 @@ angular.module('formService', ['ui.bootstrap'])
                 return;
             }
             /**
+             * @ngdoc function
              * @name redirectTo
+             * @module formService
              * @description
              * redirectTo function redirects to related controller and path with given data
              * before redirect setPageData must be called and pageData need to be defined
@@ -840,6 +896,16 @@ angular.module('formService', ['ui.bootstrap'])
             dispatchClientCmd();
         };
 
+        /**
+         * @ngdoc function
+         * @name get_diff
+         * @module formService
+         * @description
+         *
+         * @param obj1
+         * @param obj2
+         * @returns {{object}} diff object of two given objects
+         */
         generator.get_diff = function (obj1, obj2) {
             var result = {};
             angular.forEach(obj1, function (value, key) {
@@ -855,7 +921,17 @@ angular.module('formService', ['ui.bootstrap'])
             });
             return result;
         };
-
+        /**
+         * @ngdoc function
+         * @name get_diff_array
+         * @module formService
+         * @description
+         * extracts items of second array from the first array
+         * @param array1
+         * @param array2
+         * @param way
+         * @returns {Array}
+         */
         generator.get_diff_array = function (array1, array2, way) {
             var result = [];
             angular.forEach(array1, function (value, key) {
@@ -871,8 +947,16 @@ angular.module('formService', ['ui.bootstrap'])
             });
             return result;
         };
-
-        // get item unicode name from titleMap using this method
+        /**
+         * @ngdoc function
+         * @name item_from_array
+         * @module formService
+         * @description
+         * get item unicode name from titleMap
+         * @param item
+         * @param array
+         * @returns {*}
+         */
         generator.item_from_array = function (item, array) {
             var result = item;
             angular.forEach(array, function (value, key) {
@@ -884,8 +968,15 @@ angular.module('formService', ['ui.bootstrap'])
         };
 
         /**
-         * submit function is general function for submiting forms
+         * @ngdoc function
+         * @name submit
+         * @module formService
+         * @description
+         * submit function is general function for submiting forms.
+         * redirectTo param is used for redirect if return value will be evaluated in a new page.
+         *
          * @param $scope
+         * @param redirectTo
          * @returns {*}
          */
         generator.submit = function ($scope, redirectTo) {
@@ -948,7 +1039,9 @@ angular.module('formService', ['ui.bootstrap'])
     })
 
     /**
+     * @ngdoc controller
      * @name ModalCtrl
+     * @module formservice
      * @description
      * controller for listnode, node and linkedmodel modal and save data of it
      * @param items
