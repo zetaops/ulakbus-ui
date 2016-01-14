@@ -258,6 +258,10 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
                 CrudUtility.generateParam($scope, $routeParams, $routeParams.cmd);
                 Generator.get_wf($scope);
             }
+
+            if ($scope.object) {
+                $scope.createListObjects();
+            }
         };
         $scope.reloadCmd = function () {
             $scope.reload({});
@@ -280,6 +284,14 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
 
     })
 
+    /**
+     * @ngdoc directive
+     * @name crudListDirective
+     * @module ulakbus.crud
+     * @description
+     * directive for listing objects.
+     * provides template for `scope.objects` object.
+     */
     .directive('crudListDirective', function () {
         return {
             templateUrl: 'components/crud/templates/list.html',
@@ -287,7 +299,14 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             replace: true
         };
     })
-
+    /**
+     * @ngdoc directive
+     * @name crudFormDirective
+     * @module ulakbus.crud
+     * @description
+     * directive for form generation.
+     * provides template for `scope.forms` object.
+     */
     .directive('crudFormDirective', function () {
         return {
             templateUrl: 'components/crud/templates/form.html',
@@ -295,7 +314,14 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             replace: true
         };
     })
-
+    /**
+     * @ngdoc directive
+     * @name crudShowDirective
+     * @module ulakbus.crud
+     * @description
+     * directive for single object or detail of an object.
+     * provides template for `scope.object` object.
+     */
     .directive('crudShowDirective', function () {
         return {
             templateUrl: 'components/crud/templates/show.html',
@@ -303,7 +329,14 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
             replace: true
         };
     })
-
+    /**
+     * @ngdoc directive
+     * @name formLocator
+     * @module ulakbus.crud
+     * @description
+     * directive for finding form element. we use this directive because when form dynamically generated using
+     * schemaform it belongs to a scope which is hard to reach. This makes it easy to locate form object.
+     */
     .directive('formLocator', function () {
         return {
             link: function (scope) {
@@ -312,6 +345,14 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'formService'])
         }
     })
 
+    /**
+     * @ngdoc directive
+     * @name crudFilters
+     * @module ulakbus.crud
+     * @description
+     * directive for filtering functionality. There are three types of filters; `check`, `select`, and `date`.
+     * @todo filter items returns unselected in response object
+     */
     .directive('crudFilters', function(Generator) {
         return {
             templateUrl: 'components/crud/templates/filter.html',

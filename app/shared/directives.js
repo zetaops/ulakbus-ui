@@ -6,11 +6,14 @@
  * (GPLv3).  See LICENSE.txt for details.
  */
 
-/**
- * logout directive
- */
-
-app.directive('logout', function ($http, $location, RESTURL) {
+angular.module('ulakbus')
+    /**
+     * @ngdoc directive
+     * @name logout
+     * @description
+     * logout directive provides a button with click event. When triggered it post to /logout path of the API.
+     */
+    .directive('logout', function ($http, $location, RESTURL) {
         return {
             link: function ($scope, $element, $rootScope) {
                 $element.on('click', function () {
@@ -22,11 +25,16 @@ app.directive('logout', function ($http, $location, RESTURL) {
             }
         };
     })
-
     /**
-     * headerNotification directive for header
+     * @ngdoc directive
+     * @name headerNotification
+     * @description
+     * This directive is responsible to get and show notification.
+     * It calls API's /notify path with given interval and broadcasts `notifications` application-wide.
+     * There are 4 types of notifications:
+     * 1: tasks, 2: messages, 3: announcements, 4: recents
+     * - Notifications can be disabled in /dev/settings page
      */
-
     .directive('headerNotification', function ($http, $rootScope, $cookies, $interval, RESTURL) {
         return {
             templateUrl: 'shared/templates/directives/header-notification.html',
@@ -61,6 +69,7 @@ app.directive('logout', function ($http, $location, RESTURL) {
 
                 // when clicked mark as read notification
                 // it can be list of notifications
+                // todo: do it in detail page of notification
                 $scope.markAsRead = function (items) {
                     $http.post(RESTURL.url + "notify", {ignoreLoadingBar: true, read: [items]})
                         .success(function (data) {
@@ -76,9 +85,12 @@ app.directive('logout', function ($http, $location, RESTURL) {
             }
         };
     })
-
     /**
-     *
+     * @ngdoc directive
+     * @name searchDirective
+     * @description
+     * This directive provides reusable search form application-wide.
+     * When search form submitted and response returns, it broadcasts the result with key `updateObjects`.
      */
     .directive('searchDirective', function (Generator, $log, $rootScope) {
         return {
@@ -130,8 +142,10 @@ app.directive('logout', function ($http, $location, RESTURL) {
             }
         };
     })
-
     /**
+     * @ngdoc directive
+     * @name sortDirective
+     * @description
      *
      */
     .directive('sortDirective', function (Generator, $log) {
@@ -180,13 +194,12 @@ app.directive('logout', function ($http, $location, RESTURL) {
             }
         };
     })
-
-
     /**
-     * collapseMenu directive
+     * @ngdoc directive
+     * @name collapseMenu
+     * @description
      * toggle collapses sidebar menu when clicked menu button
      */
-
     .directive('collapseMenu', function ($timeout, $window, $cookies) {
         return {
             templateUrl: 'shared/templates/directives/menuCollapse.html',
@@ -224,11 +237,12 @@ app.directive('logout', function ($http, $location, RESTURL) {
             }
         };
     })
-
     /**
-     * headerSubmenu directive
+     * @ngdoc directive
+     * @name headerSubmenu
+     * @description
+     *
      */
-
     .directive('headerSubMenu', function ($location) {
         return {
             templateUrl: 'shared/templates/directives/header-sub-menu.html',
@@ -243,12 +257,12 @@ app.directive('logout', function ($http, $location, RESTURL) {
             }
         };
     })
-
     /**
-     * breadcrumb directive
+     * @ngdoc directive
+     * @name breadcrumb
+     * @description
      * produces breadcrumb with related links
      */
-
     .directive('headerBreadcrumb', function ($location) {
         return {
             templateUrl: 'shared/templates/directives/header-breadcrumb.html',
@@ -261,12 +275,12 @@ app.directive('logout', function ($http, $location, RESTURL) {
             }
         };
     })
-
     /**
-     * selected user directive
-     * todo: unused
+     * @ngdoc directive
+     * @name selectedUser
+     * @description
+     *
      */
-
     .directive('selectedUser', function ($http, RESTURL) {
         return {
             templateUrl: 'shared/templates/directives/selected-user.html',
@@ -295,14 +309,14 @@ app.directive('logout', function ($http, $location, RESTURL) {
             }
         };
     })
-
     /**
-     * sidebar directive
+     * @ngdoc directive
+     * @name sidebar
+     * @description
      * changes breadcrumb when an item selected
      * consists of menu items of related user or transaction
      * controller communicates with dashboard controller to shape menu items and authz
      */
-
     .directive('sidebar', ['$location', function () {
         return {
             templateUrl: 'shared/templates/directives/sidebar.html',
@@ -459,7 +473,12 @@ app.directive('logout', function ($http, $location, RESTURL) {
             }
         };
     }])
-
+    /**
+     * @ngdoc directive
+     * @name stats
+     * @description
+     *
+     */
     .directive('stats', function () {
         return {
             templateUrl: 'shared/templates/directives/stats.html',
@@ -478,11 +497,12 @@ app.directive('logout', function ($http, $location, RESTURL) {
 
         };
     })
-
     /**
-     * header menu notifications directive
+     * @ngdoc directive
+     * @name notifications
+     * @description
+     *
      */
-
     .directive('notifications', function () {
         return {
             templateUrl: 'shared/templates/directives/notifications.html',
@@ -490,11 +510,12 @@ app.directive('logout', function ($http, $location, RESTURL) {
             replace: true
         };
     })
-
     /**
-     * msgbox directive
+     * @ngdoc directive
+     * @name msgbox
+     * @description
+     *
      */
-
     .directive('msgbox', function () {
         return {
             templateUrl: 'shared/templates/directives/msgbox.html',
@@ -502,12 +523,12 @@ app.directive('logout', function ($http, $location, RESTURL) {
             replace: false
         };
     })
-
-
     /**
-     * alert directive
+     * @ngdoc directive
+     * @name alertBox
+     * @description
+     *
      */
-
     .directive('alertBox', function ($timeout) {
         return {
             templateUrl: 'shared/templates/directives/alert.html',
@@ -523,11 +544,12 @@ app.directive('logout', function ($http, $location, RESTURL) {
             }
         };
     })
-
     /**
-     * search directive in sidebar
+     * @ngdoc directive
+     * @name sidebarSearch
+     * @description
+     *
      */
-
     .directive('sidebarSearch', function () {
         return {
             templateUrl: 'shared/templates/directives/sidebar-search.html',
@@ -539,7 +561,12 @@ app.directive('logout', function ($http, $location, RESTURL) {
             }
         };
     })
-
+    /**
+     * @ngdoc directive
+     * @name fileread
+     * @description
+     *
+     */
     .directive("fileread", function ($timeout) {
         return {
             scope: {
@@ -565,19 +592,3 @@ app.directive('logout', function ($http, $location, RESTURL) {
             }
         }
     });
-
-//app.directive('timeline', function () {
-//    return {
-//        templateUrl: 'shared/templates/directives/timeline.html',
-//        restrict: 'E',
-//        replace: true,
-//    };
-//});
-//
-//app.directive('chat', function () {
-//    return {
-//        templateUrl: 'shared/templates/directives/chat.html',
-//        restrict: 'E',
-//        replace: true,
-//    };
-//});

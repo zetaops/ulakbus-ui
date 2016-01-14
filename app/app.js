@@ -8,7 +8,14 @@
 
 'use strict';
 
-var app = angular.module(
+/**
+ * @ngdoc module
+ * @name ulakbus
+ * @description
+ * Ulakbus module is the main module of ulakbus-ui. All application-wide configurations and definings of constants
+ * handled in this module.
+ */
+angular.module(
     'ulakbus', [
         'ui.bootstrap',
         'angular-loading-bar',
@@ -26,43 +33,47 @@ var app = angular.module(
         //'schemaForm',
         'gettext',
         'ulakbus.uitemplates'
-    ]).
-/**
- * RESTURL is the url of rest api to talk
- * Based on the environment it changes from dev to prod
- */
-constant("RESTURL", (function () {
-    // todo: below backendurl definition is for development purpose and will be deleted
-    var backendurl = location.href.indexOf('nightly') > -1 ? "//nightly.api.ulakbus.net/" : "//api.ulakbus.net/";
-    if (document.cookie.indexOf("backendurl") > -1) {
-        var cookiearray = document.cookie.split(';');
-        angular.forEach(cookiearray, function (item) {
-            if (item.indexOf("backendurl") > -1) {
-                backendurl = item.split('=')[1];
-            }
-        });
-    }
+    ])
+    /**
+     * @ngdoc object
+     * @name RESTURL
+     * @module ulakbus
+     * @description
+     * RESTURL is the url of rest api to talk
+     * Based on the environment it changes from dev to prod
+     */
+    .constant("RESTURL", (function () {
+        // todo: below backendurl definition is for development purpose and will be deleted
+        var backendurl = location.href.indexOf('nightly') > -1 ? "//nightly.api.ulakbus.net/" : "//api.ulakbus.net/";
+        if (document.cookie.indexOf("backendurl") > -1) {
+            var cookiearray = document.cookie.split(';');
+            angular.forEach(cookiearray, function (item) {
+                if (item.indexOf("backendurl") > -1) {
+                    backendurl = item.split('=')[1];
+                }
+            });
+        }
 
-    if (location.href.indexOf("backendurl") > -1) {
-        var urlfromqstr = location.href.split('?')[1].split('=')[1];
-        backendurl = decodeURIComponent(urlfromqstr.replace(/\+/g, " "));
-        document.cookie = "backendurl=" + backendurl;
-        window.location.href = window.location.href.split('?')[0];
-    }
+        if (location.href.indexOf("backendurl") > -1) {
+            var urlfromqstr = location.href.split('?')[1].split('=')[1];
+            backendurl = decodeURIComponent(urlfromqstr.replace(/\+/g, " "));
+            document.cookie = "backendurl=" + backendurl;
+            window.location.href = window.location.href.split('?')[0];
+        }
 
-    return {url: backendurl};
-})()).
-/**
- * USER_ROLES and AUTH_EVENTS are constant for auth functions
- */
-constant("USER_ROLES", {
-    all: "*",
-    admin: "admin",
-    student: "student",
-    staff: "staff",
-    dean: "dean"
-}).
-    constant('AUTH_EVENTS', {
+        return {url: backendurl};
+    })()).
+    /**
+     * USER_ROLES and AUTH_EVENTS are constant for auth functions
+     */
+    constant("USER_ROLES", {
+        all: "*",
+        admin: "admin",
+        student: "student",
+        staff: "staff",
+        dean: "dean"
+    })
+    .constant('AUTH_EVENTS', {
         loginSuccess: 'auth-login-success',
         loginFailed: 'auth-login-failed',
         logoutSuccess: 'auth-logout-success',
@@ -73,9 +84,3 @@ constant("USER_ROLES", {
     .config(function ($logProvider) {
         $logProvider.debugEnabled(true);
     });
-
-
-// test the code with strict di mode to see if it works when minified
-//angular.bootstrap(document, ['ulakbus'], {
-//    strictDi: true
-//});

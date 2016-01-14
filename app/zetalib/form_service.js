@@ -576,7 +576,7 @@ angular.module('formService', ['ui.bootstrap'])
                         url: scope.url,
                         wf: scope.wf,
                         nodeModelChange: function (item) {
-                            debugger;
+                            //debugger;
                         }
 
                     });
@@ -1045,10 +1045,11 @@ angular.module('formService', ['ui.bootstrap'])
      * @description
      * controller for listnode, node and linkedmodel modal and save data of it
      * @param items
-     * @requires $scope, $uibModalInstance, $route
+     * @param $scope
+     * @param $uibModalInstance
+     * @param $route
      * @returns returns value for modal
      */
-
     .controller('ModalCtrl', function ($scope, $uibModalInstance, Generator, items) {
         angular.forEach(items, function (value, key) {
             $scope[key] = items[key];
@@ -1091,7 +1092,9 @@ angular.module('formService', ['ui.bootstrap'])
     })
 
     /**
+     * @ngdoc directive
      * @name modalForNodes
+     * @module formService
      * @description
      * add modal directive for nodes
      * @param $uibModal
@@ -1210,13 +1213,15 @@ angular.module('formService', ['ui.bootstrap'])
 
 
     /**
+     * @ngdoc directive
      * @name addModalForLinkedModel
+     * @module formService
      * @description
      * add modal directive for linked models
-     * @param $uibModal, Generator
+     * @param $uibModal
+     * @param Generator
      * @returns openmodal directive
      */
-
     .directive('addModalForLinkedModel', function ($uibModal, $rootScope, $route, Generator) {
         return {
             link: function (scope, element, attributes) {
@@ -1292,7 +1297,7 @@ angular.module('formService', ['ui.bootstrap'])
                 scope.$emit('modalFormLocator');
             }
         }
-    })
+    });
 
     /**
      * @name editModalForLinkedModel
@@ -1304,29 +1309,29 @@ angular.module('formService', ['ui.bootstrap'])
 
     // todo: useless modal check if any use cases?? and delete if useless
 
-    .directive('editModalForLinkedModel', function ($uibModal, Generator) {
-        return {
-            link: function (scope, element) {
-                element.on('click', function () {
-                    var modalInstance = $uibModal.open({
-                        animation: false,
-                        templateUrl: 'shared/templates/linkedModelModalContent.html',
-                        controller: 'ModalCtrl',
-                        size: 'lg',
-                        resolve: {
-                            items: function () {
-                                return Generator.get_form({
-                                    url: 'crud',
-                                    form_params: {'model': scope.form.title, "cmd": "form"}
-                                });
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function (childmodel, key) {
-                        Generator.submit(childmodel);
-                    });
-                });
-            }
-        };
-    });
+    //.directive('editModalForLinkedModel', function ($uibModal, Generator) {
+    //    return {
+    //        link: function (scope, element) {
+    //            element.on('click', function () {
+    //                var modalInstance = $uibModal.open({
+    //                    animation: false,
+    //                    templateUrl: 'shared/templates/linkedModelModalContent.html',
+    //                    controller: 'ModalCtrl',
+    //                    size: 'lg',
+    //                    resolve: {
+    //                        items: function () {
+    //                            return Generator.get_form({
+    //                                url: 'crud',
+    //                                form_params: {'model': scope.form.title, "cmd": "form"}
+    //                            });
+    //                        }
+    //                    }
+    //                });
+    //
+    //                modalInstance.result.then(function (childmodel, key) {
+    //                    Generator.submit(childmodel);
+    //                });
+    //            });
+    //        }
+    //    };
+    //});

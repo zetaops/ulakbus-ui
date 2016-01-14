@@ -47,7 +47,7 @@
       </tr>
       
       <tr>
-        <td><a href="api/ulakbus.crud/service/CrudUtility">CrudUtility</a></td>
+        <td><a href="service/CrudUtility.html">CrudUtility</a></td>
         <td><p>Crud Utility is a service to provide generic functions for Crud controllers to format data and scope object.</p>
 </td>
       </tr>
@@ -64,13 +64,13 @@
       </tr>
       
       <tr>
-        <td><a href="api/ulakbus.crud/function/generateParam">generateParam</a></td>
+        <td><a href="function/generateParam.html">generateParam</a></td>
         <td><p>generateParam is a function to generate required params to post backend api.</p>
 </td>
       </tr>
       
       <tr>
-        <td><a href="api/ulakbus.crud/function/listPageItems">listPageItems</a></td>
+        <td><a href="function/listPageItems.html">listPageItems</a></td>
         <td><p>listPageItems is a function to prepare objects to list in the list page.</p>
 </td>
       </tr>
@@ -87,7 +87,7 @@
       </tr>
       
       <tr>
-        <td><a href="api/ulakbus.crud/controller/CRUDCtrl.html">CRUDCtrl</a></td>
+        <td><a href="controller/CRUDCtrl.html">CRUDCtrl</a></td>
         <td><p>CRUDCtrl controller is base controller for crud module to redirect to related controller
 This controller play an empty role for api calls.
 With response data, location path change to related controller</p>
@@ -95,11 +95,56 @@ With response data, location path change to related controller</p>
       </tr>
       
       <tr>
-        <td><a href="api/ulakbus.crud/controller/CRUDListFormCtrl.html">CRUDListFormCtrl</a></td>
+        <td><a href="controller/CRUDListFormCtrl.html">CRUDListFormCtrl</a></td>
         <td><p>CRUDListFormCtrl is the main controller for crud module
 Based on the client_cmd parameter it generates its scope items.
 client_cmd can be in [&#39;show&#39;, &#39;list&#39;, &#39;form&#39;, &#39;reload&#39;, &#39;refresh&#39;]
 There are 3 directives to manipulate controllers scope objects in crud.html</p>
+</td>
+      </tr>
+      
+    </table>
+  </div>
+  
+  <div>
+    <h3 class="component-heading" id="directive">Directive</h3>
+    <table class="definition-table">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      
+      <tr>
+        <td><a href="directive/crudListDirective.html">crudListDirective</a></td>
+        <td><p>directive for listing objects.
+provides template for <code>scope.objects</code> object.</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="directive/crudFormDirective.html">crudFormDirective</a></td>
+        <td><p>directive for form generation.
+provides template for <code>scope.forms</code> object.</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="directive/crudShowDirective.html">crudShowDirective</a></td>
+        <td><p>directive for single object or detail of an object.
+provides template for <code>scope.object</code> object.</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="directive/formLocator.html">formLocator</a></td>
+        <td><p>directive for finding form element. we use this directive because when form dynamically generated using
+schemaform it belongs to a scope which is hard to reach. This makes it easy to locate form object.</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="directive/crudFilters.html">crudFilters</a></td>
+        <td><p>directive for filtering functionality. There are three types of filters; <code>check</code>, <code>select</code>, and <code>date</code>.</p>
 </td>
       </tr>
       
