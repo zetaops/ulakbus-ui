@@ -4,14 +4,16 @@
  *
  * This file is licensed under the GNU General Public License v3
  * (GPLv3).  See LICENSE.txt for details.
+ * @type {ng.$compileProvider|*}
  */
 
 angular.module('ulakbus')
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name logout
-     * @description
-     * logout directive provides a button with click event. When triggered it post to /logout path of the API.
+     * @description logout directive provides a button with click event. When triggered it post to
+     * '/logout' path of the API.
      */
     .directive('logout', function ($http, $location, RESTURL) {
         return {
@@ -26,10 +28,10 @@ angular.module('ulakbus')
         };
     })
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name headerNotification
-     * @description
-     * This directive is responsible to get and show notification.
+     * @description This directive is responsible to get and show notification.
      * It calls API's /notify path with given interval and broadcasts `notifications` application-wide.
      * There are 4 types of notifications:
      * 1: tasks, 2: messages, 3: announcements, 4: recents
@@ -41,6 +43,10 @@ angular.module('ulakbus')
             restrict: 'E',
             replace: true,
             link: function ($scope) {
+                /**
+                 * Group notifications
+                 * @param notifications
+                 */
                 $scope.groupNotifications = function (notifications) {
                     // notification categories:
                     // 1: tasks, 2: messages, 3: announcements, 4: recents
@@ -50,6 +56,10 @@ angular.module('ulakbus')
                         $scope.notifications[value.type].push(value);
                     });
                 };
+                /**
+                 * Get notifications from API's /notify path and group it then broadcast "notifications" object.
+                 * {ignoreLoadingBar: true} is telling loading bar not work on this particular request.
+                 */
                 $scope.getNotifications = function () {
                     // ignore loading bar here
                     $http.get(RESTURL.url + "notify", {ignoreLoadingBar: true}).success(function (data) {
@@ -67,9 +77,11 @@ angular.module('ulakbus')
                     }
                 }, 5000);
 
-                // when clicked mark as read notification
-                // it can be list of notifications
-                // todo: do it in detail page of notification
+                /**
+                 * When clicked mark the notification as read.
+                 * @param items
+                 * @todo: do it in detail page of notification
+                 */
                 $scope.markAsRead = function (items) {
                     $http.post(RESTURL.url + "notify", {ignoreLoadingBar: true, read: [items]})
                         .success(function (data) {
@@ -86,10 +98,10 @@ angular.module('ulakbus')
         };
     })
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name searchDirective
-     * @description
-     * This directive provides reusable search form application-wide.
+     * @description This directive provides reusable search form application-wide.
      * When search form submitted and response returns, it broadcasts the result with key `updateObjects`.
      */
     .directive('searchDirective', function (Generator, $log, $rootScope) {
@@ -143,10 +155,11 @@ angular.module('ulakbus')
         };
     })
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name sortDirective
-     * @description
-     *
+     * @description Sort directive is responsible to post sorting params to API and process the response to the screen.
+     * @todo test and implement when backend ready
      */
     .directive('sortDirective', function (Generator, $log) {
         return {
@@ -195,10 +208,10 @@ angular.module('ulakbus')
         };
     })
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name collapseMenu
-     * @description
-     * toggle collapses sidebar menu when clicked menu button
+     * @description Toggle collapses sidebar menu when clicked menu button
      */
     .directive('collapseMenu', function ($timeout, $window, $cookies) {
         return {
@@ -238,16 +251,15 @@ angular.module('ulakbus')
         };
     })
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name headerSubmenu
-     * @description
-     *
+     * @description Contains breadcrumb elements and loading animation
      */
     .directive('headerSubMenu', function ($location) {
         return {
             templateUrl: 'shared/templates/directives/header-sub-menu.html',
             restrict: 'E',
-            //controller: "CRUDAddEditCtrl",
             replace: true,
             link: function ($scope) {
                 $scope.style = 'width:calc(100% - 300px);';
@@ -258,10 +270,10 @@ angular.module('ulakbus')
         };
     })
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name breadcrumb
-     * @description
-     * produces breadcrumb with related links
+     * @description Produces breadcrumb with related links
      */
     .directive('headerBreadcrumb', function ($location) {
         return {
@@ -276,10 +288,11 @@ angular.module('ulakbus')
         };
     })
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name selectedUser
-     * @description
-     *
+     * @description Selected user on which the current job done is hold in this directive.
+     * @deprecated
      */
     .directive('selectedUser', function ($http, RESTURL) {
         return {
@@ -310,12 +323,11 @@ angular.module('ulakbus')
         };
     })
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name sidebar
-     * @description
-     * changes breadcrumb when an item selected
-     * consists of menu items of related user or transaction
-     * controller communicates with dashboard controller to shape menu items and authz
+     * @description Changes breadcrumb when an item selected consists of menu items of related user or transaction
+     * controller communicates with dashboard controller to shape menu items and authz.
      */
     .directive('sidebar', ['$location', function () {
         return {
@@ -474,10 +486,11 @@ angular.module('ulakbus')
         };
     }])
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name stats
-     * @description
-     *
+     * @description Statistical data directive.
+     * @todo unused for now
      */
     .directive('stats', function () {
         return {
@@ -498,10 +511,10 @@ angular.module('ulakbus')
         };
     })
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name notifications
-     * @description
-     *
+     * @description Holds notifications template with related rootscope items.
      */
     .directive('notifications', function () {
         return {
@@ -511,10 +524,10 @@ angular.module('ulakbus')
         };
     })
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name msgbox
-     * @description
-     *
+     * @description Holds msgbox template with related rootscope items.
      */
     .directive('msgbox', function () {
         return {
@@ -524,10 +537,10 @@ angular.module('ulakbus')
         };
     })
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name alertBox
-     * @description
-     *
+     * @description Triggers when `alertBox` broadcasted with alert data..
      */
     .directive('alertBox', function ($timeout) {
         return {
@@ -545,10 +558,10 @@ angular.module('ulakbus')
         };
     })
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name sidebarSearch
-     * @description
-     *
+     * @description unused for now
      */
     .directive('sidebarSearch', function () {
         return {
@@ -562,10 +575,11 @@ angular.module('ulakbus')
         };
     })
     /**
+     * @memberof ulakbus
      * @ngdoc directive
      * @name fileread
-     * @description
-     *
+     * @description Fileread directive is responsible for reading uploaded file and replace it to related model item.
+     * @todo implement preview only for images
      */
     .directive("fileread", function ($timeout) {
         return {

@@ -9,11 +9,12 @@
 angular.module('ulakbus')
     .config(['$httpProvider', function ($httpProvider) {
         /**
-         * @ngdoc function
+         * @memberof ulakbus.formService
+         * @ngdoc interceptor
          * @name http_interceptor
-         * @module ulakbus
-         * @description
-         * The http interceptor for all requests and responses to check and config payload and response objects.
+         * @memberof ulakbus
+         * @description The http interceptor for all requests and responses to check and config payload and response
+         * objects.
          * - To prevent OPTIONS preflight request change header Content-Type to `text/plain`.
          * - 4xx - 5xx errors are handled in response objects.
          * - `_debug_queries` is helper object for development purposes to see how long the queries lasts.

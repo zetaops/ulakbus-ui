@@ -22,7 +22,7 @@
                 <span ng-if="value.verbose_name">{{ value.verbose_name }}</span>
                 <span ng-if="!value.verbose_name">{{key}}</span>
             </th>
-            <th>İşlem</th>
+            <th ng-if="action!==False">İşlem</th>
         </tr>
         </thead>
         <tbody ng-class="{hidden: node.lengthModels < 1}">
@@ -55,7 +55,7 @@
                        ng-model="node.model[outerIndex][k]"
                        ng-change="nodeModelChange(this)">
             </td>
-            <td>
+            <td ng-if="action!==False">
                 <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}">Düzenle
                 </button>
                 <br>

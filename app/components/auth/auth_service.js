@@ -10,15 +10,26 @@
 
 angular.module('ulakbus.auth')
     /**
+     * @memberof ulakbus.auth
      * @ngdoc service
-     * @name LoginService
-     * @description
-     * LoginService provides generic functions for authorization process.
+     * @name AuthService
+     * @description  provides generic functions for authorization process.
      */
-    .factory('LoginService', function ($http, $rootScope, $location, $log, RESTURL) {
-        var loginService = {};
+    .factory('AuthService', function ($http, $rootScope, $location, $log, Generator, RESTURL) {
+        var authService = {};
 
-        loginService.login = function (url, credentials) {
+        /**
+         * @memberof ulakbus.auth
+         * @ngdoc function
+         * @function login
+         * @description login function post credentials to API and handles login.
+         * If login req returns success then interceptor will redirects to related path.
+         * @memberof ulakbus.auth
+         * @param url
+         * @param credentials
+         * @returns {*}
+         */
+        authService.login = function (url, credentials) {
             credentials['cmd'] = "do";
             return $http
                 .post(RESTURL.url + url, credentials)
@@ -33,7 +44,15 @@ angular.module('ulakbus.auth')
                 });
         };
 
-        loginService.logout = function () {
+        /**
+         * @memberof ulakbus.auth
+         * @ngdoc controller
+         * @function logout
+         * @description logout function posts logout request to API and redirects to login path
+         * @memberof ulakbus.auth
+         * @returns {*}
+         */
+        authService.logout = function () {
             $log.debug("logout");
             return $http.post(RESTURL.url + 'logout', {}).success(function (data) {
                 $rootScope.loggedInUser = false;
@@ -42,10 +61,5 @@ angular.module('ulakbus.auth')
             });
         };
 
-        loginService.isValidEmail = function (email) {
-            var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-            return re.test(email);
-        };
-
-        return loginService;
+        return authService;
     });

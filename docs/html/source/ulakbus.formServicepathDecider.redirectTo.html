@@ -1,0 +1,1552 @@
+<!doctype html>
+<html>
+  <head>
+    <base href="../">
+    <title>JSDoc: source : form_service.js</title>
+    <link type="text/css" rel="stylesheet" href="css/jsdoc-default.css">
+    <link href="css/prettify-tomorrow.css" type="text/css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,700" rel="stylesheet" type="text/css">
+    <link href="css/custom.css" type="text/css" rel="stylesheet">
+    <script src="js/prettify.js"></script>
+    <script src="js/angular.min.js"></script>
+  </head>
+  <body ng-app="">
+    <nav>
+      <h2><a href="index.html">Index</a></h2>
+      <ul class="module">
+        <!-- ulakbus -->
+        <h3>
+          <a href="" ng-click="moduleulakbus = !moduleulakbus">
+            module: ulakbus
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus">+</i>
+        </h3>
+        <li id="ulakbus" ng-hide="moduleulakbus">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbusdirective = !ulakbusdirective">
+                directive
+              </a>
+              <i ng-cloak="" ng-show="ulakbusdirective">+</i>
+            </h3>
+            <ul ng-hide="ulakbusdirective">
+              <li>
+                <a href="ulakbus.alertBox.html">alertBox</a>
+              </li><li>
+                <a href="ulakbus.breadcrumb.html">breadcrumb</a>
+              </li><li>
+                <a href="ulakbus.collapseMenu.html">collapseMenu</a>
+              </li><li>
+                <a href="ulakbus.fileread.html">fileread</a>
+              </li><li>
+                <a href="ulakbus.headerNotification.html">headerNotification</a>
+              </li><li>
+                <a href="ulakbus.headerSubmenu.html">headerSubmenu</a>
+              </li><li>
+                <a href="ulakbus.logout.html">logout</a>
+              </li><li>
+                <a href="ulakbus.msgbox.html">msgbox</a>
+              </li><li>
+                <a href="ulakbus.notifications.html">notifications</a>
+              </li><li>
+                <a href="ulakbus.searchDirective.html">searchDirective</a>
+              </li><li>
+                <a href="ulakbus.selectedUser.html">selectedUser</a>
+              </li><li>
+                <a href="ulakbus.sidebar.html">sidebar</a>
+              </li><li>
+                <a href="ulakbus.sidebarSearch.html">sidebarSearch</a>
+              </li><li>
+                <a href="ulakbus.sortDirective.html">sortDirective</a>
+              </li><li>
+                <a href="ulakbus.stats.html">stats</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbusinterceptor = !ulakbusinterceptor">
+                interceptor
+              </a>
+              <i ng-cloak="" ng-show="ulakbusinterceptor">+</i>
+            </h3>
+            <ul ng-hide="ulakbusinterceptor">
+              <li>
+                <a href="ulakbus.http_interceptor.html">http_interceptor</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbusconstant = !ulakbusconstant">
+                constant
+              </a>
+              <i ng-cloak="" ng-show="ulakbusconstant">+</i>
+            </h3>
+            <ul ng-hide="ulakbusconstant">
+              <li>
+                <a href="ulakbus.RESTURL.html">RESTURL</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul><ul class="module">
+        <!-- ulakbus_auth -->
+        <h3>
+          <a href="" ng-click="moduleulakbus_auth = !moduleulakbus_auth">
+            module: ulakbus.auth
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus_auth">+</i>
+        </h3>
+        <li id="ulakbus.auth" ng-hide="moduleulakbus_auth">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_authservice = !ulakbus_authservice">
+                service
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_authservice">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_authservice">
+              <li>
+                <a href="ulakbus.auth.AuthService.html">AuthService</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_authcontroller = !ulakbus_authcontroller">
+                controller
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_authcontroller">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_authcontroller">
+              <li>
+                <a href="ulakbus.auth.LoginCtrl.html">LoginCtrl</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul><ul class="module">
+        <!-- ulakbus_crud -->
+        <h3>
+          <a href="" ng-click="moduleulakbus_crud = !moduleulakbus_crud">
+            module: ulakbus.crud
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus_crud">+</i>
+        </h3>
+        <li id="ulakbus.crud" ng-hide="moduleulakbus_crud">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_crudcontroller = !ulakbus_crudcontroller">
+                controller
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_crudcontroller">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_crudcontroller">
+              <li>
+                <a href="ulakbus.crud.CRUDCtrl.html">CRUDCtrl</a>
+              </li><li>
+                <a href="ulakbus.crud.CRUDListFormCtrl.html">CRUDListFormCtrl</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_cruddirective = !ulakbus_cruddirective">
+                directive
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_cruddirective">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_cruddirective">
+              <li>
+                <a href="ulakbus.crud.crudFilters.html">crudFilters</a>
+              </li><li>
+                <a href="ulakbus.crud.crudFormDirective.html">crudFormDirective</a>
+              </li><li>
+                <a href="ulakbus.crud.crudListDirective.html">crudListDirective</a>
+              </li><li>
+                <a href="ulakbus.crud.crudShowDirective.html">crudShowDirective</a>
+              </li><li>
+                <a href="ulakbus.crud.formLocator.html">formLocator</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_crudservice = !ulakbus_crudservice">
+                service
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_crudservice">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_crudservice">
+              <li>
+                <a href="ulakbus.crud.CrudUtility.html">CrudUtility</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_crudfunction = !ulakbus_crudfunction">
+                function
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_crudfunction">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_crudfunction">
+              <li>
+                <a href="ulakbus.crud.generateParam.html">generateParam</a>
+              </li><li>
+                <a href="ulakbus.crud.listPageItems.html">listPageItems</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul><ul class="module">
+        <!-- ulakbus_form_ervice -->
+        <h3>
+          <a href="" ng-click="moduleulakbus_form_ervice = !moduleulakbus_form_ervice">
+            module: ulakbus.formService
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus_form_ervice">+</i>
+        </h3>
+        <li id="ulakbus.formService" ng-hide="moduleulakbus_form_ervice">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervicedirective = !ulakbus_form_ervicedirective">
+                directive
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervicedirective">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervicedirective">
+              <li>
+                <a href="ulakbus.formService.addModalForLinkedModel.html">addModalForLinkedModel</a>
+              </li><li>
+                <a href="ulakbus.formService.modalFormLocator.html">modalFormLocator</a>
+              </li><li>
+                <a href="ulakbus.formService.modalForNodes.html">modalForNodes</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervicefunction = !ulakbus_form_ervicefunction">
+                function
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervicefunction">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervicefunction">
+              <li>
+                <a href="ulakbus.formService.dateformatter.html">dateformatter</a>
+              </li><li>
+                <a href="ulakbus.formService.dispatchClientCmd.html">dispatchClientCmd</a>
+              </li><li>
+                <a href="ulakbus.formService.doItemAction.html">doItemAction</a>
+              </li><li>
+                <a href="ulakbus.formService.generate.html">generate</a>
+              </li><li>
+                <a href="ulakbus.formService.get_diff.html">get_diff</a>
+              </li><li>
+                <a href="ulakbus.formService.get_diff_array.html">get_diff_array</a>
+              </li><li>
+                <a href="ulakbus.formService.get_form.html">get_form</a>
+              </li><li>
+                <a href="ulakbus.formService.get_list.html">get_list</a>
+              </li><li>
+                <a href="ulakbus.formService.get_wf.html">get_wf</a>
+              </li><li>
+                <a href="ulakbus.formService.group.html">group</a>
+              </li><li>
+                <a href="ulakbus.formService.isValidDate.html">isValidDate</a>
+              </li><li>
+                <a href="ulakbus.formService.isValidEmail.html">isValidEmail</a>
+              </li><li>
+                <a href="ulakbus.formService.isValidTCNo.html">isValidTCNo</a>
+              </li><li>
+                <a href="ulakbus.formService.item_from_array.html">item_from_array</a>
+              </li><li>
+                <a href="ulakbus.formService.makeUrl.html">makeUrl</a>
+              </li><li>
+                <a href="ulakbus.formService.pathDecider.html">pathDecider</a>
+              </li><li>
+                <a href="ulakbus.formService.prepareFormItems.html">prepareFormItems</a>
+              </li><li>
+                <a href="ulakbus.formService.submit.html">submit</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervicefactory = !ulakbus_form_ervicefactory">
+                factory
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervicefactory">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervicefactory">
+              <li>
+                <a href="ulakbus.formService.Generator.html">Generator</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervicecontroller = !ulakbus_form_ervicecontroller">
+                controller
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervicecontroller">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervicecontroller">
+              <li>
+                <a href="ulakbus.formService.ModalCtrl.html">ModalCtrl</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_erviceproperty = !ulakbus_form_erviceproperty">
+                property
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_erviceproperty">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_erviceproperty">
+              <li>
+                <a href="ulakbus.formService.pageData.html">pageData</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul><ul class="module">
+        <!-- ulakbus_form_ervicepath_ecider -->
+        <h3>
+          <a href="" ng-click="moduleulakbus_form_ervicepath_ecider = !moduleulakbus_form_ervicepath_ecider">
+            module: ulakbus.formServicepathDecider
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus_form_ervicepath_ecider">+</i>
+        </h3>
+        <li id="ulakbus.formServicepathDecider" ng-hide="moduleulakbus_form_ervicepath_ecider">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervicepath_eciderfunction = !ulakbus_form_ervicepath_eciderfunction">
+                function
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervicepath_eciderfunction">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervicepath_eciderfunction">
+              <li>
+                <a href="ulakbus.formServicepathDecider.redirectTo.html">redirectTo</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div id="content" class="page-wrap">
+      <h1 class="title">
+        source : form_service.js
+      </h1>
+      <div id="main" class="big-container">
+        <!-- source code html -->
+        <article>
+          <pre class="prettyprint source linenums"><code>/**
+ * @license Ulakbus-UI
+ * Copyright (C) 2015 ZetaOps Inc.
+ * This file is licensed under the GNU General Public License v3
+ * (GPLv3).  See LICENSE.txt for details.
+ */
+/**
+ * @ngdoc module
+ * @name ulakbus.formService
+ * @module ulakbus.formService
+ * @description
+ * The `formService` module  provides generic services for auto generated forms.
+ * @requires ui.bootstrap
+ * @type {ng.$compileProvider|*}
+ */
+angular.module('ulakbus.formService', ['ui.bootstrap'])
+    /**
+     * there must be no global object, so change it into a service here.
+     */
+    .service('Moment', function(){
+        return window.moment;
+    })
+    /**
+     * @memberof ulakbus.formService
+     * @ngdoc factory
+     * @name Generator
+     * @description form service's Generator factory service handles all generic form operations
+     */
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment) {
+        var generator = {};
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name makeUrl
+         * @description this function generates url combining backend url and the related object properties for http requests
+         * @param scope
+         * @returns {string}
+         * @param scope
+         */
+        generator.makeUrl = function (scope) {
+            var getparams = scope.form_params.param ? "?" + scope.form_params.param + "=" + scope.form_params.id : "";
+            return RESTURL.url + scope.url + getparams;
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name generate
+         * @param scope
+         * @param data
+         * @description - generate function is inclusive for form generation
+         * defines given scope's client_cmd, model, schema, form, token, object_id objects
+         * @returns {*} scope
+         * @param scope
+         * @param data
+         */
+        generator.generate = function (scope, data) {
+            // if no form in response (in case of list and single item request) return scope
+            if (!data.forms) {
+                return scope;
+            }
+            // prepare scope form, schema and model from response object
+            angular.forEach(data.forms, function (value, key) {
+                scope[key] = data.forms[key];
+            });
+            scope.client_cmd = data.client_cmd;
+            scope.token = data.token;
+            // initialModel will be used in formDiff when submiting the form to submit only
+            scope.initialModel = angular.copy(scope.model);
+            // if fieldset in form, make it collapsable with template
+            //scope.listnodeform = {};
+            //scope.isCollapsed = true;
+            generator.prepareFormItems(scope);
+            scope.object_id = scope.form_params.object_id;
+            $log.debug('scope at after generate', scope);
+            return scope;
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name group
+         * @param scope
+         * @description group function to group form layout by form meta data for layout
+         * grouping will use an object like example below when parsing its items.
+         * @example
+         * `grouping = [
+         *  {
+         *      "groups": [
+         *          {
+         *              "group_title": "title1",
+         *              "items": ["item1", "item2", "item3", "item4"],
+         *          }
+         *      ],
+         *      "layout": "4",
+         *      "collapse": False
+         *  },
+         *  {
+         *      "groups": [
+         *          {
+         *              "group_title": "title2",
+         *              "items": ["item5", "item6"],
+         *          }
+         *      ],
+         *      "layout": "2",
+         *      "collapse": False
+         *  }]`
+         *
+         * @returns {*}
+         * @param scope
+         */
+        generator.group = function (scope) {
+            if (!scope.grouping) {
+                return scope;
+            }
+            var newForm = [];
+            var extractFormItem = function (itemList) {
+                var extractedList = [];
+                angular.forEach(itemList, function (value, key) {
+                    var item = getFormItem(value);
+                    if (item) {
+                        extractedList.push(item);
+                    }
+                });
+                $log.debug('extractedList: ', extractedList);
+                return extractedList;
+            };
+            var getFormItem = function (item) {
+                var formItem;
+                if (scope.form.indexOf(item) > -1) {
+                    formItem = scope.form[scope.form.indexOf(item)];
+                    scope.form.splice(scope.form.indexOf(item), 1);
+                    return formItem;
+                } else {
+                    angular.forEach(scope.form, function (value, key) {
+                        if (value.key === item) {
+                            formItem = value;
+                            scope.form.splice(key, 1);
+                            return;
+                        }
+                    });
+                    return formItem;
+                }
+            };
+            var makeGroup = function (itemsToGroup) {
+                var subItems = [];
+                angular.forEach(itemsToGroup, function (value, key) {
+                    subItems.push({
+                        type: 'fieldset',
+                        items: extractFormItem(value.items),
+                        title: value.group_title
+                    });
+                });
+                return subItems;
+            };
+            angular.forEach(scope.grouping, function (value, key) {
+                newForm.push(
+                    {
+                        type: 'fieldset',
+                        items: makeGroup(value.groups),
+                        htmlClass: 'col-md-' + value.layout,
+                        title: value.group_title
+                    }
+                )
+            });
+            $log.debug('grouped form: ', newForm);
+            $log.debug('rest of form: ', scope.form);
+            $log.debug('form united: ', newForm.concat(scope.form));
+            scope.form = newForm.concat(scope.form);
+            return scope;
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name prepareFormItems
+         * @param scope {object} given scope on which form items prepared
+         * @description
+         * It looks up fields of schema objects and changes their types to proper type for schemaform.
+         * To prepare items for schemaform loop items of scope.schema.properties by checking index value's `type` key.
+         *
+         * If `type` is in `['file', 'select', 'submit', 'date', 'int', 'text_general', 'model', 'ListNode', 'Node']`
+         * then the item must be converted into the data format which schemaform works with.
+         *
+         *
+         * For listnode, node and model types it uses templates to generate modal. The modal is aa instance of
+         * ui.bootstraps modal directive.
+         *
+         * @returns scope {object}
+         */
+        generator.prepareFormItems = function (scope) {
+            angular.forEach(scope.form, function (value, key) {
+                if (value.type === 'select') {
+                    scope.schema.properties[value.key].type = 'select';
+                    scope.schema.properties[value.key].titleMap = value.titleMap;
+                    scope.form[key] = value.key;
+                }
+            });
+            angular.forEach(scope.schema.properties, function (v, k) {
+                // generically change _id fields model value
+                if ('form_params' in scope) {
+                    if (k == scope.form_params.param) {
+                        scope.model[k] = scope.form_params.id;
+                        scope.form.splice(scope.form.indexOf(k), 1);
+                        return;
+                    }
+                }
+                if (v.type === 'file') {
+                    scope.form[scope.form.indexOf(k)] = {
+                        type: "template",
+                        title: v.title,
+                        templateUrl: "shared/templates/filefield.html",
+                        name: k,
+                        key: k,
+                        fileInsert: function () {
+                            $scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
+                        },
+                        imageSrc: scope.model[k] ? $rootScope.settings.static_url + scope.model[k] : '',
+                        avatar: k === 'avatar' ? true : false
+                    };
+                    v.type = 'string';
+                }
+                if (v.type === 'select') {
+                    scope.form[scope.form.indexOf(k)] = {
+                        type: "template",
+                        title: v.title,
+                        templateUrl: "shared/templates/select.html",
+                        name: k,
+                        key: k,
+                        titleMap: v.titleMap
+                    };
+                }
+                if (v.type === 'submit' || v.type === 'button') {
+                    var buttonPositions = scope.modalElements ? scope.modalElements.buttonPositions : {
+                        bottom: 'move-to-bottom',
+                        top: 'move-to-top',
+                        none: ''
+                    };
+                    var workOnForm = scope.modalElements ? scope.modalElements.workOnForm : 'formgenerated';
+                    var workOnDiv = scope.modalElements ? scope.modalElements.workOnDiv : '';
+                    var buttonClass = (buttonPositions[v.position] || buttonPositions.bottom);
+                    var redirectTo = scope.modalElements ? false : true;
+                    scope.form[scope.form.indexOf(k)] = {
+                        type: v.type,
+                        title: v.title,
+                        style: "btn-danger hide " + buttonClass,
+                        onClick: function () {
+                            delete scope.form_params.cmd;
+                            delete scope.form_params.flow;
+                            if (v.cmd) {
+                                scope.form_params["cmd"] = v.cmd;
+                            }
+                            if (v.flow) {
+                                scope.form_params["flow"] = v.flow;
+                            }
+                            if (v.wf) {
+                                delete scope.form_params["cmd"];
+                                scope.form_params["wf"] = v.wf;
+                            }
+                            scope.model[k] = 1;
+                            // todo: test it
+                            if (scope.modalElements) {
+                                scope.submitModalForm();
+                            } else {
+                                if (v.validation === false) {
+                                    generator.submit(scope, redirectTo);
+                                } else {
+                                    scope.$broadcast('schemaFormValidate');
+                                    if (scope[workOnForm].$valid) {
+                                        generator.submit(scope, redirectTo);
+                                        scope.$broadcast('disposeModal');
+                                    }
+                                }
+                            }
+                        }
+                    };
+                    // replace buttons according to their position values
+                    $timeout(function () {
+                        var selectorBottom = '.buttons-on-bottom' + workOnDiv;
+                        //var selectorTop = '.buttons-on-top'+workOnDiv;
+                        var buttonsToBottom = angular.element(document.querySelector('.' + buttonClass));
+                        angular.element(document.querySelector(selectorBottom)).append(buttonsToBottom);
+                        //var buttonsToTop = angular.element(document.querySelector('.' + buttonClass));
+                        //angular.element(document.querySelector(selectorTop)).append(buttonsToTop);
+                        buttonsToBottom.removeClass('hide');
+                        //buttonsToTop.removeClass('hide');
+                    }, 500);
+                }
+                // check if type is date and if type date found change it to string
+                if (v.type === 'date') {
+                    $log.debug('date:', scope.model[k]);
+                    scope.model[k] = generator.dateformatter(scope.model[k]);
+                    scope.form[scope.form.indexOf(k)] = {
+                        key: k, name: k, title: v.title,
+                        type: 'template',
+                        templateUrl: 'shared/templates/datefield.html',
+                        validationMessage: {
+                            'dateNotValid': "Girdiğiniz tarih geçerli değildir. &lt;i>orn: '01.01.2015'&lt;i/>",
+                            302: 'Bu alan zorunludur.'
+                        },
+                        $asyncValidators: {
+                            'dateNotValid': function (value) {
+                                var deferred = $q.defer();
+                                $timeout(function () {
+                                    scope.model[k] = angular.copy(generator.dateformatter(value));
+                                    if (scope.schema.required.indexOf(k) > -1) {
+                                        deferred.resolve();
+                                    }
+                                    if (value.constructor === Date) {
+                                        deferred.resolve();
+                                    }
+                                    else {
+                                        var dateValue = d = value.split('.');
+                                        if (isNaN(Date.parse(value)) || dateValue.length !== 3) {
+                                            deferred.reject();
+                                        } else {
+                                            deferred.resolve();
+                                        }
+                                    }
+                                });
+                                return deferred.promise;
+                            }
+                        },
+                        status: {opened: false},
+                        open: function ($event) {
+                            this.status.opened = true;
+                        },
+                        format: 'dd.MM.yyyy',
+                        onSelect: function () {
+                            scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
+                        }
+                    };
+                }
+                if (v.type === 'int' || v.type === 'float') {
+                    v.type = 'number';
+                    scope.model[k] = parseInt(scope.model[k]);
+                }
+                if (v.type === 'text_general') {
+                    v.type = 'string';
+                    v["x-schema-form"] = {
+                        "type": "textarea"
+                        //"placeholder": ""
+                    }
+                }
+                // if type is model use foreignKey.html template to show them
+                if (v.type === 'model') {
+                    var formitem = scope.form[scope.form.indexOf(k)];
+                    var modelScope = {"url": v.wf, "wf": v.wf, "form_params": {model: v.model_name, cmd: v.list_cmd}};
+                    //scope.$on('refreshTitleMap', function (event, data) {
+                    // todo: write a function to refresh titleMap after new item add to linkedModel
+                    //});
+                    scope.generateTitleMap = function (modelScope) {
+                        return generator.get_list(modelScope).then(function (res) {
+                            formitem.titleMap = [];
+                            angular.forEach(res.data.objects, function (item) {
+                                if (item !== -1) {
+                                    formitem.titleMap.push({
+                                        "value": item.key,
+                                        "name": item.value
+                                    });
+                                } else {
+                                    formitem.focusToInput = true;
+                                }
+                            });
+                            return formitem.titleMap;
+                        });
+                    };
+                    // get selected item from titleMap using model value
+                    if (scope.model[k]) {
+                        generator.get_list({
+                                url: 'crud',
+                                form_params: {model: v.model_name, object_id: scope.model[k], cmd: 'object_name'}
+                            })
+                            .then(function (data) {
+                                try {
+                                    scope.$watch(document.querySelector('input[name=' + v.model_name + ']'),
+                                        function () {
+                                            document.querySelector('input[name=' + k + ']').value = data.data.object_name;
+                                        }
+                                    );
+                                }
+                                catch (e) {
+                                    document.querySelector('input[name=' + k + ']').value = data.data.object_name;
+                                    $log.debug('exception', e);
+                                }
+                            });
+                    }
+                    formitem = {
+                        type: "template",
+                        templateUrl: "shared/templates/foreignKey.html",
+                        // formName will be used in modal return to save item on form
+                        formName: k,
+                        title: v.title,
+                        wf: v.wf,
+                        add_cmd: v.add_cmd,
+                        name: k,
+                        key: k,
+                        model_name: v.model_name,
+                        selected_item: {},
+                        titleMap: [],
+                        onSelect: function (item, inputname) {
+                            scope.model[k] = item.value;
+                            $timeout(function () {
+                                document.querySelector('input[name=' + inputname + ']').value = item.name;
+                            });
+                        },
+                        onDropdownSelect: function (item, inputname) {
+                            scope.model[k] = item.value;
+                            $timeout(function () {
+                                document.querySelector('input[name=' + inputname + ']').value = item.name;
+                            });
+                        },
+                        getTitleMap: function (viewValue) {
+                            modelScope.form_params.query = viewValue;
+                            return scope.generateTitleMap(modelScope);
+                        },
+                        getDropdownTitleMap: function () {
+                            delete modelScope.form_params.query;
+                            formitem.gettingTitleMap = true;
+                            scope.generateTitleMap(modelScope)
+                                .then(function (data) {
+                                    formitem.titleMap = data;
+                                    formitem.gettingTitleMap = false;
+                                });
+                        }
+                    };
+                    scope.form[scope.form.indexOf(k)] = formitem;
+                }
+                if ((v.type === 'ListNode' || v.type === 'Node') && v.widget === 'filter_interface') {
+                    var formitem = scope.form[scope.form.indexOf(k)];
+                    var modelScope = {
+                        "url": v.wf || scope.wf, "wf": v.wf || scope.wf,
+                        "form_params": {model: v.model_name || v.schema[0].model_name, cmd: v.list_cmd || 'select_list', query: ''}
+                    };
+                    scope.generateTitleMap = function (modelScope) {
+                        generator.get_list(modelScope).then(function (res) {
+                            formitem.titleMap = [];
+                            angular.forEach(res.data.objects, function (item) {
+                                if (item !== "-1") {
+                                    formitem.titleMap.push({
+                                        "value": item.key,
+                                        "name": item.value
+                                    });
+                                }
+                            });
+                            formitem.filteredItems = generator.get_diff_array(angular.copy(formitem.titleMap), angular.copy(formitem.selectedFilteredItems), 1);
+                        })
+                    };
+                    var modelItems = [];
+                    var modelKeys = [];
+                    angular.forEach(scope.model[k], function (value, mkey) {
+                        modelItems.push({
+                            "value": value[v.schema[0].name].key,
+                            "name": value[v.schema[0].name].unicode
+                        });
+                        var modelKey = {};
+                        modelKey[v.schema[0].name] = value[v.schema[0].name].key;
+                        modelKeys.push(modelKey);
+                    });
+                    scope.model[k] = angular.copy(modelKeys);
+                    formitem = {
+                        type: "template",
+                        templateUrl: "shared/templates/multiselect.html",
+                        title: v.title,
+                        // formName will be used in modal return to save item on form
+                        formName: k,
+                        wf: v.wf,
+                        add_cmd: v.add_cmd,
+                        name: v.model_name,
+                        model_name: v.model_name,
+                        filterValue: '',
+                        selected_item: {},
+                        filteredItems: [],
+                        selectedFilteredItems: modelItems,
+                        titleMap: scope.generateTitleMap(modelScope),
+                        appendFiltered: function (filterValue) {
+                            if (filterValue.length > 2) {
+                                formitem.filteredItems = [];
+                                angular.forEach(formitem.titleMap, function (value, key) {
+                                    if (value.name.indexOf(filterValue) > -1) {
+                                        formitem.filteredItems.push(formitem.titleMap[key]);
+                                    }
+                                });
+                            }
+                            if (filterValue &lt;= 2) { formitem.filteredItems = formitem.titleMap}
+                            formitem.filteredItems = generator.get_diff_array(formitem.filteredItems, formitem.selectedFilteredItems);
+                        },
+                        select: function (selectedItemsModel) {
+                            if (!selectedItemsModel) {
+                                return;
+                            }
+                            formitem.selectedFilteredItems = formitem.selectedFilteredItems.concat(selectedItemsModel);
+                            formitem.appendFiltered(formitem.filterValue);
+                            scope.model[k] = (scope.model[k] || []).concat(formitem.dataToModel(selectedItemsModel));
+                        },
+                        deselect: function (selectedFilteredItemsModel) {
+                            if (!selectedFilteredItemsModel) {
+                                return;
+                            }
+                            formitem.selectedFilteredItems = generator.get_diff_array(angular.copy(formitem.selectedFilteredItems), angular.copy(selectedFilteredItemsModel));
+                            formitem.appendFiltered(formitem.filterValue);
+                            formitem.filteredItems = formitem.filteredItems.concat(selectedFilteredItemsModel);
+                            scope.model[k] = generator.get_diff_array(scope.model[k] || [], formitem.dataToModel(selectedFilteredItemsModel));
+                        },
+                        dataToModel: function (data) {
+                            var dataValues = [];
+                            angular.forEach(data, function (value, key) {
+                                var dataKey = {};
+                                dataKey[v.schema[0].name] = value.value;
+                                dataValues.push(dataKey);
+                            });
+                            return dataValues;
+                        }
+                    };
+                    scope.form[scope.form.indexOf(k)] = formitem;
+                }
+                if ((v.type === 'ListNode' || v.type === 'Node') && v.widget !== 'filter_interface') {
+                    scope[v.type] = scope[v.type] || {};
+                    // no pass by reference
+                    scope[v.type][k] = angular.copy({
+                        title: v.title,
+                        form: [],
+                        schema: {
+                            properties: {},
+                            required: [],
+                            title: v.title,
+                            type: "object",
+                            formType: v.type,
+                            model_name: k,
+                            inline_edit: scope.inline_edit
+                        },
+                        url: scope.url,
+                        wf: scope.wf,
+                        nodeModelChange: function (item) {
+                            //debugger;
+                        }
+                    });
+                    angular.forEach(v.schema, function (item) {
+                        scope[v.type][k].schema.properties[item.name] = angular.copy(item);
+                        // prepare required fields
+                        if (item.required === true && item.name !== 'idx') {
+                            scope[v.type][k].schema.required.push(angular.copy(item.name));
+                        }
+                        // idx field must be hidden
+                        if (item.name !== 'idx') {
+                            scope[v.type][k].form.push(item.name);
+                        }
+                        try {
+                            if (item.type === 'date') {
+                                scope.model[k][item.name] = generator.dateformatter(scope.model[k][item.name]);
+                            }
+                        } catch (e) {
+                            $log.debug('Error: ', e.message);
+                        }
+                    });
+                    $timeout(function () {
+                        if (v.type === 'ListNode') {
+                            scope[v.type][k].items = angular.copy(scope.model[k] || []);
+                            angular.forEach(scope[v.type][k].items, function (value, key) {
+                                if (value.constructor === Object) {
+                                    angular.forEach(value, function (x, y) {
+                                        try {
+                                            if (scope[v.type][k].schema.properties[y].type === 'date') {
+                                                scope[v.type][k].items[key][y] = generator.dateformatter(x);
+                                                scope[v.type][k].model[key][y] = generator.dateformatter(x);
+                                            }
+                                            if (scope[v.type][k].schema.properties[y].type === 'select') {
+                                                scope[v.type][k].items[key][y] = generator.item_from_array(x.toString(), scope[v.type][k].schema.properties[y].titleMap)
+                                            }
+                                        } catch (e) {
+                                            $log.debug('Field is not date');
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                    if (scope.model[k]) {
+                        angular.forEach(scope.model[k], function (value, key) {
+                            angular.forEach(value, function (y, x) {
+                                if (y.constructor === Object) {
+                                    scope.model[k][key][x] = y.key;
+                                }
+                            });
+                        });
+                    }
+                    scope.model[k] = scope.model[k] || [];
+                    scope[v.type][k].model = scope.model[k];
+                    // lengthModels is length of the listnode models. if greater than 0 show records on template
+                    scope[v.type][k]['lengthModels'] = scope.model[k] ? 1 : 0;
+                }
+            });
+            $log.debug('scope at after prepareformitems', scope);
+            return generator.group(scope);
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name dateformatter
+         * @description dateformatter handles all date fields and returns humanized and jquery datepicker format dates
+         * @param {object} formObject
+         * @returns {*}
+         */
+        generator.dateformatter = function (formObject) {
+            var ndate = new Date(formObject);
+            if (isNaN(ndate)) {
+                return '';
+            } else {
+                var newdatearray = Moment(ndate).format('DD.MM.YYYY');
+                $log.debug('date formatted: ', newdatearray);
+                return newdatearray;
+            }
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name doItemAction
+         * @description `mode` could be in ['normal', 'modal', 'new'] . the default mode is 'normal' and it loads data
+         * on same
+         * tab without modal. 'modal' will use modal to manipulate data and do all actions in that modal. 'new'
+         * will be open new page with response data
+         * @param {object} $scope
+         * @param {string} key
+         * @param {object} todo
+         * @param {string} mode
+         * @returns {*}
+         */
+        generator.doItemAction = function ($scope, key, todo, mode) {
+            var _do = {
+                normal: function () {
+                    $log.debug('normal mode starts');
+                    $scope.form_params.cmd = todo.cmd;
+                    if (todo.wf) {
+                        $scope.url = todo.wf;
+                        $scope.form_params.wf = todo.wf;
+                        delete $scope.token;
+                        delete $scope.form_params.model;
+                        delete $scope.form_params.cmd
+                    }
+                    if (todo.object_key) {
+                        $scope.form_params[todo.object_key] = key;
+                    } else {
+                        $scope.form_params.object_id = key;
+                    }
+                    $scope.form_params.param = $scope.param;
+                    $scope.form_params.id = $scope.param_id;
+                    $scope.form_params.token = $scope.token;
+                    return generator.get_wf($scope);
+                },
+                modal: function () {
+                    $log.debug('modal mode is not not ready');
+                },
+                new: function () {
+                    $log.debug('new mode is not not ready');
+                }
+            };
+            return _do[mode]();
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name get_form
+         * @description Communicates with api with given scope object.
+         * @param {object} scope
+         * @returns {*}
+         */
+        generator.get_form = function (scope) {
+            return $http
+                .post(generator.makeUrl(scope), scope.form_params)
+                .then(function (res) {
+                    return generator.generate(scope, res.data);
+                });
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name get_list
+         * @description gets list of related wf/model
+         * @param scope
+         * @returns {*}
+         */
+        generator.get_list = function (scope) {
+            return $http
+                .post(generator.makeUrl(scope), scope.form_params)
+                .then(function (res) {
+                    return res;
+                });
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name get_wf
+         * @description get_wf is the main function for client_cmd based api calls
+         * based on response content it redirects to related path/controller with pathDecider function
+         * @param scope
+         * @returns {*}
+         */
+        generator.get_wf = function (scope) {
+            return $http
+                .post(generator.makeUrl(scope), scope.form_params)
+                .then(function (res) {
+                    if (res.data.client_cmd) {
+                        return generator.pathDecider(res.data.client_cmd, scope, res.data);
+                    }
+                    if (res.data.msgbox) {
+                        scope.msgbox = res.data.msgbox;
+                        var newElement = $compile("&lt;msgbox>&lt;/msgbox>")(scope);
+                        // this is the default action, which is removing page items and reload page with msgbox
+                        angular.element(document.querySelector('.main.ng-scope')).children().remove();
+                        angular.element(document.querySelector('.main.ng-scope')).append(newElement);
+                    }
+                });
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name isValidEmail
+         * @description checks if given value is a valid email address.
+         * @param email
+         * @returns {boolean}
+         */
+        generator.isValidEmail = function (email) {
+            var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+            return re.test(email);
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name isValidTCNo
+         * @description checks if given value is a valid identity number for Turkey.
+         * @param tcno
+         * @returns {boolean}
+         */
+        generator.isValidTCNo = function (tcno) {
+            var re = /^([1-9]{1}[0-9]{9}[0,2,4,6,8]{1})$/i;
+            return re.test(tcno);
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name isValidDate
+         * @description checks if given value can be parsed as Date object
+         * @param dateValue
+         * @returns {boolean}
+         */
+        generator.isValidDate = function (dateValue) {
+            return !isNaN(Date.parse(dateValue));
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc property
+         * @name pageData
+         * @description pageData object is moving object from response to controller
+         * with this object controller will not need to call the api for response object to work on to
+         * @type {{}}
+         */
+        generator.pageData = {};
+        generator.getPageData = function () {
+            return generator.pageData;
+        };
+        generator.setPageData = function (value) {
+            generator.pageData = value;
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name pathDecider
+         * @description pathDecider is used to redirect related path by looking up the data in response
+         * @param {string} client_cmd
+         * @param {object} $scope
+         * @param {object} data
+         */
+        generator.pathDecider = function (client_cmd, $scope, data) {
+            if (client_cmd[0] === 'reload' || client_cmd[0] === 'reset') {
+                $rootScope.$broadcast('reload_cmd', $scope.reload_cmd);
+                return;
+            }
+            /**
+             * @memberof ulakbus.formServicepathDecider
+             * @ngdoc function
+             * @name redirectTo
+             * @description redirectTo function redirects to related controller and path with given data
+             * before redirect setPageData must be called and pageData need to be defined
+             * otherwise redirected path will call api for its data
+             * @param {object} scope
+             * @param {string} page
+             * @return {*}
+             */
+            function redirectTo(scope, page) {
+                var pathUrl = '/' + scope.form_params.wf;
+                if (scope.form_params.model) {
+                    pathUrl += '/' + scope.form_params.model + '/do/' + page;
+                } else {
+                    pathUrl += '/do/' + page;
+                }
+                // todo add object url to path
+                // pathUrl += '/'+scope.form_params.object_id || '';
+                // if generated path url and the current path is equal route has to be reload
+                if ($location.path() === pathUrl) {
+                    return $route.reload();
+                }
+                else {
+                    $location.path(pathUrl);
+                }
+            }
+            /**
+             * @memberof ulakbus.formService
+             * @ngdoc function
+             * @name dispatchClientCmd
+             * @description Sets params for scope to the related page and redirect to the page in client_cmd param.
+             * client_cmd can be in ['list', 'form', 'show', 'reload', 'reset']
+             */
+            function dispatchClientCmd() {
+                data[$scope.form_params.param] = $scope.form_params.id;
+                data['model'] = $scope.form_params.model;
+                data['wf'] = $scope.form_params.wf;
+                data['param'] = $scope.form_params.param;
+                data['param_id'] = $scope.form_params.id;
+                data['pageData'] = true;
+                data['second_client_cmd'] = client_cmd[1];
+                generator.setPageData(data);
+                redirectTo($scope, client_cmd[0]);
+            }
+            dispatchClientCmd();
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name get_diff
+         * @description returns diff of the second param to first param
+         * @param {object} obj1
+         * @param {object} obj2
+         * @returns {{object}} diff object of two given objects
+         */
+        generator.get_diff = function (obj1, obj2) {
+            var result = {};
+            angular.forEach(obj1, function (value, key) {
+                if (obj2[key] != obj1[key]) {
+                    result[key] = angular.copy(obj1[key])
+                }
+                if (obj2[key].constructor === Array && obj1[key].constructor === Array) {
+                    result[key] = arguments.callee(obj1[key], obj2[key]);
+                }
+                if (obj2[key].constructor === Object && obj1[key].constructor === Object) {
+                    result[key] = arguments.callee(obj1[key], obj2[key]);
+                }
+            });
+            return result;
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name get_diff_array
+         * @description extracts items of second array from the first array
+         * @param {object} array1
+         * @param {object} array2
+         * @param {number} way
+         * @returns {Array}
+         */
+        generator.get_diff_array = function (array1, array2, way) {
+            var result = [];
+            angular.forEach(array1, function (value, key) {
+                if (way === 1) {
+                    if (angular.toJson(array2).indexOf(value.value) &lt; 0) {
+                        result.push(value);
+                    }
+                } else {
+                    if (angular.toJson(array2).indexOf(angular.toJson(value)) &lt; 0) {
+                        result.push(value);
+                    }
+                }
+            });
+            return result;
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name item_from_array
+         * @description gets item unicode name from titleMap
+         * @param {object} item
+         * @param {array} array
+         * @returns {*}
+         */
+        generator.item_from_array = function (item, array) {
+            var result = item;
+            angular.forEach(array, function (value, key) {
+                if (value.value === item) {
+                    result = value.name;
+                }
+            });
+            return result;
+        };
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
+         * @name submit
+         * @description Submit function is generic function for submiting forms.
+         * redirectTo param is used for redirect if return value will be evaluated in a new page.
+         * @param {object} $scope
+         * @param {object} redirectTo
+         * @returns {*}
+         * @todo diff for all submits to recognize form change. if no change returns to view with no submit
+         */
+        generator.submit = function ($scope, redirectTo) {
+            var convertDate = function (model) {
+                angular.forEach(model, function (value, key) {
+                    if (value && value.constructor === Date) {
+                        model[key] = generator.dateformatter(value);
+                    }
+                    if (value && value.constructor === Object) {convertDate(value);}
+                });
+            };
+            angular.forEach($scope.ListNode, function (value, key) {
+                $scope.model[key] = value.model;
+            });
+            angular.forEach($scope.Node, function (value, key) {
+                $scope.model[key] = value.model;
+            });
+            var data = {
+                "form": $scope.model,
+                "token": $scope.token,
+                "model": $scope.form_params.model,
+                "cmd": $scope.form_params.cmd,
+                "flow": $scope.form_params.flow,
+                "object_id": $scope.object_id,
+                "filter": $scope.filter,
+                "query": $scope.form_params.query
+            };
+            return $http.post(generator.makeUrl($scope), data)
+                .success(function (data, status, headers) {
+                    if (headers('content-type') === "application/pdf") {
+                        var a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+                        var file = new Blob([data], {type: 'application/pdf'});
+                        var fileURL = URL.createObjectURL(file);
+                        var fileName = $scope.schema.title;
+                        a.href = fileURL;
+                        a.download = fileName;
+                        a.click();
+                    }
+                    if (redirectTo === true) {
+                        if (data.client_cmd) {
+                            generator.pathDecider(data.client_cmd, $scope, data);
+                        }
+                        if (data.msgbox) {
+                            $scope.msgbox = data.msgbox;
+                            var newElement = $compile("&lt;msgbox>&lt;/msgbox>")($scope);
+                            // this is the default action, which is removing page items and reload page with msgbox
+                            angular.element(document.querySelector('.main.ng-scope')).children().remove();
+                            angular.element(document.querySelector('.main.ng-scope')).append(newElement);
+                        }
+                    }
+                });
+        };
+        return generator;
+    })
+    /**
+     * @memberof ulakbus.formService
+     * @ngdoc controller
+     * @name ModalCtrl
+     * @description controller for listnode, node and linkedmodel modal and save data of it
+     * @param {object} items
+     * @param {object} $scope
+     * @param {object} $uibModalInstance
+     * @param {object} $route
+     * @returns returns value for modal
+     */
+    .controller('ModalCtrl', function ($scope, $uibModalInstance, Generator, items) {
+        angular.forEach(items, function (value, key) {
+            $scope[key] = items[key];
+        });
+        $scope.$on('disposeModal', function () {
+            $scope.cancel();
+        });
+        $scope.$on('modalFormLocator', function (event) {
+            $scope.linkedModelForm = event.targetScope.linkedModelForm;
+        });
+        $scope.$on('submitModalForm', function () {
+            $scope.onSubmit($scope.linkedModelForm);
+        });
+        $scope.$on('validateModalDate', function (event, field) {
+            $scope.$broadcast('schemaForm.error.' + field, 'tv4-302', true);
+        });
+        $scope.onSubmit = function (form) {
+            $scope.$broadcast('schemaFormValidate');
+            if (form.$valid) {
+                // send form to modalinstance result function
+                $uibModalInstance.close($scope);
+            }
+        };
+        $scope.onNodeSubmit = function () {
+            $scope.$broadcast('schemaFormValidate');
+            if ($scope.modalForm.$valid) {
+                $uibModalInstance.close($scope);
+            }
+        };
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    /**
+     * @memberof ulakbus.formService
+     * @ngdoc directive
+     * @name modalForNodes
+     * @description add modal directive for nodes
+     * @param {module} $uibModal
+     * @param {service} Generator
+     * @returns openmodal directive
+     */
+    .directive('modalForNodes', function ($uibModal, Generator) {
+        return {
+            link: function (scope, element, attributes) {
+                element.on('click', function () {
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        backdrop: 'static',
+                        keyboard: false,
+                        templateUrl: 'shared/templates/listnodeModalContent.html',
+                        controller: 'ModalCtrl',
+                        size: 'lg',
+                        resolve: {
+                            items: function () {
+                                var attribs = attributes.modalForNodes.split(',');
+                                // get node from parent scope catch with attribute
+                                var node = angular.copy(scope.$parent[attribs[1]][attribs[0]]);
+                                if (attribs[2] === 'add') {
+                                    node.model = {};
+                                }
+                                if (attribs[3]) {
+                                    // if listnode catch edit object with index
+                                    node.model = node.model[attribs[3]];
+                                }
+                                // tell result.then function which item to edit
+                                node.edit = attribs[3];
+                                scope.node.schema.wf = scope.node.url;
+                                angular.forEach(scope.node.schema.properties, function (value, key) {
+                                    scope.node.schema.properties[key].wf = scope.node.url;
+                                    scope.node.schema.properties[key].list_cmd = 'select_list';
+                                });
+                                var newscope = {
+                                    wf: scope.node.wf,
+                                    url: scope.node.url,
+                                    form_params: {model: scope.node.schema.model_name},
+                                    edit: attribs[3]
+                                };
+                                Generator.generate(newscope, {forms: scope.node});
+                                // modal will add only one item to listNode, so just need one model (not array)
+                                newscope.model = newscope.model[node.edit] || newscope.model[0] || {};
+                                return newscope;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (childmodel, key) {
+                        var listNodeItem = scope.$parent[childmodel.schema.formType][childmodel.schema.model_name];
+                        if (childmodel.schema.formType === 'Node') {
+                            listNodeItem.model = angular.copy(childmodel.model);
+                            listNodeItem.lengthModels += 1;
+                        }
+                        if (childmodel.schema.formType === 'ListNode') {
+                            // reformat listnode model
+                            var reformattedModel = {};
+                            angular.forEach(childmodel.model, function (value, key) {
+                                if (key.indexOf('_id') > -1) {
+                                    angular.forEach(childmodel.form, function (v, k) {
+                                        if (v.formName === key) {
+                                            //if (!childmodel.model[key].key) {
+                                            function indexInTitleMap(element, index, array) {
+                                                if (element['value'] === value) {
+                                                    return element;
+                                                }
+                                            }
+                                            reformattedModel[key] = {
+                                                "key": value,
+                                                "unicode": v.titleMap.find(indexInTitleMap).name
+                                            };
+                                            //}
+                                        }
+                                    });
+                                } else {
+                                    reformattedModel[key] = {
+                                        "key": key,
+                                        "unicode": Generator.item_from_array(value, childmodel.schema.properties[key].titleMap)
+                                    };
+                                }
+                            });
+                            if (childmodel.edit) {
+                                listNodeItem.model[childmodel.edit] = childmodel.model;
+                                if (Object.keys(reformattedModel).length > 0) {
+                                    listNodeItem.items[childmodel.edit] = reformattedModel;
+                                } else {
+                                    listNodeItem.items[childmodel.edit] = angular.copy(childmodel.model);
+                                }
+                            } else {
+                                listNodeItem.model.push(angular.copy(childmodel.model));
+                                if (Object.keys(reformattedModel).length > 0) {
+                                    listNodeItem.items.push(reformattedModel);
+                                } else {
+                                    listNodeItem.items.push(angular.copy(childmodel.model));
+                                }
+                            }
+                            listNodeItem.lengthModels += 1;
+                        }
+                    });
+                });
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus.formService
+     * @ngdoc directive
+     * @name addModalForLinkedModel
+     * @description add modal directive for linked models
+     * @param {module} $uibModal
+     * @param {object} $rootScope
+     * @param {module} $route
+     * @param {service} Generator
+     * @returns openmodal directive
+     */
+    .directive('addModalForLinkedModel', function ($uibModal, $rootScope, $route, Generator) {
+        return {
+            link: function (scope, element, attributes) {
+                element.on('click', function () {
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        backdrop: 'static',
+                        keyboard: false,
+                        templateUrl: 'shared/templates/linkedModelModalContent.html',
+                        controller: 'ModalCtrl',
+                        size: 'lg',
+                        resolve: {
+                            items: function () {
+                                var formName = attributes.addModalForLinkedModel;
+                                return Generator.get_form({
+                                    url: scope.form.wf,
+                                    wf: scope.form.wf,
+                                    form_params: {model: scope.form.model_name, cmd: scope.form.add_cmd},
+                                    modalElements: {
+                                        // define button position properties
+                                        buttonPositions: {
+                                            bottom: 'move-to-bottom-modal',
+                                            top: 'move-to-top-modal',
+                                            none: ''
+                                        },
+                                        workOnForm: 'linkedModelForm',
+                                        workOnDiv: '-modal' + formName
+                                    },
+                                    submitModalForm: function () {
+                                        $rootScope.$broadcast('submitModalForm');
+                                    },
+                                    validateModalDate: function (field) {
+                                        $rootScope.$broadcast('validateModalDate', field);
+                                    },
+                                    formName: formName
+                                });
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (childscope, key) {
+                        var formName = childscope.formName;
+                        Generator.submit(childscope, false)
+                            .success(function (data) {
+                                // response data contains object_id and unicode
+                                // scope.model can be reached via prototype chain
+                                scope.model[formName] = data.forms.model.object_key;
+                                // scope.form prototype chain returns this form item
+                                scope.form.titleMap.push({
+                                    value: data.forms.model.object_key,
+                                    name: data.forms.model.unicode
+                                });
+                                scope.form.selected_item = {
+                                    value: data.forms.model.object_key,
+                                    name: data.forms.model.unicode
+                                };
+                                scope.$watch(document.querySelector('input[name=' + scope.form.model_name + ']'),
+                                    function () {
+                                        angular.element(document.querySelector('input[name=' + scope.form.model_name + ']')).val(scope.form.selected_item.name);
+                                    }
+                                );
+                            });
+                        //$route.reload();
+                    });
+                });
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus.formService
+     * @ngdoc directive
+     * @name modalFormLocator
+     * @description This directive helps to locate form object in modal.
+     */
+    .directive('modalFormLocator', function () {
+        return {
+            link: function (scope) {
+                scope.$emit('modalFormLocator');
+            }
+        }
+    });</code></pre>
+        </article>
+        <!-- index.html -->
+        <!-- class files -->
+      </div>
+      <footer style="clear:both">
+        Documentation generated by
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a>
+        using
+        <a href="https://github.com/allenhwkim/angular-jsdoc">Angular-JSDoc template</a>
+      </footer>
+    </div>
+    <!--%= prettyJson %-->
+    <script>
+      prettyPrint();
+      var lineNo = window.location.hash.match(/#line([0-9]+)$/);
+      lineNo && document.querySelector("ol li:nth-child("+(lineNo[1])+")").scrollIntoView();
+    </script>
+  </body>
+</html>

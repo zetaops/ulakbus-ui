@@ -11,23 +11,21 @@
 /**
  * @ngdoc module
  * @name ulakbus.auth
- * @description
- * ulakbus.auth module handles authorization process of ulakbus-ui.
+ * @module ulakbus.auth
+ * @description ulakbus.auth module handles authorization process of ulakbus-ui.
  *
  * @requires ngRoute
- * @requires schemaForm
  * @requires ngCookies
  */
-angular.module('ulakbus.auth', ['ngRoute', 'schemaForm', 'ngCookies'])
+angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
     /**
+     * @memberof ulakbus.auth
      * @ngdoc controller
      * @name LoginCtrl
-     * @module ulakbus.auth
-     * @description
-     * LoginCtrl responsible to handle login process.
-     * Using 'formService.get_form' function generates the login form and post it to the API with input datas.
+     * @description LoginCtrl responsible to handle login process.<br>
+     * Using 'ulakbus.formService.get_form' function generates the login form and post it to the API with input datas.
      */
-    .controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, $rootScope, $log, Generator, LoginService) {
+    .controller('LoginCtrl', function ($scope, $q, $timeout, $routeParams, $rootScope, $log, Generator, AuthService) {
         $scope.url = 'login';
         $scope.form_params = {};
         $scope.form_params['clear_wf'] = 1;
@@ -44,7 +42,7 @@ angular.module('ulakbus.auth', ['ngRoute', 'schemaForm', 'ngCookies'])
             if (form.$valid) {
                 $scope.loggingIn = true;
                 $rootScope.loginAttempt = 1;
-                LoginService.login($scope.url, $scope.model)
+                AuthService.login($scope.url, $scope.model)
                     .error(function (data) {
                         $scope.message = data.title;
                     })

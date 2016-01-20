@@ -11,9 +11,14 @@
 /**
  * @ngdoc module
  * @name ulakbus
- * @description
- * Ulakbus module is the main module of ulakbus-ui. All application-wide configurations and definings of constants
- * handled in this module.
+ * @module ulakbus
+ * @description Ulakbus module is the main module of ulakbus-ui. All application-wide configurations and definings
+ * of constants handled in this module. \r
+ * There are two scripts on `app/` root; `main.js` and `app.js`. And `main.html`, `index.html`.
+ * `main.*` files are contains both production and development requirements or configurations/necessities for
+ * relative environment. Tagged with `// \@if NODE_ENV='PRODUCTION'` in commented line and configured in
+ * Gruntfile.js with package `preprocess` and `env`, related grunt command generates index.* for given file.
+ *
  */
 angular.module(
     'ulakbus', [
@@ -22,7 +27,7 @@ angular.module(
         'ngRoute',
         'ngSanitize',
         'ngCookies',
-        'formService',
+        'ulakbus.formService',
         'ulakbus.dashboard',
         'ulakbus.auth',
         'ulakbus.error_pages',
@@ -35,11 +40,10 @@ angular.module(
         'ulakbus.uitemplates'
     ])
     /**
-     * @ngdoc object
+     * @memberof ulakbus
+     * @ngdoc constant
      * @name RESTURL
-     * @module ulakbus
-     * @description
-     * RESTURL is the url of rest api to talk
+     * @description RESTURL is the url of rest api to talk.
      * Based on the environment it changes from dev to prod
      */
     .constant("RESTURL", (function () {

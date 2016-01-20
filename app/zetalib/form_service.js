@@ -1,57 +1,59 @@
 /**
  * @license Ulakbus-UI
  * Copyright (C) 2015 ZetaOps Inc.
- *
  * This file is licensed under the GNU General Public License v3
  * (GPLv3).  See LICENSE.txt for details.
  */
 
 /**
  * @ngdoc module
- * @name formService
+ * @name ulakbus.formService
+ * @module ulakbus.formService
  * @description
- *
  * The `formService` module  provides generic services for auto generated forms.
- *
+ * @requires ui.bootstrap
+ * @type {ng.$compileProvider|*}
  */
-angular.module('formService', ['ui.bootstrap'])
+angular.module('ulakbus.formService', ['ui.bootstrap'])
+    /**
+     * there must be no global object, so change it into a service here.
+     */
     .service('Moment', function(){
         return window.moment;
     })
 
     /**
-     * @ngdoc service
+     * @memberof ulakbus.formService
+     * @ngdoc factory
      * @name Generator
-     * @module formService
-     * @description
-     * form service's Generator factory service handles all generic form operations
+     * @description form service's Generator factory service handles all generic form operations
      */
     .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment) {
         var generator = {};
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name makeUrl
-         * @module formService
-         * @description
-         * this function generates url combining backend url and the related object properties for http requests
+         * @description this function generates url combining backend url and the related object properties for http requests
          * @param scope
          * @returns {string}
+         * @param scope
          */
         generator.makeUrl = function (scope) {
             var getparams = scope.form_params.param ? "?" + scope.form_params.param + "=" + scope.form_params.id : "";
             return RESTURL.url + scope.url + getparams;
         };
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name generate
-         * @module formService
          * @param scope
          * @param data
-         * @description
-         * - generate function is inclusive for form generation
+         * @description - generate function is inclusive for form generation
          * defines given scope's client_cmd, model, schema, form, token, object_id objects
-         *
-         * @returns {string}
+         * @returns {*} scope
+         * @param scope
+         * @param data
          */
         generator.generate = function (scope, data) {
 
@@ -84,15 +86,13 @@ angular.module('formService', ['ui.bootstrap'])
             return scope;
         };
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name group
-         * @module formService
          * @param scope
-         * @description
-         * group function to group form layout by form meta data for layout
-         *
-         * grouping will use an object like below when parsing its items:
-         *
+         * @description group function to group form layout by form meta data for layout
+         * grouping will use an object like example below when parsing its items.
+         * @example
          * `grouping = [
          *  {
          *      "groups": [
@@ -115,7 +115,8 @@ angular.module('formService', ['ui.bootstrap'])
          *      "collapse": False
          *  }]`
          *
-         * @returns {object}
+         * @returns {*}
+         * @param scope
          */
         generator.group = function (scope) {
 
@@ -188,16 +189,22 @@ angular.module('formService', ['ui.bootstrap'])
             return scope;
         };
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name prepareFormItems
-         * @module formService
+         * @param scope {object} given scope on which form items prepared
          * @description
-         * prepareFormItems looks up fields of schema objects and changes their types to proper type for schemaform
-         * for listnode, node and model types it uses templates to generate modal
-         * prepareforms checks input types and convert if necessary
+         * It looks up fields of schema objects and changes their types to proper type for schemaform.
+         * To prepare items for schemaform loop items of scope.schema.properties by checking index value's `type` key.
          *
-         * @param scope
-         * @returns {*}
+         * If `type` is in `['file', 'select', 'submit', 'date', 'int', 'text_general', 'model', 'ListNode', 'Node']`
+         * then the item must be converted into the data format which schemaform works with.
+         *
+         *
+         * For listnode, node and model types it uses templates to generate modal. The modal is aa instance of
+         * ui.bootstraps modal directive.
+         *
+         * @returns scope {object}
          */
         generator.prepareFormItems = function (scope) {
 
@@ -652,12 +659,11 @@ angular.module('formService', ['ui.bootstrap'])
             return generator.group(scope);
         };
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name dateformatter
-         * @module formService
-         * @description
-         * dateformatter handles all date fields and returns humanized and jquery datepicker format dates
-         * @param formObject
+         * @description dateformatter handles all date fields and returns humanized and jquery datepicker format dates
+         * @param {object} formObject
          * @returns {*}
          */
         generator.dateformatter = function (formObject) {
@@ -671,18 +677,17 @@ angular.module('formService', ['ui.bootstrap'])
             }
         };
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name doItemAction
-         * @module formService
-         * @description
-         * mode could be in ['normal', 'modal', 'new'] . the default mode is 'normal' and it loads data on same
+         * @description `mode` could be in ['normal', 'modal', 'new'] . the default mode is 'normal' and it loads data
+         * on same
          * tab without modal. 'modal' will use modal to manipulate data and do all actions in that modal. 'new'
          * will be open new page with response data
-         *
-         * @param $scope
-         * @param key
-         * @param todo
-         * @param mode
+         * @param {object} $scope
+         * @param {string} key
+         * @param {object} todo
+         * @param {string} mode
          * @returns {*}
          */
         generator.doItemAction = function ($scope, key, todo, mode) {
@@ -717,14 +722,12 @@ angular.module('formService', ['ui.bootstrap'])
             };
             return _do[mode]();
         };
-
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name get_form
-         * @module formService
-         * @description
-         * Communicates with api with given scope object.
-         * @param scope
+         * @description Communicates with api with given scope object.
+         * @param {object} scope
          * @returns {*}
          */
         generator.get_form = function (scope) {
@@ -735,11 +738,10 @@ angular.module('formService', ['ui.bootstrap'])
                 });
         };
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name get_list
-         * @module formService
-         * @description
-         * gets list of related wf/model
+         * @description gets list of related wf/model
          * @param scope
          * @returns {*}
          */
@@ -751,11 +753,10 @@ angular.module('formService', ['ui.bootstrap'])
                 });
         };
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name get_wf
-         * @module formService
-         * @description
-         * get_wf is the main function for client_cmd based api calls
+         * @description get_wf is the main function for client_cmd based api calls
          * based on response content it redirects to related path/controller with pathDecider function
          * @param scope
          * @returns {*}
@@ -777,11 +778,10 @@ angular.module('formService', ['ui.bootstrap'])
                 });
         };
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name isValidEmail
-         * @module formService
-         * @description
-         * checks if given value is a valid email address.
+         * @description checks if given value is a valid email address.
          * @param email
          * @returns {boolean}
          */
@@ -790,11 +790,10 @@ angular.module('formService', ['ui.bootstrap'])
             return re.test(email);
         };
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name isValidTCNo
-         * @module formService
-         * @description
-         * checks if given value is a valid identity number for Turkey.
+         * @description checks if given value is a valid identity number for Turkey.
          * @param tcno
          * @returns {boolean}
          */
@@ -803,11 +802,10 @@ angular.module('formService', ['ui.bootstrap'])
             return re.test(tcno);
         };
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name isValidDate
-         * @module formService
-         * @description
-         * checks if given value can be parsed as Date object
+         * @description checks if given value can be parsed as Date object
          * @param dateValue
          * @returns {boolean}
          */
@@ -816,11 +814,10 @@ angular.module('formService', ['ui.bootstrap'])
         };
 
         /**
-         * @ngdoc function
+         * @memberof ulakbus.formService
+         * @ngdoc property
          * @name pageData
-         * @module formService
-         * @description
-         * pageData object is moving object from response to controller
+         * @description pageData object is moving object from response to controller
          * with this object controller will not need to call the api for response object to work on to
          * @type {{}}
          */
@@ -834,14 +831,13 @@ angular.module('formService', ['ui.bootstrap'])
 
 
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name pathDecider
-         * @module formService
-         * @description
-         * pathDecider is used to redirect related path by looking up the data in response
-         * @param client_cmd
-         * @param $scope
-         * @param data
+         * @description pathDecider is used to redirect related path by looking up the data in response
+         * @param {string} client_cmd
+         * @param {object} $scope
+         * @param {object} data
          */
         generator.pathDecider = function (client_cmd, $scope, data) {
             if (client_cmd[0] === 'reload' || client_cmd[0] === 'reset') {
@@ -849,15 +845,15 @@ angular.module('formService', ['ui.bootstrap'])
                 return;
             }
             /**
+             * @memberof ulakbus.formService~pathDecider
              * @ngdoc function
              * @name redirectTo
-             * @module formService
-             * @description
-             * redirectTo function redirects to related controller and path with given data
+             * @description redirectTo function redirects to related controller and path with given data
              * before redirect setPageData must be called and pageData need to be defined
              * otherwise redirected path will call api for its data
-             * @param scope
-             * @param page
+             * @param {object} scope
+             * @param {string} page
+             * @return {*}
              */
             function redirectTo(scope, page) {
                 var pathUrl = '/' + scope.form_params.wf;
@@ -878,8 +874,13 @@ angular.module('formService', ['ui.bootstrap'])
                 }
             }
 
-            // client_cmd can be in ['list', 'form', 'show', 'reload', 'reset']
-
+            /**
+             * @memberof ulakbus.formService
+             * @ngdoc function
+             * @name dispatchClientCmd
+             * @description Sets params for scope to the related page and redirect to the page in client_cmd param.
+             * client_cmd can be in ['list', 'form', 'show', 'reload', 'reset']
+             */
             function dispatchClientCmd() {
                 data[$scope.form_params.param] = $scope.form_params.id;
                 data['model'] = $scope.form_params.model;
@@ -897,13 +898,12 @@ angular.module('formService', ['ui.bootstrap'])
         };
 
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name get_diff
-         * @module formService
-         * @description
-         *
-         * @param obj1
-         * @param obj2
+         * @description returns diff of the second param to first param
+         * @param {object} obj1
+         * @param {object} obj2
          * @returns {{object}} diff object of two given objects
          */
         generator.get_diff = function (obj1, obj2) {
@@ -922,14 +922,13 @@ angular.module('formService', ['ui.bootstrap'])
             return result;
         };
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name get_diff_array
-         * @module formService
-         * @description
-         * extracts items of second array from the first array
-         * @param array1
-         * @param array2
-         * @param way
+         * @description extracts items of second array from the first array
+         * @param {object} array1
+         * @param {object} array2
+         * @param {number} way
          * @returns {Array}
          */
         generator.get_diff_array = function (array1, array2, way) {
@@ -948,13 +947,12 @@ angular.module('formService', ['ui.bootstrap'])
             return result;
         };
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name item_from_array
-         * @module formService
-         * @description
-         * get item unicode name from titleMap
-         * @param item
-         * @param array
+         * @description gets item unicode name from titleMap
+         * @param {object} item
+         * @param {array} array
          * @returns {*}
          */
         generator.item_from_array = function (item, array) {
@@ -968,20 +966,18 @@ angular.module('formService', ['ui.bootstrap'])
         };
 
         /**
+         * @memberof ulakbus.formService
          * @ngdoc function
          * @name submit
-         * @module formService
-         * @description
-         * submit function is general function for submiting forms.
+         * @description Submit function is generic function for submiting forms.
          * redirectTo param is used for redirect if return value will be evaluated in a new page.
-         *
-         * @param $scope
-         * @param redirectTo
+         * @param {object} $scope
+         * @param {object} redirectTo
          * @returns {*}
+         * @todo diff for all submits to recognize form change. if no change returns to view with no submit
          */
         generator.submit = function ($scope, redirectTo) {
 
-            // todo: diff for all submits to recognize form change. if no change returns to view with no submit
             var convertDate = function (model) {
                 angular.forEach(model, function (value, key) {
                     if (value && value.constructor === Date) {
@@ -1039,15 +1035,14 @@ angular.module('formService', ['ui.bootstrap'])
     })
 
     /**
+     * @memberof ulakbus.formService
      * @ngdoc controller
      * @name ModalCtrl
-     * @module formservice
-     * @description
-     * controller for listnode, node and linkedmodel modal and save data of it
-     * @param items
-     * @param $scope
-     * @param $uibModalInstance
-     * @param $route
+     * @description controller for listnode, node and linkedmodel modal and save data of it
+     * @param {object} items
+     * @param {object} $scope
+     * @param {object} $uibModalInstance
+     * @param {object} $route
      * @returns returns value for modal
      */
     .controller('ModalCtrl', function ($scope, $uibModalInstance, Generator, items) {
@@ -1092,12 +1087,12 @@ angular.module('formService', ['ui.bootstrap'])
     })
 
     /**
+     * @memberof ulakbus.formService
      * @ngdoc directive
      * @name modalForNodes
-     * @module formService
-     * @description
-     * add modal directive for nodes
-     * @param $uibModal
+     * @description add modal directive for nodes
+     * @param {module} $uibModal
+     * @param {service} Generator
      * @returns openmodal directive
      */
 
@@ -1213,13 +1208,14 @@ angular.module('formService', ['ui.bootstrap'])
 
 
     /**
+     * @memberof ulakbus.formService
      * @ngdoc directive
      * @name addModalForLinkedModel
-     * @module formService
-     * @description
-     * add modal directive for linked models
-     * @param $uibModal
-     * @param Generator
+     * @description add modal directive for linked models
+     * @param {module} $uibModal
+     * @param {object} $rootScope
+     * @param {module} $route
+     * @param {service} Generator
      * @returns openmodal directive
      */
     .directive('addModalForLinkedModel', function ($uibModal, $rootScope, $route, Generator) {
@@ -1291,6 +1287,12 @@ angular.module('formService', ['ui.bootstrap'])
         };
     })
 
+    /**
+     * @memberof ulakbus.formService
+     * @ngdoc directive
+     * @name modalFormLocator
+     * @description This directive helps to locate form object in modal.
+     */
     .directive('modalFormLocator', function () {
         return {
             link: function (scope) {
@@ -1298,40 +1300,3 @@ angular.module('formService', ['ui.bootstrap'])
             }
         }
     });
-
-    /**
-     * @name editModalForLinkedModel
-     * @description
-     * edit modal directive for linked models
-     * @param $uibModal, Generator
-     * @returns openmodal directive
-     */
-
-    // todo: useless modal check if any use cases?? and delete if useless
-
-    //.directive('editModalForLinkedModel', function ($uibModal, Generator) {
-    //    return {
-    //        link: function (scope, element) {
-    //            element.on('click', function () {
-    //                var modalInstance = $uibModal.open({
-    //                    animation: false,
-    //                    templateUrl: 'shared/templates/linkedModelModalContent.html',
-    //                    controller: 'ModalCtrl',
-    //                    size: 'lg',
-    //                    resolve: {
-    //                        items: function () {
-    //                            return Generator.get_form({
-    //                                url: 'crud',
-    //                                form_params: {'model': scope.form.title, "cmd": "form"}
-    //                            });
-    //                        }
-    //                    }
-    //                });
-    //
-    //                modalInstance.result.then(function (childmodel, key) {
-    //                    Generator.submit(childmodel);
-    //                });
-    //            });
-    //        }
-    //    };
-    //});

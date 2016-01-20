@@ -1,0 +1,720 @@
+<!doctype html>
+<html>
+  <head>
+    <base href="../">
+    <title>JSDoc: source : crud_controller.js</title>
+    <link type="text/css" rel="stylesheet" href="css/jsdoc-default.css">
+    <link href="css/prettify-tomorrow.css" type="text/css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,700" rel="stylesheet" type="text/css">
+    <link href="css/custom.css" type="text/css" rel="stylesheet">
+    <script src="js/prettify.js"></script>
+    <script src="js/angular.min.js"></script>
+  </head>
+  <body ng-app="">
+    <nav>
+      <h2><a href="index.html">Index</a></h2>
+      <ul class="module">
+        <!-- ulakbus -->
+        <h3>
+          <a href="" ng-click="moduleulakbus = !moduleulakbus">
+            module: ulakbus
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus">+</i>
+        </h3>
+        <li id="ulakbus" ng-hide="moduleulakbus">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbusdirective = !ulakbusdirective">
+                directive
+              </a>
+              <i ng-cloak="" ng-show="ulakbusdirective">+</i>
+            </h3>
+            <ul ng-hide="ulakbusdirective">
+              <li>
+                <a href="ulakbus.alertBox.html">alertBox</a>
+              </li><li>
+                <a href="ulakbus.breadcrumb.html">breadcrumb</a>
+              </li><li>
+                <a href="ulakbus.collapseMenu.html">collapseMenu</a>
+              </li><li>
+                <a href="ulakbus.fileread.html">fileread</a>
+              </li><li>
+                <a href="ulakbus.headerNotification.html">headerNotification</a>
+              </li><li>
+                <a href="ulakbus.headerSubmenu.html">headerSubmenu</a>
+              </li><li>
+                <a href="ulakbus.logout.html">logout</a>
+              </li><li>
+                <a href="ulakbus.msgbox.html">msgbox</a>
+              </li><li>
+                <a href="ulakbus.notifications.html">notifications</a>
+              </li><li>
+                <a href="ulakbus.searchDirective.html">searchDirective</a>
+              </li><li>
+                <a href="ulakbus.selectedUser.html">selectedUser</a>
+              </li><li>
+                <a href="ulakbus.sidebar.html">sidebar</a>
+              </li><li>
+                <a href="ulakbus.sidebarSearch.html">sidebarSearch</a>
+              </li><li>
+                <a href="ulakbus.sortDirective.html">sortDirective</a>
+              </li><li>
+                <a href="ulakbus.stats.html">stats</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbusinterceptor = !ulakbusinterceptor">
+                interceptor
+              </a>
+              <i ng-cloak="" ng-show="ulakbusinterceptor">+</i>
+            </h3>
+            <ul ng-hide="ulakbusinterceptor">
+              <li>
+                <a href="ulakbus.http_interceptor.html">http_interceptor</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbusconstant = !ulakbusconstant">
+                constant
+              </a>
+              <i ng-cloak="" ng-show="ulakbusconstant">+</i>
+            </h3>
+            <ul ng-hide="ulakbusconstant">
+              <li>
+                <a href="ulakbus.RESTURL.html">RESTURL</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul><ul class="module">
+        <!-- ulakbus_auth -->
+        <h3>
+          <a href="" ng-click="moduleulakbus_auth = !moduleulakbus_auth">
+            module: ulakbus.auth
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus_auth">+</i>
+        </h3>
+        <li id="ulakbus.auth" ng-hide="moduleulakbus_auth">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_authservice = !ulakbus_authservice">
+                service
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_authservice">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_authservice">
+              <li>
+                <a href="ulakbus.auth.AuthService.html">AuthService</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_authcontroller = !ulakbus_authcontroller">
+                controller
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_authcontroller">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_authcontroller">
+              <li>
+                <a href="ulakbus.auth.LoginCtrl.html">LoginCtrl</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul><ul class="module">
+        <!-- ulakbus_crud -->
+        <h3>
+          <a href="" ng-click="moduleulakbus_crud = !moduleulakbus_crud">
+            module: ulakbus.crud
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus_crud">+</i>
+        </h3>
+        <li id="ulakbus.crud" ng-hide="moduleulakbus_crud">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_crudcontroller = !ulakbus_crudcontroller">
+                controller
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_crudcontroller">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_crudcontroller">
+              <li>
+                <a href="ulakbus.crud.CRUDCtrl.html">CRUDCtrl</a>
+              </li><li>
+                <a href="ulakbus.crud.CRUDListFormCtrl.html">CRUDListFormCtrl</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_cruddirective = !ulakbus_cruddirective">
+                directive
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_cruddirective">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_cruddirective">
+              <li>
+                <a href="ulakbus.crud.crudFilters.html">crudFilters</a>
+              </li><li>
+                <a href="ulakbus.crud.crudFormDirective.html">crudFormDirective</a>
+              </li><li>
+                <a href="ulakbus.crud.crudListDirective.html">crudListDirective</a>
+              </li><li>
+                <a href="ulakbus.crud.crudShowDirective.html">crudShowDirective</a>
+              </li><li>
+                <a href="ulakbus.crud.formLocator.html">formLocator</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_crudservice = !ulakbus_crudservice">
+                service
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_crudservice">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_crudservice">
+              <li>
+                <a href="ulakbus.crud.CrudUtility.html">CrudUtility</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_crudfunction = !ulakbus_crudfunction">
+                function
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_crudfunction">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_crudfunction">
+              <li>
+                <a href="ulakbus.crud.generateParam.html">generateParam</a>
+              </li><li>
+                <a href="ulakbus.crud.listPageItems.html">listPageItems</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul><ul class="module">
+        <!-- ulakbus_form_ervice -->
+        <h3>
+          <a href="" ng-click="moduleulakbus_form_ervice = !moduleulakbus_form_ervice">
+            module: ulakbus.formService
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus_form_ervice">+</i>
+        </h3>
+        <li id="ulakbus.formService" ng-hide="moduleulakbus_form_ervice">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervicedirective = !ulakbus_form_ervicedirective">
+                directive
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervicedirective">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervicedirective">
+              <li>
+                <a href="ulakbus.formService.addModalForLinkedModel.html">addModalForLinkedModel</a>
+              </li><li>
+                <a href="ulakbus.formService.modalFormLocator.html">modalFormLocator</a>
+              </li><li>
+                <a href="ulakbus.formService.modalForNodes.html">modalForNodes</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervicefunction = !ulakbus_form_ervicefunction">
+                function
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervicefunction">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervicefunction">
+              <li>
+                <a href="ulakbus.formService.dateformatter.html">dateformatter</a>
+              </li><li>
+                <a href="ulakbus.formService.dispatchClientCmd.html">dispatchClientCmd</a>
+              </li><li>
+                <a href="ulakbus.formService.doItemAction.html">doItemAction</a>
+              </li><li>
+                <a href="ulakbus.formService.generate.html">generate</a>
+              </li><li>
+                <a href="ulakbus.formService.get_diff.html">get_diff</a>
+              </li><li>
+                <a href="ulakbus.formService.get_diff_array.html">get_diff_array</a>
+              </li><li>
+                <a href="ulakbus.formService.get_form.html">get_form</a>
+              </li><li>
+                <a href="ulakbus.formService.get_list.html">get_list</a>
+              </li><li>
+                <a href="ulakbus.formService.get_wf.html">get_wf</a>
+              </li><li>
+                <a href="ulakbus.formService.group.html">group</a>
+              </li><li>
+                <a href="ulakbus.formService.isValidDate.html">isValidDate</a>
+              </li><li>
+                <a href="ulakbus.formService.isValidEmail.html">isValidEmail</a>
+              </li><li>
+                <a href="ulakbus.formService.isValidTCNo.html">isValidTCNo</a>
+              </li><li>
+                <a href="ulakbus.formService.item_from_array.html">item_from_array</a>
+              </li><li>
+                <a href="ulakbus.formService.makeUrl.html">makeUrl</a>
+              </li><li>
+                <a href="ulakbus.formService.pathDecider.html">pathDecider</a>
+              </li><li>
+                <a href="ulakbus.formService.prepareFormItems.html">prepareFormItems</a>
+              </li><li>
+                <a href="ulakbus.formService.submit.html">submit</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervicefactory = !ulakbus_form_ervicefactory">
+                factory
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervicefactory">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervicefactory">
+              <li>
+                <a href="ulakbus.formService.Generator.html">Generator</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervicecontroller = !ulakbus_form_ervicecontroller">
+                controller
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervicecontroller">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervicecontroller">
+              <li>
+                <a href="ulakbus.formService.ModalCtrl.html">ModalCtrl</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_erviceproperty = !ulakbus_form_erviceproperty">
+                property
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_erviceproperty">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_erviceproperty">
+              <li>
+                <a href="ulakbus.formService.pageData.html">pageData</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul><ul class="module">
+        <!-- ulakbus_form_ervice_path_ecider -->
+        <h3>
+          <a href="" ng-click="moduleulakbus_form_ervice_path_ecider = !moduleulakbus_form_ervice_path_ecider">
+            module: ulakbus.formService~pathDecider
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus_form_ervice_path_ecider">+</i>
+        </h3>
+        <li id="ulakbus.formService~pathDecider" ng-hide="moduleulakbus_form_ervice_path_ecider">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervice_path_eciderfunction = !ulakbus_form_ervice_path_eciderfunction">
+                function
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervice_path_eciderfunction">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervice_path_eciderfunction">
+              <li>
+                <a href="ulakbus.formService-pathDecider.redirectTo.html">redirectTo</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div id="content" class="page-wrap">
+      <h1 class="title">
+        source : crud_controller.js
+      </h1>
+      <div id="main" class="big-container">
+        <!-- source code html -->
+        <article>
+          <pre class="prettyprint source linenums"><code>/**
+ * @license Ulakbus-UI
+ * Copyright (C) 2015 ZetaOps Inc.
+ *
+ * This file is licensed under the GNU General Public License v3
+ * (GPLv3).  See LICENSE.txt for details.
+ */
+'use strict';
+/**
+ * @ngdoc module
+ * @name ulakbus.crud
+ * @module ulakbus.crud
+ * @description
+ * ulakbus.crud module is the main module for ui. It interacts with backend and manipulate data to screen
+ * generically.
+ *
+ * @requires ui.bootstrap
+ * @requires schemaForm
+ * @requires ulakbus.formService
+ * @type {ng.$compileProvider|*}
+ */
+angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formService'])
+    .config(function (sfErrorMessageProvider) {
+        sfErrorMessageProvider.setDefaultMessage(302, 'Bu alan zorunludur.');
+        sfErrorMessageProvider.setDefaultMessage(200, 'En az {{schema.minLength}} değer giriniz.');
+        sfErrorMessageProvider.setDefaultMessage(201, 'En fazla {{schema.minLength}} değer giriniz.');
+    })
+    /**
+     * @memberof ulakbus.crud
+     * @ngdoc service
+     * @name CrudUtility
+     * @description Crud Utility is a service to provide generic functions for Crud controllers to format data and
+     * scope object.
+     * @returns {service}
+     */
+    .service('CrudUtility', function ($log, $rootScope) {
+        return {
+            /**
+             * @memberof ulakbus.crud
+             * @ngdoc function
+             * @name generateParam
+             * @description generateParam is a function to generate required params to post backend api.
+             * @param {object} scope
+             * @param {object} routeParams
+             * @param {string} cmd
+             * @returns {object} scope
+             */
+            generateParam: function (scope, routeParams, cmd) {
+                scope.url = routeParams.wf;
+                angular.forEach(routeParams, function (value, key) {
+                    if (key.indexOf('_id') > -1 && key !== 'param_id') {
+                        scope.param = key;
+                        scope.param_id = value;
+                    }
+                });
+                scope.form_params = {
+                    //cmd: cmd,
+                    model: routeParams.model,
+                    param: scope.param || routeParams.param,
+                    id: scope.param_id || routeParams.param_id,
+                    wf: routeParams.wf,
+                    object_id: routeParams.key,
+                    filters: {}
+                };
+                if (scope.param_id) {
+                    scope.form_params.filters[scope.param] = {values: [scope.param_id], type: 'check'};
+                    // do not use selected user, get and broadcast data of user in param_id
+                    //$rootScope.$broadcast('selectedUserTrigger', [scope.param, scope.param_id]);
+                }
+                scope.model = scope.form_params.model;
+                scope.wf = scope.form_params.wf;
+                scope.param = scope.form_params.param;
+                scope.param_id = scope.form_params.id;
+                return scope;
+            },
+            /**
+             * @memberof ulakbus.crud
+             * @ngdoc function
+             * @name listPageItems
+             * @description listPageItems is a function to prepare objects to list in the list page.
+             *
+             * @param {object} scope
+             * @param {object} pageData
+             */
+            listPageItems: function (scope, pageData) {
+                angular.forEach(pageData, function (value, key) {
+                    scope[key] = value;
+                });
+                angular.forEach(scope.objects, function (value, key) {
+                    if (key > 0) {
+                        var linkIndexes = {};
+                        angular.forEach(value.actions, function (v, k) {
+                            if (v.show_as === 'link') {linkIndexes = v}
+                        });
+                        angular.forEach(value.fields, function (v, k) {
+                            if (value.actions.length > 0 && linkIndexes.fields){
+                                scope.objects[key].fields[k] = {
+                                    type: linkIndexes.fields.indexOf(k) > -1 ? 'link' : 'str',
+                                    content: v,
+                                    cmd: linkIndexes.cmd,
+                                    mode: linkIndexes.mode
+                                };
+                            }
+                            else {
+                                scope.objects[key].fields[k] = {type: 'str', content: v};
+                            }
+                        });
+                    }
+                });
+                $log.debug(scope.objects);
+            }
+        }
+    })
+    /**
+     * @memberof ulakbus.crud
+     * @ngdoc controller
+     * @name CRUDCtrl
+     * @description CRUDCtrl controller is base controller for crud module to redirect to related controller
+     * This controller play an empty role for api calls.
+     * With response data, location path change to related controller
+     *
+     * @returns {object}
+     */
+    .controller('CRUDCtrl', function ($scope, $routeParams, Generator, CrudUtility) {
+        // get required params by calling CrudUtility.generateParam function
+        CrudUtility.generateParam($scope, $routeParams);
+        Generator.get_wf($scope);
+    })
+    /**
+     * @memberof ulakbus.crud
+     * @ngdoc controller
+     * @name CRUDListFormCtrl
+     * @description CRUDListFormCtrl is the main controller for crud module
+     * Based on the client_cmd parameter it generates its scope items.
+     * client_cmd can be in ['show', 'list', 'form', 'reload', 'refresh']
+     * There are 3 directives to manipulate controllers scope objects in crud.html
+     * &lt;br>
+     * The controller works in 2 ways, with and without pageData.
+     * pageData is generated by formService.Generator and it contains data to manipulate page.
+     * If pageData has set, using Generator's getPageData() function, sets its scope items. After getting pageData
+     * pageData must be set to `{pageData: false}` for clear scope of next job.
+     * &lt;br>
+     * If pageData has not set using Generator's get_wf() function gets scope items from api call.
+     *
+     * @returns {object}
+     */
+    .controller('CRUDListFormCtrl', function ($scope, $rootScope, $location, $http, $log, $uibModal, $timeout, Generator, $routeParams, CrudUtility) {
+        // reloadData must be a json object
+        $scope.reload = function (reloadData) {
+            $scope.form_params.cmd = $scope.reload_cmd;
+            $scope.form_params = angular.extend($scope.form_params, reloadData);
+            $log.debug('reload data', $scope);
+            Generator.get_wf($scope);
+        };
+        $scope.$on('reload_cmd', function(event, data){
+            $scope.reload_cmd = data;
+            $scope.reload({});
+        });
+        // search directive updates objects after search results
+        $scope.$on('updateObjects', function ($event, data) {
+            $scope.objects = data;
+            CrudUtility.listPageItems($scope, {objects: $scope.objects});
+        });
+        // we use form generator for generic forms. this makes form's scope to confuse on the path to generate form
+        // object by its name. to manage to locate the form to controllers scope we use a directive called form locator
+        // a bit dirty way to find form working on but solves our problem
+        $scope.$on('formLocator', function (event) {
+            $scope.formgenerated = event.targetScope.formgenerated;
+        });
+        // remove function removes node or listnode item from model data
+        $scope.remove = function (item, type, index) {
+            $scope[type][item.title].model.splice(index, 1);
+            $scope[type][item.title].items.splice(index, 1);
+        }
+        $scope.onSubmit = function (form) {
+            $scope.$broadcast('schemaFormValidate');
+            if (form.$valid) {
+                Generator.submit($scope);
+            }
+        };
+        $scope.do_action = function (key, todo) {
+            //Generator.doItemAction($scope, key, todo.cmd, todo.wf, todo.mode || 'normal');
+            Generator.doItemAction($scope, key, todo, todo.mode || 'normal');
+        };
+        $scope.getNumber = function (num) {
+            return new Array(num);
+        };
+        $scope.createListObjects = function () {
+            if ($scope.object.constructor === Array) {
+                $log.debug('new type show object')
+            } else {
+                if ($scope.object.type) {
+                    $scope.object = [$scope.object];
+                } else {
+                    $scope.object = [{type: 'table', fields: angular.copy($scope.object)}];
+                }
+            }
+        };
+        $scope.showCmd = function () {
+            CrudUtility.generateParam($scope, $routeParams, $routeParams.cmd);
+            // todo: refactor createListObjects func
+            var pageData = Generator.getPageData();
+            if (pageData.pageData === true) {
+                $scope.object = pageData.object;
+                Generator.setPageData({pageData: false});
+            }
+            else {
+                // call generator's get_single_item func
+                Generator.get_wf($scope).then(function (res) {
+                    $scope.object = res.data.object;
+                    $scope.model = $routeParams.model;
+                });
+            }
+            $scope.createListObjects();
+        };
+        $scope.listFormCmd = function () {
+            // function to set scope objects
+            var setpageobjects = function (data) {
+                CrudUtility.listPageItems($scope, data);
+                Generator.generate($scope, data);
+                Generator.setPageData({pageData: false});
+            };
+            // get pageData from service
+            var pageData = Generator.getPageData();
+            // if pageData exists do not call get_wf function and manipulate page with pageData
+            if (pageData.pageData === true) {
+                $log.debug('pagedata', pageData.pageData);
+                CrudUtility.generateParam($scope, pageData, $routeParams.cmd);
+                setpageobjects(pageData, pageData);
+                if ($scope.second_client_cmd) {
+                    $scope.createListObjects();
+                }
+            }
+            // if pageData didn't defined or is {pageData: false} go get data from api with get_wf function
+            if (pageData.pageData === undefined || pageData.pageData === false) {
+                CrudUtility.generateParam($scope, $routeParams, $routeParams.cmd);
+                Generator.get_wf($scope);
+            }
+            if ($scope.object) {
+                $scope.createListObjects();
+            }
+        };
+        $scope.reloadCmd = function () {
+            $scope.reload({});
+        };
+        $scope.resetCmd = function () {
+            delete $scope.token;
+            $scope.cmd = 'reset';
+            Generator.get_wf($scope);
+        };
+        var executeCmd = {
+            show: $scope.showCmd,
+            list: $scope.listFormCmd,
+            form: $scope.listFormCmd,
+            reload: $scope.reloadCmd,
+            reset: $scope.resetCmd
+        };
+        return executeCmd[$routeParams.cmd]();
+    })
+    /**
+     * @memberof ulakbus.crud
+     * @ngdoc directive
+     * @name crudListDirective
+     * @description directive for listing objects.
+     * provides template for `scope.objects` object.
+     */
+    .directive('crudListDirective', function () {
+        return {
+            templateUrl: 'components/crud/templates/list.html',
+            restrict: 'E',
+            replace: true
+        };
+    })
+    /**
+     * @memberof ulakbus.crud
+     * @ngdoc directive
+     * @name crudFormDirective
+     * @description directive for form generation.
+     * provides template for `scope.forms` object.
+     */
+    .directive('crudFormDirective', function () {
+        return {
+            templateUrl: 'components/crud/templates/form.html',
+            restrict: 'E',
+            replace: true
+        };
+    })
+    /**
+     * @memberof ulakbus.crud
+     * @ngdoc directive
+     * @name crudShowDirective
+     * @description directive for single object or detail of an object.
+     * provides template for `scope.object` object.
+     */
+    .directive('crudShowDirective', function () {
+        return {
+            templateUrl: 'components/crud/templates/show.html',
+            restrict: 'E',
+            replace: true
+        };
+    })
+    /**
+     * @memberof ulakbus.crud
+     * @ngdoc directive
+     * @name formLocator
+     * @description directive for finding form element. we use this directive because when form dynamically generated using
+     * schemaform it belongs to a scope which is hard to reach. This makes it easy to locate form object.
+     */
+    .directive('formLocator', function () {
+        return {
+            link: function (scope) {
+                scope.$emit('formLocator');
+            }
+        }
+    })
+    /**
+     * @memberof ulakbus.crud
+     * @ngdoc directive
+     * @name crudFilters
+     * @description directive for filtering functionality. There are three types of filters; `check`, `select`, and `date`.
+     * @todo filter items returns unselected in response object
+     */
+    .directive('crudFilters', function(Generator) {
+        return {
+            templateUrl: 'components/crud/templates/filter.html',
+            restrict: 'E',
+            replace: true,
+            link: function ($scope) {
+                $scope.form_params.filters = $scope.form_params.filters || {};
+                $scope.filterList = {};
+                $scope.filterCollapsed = {};
+                $scope.$watch('list_filters', function () {
+                    angular.forEach($scope.list_filters, function (value, key) {
+                        $scope.filterList[value.field] = {values: value.values || [], type: value.type};
+                        $scope.filterCollapsed[value.field] = Object.keys($scope.filterCollapsed).length > 0 ? true : false;
+                    });
+                });
+                $scope.collapseFilter = function (field) {
+                    $scope.filterCollapsed[field] = !$scope.filterCollapsed[field];
+                };
+                $scope.status = {startOpened: false, endOpened: false};
+                $scope.dateFilterOpen = function ($event, which) {
+                    this.status[which] = true;
+                };
+                $scope.format = 'dd.MM.yyyy';
+                $scope.filterSubmit = function () {
+                    angular.forEach($scope.filterList, function (value, key) {
+                        if (value.model) {
+                            if (value.type === 'date') {
+                                var dateValues = [null, null];
+                                angular.forEach(value.model, function (v, k) {
+                                    dateValues[k] = Generator.dateformatter(v);
+                                });
+                                $scope.form_params.filters[key] = {values: dateValues, type: value.type};
+                            } else {
+                                $scope.form_params.filters[key] = {values: Object.keys(value.model), type: value.type || 'check'};
+                            }
+                        }
+                    });
+                    Generator.get_wf($scope);
+                }
+            }
+        };
+    });</code></pre>
+        </article>
+        <!-- index.html -->
+        <!-- class files -->
+      </div>
+      <footer style="clear:both">
+        Documentation generated by
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a>
+        using
+        <a href="https://github.com/allenhwkim/angular-jsdoc">Angular-JSDoc template</a>
+      </footer>
+    </div>
+    <!--%= prettyJson %-->
+    <script>
+      prettyPrint();
+      var lineNo = window.location.hash.match(/#line([0-9]+)$/);
+      lineNo && document.querySelector("ol li:nth-child("+(lineNo[1])+")").scrollIntoView();
+    </script>
+  </body>
+</html>
