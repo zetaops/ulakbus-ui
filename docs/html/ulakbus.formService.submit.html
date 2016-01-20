@@ -333,7 +333,7 @@
       </h3>
       <h1 class="title">
         submit
-        <a class="name-link signature-attributes" href="source/ulakbus.formService.submit.html#line969">source</a>
+        <a class="name-link signature-attributes" href="source/ulakbus.formService.submit.html#line968">source</a>
       </h1>
       <div id="main" class="big-container">
         <!-- source code html -->
@@ -344,8 +344,27 @@
       <dt></dt>
       <dd>
         <div class="description">
-          <p>Submit function is generic function for submiting forms.
-redirectTo param is used for redirect if return value will be evaluated in a new page.</p>
+          <p>Submit function is generic function for submiting forms.</p>
+<ul>
+<li>redirectTo param is used for redirect if return value will be evaluated in a new page.</li>
+<li>In case of unformatted date object in any key recursively, it must be converted by convertDate function.</li>
+<li>ListNode and Node objects get seperated from model in
+{@link prepareFormItems module:ulakbus.formService.function:prepareFormItems} They must be concat to model
+key of scope first.</li>
+<li>Backend API waits form as model value. So <code>data.form</code> key must be set to <code>$scope.model</code></li>
+<li>Other parameters we pass to backend API are shown in the example below<pre class="prettyprint source"><code>var data = {
+              &quot;form&quot;: $scope.model,
+              &quot;token&quot;: $scope.token,
+              &quot;model&quot;: $scope.form_params.model,
+              &quot;cmd&quot;: $scope.form_params.cmd,
+              &quot;flow&quot;: $scope.form_params.flow,
+              &quot;object_id&quot;: $scope.object_id,
+              &quot;filter&quot;: $scope.filter,
+              &quot;query&quot;: $scope.form_params.query
+          };</code></pre><h3>Special response object process</h3></li>
+<li>If response object is a downloadable pdf file, checking from headers <code>headers('content-type') ===
+&quot;application/pdf&quot;</code> download using Blob object.</li>
+</ul>
         </div>
         <div class="details"></div>
         <div>
@@ -358,13 +377,13 @@ redirectTo param is used for redirect if return value will be evaluated in a new
               <tr>
                 <td class="name" nowrap="">$scope</td>
                 <td class="type"><span class="param-type">
-                  object
+                  Object
                 </span></td>
                 <td class="description last"></td>
               </tr><tr>
                 <td class="name" nowrap="">redirectTo</td>
                 <td class="type"><span class="param-type">
-                  object
+                  Object
                 </span></td>
                 <td class="description last"></td>
               </tr>

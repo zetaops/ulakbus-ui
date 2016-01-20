@@ -1,13 +1,12 @@
 ULAKBUS API-UI Etkileşimi
 =========================
 
-.. figure:: http://ulakbus.net/img/brand-logo.png
-:alt: Ulakbus logo
+.. figure:: http://ulakbus.net/img/brand-logo.png :alt: Ulakbus_logo
 
-   Ulakbus logo
+Bu belge **Ulakbus API ve UI** bileşenlerinin etkileşimini göstermek
+için hazırlanmıştır. API kullanılarak hazırlanan view, model ve jenerik fonksiyonlarda hangi tip verinin kullanıcı
+arayüzünde nasıl gösterildiğini bu belgede bulabilirsiniz.
 
-Bu belge **Ulakbus** API ve UI bileşenlerinin etkileşimini göstermek
-için hazırlanmıştır.
 
 Ulakbüs UI Sayfa Tipleri
 ------------------------
@@ -18,10 +17,9 @@ Ulakbüs kullanıcı arayüzünde sunulan temel içerik türleri şunlardır;
 -  Liste sayfası
 -  Detay sayfası
 
-Bu içerik türleri API'ın iş akışlarında sunduğu temel içerik türleridir.
-Bu içerik türlerinin kullanıcı arayüzünde doğru biçimde yorumlanması
-için ``response`` nesnesinde gönderilecek anahtar değerler
-belirlenmiştir. Bu anahtarlar aşağıdaki tablodaki gibidir;
+Bu içerik türleri API'ın iş akışlarında sunduğu temel içerik türleridir. Bu içerik türlerinin kullanıcı arayüzünde
+doğru biçimde yorumlanması için ``response`` nesnesinde gönderilecek anahtar değerler belirlenmiştir. Bu anahtarlar
+aşağıdaki tablodaki gibidir;
 
 +---------------+---------------+
 | İçerik türü   | Anahtar       |
@@ -37,22 +35,26 @@ belirlenmiştir. Bu anahtarlar aşağıdaki tablodaki gibidir;
     yukarıdan aşağıya doğru detay - form - liste olacak şekilde aynı
     sayfada yorumlanırlar.
 
+Her sayfaya ait alt özellikler ilgili başlık altında anlatılacaktır.
+
 Form sayfası
 ~~~~~~~~~~~~
 
-Örnek bir forms nesnesi aşağıdaki gibidir:
+Ulakbus UI form işlemlerini gerçekleştirmek için angular-schemaform_ Örnek bir ``forms`` nesnesi aşağıdaki gibidir:
+
+.. _angular-schemaform:
 
 .. code:: json
 
     {
-        forms: {
-            form: [],
-            schema: {
-                properties: {},
-                type: object,
-                required: []
+        "forms": {
+            "form": [],
+            "schema": {
+                "properties": {},
+                "type": Object,
+                "required": []
             },
-            model: {}
+            "model": {}
         }
     }
 
