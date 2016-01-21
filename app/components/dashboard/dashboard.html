@@ -125,104 +125,19 @@
         </div>
         <!-- end of dashboard-main-anouncement -->
 
-        <div class="right-sidebar">
+        <div class="right-sidebar selected-person-field">
 
-            <div class="right-sidebar-box" data-step="4"
-                 data-intro="mesajlar, yapılan görevlerin son durumları, duyurular ve son yapılan işlemleri buradan takip edebilirsiniz.">
-                <div class="right-sidebar-messages">
-
-                    <div class="right-sidebar-title clearfix">
-                        <h3>Mesajlar</h3>
-                        <span><a role="button">Tüm Mesajlar</a></span>
-                    </div>
-                    <!-- end of right-sidebar-title -->
-                    <p ng-show="notifications[2].length === 0" class="text-center">Görüntülenecek içerik yok.</p>
-
-                    <div class="right-sidebar-message-block" ng-repeat="notify in notifications[2] | limitTo:5">
-                        <a class="clearfix" ng-click="markAsRead(notify)">
-                            <img src="../../../img/sample-profile-pic.jpg">
-                            <div class="right-sidebar-message-content">
-                                <div>{{notify.title}}</div>
-                                <div>{{notify.body}}</div>
-                                <div>16:05</div>
-                            </div>
-                            <!-- end of right-sidebar-message-content -->
-                        </a>
-                    </div>
-                    <!-- end of right-sidebar-message-block -->
-
-                </div>
-                <!-- end of right-sidebar-messages -->
+            <div class="right-sidebar-header">
+            	<span class="bar-title">Kişi seçildi</span>
+            	<span class="unselect-person"><i class="fa fa-times"></i></span>
             </div>
-            <!-- end of right-sidebar-box -->
-
-
-            <div class="right-sidebar-box">
-                <div class="right-sidebar-tasks">
-
-                    <div class="right-sidebar-title clearfix">
-                        <h3>Görevler</h3>
-                        <span><a role="button">Tüm Görevler</a></span>
-                    </div>
-
-                    <p ng-show="notifications[1].length === 0" class="text-center">Görüntülenecek içerik yok.</p>
-
-                    <div class="right-sidebar-task-block">
-                        <!--<div class="task-type">Onay Bekleyen Görevler</div>-->
-                        <a ng-click="markAsRead(notify)" ng-repeat="notify in notifications[1] | limitTo:5">
-                            <div class="task-title">{{notify.title}}</div>
-                        </a>
-                    </div>
-                    <!-- end of right-sidebar-task-block -->
-
-                </div>
-                <!-- end of right-sidebar-tasks -->
+            <!-- end of right-sidebaer-header -->
+            
+            <div class="selected-person-info">
+            	<img src="../../img/sample-profile-pic.jpg" class="selected-person-img">
+                <div class="selected-person-name">Erkan Öğümsöğütlü</div>
             </div>
-            <!-- end of right-sidebar-box -->
-
-
-            <!--<div class="right-sidebar-box">-->
-                <!--<div class="right-sidebar-announcements">-->
-
-                    <!--<div class="right-sidebar-title clearfix">-->
-                        <!--<h3>Duyurular</h3>-->
-                        <!--<span><a role="button">Tüm Duyurular</a></span>-->
-                    <!--</div>-->
-                    <!--&lt;!&ndash; end of right-sidebar-title &ndash;&gt;-->
-
-                    <!--<div class="right-sidebar-announcement-block">-->
-                        <!--<a ng-click="markAsRead(notify)"-->
-                           <!--ng-repeat="notify in notifications[3] | limitTo:5">{{notify-->
-                            <!--.body}}</a>-->
-                    <!--</div>-->
-                    <!--&lt;!&ndash; end of right-sidebar-status-block &ndash;&gt;-->
-
-                <!--</div>-->
-                <!--&lt;!&ndash; end of right-sidebar-status &ndash;&gt;-->
-            <!--</div>-->
-            <!-- end of right-sidebar-box -->
-
-
-            <div class="right-sidebar-box">
-                <div class="right-sidebar-last-actions">
-
-                    <div class="right-sidebar-title clearfix">
-                        <h3>Son İşlemler</h3>
-                        <span><a role="button">Tüm İşlemler</a></span>
-                    </div>
-
-                    <p class="text-center">Görüntülenecek içerik yok.</p>
-
-                    <div class="right-sidebar-task-block">
-                        <a>
-                            <div class="task-title"></div>
-                        </a>
-                    </div>
-
-                </div>
-                <!-- end of right-sidebar-status -->
-            </div>
-            <!-- end of right-sidebar-box -->
+            <!-- end of selected-person-info -->
 
         </div>
         <!-- end of right-sidebar -->
