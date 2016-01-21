@@ -91,6 +91,13 @@ a:hover {
     letter-spacing: 0.5px;
 }
 
+img.header-profile {
+	width:27px;
+	height:27px;
+	border-radius:100%;
+	margin-right:6px;
+}
+
 /** DETAIL PAGE **/
 
 .detail-page {
