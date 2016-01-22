@@ -15,16 +15,16 @@ Ulakbus kullanıcı arayüzü yapacağı işlemlerle ilgili komutları API'dan a
 İş akış şemaları yani *workflow* lar bpmn formatında backend API'da oluşturulur.
 
 İş akışının arayüzde akışa uygun şekilde gerçekleştirilmesi için kullanılacak anahtar-değerler ( *key-value* ) API
-tarafından `response` nesnesinde arayüze gönderilir ve arayüz tarafından yorumlanır.
+tarafından ``response`` nesnesinde arayüze gönderilir ve arayüz tarafından yorumlanır.
 
-API'ın `Response` nesnesinde sayfaların yorumladığı datanın (`forms`, `objects`, `object`) dışında kullanıcı arayüzünü şekillendiren, işlev ekleyen bazı anahtarlar bulunmaktadır. Bunlar aşağıdaki örnekte sıralanmıştır;
+API'ın ``Response`` nesnesinde sayfaların yorumladığı datanın (``forms``, ``objects``, ``object``) dışında kullanıcı arayüzünü şekillendiren, işlev ekleyen bazı anahtarlar bulunmaktadır. Bunlar aşağıdaki örnekte sıralanmıştır;
 
 .. code:: json
 
     {
         "client_cmd":["form"],
         "reload_cmd":"add_edit_form",
-        "token":"80c5fd8148cc466a836dce4d6a944419",
+        "token":"zxcv4321",
         "meta":{
             "allow_search":true,
             "allow_selection":false
@@ -33,7 +33,7 @@ API'ın `Response` nesnesinde sayfaların yorumladığı datanın (`forms`, `obj
             {
                 "TIMESTAMP":1453289218.893847,
                 "BUCKET":"models_user",
-                "KEY":"Bkhc7dupquiIFPmOSKuO0kXJC8q",
+                "KEY":"7890yuhjk",
                 "TIME":0.00275
             }
         ],
@@ -43,7 +43,7 @@ API'ın `Response` nesnesinde sayfaların yorumladığı datanın (`forms`, `obj
 client_cmd
 ^^^^^^^^^^
 
-`client_cmd` anahtarı arayüzün yapması istenen komutu taşır. Bu komutlar şunları kapsar; **list**, **form**, **show**,
+``client_cmd`` anahtarı arayüzün yapması istenen komutu taşır. Bu komutlar şunları kapsar; **list**, **form**, **show**,
 **reload**, **reset**.
 
 - **form** gönderilen datanın `forms` nesnesi taşıdığı ve kullanıcı arayüzünün bunu form olarak yorumlaması gerektiği durumlarda kullanılır.
@@ -61,17 +61,17 @@ gereklidir.
 reload_cmd
 ^^^^^^^^^^
 
-`reload_cmd` anahtarı `"client_cmd": "reload"` durumunda arayüzün backend API'dan isteyeceği komutu taşır.
+``reload_cmd`` anahtarı ``"client_cmd": "reload"`` olması durumunda arayüzün backend API'dan isteyeceği komutu taşır. UI post datası içinde ``cmd`` anahtarında bu değeri gönderir.
 
 token
 ^^^^^
 
-`token` anahtarında iş akış şemasının ( *workflow* ) redis'te tutulan token değeri vardır. İş akışı tamamlanmadığı sürece bu token `request` nesnesinde API'a gönderilir.
+``token`` anahtarında iş akış şemasının ( *workflow* ) redis'te tutulan token değeri vardır. İş akışı tamamlanmadığı sürece bu token `request` nesnesinde API'a gönderilir.
 
 meta
 ^^^^
 
-`meta` anahtarında arayüzde istenen yapılandırmalar yer alır. Boolean değer taşırlar. Bunlar şunlardır;
+``meta`` anahtarında arayüzde istenen yapılandırmalar yer alır. Boolean değer taşırlar. Bunlar şunlardır;
 
 - **allow_search** Listeleme ekranında arama kutusunun gösterilmesi için kullanılır.
 - **allow_selection** Listeleme ekranında tablonun solunda selectBox yer alması için kullanılır.
@@ -82,13 +82,13 @@ meta
 _debug_queries
 ^^^^^^^^^^^^^^
 
-`_debug_queries` anahtarı geliştiriciler için yardımcı bir anahtardır. Veritabanına yapılan sorguların süresi ve kaç adet sorgu yapıldığı gibi değerler bu anahtarda yer alır.
+``_debug_queries`` anahtarı geliştiriciler için yardımcı bir anahtardır. Veritabanına yapılan sorguların süresi ve kaç adet sorgu yapıldığı gibi değerler bu anahtarda yer alır.
 Aktif olması için API ortamında çevre değişkeni DEBUG=1 olarak set edilmelidir.
 
 is_login
 ^^^^^^^^
 
-`is_login` anahtarı kullanıcının giriş yapıp yapmadığını gösteren bir anahtardır.
+``is_login`` anahtarı kullanıcının giriş yapıp yapmadığını gösteren bir anahtardır.
 Bu anahtar *false* değer taşıdığında arayüz login sayfasına yönlendirir.
 
 
@@ -136,34 +136,16 @@ angular-schema-form'un beklediği formatta olmalı ya da değilse extend edilere
     {
         "forms":{
             "constraints":{},
-            "model":{
-                "ad":null,
-                "soyad":null,
-                "cinsiyet": null,
-                "e_posta":null,
-                "save_edit":null,
-                "nufus_kayitlari_id":null,
-                "dogum_tarihi":"0000-00-00T00:00:00Z",
-                "save_list":null
-            },
+            "model":{ "ad":null, "soyad":null },
             "grouping":{},
             "form":[
-                {
-                    "helpvalue":null,
-                    "type":"help"
-                },
+                { "helpvalue":null, "type":"help" },
                 "ad",
                 "soyad",
                 {
                     "titleMap":[
-                        {
-                            "name":"Bay",
-                            "value":1
-                        },
-                        {
-                            "name":"Bayan",
-                            "value":2
-                        }
+                        { "name":"Bay", "value":1 },
+                        { "name":"Bayan", "value":2 }
                     ],
                     "type":"select",
                     "key":"cinsiyet",
@@ -171,60 +153,27 @@ angular-schema-form'un beklediği formatta olmalı ya da değilse extend edilere
                 },
                 "e_posta",
                 "dogum_tarihi",
-                "save_edit",
-                "save_list",
+                "save_edit"
                 "nufus_kayitlari_id",
             ],
             "schema":{
-                "required":[
-                    "ad",
-                    "soyad",
-                    "cinsiyet",
-                    "e_posta",
-                    "dogum_tarihi",
-                    "save_edit",
-                    "save_list"
-                ],
+                "required":[ "ad", "soyad" ],
                 "type":"object",
                 "properties":{
-                    "ad":{
-                        "type":"string",
-                        "title":"Ad\u0131"
-                    },
-                    "soyad":{
-                        "type":"string",
-                        "title":"Soyad\u0131"
-                    },
-                    "e_posta":{
-                        "type":"string",
-                        "title":"E-Posta"
-                    },
-                    "save_edit":{
-                        "cmd":"save::add_edit_form",
-                        "type":"button",
-                        "title":"Kaydet"
-                    },
+                    "ad":{ "type":"string", "title":"Adı" },
+                    "soyad":{ "type":"string", "title":"Soyadı" },
+                    "e_posta":{ "type":"string", "title":"E-Posta" },
+                    "save_edit":{ "cmd":"save::add_edit_form", "type":"button", "title":"Kaydet" },
                     "nufus_kayitlari_id":{
                         "list_cmd":"select_list",
-                        "title":"N\u00fcfus Bilgileri",
+                        "title":"Nüfus Bilgileri",
                         "wf":"crud",
                         "add_cmd":"add_edit_form",
                         "type":"model",
                         "model_name":"NufusKayitlari"
                     },
-                    "dogum_tarihi":{
-                        "type":"date",
-                        "title":"Do\u011fum Tarihi"
-                    },
-                    "cinsiyet":{
-                        "type":"select",
-                        "title":"Cinsiyet"
-                    },
-                    "save_list":{
-                        "cmd":"save::list",
-                        "type":"button",
-                        "title":"Kaydet ve Listele"
-                    }
+                    "dogum_tarihi":{ "type":"date", "title":"Doğum Tarihi" },
+                    "cinsiyet":{ "type":"select", "title":"Cinsiyet" }
                 },
                 "title":"Personel"
             }
@@ -239,26 +188,12 @@ Liste sayfası
 
     {
         "forms":{
-            "constraints":{
-
-            },
-            "model":{
-                "add":null
-            },
-            "grouping":{
-
-            },
-            "form":[
-                {
-                    "helpvalue":null,
-                    "type":"help"
-                },
-                "add"
-            ],
+            "constraints":{},
+            "model":{ "add": null },
+            "grouping":{},
+            "form":[ "add" ],
             "schema":{
-                "required":[
-                    "add"
-                ],
+                "required":[ "add" ],
                 "type":"object",
                 "properties":{
                     "add":{
@@ -277,16 +212,11 @@ Liste sayfası
             "page":1
         },
         "objects":[
-            [
-                "Ad\u0131",
-                "Soyad\u0131",
-                "TC No",
-                "Durum"
-            ],
+            [ "Adı", "Soyadı", "TC No", "Durum" ],
             {
                 "fields":[
-                    "Id\u0131k",
-                    "\u00dclker",
+                    "Işık",
+                    "Ülker",
                     "19189958696",
                     null
                 ],
@@ -301,7 +231,7 @@ Liste sayfası
                     },
                     {
                         "cmd":"add_edit_form",
-                        "name":"D\u00fczenle",
+                        "name":"Düzenle",
                         "show_as":"button",
                         "mode":"normal"
                     },
@@ -312,244 +242,27 @@ Liste sayfası
                         "mode":"normal"
                     }
                 ],
-                "key":"Aqq2O50XGqerJsfOPquqDmINbyM"
-            },
-            {
-                "fields":[
-                    "jjgsjs",
-                    "shkjs",
-                    "6214614",
-                    null
-                ],
-                "actions":[
-                    {
-                        "fields":[
-                            0
-                        ],
-                        "cmd":"show",
-                        "mode":"normal",
-                        "show_as":"link"
-                    },
-                    {
-                        "cmd":"add_edit_form",
-                        "name":"D\u00fczenle",
-                        "show_as":"button",
-                        "mode":"normal"
-                    },
-                    {
-                        "cmd":"delete",
-                        "name":"Sil",
-                        "show_as":"button",
-                        "mode":"normal"
-                    }
-                ],
-                "key":"QkXjlwawft0MDotI6Vnqr00SNsd"
-            },
-            {
-                "fields":[
-                    "Mahmut",
-                    "Can",
-                    "98765432101",
-                    null
-                ],
-                "actions":[
-                    {
-                        "fields":[
-                            0
-                        ],
-                        "cmd":"show",
-                        "mode":"normal",
-                        "show_as":"link"
-                    },
-                    {
-                        "cmd":"add_edit_form",
-                        "name":"D\u00fczenle",
-                        "show_as":"button",
-                        "mode":"normal"
-                    },
-                    {
-                        "cmd":"delete",
-                        "name":"Sil",
-                        "show_as":"button",
-                        "mode":"normal"
-                    }
-                ],
-                "key":"TILjcZZpBzbVXdFMCWkYjNMnDSi"
-            },
-            {
-                "fields":[
-                    "G\u00fcle\u011fen",
-                    "Zorlu",
-                    "62244187555",
-                    null
-                ],
-                "actions":[
-                    {
-                        "fields":[
-                            0
-                        ],
-                        "cmd":"show",
-                        "mode":"normal",
-                        "show_as":"link"
-                    },
-                    {
-                        "cmd":"add_edit_form",
-                        "name":"D\u00fczenle",
-                        "show_as":"button",
-                        "mode":"normal"
-                    },
-                    {
-                        "cmd":"delete",
-                        "name":"Sil",
-                        "show_as":"button",
-                        "mode":"normal"
-                    }
-                ],
-                "key":"CDmesac2G6rk6HAhC8wyQqEdPgG"
-            },
-            {
-                "fields":[
-                    "Kutun",
-                    "Arsoy",
-                    "63488661696",
-                    null
-                ],
-                "actions":[
-                    {
-                        "fields":[
-                            0
-                        ],
-                        "cmd":"show",
-                        "mode":"normal",
-                        "show_as":"link"
-                    },
-                    {
-                        "cmd":"add_edit_form",
-                        "name":"D\u00fczenle",
-                        "show_as":"button",
-                        "mode":"normal"
-                    },
-                    {
-                        "cmd":"delete",
-                        "name":"Sil",
-                        "show_as":"button",
-                        "mode":"normal"
-                    }
-                ],
-                "key":"N3CZKVlBMy0LHmlV0liEQVWCLZv"
-            },
-            {
-                "fields":[
-                    "Cuheyna",
-                    "Sezer",
-                    "19022246095",
-                    null
-                ],
-                "actions":[
-                    {
-                        "fields":[
-                            0
-                        ],
-                        "cmd":"show",
-                        "mode":"normal",
-                        "show_as":"link"
-                    },
-                    {
-                        "cmd":"add_edit_form",
-                        "name":"D\u00fczenle",
-                        "show_as":"button",
-                        "mode":"normal"
-                    },
-                    {
-                        "cmd":"delete",
-                        "name":"Sil",
-                        "show_as":"button",
-                        "mode":"normal"
-                    }
-                ],
-                "key":"1GlJkQ3L4olBxsHFLGqXieWPvf5"
-            },
-            {
-                "fields":[
-                    "sdf sdfs",
-                    "24wefds",
-                    "234234234",
-                    null
-                ],
-                "actions":[
-                    {
-                        "fields":[
-                            0
-                        ],
-                        "cmd":"show",
-                        "mode":"normal",
-                        "show_as":"link"
-                    },
-                    {
-                        "cmd":"add_edit_form",
-                        "name":"D\u00fczenle",
-                        "show_as":"button",
-                        "mode":"normal"
-                    },
-                    {
-                        "cmd":"delete",
-                        "name":"Sil",
-                        "show_as":"button",
-                        "mode":"normal"
-                    }
-                ],
-                "key":"TTWkO19AvQPSTYjgusRaeOSo7Wo"
-            },
-            {
-                "fields":[
-                    "ali",
-                    null,
-                    null,
-                    null
-                ],
-                "actions":[
-                    {
-                        "fields":[
-                            0
-                        ],
-                        "cmd":"show",
-                        "mode":"normal",
-                        "show_as":"link"
-                    },
-                    {
-                        "cmd":"add_edit_form",
-                        "name":"D\u00fczenle",
-                        "show_as":"button",
-                        "mode":"normal"
-                    },
-                    {
-                        "cmd":"delete",
-                        "name":"Sil",
-                        "show_as":"button",
-                        "mode":"normal"
-                    }
-                ],
-                "key":"MpvUBrkK36CIntG7mU4NBpgZzzN"
+                "key":"1234qwer"
             }
-        ],
-        "client_cmd":[
-            "form"
-        ],
-        "reload_cmd":"list",
-        "token":"dd6e868e87b1461f9d3d4a48eee5d2b4",
-        "meta":{
-            "attributes":{
-
-            },
-            "allow_search":true,
-            "allow_selection":false
-        },
-        "is_login":true
+        ]
     }
 
 Detay sayfası
 ~~~~~~~~~~~~~
 
+.. code:: json
+
+    {
+        "object":{
+            "Cep Telefonu":"+90 (259) 6925396",
+            "Cinsiyet":"Erkek",
+            "Soyadı":"Arsoy",
+            "TC No":"63488661696",
+            "Adı":"Kutun",
+            "Doğum Tarihi":"03.04.1969",
+            "E-Posta":"daslan@arsoy.com"
+        }
+    }
 
 UI Menu ve Diğer Öğeler
 =======================
@@ -559,34 +272,20 @@ UI Menu ve Diğer Öğeler
     {
         "ogrenci":[
             {
-                "kategori":"Se\u00e7ime Uygun G\u00f6revler",
+                "kategori":"Seçime Uygun Görevler",
                 "text":"Devam Durumu",
                 "model":"DersKatilimi",
-                "param":"ogrenci_id",
-                "wf":"crud"
-            },
-            {
-                "kategori":"Se\u00e7ime Uygun G\u00f6revler",
-                "text":"Har\u00e7 Bilgileri",
-                "model":"Borc",
                 "param":"ogrenci_id",
                 "wf":"crud"
             }
         ],
         "personel":[
             {
-                "kategori":"Se\u00e7ime Uygun G\u00f6revler",
+                "kategori":"Seçime Uygun Görevler",
                 "text":"Kimlik ve Iletisim Bilgileri",
                 "model":"Personel",
                 "param":"object_id",
                 "wf":"kimlik_ve_iletisim_bilgileri"
-            },
-            {
-                "kategori":"Se\u00e7ime Uygun G\u00f6revler",
-                "text":"Hizmet Cetveli",
-                "model":"HizmetKayitlari",
-                "param":"personel_id",
-                "wf":"crud"
             }
         ],
         "settings":{
@@ -597,13 +296,6 @@ UI Menu ve Diğer Öğeler
                 "kategori":"Genel",
                 "text":"Personeller",
                 "model":"Personel",
-                "param":"other_id",
-                "wf":"crud"
-            },
-            {
-                "kategori":"Genel",
-                "text":"Ogrenciler",
-                "model":"Ogrenci",
                 "param":"other_id",
                 "wf":"crud"
             }
@@ -623,7 +315,7 @@ UI Menu ve Diğer Öğeler
             ],
             "role":"BaseAbsRole",
             "is_student":false,
-            "avatar":"http://ulakbus.3s.ulakbus.net/a861758aabec44a2a2b925b88fc718e2.jpg"
+            "avatar":"http://ulakbus.3s.ulakbus.net/abcd.jpg"
         },
         "is_login":true,
         "quick_menu":[
@@ -633,24 +325,6 @@ UI Menu ve Diğer Öğeler
                 "model":"Program",
                 "param":"other_id",
                 "wf":"crud"
-            },
-            {
-                "kategori":"Kadro Islemleri",
-                "text":"Kadro \u0130\u015flemleri",
-                "param":"id",
-                "wf":"kadro_islemleri"
-            },
-            {
-                "kategori":"Genel",
-                "text":"Akademik Takvim",
-                "param":"id",
-                "wf":"akademik_takvim"
-            },
-            {
-                "kategori":"Genel",
-                "text":"Ders Ekle",
-                "param":"id",
-                "wf":"ders_ekle"
             }
         ]
     }
