@@ -8,6 +8,14 @@
 
 'use strict';
 
+/**
+ * @ngdoc module
+ * @name ulakbus.dashboard
+ * @module ulakbus.dashboard
+ * @description ulakbus.dashboard module is holding dashboard's controller, directives and other components.
+ *
+ * @type {ng.$compileProvider|*}
+ */
 angular.module('ulakbus.dashboard', [])
     .config(function ($uibTooltipProvider) {
         $uibTooltipProvider.setTriggers({'click': 'mouseleave'});

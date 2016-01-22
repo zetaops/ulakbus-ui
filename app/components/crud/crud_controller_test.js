@@ -10,7 +10,7 @@ describe('crud controller module', function () {
 
     beforeEach(module('ulakbus'));
     beforeEach(module('ulakbus.crud'));
-    beforeEach(module('formService'));
+    beforeEach(module('ulakbus.formService'));
 
     beforeEach(inject(function ($injector) {
         $httpBackend = $injector.get('$httpBackend');
