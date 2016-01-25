@@ -216,6 +216,14 @@ module.exports = function (grunt) {
                     "app/bower_components/intro.js/themes/introjs-nassim.css"
                 ],
                 dest: 'dist/<%= grunt.branchname %>/css/app.css'
+            },
+            docs: {
+                src: ['docs/templates/index_head', 'docs/html/partials/api/**/*.html', 'docs/templates/index_tail'],
+                dest: 'docs/html/partials/api/index.html'
+            },
+            docs_list: {
+                src: ['docs/html/partials/api/**/index.html'],
+                dest: 'docs/html/partials/api/list.html'
             }
         },
         watch: {
@@ -323,6 +331,27 @@ module.exports = function (grunt) {
                     }
                 }
             }
+        },
+
+        jsdoc: {
+            dist: {
+                src: [
+                    "app/app.js",
+                    "app/zetalib/interceptors.js",
+                    "app/zetalib/form_service.js",
+                    "app/shared/directives.js",
+                    "app/components/auth/auth_controller.js",
+                    "app/components/auth/auth_service.js",
+                    "app/components/crud/crud_controller.js"
+                ],
+                options: {
+                    destination: 'docs/html',
+                    configure: 'node_modules/angular-jsdoc/common/conf.json',
+                    template: 'node_modules/angular-jsdoc/angular-template',
+                    //tutorial: 'tutorials',
+                    readme: './README.md'
+                }
+            }
         }
     });
 
@@ -339,6 +368,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-angular-gettext');
     grunt.loadNpmTasks('grunt-preprocess');
     grunt.loadNpmTasks('grunt-env');
+    grunt.loadNpmTasks('grunt-jsdoc');
 
     grunt.registerTask('dev', ['env:dev', 'preprocess:dev', 'html2js:dev', 'default']);
     grunt.registerTask('test', ['bower', 'karma:continuous']);
@@ -361,12 +391,5 @@ module.exports = function (grunt) {
             'html2js:prod_branch',
             'uglify:branch'
         ]);
-    });
-
-    grunt.registerTask('dgeni', 'Generate docs via dgeni.', function() {
-        var Dgeni = require('dgeni');
-        var done = this.async();
-        var dgeni = new Dgeni([require('./docs/docs_conf')]);
-        dgeni.generate().then(done);
     });
 };

@@ -1,53 +1,54 @@
 'use strict';
 
-app.config(['$routeProvider', function ($routeProvider, $route) {
-    $routeProvider
-        .when('/login', {
-            templateUrl: 'components/auth/login.html',
-            controller: 'LoginCtrl'
-        })
-        .when('/dashboard', {
-            templateUrl: 'components/dashboard/dashboard.html',
-            controller: 'DashCtrl'
-        })
-        .when('/dev/settings', {
-            templateUrl: 'components/devSettings/devSettings.html',
-            controller: 'DevSettingsCtrl'
-        })
-        .when('/debug/list', {
-            templateUrl: 'components/debug/debug.html',
-            controller: 'DebugCtrl'
-        })
+angular.module('ulakbus')
+    .config(['$routeProvider', function ($routeProvider, $route) {
+        $routeProvider
+            .when('/login', {
+                templateUrl: 'components/auth/login.html',
+                controller: 'LoginCtrl'
+            })
+            .when('/dashboard', {
+                templateUrl: 'components/dashboard/dashboard.html',
+                controller: 'DashCtrl'
+            })
+            .when('/dev/settings', {
+                templateUrl: 'components/devSettings/devSettings.html',
+                controller: 'DevSettingsCtrl'
+            })
+            .when('/debug/list', {
+                templateUrl: 'components/debug/debug.html',
+                controller: 'DebugCtrl'
+            })
 
-        // use crud without selected user
-        // important: regex urls must be defined later than static ones
-        .when('/:wf/', {
-            templateUrl: 'components/crud/templates/crud.html',
-            controller: 'CRUDCtrl'
-        })
-        .when('/:wf/do/:cmd', {
-            templateUrl: 'components/crud/templates/crud.html',
-            controller: 'CRUDListFormCtrl'
-        })
-        .when('/:wf/do/:cmd/:key', {
-            templateUrl: 'components/crud/templates/crud.html',
-            controller: 'CRUDListFormCtrl'
-        })
-        .when('/:wf/:model', {
-            templateUrl: 'components/crud/templates/crud.html',
-            controller: 'CRUDCtrl'
-        })
-        .when('/:wf/:model/do/:cmd', {
-            templateUrl: 'components/crud/templates/crud.html',
-            controller: 'CRUDListFormCtrl'
-        })
-        .when('/:wf/:model/do/:cmd/:key', {
-            templateUrl: 'components/crud/templates/crud.html',
-            controller: 'CRUDListFormCtrl'
-        })
+            // use crud without selected user
+            // important: regex urls must be defined later than static ones
+            .when('/:wf/', {
+                templateUrl: 'components/crud/templates/crud.html',
+                controller: 'CRUDCtrl'
+            })
+            .when('/:wf/do/:cmd', {
+                templateUrl: 'components/crud/templates/crud.html',
+                controller: 'CRUDListFormCtrl'
+            })
+            .when('/:wf/do/:cmd/:key', {
+                templateUrl: 'components/crud/templates/crud.html',
+                controller: 'CRUDListFormCtrl'
+            })
+            .when('/:wf/:model', {
+                templateUrl: 'components/crud/templates/crud.html',
+                controller: 'CRUDCtrl'
+            })
+            .when('/:wf/:model/do/:cmd', {
+                templateUrl: 'components/crud/templates/crud.html',
+                controller: 'CRUDListFormCtrl'
+            })
+            .when('/:wf/:model/do/:cmd/:key', {
+                templateUrl: 'components/crud/templates/crud.html',
+                controller: 'CRUDListFormCtrl'
+            })
 
-        .otherwise({redirectTo: '/dashboard'});
-}])
+            .otherwise({redirectTo: '/dashboard'});
+    }])
     .run(function ($rootScope) {
 
         $rootScope.loggedInUser = true;

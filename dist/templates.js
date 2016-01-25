@@ -1805,7 +1805,7 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "                <span ng-if=\"value.verbose_name\">{{ value.verbose_name }}</span>\n" +
     "                <span ng-if=\"!value.verbose_name\">{{key}}</span>\n" +
     "            </th>\n" +
-    "            <th>İşlem</th>\n" +
+    "            <th ng-if=\"action!==False\">İşlem</th>\n" +
     "        </tr>\n" +
     "        </thead>\n" +
     "        <tbody ng-class=\"{hidden: node.lengthModels < 1}\">\n" +
@@ -1838,7 +1838,7 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "                       ng-model=\"node.model[outerIndex][k]\"\n" +
     "                       ng-change=\"nodeModelChange(this)\">\n" +
     "            </td>\n" +
-    "            <td>\n" +
+    "            <td ng-if=\"action!==False\">\n" +
     "                <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}\">Düzenle\n" +
     "                </button>\n" +
     "                <br>\n" +
