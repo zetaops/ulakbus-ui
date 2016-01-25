@@ -367,11 +367,15 @@ select {
 .manager-view-inner {
     height:calc(100% - 41px);
     -webkit-height:calc(100% - 41px);
-    width:100%;
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;
     flex-direction: column;
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
 }
 
 .manager-view-header {
@@ -1159,14 +1163,19 @@ table.dataTable thead .sorting:after {
 }
 
 .right-sidebar {
-	width: 300px;
+	width: 0px;
     background-color: #FFFFFF;
     border-left: 1px solid #ccc;
     height: calc(100% - 40px);
     position: absolute;
     top: 0px;
     right: 0px;
-    overflow-y: auto;	
+    overflow-y: auto;
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;	
 }
 
 .right-sidebar-box {
