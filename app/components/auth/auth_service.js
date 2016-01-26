@@ -40,6 +40,7 @@ angular.module('ulakbus.auth')
                 })
                 .error(function (data, status, headers, config) {
                     // Handle login errors here
+                    data.title = "İşlem başarısız oldu. Lütfen girdiğiniz bilgileri kontrol ediniz."
                     return data;
                 });
         };

@@ -45,6 +45,7 @@ angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
                 AuthService.login($scope.url, $scope.model)
                     .error(function (data) {
                         $scope.message = data.title;
+                        $scope.loggingIn = false;
                     })
                     .then(function () {
                         $scope.loggingIn = false;
