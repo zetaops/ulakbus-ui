@@ -347,7 +347,7 @@ angular.module('ulakbus')
                 };
 
                 var sidebarmenu = $('#side-menu');
-                var sidebarUserMenu = $('#side-user-menu');
+                //var sidebarUserMenu = $('#side-user-menu');
                 sidebarmenu.metisMenu();
                 $http.get(RESTURL.url + 'menu/')
                     .success(function (data) {
@@ -398,7 +398,7 @@ angular.module('ulakbus')
 
                         $timeout(function () {
                             sidebarmenu.metisMenu();
-                            sidebarUserMenu.metisMenu();
+                            //sidebarUserMenu.metisMenu();
                         });
                     });
 
@@ -407,12 +407,11 @@ angular.module('ulakbus')
                 $scope.$on("menuitems", function (event, data) {
                     var menu = {};
                     menu[data] = $scope.allMenuItems[data];
-                    //menu['other'] = $scope.allMenuItems.other;
-                    $scope.selectedMenuItems = $scope.prepareMenu(menu);
-                    $timeout(function () {
-                        //sidebarmenu.metisMenu();
-                        sidebarUserMenu.metisMenu();
-                    });
+                    $rootScope.$broadcast("usermenuitems", $scope.prepareMenu(menu));
+                    //$timeout(function () {
+                    //    sidebarmenu.metisMenu();
+                    //    sidebarUserMenu.metisMenu();
+                    //});
                 });
 
                 $scope.$on('selectedUser', function ($event, data) {
@@ -484,6 +483,74 @@ angular.module('ulakbus')
                 };
             }
         };
+    }])
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name rightSidebar
+     * @description placeholder
+     */
+    .directive('rightSidebar', ['$location', function () {
+        return {
+            templateUrl: 'shared/templates/directives/right-sidebar.html',
+            restrict: 'E',
+            replace: true,
+            scope: {},
+            controller: function ($scope, $rootScope, $cookies, $route, $http, RESTURL, $log, $location, $window, $timeout) {
+                var sidebarUserMenu = $('#side-user-menu');
+                sidebarUserMenu.metisMenu();
+
+                $scope.$on("usermenuitems", function (event, data) {
+                    $scope.selectedMenuItems = data;
+                    $timeout(function () {
+                        sidebarUserMenu.metisMenu();
+                    });
+                    jQuery(".right-sidebar").css("width", "300px");
+                    jQuery(".manager-view-inner").css("width", "calc(100% - 300px)");
+                });
+
+                $scope.$on('selectedUser', function ($event, data) {
+                    $scope.selectedUser = data;
+                });
+
+                $scope.deselectUser = function () {
+                    jQuery(".right-sidebar").css("width", "0px");
+                    jQuery(".manager-view-inner").css("width", "");
+                    delete $scope.selectedUser;
+                    delete $scope.selectedMenuItems;
+                };
+
+                $rootScope.$watch(function ($rootScope) {
+                        return $rootScope.section;
+                    },
+                    function (newindex, oldindex) {
+                        if (newindex > -1) {
+                            $scope.menuItems = [$scope.allMenuItems[newindex]];
+                            $scope.collapseVar = 0;
+                        }
+                    });
+
+                $scope.selectedMenu = $location.path();
+                $scope.collapseVar = 0;
+                $scope.multiCollapseVar = 0;
+
+                $scope.check = function (x) {
+                    if (x === $scope.collapseVar) {
+                        $scope.collapseVar = 0;
+                    } else {
+                        $scope.collapseVar = x;
+                    }
+                };
+
+                $scope.multiCheck = function (y) {
+                    if (y === $scope.multiCollapseVar) {
+                        $scope.multiCollapseVar = 0;
+                    } else {
+                        $scope.multiCollapseVar = y;
+                    }
+                };
+            }
+        }
     }])
     /**
      * @memberof ulakbus
