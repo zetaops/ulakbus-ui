@@ -34,7 +34,10 @@
     "grunt-karma": "~0.8.0",
     "grunt-angular-gettext": "~2.1.0",
     "git-branch": "*",
-    "phantomjs": "~1.9.18"
+    "phantomjs": "~1.9.18",
+    "dgeni": "*",
+    "dgeni-packages": "*",
+    "canonical-path": "*"
   },
   "scripts": {
     "postinstall": "bower install",

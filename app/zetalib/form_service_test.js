@@ -10,7 +10,7 @@
 describe('form service module', function () {
 
     beforeEach(module('ulakbus'));
-    beforeEach(module('formService'));
+    beforeEach(module('ulakbus.formService'));
 
     var location;
     beforeEach(inject(function ($location, $injector) {

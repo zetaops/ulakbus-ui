@@ -8,7 +8,7 @@
 
 'use strict';
 
-app.config(['$routeProvider', function ($routeProvider) {
+angular.module('ulakbus').config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/error/500', {
             templateUrl: 'components/error_pages/500.html',

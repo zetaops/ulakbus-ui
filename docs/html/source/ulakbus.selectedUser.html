@@ -1,0 +1,925 @@
+<!doctype html>
+<html>
+  <head>
+    <base href="../">
+    <title>JSDoc: source : directives.js</title>
+    <link type="text/css" rel="stylesheet" href="css/jsdoc-default.css">
+    <link href="css/prettify-tomorrow.css" type="text/css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,700" rel="stylesheet" type="text/css">
+    <link href="css/custom.css" type="text/css" rel="stylesheet">
+    <script src="js/prettify.js"></script>
+    <script src="js/angular.min.js"></script>
+  </head>
+  <body ng-app="">
+    <nav>
+      <h2><a href="index.html">Index</a></h2>
+      <ul class="module">
+        <!-- ulakbus -->
+        <h3>
+          <a href="" ng-click="moduleulakbus = !moduleulakbus">
+            module: ulakbus
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus">+</i>
+        </h3>
+        <li id="ulakbus" ng-hide="moduleulakbus">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbusdirective = !ulakbusdirective">
+                directive
+              </a>
+              <i ng-cloak="" ng-show="ulakbusdirective">+</i>
+            </h3>
+            <ul ng-hide="ulakbusdirective">
+              <li>
+                <a href="ulakbus.alertBox.html">alertBox</a>
+              </li><li>
+                <a href="ulakbus.breadcrumb.html">breadcrumb</a>
+              </li><li>
+                <a href="ulakbus.collapseMenu.html">collapseMenu</a>
+              </li><li>
+                <a href="ulakbus.fileread.html">fileread</a>
+              </li><li>
+                <a href="ulakbus.headerNotification.html">headerNotification</a>
+              </li><li>
+                <a href="ulakbus.headerSubmenu.html">headerSubmenu</a>
+              </li><li>
+                <a href="ulakbus.logout.html">logout</a>
+              </li><li>
+                <a href="ulakbus.msgbox.html">msgbox</a>
+              </li><li>
+                <a href="ulakbus.notifications.html">notifications</a>
+              </li><li>
+                <a href="ulakbus.searchDirective.html">searchDirective</a>
+              </li><li>
+                <a href="ulakbus.selectedUser.html">selectedUser</a>
+              </li><li>
+                <a href="ulakbus.sidebar.html">sidebar</a>
+              </li><li>
+                <a href="ulakbus.sidebarSearch.html">sidebarSearch</a>
+              </li><li>
+                <a href="ulakbus.sortDirective.html">sortDirective</a>
+              </li><li>
+                <a href="ulakbus.stats.html">stats</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbusinterceptor = !ulakbusinterceptor">
+                interceptor
+              </a>
+              <i ng-cloak="" ng-show="ulakbusinterceptor">+</i>
+            </h3>
+            <ul ng-hide="ulakbusinterceptor">
+              <li>
+                <a href="ulakbus.http_interceptor.html">http_interceptor</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbusconstant = !ulakbusconstant">
+                constant
+              </a>
+              <i ng-cloak="" ng-show="ulakbusconstant">+</i>
+            </h3>
+            <ul ng-hide="ulakbusconstant">
+              <li>
+                <a href="ulakbus.RESTURL.html">RESTURL</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul><ul class="module">
+        <!-- ulakbus_auth -->
+        <h3>
+          <a href="" ng-click="moduleulakbus_auth = !moduleulakbus_auth">
+            module: ulakbus.auth
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus_auth">+</i>
+        </h3>
+        <li id="ulakbus.auth" ng-hide="moduleulakbus_auth">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_authservice = !ulakbus_authservice">
+                service
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_authservice">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_authservice">
+              <li>
+                <a href="ulakbus.auth.AuthService.html">AuthService</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_authcontroller = !ulakbus_authcontroller">
+                controller
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_authcontroller">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_authcontroller">
+              <li>
+                <a href="ulakbus.auth.LoginCtrl.html">LoginCtrl</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul><ul class="module">
+        <!-- ulakbus_crud -->
+        <h3>
+          <a href="" ng-click="moduleulakbus_crud = !moduleulakbus_crud">
+            module: ulakbus.crud
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus_crud">+</i>
+        </h3>
+        <li id="ulakbus.crud" ng-hide="moduleulakbus_crud">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_crudcontroller = !ulakbus_crudcontroller">
+                controller
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_crudcontroller">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_crudcontroller">
+              <li>
+                <a href="ulakbus.crud.CRUDCtrl.html">CRUDCtrl</a>
+              </li><li>
+                <a href="ulakbus.crud.CRUDListFormCtrl.html">CRUDListFormCtrl</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_cruddirective = !ulakbus_cruddirective">
+                directive
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_cruddirective">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_cruddirective">
+              <li>
+                <a href="ulakbus.crud.crudFilters.html">crudFilters</a>
+              </li><li>
+                <a href="ulakbus.crud.crudFormDirective.html">crudFormDirective</a>
+              </li><li>
+                <a href="ulakbus.crud.crudListDirective.html">crudListDirective</a>
+              </li><li>
+                <a href="ulakbus.crud.crudShowDirective.html">crudShowDirective</a>
+              </li><li>
+                <a href="ulakbus.crud.formLocator.html">formLocator</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_crudservice = !ulakbus_crudservice">
+                service
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_crudservice">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_crudservice">
+              <li>
+                <a href="ulakbus.crud.CrudUtility.html">CrudUtility</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_crudfunction = !ulakbus_crudfunction">
+                function
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_crudfunction">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_crudfunction">
+              <li>
+                <a href="ulakbus.crud.generateParam.html">generateParam</a>
+              </li><li>
+                <a href="ulakbus.crud.listPageItems.html">listPageItems</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul><ul class="module">
+        <!-- ulakbus_form_ervice -->
+        <h3>
+          <a href="" ng-click="moduleulakbus_form_ervice = !moduleulakbus_form_ervice">
+            module: ulakbus.formService
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus_form_ervice">+</i>
+        </h3>
+        <li id="ulakbus.formService" ng-hide="moduleulakbus_form_ervice">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervicedirective = !ulakbus_form_ervicedirective">
+                directive
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervicedirective">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervicedirective">
+              <li>
+                <a href="ulakbus.formService.addModalForLinkedModel.html">addModalForLinkedModel</a>
+              </li><li>
+                <a href="ulakbus.formService.modalFormLocator.html">modalFormLocator</a>
+              </li><li>
+                <a href="ulakbus.formService.modalForNodes.html">modalForNodes</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervicefunction = !ulakbus_form_ervicefunction">
+                function
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervicefunction">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervicefunction">
+              <li>
+                <a href="ulakbus.formService.dateformatter.html">dateformatter</a>
+              </li><li>
+                <a href="ulakbus.formService.dispatchClientCmd.html">dispatchClientCmd</a>
+              </li><li>
+                <a href="ulakbus.formService.doItemAction.html">doItemAction</a>
+              </li><li>
+                <a href="ulakbus.formService.generate.html">generate</a>
+              </li><li>
+                <a href="ulakbus.formService.get_diff.html">get_diff</a>
+              </li><li>
+                <a href="ulakbus.formService.get_diff_array.html">get_diff_array</a>
+              </li><li>
+                <a href="ulakbus.formService.get_form.html">get_form</a>
+              </li><li>
+                <a href="ulakbus.formService.get_list.html">get_list</a>
+              </li><li>
+                <a href="ulakbus.formService.get_wf.html">get_wf</a>
+              </li><li>
+                <a href="ulakbus.formService.group.html">group</a>
+              </li><li>
+                <a href="ulakbus.formService.isValidDate.html">isValidDate</a>
+              </li><li>
+                <a href="ulakbus.formService.isValidEmail.html">isValidEmail</a>
+              </li><li>
+                <a href="ulakbus.formService.isValidTCNo.html">isValidTCNo</a>
+              </li><li>
+                <a href="ulakbus.formService.item_from_array.html">item_from_array</a>
+              </li><li>
+                <a href="ulakbus.formService.makeUrl.html">makeUrl</a>
+              </li><li>
+                <a href="ulakbus.formService.pathDecider.html">pathDecider</a>
+              </li><li>
+                <a href="ulakbus.formService.prepareFormItems.html">prepareFormItems</a>
+              </li><li>
+                <a href="ulakbus.formService.submit.html">submit</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervicefactory = !ulakbus_form_ervicefactory">
+                factory
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervicefactory">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervicefactory">
+              <li>
+                <a href="ulakbus.formService.Generator.html">Generator</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervicecontroller = !ulakbus_form_ervicecontroller">
+                controller
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervicecontroller">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervicecontroller">
+              <li>
+                <a href="ulakbus.formService.ModalCtrl.html">ModalCtrl</a>
+              </li>
+            </ul>
+          </ul><ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_erviceproperty = !ulakbus_form_erviceproperty">
+                property
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_erviceproperty">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_erviceproperty">
+              <li>
+                <a href="ulakbus.formService.pageData.html">pageData</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul><ul class="module">
+        <!-- ulakbus_form_ervice_path_ecider -->
+        <h3>
+          <a href="" ng-click="moduleulakbus_form_ervice_path_ecider = !moduleulakbus_form_ervice_path_ecider">
+            module: ulakbus.formService~pathDecider
+          </a>
+          <i ng-cloak="" ng-show="moduleulakbus_form_ervice_path_ecider">+</i>
+        </h3>
+        <li id="ulakbus.formService~pathDecider" ng-hide="moduleulakbus_form_ervice_path_ecider">
+          <ul class="group">
+            <h3>
+              <a href="" ng-click="ulakbus_form_ervice_path_eciderfunction = !ulakbus_form_ervice_path_eciderfunction">
+                function
+              </a>
+              <i ng-cloak="" ng-show="ulakbus_form_ervice_path_eciderfunction">+</i>
+            </h3>
+            <ul ng-hide="ulakbus_form_ervice_path_eciderfunction">
+              <li>
+                <a href="ulakbus.formService-pathDecider.redirectTo.html">redirectTo</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div id="content" class="page-wrap">
+      <h1 class="title">
+        source : directives.js
+      </h1>
+      <div id="main" class="big-container">
+        <!-- source code html -->
+        <article>
+          <pre class="prettyprint source linenums"><code>/**
+ * @license Ulakbus-UI
+ * Copyright (C) 2015 ZetaOps Inc.
+ *
+ * This file is licensed under the GNU General Public License v3
+ * (GPLv3).  See LICENSE.txt for details.
+ * @type {ng.$compileProvider|*}
+ */
+angular.module('ulakbus')
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name logout
+     * @description logout directive provides a button with click event. When triggered it post to
+     * '/logout' path of the API.
+     */
+    .directive('logout', function ($http, $location, RESTURL) {
+        return {
+            link: function ($scope, $element, $rootScope) {
+                $element.on('click', function () {
+                    $http.post(RESTURL.url + 'logout', {}).then(function () {
+                        $rootScope.loggedInUser = false;
+                        $location.path("/login");
+                    });
+                });
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name headerNotification
+     * @description This directive is responsible to get and show notification.
+     * It calls API's /notify path with given interval and broadcasts `notifications` application-wide.
+     * There are 4 types of notifications:
+     * 1: tasks, 2: messages, 3: announcements, 4: recents
+     * - Notifications can be disabled in /dev/settings page
+     */
+    .directive('headerNotification', function ($http, $rootScope, $cookies, $interval, RESTURL) {
+        return {
+            templateUrl: 'shared/templates/directives/header-notification.html',
+            restrict: 'E',
+            replace: true,
+            link: function ($scope) {
+                /**
+                 * Group notifications
+                 * @param notifications
+                 */
+                $scope.groupNotifications = function (notifications) {
+                    // notification categories:
+                    // 1: tasks, 2: messages, 3: announcements, 4: recents
+                    $scope.notifications = {1: [], 2: [], 3: [], 4: []};
+                    angular.forEach(notifications, function (value, key) {
+                        $scope.notifications[value.type].push(value);
+                    });
+                };
+                /**
+                 * Get notifications from API's /notify path and group it then broadcast "notifications" object.
+                 * {ignoreLoadingBar: true} is telling loading bar not work on this particular request.
+                 */
+                $scope.getNotifications = function () {
+                    // ignore loading bar here
+                    $http.get(RESTURL.url + "notify", {ignoreLoadingBar: true}).success(function (data) {
+                        $scope.groupNotifications(data.notifications);
+                        $rootScope.$broadcast("notifications", $scope.notifications);
+                    });
+                };
+                $scope.getNotifications();
+                // check notifications every 5 seconds
+                $interval(function () {
+                    if ($cookies.get("notificate") == "on") {
+                        $scope.getNotifications();
+                    }
+                }, 5000);
+                /**
+                 * When clicked mark the notification as read.
+                 * @param items
+                 * @todo: do it in detail page of notification
+                 */
+                $scope.markAsRead = function (items) {
+                    $http.post(RESTURL.url + "notify", {ignoreLoadingBar: true, read: [items]})
+                        .success(function (data) {
+                            $scope.groupNotifications(data.notifications);
+                            $rootScope.$broadcast("notifications", $scope.notifications);
+                        });
+                };
+                // if markasread triggered outside the directive
+                $scope.$on("markasread", function (event, data) {
+                    $scope.markAsRead(data);
+                });
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name searchDirective
+     * @description This directive provides reusable search form application-wide.
+     * When search form submitted and response returns, it broadcasts the result with key `updateObjects`.
+     */
+    .directive('searchDirective', function (Generator, $log, $rootScope) {
+        return {
+            templateUrl: 'shared/templates/directives/search.html',
+            restrict: 'E',
+            replace: true,
+            link: function ($scope) {
+                $scope.searchForm = [{key: 'searchbox', htmlClass: "pull-left"}, {
+                    type: "submit",
+                    title: "Ara",
+                    style: "btn-info",
+                    htmlClass: "pull-left"
+                }];
+                $scope.searchSchema = {
+                    type: "object",
+                    properties: {
+                        searchbox: {
+                            type: "string",
+                            minLength: 2,
+                            title: "Ara",
+                            "x-schema-form": {placeholder: "Arama kriteri giriniz..."}
+                        }
+                    },
+                    required: []
+                };
+                $scope.searchModel = {searchbox: ''};
+                $scope.searchSubmit = function (form) {
+                    $scope.$broadcast('schemaFormValidate');
+                    if (form.$valid) {
+                        var searchparams = {
+                            url: $scope.wf,
+                            token: $scope.$parent.token,
+                            object_id: $scope.$parent.object_id,
+                            form_params: {
+                                model: $scope.$parent.form_params.model,
+                                cmd: $scope.$parent.reload_cmd,
+                                flow: $scope.$parent.form_params.flow,
+                                query: $scope.searchModel.searchbox
+                            }
+                        };
+                        Generator.submit(searchparams).success(function (data) {
+                            // update objects item of page scope
+                            $rootScope.$broadcast('updateObjects', data.objects);
+                        });
+                    }
+                };
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name sortDirective
+     * @description Sort directive is responsible to post sorting params to API and process the response to the screen.
+     * @todo test and implement when backend ready
+     */
+    .directive('sortDirective', function (Generator, $log) {
+        return {
+            templateUrl: 'shared/templates/directives/sort.html',
+            restrict: 'E',
+            replace: true,
+            link: function ($scope) {
+                // titleMap will be list
+                $scope.titleMap = [{value: "artan", name: "Artan"}, {value: "azalan", name: "Azalan"}];
+                $scope.sortForm = [
+                    {key: 'sortbox', htmlClass: "pull-left", type: "select", titleMap: $scope.titleMap},
+                    {type: "submit", title: "Sırala", htmlClass: "pull-left"}];
+                $scope.sortSchema = {
+                    type: "object",
+                    properties: {
+                        sortbox: {
+                            type: "select",
+                            title: "Sırala"
+                        }
+                    },
+                    required: ['sortbox']
+                };
+                $scope.sortModel = {sortbox: ''};
+                $scope.sortSubmit = function (form) {
+                    $scope.$broadcast('schemaFormValidate');
+                    if (form.$valid) {
+                        var sortparams = {
+                            url: $scope.wf,
+                            token: $scope.$parent.token,
+                            object_id: $scope.$parent.object_id,
+                            form_params: {
+                                model: $scope.$parent.form_params.model,
+                                cmd: $scope.$parent.reload_cmd,
+                                flow: $scope.$parent.form_params.flow,
+                                param: 'sort',
+                                id: $scope.sortModel.sortbox
+                            }
+                        };
+                        Generator.submit(sortparams);
+                    }
+                }
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name collapseMenu
+     * @description Toggle collapses sidebar menu when clicked menu button
+     */
+    .directive('collapseMenu', function ($timeout, $window, $cookies) {
+        return {
+            templateUrl: 'shared/templates/directives/menuCollapse.html',
+            restrict: 'E',
+            replace: true,
+            scope: {},
+            controller: function ($scope, $rootScope) {
+                $rootScope.collapsed = false;
+                $rootScope.sidebarPinned = $cookies.get('sidebarPinned') || 0;
+                $scope.collapseToggle = function () {
+                    if ($window.innerWidth > '768') {
+                        if ($rootScope.collapsed === false) {
+                            jQuery(".sidebar").css("width", "62px");
+                            jQuery(".manager-view").css("width", "calc(100% - 62px)");
+                            $rootScope.collapsed = true;
+                            $rootScope.sidebarPinned = 0;
+                            $cookies.put('sidebarPinned', 0);
+                        } else {
+                            jQuery("span.menu-text, span.arrow, .sidebar footer").fadeIn(400);
+                            jQuery(".sidebar").css("width", "250px");
+                            jQuery(".manager-view").css("width", "calc(100% - 250px)");
+                            $rootScope.collapsed = false;
+                            $rootScope.sidebarPinned = 1;
+                            $cookies.put('sidebarPinned', 1);
+                        }
+                    }
+                };
+                $timeout(function () {
+                    if ($cookies.get('sidebarPinned') === "0") {
+                        $scope.collapseToggle();
+                    }
+                });
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name headerSubmenu
+     * @description Contains breadcrumb elements and loading animation
+     */
+    .directive('headerSubMenu', function ($location) {
+        return {
+            templateUrl: 'shared/templates/directives/header-sub-menu.html',
+            restrict: 'E',
+            replace: true,
+            link: function ($scope) {
+                $scope.style = 'width:calc(100% - 300px);';
+                $scope.$on('$routeChangeStart', function () {
+                    $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
+                });
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name breadcrumb
+     * @description Produces breadcrumb with related links
+     */
+    .directive('headerBreadcrumb', function ($location) {
+        return {
+            templateUrl: 'shared/templates/directives/header-breadcrumb.html',
+            restrict: 'E',
+            replace: false,
+            link: function ($scope) {
+                $scope.goBack = function () {
+                    $location.state();
+                }
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name selectedUser
+     * @description Selected user on which the current job done is hold in this directive.
+     * @deprecated
+     */
+    .directive('selectedUser', function ($http, RESTURL) {
+        return {
+            templateUrl: 'shared/templates/directives/selected-user.html',
+            restrict: 'E',
+            replace: true,
+            link: function ($scope, $rootScope) {
+                $scope.$on('selectedUser', function ($event, data) {
+                    $scope.selectedUser = data;
+                    $scope.dynamicPopover = {
+                        content: '',
+                        name: data.name,
+                        tcno: data.tcno,
+                        key: data.key,
+                        templateUrl: 'shared/templates/directives/selectedUserPopover.html',
+                        title: 'İşlem Yapılan Kişi'
+                    };
+                });
+                $scope.$on('selectedUserTrigger', function ($event, data) {
+                    var postToApi = {model: 'Personel', cmd: 'show', id: data[1]};
+                    //postToApi[data[0]]=data[1];
+                    $http.get(RESTURL.url + 'ara/personel/' + data[1]).success(
+                        function (data) {
+                        }
+                    );
+                })
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name sidebar
+     * @description Changes breadcrumb when an item selected consists of menu items of related user or transaction
+     * controller communicates with dashboard controller to shape menu items and authz.
+     */
+    .directive('sidebar', ['$location', function () {
+        return {
+            templateUrl: 'shared/templates/directives/sidebar.html',
+            restrict: 'E',
+            replace: true,
+            scope: {},
+            controller: function ($scope, $rootScope, $cookies, $route, $http, RESTURL, $log, $location, $window, $timeout) {
+                $scope.prepareMenu = function (menuItems) {
+                    var newMenuItems = {};
+                    angular.forEach(menuItems, function (value, key) {
+                        angular.forEach(value, function (v, k) {
+                            newMenuItems[k] = v;
+                        });
+                    });
+                    return newMenuItems;
+                };
+                var sidebarmenu = $('#side-menu');
+                var sidebarUserMenu = $('#side-user-menu');
+                sidebarmenu.metisMenu();
+                $http.get(RESTURL.url + 'menu/')
+                    .success(function (data) {
+                        $scope.allMenuItems = angular.copy(data);
+                        // regroup menu items based on their category
+                        function reGroupMenuItems(items, baseCategory) {
+                            var newItems = {};
+                            angular.forEach(items, function (value, key) {
+                                newItems[value.kategori] = newItems[value.kategori] || [];
+                                value['baseCategory'] = baseCategory;
+                                newItems[value.kategori].push(value);
+                            });
+                            return newItems;
+                        }
+                        angular.forEach($scope.allMenuItems, function (value, key) {
+                            if (key !== 'current_user' && key !== 'settings') {
+                                $scope.allMenuItems[key] = reGroupMenuItems(value, key);
+                            }
+                        });
+                        // quick menus to dashboard via rootscope
+                        $rootScope.quick_menu = reGroupMenuItems(data.quick_menu, 'quick_menus');
+                        $rootScope.quick_menu = data.quick_menu;
+                        delete data.quick_menu;
+                        $log.debug('quick menu', $rootScope.quick_menu);
+                        // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
+                        // related items
+                        $rootScope.$broadcast("authz", data);
+                        $rootScope.searchInputs = data;
+                        $rootScope.current_user = data.current_user;
+                        if (data.ogrenci || data.personel) {
+                            $rootScope.current_user.can_search = true;
+                        }
+                        $rootScope.settings = data.settings;
+                        $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
+                        // if selecteduser on cookie then add related part to the menu
+                        //if ($cookies.get("selectedUserType")) {
+                        //    $scope.menuItems[$cookies.get("selectedUserType")] = $scope.allMenuItems[$cookies.get("selectedUserType")];
+                        //}
+                        $timeout(function () {
+                            sidebarmenu.metisMenu();
+                            sidebarUserMenu.metisMenu();
+                        });
+                    });
+                // changing menu items by listening for broadcast
+                $scope.$on("menuitems", function (event, data) {
+                    var menu = {};
+                    menu[data] = $scope.allMenuItems[data];
+                    //menu['other'] = $scope.allMenuItems.other;
+                    $scope.selectedMenuItems = $scope.prepareMenu(menu);
+                    $timeout(function () {
+                        //sidebarmenu.metisMenu();
+                        sidebarUserMenu.metisMenu();
+                    });
+                });
+                $scope.$on('selectedUser', function ($event, data) {
+                    $scope.selectedUser = data;
+                });
+                $scope.deselectUser = function () {
+                    delete $scope.selectedUser;
+                    delete $scope.selectedMenuItems;
+                };
+                $scope.openSidebar = function () {
+                    if ($window.innerWidth > '768') {
+                        if ($rootScope.sidebarPinned === 0) {
+                            jQuery("span.menu-text, span.arrow, .sidebar footer, #side-menu").fadeIn(400);
+                            jQuery(".sidebar").css("width", "250px");
+                            jQuery(".manager-view").css("width", "calc(100% - 250px)");
+                            $rootScope.collapsed = false;
+                        }
+                    }
+                };
+                $scope.closeSidebar = function () {
+                    if ($window.innerWidth > '768') {
+                        if ($rootScope.sidebarPinned === 0) {
+                            jQuery(".sidebar").css("width", "62px");
+                            jQuery(".manager-view").css("width", "calc(100% - 62px)");
+                            $rootScope.collapsed = true;
+                        }
+                    }
+                };
+                $rootScope.$watch(function ($rootScope) {
+                        return $rootScope.section;
+                    },
+                    function (newindex, oldindex) {
+                        if (newindex > -1) {
+                            $scope.menuItems = [$scope.allMenuItems[newindex]];
+                            $scope.collapseVar = 0;
+                        }
+                    });
+                $scope.selectedMenu = $location.path();
+                $scope.collapseVar = 0;
+                $scope.multiCollapseVar = 0;
+                $scope.check = function (x) {
+                    if (x === $scope.collapseVar) {
+                        $scope.collapseVar = 0;
+                    } else {
+                        $scope.collapseVar = x;
+                    }
+                };
+                // breadcrumb function changes breadcrumb items and itemlist must be list
+                $scope.breadcrumb = function (itemlist, $event) {
+                    $rootScope.breadcrumblinks = itemlist;
+                };
+                $scope.multiCheck = function (y) {
+                    if (y === $scope.multiCollapseVar) {
+                        $scope.multiCollapseVar = 0;
+                    } else {
+                        $scope.multiCollapseVar = y;
+                    }
+                };
+            }
+        };
+    }])
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name stats
+     * @description Statistical data directive.
+     * @todo unused for now
+     */
+    .directive('stats', function () {
+        return {
+            templateUrl: 'shared/templates/directives/stats.html',
+            restrict: 'E',
+            replace: true,
+            scope: {
+                'model': '=',
+                'comments': '@',
+                'number': '@',
+                'name': '@',
+                'colour': '@',
+                'details': '@',
+                'type': '@',
+                'goto': '@'
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name notifications
+     * @description Holds notifications template with related rootscope items.
+     */
+    .directive('notifications', function () {
+        return {
+            templateUrl: 'shared/templates/directives/notifications.html',
+            restrict: 'E',
+            replace: true
+        };
+    })
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name msgbox
+     * @description Holds msgbox template with related rootscope items.
+     */
+    .directive('msgbox', function () {
+        return {
+            templateUrl: 'shared/templates/directives/msgbox.html',
+            restrict: 'E',
+            replace: false
+        };
+    })
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name alertBox
+     * @description Triggers when `alertBox` broadcasted with alert data..
+     */
+    .directive('alertBox', function ($timeout) {
+        return {
+            templateUrl: 'shared/templates/directives/alert.html',
+            restrict: 'E',
+            replace: true,
+            link: function ($scope) {
+                $scope.$on('alertBox', function ($event, data) {
+                    $timeout(function () {
+                        delete $scope.alerts;
+                    }, 5000);
+                    $scope.alerts = [data];
+                });
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name sidebarSearch
+     * @description unused for now
+     */
+    .directive('sidebarSearch', function () {
+        return {
+            templateUrl: 'shared/templates/directives/sidebar-search.html',
+            restrict: 'E',
+            replace: true,
+            scope: {},
+            controller: function ($scope) {
+                $scope.selectedMenu = 'home';
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name fileread
+     * @description Fileread directive is responsible for reading uploaded file and replace it to related model item.
+     * @todo implement preview only for images
+     */
+    .directive("fileread", function ($timeout) {
+        return {
+            scope: {
+                fileread: "="
+            },
+            link: function (scope, element, attributes) {
+                element.bind("change", function (changeEvent) {
+                    var reader = new FileReader();
+                    reader.onload = function (loadEvent) {
+                        scope.$apply(function () {
+                            scope.fileread = loadEvent.target.result;
+                        });
+                        $timeout(function () {
+                            scope.$parent.model[changeEvent.target.name] = {
+                                file_name: changeEvent.target.files[0].name,
+                                file_content: scope.$parent.model[changeEvent.target.name]
+                            }
+                            document.querySelector('#image-preview').src = URL.createObjectURL(changeEvent.target.files[0]);
+                        });
+                    }
+                    reader.readAsDataURL(changeEvent.target.files[0]);
+                });
+            }
+        }
+    });</code></pre>
+        </article>
+        <!-- index.html -->
+        <!-- class files -->
+      </div>
+      <footer style="clear:both">
+        Documentation generated by
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a>
+        using
+        <a href="https://github.com/allenhwkim/angular-jsdoc">Angular-JSDoc template</a>
+      </footer>
+    </div>
+    <!--%= prettyJson %-->
+    <script>
+      prettyPrint();
+      var lineNo = window.location.hash.match(/#line([0-9]+)$/);
+      lineNo && document.querySelector("ol li:nth-child("+(lineNo[1])+")").scrollIntoView();
+    </script>
+  </body>
+</html>
