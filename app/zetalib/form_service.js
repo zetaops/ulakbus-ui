@@ -294,6 +294,12 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                     if (scope[workOnForm].$valid) {
                                         generator.submit(scope, redirectTo);
                                         scope.$broadcast('disposeModal');
+                                    } else {
+                                        // focus to first input with validation error
+                                        $timeout(function () {
+                                            var firsterror = angular.element(document.querySelectorAll('input.ng-invalid'))[0]
+                                            firsterror.focus();
+                                        });
                                     }
                                 }
                             }
@@ -1016,7 +1022,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 "query": $scope.form_params.query
             };
          * ```
-         * ### Special response object process
+         *
+         * Special response object process
+         * -------------------------------
+         *
          * - If response object is a downloadable pdf file, checking from headers `headers('content-type') ===
          * "application/pdf"` download using Blob object.
          *
