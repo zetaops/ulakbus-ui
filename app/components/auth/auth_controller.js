@@ -42,6 +42,7 @@ angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
             if (form.$valid) {
                 $scope.loggingIn = true;
                 $rootScope.loginAttempt = 1;
+                Generator.button_switch(false);
                 AuthService.login($scope.url, $scope.model)
                     .error(function (data) {
                         $scope.message = data.title;
@@ -49,6 +50,7 @@ angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
                     })
                     .then(function () {
                         $scope.loggingIn = false;
+                        Generator.button_switch(false);
                     })
             }
             else {

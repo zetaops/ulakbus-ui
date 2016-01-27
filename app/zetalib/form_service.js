@@ -725,15 +725,32 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         /**
          * @memberof ulakbus.formService
          * @ngdoc function
+         * @name button_switch
+         * @description Changes html disabled and enabled attributes of all buttons on current page.
+         * @param {boolean} position
+         */
+        generator.button_switch = function (position) {
+            var buttons = angular.element(document.querySelectorAll('button'));
+            positions = {true: "enabled", false: "disabled"};
+            angular.forEach(buttons, function (button, key) {
+                button[positions[position]] = true;
+            });
+            $log.debug('buttons >> ', positions[position])
+        }
+        /**
+         * @memberof ulakbus.formService
+         * @ngdoc function
          * @name get_form
          * @description Communicates with api with given scope object.
          * @param {Object} scope
          * @returns {*}
          */
         generator.get_form = function (scope) {
+            generator.button_switch(false);
             return $http
                 .post(generator.makeUrl(scope), scope.form_params)
                 .then(function (res) {
+                    generator.button_switch(true);
                     return generator.generate(scope, res.data);
                 });
         };
@@ -746,9 +763,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_list = function (scope) {
+            generator.button_switch(false);
             return $http
                 .post(generator.makeUrl(scope), scope.form_params)
                 .then(function (res) {
+                    generator.button_switch(true);
                     return res;
                 });
         };
@@ -762,9 +781,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_wf = function (scope) {
+            generator.button_switch(false);
             return $http
                 .post(generator.makeUrl(scope), scope.form_params)
                 .then(function (res) {
+                    generator.button_switch(true);
                     if (res.data.client_cmd) {
                         return generator.pathDecider(res.data.client_cmd, scope, res.data);
                     }
@@ -906,17 +927,23 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @param {Object} obj2
          * @returns {Object} diff object of two given objects
          */
-        generator.get_diff = function (obj1, obj2) {
+        generator.get_diff = function (oldObj, newObj) {
             var result = {};
-            angular.forEach(obj1, function (value, key) {
-                if (obj2[key] != obj1[key]) {
-                    result[key] = angular.copy(obj1[key])
-                }
-                if (obj2[key].constructor === Array && obj1[key].constructor === Array) {
-                    result[key] = arguments.callee(obj1[key], obj2[key]);
-                }
-                if (obj2[key].constructor === Object && obj1[key].constructor === Object) {
-                    result[key] = arguments.callee(obj1[key], obj2[key]);
+            angular.forEach(newObj, function (value, key) {
+                if (oldObj[key]) {
+                    if ((oldObj[key].constructor === newObj[key].constructor) && (newObj[key].constructor === Object || newObj[key].constructor === Array)) {
+                        angular.forEach(value, function (v, k) {
+                            if (oldObj[key][k] != value[k]) {
+                                result[key][k] = angular.copy(value[k]);
+                            }
+                        });
+                    } else {
+                        if (oldObj[key] != newObj[key]) {
+                            result[key] = angular.copy(newObj[key]);
+                        }
+                    }
+                } else {
+                    result[key] = angular.copy(newObj[key]);
                 }
             });
             return result;

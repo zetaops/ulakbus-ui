@@ -10,26 +10,30 @@
 
 describe('ulakbus.auth module', function () {
 
-    // load dependencies of modules e.g REST_URL
     beforeEach(module('ulakbus'));
     beforeEach(module('ulakbus.auth'));
+
+    var $controller;
+    var $rootScope;
+
+    beforeEach(inject(function (_$controller_) {
+        $controller = _$controller_;
+    }));
+
+    beforeEach(inject(function ($injector) {
+        $rootScope = $injector.get('$rootScope');
+    }));
+
+    beforeEach(inject(function ($injector) {
+        $httpBackend = $injector.get('$httpBackend');
+        var authRequestHandler = $httpBackend.when('GET', /\.[0-9a-z]+$/i)
+            .respond({userId: 'userX'}, {'A-Token': 'xxx'});
+    }));
 
     describe('login controller and service', function () {
 
         it('should have a login controller', inject(function () {
             expect('ulakbus.auth.LoginCtrl').toBeDefined();
-        }));
-
-        var $controller;
-        var $rootScope;
-
-        beforeEach(inject(function (_$controller_) {
-            $controller = _$controller_;
-        }));
-
-        beforeEach(inject(function ($injector) {
-            $httpBackend = $injector.get('$httpBackend');
-            $rootScope = $injector.get('$rootScope');
         }));
 
         it('should get login form', inject(
@@ -43,7 +47,6 @@ describe('ulakbus.auth module', function () {
                 var controller = $controller('LoginCtrl', {$scope: $scope});
 
                 expect($scope.onSubmit).toBeDefined();
-                expect($scope.loginForm).toBeDefined();
             })
         );
 

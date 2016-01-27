@@ -73,7 +73,8 @@ module.exports = function (config) {
         reporters: ['progress', 'coverage'],
 
         preprocessors: {
-            //'app/app.js': ['coverage'],
+            'app/app.js': ['coverage'],
+            'app/app_routes.js': ['coverage'],
             'app/components/auth/*.js': ['coverage'],
             'app/components/crud/*.js': ['coverage'],
             'app/components/dashboard/*.js': ['coverage'],
@@ -90,6 +91,7 @@ module.exports = function (config) {
                     lines: 60,
                     excludes: [
                         'app/components/uitemplates/*.js',
+                        //'app/zetalib/interceptors.js'
                     ]
                 }
             },

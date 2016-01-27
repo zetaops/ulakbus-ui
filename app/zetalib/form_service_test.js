@@ -483,8 +483,8 @@ describe('form service module', function () {
 
                 // test cases - testing for success
                 var same_json = [
-                    {email: 'test@test.com', id: 2, name: 'travolta', foo: {'a':1}, foo2: [1,2,3]},
-                    {email: 'test@test.com', id: 2, name: 'travolta', foo: {'a':1}, foo2: [1,2,3]}
+                    {email: 'test@test.com', id: 2, name: 'travolta', foo2: [1,2,3], foo: {'a':1}},
+                    {email: 'test@test.com', id: 2, name: 'travolta', foo2: [1,2,3], foo: {'a':1}}
                 ];
 
                 // test cases - testing for failure
@@ -511,21 +511,21 @@ describe('form service module', function () {
 
                 var diff = {email: 'test1@test.com', name: 'john'};
                 var diff2 = {email: 'test1@test.com', id: 2, name: 'john'};
-                var noequal = {email: 'test1@test.com', id: 2, name: 'john'};
+                var noequal = {name: 'travolta'};
                 var nodiff = {};
 
                 var same = Generator.get_diff(same_json[0], same_json[1]);
                 expect(same).toEqual(nodiff);
 
                 for (var json_obj in different_jsons) {
-                    var different = Generator.get_diff(different_jsons[json_obj][1], different_jsons[json_obj][0]);
+                    var different = Generator.get_diff(different_jsons[json_obj][0], different_jsons[json_obj][1]);
                     expect(different).toEqual(diff);
                 }
 
-                var different2 = Generator.get_diff(different_json[1], different_json[0]);
+                var different2 = Generator.get_diff(different_json[0], different_json[1]);
                 expect(different2).toEqual(diff2);
 
-                var not_equal = Generator.get_diff(notEqual[1], notEqual[0]);
+                var not_equal = Generator.get_diff(notEqual[0], notEqual[1]);
                 expect(not_equal).toEqual(noequal);
             })
         );
