@@ -239,7 +239,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             $scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
                         },
                         imageSrc: scope.model[k] ? $rootScope.settings.static_url + scope.model[k] : '',
-                        avatar: k === 'avatar' ? true : false
+                        avatar: k === 'avatar'
                     };
                     v.type = 'string';
                 }
@@ -738,7 +738,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          */
         generator.button_switch = function (position) {
             var buttons = angular.element(document.querySelectorAll('button'));
-            positions = {true: "enabled", false: "disabled"};
+            var positions = {true: "enabled", false: "disabled"};
             angular.forEach(buttons, function (button, key) {
                 button[positions[position]] = true;
             });
