@@ -16,7 +16,8 @@
  */
 angular.module('ulakbus.formService', ['ui.bootstrap'])
     /**
-     * there must be no global object, so change it into a service here.
+     * Moment.js used for date type conversions.
+     * there must be no global object, so we change it into a service here.
      */
     .service('Moment', function(){
         return window.moment;
@@ -872,7 +873,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 return;
             }
             /**
-             * @memberof ulakbus.formService~pathDecider
+             * @memberof ulakbus.formService
              * @ngdoc function
              * @name redirectTo
              * @description redirectTo function redirects to related controller and path with given data
@@ -959,8 +960,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @ngdoc function
          * @name get_diff_array
          * @description extracts items of second array from the first array
-         * @param {Array} array1 
-         * @param {Array} array2 
+         * @param {Array} array1
+         * @param {Array} array2
          * @param {Number} way
          * @returns {Array} diff of arrays
          */

@@ -84,6 +84,13 @@ describe('form service module', function () {
             }]
         );
 
+        it('should return scope if no scope.forms', inject['Generator',
+            function () {
+                var returnScope = Generator.generate({"test": "scope"}, {"data": "no forms"});
+                expect(returnScope).toEqual({"test": "scope"});
+            }]
+        );
+
         it('should prepare form items', inject(
             function (Generator, $httpBackend, RESTURL) {
                 expect(Generator.prepareFormItems).not.toBe(null);
@@ -107,14 +114,14 @@ describe('form service module', function () {
 
                 var scope = {
                     wf: 'test',
-                    form: ['email', 'id', 'name', 'save', 'select', 'date', 'date2', 'text_general', 'model', 'node', 'listnode'],
+                    form: ['email', 'id', 'name', 'save', {"type": "select", "key": "select"}, 'date', 'date2', 'text_general', 'model', 'node', 'listnode'],
                     schema: {
                         properties: {
                             email: {title: 'email', type: 'email'},
                             id: {title: 'id', type: 'int'},
                             name: {title: 'name', type: 'string'},
                             save: {title: 'save', type: 'submit'},
-                            select: {title: 'select', type: 'select', key: 'select'},
+                            select: {title: 'select', type: 'select'},
                             date: {title: 'date', type: 'date'},
                             date2: {title: 'date', type: 'date'},
                             text_general: {title: 'text_general', type: 'text_general'},
@@ -174,14 +181,22 @@ describe('form service module', function () {
                     },
                     grouping: [
                         {
-                            "group_title": "title-1",
-                            "items": ["email", "id"],
+                            "groups": [
+                                {
+                                    "group_title": "title-1",
+                                    "items": ["email", "id"],
+                                }
+                            ],
                             "layout": "4",
                             "collapse": false
                         },
                         {
-                            "group_title": "title-2",
-                            "items": ["name", "save"],
+                            "groups": [
+                                {
+                                    "group_title": "title-2",
+                                    "items": ["name", "save"],
+                                }
+                            ],
                             "layout": "2",
                             "collapse": false
                         }

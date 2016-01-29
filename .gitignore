@@ -107,3 +107,6 @@ coverage/
 
 sync
 *.rdb
+
+api-docs/
+api-docs-source/

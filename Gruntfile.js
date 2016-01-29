@@ -100,6 +100,17 @@ module.exports = function (grunt) {
                     {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
                 ]
+            },
+            for_api_docs: {
+                files: [
+                    {expand: true, cwd: "app/", src: "app.js", dest: "api-docs-source/"},
+                    {expand: true, cwd: "app/zetalib/", src: "interceptors.js", dest: "api-docs-source/"},
+                    {expand: true, cwd: "app/zetalib/", src: "form_service.js", dest: "api-docs-source/"},
+                    {expand: true, cwd: "app/shared/", src: "directives.js", dest: "api-docs-source/"},
+                    {expand: true, cwd: "app/components/auth/", src: "auth_controller.js", dest: "api-docs-source/"},
+                    {expand: true, cwd: "app/components/auth/", src: "auth_service.js", dest: "api-docs-source/"},
+                    {expand: true, cwd: "app/components/crud/", src: "crud_controller.js", dest: "api-docs-source/"}
+                ]
             }
         },
         concat: {
@@ -349,7 +360,18 @@ module.exports = function (grunt) {
                     configure: 'node_modules/angular-jsdoc/common/conf.json',
                     template: 'node_modules/angular-jsdoc/angular-template',
                     //tutorial: 'tutorials',
-                    readme: './README.md'
+                    readme: './docs/DOCS.md'
+                }
+            }
+        },
+
+        mrdoc: {
+            custom: {
+                src: 'api-docs-source',
+                target: 'api-docs',
+                options: {
+                    title: 'Ulakbus UI'
+                    //theme: 'cayman'
                 }
             }
         }
@@ -369,9 +391,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-preprocess');
     grunt.loadNpmTasks('grunt-env');
     grunt.loadNpmTasks('grunt-jsdoc');
+    grunt.loadNpmTasks('grunt-mrdoc');
 
     grunt.registerTask('dev', ['env:dev', 'preprocess:dev', 'html2js:dev', 'default']);
     grunt.registerTask('test', ['bower', 'karma:continuous']);
+    grunt.registerTask('api-docs', ['copy:for_api_docs', 'mrdoc']);
     grunt.registerTask('i18n', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('local_prod', ['bower', 'env:prod', 'preprocess:prod', 'nggettext_compile', 'concat:js', 'concat:css', 'concat:components', 'copy:local_prod', 'html2js:prod', 'uglify:dist', 'connect:prod_server', 'watch:local_prod']);
     grunt.registerTask('default', ['bower', 'env:prod', 'preprocess:prod', 'nggettext_compile', 'concat:js', 'concat:css', 'concat:components', 'copy:prod', 'html2js:prod', 'uglify:dist']);

@@ -24,7 +24,7 @@ angular.module('ulakbus.auth')
          * @function login
          * @description login function post credentials to API and handles login.
          * If login req returns success then interceptor will redirects to related path.
-         * @memberof ulakbus.auth
+         *
          * @param url
          * @param credentials
          * @returns {*}
@@ -50,7 +50,7 @@ angular.module('ulakbus.auth')
          * @ngdoc controller
          * @function logout
          * @description logout function posts logout request to API and redirects to login path
-         * @memberof ulakbus.auth
+         *
          * @returns {*}
          */
         authService.logout = function () {

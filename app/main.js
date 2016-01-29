@@ -12,12 +12,12 @@
  * @ngdoc module
  * @name ulakbus
  * @module ulakbus
- * @description Ulakbus module is the main module of ulakbus-ui. All application-wide configurations and definings
- * of constants handled in this module. \r
+ * @description Ulakbus module is the main module of ulakbus-ui.
+ * All application-wide configurations and definings of constants handled in this module.
+ *
  * There are two scripts on `app/` root; `main.js` and `app.js`. And `main.html`, `index.html`.
- * `main.*` files are contains both production and development requirements or configurations/necessities for
- * relative environment. Tagged with `// \@if NODE_ENV='PRODUCTION'` in commented line and configured in
- * Gruntfile.js with package `preprocess` and `env`, related grunt command generates index.* for given file.
+ * `main.*` files are contains both production and development requirements or configurations/necessities for relative environment.
+ * Tagged with `NODE_ENV='PRODUCTION'` in commented line and configured in Gruntfile.js with package `preprocess` and `env`, related grunt command generates index.* for given file.
  *
  */
 angular.module(
@@ -49,7 +49,9 @@ angular.module(
      * @ngdoc constant
      * @name RESTURL
      * @description RESTURL is the url of rest api to talk.
-     * Based on the environment it changes from dev to prod
+     * Based on the environment it changes from dev to prod.
+     *
+     * For development needs backendurl can be switched from both dev/settings page and querystring `?backendurl=http://example.com`
      */
     .constant("RESTURL", (function () {
         // todo: below backendurl definition is for development purpose and will be deleted
