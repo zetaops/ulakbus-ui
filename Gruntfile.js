@@ -370,7 +370,8 @@ module.exports = function (grunt) {
                 src: 'api-docs-source',
                 target: 'api-docs',
                 options: {
-                    title: 'Ulakbus UI'
+                    title: 'Ulakbus UI',
+                    readme: './docs/DOCS.md'
                     //theme: 'cayman'
                 }
             }
