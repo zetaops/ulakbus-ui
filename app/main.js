@@ -8,14 +8,26 @@
 
 'use strict';
 
-var app = angular.module(
+/**
+ * @ngdoc module
+ * @name ulakbus
+ * @module ulakbus
+ * @description Ulakbus module is the main module of ulakbus-ui.
+ * All application-wide configurations and definings of constants handled in this module.
+ *
+ * There are two scripts on `app/` root; `main.js` and `app.js`. And `main.html`, `index.html`.
+ * `main.*` files are contains both production and development requirements or configurations/necessities for relative environment.
+ * Tagged with `NODE_ENV='PRODUCTION'` in commented line and configured in Gruntfile.js with package `preprocess` and `env`, related grunt command generates index.* for given file.
+ *
+ */
+angular.module(
     'ulakbus', [
         'ui.bootstrap',
         'angular-loading-bar',
         'ngRoute',
         'ngSanitize',
         'ngCookies',
-        'formService',
+        'ulakbus.formService',
         'ulakbus.dashboard',
         'ulakbus.auth',
         'ulakbus.error_pages',
@@ -31,50 +43,37 @@ var app = angular.module(
         // @if NODE_ENV='DEVELOPMENT'
         'ulakbus.uitemplates'
         // @endif
-    ]).
-/**
- * RESTURL is the url of rest api to talk
- * Based on the environment it changes from dev to prod
- */
-constant("RESTURL", (function () {
-    // todo: below backendurl definition is for development purpose and will be deleted
-    var backendurl = location.href.indexOf('nightly') > -1 ? "//nightly.api.ulakbus.net/" : "//api.ulakbus.net/";
-    if (document.cookie.indexOf("backendurl") > -1) {
-        var cookiearray = document.cookie.split(';');
-        angular.forEach(cookiearray, function (item) {
-            if (item.indexOf("backendurl") > -1) {
-                backendurl = item.split('=')[1];
-            }
-        });
-    }
+    ])
+    /**
+     * @memberof ulakbus
+     * @ngdoc constant
+     * @name RESTURL
+     * @description RESTURL is the url of rest api to talk.
+     * Based on the environment it changes from dev to prod.
+     *
+     * For development needs backendurl can be switched from both dev/settings page and querystring `?backendurl=http://example.com`
+     */
+    .constant("RESTURL", (function () {
+        // todo: below backendurl definition is for development purpose and will be deleted
+        var backendurl = location.href.indexOf('nightly') > -1 ? "//nightly.api.ulakbus.net/" : "//api.ulakbus.net/";
+        if (document.cookie.indexOf("backendurl") > -1) {
+            var cookiearray = document.cookie.split(';');
+            angular.forEach(cookiearray, function (item) {
+                if (item.indexOf("backendurl") > -1) {
+                    backendurl = item.split('=')[1];
+                }
+            });
+        }
 
-    if (location.href.indexOf("backendurl") > -1) {
-        var urlfromqstr = location.href.split('?')[1].split('=')[1];
-        backendurl = decodeURIComponent(urlfromqstr.replace(/\+/g, " "));
-        document.cookie = "backendurl=" + backendurl;
-        window.location.href = window.location.href.split('?')[0];
-    }
+        if (location.href.indexOf("backendurl") > -1) {
+            var urlfromqstr = location.href.split('?')[1].split('=')[1];
+            backendurl = decodeURIComponent(urlfromqstr.replace(/\+/g, " "));
+            document.cookie = "backendurl=" + backendurl;
+            window.location.href = window.location.href.split('?')[0];
+        }
 
-    return {url: backendurl};
-})()).
-/**
- * USER_ROLES and AUTH_EVENTS are constant for auth functions
- */
-constant("USER_ROLES", {
-    all: "*",
-    admin: "admin",
-    student: "student",
-    staff: "staff",
-    dean: "dean"
-}).
-    constant('AUTH_EVENTS', {
-        loginSuccess: 'auth-login-success',
-        loginFailed: 'auth-login-failed',
-        logoutSuccess: 'auth-logout-success',
-        sessionTimeout: 'auth-session-timeout',
-        notAuthenticated: 'auth-not-authenticated',
-        notAuthorized: 'auth-not-authorized'
-    })
+        return {url: backendurl};
+    })())
     .config(function ($logProvider) {
         // @if NODE_ENV='PRODUCTION'
         $logProvider.debugEnabled(false);
@@ -83,9 +82,3 @@ constant("USER_ROLES", {
         $logProvider.debugEnabled(true);
         // @endif
     });
-
-
-// test the code with strict di mode to see if it works when minified
-//angular.bootstrap(document, ['ulakbus'], {
-//    strictDi: true
-//});

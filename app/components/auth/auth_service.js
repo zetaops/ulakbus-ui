@@ -8,39 +8,59 @@
 
 "use strict";
 
-// TODO: login url change with correct one
+angular.module('ulakbus.auth')
+    /**
+     * @memberof ulakbus.auth
+     * @ngdoc service
+     * @name AuthService
+     * @description  provides generic functions for authorization process.
+     */
+    .factory('AuthService', function ($http, $rootScope, $location, $log, Generator, RESTURL) {
+        var authService = {};
 
-auth.factory('LoginService', function ($http, $rootScope, $location, $log, RESTURL) {
-    var loginService = {};
+        /**
+         * @memberof ulakbus.auth
+         * @ngdoc function
+         * @function login
+         * @description login function post credentials to API and handles login.
+         * If login req returns success then interceptor will redirects to related path.
+         *
+         * @param url
+         * @param credentials
+         * @returns {*}
+         */
+        authService.login = function (url, credentials) {
+            credentials['cmd'] = "do";
+            return $http
+                .post(RESTURL.url + url, credentials)
+                .success(function (data, status, headers, config) {
+                    //$window.sessionStorage.token = data.token;
 
-    loginService.login = function (url, credentials) {
-        credentials['cmd'] = "do";
-        return $http
-            .post(RESTURL.url + url, credentials)
-            .success(function (data, status, headers, config) {
-                //$window.sessionStorage.token = data.token;
+                    $rootScope.loggedInUser = true;
+                })
+                .error(function (data, status, headers, config) {
+                    // Handle login errors here
+                    data.title = "İşlem başarısız oldu. Lütfen girdiğiniz bilgileri kontrol ediniz."
+                    return data;
+                });
+        };
 
-                $rootScope.loggedInUser = true;
-            })
-            .error(function (data, status, headers, config) {
-                // Handle login errors here
-                return data;
+        /**
+         * @memberof ulakbus.auth
+         * @ngdoc controller
+         * @function logout
+         * @description logout function posts logout request to API and redirects to login path
+         *
+         * @returns {*}
+         */
+        authService.logout = function () {
+            $log.debug("logout");
+            return $http.post(RESTURL.url + 'logout', {}).success(function (data) {
+                $rootScope.loggedInUser = false;
+                $log.debug("loggedout");
+                $location.path("/login");
             });
-    };
+        };
 
-    loginService.logout = function () {
-        $log.debug("logout");
-        return $http.post(RESTURL.url + 'logout', {}).success(function (data) {
-            $rootScope.loggedInUser = false;
-            $log.debug("loggedout");
-            $location.path("/login");
-        });
-    };
-
-    loginService.isValidEmail = function (email) {
-        var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-        return re.test(email);
-    };
-
-    return loginService;
-});
+        return authService;
+    });

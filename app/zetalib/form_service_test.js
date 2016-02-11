@@ -10,7 +10,7 @@
 describe('form service module', function () {
 
     beforeEach(module('ulakbus'));
-    beforeEach(module('formService'));
+    beforeEach(module('ulakbus.formService'));
 
     var location;
     beforeEach(inject(function ($location, $injector) {
@@ -84,6 +84,13 @@ describe('form service module', function () {
             }]
         );
 
+        it('should return scope if no scope.forms', inject['Generator',
+            function () {
+                var returnScope = Generator.generate({"test": "scope"}, {"data": "no forms"});
+                expect(returnScope).toEqual({"test": "scope"});
+            }]
+        );
+
         it('should prepare form items', inject(
             function (Generator, $httpBackend, RESTURL) {
                 expect(Generator.prepareFormItems).not.toBe(null);
@@ -107,14 +114,14 @@ describe('form service module', function () {
 
                 var scope = {
                     wf: 'test',
-                    form: ['email', 'id', 'name', 'save', 'select', 'date', 'date2', 'text_general', 'model', 'node', 'listnode'],
+                    form: ['email', 'id', 'name', 'save', {"type": "select", "key": "select"}, 'date', 'date2', 'text_general', 'model', 'node', 'listnode'],
                     schema: {
                         properties: {
                             email: {title: 'email', type: 'email'},
                             id: {title: 'id', type: 'int'},
                             name: {title: 'name', type: 'string'},
                             save: {title: 'save', type: 'submit'},
-                            select: {title: 'select', type: 'select', key: 'select'},
+                            select: {title: 'select', type: 'select'},
                             date: {title: 'date', type: 'date'},
                             date2: {title: 'date', type: 'date'},
                             text_general: {title: 'text_general', type: 'text_general'},
@@ -174,14 +181,22 @@ describe('form service module', function () {
                     },
                     grouping: [
                         {
-                            "group_title": "title-1",
-                            "items": ["email", "id"],
+                            "groups": [
+                                {
+                                    "group_title": "title-1",
+                                    "items": ["email", "id"],
+                                }
+                            ],
                             "layout": "4",
                             "collapse": false
                         },
                         {
-                            "group_title": "title-2",
-                            "items": ["name", "save"],
+                            "groups": [
+                                {
+                                    "group_title": "title-2",
+                                    "items": ["name", "save"],
+                                }
+                            ],
                             "layout": "2",
                             "collapse": false
                         }
@@ -483,8 +498,8 @@ describe('form service module', function () {
 
                 // test cases - testing for success
                 var same_json = [
-                    {email: 'test@test.com', id: 2, name: 'travolta', foo: {'a':1}, foo2: [1,2,3]},
-                    {email: 'test@test.com', id: 2, name: 'travolta', foo: {'a':1}, foo2: [1,2,3]}
+                    {email: 'test@test.com', id: 2, name: 'travolta', foo2: [1,2,3], foo: {'a':1}},
+                    {email: 'test@test.com', id: 2, name: 'travolta', foo2: [1,2,3], foo: {'a':1}}
                 ];
 
                 // test cases - testing for failure
@@ -511,21 +526,21 @@ describe('form service module', function () {
 
                 var diff = {email: 'test1@test.com', name: 'john'};
                 var diff2 = {email: 'test1@test.com', id: 2, name: 'john'};
-                var noequal = {email: 'test1@test.com', id: 2, name: 'john'};
+                var noequal = {name: 'travolta'};
                 var nodiff = {};
 
                 var same = Generator.get_diff(same_json[0], same_json[1]);
                 expect(same).toEqual(nodiff);
 
                 for (var json_obj in different_jsons) {
-                    var different = Generator.get_diff(different_jsons[json_obj][1], different_jsons[json_obj][0]);
+                    var different = Generator.get_diff(different_jsons[json_obj][0], different_jsons[json_obj][1]);
                     expect(different).toEqual(diff);
                 }
 
-                var different2 = Generator.get_diff(different_json[1], different_json[0]);
+                var different2 = Generator.get_diff(different_json[0], different_json[1]);
                 expect(different2).toEqual(diff2);
 
-                var not_equal = Generator.get_diff(notEqual[1], notEqual[0]);
+                var not_equal = Generator.get_diff(notEqual[0], notEqual[1]);
                 expect(not_equal).toEqual(noequal);
             })
         );

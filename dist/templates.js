@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -270,7 +270,7 @@ angular.module("components/crud/templates/show.html", []).run(["$templateCache",
 angular.module("components/dashboard/dashboard.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/dashboard/dashboard.html",
     "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard\">\n" +
-    "    <div class=\"starter-template\" style=\"width: calc(100% - 300px);\">\n" +
+    "    <div class=\"starter-template\">\n" +
     "\n" +
     "        <div class=\"dashboard-main-search clearfix\">\n" +
     "\n" +
@@ -396,107 +396,24 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "        </div>\n" +
     "        <!-- end of dashboard-main-anouncement -->\n" +
     "\n" +
-    "        <div class=\"right-sidebar\">\n" +
+    "        <!--<div class=\"right-sidebar selected-person-field\">-->\n" +
     "\n" +
-    "            <div class=\"right-sidebar-box\" data-step=\"4\"\n" +
-    "                 data-intro=\"mesajlar, yapılan görevlerin son durumları, duyurular ve son yapılan işlemleri buradan takip edebilirsiniz.\">\n" +
-    "                <div class=\"right-sidebar-messages\">\n" +
-    "\n" +
-    "                    <div class=\"right-sidebar-title clearfix\">\n" +
-    "                        <h3>Mesajlar</h3>\n" +
-    "                        <span><a role=\"button\">Tüm Mesajlar</a></span>\n" +
-    "                    </div>\n" +
-    "                    <!-- end of right-sidebar-title -->\n" +
-    "                    <p ng-show=\"notifications[2].length === 0\" class=\"text-center\">Görüntülenecek içerik yok.</p>\n" +
-    "\n" +
-    "                    <div class=\"right-sidebar-message-block\" ng-repeat=\"notify in notifications[2] | limitTo:5\">\n" +
-    "                        <a class=\"clearfix\" ng-click=\"markAsRead(notify)\">\n" +
-    "                            <img src=\"../../../img/sample-profile-pic.jpg\">\n" +
-    "                            <div class=\"right-sidebar-message-content\">\n" +
-    "                                <div>{{notify.title}}</div>\n" +
-    "                                <div>{{notify.body}}</div>\n" +
-    "                                <div>16:05</div>\n" +
-    "                            </div>\n" +
-    "                            <!-- end of right-sidebar-message-content -->\n" +
-    "                        </a>\n" +
-    "                    </div>\n" +
-    "                    <!-- end of right-sidebar-message-block -->\n" +
-    "\n" +
-    "                </div>\n" +
-    "                <!-- end of right-sidebar-messages -->\n" +
-    "            </div>\n" +
-    "            <!-- end of right-sidebar-box -->\n" +
-    "\n" +
-    "\n" +
-    "            <div class=\"right-sidebar-box\">\n" +
-    "                <div class=\"right-sidebar-tasks\">\n" +
-    "\n" +
-    "                    <div class=\"right-sidebar-title clearfix\">\n" +
-    "                        <h3>Görevler</h3>\n" +
-    "                        <span><a role=\"button\">Tüm Görevler</a></span>\n" +
-    "                    </div>\n" +
-    "\n" +
-    "                    <p ng-show=\"notifications[1].length === 0\" class=\"text-center\">Görüntülenecek içerik yok.</p>\n" +
-    "\n" +
-    "                    <div class=\"right-sidebar-task-block\">\n" +
-    "                        <!--<div class=\"task-type\">Onay Bekleyen Görevler</div>-->\n" +
-    "                        <a ng-click=\"markAsRead(notify)\" ng-repeat=\"notify in notifications[1] | limitTo:5\">\n" +
-    "                            <div class=\"task-title\">{{notify.title}}</div>\n" +
-    "                        </a>\n" +
-    "                    </div>\n" +
-    "                    <!-- end of right-sidebar-task-block -->\n" +
-    "\n" +
-    "                </div>\n" +
-    "                <!-- end of right-sidebar-tasks -->\n" +
-    "            </div>\n" +
-    "            <!-- end of right-sidebar-box -->\n" +
-    "\n" +
-    "\n" +
-    "            <!--<div class=\"right-sidebar-box\">-->\n" +
-    "                <!--<div class=\"right-sidebar-announcements\">-->\n" +
-    "\n" +
-    "                    <!--<div class=\"right-sidebar-title clearfix\">-->\n" +
-    "                        <!--<h3>Duyurular</h3>-->\n" +
-    "                        <!--<span><a role=\"button\">Tüm Duyurular</a></span>-->\n" +
-    "                    <!--</div>-->\n" +
-    "                    <!--&lt;!&ndash; end of right-sidebar-title &ndash;&gt;-->\n" +
-    "\n" +
-    "                    <!--<div class=\"right-sidebar-announcement-block\">-->\n" +
-    "                        <!--<a ng-click=\"markAsRead(notify)\"-->\n" +
-    "                           <!--ng-repeat=\"notify in notifications[3] | limitTo:5\">{{notify-->\n" +
-    "                            <!--.body}}</a>-->\n" +
-    "                    <!--</div>-->\n" +
-    "                    <!--&lt;!&ndash; end of right-sidebar-status-block &ndash;&gt;-->\n" +
-    "\n" +
-    "                <!--</div>-->\n" +
-    "                <!--&lt;!&ndash; end of right-sidebar-status &ndash;&gt;-->\n" +
+    "            <!--<div class=\"right-sidebar-header\">-->\n" +
+    "            	<!--<span class=\"bar-title\">Kişi seçildi</span>-->\n" +
+    "            	<!--<span class=\"unselect-person\"><i class=\"fa fa-times\"></i></span>-->\n" +
     "            <!--</div>-->\n" +
-    "            <!-- end of right-sidebar-box -->\n" +
+    "            <!--&lt;!&ndash; end of right-sidebaer-header &ndash;&gt;-->\n" +
+    "            <!---->\n" +
+    "            <!--<div class=\"selected-person-info\">-->\n" +
+    "            	<!--<img src=\"../../img/sample-profile-pic.jpg\" class=\"selected-person-img\">-->\n" +
+    "                <!--<div class=\"selected-person-name\">Erkan Öğümsöğütlü</div>-->\n" +
+    "            <!--</div>-->\n" +
+    "            <!--&lt;!&ndash; end of selected-person-info &ndash;&gt;-->\n" +
     "\n" +
-    "\n" +
-    "            <div class=\"right-sidebar-box\">\n" +
-    "                <div class=\"right-sidebar-last-actions\">\n" +
-    "\n" +
-    "                    <div class=\"right-sidebar-title clearfix\">\n" +
-    "                        <h3>Son İşlemler</h3>\n" +
-    "                        <span><a role=\"button\">Tüm İşlemler</a></span>\n" +
-    "                    </div>\n" +
-    "\n" +
-    "                    <p class=\"text-center\">Görüntülenecek içerik yok.</p>\n" +
-    "\n" +
-    "                    <div class=\"right-sidebar-task-block\">\n" +
-    "                        <a>\n" +
-    "                            <div class=\"task-title\"></div>\n" +
-    "                        </a>\n" +
-    "                    </div>\n" +
-    "\n" +
-    "                </div>\n" +
-    "                <!-- end of right-sidebar-status -->\n" +
-    "            </div>\n" +
-    "            <!-- end of right-sidebar-box -->\n" +
-    "\n" +
-    "        </div>\n" +
+    "        <!--</div>-->\n" +
     "        <!-- end of right-sidebar -->\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "    </div>\n" +
     "</div>");
@@ -1007,11 +924,10 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        <!-- /.dropdown-alerts -->\n" +
     "    </li>\n" +
     "    <!-- /.dropdown -->\n" +
-    "    <li class=\"dropdown\">\n" +
-    "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
-    "            <i class=\"fa fa-user fa-fw\" tooltip-placement=\"bottom\"\n" +
-    "               uib-tooltip=\"Profil\"></i>&nbsp;{{$root.current_user.name}}&nbsp;{{$root.current_user.surname}}&nbsp;<i\n" +
-    "                class=\"fa fa-caret-down\"></i>\n" +
+    "    <li class=\"dropdown\" style=\"border-left:1px solid #891723;\">\n" +
+    "        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" style=\"padding-top: 7px; padding-bottom: 6px;\">\n" +
+    "            <img src=\"../../../img/sample-profile-pic.jpg\" class=\"header-profile\">&nbsp;{{$root.current_user.name}}&nbsp;{{$root.current_user.surname}}&nbsp;\n" +
+    "            <i class=\"fa fa-caret-down\" style=\"margin-left:3px;\"></i>\n" +
     "        </a>\n" +
     "        <ul class=\"dropdown-menu dropdown-user\">\n" +
     "            <li><a role=\"button\"><i class=\"fa fa-user fa-fw\"></i> Profil</a></li>\n" +
@@ -1031,7 +947,7 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
 
 angular.module("shared/templates/directives/header-sub-menu.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/header-sub-menu.html",
-    "<div class=\"manager-view-header\" style=\"{{style}}\">\n" +
+    "<div class=\"manager-view-header\">\n" +
     "    <div class=\"clearfix\">\n" +
     "        <header-breadcrumb></header-breadcrumb>\n" +
     "        <loaderdiv><div></div></loaderdiv>\n" +
@@ -1121,6 +1037,57 @@ angular.module("shared/templates/directives/notifications.html", []).run(["$temp
     "    </div>\n" +
     "    <!-- /.list-group -->\n" +
     "    <a href=\"#\" class=\"btn btn-default btn-block\">View All Alerts</a>\n" +
+    "</div>");
+}]);
+
+angular.module("shared/templates/directives/right-sidebar.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/right-sidebar.html",
+    "<div class=\"right-sidebar selected-person-field\">\n" +
+    "    <div class=\"right-sidebar-header\">\n" +
+    "        <button type=\"button\" class=\"close\" ng-click=\"deselectUser()\"\n" +
+    "                aria-label=\"Close\">\n" +
+    "            <span class=\"unselect-person\"><i class=\"fa fa-times\"></i></span>\n" +
+    "        </button>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"selected-person-info\">\n" +
+    "        <img class=\"selected-person-img\"\n" +
+    "             ng-src=\"{{selectedUser ? '/img/sample-profile-pic.jpg' : '/img/empty-profile-pic.jpg'}}\">\n" +
+    "        <div class=\"selected-person-name\">\n" +
+    "            <p class=\"identity-name\">{{selectedUser.name || 'Kişi seçilmedi.'}}</p>\n" +
+    "            <p class=\"identity-surname\">{{selectedUser.surname}}</p>\n" +
+    "            <p>{{selectedUser ? 'TCNo: ' + selectedUser.tcno : ''}}</p>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"\">\n" +
+    "        <ul class=\"nav in\" id=\"side-user-menu\" data-step=\"2\"\n" +
+    "            data-intro=\"seçilen personele veya öğrenciye göre ilgili menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz.\">\n" +
+    "\n" +
+    "\n" +
+    "            <li ng-repeat=\"(key, item) in selectedMenuItems\" ng-class=\"{active: collapseVar == $index+100}\">{{dropDown}}\n" +
+    "                <a href=\"\" ng-click=\"check($index+100)\">\n" +
+    "                    <i class=\"fa fa-fw\"\n" +
+    "                       ng-class=\"{\n" +
+    "                               'Admin': 'fa fa-fw fa-terminal',\n" +
+    "                               'Genel': 'fa fa-fw fa-graduation-cap',\n" +
+    "                               'Alt Kategori': 'fa fa-fw fa-tags',\n" +
+    "                               'Kadro Islemleri': 'fa fa-fw fa-users',\n" +
+    "                               'Seçime Uygun Görevler':'fa fa-fw fa-user'\n" +
+    "                               }[item[0].kategori]\"></i>\n" +
+    "                    <span class=\"menu-text\">{{ key }}</span>\n" +
+    "                    <span class=\"fa arrow\"></span>\n" +
+    "                </a>\n" +
+    "                <ul class=\"nav nav-second-level\">\n" +
+    "                    <li ng-repeat=\"(k, v) in item\">\n" +
+    "                        <a ng-href=\"#/{{v.wf}}/{{v.model}}?{{v.param}}={{selectedUser.key}}\"\n" +
+    "                           ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
     "</div>");
 }]);
 
@@ -1294,71 +1261,6 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "<div class=\"navbar-default sidebar\" role=\"navigation\" ng-mouseenter=\"openSidebar()\" ng-mouseleave=\"closeSidebar()\">\n" +
     "\n" +
     "    <div class=\"sidebar-container\">\n" +
-    "        <!-- sidebar-person-info -->\n" +
-    "        <div class=\"sidebar-person-info\" ng-show=\"$root.current_user.can_search\">\n" +
-    "            <!--<button class=\"btn btn-primary close-sidebar-person-info\">Profili Kapat</button>-->\n" +
-    "            <div class=\"identity\">\n" +
-    "                <button type=\"button\" class=\"close\" ng-class=\"{hidden: $root.collapsed || !selectedUser}\"\n" +
-    "                        ng-click=\"deselectUser()\"\n" +
-    "                        aria-label=\"Close\"><span\n" +
-    "                        aria-hidden=\"true\">&times;</span></button>\n" +
-    "                <div class=\"identity-header clearfix\">\n" +
-    "                    <img ng-src=\"{{selectedUser ? '/img/sample-profile-pic.jpg' : '/img/empty-profile-pic.jpg'}}\">\n" +
-    "                    <div class=\"pull-left\" ng-class=\"{hidden: $root.collapsed}\">\n" +
-    "                        <p class=\"identity-name\">{{selectedUser.name || 'Kişi seçilmedi.'}}</p>\n" +
-    "                        <p class=\"identity-surname\">{{selectedUser.surname}}</p>\n" +
-    "                        <p>{{selectedUser ? 'TCNo: ' + selectedUser.tcno : ''}}</p>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "                <!-- end of identity-header -->\n" +
-    "                <!--<div class=\"identity-info\" ng-class=\"{hidden: $root.collapsed}\">-->\n" +
-    "\n" +
-    "                    <!--<div class=\"clearfix\">-->\n" +
-    "                        <!--<span class=\"fa fa-envelope\"></span>-->\n" +
-    "                        <!--<div>erkanogum@gmail.com</div>-->\n" +
-    "                    <!--</div>-->\n" +
-    "                    <!--<div class=\"clearfix\">-->\n" +
-    "                        <!--<span class=\"fa fa-home\"></span>-->\n" +
-    "                        <!--<div>İşçi Blokları Mah. 1524. sokak B Blok 6. Kat A Kanat 27 numara</div>-->\n" +
-    "                    <!--</div>-->\n" +
-    "                <!--</div>-->\n" +
-    "\n" +
-    "            </div>\n" +
-    "            <!-- end of identity -->\n" +
-    "            <div class=\"\">\n" +
-    "                <ul class=\"nav in\" id=\"side-user-menu\" ng-class=\"{hidden: !selectedMenuItems}\" data-step=\"2\"\n" +
-    "                    data-intro=\"seçilen personele veya öğrenciye göre ilgili menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz.\">\n" +
-    "\n" +
-    "\n" +
-    "                    <li ng-repeat=\"(key, item) in selectedMenuItems\" ng-class=\"{active: collapseVar == $index+100}\">{{dropDown}}\n" +
-    "                        <a href=\"\" ng-click=\"check($index+100)\">\n" +
-    "                            <i class=\"fa fa-fw\"\n" +
-    "                               ng-class=\"{\n" +
-    "                               'Admin': 'fa fa-fw fa-terminal',\n" +
-    "                               'Genel': 'fa fa-fw fa-graduation-cap',\n" +
-    "                               'Alt Kategori': 'fa fa-fw fa-tags',\n" +
-    "                               'Kadro Islemleri': 'fa fa-fw fa-users',\n" +
-    "                               'Seçime Uygun Görevler':'fa fa-fw fa-user'\n" +
-    "                               }[item[0].kategori]\"></i>\n" +
-    "                            <span class=\"menu-text\" ng-class=\"{hidden: $root.collapsed}\">{{ key }}</span>\n" +
-    "                            <span class=\"fa arrow\" ng-class=\"{hidden: $root.collapsed}\"></span>\n" +
-    "                        </a>\n" +
-    "                        <ul class=\"nav nav-second-level\" ng-class=\"{hidden: $root.collapsed}\">\n" +
-    "                            <li ng-repeat=\"(k, v) in item\">\n" +
-    "                                <!--<a ng-if=\"v.model\" ng-href=\"#{{v.url}}\" ng- -->\n" +
-    "                                <!--ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>-->\n" +
-    "                                <a ng-href=\"#/{{v.wf}}/{{v.model}}?{{v.param}}={{selectedUser.key}}\"\n" +
-    "                                   ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
-    "                            </li>\n" +
-    "                        </ul>\n" +
-    "                        <!-- /.nav-second-level -->\n" +
-    "                    </li>\n" +
-    "                </ul>\n" +
-    "            </div>\n" +
-    "            <!-- end of person-actions -->\n" +
-    "        </div>\n" +
-    "        <!-- end of sidebar-person-info -->\n" +
-    "\n" +
     "        <div class=\"sidebar-nav navbar-collapse\">\n" +
     "            <ul class=\"nav in\" id=\"side-menu\" ng-class=\"{hidden: $root.loggedInUser != true}\" data-step=\"1\"\n" +
     "                data-intro=\"Genel menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz.\">\n" +
@@ -1805,7 +1707,7 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "                <span ng-if=\"value.verbose_name\">{{ value.verbose_name }}</span>\n" +
     "                <span ng-if=\"!value.verbose_name\">{{key}}</span>\n" +
     "            </th>\n" +
-    "            <th>İşlem</th>\n" +
+    "            <th ng-if=\"meta.allow_actions!==false\">İşlem</th>\n" +
     "        </tr>\n" +
     "        </thead>\n" +
     "        <tbody ng-class=\"{hidden: node.lengthModels < 1}\">\n" +
@@ -1838,7 +1740,7 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "                       ng-model=\"node.model[outerIndex][k]\"\n" +
     "                       ng-change=\"nodeModelChange(this)\">\n" +
     "            </td>\n" +
-    "            <td>\n" +
+    "            <td ng-if=\"meta.allow_actions!==false\">\n" +
     "                <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}\">Düzenle\n" +
     "                </button>\n" +
     "                <br>\n" +

@@ -91,6 +91,13 @@ a:hover {
     letter-spacing: 0.5px;
 }
 
+img.header-profile {
+	width:27px;
+	height:27px;
+	border-radius:100%;
+	margin-right:6px;
+}
+
 /** DETAIL PAGE **/
 
 .detail-page {
@@ -360,11 +367,15 @@ select {
 .manager-view-inner {
     height:calc(100% - 41px);
     -webkit-height:calc(100% - 41px);
-    width:100%;
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;
     flex-direction: column;
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
 }
 
 .manager-view-header {
@@ -1152,15 +1163,19 @@ table.dataTable thead .sorting:after {
 }
 
 .right-sidebar {
-	width: 300px;
+	width: 0px;
     background-color: #FFFFFF;
     border-left: 1px solid #ccc;
-    /*height: calc(100% - 140px);*/
     height: calc(100% - 40px);
     position: absolute;
     top: 0px;
     right: 0px;
-    overflow-y: auto;	
+    overflow-y: auto;
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;	
 }
 
 .right-sidebar-box {
@@ -1335,6 +1350,63 @@ table.dataTable thead .sorting:after {
 
 /* END OF DASHBOARD */
 
+/* SELECTED PERSON FIELD */
+
+.selected-person-field .right-sidebar-header {
+	height:43px;
+	width:100%;
+}
+
+.selected-person-field .right-sidebar-header .bar-title {
+	margin-left: 10px;
+    height: 43px;
+    line-height: 43px;
+    font-family: 'robotomedium';
+    font-size: 15px;
+}
+
+.selected-person-field .right-sidebar-header .unselect-person {
+	height: 43px;
+    width: 43px;
+    font-size: 24px;
+    line-height: 43px;
+    float: right;
+    text-align: center;
+	cursor:pointer;
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}
+
+
+.selected-person-field .right-sidebar-header .unselect-person:hover > i{
+	color:#333;
+}
+
+.selected-person-field .right-sidebar-header .unselect-person i {
+	color:#999;
+}
+
+.selected-person-field img.selected-person-img {
+	width:150px;
+	height:150px;
+	border-radius:100%;
+	margin-top:5px;
+	margin-left:75px;
+	margin-right:75px;
+}
+
+.selected-person-field .selected-person-info .selected-person-name {
+	width:100%;
+	padding:15px 20px;
+	text-align:center;
+	font-family:'robotomedium';
+	font-size:18px;
+}
+
+/* END OF SELECTED PERSON FIELD */
 
 /* PERSONNEL INFO */
 

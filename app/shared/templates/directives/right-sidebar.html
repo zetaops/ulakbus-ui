@@ -1,0 +1,47 @@
+<div class="right-sidebar selected-person-field">
+    <div class="right-sidebar-header">
+        <button type="button" class="close" ng-click="deselectUser()"
+                aria-label="Close">
+            <span class="unselect-person"><i class="fa fa-times"></i></span>
+        </button>
+    </div>
+
+    <div class="selected-person-info">
+        <img class="selected-person-img"
+             ng-src="{{selectedUser ? '/img/sample-profile-pic.jpg' : '/img/empty-profile-pic.jpg'}}">
+        <div class="selected-person-name">
+            <p class="identity-name">{{selectedUser.name || 'Kişi seçilmedi.'}}</p>
+            <p class="identity-surname">{{selectedUser.surname}}</p>
+            <p>{{selectedUser ? 'TCNo: ' + selectedUser.tcno : ''}}</p>
+        </div>
+
+    </div>
+
+    <div class="">
+        <ul class="nav in" id="side-user-menu" data-step="2"
+            data-intro="seçilen personele veya öğrenciye göre ilgili menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz.">
+
+
+            <li ng-repeat="(key, item) in selectedMenuItems" ng-class="{active: collapseVar == $index+100}">{{dropDown}}
+                <a href="" ng-click="check($index+100)">
+                    <i class="fa fa-fw"
+                       ng-class="{
+                               'Admin': 'fa fa-fw fa-terminal',
+                               'Genel': 'fa fa-fw fa-graduation-cap',
+                               'Alt Kategori': 'fa fa-fw fa-tags',
+                               'Kadro Islemleri': 'fa fa-fw fa-users',
+                               'Seçime Uygun Görevler':'fa fa-fw fa-user'
+                               }[item[0].kategori]"></i>
+                    <span class="menu-text">{{ key }}</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li ng-repeat="(k, v) in item">
+                        <a ng-href="#/{{v.wf}}/{{v.model}}?{{v.param}}={{selectedUser.key}}"
+                           ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
