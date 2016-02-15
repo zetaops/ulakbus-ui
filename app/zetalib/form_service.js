@@ -793,16 +793,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 .post(generator.makeUrl(scope), scope.form_params)
                 .then(function (res) {
                     generator.button_switch(true);
-                    if (res.data.client_cmd) {
-                        return generator.pathDecider(res.data.client_cmd, scope, res.data);
-                    }
-                    if (res.data.msgbox) {
-                        scope.msgbox = res.data.msgbox;
-                        var newElement = $compile("<msgbox></msgbox>")(scope);
-                        // this is the default action, which is removing page items and reload page with msgbox
-                        angular.element(document.querySelector('.main.ng-scope')).children().remove();
-                        angular.element(document.querySelector('.main.ng-scope')).append(newElement);
-                    }
+                    return generator.pathDecider(res.data.client_cmd, scope, res.data);
                 });
         };
         ///**
