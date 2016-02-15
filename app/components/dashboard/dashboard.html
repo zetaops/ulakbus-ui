@@ -67,28 +67,11 @@
 
         <div class="row">
 
-            <div class="col-md-6 user-info">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="panel-title">Giriş Yapan Kullanıcı Bilgileri</div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="col-md-6">
-                            <img class="img-rounded user-pic"
-                                 src="{{$root.current_user.avatar || 'img/empty-profile-pic.jpg'}}"
-                                 alt="{{$root.current_user.username}}">
-                        </div>
-                        <div class="col-md-6">
-                            <p class="user-name">{{$root.current_user.name}}<br>{{$root.current_user.surname}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 quick-links">
+            <div class="col-md-12 quick-links">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="panel-title">Hızlı İşlemler</div>
+                        <div class="panel-action pull-right"><i class="fa fa-edit fa-fw"></i> Düzenle</div>
                     </div>
                     <div class="panel-body">
                         <div class="col-md-6 text-center link-buttons"
