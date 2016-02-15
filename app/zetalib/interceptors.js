@@ -55,13 +55,10 @@ angular.module('ulakbus')
                         }
                     }
 
-                    // if (response.data.client_cmd) {
-                    //$location.path(response.data.screen);
-                    // }
                     return response;
                 },
                 'responseError': function (rejection) {
-
+                    var errorInModal = ('error' in rejection.data);
                     var errorModal = function () {
                         if ($rootScope.loginAttempt === 0) {
                             $log.debug('not logged in, no alert message triggered');
@@ -81,7 +78,7 @@ angular.module('ulakbus')
                             '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span' +
                             ' aria-hidden="true">&times;</span></button>' +
                             '<h4 class="modal-title" id="exampleModalLabel">' +
-                            rejection.status + rejection.data.title +
+                            "Error Status: " + rejection.status + "<br>Error Title: " + rejection.data.title +
                             '</h4>' +
                             '</div>' +
                             '<div class="modal-body">' +
@@ -108,45 +105,54 @@ angular.module('ulakbus')
                         }
                     };
 
-                    if (rejection.status === -1) {
-                        rejection.status = 'Sunucu hatası'
-                        rejection.data = {
-                            title: "", description: 'Sunucu bağlantısında bir hata oluştu.' +
-                            'Lütfen yetkili personelle iletişime geçiniz.'
-                        };
-                        $rootScope.$broadcast('alertBox', {
-                            title: rejection.status,
-                            msg: rejection.data.description,
-                            type: 'error'
-                        });
-                    }
-
-                    if (rejection.status === 400) {
-                        $location.reload();
-                    }
-                    if (rejection.status === 401) {
-                        $location.path('/login');
-                        if ($location.path() === "/login") {
-                            $log.debug("show errors on login form");
+                    var errorInAlertBox = function (alertContent) {
+                        if (errorInModal) {
+                            errorModal();
+                        } else {
+                            $rootScope.$broadcast('alertBox', alertContent);
                         }
-                    }
-                    if (rejection.status === 403) {
-                        if (rejection.data.is_login === true) {
-                            $rootScope.loggedInUser = true;
+                    };
+
+                    var errorForAlertBox = {
+                        title: rejection.status,
+                        msg: rejection.data.description,
+                        type: 'error'
+                    };
+
+                    var errorDispatch = {
+                        "-1" : function () {
+                            rejection.status = 'Sunucu hatası';
+                            rejection.data.title = rejection.data.title || "Sunucu Hatası";
+                            rejection.data.description = rejection.data.description || 'Sunucu bağlantısında bir hata oluştu. Lütfen yetkili personelle iletişime geçiniz.';
+                            errorInAlertBox(errorForAlertBox);
+                        },
+                        "400": function () {
+                            $location.reload();
+                        },
+                        "401": function () {
+                            $location.path('/login');
                             if ($location.path() === "/login") {
-                                $location.path("/dashboard");
+                                $log.debug("show errors on login form");
                             }
+                        },
+                        "403": function () {
+                            if (rejection.data.is_login === true) {
+                                $rootScope.loggedInUser = true;
+                                if ($location.path() === "/login") {
+                                    $location.path("/dashboard");
+                                }
+                            }
+                        },
+                        "404": function () {
+                            errorInAlertBox(errorForAlertBox);
+                        },
+                        "500": function () {
+                            errorInAlertBox(errorForAlertBox);
                         }
-                        //errorModal();
-                    }
-                    $rootScope.$broadcast('show_notifications', rejection.data);
+                    };
 
-                    if (rejection.status === 404) {
-                        errorModal();
-                    }
-                    if (rejection.status === 500) {
-                        errorModal();
-                    }
+                    errorDispatch[rejection.status]();
+
                     return $q.reject(rejection);
                 }
             };
