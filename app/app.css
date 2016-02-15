@@ -1071,6 +1071,7 @@ table.dataTable thead .sorting:after {
 
 .dashboard-main-search .panel-default {
 	padding-bottom:25px;
+	border-radius:2px;
 }
 
 .dashboard-main-search .dashboard-student-search h3, 
@@ -1311,13 +1312,22 @@ table.dataTable thead .sorting:after {
 .dashboard .panel-default > .panel-heading {
 	background-color:#fff;
 	border-color:#F2F2F2;
-	font-family:'robotomedium';
-	color: rgb(93, 93, 93);
-	text-align:center;
+	font-family:'robotolight';
+	color: rgb(95, 95, 95);
+	padding:15px;
 }
 
 .dashboard .panel-default > .panel-heading .panel-title {
 	font-size:18px;
+	display:inline-block;
+}
+
+.dashboard .panel-default > .panel-heading .panel-action {
+	font-size: 15px;
+    padding-top: 3px;
+    padding-right: 10px;
+	font-family:'robotomedium';
+	cursor:pointer;
 }
 
 .dashboard .user-info .user-name {
