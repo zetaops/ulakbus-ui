@@ -37,7 +37,7 @@ module.exports = function (config) {
 
         frameworks: ['jasmine'],
 
-        browsers: ['PhantomJS'],
+        browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari'],
 
         customLaunchers: {
             'PhantomJS_custom': {
@@ -46,7 +46,7 @@ module.exports = function (config) {
                     windowName: 'my-window',
                     settings: {
                         webSecurityEnabled: false
-                    },
+                    }
                 },
                 flags: ['--load-images=true'],
                 debug: true
@@ -60,6 +60,9 @@ module.exports = function (config) {
 
         plugins: [
             'karma-phantomjs-launcher',
+            'karma-chrome-launcher',
+            'karma-firefox-launcher',
+            'karma-safari-launcher',
             'karma-jasmine',
             'karma-junit-reporter',
             'karma-coverage'
@@ -90,8 +93,7 @@ module.exports = function (config) {
                     functions: 60,
                     lines: 60,
                     excludes: [
-                        'app/components/uitemplates/*.js',
-                        //'app/zetalib/interceptors.js'
+                        'app/components/uitemplates/*.js'
                     ]
                 }
             },

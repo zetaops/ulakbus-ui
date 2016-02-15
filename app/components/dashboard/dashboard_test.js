@@ -6,7 +6,7 @@
  * (GPLv3).  See LICENSE.txt for details.
  */
 
- 'use strict';
+'use strict';
 
 describe('dashboard controller module', function () {
 
@@ -30,12 +30,13 @@ describe('dashboard controller module', function () {
             expect('ulakbus.dashboard.DashCtrl').toBeDefined();
         }));
 
+        // todo: complete dashboard tests
         it('should execute DashCtrl functions', inject(function ($rootScope, RESTURL) {
             $httpBackend.expectGET(RESTURL.url + 'ara/personel/123')
                 .respond(200, {});
 
             var $scope = $rootScope.$new();
-            var controller = $controller('DashCtrl', { $scope: $scope });
+            var controller = $controller('DashCtrl', {$scope: $scope});
 
             $scope.student_kw = "123";
             $scope.staff_kw = "123";
