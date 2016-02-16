@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="css/roboto/roboto.css">
     <link rel="stylesheet" href="css/jquery-ui.min.css">
 </head>
-<body>
+<body ng-controller="keyListen" ng-keydown="down($event)">
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-if="$root.loggedInUser">
     <collapse-menu></collapse-menu>

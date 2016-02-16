@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -23,6 +23,7 @@ angular.module("components/crud/templates/crud.html", []).run(["$templateCache",
   $templateCache.put("components/crud/templates/crud.html",
     "<div class=\"container-fluid\">\n" +
     "    <div ng-class=\"{'col-md-8': meta.allow_filters}\">\n" +
+    "        <msgbox ng-show=\"msgbox\"></msgbox>\n" +
     "        <h3>{{ schema.title }}</h3>\n" +
     "        <crud-show-directive ng-if=\"object\"></crud-show-directive>\n" +
     "        <crud-form-directive ng-if=\"forms\"></crud-form-directive>\n" +
@@ -118,7 +119,7 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
 
 angular.module("components/crud/templates/form.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/form.html",
-    "<div>\n" +
+    "<div class=\"clearfix\" ng-class=\"{'form-container': !objects || grouping.length < 1 }\">\n" +
     "    <div class=\"buttons-on-top\"></div>\n" +
     "\n" +
     "    <form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"\n" +
@@ -338,28 +339,11 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "\n" +
     "        <div class=\"row\">\n" +
     "\n" +
-    "            <div class=\"col-md-6 user-info\">\n" +
-    "                <div class=\"panel panel-default\">\n" +
-    "                    <div class=\"panel-heading\">\n" +
-    "                        <div class=\"panel-title\">Giriş Yapan Kullanıcı Bilgileri</div>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"panel-body\">\n" +
-    "                        <div class=\"col-md-6\">\n" +
-    "                            <img class=\"img-rounded user-pic\"\n" +
-    "                                 src=\"{{$root.current_user.avatar || 'img/empty-profile-pic.jpg'}}\"\n" +
-    "                                 alt=\"{{$root.current_user.username}}\">\n" +
-    "                        </div>\n" +
-    "                        <div class=\"col-md-6\">\n" +
-    "                            <p class=\"user-name\">{{$root.current_user.name}}<br>{{$root.current_user.surname}}</p>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "\n" +
-    "            <div class=\"col-md-6 quick-links\">\n" +
+    "            <div class=\"col-md-12 quick-links\">\n" +
     "                <div class=\"panel panel-default\">\n" +
     "                    <div class=\"panel-heading\">\n" +
     "                        <div class=\"panel-title\">Hızlı İşlemler</div>\n" +
+    "                        <div class=\"panel-action pull-right\"><i class=\"fa fa-edit fa-fw\"></i> Düzenle</div>\n" +
     "                    </div>\n" +
     "                    <div class=\"panel-body\">\n" +
     "                        <div class=\"col-md-6 text-center link-buttons\"\n" +
@@ -571,6 +555,17 @@ angular.module("components/uitemplates/500.html", []).run(["$templateCache", fun
     "        </div>\n" +
     "\n" +
     "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("shared/templates/actionsModalContent.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/actionsModalContent.html",
+    "<div class=\"modal-body\" style=\"padding: 0 !important; border-radius: 6px;\">\n" +
+    "    <input type=\"text\" ng-model=\"act.selected\" placeholder=\"İşlem ismi giriniz...\"\n" +
+    "           typeahead-on-select=\"doThis($item)\"\n" +
+    "           uib-typeahead=\"act as act.name for act in actions | filter:$viewValue\" typeahead-no-results=\"noResults\"\n" +
+    "           typeahead-wait-ms=\"500\" class=\"form-control\" style=\"border-radius: 6px; height: 50px; line-height: 40px\"\n" +
+    "           autofocus>\n" +
     "</div>");
 }]);
 
@@ -1703,7 +1698,8 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "                <!--Hepsini Seç-->\n" +
     "                <!--</label>-->\n" +
     "            </th>\n" +
-    "            <th ng-repeat=\"(key,value) in node.items[0] track by $index\" ng-if=\"key!=='idx'\">\n" +
+    "            <th ng-repeat=\"(key,value) in node.items[0] track by $index\"\n" +
+    "                ng-if=\"key!=='idx' && node.schema.properties[key]\">\n" +
     "                <span ng-if=\"value.verbose_name\">{{ value.verbose_name }}</span>\n" +
     "                <span ng-if=\"!value.verbose_name\">{{key}}</span>\n" +
     "            </th>\n" +
@@ -1727,16 +1723,21 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "            </td>\n" +
     "        </tr>\n" +
     "\n" +
-    "        <tr ng-repeat=\"listnodemodel in node.items track by $index\" ng-init=\"outerIndex=$index\" ng-if=\"node.schema.formType=='ListNode'\">\n" +
+    "        <tr ng-repeat=\"listnodemodel in node.items track by $index\"\n" +
+    "            ng-init=\"outerIndex=$index\"\n" +
+    "            ng-if=\"node.schema.formType=='ListNode'\">\n" +
     "            <td width=\"60\">\n" +
     "                <!--<label>-->\n" +
     "                <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
     "                <!--</label>-->\n" +
     "            </td>\n" +
     "            <th scope=\"row\" style=\"text-align:center\">{{$index+1}}</th>\n" +
-    "            <td ng-repeat=\"(k, v) in listnodemodel track by $index\" ng-init=\"innerIndex=$index\" ng-if=\"k!=='idx'\">\n" +
+    "            <td ng-repeat=\"(k, v) in listnodemodel track by $index\"\n" +
+    "                ng-init=\"innerIndex=$index\"\n" +
+    "                ng-if=\"k!=='idx' && node.schema.properties[k]\">\n" +
     "                <span ng-if=\"!node.schema.inline_edit || node.schema.inline_edit.indexOf(k) < 0\">{{ v.unicode || v }}</span>\n" +
-    "                <input type=\"node.schema.formType\" ng-if=\"node.schema.inline_edit.indexOf(k) > -1\"\n" +
+    "                <input type=\"node.schema.formType\"\n" +
+    "                       ng-if=\"node.schema.inline_edit.indexOf(k) > -1\"\n" +
     "                       ng-model=\"node.model[outerIndex][k]\"\n" +
     "                       ng-change=\"nodeModelChange(this)\">\n" +
     "            </td>\n" +

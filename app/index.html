@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="bower_components/intro.js/themes/introjs-nassim.css" type="text/css">
 
 </head>
-<body>
+<body ng-controller="keyListen" ng-keydown="down($event)">
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-if="$root.loggedInUser">
     <collapse-menu></collapse-menu>
@@ -104,6 +104,7 @@
 <script src="shared/directives.js"></script>
 <script src="zetalib/interceptors.js"></script>
 <script src="zetalib/form_service.js"></script>
+<script src="zetalib/action_service.js"></script>
 
 <!-- components -->
 

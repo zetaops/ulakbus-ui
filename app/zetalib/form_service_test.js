@@ -432,24 +432,6 @@ describe('form service module', function () {
             })
         );
 
-        it('should get wf and put msgbox to scope',
-            inject(function (Generator, $httpBackend, RESTURL) {
-
-                scope.form_params = {};
-
-                $httpBackend.expectPOST(RESTURL.url + 'testmsgbox')
-                    .respond(200, {
-                        "msgbox": "test message"
-                    });
-
-                scope.url = 'testmsgbox';
-                Generator.get_wf(scope);
-
-                $httpBackend.flush();
-                expect(scope.msgbox).toEqual("test message");
-            })
-        );
-
         it('doItemAction should do given action',
             inject(function (Generator, $httpBackend, RESTURL) {
                 $httpBackend.expectPOST(RESTURL.url + 'otherwf')

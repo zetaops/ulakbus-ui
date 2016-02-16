@@ -29,7 +29,7 @@ module.exports = function (config) {
             'app/bower_components/moment/min/moment.min.js',
             'app/app.js',
             'app/app_routes.js',
-            'app/zetalib/**/*.js',
+            'app/zetalib/**/!(action_service).js',
             'app/components/**/*.js'
         ],
 
@@ -82,7 +82,7 @@ module.exports = function (config) {
             'app/components/crud/*.js': ['coverage'],
             'app/components/dashboard/*.js': ['coverage'],
             'app/components/version/*.js': ['coverage'],
-            'app/zetalib/**/*.js': ['coverage']
+            'app/zetalib/**/!(action_service).js': ['coverage']
         },
 
         coverageReporter: {
