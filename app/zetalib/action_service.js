@@ -35,7 +35,7 @@ angular.module('ulakbus')
                     controller: 'ActionsModalCtrl',
                     resolve: {
                         items: function () {
-                            return document.querySelectorAll('.navbar-collapse a');
+                            return document.querySelectorAll('.navbar-collapse a, #side-user-menu a, .dropdown-menu li a');
                         }
                     }
                 });
