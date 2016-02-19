@@ -37,7 +37,7 @@ angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
             ];
             // to show page items showApp must be set to true
             // it prevents to show empty nonsense page items when http401/403
-            $rootScope.showApp = true;
+            //$rootScope.showApp = true;
         });
         $scope.loggingIn = false;
         $scope.onSubmit = function (form) {
@@ -53,7 +53,7 @@ angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
                     })
                     .then(function () {
                         $scope.loggingIn = false;
-                        Generator.button_switch(false);
+                        Generator.button_switch(true);
                     })
             }
             else {

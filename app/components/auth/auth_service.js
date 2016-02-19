@@ -35,7 +35,7 @@ angular.module('ulakbus.auth')
                 .post(RESTURL.url + url, credentials)
                 .success(function (data, status, headers, config) {
                     //$window.sessionStorage.token = data.token;
-
+                    Generator.button_switch(true);
                     $rootScope.loggedInUser = true;
                 })
                 .error(function (data, status, headers, config) {

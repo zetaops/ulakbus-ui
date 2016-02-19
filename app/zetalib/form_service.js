@@ -743,7 +743,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 button[positions[position]] = true;
             });
             $log.debug('buttons >> ', positions[position])
-        }
+        };
         /**
          * @memberof ulakbus.formService
          * @ngdoc function
@@ -753,11 +753,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_form = function (scope) {
-            generator.button_switch(false);
+            //generator.button_switch(false);
             return $http
                 .post(generator.makeUrl(scope), scope.form_params)
                 .then(function (res) {
-                    generator.button_switch(true);
+                    //generator.button_switch(true);
                     return generator.generate(scope, res.data);
                 });
         };
@@ -770,11 +770,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_list = function (scope) {
-            generator.button_switch(false);
+            //generator.button_switch(false);
             return $http
                 .post(generator.makeUrl(scope), scope.form_params)
                 .then(function (res) {
-                    generator.button_switch(true);
+                    //generator.button_switch(true);
                     return res;
                 });
         };
@@ -788,11 +788,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_wf = function (scope) {
-            generator.button_switch(false);
+            //generator.button_switch(false);
             return $http
                 .post(generator.makeUrl(scope), scope.form_params)
                 .then(function (res) {
-                    generator.button_switch(true);
+                    //generator.button_switch(true);
                     return generator.pathDecider(res.data.client_cmd, scope, res.data);
                 });
         };

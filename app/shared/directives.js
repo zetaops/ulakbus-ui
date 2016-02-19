@@ -357,7 +357,7 @@ angular.module('ulakbus')
                             sidebarmenu.metisMenu();
                             // to show page items showApp must be set to true
                             // it prevents to show empty nonsense page items when http401/403
-                            $rootScope.showApp = true;
+                            //$rootScope.showApp = true;
                         });
                     });
 
