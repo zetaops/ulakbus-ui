@@ -265,8 +265,11 @@ angular.module('ulakbus.crud', ['schemaForm', 'ulakbus.formService'])
             $scope.reload({});
         };
         $scope.resetCmd = function () {
+            var pageData = Generator.getPageData();
+            CrudUtility.generateParam($scope, pageData, $routeParams.cmd);
             delete $scope.token;
-            $scope.cmd = 'reset';
+            delete $scope.filters;
+            delete $scope.cmd;
             Generator.get_wf($scope);
         };
 
@@ -353,6 +356,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ulakbus.formService'])
             replace: true,
             link: function ($scope) {
                 $scope.form_params.filters = $scope.form_params.filters || {};
+                $scope.form_params.token = $scope.token;
                 $scope.filterList = {};
                 $scope.filterCollapsed = {};
                 $scope.$watch('list_filters', function () {

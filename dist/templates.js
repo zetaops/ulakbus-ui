@@ -119,7 +119,7 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
 
 angular.module("components/crud/templates/form.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/form.html",
-    "<div class=\"clearfix\" ng-class=\"{'form-container': !objects || grouping.length < 1 }\">\n" +
+    "<div class=\"clearfix\" ng-class=\"{'form-container': !objects}\">\n" +
     "    <div class=\"buttons-on-top\"></div>\n" +
     "\n" +
     "    <form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"\n" +

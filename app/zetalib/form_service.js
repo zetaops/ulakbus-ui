@@ -860,10 +860,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @param {Object} data
          */
         generator.pathDecider = function (client_cmd, $scope, data) {
-            if (client_cmd[0] === 'reload' || client_cmd[0] === 'reset') {
-                $rootScope.$broadcast('reload_cmd', $scope.reload_cmd);
-                return;
-            }
+            //if (client_cmd[0] === 'reload' || client_cmd[0] === 'reset') {
+            //    $rootScope.$broadcast('reload_cmd', $scope.reload_cmd);
+            //    //return;
+            //}
             /**
              * @memberof ulakbus.formService
              * @ngdoc function
