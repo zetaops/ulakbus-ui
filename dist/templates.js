@@ -50,8 +50,10 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
     "                <div ng-if=\"filter.type==='check' || !filter.type\" uib-collapse=\"filterCollapsed[filter.field]\">\n" +
     "                    <div class=\"checkbox\" ng-repeat=\"filterItem in filter.values\">\n" +
     "                        <label class=\"checkbox-inline\">\n" +
-    "                            <input type=\"checkbox\" name=\"filter_group[]\" ng-model=\"filterList[filter.field].model[filterItem.value]\"\n" +
-    "                                   value=\"{{filterItem.value || filterItem[0]}}\"/>\n" +
+    "                            <input type=\"checkbox\" name=\"filter_group[]\"\n" +
+    "                                   ng-model=\"filterList[filter.field].model[filterItem.value]\"\n" +
+    "                                   value=\"{{filterItem.value || filterItem[0]}}\"\n" +
+    "                                   ng-checked=\"filterItem.selected\"/>\n" +
     "                            {{filterItem.name || filterItem[1]}}\n" +
     "                        </label>\n" +
     "                    </div>\n" +
@@ -59,8 +61,10 @@ angular.module("components/crud/templates/filter.html", []).run(["$templateCache
     "    \n" +
     "                <div ng-if=\"filter.type==='select'\"  uib-collapse=\"filterCollapsed[filter.field]\">\n" +
     "                    <div class=\"col-md-12\">\n" +
-    "                        <select name=\"filterSelect\" id=\"filterSelect\" class=\"form-control\">\n" +
-    "                            <option ng-repeat=\"filterItem in filter.values\" value=\"{{filterItem.value}}\">\n" +
+    "                        <select name=\"filterSelect\" id=\"filterSelect\" class=\"form-control\" multiple>\n" +
+    "                            <option ng-repeat=\"filterItem in filter.values\"\n" +
+    "                                    value=\"{{filterItem.value}}\"\n" +
+    "                                    ng-selected=\"filterItem.selected\">\n" +
     "                                {{filterItem.name}}\n" +
     "                            </option>\n" +
     "                        </select>\n" +

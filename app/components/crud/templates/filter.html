@@ -13,8 +13,10 @@
                 <div ng-if="filter.type==='check' || !filter.type" uib-collapse="filterCollapsed[filter.field]">
                     <div class="checkbox" ng-repeat="filterItem in filter.values">
                         <label class="checkbox-inline">
-                            <input type="checkbox" name="filter_group[]" ng-model="filterList[filter.field].model[filterItem.value]"
-                                   value="{{filterItem.value || filterItem[0]}}"/>
+                            <input type="checkbox" name="filter_group[]"
+                                   ng-model="filterList[filter.field].model[filterItem.value]"
+                                   value="{{filterItem.value || filterItem[0]}}"
+                                   ng-checked="filterItem.selected"/>
                             {{filterItem.name || filterItem[1]}}
                         </label>
                     </div>
@@ -22,8 +24,10 @@
     
                 <div ng-if="filter.type==='select'"  uib-collapse="filterCollapsed[filter.field]">
                     <div class="col-md-12">
-                        <select name="filterSelect" id="filterSelect" class="form-control">
-                            <option ng-repeat="filterItem in filter.values" value="{{filterItem.value}}">
+                        <select name="filterSelect" id="filterSelect" class="form-control" multiple>
+                            <option ng-repeat="filterItem in filter.values"
+                                    value="{{filterItem.value}}"
+                                    ng-selected="filterItem.selected">
                                 {{filterItem.name}}
                             </option>
                         </select>
