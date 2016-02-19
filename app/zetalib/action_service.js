@@ -8,7 +8,7 @@
  */
 
 angular.module('ulakbus')
-    .controller('keyListen', function ($scope, action_service) {
+    .controller('KeyListenController', function ($scope, action_service) {
         $scope.keylog = [0,1];
         $scope.down = function(e) {
             angular.forEach(action_service.combinations, function (value, key) {
@@ -32,7 +32,7 @@ angular.module('ulakbus')
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'shared/templates/actionsModalContent.html',
-                    controller: 'ActionsModalCtrl',
+                    controller: 'ActionsModalController',
                     resolve: {
                         items: function () {
                             return document.querySelectorAll('.navbar-collapse a, #side-user-menu a, .dropdown-menu li a');
@@ -48,7 +48,7 @@ angular.module('ulakbus')
         };
         return actions;
     })
-    .controller('ActionsModalCtrl', function ($scope, $uibModalInstance, items) {
+    .controller('ActionsModalController', function ($scope, $uibModalInstance, items) {
         $scope.actions = [];
         angular.forEach(items, function (value, key) {
             if (!value.children[1]) {

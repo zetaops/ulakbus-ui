@@ -22,7 +22,7 @@
  */
 angular.module(
     'ulakbus', [
-        'ui.bootstrap',
+        //'ui.bootstrap',
         'angular-loading-bar',
         'ngRoute',
         'ngSanitize',
@@ -35,13 +35,11 @@ angular.module(
         'ulakbus.debug',
         'ulakbus.devSettings',
         'ulakbus.version',
-        //'schemaForm',
         'gettext',
         // @if NODE_ENV='PRODUCTION'
         'templates-prod',
         // @endif
         // @if NODE_ENV='DEVELOPMENT'
-        'ulakbus.uitemplates'
         // @endif
     ])
     /**

@@ -29,8 +29,8 @@ describe('crud controller module', function () {
 
     describe('crud controller', function () {
 
-        it('should have CRUDListFormCtrl', inject(function () {
-            expect('ulakbus.crud.CRUDListFormCtrl').toBeDefined();
+        it('should have CRUDListFormController', inject(function () {
+            expect('ulakbus.crud.CRUDListFormController').toBeDefined();
         }));
 
         it('should have CRUDCtrl', inject(function () {
@@ -52,24 +52,24 @@ describe('crud controller module', function () {
             expect($controller).toBeDefined();
         }]));
 
-        it('should execute CRUDListFormCtrl with form cms', inject(function ($rootScope, RESTURL) {
+        it('should execute CRUDListFormController with form cms', inject(function ($rootScope, RESTURL) {
             $httpBackend.expectGET(RESTURL.url + 'ara/personel/123')
                 .respond(200, {});
 
             var $scope = $rootScope.$new();
             var $routeParams = {cmd: 'form'};
-            var controller = $controller('CRUDListFormCtrl', {$scope: $scope, $routeParams: $routeParams});
+            var controller = $controller('CRUDListFormController', {$scope: $scope, $routeParams: $routeParams});
 
         }));
 
-        it('should execute CRUDListFormCtrl with list cmd', inject(function ($rootScope, RESTURL) {
+        it('should execute CRUDListFormController with list cmd', inject(function ($rootScope, RESTURL) {
             $httpBackend.expectGET(RESTURL.url + 'ara/personel/123')
                 .respond(200, {});
 
             var $scope = $rootScope.$new();
             $scope.meta = {'allow_filters': true};
             var $routeParams = {cmd: 'list'};
-            var controller = $controller('CRUDListFormCtrl', {$scope: $scope, $routeParams: $routeParams});
+            var controller = $controller('CRUDListFormController', {$scope: $scope, $routeParams: $routeParams});
             $scope.$broadcast('reload_cmd', 'list');
 
             $scope.$broadcast('updateObjects', ['test', 'headers']);
@@ -83,23 +83,23 @@ describe('crud controller module', function () {
             $scope.resetCmd();
         }));
 
-        it('should execute CRUDListFormCtrl with show cmd', inject(function ($rootScope, Generator) {
+        it('should execute CRUDListFormController with show cmd', inject(function ($rootScope, Generator) {
             var $scope = $rootScope.$new();
             var $routeParams = {cmd: 'show'};
             $scope.object = [];
-            var controller = $controller('CRUDListFormCtrl', {$scope: $scope, $routeParams: $routeParams});
+            var controller = $controller('CRUDListFormController', {$scope: $scope, $routeParams: $routeParams});
 
             $scope.object = {test: {}};
-            var controller = $controller('CRUDListFormCtrl', {$scope: $scope, $routeParams: $routeParams});
+            var controller = $controller('CRUDListFormController', {$scope: $scope, $routeParams: $routeParams});
 
             $scope.pageData = true;
             Generator.setPageData($scope);
-            var controller = $controller('CRUDListFormCtrl', {$scope: $scope, $routeParams: $routeParams});
+            var controller = $controller('CRUDListFormController', {$scope: $scope, $routeParams: $routeParams});
 
 
         }));
 
-        it('should execute CRUDListFormCtrl with relad cmd', inject(function ($rootScope, RESTURL) {
+        it('should execute CRUDListFormController with relad cmd', inject(function ($rootScope, RESTURL) {
             $httpBackend.expectGET(RESTURL.url + 'ara/personel/123')
                 .respond(200, {});
 
@@ -107,7 +107,7 @@ describe('crud controller module', function () {
             $scope.form_params = {};
             $scope.reload_cmd = 'list';
             var $routeParams = {cmd: 'reload'};
-            var controller = $controller('CRUDListFormCtrl', {$scope: $scope, $routeParams: $routeParams});
+            var controller = $controller('CRUDListFormController', {$scope: $scope, $routeParams: $routeParams});
 
         }));
 

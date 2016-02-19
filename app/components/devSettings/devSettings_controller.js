@@ -10,7 +10,7 @@
 
 angular.module('ulakbus.devSettings', ['ngRoute'])
 
-    .controller('DevSettingsCtrl', function ($scope, $cookies, $rootScope, RESTURL) {
+    .controller('DevSettingsController', function ($scope, $cookies, $rootScope, RESTURL) {
         $scope.backendurl = $cookies.get("backendurl");
         $scope.notificate = $cookies.get("notificate") || "on";
         //$scope.querydebug = $cookies.get("querydebug") || "on";

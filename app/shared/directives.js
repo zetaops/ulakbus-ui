@@ -4,7 +4,6 @@
  *
  * This file is licensed under the GNU General Public License v3
  * (GPLv3).  See LICENSE.txt for details.
- * @type {ng.$compileProvider|*}
  */
 
 angular.module('ulakbus')
@@ -221,7 +220,7 @@ angular.module('ulakbus')
             scope: {},
             controller: function ($scope, $rootScope) {
                 $rootScope.collapsed = false;
-                $rootScope.sidebarPinned = $cookies.get('sidebarPinned') || 0;
+                $rootScope.sidebarPinned = $cookies.get('sidebarPinned') || 1;
 
                 $scope.collapseToggle = function () {
                     if ($window.innerWidth > '768') {
@@ -290,41 +289,6 @@ angular.module('ulakbus')
     /**
      * @memberof ulakbus
      * @ngdoc directive
-     * @name selectedUser
-     * @description Selected user on which the current job done is hold in this directive.
-     * @deprecated
-     */
-    .directive('selectedUser', function ($http, RESTURL) {
-        return {
-            templateUrl: 'shared/templates/directives/selected-user.html',
-            restrict: 'E',
-            replace: true,
-            link: function ($scope, $rootScope) {
-                $scope.$on('selectedUser', function ($event, data) {
-                    $scope.selectedUser = data;
-                    $scope.dynamicPopover = {
-                        content: '',
-                        name: data.name,
-                        tcno: data.tcno,
-                        key: data.key,
-                        templateUrl: 'shared/templates/directives/selectedUserPopover.html',
-                        title: 'İşlem Yapılan Kişi'
-                    };
-                });
-                $scope.$on('selectedUserTrigger', function ($event, data) {
-                    var postToApi = {model: 'Personel', cmd: 'show', id: data[1]};
-                    //postToApi[data[0]]=data[1];
-                    $http.get(RESTURL.url + 'ara/personel/' + data[1]).success(
-                        function (data) {
-                        }
-                    );
-                })
-            }
-        };
-    })
-    /**
-     * @memberof ulakbus
-     * @ngdoc directive
      * @name sidebar
      * @description Changes breadcrumb when an item selected consists of menu items of related user or transaction
      * controller communicates with dashboard controller to shape menu items and authz.
@@ -347,7 +311,6 @@ angular.module('ulakbus')
                 };
 
                 var sidebarmenu = $('#side-menu');
-                //var sidebarUserMenu = $('#side-user-menu');
                 sidebarmenu.metisMenu();
                 $http.get(RESTURL.url + 'menu/')
                     .success(function (data) {
@@ -390,15 +353,11 @@ angular.module('ulakbus')
 
                         $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
 
-                        // if selecteduser on cookie then add related part to the menu
-
-                        //if ($cookies.get("selectedUserType")) {
-                        //    $scope.menuItems[$cookies.get("selectedUserType")] = $scope.allMenuItems[$cookies.get("selectedUserType")];
-                        //}
-
                         $timeout(function () {
                             sidebarmenu.metisMenu();
-                            //sidebarUserMenu.metisMenu();
+                            // to show page items showApp must be set to true
+                            // it prevents to show empty nonsense page items when http401/403
+                            $rootScope.showApp = true;
                         });
                     });
 
@@ -408,10 +367,6 @@ angular.module('ulakbus')
                     var menu = {};
                     menu[data] = $scope.allMenuItems[data];
                     $rootScope.$broadcast("usermenuitems", $scope.prepareMenu(menu));
-                    //$timeout(function () {
-                    //    sidebarmenu.metisMenu();
-                    //    sidebarUserMenu.metisMenu();
-                    //});
                 });
 
                 $scope.$on('selectedUser', function ($event, data) {

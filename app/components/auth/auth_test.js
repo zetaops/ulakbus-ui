@@ -33,7 +33,7 @@ describe('ulakbus.auth module', function () {
     describe('login controller and service', function () {
 
         it('should have a login controller', inject(function () {
-            expect('ulakbus.auth.LoginCtrl').toBeDefined();
+            expect('ulakbus.auth.LoginController').toBeDefined();
         }));
 
         it('should get login form', inject(
@@ -44,7 +44,7 @@ describe('ulakbus.auth module', function () {
                 var $scope = $rootScope.$new();
                 $scope['url'] = 'login';
                 $scope['form_params'] = {clear_wf: 1};
-                var controller = $controller('LoginCtrl', {$scope: $scope});
+                var controller = $controller('LoginController', {$scope: $scope});
 
                 expect($scope.onSubmit).toBeDefined();
             })

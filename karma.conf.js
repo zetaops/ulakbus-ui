@@ -37,7 +37,8 @@ module.exports = function (config) {
 
         frameworks: ['jasmine'],
 
-        browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari'],
+        //browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari'],
+        browsers: ['PhantomJS'],
 
         customLaunchers: {
             'PhantomJS_custom': {

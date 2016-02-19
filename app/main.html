@@ -34,7 +34,7 @@
     <link rel="stylesheet" href="css/jquery-ui.min.css">
     <!-- @endif -->
 </head>
-<body ng-controller="keyListen" ng-keydown="down($event)">
+<body ng-controller="KeyListenController" ng-keydown="down($event)" ng-show="$root.showApp">
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-if="$root.loggedInUser">
     <collapse-menu></collapse-menu>
@@ -46,7 +46,7 @@
     <!--</ul>-->
     <div class="navbar-header">
         <div class="brand">
-            <a href="#/dashboard" ng-click="$root.breadcrumbLinks = ['Panel']" class="logo"><img src="/img/brand-logo.png" /></a>
+            <a href="#/dashboard" class="logo"><img src="/img/brand-logo.png" /></a>
         </div>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -86,8 +86,8 @@
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="bower_components/angular-route/angular-route.min.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
-<script src="bower_components/angular-resource/angular-resource.min.js"></script>
-<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<!--<script src="bower_components/angular-resource/angular-resource.min.js"></script>-->
+<!--<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>-->
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="bower_components/tv4/tv4.js"></script>
@@ -105,7 +105,6 @@
 <script src="bower_components/intro.js/intro.js"></script>
 <!--<script src="bower_components/Chart.js/Chart.js"></script>-->
 <script src="shared/translations.js"></script>
-<script src="tmp/templates.js"></script>
 <script src="app.js"></script>
 <script src="app_routes.js"></script>
 <script src="shared/scripts/highlight.pack.js"></script>
@@ -122,7 +121,6 @@
 <script src="components/crud/crud_controller.js"></script>
 <script src="components/debug/debug_controller.js"></script>
 <script src="components/devSettings/devSettings_controller.js"></script>
-<script src="components/uitemplates/uitemplates.js"></script>
 <script src="components/error_pages/error_controller.js"></script>
 <script src="components/version/interpolate-filter.js"></script>
 <script src="components/version/version-directive.js"></script>

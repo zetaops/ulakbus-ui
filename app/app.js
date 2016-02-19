@@ -22,7 +22,7 @@
  */
 angular.module(
     'ulakbus', [
-        'ui.bootstrap',
+        //'ui.bootstrap',
         'angular-loading-bar',
         'ngRoute',
         'ngSanitize',
@@ -35,9 +35,7 @@ angular.module(
         'ulakbus.debug',
         'ulakbus.devSettings',
         'ulakbus.version',
-        //'schemaForm',
         'gettext',
-        'ulakbus.uitemplates'
     ])
     /**
      * @memberof ulakbus

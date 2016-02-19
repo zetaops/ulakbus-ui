@@ -12,18 +12,18 @@ angular.module('ulakbus').config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/error/500', {
             templateUrl: 'components/error_pages/500.html',
-            controller: '500Ctrl'
+            controller: '500Controller'
         })
         .when('/error/404', {
             templateUrl: 'components/error_pages/404.html',
-            controller: '404Ctrl'
+            controller: '404Controller'
         });
 }]);
 
 angular.module('ulakbus.error_pages', ['ngRoute'])
 
-    .controller('500Ctrl', function ($scope, $rootScope, $location) {
+    .controller('500Controller', function ($scope, $rootScope, $location) {
     })
 
-    .controller('404Ctrl', function ($scope, $rootScope, $location) {
+    .controller('404Controller', function ($scope, $rootScope, $location) {
     });

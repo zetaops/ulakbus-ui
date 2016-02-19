@@ -5,46 +5,46 @@ angular.module('ulakbus')
         $routeProvider
             .when('/login', {
                 templateUrl: 'components/auth/login.html',
-                controller: 'LoginCtrl'
+                controller: 'LoginController'
             })
             .when('/dashboard', {
                 templateUrl: 'components/dashboard/dashboard.html',
-                controller: 'DashCtrl'
+                controller: 'DashController'
             })
             .when('/dev/settings', {
                 templateUrl: 'components/devSettings/devSettings.html',
-                controller: 'DevSettingsCtrl'
+                controller: 'DevSettingsController'
             })
             .when('/debug/list', {
                 templateUrl: 'components/debug/debug.html',
-                controller: 'DebugCtrl'
+                controller: 'DebugController'
             })
 
             // use crud without selected user
             // important: regex urls must be defined later than static ones
             .when('/:wf/', {
                 templateUrl: 'components/crud/templates/crud.html',
-                controller: 'CRUDCtrl'
+                controller: 'CRUDController'
             })
             .when('/:wf/do/:cmd', {
                 templateUrl: 'components/crud/templates/crud.html',
-                controller: 'CRUDListFormCtrl'
+                controller: 'CRUDListFormController'
             })
             .when('/:wf/do/:cmd/:key', {
                 templateUrl: 'components/crud/templates/crud.html',
-                controller: 'CRUDListFormCtrl'
+                controller: 'CRUDListFormController'
             })
             .when('/:wf/:model', {
                 templateUrl: 'components/crud/templates/crud.html',
-                controller: 'CRUDCtrl'
+                controller: 'CRUDController'
             })
             .when('/:wf/:model/do/:cmd', {
                 templateUrl: 'components/crud/templates/crud.html',
-                controller: 'CRUDListFormCtrl'
+                controller: 'CRUDListFormController'
             })
             .when('/:wf/:model/do/:cmd/:key', {
                 templateUrl: 'components/crud/templates/crud.html',
-                controller: 'CRUDListFormCtrl'
+                controller: 'CRUDListFormController'
             })
 
             .otherwise({redirectTo: '/dashboard'});

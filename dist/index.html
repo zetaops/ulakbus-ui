@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="css/roboto/roboto.css">
     <link rel="stylesheet" href="css/jquery-ui.min.css">
 </head>
-<body ng-controller="keyListen" ng-keydown="down($event)">
+<body ng-controller="KeyListenController" ng-keydown="down($event)" ng-show="$root.showApp">
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-if="$root.loggedInUser">
     <collapse-menu></collapse-menu>
@@ -31,7 +31,7 @@
     <!--</ul>-->
     <div class="navbar-header">
         <div class="brand">
-            <a href="#/dashboard" ng-click="$root.breadcrumbLinks = ['Panel']" class="logo"><img src="/img/brand-logo.png" /></a>
+            <a href="#/dashboard" class="logo"><img src="/img/brand-logo.png" /></a>
         </div>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>

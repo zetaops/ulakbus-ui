@@ -20,7 +20,7 @@
  * @requires ulakbus.formService
  * @type {ng.$compileProvider|*}
  */
-angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formService'])
+angular.module('ulakbus.crud', ['schemaForm', 'ulakbus.formService'])
     .config(function (sfErrorMessageProvider) {
         sfErrorMessageProvider.setDefaultMessage(302, 'Bu alan zorunludur.');
         sfErrorMessageProvider.setDefaultMessage(200, 'En az {{schema.minLength}} değer giriniz.');
@@ -128,7 +128,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
      *
      * @returns {object}
      */
-    .controller('CRUDCtrl', function ($scope, $routeParams, Generator, CrudUtility) {
+    .controller('CRUDController', function ($scope, $routeParams, Generator, CrudUtility) {
         // get required params by calling CrudUtility.generateParam function
         CrudUtility.generateParam($scope, $routeParams);
         Generator.get_wf($scope);
@@ -137,8 +137,8 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
     /**
      * @memberof ulakbus.crud
      * @ngdoc controller
-     * @name CRUDListFormCtrl
-     * @description CRUDListFormCtrl is the main controller for crud module
+     * @name CRUDListFormController
+     * @description CRUDListFormController is the main controller for crud module
      * Based on the client_cmd parameter it generates its scope items.
      * client_cmd can be in ['show', 'list', 'form', 'reload', 'refresh']
      * There are 3 directives to manipulate controllers scope objects in crud.html
@@ -152,7 +152,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
      *
      * @returns {object}
      */
-    .controller('CRUDListFormCtrl', function ($scope, $rootScope, $location, $http, $log, $uibModal, $timeout, Generator, $routeParams, CrudUtility) {
+    .controller('CRUDListFormController', function ($scope, $rootScope, $location, $http, $log, $uibModal, $timeout, Generator, $routeParams, CrudUtility) {
         // reloadData must be a json object
         $scope.reload = function (reloadData) {
             $scope.form_params.cmd = $scope.reload_cmd;

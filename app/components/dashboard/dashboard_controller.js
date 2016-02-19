@@ -21,7 +21,7 @@ angular.module('ulakbus.dashboard', [])
         $uibTooltipProvider.setTriggers({'click': 'mouseleave'});
     })
 
-    .controller('DashCtrl', function ($scope, $rootScope, $timeout, $http, $cookies, RESTURL, Generator) {
+    .controller('DashController', function ($scope, $rootScope, $timeout, $http, $cookies, RESTURL, Generator) {
         $scope.section = function (section_index) {
             $rootScope.section = section_index;
         };

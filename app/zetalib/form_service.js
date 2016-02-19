@@ -1092,7 +1092,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
     /**
      * @memberof ulakbus.formService
      * @ngdoc controller
-     * @name ModalCtrl
+     * @name ModalController
      * @description controller for listnode, node and linkedmodel modal and save data of it
      * @param {Object} items
      * @param {Object} $scope
@@ -1100,7 +1100,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @param {Object} $route
      * @returns {Object} returns value for modal
      */
-    .controller('ModalCtrl', function ($scope, $uibModalInstance, Generator, items) {
+    .controller('ModalController', function ($scope, $uibModalInstance, Generator, items) {
         angular.forEach(items, function (value, key) {
             $scope[key] = items[key];
         });
@@ -1160,7 +1160,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         backdrop: 'static',
                         keyboard: false,
                         templateUrl: 'shared/templates/listnodeModalContent.html',
-                        controller: 'ModalCtrl',
+                        controller: 'ModalController',
                         size: 'lg',
                         resolve: {
                             items: function () {
@@ -1282,7 +1282,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         backdrop: 'static',
                         keyboard: false,
                         templateUrl: 'shared/templates/linkedModelModalContent.html',
-                        controller: 'ModalCtrl',
+                        controller: 'ModalController',
                         size: 'lg',
                         resolve: {
                             items: function () {
