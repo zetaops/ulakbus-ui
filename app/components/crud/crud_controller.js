@@ -153,13 +153,6 @@ angular.module('ulakbus.crud', ['schemaForm', 'ulakbus.formService'])
      * @returns {object}
      */
     .controller('CRUDListFormController', function ($scope, $rootScope, $location, $http, $log, $uibModal, $timeout, Generator, $routeParams, CrudUtility) {
-        // reloadData must be a json object
-        $scope.reload = function (reloadData) {
-            $scope.form_params.cmd = $scope.reload_cmd;
-            $scope.form_params = angular.extend($scope.form_params, reloadData);
-            $log.debug('reload data', $scope);
-            Generator.get_wf($scope);
-        };
 
         $scope.$on('reload_cmd', function(event, data){
             $scope.reload_cmd = data;
@@ -183,7 +176,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ulakbus.formService'])
         $scope.remove = function (item, type, index) {
             $scope[type][item.title].model.splice(index, 1);
             $scope[type][item.title].items.splice(index, 1);
-        }
+        };
 
         $scope.onSubmit = function (form) {
             $scope.$broadcast('schemaFormValidate');
@@ -262,7 +255,10 @@ angular.module('ulakbus.crud', ['schemaForm', 'ulakbus.formService'])
             }
         };
         $scope.reloadCmd = function () {
-            $scope.reload({});
+            var pageData = Generator.getPageData();
+            CrudUtility.generateParam($scope, pageData, $routeParams.cmd);
+            $log.debug('reload data', $scope);
+            Generator.get_wf($scope);
         };
         $scope.resetCmd = function () {
             var pageData = Generator.getPageData();
