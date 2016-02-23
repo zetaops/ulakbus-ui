@@ -156,7 +156,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ulakbus.formService'])
 
         $scope.$on('reload_cmd', function(event, data){
             $scope.reload_cmd = data;
-            $scope.reload({});
+            $scope.reloadCmd();
         });
 
         // search directive updates objects after search results

@@ -12,11 +12,11 @@
             <th>İşlem</th>
         </tr>
         <tr ng-if="node.schema.formType=='ListNode'">
-            <th colspan="2">
-                <!--<label>-->
-                <!--<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">-->
-                <!--Hepsini Seç-->
-                <!--</label>-->
+            <th colspan="2" ng-if="meta.allow_selection===true">
+                <label>
+                    <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
+                    Hepsini Seç
+                </label>
             </th>
             <th ng-repeat="(key,value) in node.items[0] track by $index"
                 ng-if="key!=='idx' && node.schema.properties[key]">
@@ -46,9 +46,9 @@
         <tr ng-repeat="listnodemodel in node.items track by $index"
             ng-init="outerIndex=$index"
             ng-if="node.schema.formType=='ListNode'">
-            <td ng-if="meta.allow_selection=true" width="60">
+            <td ng-if="meta.allow_selection===true" width="60">
                 <label>
-                <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
+                    <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
                 </label>
             </td>
             <th scope="row" style="text-align:center">{{$index+1}}</th>
@@ -62,10 +62,16 @@
                        ng-change="nodeModelChange(this)">
             </td>
             <td ng-if="meta.allow_actions!==false">
-                <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}">Düzenle
-                </button>
-                <br>
-                <button ng-click="remove(node, 'ListNode', $index)">Sil</button>
+                <div ng-hide="meta.object_actions.length > 0">
+                    <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}">
+                        Düzenle
+                    </button>
+                    <br>
+                    <button ng-click="remove(node, 'ListNode', $index)">Sil</button>
+                </div>
+                <div ng-show="meta.object_actions.length > 0">
+                    <!-- define object actions here -->
+                </div>
             </td>
         </tr>
 
