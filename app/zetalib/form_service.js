@@ -1196,7 +1196,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                                 Generator.generate(newscope, {forms: scope.node});
                                 // modal will add only one item to listNode, so just need one model (not array)
-                                newscope.model = newscope.model[node.edit] || newscope.model[0] || {};
+                                newscope.model = newscope.model[node.edit] ||  {};
                                 return newscope;
                             }
                         }

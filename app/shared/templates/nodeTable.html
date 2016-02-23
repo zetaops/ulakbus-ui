@@ -46,17 +46,17 @@
         <tr ng-repeat="listnodemodel in node.items track by $index"
             ng-init="outerIndex=$index"
             ng-if="node.schema.formType=='ListNode'">
-            <td width="60">
-                <!--<label>-->
-                <!--<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">-->
-                <!--</label>-->
+            <td ng-if="meta.allow_selection=true" width="60">
+                <label>
+                <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
+                </label>
             </td>
             <th scope="row" style="text-align:center">{{$index+1}}</th>
             <td ng-repeat="(k, v) in listnodemodel track by $index"
                 ng-init="innerIndex=$index"
                 ng-if="k!=='idx' && node.schema.properties[k]">
                 <span ng-if="!node.schema.inline_edit || node.schema.inline_edit.indexOf(k) < 0">{{ v.unicode || v }}</span>
-                <input type="node.schema.formType"
+                <input type="{{node.schema.properties[k].type}}"
                        ng-if="node.schema.inline_edit.indexOf(k) > -1"
                        ng-model="node.model[outerIndex][k]"
                        ng-change="nodeModelChange(this)">
