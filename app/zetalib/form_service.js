@@ -551,6 +551,15 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 int: {default: _numbers},
                 boolean: {default: function () {}},
                 string: {default: function () {}},
+                text_general: {
+                    default:
+                        function (scope, v, k) {
+                            v.type = 'string',
+                            v["x-schema-form"] = {
+                                "type": "textarea"
+                            }
+                        }
+                },
                 float: {default: _numbers},
                 model: {default: function (scope, v, k) {
 

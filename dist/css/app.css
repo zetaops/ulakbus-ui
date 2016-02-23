@@ -1866,6 +1866,12 @@ table.dataTable thead .sorting:after {
 
 /* end file upload */
 
+.mid-h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #636363  ;
+}
+
 /*
  * metismenu - v1.1.3
  * Easy menu jQuery plugin for Twitter Bootstrap 3

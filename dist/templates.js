@@ -24,7 +24,7 @@ angular.module("components/crud/templates/crud.html", []).run(["$templateCache",
     "<div class=\"container-fluid\">\n" +
     "    <div ng-class=\"{'col-md-8': meta.allow_filters}\">\n" +
     "        <msgbox ng-show=\"msgbox\"></msgbox>\n" +
-    "        <h3>{{ schema.title }}</h3>\n" +
+    "        <h3 ng-class=\"{'mid-h3': !objects}\">{{ schema.title }}</h3>\n" +
     "        <crud-show-directive ng-if=\"object\"></crud-show-directive>\n" +
     "        <crud-form-directive ng-if=\"forms\"></crud-form-directive>\n" +
     "        <crud-list-directive ng-if=\"objects\"></crud-list-directive>\n" +
@@ -1696,11 +1696,11 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "            <th>İşlem</th>\n" +
     "        </tr>\n" +
     "        <tr ng-if=\"node.schema.formType=='ListNode'\">\n" +
-    "            <th colspan=\"2\">\n" +
-    "                <!--<label>-->\n" +
-    "                <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
-    "                <!--Hepsini Seç-->\n" +
-    "                <!--</label>-->\n" +
+    "            <th colspan=\"2\" ng-if=\"meta.allow_selection===true\">\n" +
+    "                <label>\n" +
+    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    Hepsini Seç\n" +
+    "                </label>\n" +
     "            </th>\n" +
     "            <th ng-repeat=\"(key,value) in node.items[0] track by $index\"\n" +
     "                ng-if=\"key!=='idx' && node.schema.properties[key]\">\n" +
@@ -1730,26 +1730,32 @@ angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", fun
     "        <tr ng-repeat=\"listnodemodel in node.items track by $index\"\n" +
     "            ng-init=\"outerIndex=$index\"\n" +
     "            ng-if=\"node.schema.formType=='ListNode'\">\n" +
-    "            <td width=\"60\">\n" +
-    "                <!--<label>-->\n" +
-    "                <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
-    "                <!--</label>-->\n" +
+    "            <td ng-if=\"meta.allow_selection===true\" width=\"60\">\n" +
+    "                <label>\n" +
+    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                </label>\n" +
     "            </td>\n" +
     "            <th scope=\"row\" style=\"text-align:center\">{{$index+1}}</th>\n" +
     "            <td ng-repeat=\"(k, v) in listnodemodel track by $index\"\n" +
     "                ng-init=\"innerIndex=$index\"\n" +
     "                ng-if=\"k!=='idx' && node.schema.properties[k]\">\n" +
     "                <span ng-if=\"!node.schema.inline_edit || node.schema.inline_edit.indexOf(k) < 0\">{{ v.unicode || v }}</span>\n" +
-    "                <input type=\"node.schema.formType\"\n" +
+    "                <input type=\"{{node.schema.properties[k].type}}\"\n" +
     "                       ng-if=\"node.schema.inline_edit.indexOf(k) > -1\"\n" +
     "                       ng-model=\"node.model[outerIndex][k]\"\n" +
     "                       ng-change=\"nodeModelChange(this)\">\n" +
     "            </td>\n" +
     "            <td ng-if=\"meta.allow_actions!==false\">\n" +
-    "                <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}\">Düzenle\n" +
-    "                </button>\n" +
-    "                <br>\n" +
-    "                <button ng-click=\"remove(node, 'ListNode', $index)\">Sil</button>\n" +
+    "                <div ng-hide=\"meta.object_actions.length > 0\">\n" +
+    "                    <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}\">\n" +
+    "                        Düzenle\n" +
+    "                    </button>\n" +
+    "                    <br>\n" +
+    "                    <button ng-click=\"remove(node, 'ListNode', $index)\">Sil</button>\n" +
+    "                </div>\n" +
+    "                <div ng-show=\"meta.object_actions.length > 0\">\n" +
+    "                    <!-- define object actions here -->\n" +
+    "                </div>\n" +
     "            </td>\n" +
     "        </tr>\n" +
     "\n" +

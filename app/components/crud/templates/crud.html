@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div ng-class="{'col-md-8': meta.allow_filters}">
         <msgbox ng-show="msgbox"></msgbox>
-        <h3>{{ schema.title }}</h3>
+        <h3 ng-class="{'mid-h3': !objects}">{{ schema.title }}</h3>
         <crud-show-directive ng-if="object"></crud-show-directive>
         <crud-form-directive ng-if="forms"></crud-form-directive>
         <crud-list-directive ng-if="objects"></crud-list-directive>
