@@ -1,0 +1,36 @@
+<div class="form-group {{form.htmlClass}} schema-form-select col-md-12"
+     ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}">
+    <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">
+        {{form.title}}
+    </label>
+
+    <!--<div class="form-group input-group">-->
+            <!--<span class="input-group-btn">-->
+                <!--<button class="btn btn-default dropdown-toggle" type="button"-->
+                        <!--data-toggle="dropdown">-->
+                    <!--<span class="caret"></span>-->
+                <!--</button>-->
+                <!--<ul class="dropdown-menu">-->
+                    <!--<li class="text-center" ng-if="form.gettingTitleMap"><a><span class="loader"></span></a></li>-->
+                    <!--<li ng-repeat="item in form.titleMap">-->
+                        <!--<a ng-click="form.onDropdownSelect(item, form.name)">{{item-->
+                            <!--.name}}</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</span>-->
+        <input type="text"
+               ng-model="$$value$$"
+               uib-typeahead="item.name for item in form.titleMap | filter:$viewValue"
+               typeahead-wait-ms="500"
+               typeahead-loading="loadingTitleMap"
+               placeholder="{{form.title}}"
+               ng-model-options="form.ngModelOptions"
+               ng-disabled="form.readonly"
+               sf-changed="form"
+               class="form-control {{form.fieldHtmlClass}}"
+               schema-validate="form"
+               name="{{form.name}}"/>
+    <!--</div>-->
+    <div ng-show="loadingTitleMap" class="loader"></div>
+    <div class="help-block" sf-message="form.description"></div>
+</div>
