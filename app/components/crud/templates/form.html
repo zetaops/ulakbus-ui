@@ -14,7 +14,7 @@
         </h3>
 
         <div class="node-table">
-            <ng-include src="'shared/templates/nodeTable.html'"></ng-include>
+            <ng-include src="'components/crud/templates/nodeTable.html'"></ng-include>
         </div>
         <hr>
     </div>
@@ -27,8 +27,11 @@
         </span>
         </h3>
 
-        <div class="list-node-table">
-            <ng-include src="'shared/templates/nodeTable.html'"></ng-include>
+        <div class="list-node-table" ng-if="!meta.translate_widget">
+            <ng-include src="'components/crud/templates/nodeTable.html'"></ng-include>
+        </div>
+        <div class="list-node-table" ng-if="meta.translate_widget">
+            <ng-include src="'shared/templates/translate.html'"></ng-include>
         </div>
         <hr>
     </div>

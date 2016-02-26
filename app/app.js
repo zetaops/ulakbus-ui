@@ -46,6 +46,7 @@ angular.module(
      *
      * For development needs backendurl can be switched from both dev/settings page and querystring `?backendurl=http://example.com`
      */
+    // todo: convert it to service
     .constant("RESTURL", (function () {
         // todo: below backendurl definition is for development purpose and will be deleted
         var backendurl = location.href.indexOf('nightly') > -1 ? "//nightly.api.ulakbus.net/" : "//api.ulakbus.net/";
@@ -67,6 +68,7 @@ angular.module(
 
         return {url: backendurl};
     })())
+    .constant('toastr', window.toastr)
     .config(function ($logProvider) {
         $logProvider.debugEnabled(true);
     });

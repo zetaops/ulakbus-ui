@@ -160,7 +160,8 @@ module.exports = function (grunt) {
                     "app/bower_components/metisMenu/dist/metisMenu.js",
                     "app/bower_components/Chart.js/Chart.js",
                     "app/bower_components/intro.js/intro.js",
-                    "app/bower_components/moment/min/moment.min.js"
+                    "app/bower_components/moment/min/moment.min.js",
+                    "app/bower_components/toastr/toastr.min.js"
                 ],
                 dest: 'dist/bower_components/components.js'
             },
@@ -174,7 +175,8 @@ module.exports = function (grunt) {
                         "app/bower_components/angular-loading-bar/build/loading-bar.min.css",
                         "app/bower_components/font-awesome/css/font-awesome.min.css",
                         "app/bower_components/intro.js/intro.css",
-                        "app/bower_components/intro.js/themes/introjs-nassim.css"
+                        "app/bower_components/intro.js/themes/introjs-nassim.css",
+                        "app/bower_components/toastr/toastr.min.css"
                     ]
                 }
             },

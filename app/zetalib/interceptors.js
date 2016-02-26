@@ -21,7 +21,7 @@ angular.module('ulakbus')
          * - API returns `is_login` key to check if current user is authenticated. Interceptor checks and if not logged
          *   in redirects to login page.
          */
-        $httpProvider.interceptors.push(function ($q, $rootScope, $location, $timeout, $log) {
+        $httpProvider.interceptors.push(function ($q, $rootScope, $location, $timeout, $log, toastr) {
             return {
                 'request': function (config) {
                     if (config.method === "POST") {
@@ -54,6 +54,10 @@ angular.module('ulakbus')
                             $location.path("/dashboard");
                         }
                     }
+
+                    // handle toast notifications here
+
+                    if (response.data.notify) {toastr.info(response.data.notify)}
 
                     return response;
                 },
@@ -109,7 +113,8 @@ angular.module('ulakbus')
                         if (errorInModal) {
                             errorModal();
                         } else {
-                            $rootScope.$broadcast('alertBox', alertContent);
+                            //$rootScope.$broadcast('alertBox', alertContent);
+                            toastr.error(alertContent.msg, alertContent.title);
                         }
                     };
 

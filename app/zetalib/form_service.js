@@ -1095,6 +1095,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             });
             var data = {
                 "form": $scope.model,
+                "object_key": $scope.object_key,
                 "token": $scope.token,
                 "model": $scope.form_params.model,
                 "cmd": $scope.form_params.cmd,
