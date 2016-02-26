@@ -551,6 +551,23 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 int: {default: _numbers},
                 boolean: {default: function () {}},
                 string: {default: function () {}},
+                typeahead: {default: function (scope, v, k) {
+                    scope.form[scope.form.indexOf(k)] = {
+                        type: "template",
+                        title: v.title,
+                        titleMap: v.titleMap,
+                        templateUrl: "shared/templates/typeahead.html",
+                        name: k,
+                        key: k,
+                        onDropdownSelect: function (item, inputname) {
+                            scope.model[k] = item.value;
+                            $timeout(function () {
+                                document.querySelector('input[name=' + inputname + ']').value = item.name;
+                            });
+                        }
+                    };
+                    v.type = 'string';
+                }},
                 text_general: {
                     default:
                         function (scope, v, k) {
@@ -1078,6 +1095,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             });
             var data = {
                 "form": $scope.model,
+                "object_key": $scope.object_key,
                 "token": $scope.token,
                 "model": $scope.form_params.model,
                 "cmd": $scope.form_params.cmd,

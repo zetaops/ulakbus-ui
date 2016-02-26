@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/nodeTable.html', 'shared/templates/select.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -139,7 +139,7 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
     "        </h3>\n" +
     "\n" +
     "        <div class=\"node-table\">\n" +
-    "            <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
+    "            <ng-include src=\"'components/crud/templates/nodeTable.html'\"></ng-include>\n" +
     "        </div>\n" +
     "        <hr>\n" +
     "    </div>\n" +
@@ -152,8 +152,11 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
     "        </span>\n" +
     "        </h3>\n" +
     "\n" +
-    "        <div class=\"list-node-table\">\n" +
-    "            <ng-include src=\"'shared/templates/nodeTable.html'\"></ng-include>\n" +
+    "        <div class=\"list-node-table\" ng-if=\"!meta.translate_widget\">\n" +
+    "            <ng-include src=\"'components/crud/templates/nodeTable.html'\"></ng-include>\n" +
+    "        </div>\n" +
+    "        <div class=\"list-node-table\" ng-if=\"meta.translate_widget\">\n" +
+    "            <ng-include src=\"'shared/templates/translate.html'\"></ng-include>\n" +
     "        </div>\n" +
     "        <hr>\n" +
     "    </div>\n" +
@@ -238,6 +241,89 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "        </ul>\n" +
     "    </nav>\n" +
     "\n" +
+    "</div>");
+}]);
+
+angular.module("components/crud/templates/nodeTable.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/crud/templates/nodeTable.html",
+    "<div class=\"tablescroll\">\n" +
+    "    <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
+    "        <thead>\n" +
+    "        <tr ng-if=\"node.schema.formType=='Node'\">\n" +
+    "            <!--<th colspan=\"2\">-->\n" +
+    "            <!--<label>-->\n" +
+    "            <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "            <!--Hepsini Seç-->\n" +
+    "            <!--</label>-->\n" +
+    "            <!--</th>-->\n" +
+    "            <th ng-repeat=\"(key,value) in node.model track by $index\">{{ key }}</th>\n" +
+    "            <th>İşlem</th>\n" +
+    "        </tr>\n" +
+    "        <tr ng-if=\"node.schema.formType=='ListNode'\">\n" +
+    "            <th colspan=\"2\" ng-if=\"meta.allow_selection===true\">\n" +
+    "                <label>\n" +
+    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    Hepsini Seç\n" +
+    "                </label>\n" +
+    "            </th>\n" +
+    "            <th ng-repeat=\"(key,value) in node.items[0] track by $index\"\n" +
+    "                ng-if=\"key!=='idx' && node.schema.properties[key]\">\n" +
+    "                <span ng-if=\"value.verbose_name\">{{ value.verbose_name }}</span>\n" +
+    "                <span ng-if=\"!value.verbose_name\">{{key}}</span>\n" +
+    "            </th>\n" +
+    "            <th ng-if=\"meta.allow_actions!==false\">İşlem</th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody ng-class=\"{hidden: node.lengthModels < 1}\">\n" +
+    "\n" +
+    "        <tr ng-if=\"node.schema.formType=='Node'\">\n" +
+    "            <!--<td width=\"60\">-->\n" +
+    "            <!--<label>-->\n" +
+    "            <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
+    "            <!--</label>-->\n" +
+    "            <!--</td>-->\n" +
+    "            <!--<th scope=\"row\" style=\"text-align:center\">1</th>-->\n" +
+    "            <td ng-repeat=\"value in node.model track by $index\">{{ value }}</td>\n" +
+    "            <td>\n" +
+    "                <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit\">Düzenle</button>\n" +
+    "                <br>\n" +
+    "                <button ng-click=\"remove(node, 'Node', $index)\">Sil</button>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "\n" +
+    "        <tr ng-repeat=\"listnodemodel in node.items track by $index\"\n" +
+    "            ng-init=\"outerIndex=$index\"\n" +
+    "            ng-if=\"node.schema.formType=='ListNode'\">\n" +
+    "            <td ng-if=\"meta.allow_selection===true\" width=\"60\">\n" +
+    "                <label>\n" +
+    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                </label>\n" +
+    "            </td>\n" +
+    "            <th scope=\"row\" style=\"text-align:center\">{{$index+1}}</th>\n" +
+    "            <td ng-repeat=\"(k, v) in listnodemodel track by $index\"\n" +
+    "                ng-init=\"innerIndex=$index\"\n" +
+    "                ng-if=\"k!=='idx' && node.schema.properties[k]\">\n" +
+    "                <span ng-if=\"!node.schema.inline_edit || node.schema.inline_edit.indexOf(k) < 0\">{{ v.unicode || v }}</span>\n" +
+    "                <input type=\"{{node.schema.properties[k].type}}\"\n" +
+    "                       ng-if=\"node.schema.inline_edit.indexOf(k) > -1\"\n" +
+    "                       ng-model=\"node.model[outerIndex][k]\"\n" +
+    "                       ng-change=\"nodeModelChange(this)\">\n" +
+    "            </td>\n" +
+    "            <td ng-if=\"meta.allow_actions!==false\">\n" +
+    "                <div ng-hide=\"meta.object_actions.length > 0\">\n" +
+    "                    <span modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}\">\n" +
+    "                        <i class=\"fa fa-pencil-square-o fa-fw\"></i>\n" +
+    "                    </span>\n" +
+    "                    <span ng-click=\"remove(node, 'ListNode', $index)\"><i class=\"fa fa-times fa-fw\"></i></span>\n" +
+    "                </div>\n" +
+    "                <div ng-show=\"meta.object_actions.length > 0\">\n" +
+    "                    <!-- define object actions here -->\n" +
+    "                </div>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
     "</div>");
 }]);
 
@@ -1680,90 +1766,6 @@ angular.module("shared/templates/multiselect.html", []).run(["$templateCache", f
     "</div>");
 }]);
 
-angular.module("shared/templates/nodeTable.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("shared/templates/nodeTable.html",
-    "<div class=\"tablescroll\">\n" +
-    "    <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
-    "        <thead>\n" +
-    "        <tr ng-if=\"node.schema.formType=='Node'\">\n" +
-    "            <!--<th colspan=\"2\">-->\n" +
-    "            <!--<label>-->\n" +
-    "            <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
-    "            <!--Hepsini Seç-->\n" +
-    "            <!--</label>-->\n" +
-    "            <!--</th>-->\n" +
-    "            <th ng-repeat=\"(key,value) in node.model track by $index\">{{ key }}</th>\n" +
-    "            <th>İşlem</th>\n" +
-    "        </tr>\n" +
-    "        <tr ng-if=\"node.schema.formType=='ListNode'\">\n" +
-    "            <th colspan=\"2\" ng-if=\"meta.allow_selection===true\">\n" +
-    "                <label>\n" +
-    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                    Hepsini Seç\n" +
-    "                </label>\n" +
-    "            </th>\n" +
-    "            <th ng-repeat=\"(key,value) in node.items[0] track by $index\"\n" +
-    "                ng-if=\"key!=='idx' && node.schema.properties[key]\">\n" +
-    "                <span ng-if=\"value.verbose_name\">{{ value.verbose_name }}</span>\n" +
-    "                <span ng-if=\"!value.verbose_name\">{{key}}</span>\n" +
-    "            </th>\n" +
-    "            <th ng-if=\"meta.allow_actions!==false\">İşlem</th>\n" +
-    "        </tr>\n" +
-    "        </thead>\n" +
-    "        <tbody ng-class=\"{hidden: node.lengthModels < 1}\">\n" +
-    "\n" +
-    "        <tr ng-if=\"node.schema.formType=='Node'\">\n" +
-    "            <!--<td width=\"60\">-->\n" +
-    "            <!--<label>-->\n" +
-    "            <!--<input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">-->\n" +
-    "            <!--</label>-->\n" +
-    "            <!--</td>-->\n" +
-    "            <!--<th scope=\"row\" style=\"text-align:center\">1</th>-->\n" +
-    "            <td ng-repeat=\"value in node.model track by $index\">{{ value }}</td>\n" +
-    "            <td>\n" +
-    "                <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit\">Düzenle</button>\n" +
-    "                <br>\n" +
-    "                <button ng-click=\"remove(node, 'Node', $index)\">Sil</button>\n" +
-    "            </td>\n" +
-    "        </tr>\n" +
-    "\n" +
-    "        <tr ng-repeat=\"listnodemodel in node.items track by $index\"\n" +
-    "            ng-init=\"outerIndex=$index\"\n" +
-    "            ng-if=\"node.schema.formType=='ListNode'\">\n" +
-    "            <td ng-if=\"meta.allow_selection===true\" width=\"60\">\n" +
-    "                <label>\n" +
-    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
-    "                </label>\n" +
-    "            </td>\n" +
-    "            <th scope=\"row\" style=\"text-align:center\">{{$index+1}}</th>\n" +
-    "            <td ng-repeat=\"(k, v) in listnodemodel track by $index\"\n" +
-    "                ng-init=\"innerIndex=$index\"\n" +
-    "                ng-if=\"k!=='idx' && node.schema.properties[k]\">\n" +
-    "                <span ng-if=\"!node.schema.inline_edit || node.schema.inline_edit.indexOf(k) < 0\">{{ v.unicode || v }}</span>\n" +
-    "                <input type=\"{{node.schema.properties[k].type}}\"\n" +
-    "                       ng-if=\"node.schema.inline_edit.indexOf(k) > -1\"\n" +
-    "                       ng-model=\"node.model[outerIndex][k]\"\n" +
-    "                       ng-change=\"nodeModelChange(this)\">\n" +
-    "            </td>\n" +
-    "            <td ng-if=\"meta.allow_actions!==false\">\n" +
-    "                <div ng-hide=\"meta.object_actions.length > 0\">\n" +
-    "                    <button modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}\">\n" +
-    "                        Düzenle\n" +
-    "                    </button>\n" +
-    "                    <br>\n" +
-    "                    <button ng-click=\"remove(node, 'ListNode', $index)\">Sil</button>\n" +
-    "                </div>\n" +
-    "                <div ng-show=\"meta.object_actions.length > 0\">\n" +
-    "                    <!-- define object actions here -->\n" +
-    "                </div>\n" +
-    "            </td>\n" +
-    "        </tr>\n" +
-    "\n" +
-    "        </tbody>\n" +
-    "    </table>\n" +
-    "</div>");
-}]);
-
 angular.module("shared/templates/select.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/select.html",
     "<div class=\"form-group {{form.htmlClass}} schema-form-select\"\n" +
@@ -1782,6 +1784,102 @@ angular.module("shared/templates/select.html", []).run(["$templateCache", functi
     "            id=\"{{form.key.slice(-1)[0]}}\">\n" +
     "    </select>\n" +
     "\n" +
+    "    <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
+    "</div>");
+}]);
+
+angular.module("shared/templates/translate.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/translate.html",
+    "<div class=\"tablescroll\">\n" +
+    "    <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
+    "        <thead>\n" +
+    "        <tr ng-if=\"node.schema.formType=='ListNode'\">\n" +
+    "            <th colspan=\"2\" ng-if=\"meta.allow_selection===true\">\n" +
+    "                <label>\n" +
+    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                    Hepsini Seç\n" +
+    "                </label>\n" +
+    "            </th>\n" +
+    "            <th scope=\"row\" style=\"text-align:center\">#</th>\n" +
+    "            <th ng-repeat=\"(key,value) in node.items[0] track by $index\"\n" +
+    "                ng-if=\"key!=='idx' && node.schema.properties[key]\">\n" +
+    "                <span ng-if=\"value.verbose_name\">{{ value.verbose_name }}</span>\n" +
+    "                <span ng-if=\"!value.verbose_name\">{{key}}</span>\n" +
+    "            </th>\n" +
+    "            <th ng-if=\"meta.allow_actions!==false\">İşlem</th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody ng-class=\"{hidden: node.lengthModels < 1}\">\n" +
+    "\n" +
+    "        <tr ng-repeat=\"listnodemodel in node.items track by $index\"\n" +
+    "            ng-init=\"outerIndex=$index\"\n" +
+    "            ng-if=\"node.schema.formType=='ListNode'\">\n" +
+    "            <td ng-if=\"meta.allow_selection===true\" width=\"60\">\n" +
+    "                <label>\n" +
+    "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
+    "                </label>\n" +
+    "            </td>\n" +
+    "            <td scope=\"row\" style=\"text-align:center\">{{$index+1}}</td>\n" +
+    "            <td ng-repeat=\"(k, v) in listnodemodel track by $index\"\n" +
+    "                ng-init=\"innerIndex=$index\"\n" +
+    "                ng-if=\"k!=='idx' && node.schema.properties[k]\">\n" +
+    "                <span ng-if=\"!node.schema.inline_edit || node.schema.inline_edit.indexOf(k) < 0\">{{ v.unicode || v }}</span>\n" +
+    "                <input type=\"{{node.schema.properties[k].type}}\"\n" +
+    "                       ng-if=\"node.schema.inline_edit.indexOf(k) > -1\"\n" +
+    "                       ng-model=\"node.model[outerIndex][k]\"\n" +
+    "                       ng-change=\"nodeModelChange(this)\">\n" +
+    "            </td>\n" +
+    "            <td ng-if=\"meta.allow_actions!==false\">\n" +
+    "                <div ng-hide=\"meta.object_actions.length > 0\">\n" +
+    "                    <span ng-click=\"remove(node, 'ListNode', $index)\"><i class=\"fa fa-times fa=fw\"></i></span>\n" +
+    "                </div>\n" +
+    "                <div ng-show=\"meta.object_actions.length > 0\">\n" +
+    "                    <!-- define object actions here -->\n" +
+    "                </div>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "</div>");
+}]);
+
+angular.module("shared/templates/typeahead.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/typeahead.html",
+    "<div class=\"form-group {{form.htmlClass}} schema-form-select col-md-12\"\n" +
+    "     ng-class=\"{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}\">\n" +
+    "    <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
+    "        {{form.title}}\n" +
+    "    </label>\n" +
+    "\n" +
+    "    <!--<div class=\"form-group input-group\">-->\n" +
+    "            <!--<span class=\"input-group-btn\">-->\n" +
+    "                <!--<button class=\"btn btn-default dropdown-toggle\" type=\"button\"-->\n" +
+    "                        <!--data-toggle=\"dropdown\">-->\n" +
+    "                    <!--<span class=\"caret\"></span>-->\n" +
+    "                <!--</button>-->\n" +
+    "                <!--<ul class=\"dropdown-menu\">-->\n" +
+    "                    <!--<li class=\"text-center\" ng-if=\"form.gettingTitleMap\"><a><span class=\"loader\"></span></a></li>-->\n" +
+    "                    <!--<li ng-repeat=\"item in form.titleMap\">-->\n" +
+    "                        <!--<a ng-click=\"form.onDropdownSelect(item, form.name)\">{{item-->\n" +
+    "                            <!--.name}}</a>-->\n" +
+    "                    <!--</li>-->\n" +
+    "                <!--</ul>-->\n" +
+    "            <!--</span>-->\n" +
+    "        <input type=\"text\"\n" +
+    "               ng-model=\"$$value$$\"\n" +
+    "               uib-typeahead=\"item.name for item in form.titleMap | filter:$viewValue\"\n" +
+    "               typeahead-wait-ms=\"500\"\n" +
+    "               typeahead-loading=\"loadingTitleMap\"\n" +
+    "               placeholder=\"{{form.title}}\"\n" +
+    "               ng-model-options=\"form.ngModelOptions\"\n" +
+    "               ng-disabled=\"form.readonly\"\n" +
+    "               sf-changed=\"form\"\n" +
+    "               class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "               schema-validate=\"form\"\n" +
+    "               name=\"{{form.name}}\"/>\n" +
+    "    <!--</div>-->\n" +
+    "    <div ng-show=\"loadingTitleMap\" class=\"loader\"></div>\n" +
     "    <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
     "</div>");
 }]);

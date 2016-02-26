@@ -1857,3 +1857,7 @@ table.dataTable thead .sorting:after {
     margin-bottom: 20px;
     color: #636363  ;
 }
+
+#toast-container {
+    margin-top: 90px;
+}
