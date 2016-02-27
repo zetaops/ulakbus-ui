@@ -29,7 +29,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @name Generator
      * @description form service's Generator factory service handles all generic form operations
      */
-    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment) {
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps) {
         var generator = {};
         /**
          * @memberof ulakbus.formService
@@ -839,43 +839,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     return generator.pathDecider(res.data.client_cmd, scope, res.data);
                 });
         };
-        ///**
-        // * @memberof ulakbus.formService
-        // * @ngdoc function
-        // * @name isValidEmail
-        // * @description checks if given value is a valid email address.
-        // * @param email
-        // * @returns {boolean}
-        // */
-        //generator.isValidEmail = function (email) {
-        //    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-        //    return re.test(email);
-        //};
-        ///**
-        // * @memberof ulakbus.formService
-        // * @ngdoc function
-        // * @name isValidTCNo
-        // * @description checks if given value is a valid identity number for Turkey.
-        // * @param tcno
-        // * @returns {boolean}
-        // */
-        //generator.isValidTCNo = function (tcno) {
-        //    var re = /^([1-9]{1}[0-9]{9}[0,2,4,6,8]{1})$/i;
-        //    return re.test(tcno);
-        //};
-        ///**
-        // * @memberof ulakbus.formService
-        // * @ngdoc function
-        // * @name isValidDate
-        // * @description checks if given value can be parsed as Date object
-        // * @param dateValue
-        // * @returns {boolean}
-        // */
-        //generator.isValidDate = function (dateValue) {
-        //    //return !isNaN(Date.parse(dateValue));
-        //    return moment(dateValue)._d.toString() !== 'Invalid Date'
-        //};
-
         /**
          * @memberof ulakbus.formService
          * @ngdoc property
@@ -891,8 +854,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         generator.setPageData = function (value) {
             generator.pageData = value;
         };
-
-
         /**
          * @memberof ulakbus.formService
          * @ngdoc function
@@ -959,7 +920,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             dispatchClientCmd();
         };
-
         /**
          * @memberof ulakbus.formService
          * @ngdoc function
