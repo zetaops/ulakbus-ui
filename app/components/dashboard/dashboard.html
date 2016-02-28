@@ -1,5 +1,251 @@
-<div ng-app="ulakbus.dashboard" class="dashboard">
+<div ng-app="ulakbus.dashboard" class="dashboard student-dashboard">
     <div class="starter-template">
+    
+    	<!-- STUDENT DASHBOARD -->
+        
+        <div class="row">
+        	<!-- STUDENT COURSES -->
+        	<div class="col-lg-6 col-md-12 student-course-list">
+            	<div class="panel panel-default">
+                	<div class="panel-heading">
+                    	<div class="panel-title">Dersler</div>
+                    </div>
+                    <div class="panel-body">
+                    
+                    	<ul>
+                        	<li><a href="#"><span>181</span> Basic Physics</a></li>
+                            <li><a href="#"><span>421</span> Research and Development</a></li>
+                            <li><a href="#"><span>435</span> Project Management and Development</a></li>
+                            <li><a href="#"><span>207</span> Design and Use of Instructional Material</a></li>
+                            <li><a href="#"><span>323</span> Multimedia Design and Development</a></li>
+                            <li><a href="#"><span>475</span> Climate Change Education for Sustainability</a></li>
+                        </ul>
+                    
+                    </div>
+        		</div>
+        	</div>
+            <!-- END OF STUDENT COURSES -->
+            
+            <!-- STUDENT ASSIGNMENTS -->
+            <div class="col-lg-6 col-md-12 student-assignment-list">
+            	<div class="panel panel-default">
+                	<div class="panel-heading">
+                    	<div class="panel-title">Görevler</div>
+                    </div>
+                    <div class="panel-body">
+                    
+                    	<ul>
+                        	<li class="urgent-assignment">
+                            	<a href="#" class="clearfix">
+                                	<span class="assignment-status">
+                                    	<div class="assignment-circle" uib-tooltip="Acil"></div>
+                                    </span>
+                                    <span class="assignment-title">
+                                    	<div>Needs Assessment Document</div>
+                                        <div>435 - Project Management and Development</div>
+                                    </span>
+                                    <span class="assignment-due-date">
+                                    	<div>18</div>
+                                        <div>ŞUB</div>
+                                    </span>
+                                </a>
+                            </li>
+                            <!-- end of urgent-assignment -->
+                            <li class="approaching-assignment">
+                            	<a href="#" class="clearfix">
+                                	<span class="assignment-status">
+                                    	<div class="assignment-circle" uib-tooltip="Yaklaşıyor"></div>
+                                    </span>
+                                    <span class="assignment-title">
+                                    	<div>Storyboard Design</div>
+                                        <div>435 - Project Management and Development</div>
+                                    </span>
+                                    <span class="assignment-due-date">
+                                    	<div>27</div>
+                                        <div>ŞUB</div>
+                                    </span>
+                                </a>
+                            </li>
+                            <!-- end of approaching-assignment -->
+                            <li class="non-urgent-assignment">
+                            	<a href="#" class="clearfix">
+                                	<span class="assignment-status">
+                                    	<div class="assignment-circle" uib-tooltip="Acil olmayan"></div>
+                                    </span>
+                                    <span class="assignment-title">
+                                    	<div>Design Report</div>
+                                        <div>435 - Project Management and Development</div>
+                                    </span>
+                                    <span class="assignment-due-date">
+                                    	<div>05</div>
+                                        <div>MAR</div>
+                                    </span>
+                                </a>
+                            </li>
+                            <!-- end of non-urgent-assignment -->
+                            
+                            <li class="last-assignment">
+                            	<div class="panel-heading">
+                                    <div class="panel-title">Tamamlanan Son Görevler</div>
+                                </div>
+                            	<a href="#" class="clearfix">
+                                	<span class="assignment-status">
+                                    	<div></div>
+                                    </span>
+                                    <span class="assignment-title">
+                                    	<div>Design Report</div>
+                                        <div>435 - Project Management and Development</div>
+                                    </span>
+                                    <span class="assignment-due-date">
+                                    	<div><i class="fa fa-check"></i></div>
+                                    </span>
+                                </a>
+                            </li>
+                            <!-- end of last-assignment -->
+                        </ul>
+                    
+                    </div>
+        		</div>
+        	</div>
+            <!-- END OF STUDENT ASSIGNMENTS -->
+        </div>
+        
+        
+        <div class="row">
+        	<!-- STUDENT ANNOUNCEMENTS -->
+        	<div class="col-lg-6 col-md-12 student-announcement-list">
+            	<div class="panel panel-default">
+                	<div class="panel-heading">
+                    	<div class="panel-title">Duyurular</div>
+                    </div>
+                    <div class="panel-body">
+                    
+                    	<ul>
+                        	<li>
+                            	<a href="#" class="clearfix">
+                            		<span class="announcement-date">
+                                    	<div>05</div>
+                                        <div>MAR</div>
+                                    </span>
+                                    <span class="announcement-text"> 
+                                    	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non molestie est. Phasellus suscipit ut quam pulvinar tincidunt. Etiam accumsan vel turpis vitae vehicula. Quisque vel est nisl. In massa sapien, congue at dapibus sed, maximus eu urna.
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                            	<a href="#" class="clearfix">
+                            		<span class="announcement-date">
+                                    	<div>24</div>
+                                        <div>MAR</div>
+                                    </span>
+                                    <span class="announcement-text"> 
+                                    	Donec nec purus et nunc imperdiet vulputate quis vel turpis. Suspendisse nec bibendum odio. Praesent et enim blandit, varius diam
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                            	<a href="#" class="clearfix">
+                            		<span class="announcement-date">
+                                    	<div>11</div>
+                                        <div>NİS</div>
+                                    </span>
+                                    <span class="announcement-text"> 
+                                    	Etiam eget libero sapien. Nulla vitae ultricies quam. Aliquam gravida ligula eu leo ullamcorper tristique. Donec accumsan nec odio non viverra.
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                            	<a href="#" class="clearfix">
+                            		<span class="announcement-date">
+                                    	<div>19</div>
+                                        <div>MAY</div>
+                                    </span>
+                                    <span class="announcement-text"> 
+                                    	Maecenas fermentum, metus sed feugiat lacinia, massa sem facilisis erat, eget sollicitudin ante ipsum id dolor. Curabitur id odio eleifend, lobortis ipsum id, lacinia lacus. Morbi ac rutrum nisl, id auctor purus. Fusce vulputate elit sed massa pellentesque convallis.
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    
+                    </div>
+        		</div>
+        	</div>
+            <!-- END OF STUDENT ANNOUNCEMENTS -->
+            
+            <!-- STUDENT MESSAGES -->
+            <div class="col-lg-6 col-md-12 student-message-list">
+            	<div class="panel panel-default">
+                	<div class="panel-heading">
+                    	<div class="panel-title">Görevler</div>
+                    </div>
+                    <div class="panel-body">
+                    
+                    	<ul>
+                        	<li>
+                            	<a href="#" class="clearfix">
+                                	<span class="profile-pic">
+                                    	<img src="../../img/gokhan.jpg">
+                                    </span>
+                                    <span class="message-content">
+                                    	<div>Gökhan Boranalp</div>
+                                        <div>Lorem ipsum dolor sit amet.</div>
+                                    </span>
+                                    <span class="message-time">
+                                    	14:40
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                            	<a href="#" class="clearfix">
+                                	<span class="profile-pic">
+                                    	<img src="../../img/evren.jpg">
+                                    </span>
+                                    <span class="message-content">
+                                    	<div>Evren Kutar</div>
+                                        <div>Donec nec purus et nunc imperdiet vulputate quis vel turpis. Suspendisse nec bibendum odio. Praesent et enim blandit, varius diam in.</div>
+                                    </span>
+                                    <span class="message-time">
+                                    	12:36
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                            	<a href="#" class="clearfix">
+                                	<span class="profile-pic">
+                                    	<img src="../../img/erkan.jpg">
+                                    </span>
+                                    <span class="message-content">
+                                    	<div>Erkan Öğümsöğütlü</div>
+                                        <div>Duis mi sem, euismod ut dui eget, egestas tincidunt ex. Aliquam id iaculis risus.</div>
+                                    </span>
+                                    <span class="message-time">
+                                    	Yesterday
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                            	<a href="#" class="clearfix">
+                                	<span class="profile-pic">
+                                    	<img src="../../img/sample-profile-pic.jpg">
+                                    </span>
+                                    <span class="message-content">
+                                    	<div>Teddy Joyner</div>
+                                        <div>Nulla vitae ultricies quam.</div>
+                                    </span>
+                                    <span class="message-time">
+                                    	16.02.2016
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    
+                    </div>
+        		</div>
+        	</div>
+            <!-- END OF STUDENT MESSAGES -->
+        </div>
+        
+        <!-- END OF STUDENT DASHBOARD -->
 
         <div class="dashboard-main-search clearfix">
 
