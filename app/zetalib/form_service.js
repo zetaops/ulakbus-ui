@@ -479,7 +479,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             var generate_fields = {
                 button: {default: _buttons},
                 submit: {default: _buttons},
-                file: {default: function (scope, v, k) {
+                file: {
+                    default: function (scope, v, k) {
                         scope.form[scope.form.indexOf(k)] = {
                             type: "template",
                             title: v.title,
@@ -493,8 +494,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             avatar: k === 'avatar'
                         };
                         v.type = 'string';
-                    }},
-                select: {default: function (scope, v, k) {
+                    }
+                },
+                select: {
+                    default: function (scope, v, k) {
                         scope.form[scope.form.indexOf(k)] = {
                             type: "template",
                             title: v.title,
@@ -503,8 +506,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             key: k,
                             titleMap: v.titleMap
                         };
-                    }},
-                date: {default: function (scope, v, k) {
+                    }
+                },
+                date: {
+                    default: function (scope, v, k) {
                         $log.debug('date:', scope.model[k]);
                         scope.model[k] = generator.dateformatter(scope.model[k]);
                         scope.form[scope.form.indexOf(k)] = {
@@ -547,38 +552,47 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
                             }
                         };
-                    }},
+                    }
+                },
                 int: {default: _numbers},
-                boolean: {default: function () {}},
-                string: {default: function () {}},
-                typeahead: {default: function (scope, v, k) {
-                    scope.form[scope.form.indexOf(k)] = {
-                        type: "template",
-                        title: v.title,
-                        titleMap: v.titleMap,
-                        templateUrl: "shared/templates/typeahead.html",
-                        name: k,
-                        key: k,
-                        onDropdownSelect: function (item, inputname) {
-                            scope.model[k] = item.value;
-                            $timeout(function () {
-                                document.querySelector('input[name=' + inputname + ']').value = item.name;
-                            });
-                        }
-                    };
-                    v.type = 'string';
-                }},
+                boolean: {
+                    default: function () {
+                    }
+                },
+                string: {
+                    default: function () {
+                    }
+                },
+                typeahead: {
+                    default: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            type: "template",
+                            title: v.title,
+                            titleMap: v.titleMap,
+                            templateUrl: "shared/templates/typeahead.html",
+                            name: k,
+                            key: k,
+                            onDropdownSelect: function (item, inputname) {
+                                scope.model[k] = item.value;
+                                $timeout(function () {
+                                    document.querySelector('input[name=' + inputname + ']').value = item.name;
+                                });
+                            }
+                        };
+                        v.type = 'string';
+                    }
+                },
                 text_general: {
-                    default:
-                        function (scope, v, k) {
-                            v.type = 'string',
+                    default: function (scope, v, k) {
+                        v.type = 'string',
                             v["x-schema-form"] = {
                                 "type": "textarea"
                             }
-                        }
+                    }
                 },
                 float: {default: _numbers},
-                model: {default: function (scope, v, k) {
+                model: {
+                    default: function (scope, v, k) {
 
                         var formitem = scope.form[scope.form.indexOf(k)];
                         var modelScope = {
@@ -675,7 +689,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         };
 
                         scope.form[scope.form.indexOf(k)] = formitem;
-                    }},
+                    }
+                },
                 Node: {
                     default: _node_default,
                     filter_interface: _node_filter_interface
@@ -796,7 +811,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_form = function (scope) {
-            //generator.button_switch(false);
             return $http
                 .post(generator.makeUrl(scope), scope.form_params)
                 .then(function (res) {
@@ -813,7 +827,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_list = function (scope) {
-            //generator.button_switch(false);
             return $http
                 .post(generator.makeUrl(scope), scope.form_params)
                 .then(function (res) {
@@ -831,11 +844,14 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_wf = function (scope) {
-            //generator.button_switch(false);
+            //WSOps.request(scope.form_params)
+            //    .then(function (data) {
+            //        return generator.pathDecider(data.client_cmd, scope, data);
+            //    });
+
             return $http
                 .post(generator.makeUrl(scope), scope.form_params)
                 .then(function (res) {
-                    //generator.button_switch(true);
                     return generator.pathDecider(res.data.client_cmd, scope, res.data);
                 });
         };
@@ -1064,6 +1080,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 "filter": $scope.filter,
                 "query": $scope.form_params.query
             };
+
+            //WSOps.request(scope.form_params)
+            //    .then(function (data) {
+            //        return generator.pathDecider(data.client_cmd, $scope, data);
+            //    });
 
             return $http.post(generator.makeUrl($scope), data)
                 .success(function (data, status, headers) {

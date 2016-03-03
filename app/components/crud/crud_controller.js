@@ -152,7 +152,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ulakbus.formService'])
      *
      * @returns {object}
      */
-    .controller('CRUDListFormController', function ($scope, $rootScope, $location, $http, $log, $uibModal, $timeout, Generator, $routeParams, CrudUtility) {
+    .controller('CRUDListFormController', function ($scope, $rootScope, $location, $sce, $http, $log, $uibModal, $timeout, Generator, $routeParams, CrudUtility) {
 
         $scope.$on('reload_cmd', function(event, data){
             $scope.reload_cmd = data;

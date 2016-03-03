@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -204,8 +204,8 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "\n" +
     "                <td ng-repeat=\"field in object.fields track by $index\">\n" +
     "                    <a role=\"button\" ng-if=\"field.type==='link'\"\n" +
-    "                       ng-click=\"do_action(object.key, field)\">{{field.content}}</a>\n" +
-    "                    <span ng-if=\"field.type==='str'\">{{field.content}}</span>\n" +
+    "                       ng-click=\"do_action(object.key, field)\" ng-bind-html=\"field.content\"></a>\n" +
+    "                    <span ng-if=\"field.type==='str'\" ng-bind-html=\"field.content\"></span>\n" +
     "                </td>\n" +
     "\n" +
     "                <td>\n" +
@@ -360,135 +360,10 @@ angular.module("components/crud/templates/show.html", []).run(["$templateCache",
 
 angular.module("components/dashboard/dashboard.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/dashboard/dashboard.html",
-    "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard\">\n" +
+    "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard student-dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
-    "\n" +
-    "        <div class=\"dashboard-main-search clearfix\">\n" +
-    "\n" +
-    "            <div class=\"row\" ng-show=\"$root.current_user.can_search\">\n" +
-    "                <div class=\"col-md-12\">\n" +
-    "                    <div class=\"panel panel-default\">\n" +
-    "                        <div class=\"panel-heading\">\n" +
-    "                            <div class=\"panel-title\">Arama</div>\n" +
-    "                        </div>\n" +
-    "                        <div class=\"panel-body\">\n" +
-    "                            <div class=\"dashboard-student-search\" data-step=\"2\"\n" +
-    "                                 data-intro=\"isim veya tcno ile öğrenci araması yapabilirsiniz.\"\n" +
-    "                                 ng-show=\"$root.searchInputs.ogrenci\">\n" +
-    "                                <div class=\"text-center\">\n" +
-    "                                    <h3>ÖĞRENCİ</h3>\n" +
-    "                                    <input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"keyword.student\"\n" +
-    "                                           ng-keyup=\"search('ogrenci')\">\n" +
-    "                                    <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('ogrenci')\"></span>\n" +
-    "                                </div>\n" +
-    "                                <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
-    "                                    <ul ng-if=\"students.length > 0\">\n" +
-    "                                        <li ng-repeat=\"student in students\">\n" +
-    "                                            <a role=\"button\">\n" +
-    "                                                <span ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</span>\n" +
-    "                                                <i class=\"fa fa-fw fa-info-circle pull-right\" popover-placement=\"bottom\"\n" +
-    "                                                   uib-popover-template=\"userPopover.templateUrl\"\n" +
-    "                                                   ng-click=\"get_info('Ogrenci', student[2])\"></i></a>\n" +
-    "                                        </li>\n" +
-    "                                    </ul>\n" +
-    "                                </div>\n" +
-    "                                <!-- end of dashboard-student-search-results -->\n" +
-    "                            </div>\n" +
-    "                            <!-- end of dashboard-student-search -->\n" +
-    "                            <div class=\"dashboard-personnel-search\" data-step=\"3\"\n" +
-    "                                 data-intro=\"isim veya tcno ile personel araması yapabilirsiniz.\"\n" +
-    "                                 ng-show=\"$root.searchInputs.personel\">\n" +
-    "                                <div class=\"text-center\">\n" +
-    "                                    <h3>PERSONEL</h3>\n" +
-    "                                    <input type=\"text\" placeholder=\"Personel ara\" ng-model=\"keyword.staff\"\n" +
-    "                                           ng-keyup=\"search('personel')\">\n" +
-    "                                    <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('personel')\"></span>\n" +
-    "                                </div>\n" +
-    "                                <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
-    "                                    <ul ng-if=\"staffs.length > 0\">\n" +
-    "                                        <li ng-repeat=\"staff in staffs\">\n" +
-    "                                            <a role=\"button\">\n" +
-    "                                                <span ng-click=\"select(staff, 'personel')\">{{staff[0]}}</span>\n" +
-    "                                                <i class=\"fa fa-fw fa-info-circle pull-right\"\n" +
-    "                                                   popover-placement=\"bottom\"\n" +
-    "                                                   uib-popover-template=\"userPopover.templateUrl\"\n" +
-    "                                                   ng-click=\"get_info('Personel', staff[2])\"></i></a>\n" +
-    "                                        </li>\n" +
-    "                                    </ul>\n" +
-    "                                </div>\n" +
-    "                                <!-- end of dashboard-personnel-search-results -->\n" +
-    "                            </div>\n" +
-    "                            <!-- end of dashboard-personnel-search -->\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "\n" +
-    "        </div>\n" +
-    "        <!-- end of dashboard-main-search -->\n" +
-    "\n" +
-    "        <div class=\"row\">\n" +
-    "\n" +
-    "            <div class=\"col-md-12 quick-links\">\n" +
-    "                <div class=\"panel panel-default\">\n" +
-    "                    <div class=\"panel-heading\">\n" +
-    "                        <div class=\"panel-title\">Hızlı İşlemler</div>\n" +
-    "                        <div class=\"panel-action pull-right\"><i class=\"fa fa-edit fa-fw\"></i> Düzenle</div>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"panel-body\">\n" +
-    "                        <div class=\"col-md-6 text-center link-buttons\"\n" +
-    "                             ng-repeat=\"item in $root.quick_menu track by $index\">\n" +
-    "                            <a\n" +
-    "                               ng-href=\"#/{{item.wf}}/{{item.model}}?{{item.param}}={{selectedUser.key}}\">\n" +
-    "                                {{item.text}}\n" +
-    "                            </a>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "\n" +
-    "        </div>\n" +
-    "        <!-- end of row -->\n" +
-    "\n" +
-    "        <div class=\"dashboard-main-anouncement clearfix\">\n" +
-    "\n" +
-    "            <div class=\"row\">\n" +
-    "                <div class=\"col-md-12\">\n" +
-    "                    <div class=\"panel panel-default\">\n" +
-    "                        <div class=\"panel-heading\">\n" +
-    "                            <div class=\"panel-title\">Duyurular</div>\n" +
-    "                        </div>\n" +
-    "                        <div class=\"panel-body\">\n" +
-    "                            <a ng-click=\"markAsRead(notify)\"\n" +
-    "                               ng-repeat=\"notify in notifications[3] | limitTo:5\">{{notify\n" +
-    "                                .body}}</a>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "\n" +
-    "        </div>\n" +
-    "        <!-- end of dashboard-main-anouncement -->\n" +
-    "\n" +
-    "        <!--<div class=\"right-sidebar selected-person-field\">-->\n" +
-    "\n" +
-    "            <!--<div class=\"right-sidebar-header\">-->\n" +
-    "            	<!--<span class=\"bar-title\">Kişi seçildi</span>-->\n" +
-    "            	<!--<span class=\"unselect-person\"><i class=\"fa fa-times\"></i></span>-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--&lt;!&ndash; end of right-sidebaer-header &ndash;&gt;-->\n" +
-    "            <!---->\n" +
-    "            <!--<div class=\"selected-person-info\">-->\n" +
-    "            	<!--<img src=\"../../img/sample-profile-pic.jpg\" class=\"selected-person-img\">-->\n" +
-    "                <!--<div class=\"selected-person-name\">Erkan Öğümsöğütlü</div>-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--&lt;!&ndash; end of selected-person-info &ndash;&gt;-->\n" +
-    "\n" +
-    "        <!--</div>-->\n" +
-    "        <!-- end of right-sidebar -->\n" +
-    "\n" +
-    "\n" +
-    "\n" +
+    "        <ng-include src=\"'components/dashboard/user-templates/student.html'\" ng-if=\"$root.current_user.is_student\"></ng-include>\n" +
+    "        <ng-include src=\"'components/dashboard/user-templates/staff.html'\" ng-if=\"$root.current_user.is_staff\"></ng-include>\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -519,6 +394,365 @@ angular.module("components/dashboard/user-info.html", []).run(["$templateCache",
     "        </div>\n" +
     "    </div>\n" +
     "</div>");
+}]);
+
+angular.module("components/dashboard/user-templates/staff.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/dashboard/user-templates/staff.html",
+    "<div class=\"dashboard-main-search clearfix\">\n" +
+    "\n" +
+    "    <div class=\"row\" ng-if=\"$root.current_user.can_search\">\n" +
+    "        <div class=\"col-md-12\">\n" +
+    "            <div class=\"panel panel-default\">\n" +
+    "                <div class=\"panel-heading\">\n" +
+    "                    <div class=\"panel-title\">Arama</div>\n" +
+    "                </div>\n" +
+    "                <div class=\"panel-body\">\n" +
+    "                    <div class=\"dashboard-student-search\" data-step=\"2\"\n" +
+    "                         data-intro=\"isim veya tcno ile öğrenci araması yapabilirsiniz.\"\n" +
+    "                         ng-show=\"$root.searchInputs.ogrenci\">\n" +
+    "                        <div class=\"text-center\">\n" +
+    "                            <h3>ÖĞRENCİ</h3>\n" +
+    "                            <input type=\"text\" placeholder=\"Öğrenci ara\" ng-model=\"keyword.student\"\n" +
+    "                                   ng-keyup=\"search('ogrenci')\">\n" +
+    "                            <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('ogrenci')\"></span>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
+    "                            <ul ng-if=\"students.length > 0\">\n" +
+    "                                <li ng-repeat=\"student in students\">\n" +
+    "                                    <a role=\"button\">\n" +
+    "                                        <span ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</span>\n" +
+    "                                        <i class=\"fa fa-fw fa-info-circle pull-right\" popover-placement=\"bottom\"\n" +
+    "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
+    "                                           ng-click=\"get_info('Ogrenci', student[2])\"></i></a>\n" +
+    "                                </li>\n" +
+    "                            </ul>\n" +
+    "                        </div>\n" +
+    "                        <!-- end of dashboard-student-search-results -->\n" +
+    "                    </div>\n" +
+    "                    <!-- end of dashboard-student-search -->\n" +
+    "                    <div class=\"dashboard-personnel-search\" data-step=\"3\"\n" +
+    "                         data-intro=\"isim veya tcno ile personel araması yapabilirsiniz.\"\n" +
+    "                         ng-show=\"$root.searchInputs.personel\">\n" +
+    "                        <div class=\"text-center\">\n" +
+    "                            <h3>PERSONEL</h3>\n" +
+    "                            <input type=\"text\" placeholder=\"Personel ara\" ng-model=\"keyword.staff\"\n" +
+    "                                   ng-keyup=\"search('personel')\">\n" +
+    "                            <span class=\"bordered-fa-icon fa fa-search\" ng-click=\"search('personel')\"></span>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
+    "                            <ul ng-if=\"staffs.length > 0\">\n" +
+    "                                <li ng-repeat=\"staff in staffs\">\n" +
+    "                                    <a role=\"button\">\n" +
+    "                                        <span ng-click=\"select(staff, 'personel')\">{{staff[0]}}</span>\n" +
+    "                                        <i class=\"fa fa-fw fa-info-circle pull-right\"\n" +
+    "                                           popover-placement=\"bottom\"\n" +
+    "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
+    "                                           ng-click=\"get_info('Personel', staff[2])\"></i></a>\n" +
+    "                                </li>\n" +
+    "                            </ul>\n" +
+    "                        </div>\n" +
+    "                        <!-- end of dashboard-personnel-search-results -->\n" +
+    "                    </div>\n" +
+    "                    <!-- end of dashboard-personnel-search -->\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "<!-- end of dashboard-main-search -->\n" +
+    "\n" +
+    "<div class=\"row\">\n" +
+    "\n" +
+    "    <div class=\"col-md-12 quick-links\">\n" +
+    "        <div class=\"panel panel-default\">\n" +
+    "            <div class=\"panel-heading\">\n" +
+    "                <div class=\"panel-title\">Hızlı İşlemler</div>\n" +
+    "                <div class=\"panel-action pull-right\"><i class=\"fa fa-edit fa-fw\"></i> Düzenle</div>\n" +
+    "            </div>\n" +
+    "            <div class=\"panel-body\">\n" +
+    "                <div class=\"col-md-6 text-center link-buttons\"\n" +
+    "                     ng-repeat=\"item in $root.quick_menu track by $index\">\n" +
+    "                    <a\n" +
+    "                            ng-href=\"#/{{item.wf}}/{{item.model}}?{{item.param}}={{selectedUser.key}}\">\n" +
+    "                        {{item.text}}\n" +
+    "                    </a>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "<!-- end of row -->\n" +
+    "\n" +
+    "<div class=\"dashboard-main-anouncement clearfix\">\n" +
+    "\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-12\">\n" +
+    "            <div class=\"panel panel-default\">\n" +
+    "                <div class=\"panel-heading\">\n" +
+    "                    <div class=\"panel-title\">Duyurular</div>\n" +
+    "                </div>\n" +
+    "                <div class=\"panel-body\">\n" +
+    "                    <a ng-click=\"markAsRead(notify)\"\n" +
+    "                       ng-repeat=\"notify in notifications[3] | limitTo:5\">{{notify\n" +
+    "                        .body}}</a>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "<!-- end of dashboard-main-anouncement -->");
+}]);
+
+angular.module("components/dashboard/user-templates/student.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/dashboard/user-templates/student.html",
+    "<!-- STUDENT DASHBOARD -->\n" +
+    "\n" +
+    "<div class=\"row\">\n" +
+    "    <!-- STUDENT COURSES -->\n" +
+    "    <div class=\"col-lg-6 col-md-12 student-course-list\">\n" +
+    "        <div class=\"panel panel-default\">\n" +
+    "            <div class=\"panel-heading\">\n" +
+    "                <div class=\"panel-title\">Dersler</div>\n" +
+    "            </div>\n" +
+    "            <div class=\"panel-body\">\n" +
+    "\n" +
+    "                <ul>\n" +
+    "                    <li><a href=\"#\"><span>181</span> Basic Physics</a></li>\n" +
+    "                    <li><a href=\"#\"><span>421</span> Research and Development</a></li>\n" +
+    "                    <li><a href=\"#\"><span>435</span> Project Management and Development</a></li>\n" +
+    "                    <li><a href=\"#\"><span>207</span> Design and Use of Instructional Material</a></li>\n" +
+    "                    <li><a href=\"#\"><span>323</span> Multimedia Design and Development</a></li>\n" +
+    "                    <li><a href=\"#\"><span>475</span> Climate Change Education for Sustainability</a></li>\n" +
+    "                </ul>\n" +
+    "\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <!-- END OF STUDENT COURSES -->\n" +
+    "\n" +
+    "    <!-- STUDENT ASSIGNMENTS -->\n" +
+    "    <div class=\"col-lg-6 col-md-12 student-assignment-list\">\n" +
+    "        <div class=\"panel panel-default\">\n" +
+    "            <div class=\"panel-heading\">\n" +
+    "                <div class=\"panel-title\">Görevler</div>\n" +
+    "            </div>\n" +
+    "            <div class=\"panel-body\">\n" +
+    "\n" +
+    "                <ul>\n" +
+    "                    <li class=\"urgent-assignment\">\n" +
+    "                        <a href=\"#\" class=\"clearfix\">\n" +
+    "                                	<span class=\"assignment-status\">\n" +
+    "                                    	<div class=\"assignment-circle\" uib-tooltip=\"Acil\"></div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"assignment-title\">\n" +
+    "                                    	<div>Needs Assessment Document</div>\n" +
+    "                                        <div>435 - Project Management and Development</div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"assignment-due-date\">\n" +
+    "                                    	<div>18</div>\n" +
+    "                                        <div>ŞUB</div>\n" +
+    "                                    </span>\n" +
+    "                        </a>\n" +
+    "                    </li>\n" +
+    "                    <!-- end of urgent-assignment -->\n" +
+    "                    <li class=\"approaching-assignment\">\n" +
+    "                        <a href=\"#\" class=\"clearfix\">\n" +
+    "                                	<span class=\"assignment-status\">\n" +
+    "                                    	<div class=\"assignment-circle\" uib-tooltip=\"Yaklaşıyor\"></div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"assignment-title\">\n" +
+    "                                    	<div>Storyboard Design</div>\n" +
+    "                                        <div>435 - Project Management and Development</div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"assignment-due-date\">\n" +
+    "                                    	<div>27</div>\n" +
+    "                                        <div>ŞUB</div>\n" +
+    "                                    </span>\n" +
+    "                        </a>\n" +
+    "                    </li>\n" +
+    "                    <!-- end of approaching-assignment -->\n" +
+    "                    <li class=\"non-urgent-assignment\">\n" +
+    "                        <a href=\"#\" class=\"clearfix\">\n" +
+    "                                	<span class=\"assignment-status\">\n" +
+    "                                    	<div class=\"assignment-circle\" uib-tooltip=\"Acil olmayan\"></div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"assignment-title\">\n" +
+    "                                    	<div>Design Report</div>\n" +
+    "                                        <div>435 - Project Management and Development</div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"assignment-due-date\">\n" +
+    "                                    	<div>05</div>\n" +
+    "                                        <div>MAR</div>\n" +
+    "                                    </span>\n" +
+    "                        </a>\n" +
+    "                    </li>\n" +
+    "                    <!-- end of non-urgent-assignment -->\n" +
+    "\n" +
+    "                    <li class=\"last-assignment\">\n" +
+    "                        <div class=\"panel-heading\">\n" +
+    "                            <div class=\"panel-title\">Tamamlanan Son Görevler</div>\n" +
+    "                        </div>\n" +
+    "                        <a href=\"#\" class=\"clearfix\">\n" +
+    "                                	<span class=\"assignment-status\">\n" +
+    "                                    	<div></div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"assignment-title\">\n" +
+    "                                    	<div>Design Report</div>\n" +
+    "                                        <div>435 - Project Management and Development</div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"assignment-due-date\">\n" +
+    "                                    	<div><i class=\"fa fa-check\"></i></div>\n" +
+    "                                    </span>\n" +
+    "                        </a>\n" +
+    "                    </li>\n" +
+    "                    <!-- end of last-assignment -->\n" +
+    "                </ul>\n" +
+    "\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <!-- END OF STUDENT ASSIGNMENTS -->\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "<div class=\"row\">\n" +
+    "    <!-- STUDENT ANNOUNCEMENTS -->\n" +
+    "    <div class=\"col-lg-6 col-md-12 student-announcement-list\">\n" +
+    "        <div class=\"panel panel-default\">\n" +
+    "            <div class=\"panel-heading\">\n" +
+    "                <div class=\"panel-title\">Duyurular</div>\n" +
+    "            </div>\n" +
+    "            <div class=\"panel-body\">\n" +
+    "\n" +
+    "                <ul>\n" +
+    "                    <li>\n" +
+    "                        <a href=\"#\" class=\"clearfix\">\n" +
+    "                            		<span class=\"announcement-date\">\n" +
+    "                                    	<div>05</div>\n" +
+    "                                        <div>MAR</div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"announcement-text\">\n" +
+    "                                    	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non molestie est. Phasellus suscipit ut quam pulvinar tincidunt. Etiam accumsan vel turpis vitae vehicula. Quisque vel est nisl. In massa sapien, congue at dapibus sed, maximus eu urna.\n" +
+    "                                    </span>\n" +
+    "                        </a>\n" +
+    "                    </li>\n" +
+    "                    <li>\n" +
+    "                        <a href=\"#\" class=\"clearfix\">\n" +
+    "                            		<span class=\"announcement-date\">\n" +
+    "                                    	<div>24</div>\n" +
+    "                                        <div>MAR</div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"announcement-text\">\n" +
+    "                                    	Donec nec purus et nunc imperdiet vulputate quis vel turpis. Suspendisse nec bibendum odio. Praesent et enim blandit, varius diam\n" +
+    "                                    </span>\n" +
+    "                        </a>\n" +
+    "                    </li>\n" +
+    "                    <li>\n" +
+    "                        <a href=\"#\" class=\"clearfix\">\n" +
+    "                            		<span class=\"announcement-date\">\n" +
+    "                                    	<div>11</div>\n" +
+    "                                        <div>NİS</div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"announcement-text\">\n" +
+    "                                    	Etiam eget libero sapien. Nulla vitae ultricies quam. Aliquam gravida ligula eu leo ullamcorper tristique. Donec accumsan nec odio non viverra.\n" +
+    "                                    </span>\n" +
+    "                        </a>\n" +
+    "                    </li>\n" +
+    "                    <li>\n" +
+    "                        <a href=\"#\" class=\"clearfix\">\n" +
+    "                            		<span class=\"announcement-date\">\n" +
+    "                                    	<div>19</div>\n" +
+    "                                        <div>MAY</div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"announcement-text\">\n" +
+    "                                    	Maecenas fermentum, metus sed feugiat lacinia, massa sem facilisis erat, eget sollicitudin ante ipsum id dolor. Curabitur id odio eleifend, lobortis ipsum id, lacinia lacus. Morbi ac rutrum nisl, id auctor purus. Fusce vulputate elit sed massa pellentesque convallis.\n" +
+    "                                    </span>\n" +
+    "                        </a>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <!-- END OF STUDENT ANNOUNCEMENTS -->\n" +
+    "\n" +
+    "    <!-- STUDENT MESSAGES -->\n" +
+    "    <div class=\"col-lg-6 col-md-12 student-message-list\">\n" +
+    "        <div class=\"panel panel-default\">\n" +
+    "            <div class=\"panel-heading\">\n" +
+    "                <div class=\"panel-title\">Görevler</div>\n" +
+    "            </div>\n" +
+    "            <div class=\"panel-body\">\n" +
+    "\n" +
+    "                <ul>\n" +
+    "                    <li>\n" +
+    "                        <a href=\"#\" class=\"clearfix\">\n" +
+    "                                	<span class=\"profile-pic\">\n" +
+    "                                    	<img src=\"../../img/gokhan.jpg\">\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"message-content\">\n" +
+    "                                    	<div>Gökhan Boranalp</div>\n" +
+    "                                        <div>Lorem ipsum dolor sit amet.</div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"message-time\">\n" +
+    "                                    	14:40\n" +
+    "                                    </span>\n" +
+    "                        </a>\n" +
+    "                    </li>\n" +
+    "                    <li>\n" +
+    "                        <a href=\"#\" class=\"clearfix\">\n" +
+    "                                	<span class=\"profile-pic\">\n" +
+    "                                    	<img src=\"../../img/evren.jpg\">\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"message-content\">\n" +
+    "                                    	<div>Evren Kutar</div>\n" +
+    "                                        <div>Donec nec purus et nunc imperdiet vulputate quis vel turpis. Suspendisse nec bibendum odio. Praesent et enim blandit, varius diam in.</div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"message-time\">\n" +
+    "                                    	12:36\n" +
+    "                                    </span>\n" +
+    "                        </a>\n" +
+    "                    </li>\n" +
+    "                    <li>\n" +
+    "                        <a href=\"#\" class=\"clearfix\">\n" +
+    "                                	<span class=\"profile-pic\">\n" +
+    "                                    	<img src=\"../../img/erkan.jpg\">\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"message-content\">\n" +
+    "                                    	<div>Erkan Öğümsöğütlü</div>\n" +
+    "                                        <div>Duis mi sem, euismod ut dui eget, egestas tincidunt ex. Aliquam id iaculis risus.</div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"message-time\">\n" +
+    "                                    	Yesterday\n" +
+    "                                    </span>\n" +
+    "                        </a>\n" +
+    "                    </li>\n" +
+    "                    <li>\n" +
+    "                        <a href=\"#\" class=\"clearfix\">\n" +
+    "                                	<span class=\"profile-pic\">\n" +
+    "                                    	<img src=\"../../img/sample-profile-pic.jpg\">\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"message-content\">\n" +
+    "                                    	<div>Teddy Joyner</div>\n" +
+    "                                        <div>Nulla vitae ultricies quam.</div>\n" +
+    "                                    </span>\n" +
+    "                                    <span class=\"message-time\">\n" +
+    "                                    	16.02.2016\n" +
+    "                                    </span>\n" +
+    "                        </a>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <!-- END OF STUDENT MESSAGES -->\n" +
+    "</div>\n" +
+    "\n" +
+    "<!-- END OF STUDENT DASHBOARD -->");
 }]);
 
 angular.module("components/debug/debug.html", []).run(["$templateCache", function($templateCache) {

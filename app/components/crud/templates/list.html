@@ -34,8 +34,8 @@
 
                 <td ng-repeat="field in object.fields track by $index">
                     <a role="button" ng-if="field.type==='link'"
-                       ng-click="do_action(object.key, field)">{{field.content}}</a>
-                    <span ng-if="field.type==='str'">{{field.content}}</span>
+                       ng-click="do_action(object.key, field)" ng-bind-html="field.content"></a>
+                    <span ng-if="field.type==='str'" ng-bind-html="field.content"></span>
                 </td>
 
                 <td>
