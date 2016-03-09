@@ -36,6 +36,7 @@ angular.module(
         'ulakbus.devSettings',
         'ulakbus.version',
         'gettext',
+        'markdown',
     ])
     /**
      * @memberof ulakbus
@@ -75,4 +76,9 @@ angular.module(
     .constant('toastr', window.toastr)
     .config(function ($logProvider) {
         $logProvider.debugEnabled(true);
+    })
+    .config(function(markdownProvider) {
+        //markdownProvider.config({
+        //    extensions: ['table']
+        //});
     });

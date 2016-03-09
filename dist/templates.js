@@ -2,17 +2,20 @@ angular.module('templates-prod', ['components/auth/login.html', 'components/crud
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
-    "<div ng-app=\"ulakbus.auth\" class=\"container\">\n" +
-    "    <div class=\"row\">\n" +
-    "        <div class=\"col-md-4 col-md-offset-4\">\n" +
-    "            <div class=\"login-panel panel panel-default\">\n" +
-    "                <div class=\"panel-heading\">\n" +
-    "                    <h3 class=\"panel-title\">Giriş Yap <span ng-if=\"loggingIn\" class=\"loader pull-right\"></span></h3>\n" +
+    "<div style=\"width: 100%; height: 100%; position: fixed; z-index: 1100; top:0; left:0; background: #fff;\">\n" +
+    "    <div ng-app=\"ulakbus.auth\" class=\"container\">\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-6 col-md-offset-3\">\n" +
+    "                <div class=\"login-panel panel panel-default\">\n" +
+    "                    <div class=\"panel-heading\">\n" +
+    "                        <h3 class=\"panel-title\">Giriş Yap <span ng-if=\"loggingIn\" class=\"loader pull-right\"></span></h3>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"panel-body\">\n" +
+    "                        <form name=\"loginForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"\n" +
+    "                              ng-submit=\"onSubmit(loginForm)\"></form>\n" +
+    "                    </div>\n" +
     "                </div>\n" +
-    "                <div class=\"panel-body\">\n" +
-    "                    <span class=\"label label-warning\">{{message}}</span>\n" +
-    "                    <form name=\"loginForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" ng-submit=\"onSubmit(loginForm)\"></form>\n" +
-    "                </div>\n" +
+    "                <span class=\"label label-inverse label-warning\">{{message}}</span>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -204,8 +207,8 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "\n" +
     "                <td ng-repeat=\"field in object.fields track by $index\">\n" +
     "                    <a role=\"button\" ng-if=\"field.type==='link'\"\n" +
-    "                       ng-click=\"do_action(object.key, field)\" ng-bind-html=\"field.content\"></a>\n" +
-    "                    <span ng-if=\"field.type==='str'\" ng-bind-html=\"field.content\"></span>\n" +
+    "                       ng-click=\"do_action(object.key, field)\" ng-bind-html=\"field.content | markdown\"></a>\n" +
+    "                    <span ng-if=\"field.type==='str'\" ng-bind-html=\"field.content | markdown\"></span>\n" +
     "                </td>\n" +
     "\n" +
     "                <td>\n" +
@@ -225,16 +228,16 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "    <nav ng-if=\"pagination && pagination.total_pages > 1\" class=\"text-center\">\n" +
     "        <ul class=\"pagination\">\n" +
     "            <li ng-class=\"{disabled:pagination.page===1}\">\n" +
-    "                <a aria-label=\"Önceki\" ng-click=\"reload({page:pagination.page-1})\">\n" +
+    "                <a aria-label=\"Önceki\" ng-click=\"paginate({page:pagination.page-1})\">\n" +
     "                    <span aria-hidden=\"true\">&laquo;</span>\n" +
     "                </a>\n" +
     "            </li>\n" +
     "            <li ng-repeat=\"page in getNumber(pagination.total_pages) track by $index\"\n" +
     "                ng-class=\"{active:$index+1===pagination.page}\">\n" +
-    "                <a ng-click=\"reload({page:$index+1})\">{{$index+1}}</a>\n" +
+    "                <a ng-click=\"paginate({page:$index+1})\">{{$index+1}}</a>\n" +
     "            </li>\n" +
     "            <li ng-class=\"{disabled:pagination.page===pagination.total_pages}\">\n" +
-    "                <a aria-label=\"Sonraki\" ng-click=\"reload({page:pagination.page+1})\">\n" +
+    "                <a aria-label=\"Sonraki\" ng-click=\"paginate({page:pagination.page+1})\">\n" +
     "                    <span aria-hidden=\"true\">&raquo;</span>\n" +
     "                </a>\n" +
     "            </li>\n" +

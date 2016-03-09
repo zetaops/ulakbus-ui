@@ -14,14 +14,15 @@ angular.module('ulakbus')
      * @description logout directive provides a button with click event. When triggered it post to
      * '/logout' path of the API.
      */
-    .directive('logout', function ($http, $location, RESTURL) {
+    .directive('logout', function ($http, $location, RESTURL, AuthService) {
         return {
             link: function ($scope, $element, $rootScope) {
                 $element.on('click', function () {
-                    $http.post(RESTURL.url + 'logout', {}).then(function () {
-                        $rootScope.loggedInUser = false;
-                        $location.path("/login");
-                    });
+                    AuthService.logout();
+                    //$http.post(RESTURL.url + 'logout', {}).then(function () {
+                    //    $rootScope.loggedInUser = false;
+                    //    $location.path("/login");
+                    //});
                 });
             }
         };
@@ -61,10 +62,10 @@ angular.module('ulakbus')
                  */
                 $scope.getNotifications = function () {
                     // ignore loading bar here
-                    $http.get(RESTURL.url + "notify", {ignoreLoadingBar: true}).success(function (data) {
-                        $scope.groupNotifications(data.notifications);
-                        $rootScope.$broadcast("notifications", $scope.notifications);
-                    });
+                    //$http.get(RESTURL.url + "notify", {ignoreLoadingBar: true}).success(function (data) {
+                    //    $scope.groupNotifications(data.notifications);
+                    //    $rootScope.$broadcast("notifications", $scope.notifications);
+                    //});
                 };
 
                 $scope.getNotifications();
@@ -82,11 +83,11 @@ angular.module('ulakbus')
                  * @todo: do it in detail page of notification
                  */
                 $scope.markAsRead = function (items) {
-                    $http.post(RESTURL.url + "notify", {ignoreLoadingBar: true, read: [items]})
-                        .success(function (data) {
-                            $scope.groupNotifications(data.notifications);
-                            $rootScope.$broadcast("notifications", $scope.notifications);
-                        });
+                    //$http.post(RESTURL.url + "notify", {ignoreLoadingBar: true, read: [items]})
+                    //    .success(function (data) {
+                    //        $scope.groupNotifications(data.notifications);
+                    //        $rootScope.$broadcast("notifications", $scope.notifications);
+                    //    });
                 };
 
                 // if markasread triggered outside the directive
@@ -133,10 +134,10 @@ angular.module('ulakbus')
                     $scope.$broadcast('schemaFormValidate');
                     if (form.$valid) {
                         var searchparams = {
-                            url: $scope.wf,
                             token: $scope.$parent.token,
                             object_id: $scope.$parent.object_id,
                             form_params: {
+                                wf: $scope.$parent.wf,
                                 model: $scope.$parent.form_params.model,
                                 cmd: $scope.$parent.reload_cmd,
                                 flow: $scope.$parent.form_params.flow,
@@ -144,10 +145,7 @@ angular.module('ulakbus')
                             }
                         };
 
-                        Generator.submit(searchparams).success(function (data) {
-                            // update objects item of page scope
-                            $rootScope.$broadcast('updateObjects', data.objects);
-                        });
+                        Generator.submit(searchparams);
                     }
                 };
             }
@@ -310,59 +308,66 @@ angular.module('ulakbus')
                     return newMenuItems;
                 };
 
-                var sidebarmenu = $('#side-menu');
-                sidebarmenu.metisMenu();
-                $http.get(RESTURL.url + 'menu/')
-                    .success(function (data) {
-                        $scope.allMenuItems = angular.copy(data);
+                var generate_menu = function () {
+                    var sidebarmenu = $('#side-menu');
+                    sidebarmenu.metisMenu();
+                    $http.get(RESTURL.url + 'menu', {ignoreLoadingBar: true})
+                        .success(function (data) {
+                            $scope.allMenuItems = angular.copy(data);
 
-                        // regroup menu items based on their category
-                        function reGroupMenuItems(items, baseCategory) {
-                            var newItems = {};
-                            angular.forEach(items, function (value, key) {
-                                newItems[value.kategori] = newItems[value.kategori] || [];
-                                value['baseCategory'] = baseCategory;
-                                newItems[value.kategori].push(value);
-                            });
-                            return newItems;
-                        }
-
-                        angular.forEach($scope.allMenuItems, function (value, key) {
-                            if (key !== 'current_user' && key !== 'settings') {
-                                $scope.allMenuItems[key] = reGroupMenuItems(value, key);
+                            // regroup menu items based on their category
+                            function reGroupMenuItems(items, baseCategory) {
+                                var newItems = {};
+                                angular.forEach(items, function (value, key) {
+                                    newItems[value.kategori] = newItems[value.kategori] || [];
+                                    value['baseCategory'] = baseCategory;
+                                    newItems[value.kategori].push(value);
+                                });
+                                return newItems;
                             }
+
+                            angular.forEach($scope.allMenuItems, function (value, key) {
+                                if (key !== 'current_user' && key !== 'settings') {
+                                    $scope.allMenuItems[key] = reGroupMenuItems(value, key);
+                                }
+                            });
+
+                            // quick menus to dashboard via rootscope
+
+                            $rootScope.quick_menu = reGroupMenuItems(data.quick_menu, 'quick_menus');
+                            $rootScope.quick_menu = data.quick_menu;
+                            delete data.quick_menu;
+                            $log.debug('quick menu', $rootScope.quick_menu);
+
+                            // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
+                            // related items
+                            $rootScope.$broadcast("authz", data);
+                            $rootScope.$broadcast("ws_turn_on");
+                            $rootScope.searchInputs = data;
+
+                            $rootScope.current_user = data.current_user;
+                            if (data.ogrenci || data.personel) {
+                                $rootScope.current_user.can_search = true;
+                            }
+                            $rootScope.settings = data.settings;
+
+                            $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
+
+                            $timeout(function () {
+                                sidebarmenu.metisMenu();
+                            });
+                        })
+                        .error(function (data, status, headers, config) {
+                            $log.error('menu not retrieved', data);
+                            $location.path('/login');
                         });
-
-                        // quick menus to dashboard via rootscope
-
-                        $rootScope.quick_menu = reGroupMenuItems(data.quick_menu, 'quick_menus');
-                        $rootScope.quick_menu = data.quick_menu;
-                        delete data.quick_menu;
-                        $log.debug('quick menu', $rootScope.quick_menu);
-
-                        // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
-                        // related items
-                        $rootScope.$broadcast("authz", data);
-                        $rootScope.searchInputs = data;
-
-                        $rootScope.current_user = data.current_user;
-                        if (data.ogrenci || data.personel) {
-                            $rootScope.current_user.can_search = true;
-                        }
-                        $rootScope.settings = data.settings;
-
-                        $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
-
-                        $timeout(function () {
-                            sidebarmenu.metisMenu();
-                            // to show page items showApp must be set to true
-                            // it prevents to show empty nonsense page items when http401/403
-                            //$rootScope.showApp = true;
-                        });
-                    });
+                };
+                $scope.$on("regenerate_menu", function () {
+                    generate_menu();
+                });
+                generate_menu();
 
                 // changing menu items by listening for broadcast
-
                 $scope.$on("menuitems", function (event, data) {
                     var menu = {};
                     menu[data] = $scope.allMenuItems[data];

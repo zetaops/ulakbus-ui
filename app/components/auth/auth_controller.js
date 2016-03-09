@@ -25,19 +25,17 @@ angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
      * @description LoginCtrl responsible to handle login process.<br>
      * Using 'ulakbus.formService.get_form' function generates the login form and post it to the API with input datas.
      */
-    .controller('LoginController', function ($scope, $q, $timeout, $routeParams, $rootScope, $log, Generator, AuthService) {
+    .controller('LoginController', function ($scope, $q, $timeout, $location, $routeParams, $rootScope, $log, Generator, AuthService) {
         $scope.url = 'login';
         $scope.form_params = {};
         $scope.form_params['clear_wf'] = 1;
-        Generator.get_form($scope).then(function (data) {
+        AuthService.get_form($scope).then(function (data) {
+            if (data.login) { $location.path('/'); }
             $scope.form = [
                 {key: "username", type: "string", title: "Kullanıcı Adı"},
                 {key: "password", type: "password", title: "Şifre"},
                 {type: 'submit', title: 'Giriş Yap'}
             ];
-            // to show page items showApp must be set to true
-            // it prevents to show empty nonsense page items when http401/403
-            //$rootScope.showApp = true;
         });
         $scope.loggingIn = false;
         $scope.onSubmit = function (form) {
@@ -47,6 +45,10 @@ angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
                 $rootScope.loginAttempt = 1;
                 Generator.button_switch(false);
                 AuthService.login($scope.url, $scope.model)
+                    .success(function (data) {
+                        $scope.message = data.title;
+                        $scope.loggingIn = false;
+                    })
                     .error(function (data) {
                         $scope.message = data.title;
                         $scope.loggingIn = false;

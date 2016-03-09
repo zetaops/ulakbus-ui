@@ -36,6 +36,7 @@ angular.module(
         'ulakbus.devSettings',
         'ulakbus.version',
         'gettext',
+        'markdown',
         // @if NODE_ENV='PRODUCTION'
         'templates-prod',
         // @endif
@@ -85,4 +86,9 @@ angular.module(
         // @if NODE_ENV='DEVELOPMENT'
         $logProvider.debugEnabled(true);
         // @endif
+    })
+    .config(function(markdownProvider) {
+        //markdownProvider.config({
+        //    extensions: ['table']
+        //});
     });

@@ -15,8 +15,16 @@ angular.module('ulakbus.auth')
      * @name AuthService
      * @description  provides generic functions for authorization process.
      */
-    .factory('AuthService', function ($http, $rootScope, $location, $log, Generator, RESTURL) {
+    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, WSOps) {
         var authService = {};
+
+        authService.get_form = function (scope) {
+            return $http
+                .post(Generator.makeUrl(scope), scope.form_params)
+                .then(function (res) {
+                    return Generator.generate(scope, res.data);
+                });
+        };
 
         /**
          * @memberof ulakbus.auth
@@ -36,11 +44,19 @@ angular.module('ulakbus.auth')
                 .success(function (data, status, headers, config) {
                     //$window.sessionStorage.token = data.token;
                     Generator.button_switch(true);
-                    $rootScope.loggedInUser = true;
+                    if (data.status_code !== 403) {
+                        $rootScope.loggedInUser = true;
+                        $rootScope.$broadcast("regenerate_menu");
+                        $location.path('/dashboard');
+                    }
+                    if (data.status_code === 403) {
+                        data.title = "İşlem başarısız oldu. Lütfen girdiğiniz bilgileri kontrol ediniz.";
+                        return data;
+                    }
                 })
                 .error(function (data, status, headers, config) {
                     // Handle login errors here
-                    data.title = "İşlem başarısız oldu. Lütfen girdiğiniz bilgileri kontrol ediniz."
+                    data.title = "İşlem başarısız oldu. Lütfen girdiğiniz bilgileri kontrol ediniz.";
                     return data;
                 });
         };
@@ -54,8 +70,9 @@ angular.module('ulakbus.auth')
          * @returns {*}
          */
         authService.logout = function () {
-            $log.debug("logout");
-            return $http.post(RESTURL.url + 'logout', {}).success(function (data) {
+
+            $rootScope.loginAttempt = 0;
+            WSOps.request({wf: 'logout'}).then(function (data) {
                 $rootScope.loggedInUser = false;
                 $log.debug("loggedout");
                 $location.path("/login");

@@ -21,7 +21,7 @@
 </head>
 <body ng-controller="KeyListenController" ng-keydown="down($event)">
 
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-if="$root.loggedInUser">
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-if="$root.current_user">
     <collapse-menu></collapse-menu>
     <!--<ul class="header-menu">-->
         <!--<li><a href="">Mesajlar</a></li>-->
@@ -44,12 +44,12 @@
     <header-notification></header-notification>
 </nav>
 
-<sidebar ng-if="$root.loggedInUser"></sidebar>
+<sidebar ng-if="$root.current_user"></sidebar>
 
 <div class="manager-view">
     <div class="manager-view-inner">
         <!-- manager-header -->
-        <header-sub-menu ng-if="$root.loggedInUser"></header-sub-menu>
+        <header-sub-menu ng-if="$root.current_user"></header-sub-menu>
         <!-- end of manager-header -->
         <div class="manager-view-content">
             <div class="row">
