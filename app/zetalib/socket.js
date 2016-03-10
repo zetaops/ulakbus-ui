@@ -25,7 +25,7 @@ angular.module('ulakbus')
     /**
      * WSOps operates all websocket interactions
      */
-    .factory('WSOps', function (WSUri, $q, $log, $rootScope, $timeout, ErrorService) {
+    .factory('WSOps', function (WSUri, $q, $log, $rootScope, $timeout, ErrorService, WS) {
         $rootScope.$on('ws_turn_on', function () {
             generate_ws();
         });
@@ -33,7 +33,7 @@ angular.module('ulakbus')
         var websocket;
         var generate_ws = function () {
             $log.info('Openning web socket...');
-            websocket = new WebSocket(WSUri.url);
+            websocket = new WS(WSUri.url);
             websocket.onopen = function (evt) {
                 wsOps.onOpen(evt)
             };

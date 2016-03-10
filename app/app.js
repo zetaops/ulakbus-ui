@@ -74,6 +74,7 @@ angular.module(
         return {url: backendurl};
     })())
     .constant('toastr', window.toastr)
+    .constant('WS', window.WebSocket)
     .config(function ($logProvider) {
         $logProvider.debugEnabled(true);
     })

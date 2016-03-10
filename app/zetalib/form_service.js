@@ -380,8 +380,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             var _node_filter_interface = function (scope, v, k) {
                 var formitem = scope.form[scope.form.indexOf(k)];
                 var modelScope = {
-                    "url": v.wf || scope.wf, "wf": v.wf || scope.wf,
                     "form_params": {
+                        wf: v.wf || scope.wf,
                         model: v.model_name || v.schema[0].model_name,
                         cmd: v.list_cmd || 'select_list',
                         query: ''
@@ -391,7 +391,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 scope.generateTitleMap = function (modelScope) {
                     generator.get_list(modelScope).then(function (res) {
                         formitem.titleMap = [];
-                        angular.forEach(res.data.objects, function (item) {
+                        angular.forEach(res.objects, function (item) {
                             if (item !== "-1") {
                                 formitem.titleMap.push({
                                     "value": item.key,
@@ -422,10 +422,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     title: v.title,
                     // formName will be used in modal return to save item on form
                     formName: k,
-                    wf: v.wf,
+                    wf: v.wf || scope.wf,
                     add_cmd: v.add_cmd,
-                    name: v.model_name,
-                    model_name: v.model_name,
+                    name: v.model_name || v.schema[0].model_name,
+                    model_name: v.model_name || v.schema[0].model_name,
                     filterValue: '',
                     selected_item: {},
                     filteredItems: [],
@@ -1170,9 +1170,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @returns {Object} returns value for modal
      */
     .controller('ModalController', function ($scope, $uibModalInstance, Generator, items) {
-        $scope.$watch('form', function () {
-            console.log($scope.form);
-        });
         angular.forEach(items, function (value, key) {
             $scope[key] = items[key];
         });
