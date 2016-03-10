@@ -36,6 +36,7 @@ angular.module(
         'ulakbus.devSettings',
         'ulakbus.version',
         'gettext',
+        'markdown',
     ])
     /**
      * @memberof ulakbus
@@ -55,6 +56,8 @@ angular.module(
             angular.forEach(cookiearray, function (item) {
                 if (item.indexOf("backendurl") > -1) {
                     backendurl = item.split('=')[1];
+                    if (backendurl.slice(-1) !== '/')  {backendurl += '/'}
+                    if (backendurl.substring(0,4) !== 'http')  {backendurl = 'http://'+backendurl}
                 }
             });
         }
@@ -62,6 +65,8 @@ angular.module(
         if (location.href.indexOf("backendurl") > -1) {
             var urlfromqstr = location.href.split('?')[1].split('=')[1];
             backendurl = decodeURIComponent(urlfromqstr.replace(/\+/g, " "));
+            if (backendurl.slice(-1) !== '/')  {backendurl += '/'}
+            if (backendurl.substring(0,4) !== 'http')  {backendurl = 'http://'+backendurl}
             document.cookie = "backendurl=" + backendurl;
             window.location.href = window.location.href.split('?')[0];
         }
@@ -69,6 +74,12 @@ angular.module(
         return {url: backendurl};
     })())
     .constant('toastr', window.toastr)
+    .constant('WS', window.WebSocket)
     .config(function ($logProvider) {
         $logProvider.debugEnabled(true);
+    })
+    .config(function(markdownProvider) {
+        //markdownProvider.config({
+        //    extensions: ['table']
+        //});
     });

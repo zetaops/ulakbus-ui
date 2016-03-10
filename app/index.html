@@ -30,7 +30,7 @@
 </head>
 <body ng-controller="KeyListenController" ng-keydown="down($event)">
 
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-if="$root.loggedInUser">
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-if="$root.current_user">
     <collapse-menu></collapse-menu>
     <!--<ul class="header-menu">-->
         <!--<li><a href="">Mesajlar</a></li>-->
@@ -53,12 +53,12 @@
     <header-notification></header-notification>
 </nav>
 
-<sidebar ng-if="$root.loggedInUser"></sidebar>
+<sidebar ng-if="$root.current_user"></sidebar>
 
 <div class="manager-view">
     <div class="manager-view-inner">
         <!-- manager-header -->
-        <header-sub-menu ng-if="$root.loggedInUser"></header-sub-menu>
+        <header-sub-menu ng-if="$root.current_user"></header-sub-menu>
         <!-- end of manager-header -->
         <div class="manager-view-content">
             <div class="row">
@@ -82,10 +82,12 @@
 <!--<script src="bower_components/angular-resource/angular-resource.min.js"></script>-->
 <!--<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>-->
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="bower_components/showdown/dist/showdown.min.js"></script>
+<script src="bower_components/angular-markdown-filter/markdown.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="bower_components/tv4/tv4.js"></script>
 <script src="bower_components/objectpath/lib/ObjectPath.js"></script>
-<script src="bower_components/angular-schema-form/dist/schema-form.min.js"></script>
+<script src="bower_components/angular-schema-form/dist/schema-form.js"></script>
 <script src="bower_components/angular-schema-form/dist/bootstrap-decorator.min.js"></script>
 <script src="bower_components/angular-gettext/dist/angular-gettext.min.js"></script>
 <script src="bower_components/moment/min/moment.min.js"></script>
@@ -106,6 +108,7 @@
 <script src="zetalib/interceptors.js"></script>
 <script src="zetalib/form_service.js"></script>
 <script src="zetalib/action_service.js"></script>
+<script src="zetalib/error_service.js"></script>
 <script src="zetalib/socket.js"></script>
 
 <!-- components -->

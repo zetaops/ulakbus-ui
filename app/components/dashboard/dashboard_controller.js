@@ -21,7 +21,8 @@ angular.module('ulakbus.dashboard', [])
         $uibTooltipProvider.setTriggers({'click': 'mouseleave'});
     })
 
-    .controller('DashController', function ($scope, $rootScope, $timeout, $http, $cookies, RESTURL, Generator) {
+    .controller('DashController', function ($scope, $rootScope, $routeParams, $route, $timeout, $http, $cookies, RESTURL, Generator, WSOps) {
+
         $scope.section = function (section_index) {
             $rootScope.section = section_index;
         };
@@ -37,28 +38,27 @@ angular.module('ulakbus.dashboard', [])
         $scope.staffs = [];
 
         $scope.search = function (where) {
-            $timeout(function () {
-                if (where === 'personel') {
-                    // if input length greater than 2 search for the value
-                    if ($scope.keyword.staff.length > 2) {
-                        $scope.getItems(where, $scope.keyword.staff).success(function (data) {
+            if ($scope.keyword.staff.length > 2 || $scope.keyword.student.length > 2) {
+                $timeout(function () {
+                    if (where === 'personel') {
+                        // if input length greater than 2 search for the value
+
+                        $scope.getItems(where, $scope.keyword.staff).then(function (data) {
                             $scope.staffs = data.results;
                         });
                     }
-                }
-                if (where === 'ogrenci') {
-                    if ($scope.keyword.student.length > 2) {
-                        $scope.getItems(where, $scope.keyword.student).success(function (data) {
+                    if (where === 'ogrenci') {
+                        $scope.getItems(where, $scope.keyword.student).then(function (data) {
                             $scope.students = data.results;
                         })
                     }
-                }
-            }, 500);
+                }, 500);
+            }
         };
 
         $scope.getItems = function (where, what) {
             $scope.showResults = true;
-            return $http.get(RESTURL.url + 'ara/' + where + '/' + what);
+            return WSOps.request({view: where + '_ara', query: what});
         };
 
         $scope.userPopover = {templateUrl: 'components/dashboard/user-info.html'};
@@ -96,7 +96,11 @@ angular.module('ulakbus.dashboard', [])
 
         $scope.markAsRead = function (items) {
             $rootScope.$broadcast("markasread", items);
-        }
+        };
+
+        //if ($routeParams.cmd = 'reload') {
+        //    $route.reload();
+        //}
 
     })
     .directive('sidebarNotifications', function () {

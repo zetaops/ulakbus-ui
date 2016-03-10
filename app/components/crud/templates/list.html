@@ -34,8 +34,8 @@
 
                 <td ng-repeat="field in object.fields track by $index">
                     <a role="button" ng-if="field.type==='link'"
-                       ng-click="do_action(object.key, field)">{{field.content}}</a>
-                    <span ng-if="field.type==='str'">{{field.content}}</span>
+                       ng-click="do_action(object.key, field)" ng-bind-html="field.content | markdown"></a>
+                    <span ng-if="field.type==='str'" ng-bind-html="field.content | markdown"></span>
                 </td>
 
                 <td>
@@ -55,16 +55,16 @@
     <nav ng-if="pagination && pagination.total_pages > 1" class="text-center">
         <ul class="pagination">
             <li ng-class="{disabled:pagination.page===1}">
-                <a aria-label="Önceki" ng-click="reload({page:pagination.page-1})">
+                <a role="button" aria-label="Önceki" ng-click="paginate({page:pagination.page-1})">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li ng-repeat="page in getNumber(pagination.total_pages) track by $index"
                 ng-class="{active:$index+1===pagination.page}">
-                <a ng-click="reload({page:$index+1})">{{$index+1}}</a>
+                <a role="button" ng-click="paginate({page:$index+1})">{{$index+1}}</a>
             </li>
             <li ng-class="{disabled:pagination.page===pagination.total_pages}">
-                <a aria-label="Sonraki" ng-click="reload({page:pagination.page+1})">
+                <a role="button" aria-label="Sonraki" ng-click="paginate({page:pagination.page+1})">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

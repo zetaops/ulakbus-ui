@@ -32,6 +32,13 @@ body {
     background-color:#999;
 }
 
+.tooltip {
+	font-family:'robotolight';
+	font-size:13px;
+	letter-spacing:0.3px;
+	padding:15px;
+}
+
 .badge {
     border-radius: 100%;
     width: 22px;
@@ -1582,6 +1589,225 @@ table.dataTable thead .sorting:after {
 }
 
 /* END OF SIDEBAR COLLAPSE */
+
+
+
+/* STUDENT DASHBOARD */
+
+.student-dashboard a:hover {
+	text-decoration:none;
+	background-color:#f9f9f9;
+}
+
+.student-dashboard .panel-body ul,
+.student-dashboard .panel-body {
+	padding:0;
+	margin:0;
+}
+
+.student-dashboard .panel-body ul li {
+	list-style: none;
+    border-bottom: 1px solid #f5f5f5;
+	font-size:16px;
+}
+
+.student-dashboard .panel-body ul li a {
+    padding:25px;
+	display:block;
+	color:#333;
+}
+
+.student-dashboard .panel-body ul li:last-child {
+	border:none;	
+}
+
+.student-course-list .panel-body,
+.student-assignment-list .panel-body {
+	height:437px;
+	overflow-y:auto;	
+}
+
+.student-course-list .panel-body ul li span {
+	margin-right:15px;
+}
+
+
+.student-assignment-list .assignment-status {
+	width:35px;
+	float:left;	
+}
+
+.student-assignment-list .assignment-status .assignment-circle {
+	width:10px;
+	height:10px;
+	border-radius:100%;
+	margin-top: 7px;
+    margin-left: 3px;
+}
+
+.student-assignment-list .urgent-assignment .assignment-circle {
+	background-color:#D4244B;
+}
+
+.student-assignment-list .urgent-assignment .assignment-due-date {
+	color:#D4244B;
+}
+
+.student-assignment-list .approaching-assignment .assignment-circle {
+	background-color:#F7941E;
+}
+
+.student-assignment-list .approaching-assignment .assignment-due-date {
+	color:#F7941E;
+}
+
+.student-assignment-list .non-urgent-assignment .assignment-circle {
+	background-color:#01AEEE;
+}
+
+.student-assignment-list .non-urgent-assignment .assignment-due-date {
+	color:#01AEEE;
+}
+
+.student-assignment-list .assignment-title {
+	width:calc(100% - 100px);	
+	float:left;
+}
+
+.student-assignment-list .assignment-title {
+	font-family:'robotomedium';
+}
+
+.student-assignment-list .assignment-title div:nth-child(1) {
+	font-family:'robotomedium';
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-right: 15px;
+}
+
+.student-assignment-list .assignment-title div:nth-child(2) {
+	font-size:15px;
+	font-family:'robotolight';
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-right: 15px;
+}
+
+.student-assignment-list .assignment-due-date {
+	width:65px;	
+	float:left;
+	font-family:'robotolight';
+	position:relative;
+}
+
+.student-assignment-list .assignment-due-date div:nth-child(1) {
+	width:65px;
+	font-size:22px;
+	position:absolute;
+	text-align:center;
+}
+
+.student-assignment-list .assignment-due-date div:nth-child(2) {
+	width:65px;
+	font-size:13px;
+	position:absolute;
+	margin-top:25px;
+	text-align:center;
+}
+
+.student-assignment-list .last-assignment .assignment-status div {
+	width:3px;
+	height:47px;
+	background-color: #00A650;
+    margin-left: 6px;
+}
+
+.student-assignment-list .last-assignment .panel-title {
+	background-color: #fff;
+    border-color: #F2F2F2;
+    font-family: 'robotolight';
+    color: rgb(95, 95, 95);
+    padding: 12px 0 0;
+    font-size: 18px;
+}
+    
+.student-assignment-list .last-assignment .assignment-due-date i {
+	color:#01A550;
+	margin-top: 16px;
+}
+
+.student-announcement-list .announcement-date {
+	float:left;
+	font-family:'robotolight';
+	margin-right:25px;
+	width:30px;
+}
+
+.student-announcement-list .announcement-text {
+	float:left;
+	width:calc(100% - 55px);
+	margin-top:3px;
+}
+
+.student-announcement-list .announcement-date div:first-child {
+	font-size: 22px;
+    text-align: center;
+}
+
+.student-announcement-list .announcement-date div:last-child {
+	font-size: 13px;
+    text-align: center;
+}
+
+.student-message-list .profile-pic {
+	width: 65px;
+    display: block;
+    margin-right: 20px;
+    float: left;	
+}
+
+.student-message-list .profile-pic img {
+	width: 100%;
+    border-radius: 100%;	
+}
+
+
+.student-message-list .message-content {
+	width: calc(100% - 200px);
+    float: left;	
+}
+
+.student-message-list .message-content div:first-child {
+	margin-top:7px;
+	font-family:'robotomedium';
+	font-size:18px;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.student-message-list .message-content div:last-child {
+	margin-top: 5px;
+    color: #848484;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.student-message-list .message-time {
+	width: 100px;
+    float: right;
+	text-align:right;
+	padding-top: 21px;
+    color: #B3B3B3;
+	font-size: 14px;
+}
+
+
+/* END OF STUDENT DASHBOARD */
+
 
 
 /* Responsive: Portrait tablets and up */

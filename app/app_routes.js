@@ -53,6 +53,8 @@ angular.module('ulakbus')
 
         $rootScope.loggedInUser = true;
         $rootScope.loginAttempt = 0;
+        $rootScope.websocketIsOpen = false;
+        $rootScope.current_user = true;
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
             // will be used when needed
         });
