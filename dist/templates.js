@@ -228,16 +228,16 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "    <nav ng-if=\"pagination && pagination.total_pages > 1\" class=\"text-center\">\n" +
     "        <ul class=\"pagination\">\n" +
     "            <li ng-class=\"{disabled:pagination.page===1}\">\n" +
-    "                <a aria-label=\"Önceki\" ng-click=\"paginate({page:pagination.page-1})\">\n" +
+    "                <a role=\"button\" aria-label=\"Önceki\" ng-click=\"paginate({page:pagination.page-1})\">\n" +
     "                    <span aria-hidden=\"true\">&laquo;</span>\n" +
     "                </a>\n" +
     "            </li>\n" +
     "            <li ng-repeat=\"page in getNumber(pagination.total_pages) track by $index\"\n" +
     "                ng-class=\"{active:$index+1===pagination.page}\">\n" +
-    "                <a ng-click=\"paginate({page:$index+1})\">{{$index+1}}</a>\n" +
+    "                <a role=\"button\" ng-click=\"paginate({page:$index+1})\">{{$index+1}}</a>\n" +
     "            </li>\n" +
     "            <li ng-class=\"{disabled:pagination.page===pagination.total_pages}\">\n" +
-    "                <a aria-label=\"Sonraki\" ng-click=\"paginate({page:pagination.page+1})\">\n" +
+    "                <a role=\"button\" aria-label=\"Sonraki\" ng-click=\"paginate({page:pagination.page+1})\">\n" +
     "                    <span aria-hidden=\"true\">&raquo;</span>\n" +
     "                </a>\n" +
     "            </li>\n" +
@@ -1947,7 +1947,7 @@ angular.module("shared/templates/multiselect.html", []).run(["$templateCache", f
     "        <label class=\"control-label {{form.labelHtmlClass}}\" ng-show=\"showTitle()\">\n" +
     "            {{form.title}}\n" +
     "        </label>\n" +
-    "        <a role=\"button\"><i class=\"fa fa-plus-circle fa-fw\" add-modal-for-linked-model=\"{{form.formName}}\"></i></a>\n" +
+    "        <!--<a role=\"button\"><i class=\"fa fa-plus-circle fa-fw\" add-modal-for-linked-model=\"{{form.formName}}\"></i></a>-->\n" +
     "\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"col-md-12\">\n" +
