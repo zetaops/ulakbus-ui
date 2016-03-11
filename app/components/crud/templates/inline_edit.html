@@ -1,0 +1,23 @@
+<input type="text"
+       class="form-control"
+       ng-if="node.schema.properties[k].type === 'date'"
+       ng-model="node.model[outerIndex][k]"
+       uib-datepicker-popup="{{node.model[outerIndex][k]}}"
+       is-open="datepickerstatuses[outerIndex]"
+       close-text="Kapat"
+       current-text="Bugün"
+       clear-text="Temizle"
+       ng-click="openDatepicker(outerIndex)">
+
+<select ng-model="node.model[outerIndex][k]"
+        ng-if="node.schema.properties[k].type === 'select'"
+        class="form-control"
+        name="selectinline{{outerIndex}}">
+    <option ng-repeat="item in node.schema.properties[k].titleMap" value="{{item.value}}">{{item.name}}</option>
+</select>
+
+<input type="{{node.schema.properties[k].type}}"
+       class="form-control"
+       ng-if="node.schema.properties[k].type !== 'date' && node.schema.properties[k].type !== 'select'"
+       ng-model="node.model[outerIndex][k]"
+       ng-change="nodeModelChange(this)">

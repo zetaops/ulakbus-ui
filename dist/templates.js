@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
+angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/inline_edit.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -169,6 +169,24 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
     "</div>");
 }]);
 
+angular.module("components/crud/templates/inline_edit.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/crud/templates/inline_edit.html",
+    "<input type=\"text\"\n" +
+    "       ng-if=\"node.schema.properties[k].type === 'date'\"\n" +
+    "       ng-model=\"node.model[outerIndex][k]\"\n" +
+    "       uib-datepicker-popup=\"{{node.model[outerIndex][k]}}\"\n" +
+    "       is-open=\"datepickerstatuses[outerIndex]\"\n" +
+    "       close-text=\"Kapat\"\n" +
+    "       current-text=\"Bugün\"\n" +
+    "       clear-text=\"Temizle\"\n" +
+    "       ng-click=\"openDatepicker(outerIndex)\">\n" +
+    "\n" +
+    "<input type=\"{{node.schema.properties[k].type}}\"\n" +
+    "       ng-if=\"node.schema.properties[k].type !== 'date'\"\n" +
+    "       ng-model=\"node.model[outerIndex][k]\"\n" +
+    "       ng-change=\"nodeModelChange(this)\">");
+}]);
+
 angular.module("components/crud/templates/list.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/list.html",
     "<div class=\"starter-template\">\n" +
@@ -207,8 +225,8 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "\n" +
     "                <td ng-repeat=\"field in object.fields track by $index\">\n" +
     "                    <a role=\"button\" ng-if=\"field.type==='link'\"\n" +
-    "                       ng-click=\"do_action(object.key, field)\" ng-bind-html=\"field.content | markdown\"></a>\n" +
-    "                    <span ng-if=\"field.type==='str'\" ng-bind-html=\"field.content | markdown\"></span>\n" +
+    "                       ng-click=\"do_action(object.key, field)\" ng-bind-html=\"field.content || '' | markdown\"></a>\n" +
+    "                    <span ng-if=\"field.type==='str'\" ng-bind-html=\"field.content || '' | markdown\"></span>\n" +
     "                </td>\n" +
     "\n" +
     "                <td>\n" +
@@ -307,10 +325,12 @@ angular.module("components/crud/templates/nodeTable.html", []).run(["$templateCa
     "                ng-init=\"innerIndex=$index\"\n" +
     "                ng-if=\"k!=='idx' && node.schema.properties[k]\">\n" +
     "                <span ng-if=\"!node.schema.inline_edit || node.schema.inline_edit.indexOf(k) < 0\">{{ v.unicode || v }}</span>\n" +
-    "                <input type=\"{{node.schema.properties[k].type}}\"\n" +
-    "                       ng-if=\"node.schema.inline_edit.indexOf(k) > -1\"\n" +
-    "                       ng-model=\"node.model[outerIndex][k]\"\n" +
-    "                       ng-change=\"nodeModelChange(this)\">\n" +
+    "                <!--<input type=\"{{node.schema.properties[k].type}}\"-->\n" +
+    "                <!--ng-if=\"node.schema.inline_edit.indexOf(k) > -1\"-->\n" +
+    "                <!--ng-model=\"node.model[outerIndex][k]\"-->\n" +
+    "                <!--ng-change=\"nodeModelChange(this)\">-->\n" +
+    "                <ng-include src=\"'components/crud/templates/inline_edit.html'\"\n" +
+    "                            ng-if=\"node.schema.inline_edit.indexOf(k) > -1\"></ng-include>\n" +
     "            </td>\n" +
     "            <td ng-if=\"meta.allow_actions!==false\">\n" +
     "                <div ng-hide=\"meta.object_actions.length > 0\">\n" +
