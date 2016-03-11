@@ -2,7 +2,7 @@
        class="form-control"
        ng-if="node.schema.properties[k].type === 'date'"
        ng-model="node.model[outerIndex][k]"
-       uib-datepicker-popup="{{node.model[outerIndex][k]}}"
+       uib-datepicker-popup="dd.MM.yyyy"
        is-open="datepickerstatuses[outerIndex]"
        close-text="Kapat"
        current-text="Bugün"

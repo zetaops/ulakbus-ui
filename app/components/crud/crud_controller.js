@@ -211,10 +211,6 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             $scope.datepickerstatuses[field] = true;
         };
 
-        $scope.dateSelect = function (model) {
-            scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
-        };
-
         $scope.createListObjects = function () {
             if ($scope.object.constructor === Array) {
                 $log.debug('new type show object')
