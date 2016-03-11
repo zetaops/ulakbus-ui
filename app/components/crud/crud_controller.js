@@ -20,7 +20,7 @@
  * @requires ulakbus.formService
  * @type {ng.$compileProvider|*}
  */
-angular.module('ulakbus.crud', ['schemaForm', 'ulakbus.formService'])
+angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formService'])
     .config(function (sfErrorMessageProvider) {
         sfErrorMessageProvider.setDefaultMessage(302, 'Bu alan zorunludur.');
         sfErrorMessageProvider.setDefaultMessage(200, 'En az {{schema.minLength}} değer giriniz.');
@@ -198,6 +198,17 @@ angular.module('ulakbus.crud', ['schemaForm', 'ulakbus.formService'])
 
         $scope.getNumber = function (num) {
             return new Array(num);
+        };
+
+        // inline edit fields
+        $scope.datepickerstatuses = {};
+
+        $scope.inline_datepicker_status = function (field) {
+            return ($scope.datepickerstatuses[field] || false);
+        };
+
+        $scope.openDatepicker = function (field) {
+            $scope.datepickerstatuses[field] = true;
         };
 
         $scope.createListObjects = function () {
