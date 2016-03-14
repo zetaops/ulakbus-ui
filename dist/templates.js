@@ -172,17 +172,26 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
 angular.module("components/crud/templates/inline_edit.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/inline_edit.html",
     "<input type=\"text\"\n" +
+    "       class=\"form-control\"\n" +
     "       ng-if=\"node.schema.properties[k].type === 'date'\"\n" +
     "       ng-model=\"node.model[outerIndex][k]\"\n" +
-    "       uib-datepicker-popup=\"{{node.model[outerIndex][k]}}\"\n" +
+    "       uib-datepicker-popup=\"dd.MM.yyyy\"\n" +
     "       is-open=\"datepickerstatuses[outerIndex]\"\n" +
     "       close-text=\"Kapat\"\n" +
     "       current-text=\"Bugün\"\n" +
     "       clear-text=\"Temizle\"\n" +
     "       ng-click=\"openDatepicker(outerIndex)\">\n" +
     "\n" +
+    "<select ng-model=\"node.model[outerIndex][k]\"\n" +
+    "        ng-if=\"node.schema.properties[k].type === 'select'\"\n" +
+    "        class=\"form-control\"\n" +
+    "        name=\"selectinline{{outerIndex}}\">\n" +
+    "    <option ng-repeat=\"item in node.schema.properties[k].titleMap\" value=\"{{item.value}}\">{{item.name}}</option>\n" +
+    "</select>\n" +
+    "\n" +
     "<input type=\"{{node.schema.properties[k].type}}\"\n" +
-    "       ng-if=\"node.schema.properties[k].type !== 'date'\"\n" +
+    "       class=\"form-control\"\n" +
+    "       ng-if=\"node.schema.properties[k].type !== 'date' && node.schema.properties[k].type !== 'select'\"\n" +
     "       ng-model=\"node.model[outerIndex][k]\"\n" +
     "       ng-change=\"nodeModelChange(this)\">");
 }]);
