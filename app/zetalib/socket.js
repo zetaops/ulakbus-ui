@@ -31,15 +31,22 @@ angular.module('ulakbus')
         });
 
         var websocket;
+        var refresh_count = 0;
+        var refresh_websocket = refresh_count < 5 ? 1000 : 5000;
         var generate_ws = function () {
             $log.info('Openning web socket...');
             websocket = new WS(WSUri.url);
             websocket.onopen = function (evt) {
-                wsOps.onOpen(evt)
+                wsOps.onOpen(evt);
+                refresh_count = 0;
             };
             websocket.onclose = function (evt) {
                 wsOps.onClose(evt);
-                generate_ws();
+                if (wsOps.loggedOut === true) {return;}
+                $timeout(function () {
+                    generate_ws();
+                    refresh_count += 1;
+                }, refresh_websocket);
             };
             websocket.onmessage = function (evt) {
                 wsOps.onMessage(evt)
@@ -53,6 +60,7 @@ angular.module('ulakbus')
         wsOps.onOpen = function (evt) {
             $rootScope.websocketIsOpen = true;
             $log.info("CONNECTED", evt);
+            wsOps.loggedOut === false;
         };
         wsOps.onClose = function (event) {
             $rootScope.websocketIsOpen = false;
@@ -85,7 +93,6 @@ angular.module('ulakbus')
             websocket.send(data);
             $log.info('SENT:', data);
         };
-        wsOps.retryCount = 0;
         // reactor with promise
         wsOps.request = function (data) {
             var request = {
@@ -102,6 +109,13 @@ angular.module('ulakbus')
                 }
             );
         };
+
+        wsOps.close = function () {
+            wsOps.loggedOut = true;
+            websocket.close();
+            $log.info("CLOSED");
+            delete websocket;
+        }
 
         wsOps.waitForSocketConnection = function (socket, callback) {
             $timeout(

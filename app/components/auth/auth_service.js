@@ -76,6 +76,7 @@ angular.module('ulakbus.auth')
                 $rootScope.loggedInUser = false;
                 $log.debug("loggedout");
                 $location.path("/login");
+                WSOps.close();
             });
         };
 

@@ -307,7 +307,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     url: scope.url,
                     wf: scope.wf,
                     nodeModelChange: function (item) {
-                        //debugger;
                     }
 
                 });

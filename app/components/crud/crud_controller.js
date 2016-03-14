@@ -128,8 +128,11 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
      *
      * @returns {object}
      */
-    .controller('CRUDController', function ($scope, $routeParams, Generator, CrudUtility) {
+    .controller('CRUDController', function ($scope, $routeParams, $location, Generator, CrudUtility) {
         // get required params by calling CrudUtility.generateParam function
+        if ($location.url().indexOf('?=') > 0) {
+            return $location.url($location.url().replace('?=', ''));
+        }
         CrudUtility.generateParam($scope, $routeParams);
         Generator.get_wf($scope);
     })
@@ -153,6 +156,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
      * @returns {object}
      */
     .controller('CRUDListFormController', function ($scope, $rootScope, $location, $sce, $http, $log, $uibModal, $timeout, Generator, $routeParams, CrudUtility) {
+        $scope.wf_step = $routeParams.step;
 
         $scope.paginate = function (reloadData) {
                        $scope.form_params.cmd = $scope.reload_cmd;
