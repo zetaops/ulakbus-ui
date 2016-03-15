@@ -342,8 +342,11 @@ angular.module('ulakbus')
                             // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
                             // related items
                             $rootScope.$broadcast("authz", data);
-                            $rootScope.$broadcast("ws_turn_on");
                             $rootScope.searchInputs = data;
+
+                            if (data.current_user) {
+                                $rootScope.$broadcast("ws_turn_on");
+                            }
 
                             $rootScope.current_user = data.current_user;
                             if (data.ogrenci || data.personel) {
