@@ -18,6 +18,7 @@
                     Hepsini Seç
                 </label>
             </th>
+            <th scope="row" style="text-align:center">#</th>
             <th ng-repeat="(key,value) in node.items[0] track by $index"
                 ng-if="key!=='idx' && node.schema.properties[key]">
                 <span ng-if="value.verbose_name">{{ value.verbose_name }}</span>
