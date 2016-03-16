@@ -90,13 +90,7 @@ angular.module('ulakbus')
 
             var errorDispatch = {
                 "-1": function () {
-                    //rejection.status = 'Sunucu hatası';
-                    //rejection.data = rejection.data || {};
-                    //rejection.data.title = rejection.data.title || "Sunucu Hatası";
-                    //rejection.data.description = rejection.data.description || 'Sunucu bağlantısında bir hata oluştu. Lütfen yetkili personelle iletişime geçiniz.';
                     $log.error('-1 returned:', rejection);
-                    //errorInAlertBox(errorForAlertBox);
-                    //$location.path('/login');
                 },
                 "400": function () {
                     $location.reload();
@@ -127,7 +121,7 @@ angular.module('ulakbus')
                 }
             };
 
-            errorDispatch[rejection.status]();
+            errorDispatch[rejection.status || rejection.code]();
         };
 
         return error_service;

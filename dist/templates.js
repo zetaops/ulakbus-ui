@@ -1,4 +1,46 @@
-angular.module('templates-prod', ['components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/inline_edit.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
+angular.module('templates-prod', ['components/admin/bpmn_manager.html', 'components/auth/login.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/inline_edit.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
+
+angular.module("components/admin/bpmn_manager.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/admin/bpmn_manager.html",
+    "<div class=\"content\" id=\"js-drop-zone\">\n" +
+    "\n" +
+    "    <div class=\"message intro\">\n" +
+    "        <div class=\"note\">\n" +
+    "            Drop BPMN diagram from your desktop or <a id=\"js-create-diagram\" href>create a new diagram</a> to get started.\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"message error\">\n" +
+    "        <div class=\"note\">\n" +
+    "            <p>Ooops, we could not display the BPMN 2.0 diagram.</p>\n" +
+    "\n" +
+    "            <div class=\"details\">\n" +
+    "                <span>cause of the problem</span>\n" +
+    "                <pre></pre>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"canvas\" id=\"js-canvas\"></div>\n" +
+    "    <div id=\"js-properties-panel\"></div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<ul class=\"buttons\">\n" +
+    "    <li>\n" +
+    "        download\n" +
+    "    </li>\n" +
+    "    <li>\n" +
+    "        <a id=\"js-download-diagram\" href title=\"download BPMN diagram\">\n" +
+    "            BPMN diagram\n" +
+    "        </a>\n" +
+    "    </li>\n" +
+    "    <li>\n" +
+    "        <a id=\"js-download-svg\" href title=\"download as SVG image\">\n" +
+    "            SVG image\n" +
+    "        </a>\n" +
+    "    </li>\n" +
+    "</ul>");
+}]);
 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
@@ -296,6 +338,7 @@ angular.module("components/crud/templates/nodeTable.html", []).run(["$templateCa
     "                    Hepsini Seç\n" +
     "                </label>\n" +
     "            </th>\n" +
+    "            <th scope=\"row\" style=\"text-align:center\">#</th>\n" +
     "            <th ng-repeat=\"(key,value) in node.items[0] track by $index\"\n" +
     "                ng-if=\"key!=='idx' && node.schema.properties[key]\">\n" +
     "                <span ng-if=\"value.verbose_name\">{{ value.verbose_name }}</span>\n" +
