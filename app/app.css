@@ -1794,6 +1794,101 @@ table.dataTable thead .sorting:after {
 
 /* END OF STUDENT DASHBOARD */
 
+/* ACADEMICIAN DASHBOARD */
+
+.academician-dashboard a:hover {
+	text-decoration:none;
+	background-color:#f9f9f9;
+}
+
+.academician-dashboard .panel-body ul,
+.academician-dashboard .panel-body {
+	padding:0;
+	margin:0;
+}
+
+.academician-dashboard .panel-body ul li {
+	list-style: none;
+    border-bottom: 1px solid #f5f5f5;
+	font-size:16px;
+}
+
+.academician-dashboard .panel-body ul li a {
+    padding:20px 25px;
+	display:block;
+	color:#333;
+}
+
+.academician-dashboard .panel-body ul li:last-child {
+	border:none;	
+}
+
+.academician-course-list .panel-body,
+.academician-weekly-schedule .panel-body {
+	height:437px;
+	overflow-y:auto;
+	overflow-x:hidden;	
+}
+
+.academician-course-list .panel-body ul li span {
+	margin-right:15px;
+}
+
+.academician-course-list .panel-body ul li div {
+	margin-left: 47px;
+    font-size: 15px;
+    color: #7E7E7E;
+}
+
+.academician-dashboard .academician-weekly-schedule table {
+	width: calc(100% + 2px);
+	-webkit-width: calc(100% + 2px);
+    border: none;
+    margin-top: -1px;
+    margin-left: -1px;
+	text-align:center;
+}
+
+.academician-dashboard .academician-weekly-schedule table a {
+	color:#333;
+	display:block;
+	height: 38px;
+    line-height: 38px;
+}
+
+.academician-dashboard .academician-weekly-schedule table a:hover {
+	font-family:'robotobold';
+	background-color:transparent;
+	font-size:16px;
+}
+
+.academician-dashboard .academician-weekly-schedule table tr.days td {
+	width: calc(100% / 6);
+	font-family: 'robotomedium';
+	background-color: #FDFDFD;
+}
+
+.academician-dashboard .academician-weekly-schedule table tr.days td:first-child {
+	background-color:transparent;
+}
+
+.academician-dashboard .academician-weekly-schedule table tr td:first-child {
+    height: 38px;
+	font-family: 'robotomedium';
+	background-color: #FDFDFD;
+}
+
+.academician-dashboard .academician-weekly-schedule p.schedule-notice {
+	margin-left: 36px;
+    margin-top: 18px;
+}
+
+.academician-dashboard .academician-weekly-schedule p.schedule-notice span {
+	font-family: 'robotomedium';
+}
+
+/* END OF ACADEMICIAN DASHBOARD */
+
 
 
 /* Responsive: Portrait tablets and up */
