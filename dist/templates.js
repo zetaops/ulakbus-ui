@@ -438,7 +438,7 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard student-dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
     "        <ng-include src=\"'components/dashboard/user-templates/student.html'\" ng-if=\"$root.current_user.is_student\"></ng-include>\n" +
-    "        <ng-include src=\"'components/dashboard/user-templates/staff.html'\" ng-if=\"$root.current_user.is_staff\"></ng-include>\n" +
+    "        <ng-include src=\"'components/dashboard/user-templates/staff.html'\" ng-if=\"!$root.current_user.is_student\"></ng-include>\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -1683,7 +1683,7 @@ angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCa
     "                        <li ng-repeat=\"(k, v) in item\">\n" +
     "                            <!--<a ng-if=\"v.model\" ng-href=\"#{{v.url}}\" ng- -->\n" +
     "                            <!--ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>-->\n" +
-    "                            <a ng-href=\"#/{{v.wf}}/{{v.model}}?{{v.param}}={{selectedUser.key}}\"\n" +
+    "                            <a ng-href=\"#/{{v.wf}}/{{v.model}}\"\n" +
     "                               ng-click=\"breadcrumb([key, v.text], $event)\">{{v.text}}</a>\n" +
     "                        </li>\n" +
     "                    </ul>\n" +

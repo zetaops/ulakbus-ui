@@ -64,7 +64,7 @@ angular.module('ulakbus.dashboard', [])
         $scope.userPopover = {templateUrl: 'components/dashboard/user-info.html'};
 
         $scope.get_info = function (type, key) {
-            Generator.get_list({url: 'crud', form_params: {model: type, object_id: key, cmd: 'show'}})
+            Generator.get_list({url: 'crud', form_params: {wf: 'crud', model: type, object_id: key, cmd: 'show'}})
                 .then(function (data) {
                     $scope.userPopover.name = data.data.object.unicode;
                     $scope.userPopover.tcno = data.data.object.tckn;

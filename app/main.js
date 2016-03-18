@@ -78,6 +78,14 @@ angular.module(
 
         return {url: backendurl};
     })())
+    .service('DESIGN', function ($routeParams, $cookies) {
+        // use route param to change cookie for design
+        // this is a config as a service added for designer can work without backend
+        if (angular.isDefined($routeParams.design) || location.hash.split('?')[1].split('=')[1]) {
+            $cookies.put('design', $routeParams.design || location.hash.split('?')[1].split('=')[1]);
+        }
+        return $cookies.get('design') === 'true' ? {switch: true} : {switch: false};
+    })
     .constant('toastr', window.toastr)
     .constant('WS', window.WebSocket)
     .config(function ($logProvider) {

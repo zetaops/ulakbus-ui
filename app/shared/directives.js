@@ -297,7 +297,7 @@ angular.module('ulakbus')
             restrict: 'E',
             replace: true,
             scope: {},
-            controller: function ($scope, $rootScope, $cookies, $route, $http, RESTURL, $log, $location, $window, $timeout) {
+            controller: function ($scope, $rootScope, $cookies, $route, $http, RESTURL, DESIGN, $log, $location, $window, $timeout) {
                 $scope.prepareMenu = function (menuItems) {
                     var newMenuItems = {};
                     angular.forEach(menuItems, function (value, key) {
@@ -362,7 +362,10 @@ angular.module('ulakbus')
                         })
                         .error(function (data, status, headers, config) {
                             $log.error('menu not retrieved', data);
-                            $location.path('/login');
+                            $log.info('design switch', DESIGN.switch);
+                            if (!DESIGN.switch) {
+                                $location.path('/login');
+                            }
                         });
                 };
                 $scope.$on("regenerate_menu", function () {
