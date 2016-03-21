@@ -435,8 +435,133 @@ angular.module("components/crud/templates/show.html", []).run(["$templateCache",
 
 angular.module("components/dashboard/dashboard.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/dashboard/dashboard.html",
-    "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard student-dashboard\">\n" +
+    "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard academician-dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
+    "    \n" +
+    "    <div class=\"row\">\n" +
+    "    	<!-- ACADEMICIAN COURSES -->\n" +
+    "        <div class=\"col-lg-5 col-md-12 academician-course-list\">\n" +
+    "            <div class=\"panel panel-default\">\n" +
+    "                <div class=\"panel-heading\">\n" +
+    "                    <div class=\"panel-title\">Dersler</div>\n" +
+    "                </div>\n" +
+    "                <div class=\"panel-body\">\n" +
+    "    \n" +
+    "                    <ul>\n" +
+    "                        <li><a href=\"#\"><span>181</span> Basic Physics <div>Asistanlar: Evren Kutar</div></a></li>\n" +
+    "                        <li><a href=\"#\"><span>421</span> Research and Development <div>Asistanlar: Erkan Öğümsöğütlü</div></a></li>\n" +
+    "                        <li><a href=\"#\"><span>435</span> Project Management and Development <div>Asistanlar: -</div></a></li>\n" +
+    "                        <li><a href=\"#\"><span>207</span> Design and Use of Instructional Material <div>Asistanlar: -</div></a></li>\n" +
+    "                        <li><a href=\"#\"><span>323</span> Multimedia Design and Development <div>Asistanlar: Evren Kutar</div></a></li>\n" +
+    "                        <li><a href=\"#\"><span>475</span> Climate Change Education for Sustainability <div>Asistanlar: Evren Kutar</div></a></li>\n" +
+    "                    </ul>\n" +
+    "    \n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <!-- END OF ACADEMICIAN COURSES -->\n" +
+    "        \n" +
+    "        <!-- ACADEMICIAN WEEKLY SCHEDULE -->\n" +
+    "        <div class=\"col-lg-7 col-md-12 academician-weekly-schedule\">\n" +
+    "        	<div class=\"panel panel-default\">\n" +
+    "                <div class=\"panel-heading\">\n" +
+    "                    <div class=\"panel-title\">Ders Programı</div>\n" +
+    "                </div>\n" +
+    "                <div class=\"panel-body\">\n" +
+    "                \n" +
+    "                	<table border=\"1\">\n" +
+    "                      <tbody>\n" +
+    "                        <tr class=\"days\">\n" +
+    "                          <td></td>\n" +
+    "                          <td>Pazartesi</td>\n" +
+    "                          <td>Salı</td>\n" +
+    "                          <td>Çarşamba</td>\n" +
+    "                          <td>Perşembe</td>\n" +
+    "                          <td>Cuma</td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                          <td>08:40 - 09:30</td>\n" +
+    "                          <td><a uib-tooltip=\"Bacis Physics - Derslik 5\">181</a></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td><a uib-tooltip=\"Research and Development - Derslik 1\">421</a></td>\n" +
+    "                          <td></td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                          <td>09:40 - 09:30</td>\n" +
+    "                          <td><a uib-tooltip=\"Bacis Physics - Derslik 5\">181</a></td>\n" +
+    "                          <td><a uib-tooltip=\"Project Management and Development - Derslik 8\">435</a></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td><a uib-tooltip=\"Research and Development - Derslik 1\">421</a></td>\n" +
+    "                          <td></td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                          <td>08:40 - 09:30</td>\n" +
+    "                          <td></td>\n" +
+    "                          <td><a uib-tooltip=\"Project Management and Development - Derslik 8\">435</a></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                          <td>08:40 - 09:30</td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                          <td>08:40 - 09:30</td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td><a uib-tooltip=\"Design and Use of Instructional Material - Derslik 4\">207</a></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                          <td>08:40 - 09:30</td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td><a uib-tooltip=\"Design and Use of Instructional Material - Derslik 4\">207</a></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                          <td>08:40 - 09:30</td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td><a uib-tooltip=\"Design and Use of Instructional Material - Derslik 4\">207</a></td>\n" +
+    "                          <td><a uib-tooltip=\"Multimedia Design and Development - Derslik 9\">323</a></td>\n" +
+    "                          <td></td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                          <td>08:40 - 09:30</td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td><a uib-tooltip=\"Climate Change Education for Sustainability - Derslik 15\">475</a></td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                          <td>08:40 - 09:30</td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td></td>\n" +
+    "                          <td><a uib-tooltip=\"Climate Change Education for Sustainability - Derslik 15\">475</a></td>\n" +
+    "                        </tr>\n" +
+    "                      </tbody>\n" +
+    "                    </table>\n" +
+    "                    \n" +
+    "                    <p class=\"schedule-notice\"><span>Not:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>\n" +
+    "\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <!-- END OF ACADEMICIAN WEEKLY SCHEDULE -->\n" +
+    "    </div>\n" +
+    "    \n" +
     "        <ng-include src=\"'components/dashboard/user-templates/student.html'\" ng-if=\"$root.current_user.is_student\"></ng-include>\n" +
     "        <ng-include src=\"'components/dashboard/user-templates/staff.html'\" ng-if=\"!$root.current_user.is_student\"></ng-include>\n" +
     "    </div>\n" +
