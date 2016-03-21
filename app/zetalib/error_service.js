@@ -22,7 +22,7 @@ angular.module('ulakbus')
             }
             if (prtcl === 'ws') {
                 rejection.status = rejection.status || rejection.code;
-                rejection.data = {error: rejection.error};
+                rejection.data = {error: rejection.error, title: rejection.title};
                 errorInModal = true;
             }
 
@@ -62,13 +62,16 @@ angular.module('ulakbus')
                     '</div>' +
                     '</div>' +
                     '</div>').modal();
-                try {
-                    $('pre:not(.hljs)').each(function (i, block) {
-                        hljs.highlightBlock(block);
-                    });
-                }
-                catch (e) {
-                    $log.debug('Exception: ', e.message);
+                // use no_highlight to display pure html
+                if (!rejection.no_highlight) {
+                    try {
+                        $('pre:not(.hljs)').each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+                    }
+                    catch (e) {
+                        $log.debug('Exception: ', e.message);
+                    }
                 }
             };
 

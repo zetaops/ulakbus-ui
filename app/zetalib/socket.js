@@ -33,27 +33,42 @@ angular.module('ulakbus')
         var websocket;
         var refresh_count = 0;
         var refresh_websocket = refresh_count < 5 ? 1000 : 5000;
+        var isSupported = function() {
+            // return "WebSocket" in window;
+            return false;
+        };
         var generate_ws = function () {
-            $log.info('Openning web socket...');
-            websocket = new WS(WSUri.url);
-            websocket.onopen = function (evt) {
-                wsOps.onOpen(evt);
-                refresh_count = 0;
-            };
-            websocket.onclose = function (evt) {
-                wsOps.onClose(evt);
-                if (wsOps.loggedOut === true) {return;}
-                $timeout(function () {
-                    generate_ws();
-                    refresh_count += 1;
-                }, refresh_websocket);
-            };
-            websocket.onmessage = function (evt) {
-                wsOps.onMessage(evt)
-            };
-            websocket.onerror = function (evt) {
-                wsOps.onError(evt)
-            };
+            if (isSupported()) {
+                $log.info('Openning web socket...');
+                websocket = new WS(WSUri.url);
+                websocket.onopen = function (evt) {
+                    wsOps.onOpen(evt);
+                    refresh_count = 0;
+                };
+                websocket.onclose = function (evt) {
+                    wsOps.onClose(evt);
+                    if (wsOps.loggedOut === true) {return;}
+                    $timeout(function () {
+                        generate_ws();
+                        refresh_count += 1;
+                    }, refresh_websocket);
+                };
+                websocket.onmessage = function (evt) {
+                    wsOps.onMessage(evt)
+                };
+                websocket.onerror = function (evt) {
+                    wsOps.onError(evt)
+                };
+            } else {
+                var error = {
+                    error: "Tarayıcınız websocket desteklememektedir. Lütfen güncel bir tarayıcı kullanınız.",
+                    code: 500,
+                    title: "Uyumsuz Tarayıcı",
+                    no_highlight: true
+                };
+                ErrorService.handle(error, "ws");
+            }
+
         };
 
         var wsOps = {};
