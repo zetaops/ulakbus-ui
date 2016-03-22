@@ -245,10 +245,20 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "    <search-directive ng-if=\"meta['allow_search']===true\"></search-directive>\n" +
     "    <div class=\"clearfix\"></div>\n" +
     "    <!--<h1>{{form_params.model || form_params.wf}}</h1>-->\n" +
-    "    <div class=\"row\" ng-if=\"!objects[1]\">\n" +
+    "    <div class=\"row\" ng-if=\"(!meta.selective_listing && !objects[1])\">\n" +
     "        <div class=\"col-md-12\">\n" +
     "            <p class=\"no-content\">Listelenecek içerik yok.</p>\n" +
     "        </div>\n" +
+    "    </div>\n" +
+    "    <!-- todo: add `selective_list` to documentation -->\n" +
+    "    <div ng-if=\"meta.selective_listing === true\">\n" +
+    "        <label for=\"selective_list\">{{meta.selective_listing_label || \"Sayfa içinde filtrelemek için seçim yapınız.\"}}</label>\n" +
+    "        <select name=\"selective_list\" id=\"selective_list\"\n" +
+    "                ng-change=\"update_selective_list()\"\n" +
+    "                ng-model=\"selective_list_key\"\n" +
+    "                class=\"form-control\">\n" +
+    "            <option ng-repeat=\"item in all_objects\" value=\"{{$index}}\">{{item.key}}</option>\n" +
+    "        </select>\n" +
     "    </div>\n" +
     "    <div class=\"tablescroll\" ng-if=\"objects[1]\">\n" +
     "        <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +

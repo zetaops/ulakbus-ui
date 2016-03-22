@@ -245,6 +245,13 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             }
             $scope.createListObjects();
         };
+
+        // selective listing for list page todo: add to documentation
+        $scope.selective_list_key = 0;
+        $scope.update_selective_list = function () {
+            $scope.objects = $scope.all_objects[$scope.selective_list_key]["objects"];
+        };
+        // end of selective listing
         $scope.listFormCmd = function () {
             // function to set scope objects
             var setpageobjects = function (data) {
@@ -273,6 +280,12 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
 
             if ($scope.object) {
                 $scope.createListObjects();
+            }
+
+            // if selective listing then change objects key to its first item
+            if ($scope.meta.selective_listing) {
+                $scope.all_objects = angular.copy($scope.objects);
+                $scope.objects = $scope.all_objects[0]["objects"];
             }
         };
         $scope.reloadCmd = function () {

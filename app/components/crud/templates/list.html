@@ -3,10 +3,20 @@
     <search-directive ng-if="meta['allow_search']===true"></search-directive>
     <div class="clearfix"></div>
     <!--<h1>{{form_params.model || form_params.wf}}</h1>-->
-    <div class="row" ng-if="!objects[1]">
+    <div class="row" ng-if="(!meta.selective_listing && !objects[1])">
         <div class="col-md-12">
             <p class="no-content">Listelenecek içerik yok.</p>
         </div>
+    </div>
+    <!-- todo: add `selective_list` to documentation -->
+    <div ng-if="meta.selective_listing === true">
+        <label for="selective_list">{{meta.selective_listing_label || "Sayfa içinde filtrelemek için seçim yapınız."}}</label>
+        <select name="selective_list" id="selective_list"
+                ng-change="update_selective_list()"
+                ng-model="selective_list_key"
+                class="form-control">
+            <option ng-repeat="item in all_objects" value="{{$index}}">{{item.key}}</option>
+        </select>
     </div>
     <div class="tablescroll" ng-if="objects[1]">
         <table class="table table-bordered" style="background-color:#fff;">
