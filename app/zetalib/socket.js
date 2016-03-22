@@ -34,8 +34,7 @@ angular.module('ulakbus')
         var refresh_count = 0;
         var refresh_websocket = refresh_count < 5 ? 1000 : 5000;
         var isSupported = function() {
-            // return "WebSocket" in window;
-            return false;
+            return "WebSocket" in window;
         };
         var generate_ws = function () {
             if (isSupported()) {
