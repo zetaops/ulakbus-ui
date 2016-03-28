@@ -41,6 +41,7 @@ angular.module(
         'templates-prod',
         // @endif
         // @if NODE_ENV='DEVELOPMENT'
+        'ulakbus.uitemplates'
         // @endif
     ])
     /**

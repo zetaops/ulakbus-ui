@@ -37,6 +37,7 @@ angular.module(
         'ulakbus.version',
         'gettext',
         'markdown',
+        'ulakbus.uitemplates'
     ])
     /**
      * @memberof ulakbus

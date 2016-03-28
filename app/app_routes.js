@@ -23,6 +23,10 @@ angular.module('ulakbus')
                 templateUrl: 'components/admin/bpmn_manager.html',
                 controller: 'BpmnManagerController'
             })
+            .when('/newdesigns', {
+                templateUrl: 'components/uitemplates/base.html',
+                controller: 'NewDesignsCtrl'
+            })
 
             // use crud without selected user
             // important: regex urls must be defined later than static ones

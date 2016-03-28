@@ -81,22 +81,41 @@ angular.module('ulakbus')
             $log.info("DISCONNEDTED", event);
 
         };
-        // two types of data can be come from websocket: with / without callback
+        // two types of data can be come from websocket: with and without callback
         //
         wsOps.callbacks = {};
         wsOps.onMessage = function (event) {
-            var data = angular.fromJson(event.data);
-            if (data.hasOwnProperty('error')) {
-                ErrorService.handle(data, 'ws');
-            }
-            if (angular.isDefined(wsOps.callbacks[data.callbackID])) {
-                var callback = wsOps.callbacks[data.callbackID];
-                delete wsOps.callbacks[data.callbackID];
-                callback.resolve(data);
-            } else {
-                $log.info("Data without callback: %o", data);
-            }
-
+            // msg_methods are dispatch methods for incoming events. init is the default method to run
+            var msg_methods = {
+                init: function (data) {
+                    if (angular.isDefined(wsOps.callbacks[data.callbackID])) {
+                        var callback = wsOps.callbacks[data.callbackID];
+                        delete wsOps.callbacks[data.callbackID];
+                        callback.resolve(data);
+                    } else {
+                        $log.info("Data without callback: %o", data);
+                    }
+                },
+                error: function (data) {
+                    ErrorService.handle(data, 'ws');
+                },
+                notification: function () {
+                    $rootScope.$broadcast('notifications', data["notifications"]);
+                }
+            };
+            // do_action is the dispatcher function for incoming events
+            var do_action = function (options) {
+                var args = [].slice.call(arguments, 0),
+                    initialized = false,
+                    action = 'init';
+                if (typeof msg_methods[args[1]] === 'function') {
+                    action = args[1];
+                    args.shift();
+                }
+                return msg_methods[action](args[0]);
+            };
+            var msg_data = angular.fromJson(event.data);
+            do_action(msg_data, msg_data.error || msg_data.notification);
 
             $log.info("MESSAGE:", event, "Data:", JSON.parse(event.data));
         };
@@ -131,24 +150,5 @@ angular.module('ulakbus')
             delete websocket;
         }
 
-        wsOps.waitForSocketConnection = function (socket, callback) {
-            $timeout(
-                function () {
-                    if (angular.isDefined(socket)) {
-                        if (socket.readyState === 1) {
-                            $log.info("Connection made.");
-                            if (callback != null) {
-                                callback();
-                            }
-                        } else {
-                            $log.info("waiting for connection...");
-                            wsOps.waitForSocketConnection(socket, callback);
-                        }
-                    } else {
-                        $log.info("waiting for connection...");
-                        wsOps.waitForSocketConnection(socket, callback);
-                    }
-                }, 50); // wait 50 milisecond for the connection...
-        };
         return wsOps;
     });

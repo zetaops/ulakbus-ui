@@ -6,17 +6,9 @@
  * (GPLv3).  See LICENSE.txt for details.
  */
 
-// 'use strict';
-
-// app.config(['$routeProvider', function ($routeProvider) {
-//     $routeProvider
-//         .when('/500', {
-//             templateUrl: 'components/uitemplates/500.html',
-//             controller: '500Ctrl'
-//         });
-// }]);
-
 angular.module('ulakbus.uitemplates', ['ngRoute'])
 
-    // .controller('500Ctrl', function ($scope, $rootScope, $location) {
-    // });
+    .controller('NewDesignsCtrl', function ($scope) {
+        $scope.items = ['student', 'staff', 'academician'];
+        $scope.selection = $scope.items[0];
+    });

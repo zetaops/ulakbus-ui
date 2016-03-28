@@ -56,26 +56,13 @@ angular.module('ulakbus')
                         $scope.notifications[value.type].push(value);
                     });
                 };
+
                 /**
-                 * Get notifications from API's /notify path and group it then broadcast "notifications" object.
-                 * {ignoreLoadingBar: true} is telling loading bar not work on this particular request.
+                 * When "notifications" send via websocket, parse notifications by type.
                  */
-                $scope.getNotifications = function () {
-                    // ignore loading bar here
-                    //$http.get(RESTURL.url + "notify", {ignoreLoadingBar: true}).success(function (data) {
-                    //    $scope.groupNotifications(data.notifications);
-                    //    $rootScope.$broadcast("notifications", $scope.notifications);
-                    //});
-                };
-
-                $scope.getNotifications();
-
-                // check notifications every 5 seconds
-                $interval(function () {
-                    if ($cookies.get("notificate") == "on") {
-                        $scope.getNotifications();
-                    }
-                }, 5000);
+                $scope.$on("notifications", function (event, data) {
+                    $scope.groupNotifications(data.notifications);
+                });
 
                 /**
                  * When clicked mark the notification as read.
