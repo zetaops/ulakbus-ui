@@ -44,8 +44,11 @@
 
                 <td ng-repeat="field in object.fields track by $index">
                     <a role="button" ng-if="field.type==='link'"
-                       ng-click="do_action(object.key, field)" ng-bind-html="field.content || '' | markdown"></a>
+                       ng-click="do_action(object.key, field)"><markdown ng-bind-html="field.content"></markdown></a>
                     <span ng-if="field.type==='str'" ng-bind-html="field.content || '' | markdown"></span>
+                    <!--<a role="button" ng-if="field.type==='link'"-->
+                       <!--ng-click="do_action(object.key, field)">{{trustashtml(field.content) | markdown}}</a>-->
+                    <!--<span ng-if="field.type==='str'">{{trustashtml(field.content) | markdown}}</span>-->
                 </td>
 
                 <td>

@@ -720,6 +720,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     generate_fields[v.type][v.widget || 'default'](scope, v, k);
                 }
                 catch (e) {
+                    // raise not implemented
                     console.log(v.type)
                 }
             });
@@ -877,6 +878,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     });
             } else {
                 $timeout(function () {
+                    // todo: loop restrict listen ws open
                     generator.get_wf(scope);
                 }, 500);
             }

@@ -96,11 +96,11 @@ angular.module('ulakbus')
                         $log.info("Data without callback: %o", data);
                     }
                 },
-                error: function (data) {
-                    ErrorService.handle(data, 'ws');
+                error: function () {
+                    ErrorService.handle(msg_data, 'ws');
                 },
                 notification: function () {
-                    $rootScope.$broadcast('notifications', data["notifications"]);
+                    $rootScope.$broadcast('notifications', msg_data["notifications"]);
                 }
             };
             // do_action is the dispatcher function for incoming events
@@ -115,7 +115,7 @@ angular.module('ulakbus')
                 return msg_methods[action](args[0]);
             };
             var msg_data = angular.fromJson(event.data);
-            do_action(msg_data, msg_data.error || msg_data.notification);
+            do_action(msg_data, msg_data.cmd || 'error');
 
             $log.info("MESSAGE:", event, "Data:", JSON.parse(event.data));
         };

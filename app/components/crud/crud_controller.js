@@ -156,6 +156,14 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
      * @returns {object}
      */
     .controller('CRUDListFormController', function ($scope, $rootScope, $location, $sce, $http, $log, $uibModal, $timeout, Generator, $routeParams, CrudUtility) {
+        // below show crud and $on --> $viewContentLoaded callback is for masking the view with unrendered and ugly html
+        $scope.show_crud = false;
+        $scope.$on('$viewContentLoaded', function () {
+            $timeout(function () {
+                $scope.show_crud = true;
+            }, 500);
+        });
+        
         $scope.wf_step = $routeParams.step;
 
         $scope.paginate = function (reloadData) {
@@ -179,6 +187,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
         // object by its name. to manage to locate the form to controllers scope we use a directive called form locator
         // a bit dirty way to find form working on but solves our problem
         $scope.$on('formLocator', function (event) {
+
             $scope.formgenerated = event.targetScope.formgenerated;
         });
 
@@ -203,6 +212,12 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
         $scope.getNumber = function (num) {
             return new Array(num);
         };
+        
+        // trust as html for using markdown support
+        
+        $scope.trustAsHtml = function (value) {
+            return $sce.trustAsHtml(value);
+        }
 
         // inline edit fields
         $scope.datepickerstatuses = {};

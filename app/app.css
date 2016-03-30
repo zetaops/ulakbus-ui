@@ -2182,3 +2182,12 @@ table.dataTable thead .sorting:after {
 #toast-container {
     margin-top: 90px;
 }
+
+.crud-mask {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    position: absolute;
+    top:43px; left:0;
+    z-index: 1000;
+}

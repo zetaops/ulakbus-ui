@@ -31,7 +31,7 @@ angular.module('ulakbus')
             // use crud without selected user
             // important: regex urls must be defined later than static ones
             .when('/:wf/', {
-                templateUrl: 'components/crud/templates/crud.html',
+                templateUrl: 'components/crud/templates/crud-preload.html',
                 controller: 'CRUDController'
             })
             .when('/:wf/do/:cmd', {
@@ -43,7 +43,7 @@ angular.module('ulakbus')
                 controller: 'CRUDListFormController'
             })
             .when('/:wf/:model', {
-                templateUrl: 'components/crud/templates/crud.html',
+                templateUrl: 'components/crud/templates/crud-preload.html',
                 controller: 'CRUDController'
             })
             .when('/:wf/:model/do/:cmd', {

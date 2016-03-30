@@ -37,31 +37,35 @@ angular.module('ulakbus')
      * 1: tasks, 2: messages, 3: announcements, 4: recents
      * - Notifications can be disabled in /dev/settings page
      */
-    .directive('headerNotification', function ($http, $rootScope, $cookies, $interval, RESTURL) {
+    .directive('headerNotification', function (WSOps, $rootScope, $cookies, $interval, RESTURL) {
         return {
             templateUrl: 'shared/templates/directives/header-notification.html',
             restrict: 'E',
             replace: true,
-            link: function ($scope) {
+            scope: {},
+            controller: function ($scope) {
+                // notification categories:
+                // 1: tasks, 2: messages, 3: announcements, 4: recents
+                $scope.notifications = {1: [], 2: [], 3: [], 4: []};
                 /**
                  * Group notifications
                  * @param notifications
                  */
                 $scope.groupNotifications = function (notifications) {
-                    // notification categories:
-                    // 1: tasks, 2: messages, 3: announcements, 4: recents
-                    $scope.notifications = {1: [], 2: [], 3: [], 4: []};
+
+                    // $scope.notifications = {1: [], 2: [], 3: [], 4: []};
 
                     angular.forEach(notifications, function (value, key) {
                         $scope.notifications[value.type].push(value);
                     });
+                    $scope.$apply();
                 };
 
                 /**
                  * When "notifications" send via websocket, parse notifications by type.
                  */
                 $scope.$on("notifications", function (event, data) {
-                    $scope.groupNotifications(data.notifications);
+                    $scope.groupNotifications(data);
                 });
 
                 /**
@@ -69,18 +73,15 @@ angular.module('ulakbus')
                  * @param items
                  * @todo: do it in detail page of notification
                  */
-                $scope.markAsRead = function (items) {
-                    //$http.post(RESTURL.url + "notify", {ignoreLoadingBar: true, read: [items]})
-                    //    .success(function (data) {
-                    //        $scope.groupNotifications(data.notifications);
-                    //        $rootScope.$broadcast("notifications", $scope.notifications);
-                    //    });
+                $scope.markAsRead = function (item, group, index) {
+                    WSOps.doSend(angular.toJson({data: {view: 'notify', id:item.id}}));
+                    $scope.notifications[group].splice(index,1);
                 };
 
                 // if markasread triggered outside the directive
-                $scope.$on("markasread", function (event, data) {
-                    $scope.markAsRead(data);
-                });
+                // $scope.$on("markasread", function (event, data) {
+                //     $scope.markAsRead(data);
+                // });
             }
         };
     })
