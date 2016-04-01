@@ -37,7 +37,7 @@ angular.module('ulakbus')
      * 1: tasks, 2: messages, 3: announcements, 4: recents
      * - Notifications can be disabled in /dev/settings page
      */
-    .directive('headerNotification', function (WSOps, $rootScope, $cookies, $interval, RESTURL) {
+    .directive('headerNotification', function (WSOps, $rootScope, $cookies, $interval, RESTURL, $uibModal) {
         return {
             templateUrl: 'shared/templates/directives/header-notification.html',
             restrict: 'E',
@@ -51,6 +51,55 @@ angular.module('ulakbus')
                  * Group notifications
                  * @param notifications
                  */
+                $scope.testmessage = function(){
+                    $scope.notifications[1].push({
+                        title: "Kemange mage kako",
+                        body: "Sugarke Mage kako"
+                    });
+                    $scope.notifications[1].push({
+                        title: "Yandan gel mage kako",
+                        body: "Candan gel Mage kako"
+                    });
+                    $scope.notifications[2].push({
+                        title: "Kemange mage kako",
+                        body: "Sugarke Mage kako"
+                    });
+                    $scope.notifications[2].push({
+                        title: "Yandan gel mage kako",
+                        body: "Candan gel Mage kako"
+                    });
+                    $scope.notifications[3].push({
+                        title: "Kemange mage kako",
+                        body: "Sugarke Mage kako"
+                    });
+                    $scope.notifications[3].push({
+                        title: "Yandan gel mage kako",
+                        body: "Candan gel Mage kako"
+                    });
+                }
+                $scope.testmessage();
+
+                $scope.ddEventHandler = function(){
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                    return false;
+                }
+
+
+                $scope.popModal = function(item){
+                     var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: 'shared/templates/notificationsModalContent.html',
+                        controller: function($scope){
+                            $scope.notification = item;
+                            $scope.cancel = function() {
+                                modalInstance.dismiss('cancel');
+                            };
+                        },
+                        size: 'lg'
+                    });
+                }
+
                 $scope.groupNotifications = function (notifications) {
 
                     // $scope.notifications = {1: [], 2: [], 3: [], 4: []};
