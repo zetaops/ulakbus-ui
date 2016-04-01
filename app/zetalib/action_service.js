@@ -19,6 +19,12 @@ angular.module('ulakbus')
             $scope.keylog.shift();
             $scope.keylog.push(e.keyCode);
         };
+
+        // when user_ready broadcasted then change value of user_ready=true to display view
+        $scope.$on('user_ready', function () {
+            $scope.user_ready = true;
+        });
+        $scope.user_ready = false;
     })
     .factory('action_service', function ($uibModal, $log) {
         var actions = {};

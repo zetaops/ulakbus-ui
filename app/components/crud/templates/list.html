@@ -9,17 +9,17 @@
         </div>
     </div>
     <!-- todo: add `selective_list` to documentation -->
-    <div ng-if="meta.selective_listing === true">
+    <div ng-if="meta.selective_listing === true" class="row" style="margin-bottom: 25px;">
         <label for="selective_list">{{meta.selective_listing_label || "Sayfa içinde filtrelemek için seçim yapınız."}}</label>
         <select name="selective_list" id="selective_list"
-                ng-change="update_selective_list()"
+                ng-change="update_selective_list(selective_list_key)"
                 ng-model="selective_list_key"
                 class="form-control">
-            <option ng-repeat="item in all_objects" value="{{$index}}">{{item.key}}</option>
+            <option ng-repeat="item in all_objects" value="{{$index}}" ng-selected="selective_list_key">{{item.key}}</option>
         </select>
     </div>
     <div class="tablescroll" ng-if="objects[1]">
-        <table class="table table-bordered" style="background-color:#fff;">
+        <table class="table table-bordered table-striped" style="background-color:#fff;">
             <thead>
             <tr>
                 <td ng-if="meta.allow_selection === true">
@@ -30,7 +30,7 @@
                 </td>
                 <td ng-repeat="value in objects[0] track by $index" ng-if="objects[0]!='-1'">{{value}}</td>
                 <td ng-if="objects[0]=='-1'">{{ schema.title||model}}</td>
-                <td>İşlem</td>
+                <td ng-if="meta.allow_actions !== false">İşlem</td>
             </tr>
             </thead>
             <tbody>
@@ -51,7 +51,7 @@
                     <!--<span ng-if="field.type==='str'">{{trustashtml(field.content) | markdown}}</span>-->
                 </td>
 
-                <td>
+                <td ng-if="meta.allow_actions !== false">
                     <button class="btn btn-info" style="margin-right: 5px;" ng-repeat="action in object.actions track by $index"
                             ng-if="action.show_as==='button'"
                             ng-click="do_action(object.key, action)">{{action

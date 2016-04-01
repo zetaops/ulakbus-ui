@@ -2206,6 +2206,15 @@ table.dataTable thead .sorting:after {
     z-index: 1000;
 }
 
+.body-mask {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    position: absolute;
+    top:0; left:0;
+    z-index: 1099;
+}
+
 /*
  * metismenu - v1.1.3
  * Easy menu jQuery plugin for Twitter Bootstrap 3

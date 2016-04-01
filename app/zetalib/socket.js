@@ -31,6 +31,7 @@ angular.module('ulakbus')
         });
 
         var websocket;
+        var ws_is_generated;
         var refresh_count = 0;
         var refresh_websocket = refresh_count < 5 ? 1000 : 5000;
         var isSupported = function() {
@@ -47,10 +48,10 @@ angular.module('ulakbus')
                 websocket.onclose = function (evt) {
                     wsOps.onClose(evt);
                     if (wsOps.loggedOut === true) {return;}
-                    $timeout(function () {
-                        generate_ws();
-                        refresh_count += 1;
-                    }, refresh_websocket);
+                    // $timeout(function () {
+                    //     generate_ws();
+                    //     refresh_count += 1;
+                    // }, refresh_websocket);
                 };
                 websocket.onmessage = function (evt) {
                     wsOps.onMessage(evt)
@@ -58,6 +59,7 @@ angular.module('ulakbus')
                 websocket.onerror = function (evt) {
                     wsOps.onError(evt)
                 };
+                ws_is_generated = true;
             } else {
                 var error = {
                     error: "Tarayıcınız websocket desteklememektedir. Lütfen güncel bir tarayıcı kullanınız.",
@@ -101,6 +103,11 @@ angular.module('ulakbus')
                 },
                 notification: function () {
                     $rootScope.$broadcast('notifications', msg_data["notifications"]);
+                },
+                dashboard: function () {
+                    var callback = wsOps.callbacks[msg_data.callbackID];
+                    delete wsOps.callbacks[msg_data.callbackID];
+                    callback.resolve(msg_data);
                 }
             };
             // do_action is the dispatcher function for incoming events
@@ -115,7 +122,8 @@ angular.module('ulakbus')
                 return msg_methods[action](args[0]);
             };
             var msg_data = angular.fromJson(event.data);
-            do_action(msg_data, msg_data.cmd || 'error');
+            if (msg_data.error) {msg_data.cmd = 'error';}
+            do_action(msg_data, msg_data.cmd);
 
             $log.info("MESSAGE:", event, "Data:", JSON.parse(event.data));
         };
@@ -128,19 +136,27 @@ angular.module('ulakbus')
         };
         // reactor with promise
         wsOps.request = function (data) {
-            var request = {
-                callbackID: Math.random().toString(36).substring(7),
-                data: data
-            };
-            var deferred = $q.defer();
-            wsOps.callbacks[request.callbackID] = deferred;
-            websocket.send(angular.toJson(request));
-            $log.info('SENT:', data);
-            return deferred.promise.then(function (response) {
-                    request.response = response;
-                    return response;
-                }
-            );
+            if (ws_is_generated) {
+                var request = {
+                    callbackID: Math.random().toString(36).substring(7),
+                    data: data
+                };
+                var deferred = $q.defer();
+                wsOps.callbacks[request.callbackID] = deferred;
+                websocket.send(angular.toJson(request));
+                $log.info('SENT:', data);
+                // todo: add success & error promises
+                return deferred.promise.then(function (response) {
+                        request.response = response;
+                        return response;
+                    }
+                );
+            } else {
+                // is ws_is_generated is not true try again in one second
+                $timeout(function () {
+                    wsOps.request(data);
+                }, 1000);
+            }
         };
 
         wsOps.close = function () {
@@ -148,7 +164,7 @@ angular.module('ulakbus')
             websocket.close();
             $log.info("CLOSED");
             delete websocket;
-        }
+        };
 
         return wsOps;
     });

@@ -21,8 +21,18 @@ angular.module('ulakbus.auth')
         authService.get_form = function (scope) {
             return $http
                 .post(Generator.makeUrl(scope), scope.form_params)
-                .then(function (res) {
-                    return Generator.generate(scope, res.data);
+                .success(function (data, status, headers, config) {
+                    if (data.cmd === 'upgrade') {
+                        $rootScope.loggedInUser = true;
+                        $rootScope.$broadcast("user_ready");
+                        $rootScope.$broadcast("ws_turn_on");
+                        return $location.path('/dashboard');
+                    } else{
+                        if (angular.isDefined(data.forms) && $location.path() !== '/login'){
+                            $location.path('/login');
+                        }
+                        return Generator.generate(scope, data);
+                    }
                 });
         };
 
@@ -44,9 +54,12 @@ angular.module('ulakbus.auth')
                 .success(function (data, status, headers, config) {
                     //$window.sessionStorage.token = data.token;
                     Generator.button_switch(true);
-                    if (data.status_code !== 403) {
+                    if (data.cmd === 'upgrade') {
                         $rootScope.loggedInUser = true;
-                        $rootScope.$broadcast("regenerate_menu");
+                        // $rootScope.$broadcast("regenerate_menu");
+                        // to display main view without flickering
+                        $rootScope.$broadcast("user_ready");
+                        $rootScope.$broadcast("ws_turn_on");
                         $location.path('/dashboard');
                     }
                     if (data.status_code === 403) {
@@ -78,6 +91,11 @@ angular.module('ulakbus.auth')
                 $location.path("/login");
                 WSOps.close();
             });
+        };
+
+        authService.check_auth = function () {
+            var post_data = {url: 'login', form_params:{}};
+            return authService.get_form(post_data);
         };
 
         return authService;

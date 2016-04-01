@@ -74,8 +74,8 @@ angular.module('ulakbus')
                  * @todo: do it in detail page of notification
                  */
                 $scope.markAsRead = function (item, group, index) {
-                    WSOps.doSend(angular.toJson({data: {view: 'notify', id:item.id}}));
-                    $scope.notifications[group].splice(index,1);
+                    WSOps.doSend(angular.toJson({data: {view: 'notify', id: item.id}}));
+                    $scope.notifications[group].splice(index, 1);
                 };
 
                 // if markasread triggered outside the directive
@@ -285,7 +285,7 @@ angular.module('ulakbus')
             restrict: 'E',
             replace: true,
             scope: {},
-            controller: function ($scope, $rootScope, $cookies, $route, $http, RESTURL, DESIGN, $log, $location, $window, $timeout) {
+            controller: function ($scope, $rootScope, $cookies, $route, AuthService, WSOps, RESTURL, DESIGN, $log, $location, $window, $timeout) {
                 $scope.prepareMenu = function (menuItems) {
                     var newMenuItems = {};
                     angular.forEach(menuItems, function (value, key) {
@@ -296,70 +296,84 @@ angular.module('ulakbus')
                     return newMenuItems;
                 };
 
-                var generate_menu = function () {
-                    var sidebarmenu = $('#side-menu');
-                    sidebarmenu.metisMenu();
-                    $http.get(RESTURL.url + 'menu', {ignoreLoadingBar: true})
-                        .success(function (data) {
-                            $scope.allMenuItems = angular.copy(data);
+                // check login status
+                AuthService.check_auth();
 
-                            // regroup menu items based on their category
-                            function reGroupMenuItems(items, baseCategory) {
-                                var newItems = {};
-                                angular.forEach(items, function (value, key) {
-                                    newItems[value.kategori] = newItems[value.kategori] || [];
-                                    value['baseCategory'] = baseCategory;
-                                    newItems[value.kategori].push(value);
-                                });
-                                return newItems;
-                            }
+                var generate_dashboard = function () {
+                    if ($rootScope.current_user !== true){
+                        return;
+                    }
+                    if ($rootScope.websocketIsOpen) {
+                        var sidebarmenu = $('#side-menu');
+                        sidebarmenu.metisMenu();
+                        WSOps.request({view: 'dashboard'})
+                            .then(function (data) {
+                                $scope.allMenuItems = angular.copy(data);
 
-                            angular.forEach($scope.allMenuItems, function (value, key) {
-                                if (key !== 'current_user' && key !== 'settings') {
-                                    $scope.allMenuItems[key] = reGroupMenuItems(value, key);
+                                // regroup menu items based on their category
+                                function reGroupMenuItems(items, baseCategory) {
+                                    var newItems = {};
+                                    angular.forEach(items, function (value, key) {
+                                        newItems[value.kategori] = newItems[value.kategori] || [];
+                                        value['baseCategory'] = baseCategory;
+                                        newItems[value.kategori].push(value);
+                                    });
+                                    return newItems;
                                 }
+
+                                angular.forEach($scope.allMenuItems, function (value, key) {
+                                    if (key !== 'current_user' && key !== 'settings') {
+                                        $scope.allMenuItems[key] = reGroupMenuItems(value, key);
+                                    }
+                                });
+
+                                // quick menus to dashboard via rootscope
+
+                                $rootScope.quick_menu = reGroupMenuItems(data.quick_menu, 'quick_menus');
+                                $rootScope.quick_menu = data.quick_menu;
+                                delete data.quick_menu;
+                                $log.debug('quick menu', $rootScope.quick_menu);
+
+                                // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
+                                // related items
+                                $rootScope.$broadcast("authz", data);
+                                $rootScope.searchInputs = data;
+
+                                if (data.current_user) {
+                                    // $rootScope.$broadcast("ws_turn_on");
+                                    // to display main view without flickering
+                                    // $rootScope.$broadcast("user_ready");
+                                }
+
+                                $rootScope.current_user = data.current_user;
+                                if (data.ogrenci || data.personel) {
+                                    $rootScope.current_user.can_search = true;
+                                }
+                                $rootScope.settings = data.settings;
+
+                                $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
+
+                                $timeout(function () {
+                                    sidebarmenu.metisMenu();
+                                });
                             });
-
-                            // quick menus to dashboard via rootscope
-
-                            $rootScope.quick_menu = reGroupMenuItems(data.quick_menu, 'quick_menus');
-                            $rootScope.quick_menu = data.quick_menu;
-                            delete data.quick_menu;
-                            $log.debug('quick menu', $rootScope.quick_menu);
-
-                            // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
-                            // related items
-                            $rootScope.$broadcast("authz", data);
-                            $rootScope.searchInputs = data;
-
-                            if (data.current_user) {
-                                $rootScope.$broadcast("ws_turn_on");
-                            }
-
-                            $rootScope.current_user = data.current_user;
-                            if (data.ogrenci || data.personel) {
-                                $rootScope.current_user.can_search = true;
-                            }
-                            $rootScope.settings = data.settings;
-
-                            $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
-
-                            $timeout(function () {
-                                sidebarmenu.metisMenu();
-                            });
-                        })
-                        .error(function (data, status, headers, config) {
-                            $log.error('menu not retrieved', data);
-                            $log.info('design switch', DESIGN.switch);
-                            if (!DESIGN.switch) {
-                                $location.path('/login');
-                            }
-                        });
+                            // .error(function (data, status, headers, config) {
+                            //     $log.error('menu not retrieved', data);
+                            //     $log.info('design switch', DESIGN.switch);
+                            //     if (!DESIGN.switch) {
+                            //         $location.path('/login');
+                            //     }
+                            // });
+                    } else {
+                        $timeout(function () {
+                            generate_dashboard();
+                        }, 500);
+                    }
                 };
-                $scope.$on("regenerate_menu", function () {
-                    generate_menu();
+                $scope.$on("generate_dashboard", function () {
+                    generate_dashboard();
                 });
-                generate_menu();
+                // generate_menu();
 
                 // changing menu items by listening for broadcast
                 $scope.$on("menuitems", function (event, data) {
@@ -377,26 +391,26 @@ angular.module('ulakbus')
                     delete $scope.selectedMenuItems;
                 };
 
-                $scope.openSidebar = function () {
-                    if ($window.innerWidth > '768') {
-                        if ($rootScope.sidebarPinned === 0) {
-                            jQuery("span.menu-text, span.arrow, .sidebar footer, #side-menu").fadeIn(400);
-                            jQuery(".sidebar").css("width", "250px");
-                            jQuery(".manager-view").css("width", "calc(100% - 250px)");
-                            $rootScope.collapsed = false;
-                        }
-                    }
-                };
-
-                $scope.closeSidebar = function () {
-                    if ($window.innerWidth > '768') {
-                        if ($rootScope.sidebarPinned === 0) {
-                            jQuery(".sidebar").css("width", "62px");
-                            jQuery(".manager-view").css("width", "calc(100% - 62px)");
-                            $rootScope.collapsed = true;
-                        }
-                    }
-                };
+                // $scope.openSidebar = function () {
+                //     if ($window.innerWidth > '768') {
+                //         if ($rootScope.sidebarPinned === 0) {
+                //             jQuery("span.menu-text, span.arrow, .sidebar footer, #side-menu").fadeIn(400);
+                //             jQuery(".sidebar").css("width", "250px");
+                //             jQuery(".manager-view").css("width", "calc(100% - 250px)");
+                //             $rootScope.collapsed = false;
+                //         }
+                //     }
+                // };
+                //
+                // $scope.closeSidebar = function () {
+                //     if ($window.innerWidth > '768') {
+                //         if ($rootScope.sidebarPinned === 0) {
+                //             jQuery(".sidebar").css("width", "62px");
+                //             jQuery(".manager-view").css("width", "calc(100% - 62px)");
+                //             $rootScope.collapsed = true;
+                //         }
+                //     }
+                // };
 
                 $rootScope.$watch(function ($rootScope) {
                         return $rootScope.section;

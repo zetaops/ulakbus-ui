@@ -59,7 +59,7 @@ angular.module('ulakbus')
     }])
     .run(function ($rootScope) {
 
-        $rootScope.loggedInUser = true;
+        $rootScope.loggedInUser = false;
         $rootScope.loginAttempt = 0;
         $rootScope.websocketIsOpen = false;
         $rootScope.current_user = true;

@@ -92,27 +92,60 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                 angular.forEach(pageData, function (value, key) {
                     scope[key] = value;
                 });
-                angular.forEach(scope.objects, function (value, key) {
-                    if (key > 0) {
-                        var linkIndexes = {};
-                        angular.forEach(value.actions, function (v, k) {
-                            if (v.show_as === 'link') {linkIndexes = v}
-                        });
-                        angular.forEach(value.fields, function (v, k) {
-                            if (value.actions.length > 0 && linkIndexes.fields){
-                                scope.objects[key].fields[k] = {
-                                    type: linkIndexes.fields.indexOf(k) > -1 ? 'link' : 'str',
-                                    content: v,
-                                    cmd: linkIndexes.cmd,
-                                    mode: linkIndexes.mode
-                                };
+                if (scope.meta['selective_listing'] === true) {
+                    angular.forEach(scope.objects, function (_v, _k) {
+                        angular.forEach(_v.objects, function (value, key) {
+                            if (key > 0) {
+                                var linkIndexes = {};
+                                angular.forEach(value.actions, function (v, k) {
+                                    if (v.show_as === 'link') {linkIndexes = v}
+                                });
+                                angular.forEach(value.fields, function (v, k) {
+                                    try {
+                                        if (value.actions.length > 0 && linkIndexes.fields){
+                                            scope.objects[_k][key].fields[k] = {
+                                                type: linkIndexes.fields.indexOf(k) > -1 ? 'link' : 'str',
+                                                content: v,
+                                                cmd: linkIndexes.cmd,
+                                                mode: linkIndexes.mode
+                                            };
+                                        }
+                                        else {
+                                            scope.objects[_k]['objects'][key].fields[k] = {type: 'str', content: v};
+                                        }
+                                    } catch (e) {
+                                        $log.error(e);
+                                        scope.objects[_k]['objects'][key].fields[k] = {type: 'str', content: v};
+                                    }
+
+                                });
                             }
-                            else {
-                                scope.objects[key].fields[k] = {type: 'str', content: v};
-                            }
                         });
-                    }
-                });
+                    });
+                } else {
+                    angular.forEach(scope.objects, function (value, key) {
+                        if (key > 0) {
+                            var linkIndexes = {};
+                            angular.forEach(value.actions, function (v, k) {
+                                if (v.show_as === 'link') {linkIndexes = v}
+                            });
+                            angular.forEach(value.fields, function (v, k) {
+                                if (value.actions.length > 0 && linkIndexes.fields){
+                                    scope.objects[key].fields[k] = {
+                                        type: linkIndexes.fields.indexOf(k) > -1 ? 'link' : 'str',
+                                        content: v,
+                                        cmd: linkIndexes.cmd,
+                                        mode: linkIndexes.mode
+                                    };
+                                }
+                                else {
+                                    scope.objects[key].fields[k] = {type: 'str', content: v};
+                                }
+                            });
+                        }
+                    });
+                }
+
                 $log.debug(scope.objects);
             }
         }
@@ -262,9 +295,8 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
         };
 
         // selective listing for list page todo: add to documentation
-        $scope.selective_list_key = 0;
-        $scope.update_selective_list = function () {
-            $scope.objects = $scope.all_objects[$scope.selective_list_key]["objects"];
+        $scope.update_selective_list = function (key) {
+            $scope.objects = $scope.all_objects[key]["objects"];
         };
         // end of selective listing
         $scope.listFormCmd = function () {

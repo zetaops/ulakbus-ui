@@ -261,17 +261,17 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "        </div>\n" +
     "    </div>\n" +
     "    <!-- todo: add `selective_list` to documentation -->\n" +
-    "    <div ng-if=\"meta.selective_listing === true\">\n" +
+    "    <div ng-if=\"meta.selective_listing === true\" class=\"row\" style=\"margin-bottom: 25px;\">\n" +
     "        <label for=\"selective_list\">{{meta.selective_listing_label || \"Sayfa içinde filtrelemek için seçim yapınız.\"}}</label>\n" +
     "        <select name=\"selective_list\" id=\"selective_list\"\n" +
-    "                ng-change=\"update_selective_list()\"\n" +
+    "                ng-change=\"update_selective_list(selective_list_key)\"\n" +
     "                ng-model=\"selective_list_key\"\n" +
     "                class=\"form-control\">\n" +
-    "            <option ng-repeat=\"item in all_objects\" value=\"{{$index}}\">{{item.key}}</option>\n" +
+    "            <option ng-repeat=\"item in all_objects\" value=\"{{$index}}\" ng-selected=\"selective_list_key\">{{item.key}}</option>\n" +
     "        </select>\n" +
     "    </div>\n" +
     "    <div class=\"tablescroll\" ng-if=\"objects[1]\">\n" +
-    "        <table class=\"table table-bordered\" style=\"background-color:#fff;\">\n" +
+    "        <table class=\"table table-bordered table-striped\" style=\"background-color:#fff;\">\n" +
     "            <thead>\n" +
     "            <tr>\n" +
     "                <td ng-if=\"meta.allow_selection === true\">\n" +
@@ -282,7 +282,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                </td>\n" +
     "                <td ng-repeat=\"value in objects[0] track by $index\" ng-if=\"objects[0]!='-1'\">{{value}}</td>\n" +
     "                <td ng-if=\"objects[0]=='-1'\">{{ schema.title||model}}</td>\n" +
-    "                <td>İşlem</td>\n" +
+    "                <td ng-if=\"meta.allow_actions !== false\">İşlem</td>\n" +
     "            </tr>\n" +
     "            </thead>\n" +
     "            <tbody>\n" +
@@ -303,7 +303,7 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "                    <!--<span ng-if=\"field.type==='str'\">{{trustashtml(field.content) | markdown}}</span>-->\n" +
     "                </td>\n" +
     "\n" +
-    "                <td>\n" +
+    "                <td ng-if=\"meta.allow_actions !== false\">\n" +
     "                    <button class=\"btn btn-info\" style=\"margin-right: 5px;\" ng-repeat=\"action in object.actions track by $index\"\n" +
     "                            ng-if=\"action.show_as==='button'\"\n" +
     "                            ng-click=\"do_action(object.key, action)\">{{action\n" +
@@ -2313,11 +2313,11 @@ angular.module("shared/templates/directives/sidebar-search.html", []).run(["$tem
 
 angular.module("shared/templates/directives/sidebar.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/sidebar.html",
-    "<div class=\"navbar-default sidebar\" role=\"navigation\" ng-mouseenter=\"openSidebar()\" ng-mouseleave=\"closeSidebar()\">\n" +
+    "<div class=\"navbar-default sidebar\" role=\"navigation\">\n" +
     "\n" +
     "    <div class=\"sidebar-container\">\n" +
     "        <div class=\"sidebar-nav navbar-collapse\">\n" +
-    "            <ul class=\"nav in\" id=\"side-menu\" ng-class=\"{hidden: $root.loggedInUser != true}\" data-step=\"1\"\n" +
+    "            <ul class=\"nav in\" id=\"side-menu\" data-step=\"1\"\n" +
     "                data-intro=\"Genel menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz.\">\n" +
     "                <!--<sidebar-search></sidebar-search>-->\n" +
     "                <li ui-sref-active=\"active\">\n" +
