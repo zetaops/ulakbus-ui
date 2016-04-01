@@ -30,13 +30,13 @@
         </ul>
         &lt;!&ndash; /.dropdown-messages &ndash;&gt;
     </li>-->
-    <li uib-dropdown auto-close="outsideClick">
+    <li uib-dropdown auto-close="disabled">
         <a uib-dropdown-toggle>
             <div class="badge" ng-show="notifications[2].length > 0">{{notifications[2].length}}</div>
             <i class="fa fa-envelope fa-fw" tooltip-placement="bottom" uib-tooltip="Mesajlar"></i>  <i
                 class="fa fa-caret-down"></i>
         </a>
-        <ul class="dropdown-messages" uib-dropdown-menu ng-show="notifications[2].length > 0" ng-click="ddEventHandler()">
+        <ul class="dropdown-messages" uib-dropdown-menu ng-show="notifications[2].length > 0">
             <li ng-repeat="notify in notifications[2] | limitTo: '8'">
                 <a>
                     <div ng-click="popModal(notify)">
@@ -62,13 +62,13 @@
         <!-- /.dropdown-messages -->
     </li>
     <!-- /.dropdown -->
-    <li uib-dropdown auto-close="outsideClick">
+    <li uib-dropdown auto-close="disabled">
         <a uib-dropdown-toggle>
             <div class="badge" ng-if="notifications[1].length > 0">{{notifications[1].length}}</div>
             <i class="fa fa-tasks fa-fw" tooltip-placement="bottom" uib-tooltip="Görevler"></i>  <i
                 class="fa fa-caret-down"></i>
         </a>
-        <ul class="dropdown-tasks" uib-dropdown-menu ng-if="notifications[1].length > 0" ng-click="ddEventHandler()">
+        <ul class="dropdown-tasks" uib-dropdown-menu ng-if="notifications[1].length > 0">
             <li ng-repeat="notify in notifications[1] | limitTo: '8'">
                 <a>
                     <div>
@@ -98,13 +98,13 @@
         <!-- /.dropdown-tasks -->
     </li>
     <!-- /.dropdown -->
-    <li uib-dropdown auto-close="outsideClick">
+    <li uib-dropdown auto-close="disabled">
         <a uib-dropdown-toggle>
         	<div class="badge" ng-if="notifications[3].length > 0">{{notifications[3].length}}</div>
             <i class="fa fa-bell fa-fw" tooltip-placement="bottom" uib-tooltip="Duyurular"></i>  <i
                 class="fa fa-caret-down"></i>
         </a>
-        <ul class="dropdown-alerts" uib-dropdown-menu ng-if="notifications[3].length > 0" ng-click="ddEventHandler()">
+        <ul class="dropdown-alerts" uib-dropdown-menu ng-if="notifications[3].length > 0">
             <li ng-repeat="notify in notifications[3] | limitTo: '8'">
                 <a role="button">
                     <div>
