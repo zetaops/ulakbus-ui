@@ -37,7 +37,7 @@ angular.module('ulakbus')
      * 1: tasks, 2: messages, 3: announcements, 4: recents
      * - Notifications can be disabled in /dev/settings page
      */
-    .directive('headerNotification', function (WSOps, $rootScope, $cookies, $interval, RESTURL) {
+    .directive('headerNotification', function (WSOps, $rootScope, $cookies, $interval, RESTURL, $uibModal) {
         return {
             templateUrl: 'shared/templates/directives/header-notification.html',
             restrict: 'E',
@@ -51,6 +51,21 @@ angular.module('ulakbus')
                  * Group notifications
                  * @param notifications
                  */
+                
+                $scope.popModal = function(item){
+                     var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: 'shared/templates/notificationsModalContent.html',
+                        controller: function($scope){
+                            $scope.notification = item;
+                            $scope.cancel = function() {
+                                modalInstance.dismiss('cancel');
+                            };
+                        },
+                        size: 'lg'
+                    });
+                }
+
                 $scope.groupNotifications = function (notifications) {
 
                     // $scope.notifications = {1: [], 2: [], 3: [], 4: []};
@@ -73,9 +88,15 @@ angular.module('ulakbus')
                  * @param items
                  * @todo: do it in detail page of notification
                  */
-                $scope.markAsRead = function (item, group, index) {
-                    WSOps.doSend(angular.toJson({data: {view: 'notify', id: item.id}}));
-                    $scope.notifications[group].splice(index, 1);
+                $scope.markAsRead = function (event,item, group, index) {
+                    //Added event parameter to stop propagate, so that behaviour of outsideClick won't be interrupted.
+                    event.stopPropagation();
+                    WSOps.doSend(angular.toJson({data: {view: 'notify', id:item.id}}));
+                    $scope.notifications[group].splice(index,1);
+
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                    return false;
                 };
 
                 // if markasread triggered outside the directive
