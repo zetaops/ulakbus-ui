@@ -30,7 +30,7 @@
         </ul>
         &lt;!&ndash; /.dropdown-messages &ndash;&gt;
     </li>-->
-    <li uib-dropdown auto-close="disabled">
+    <li uib-dropdown auto-close="outsideClick">
         <a uib-dropdown-toggle>
             <div class="badge" ng-show="notifications[2].length > 0">{{notifications[2].length}}</div>
             <i class="fa fa-envelope fa-fw" tooltip-placement="bottom" uib-tooltip="Mesajlar"></i>  <i
@@ -48,7 +48,7 @@
                         </div>
                         <div>{{notify.body}}...</div>
                     </div>
-                    <span ng-click="markAsRead(notify, 2, $index)" class="pull-right fa fa-times"></span>
+                    <span ng-click="markAsRead($event,notify, 2, $index)" class="pull-right fa fa-times"></span>
                 </a>
             </li>
             <li class="divider"></li>
@@ -62,7 +62,7 @@
         <!-- /.dropdown-messages -->
     </li>
     <!-- /.dropdown -->
-    <li uib-dropdown auto-close="disabled">
+    <li uib-dropdown auto-close="outsideClick">
         <a uib-dropdown-toggle>
             <div class="badge" ng-if="notifications[1].length > 0">{{notifications[1].length}}</div>
             <i class="fa fa-tasks fa-fw" tooltip-placement="bottom" uib-tooltip="Görevler"></i>  <i
@@ -75,7 +75,7 @@
                         <p>
                             <strong>{{notify.title}}</strong>
                             <span class="pull-right text-muted">{{notify.body}}</span>
-                            <span ng-click="markAsRead(notify, 1, $index)" class="pull-right fa fa-times"></span>
+                            <span ng-click="markAsRead($event,notify, 1, $index)" class="pull-right fa fa-times"></span>
                         </p>
                         <!-- todo: progress bar will be used in future developments-->
                         <!--<div class="progress progress-striped active">-->
@@ -98,7 +98,7 @@
         <!-- /.dropdown-tasks -->
     </li>
     <!-- /.dropdown -->
-    <li uib-dropdown auto-close="disabled">
+    <li uib-dropdown auto-close="outsideClick">
         <a uib-dropdown-toggle>
         	<div class="badge" ng-if="notifications[3].length > 0">{{notifications[3].length}}</div>
             <i class="fa fa-bell fa-fw" tooltip-placement="bottom" uib-tooltip="Duyurular"></i>  <i
@@ -110,7 +110,7 @@
                     <div>
                         <i class="fa fa-comment fa-fw"></i> New Comment
                         <span class="pull-right text-muted small">4 minutes ago</span>
-                        <span ng-click="markAsRead(notify, 3, $index)" class="pull-right fa fa-times"></span>
+                        <span ng-click="markAsRead($event,notify, 3, $index)" class="pull-right fa fa-times"></span>
                     </div>
                 </a>
             </li>

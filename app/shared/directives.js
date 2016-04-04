@@ -51,6 +51,8 @@ angular.module('ulakbus')
                  * Group notifications
                  * @param notifications
                  */
+
+                //test entries for notifications
                 $scope.testmessage = function(){
                     $scope.notifications[1].push({
                         title: "Kemange mage kako",
@@ -122,9 +124,15 @@ angular.module('ulakbus')
                  * @param items
                  * @todo: do it in detail page of notification
                  */
-                $scope.markAsRead = function (item, group, index) {
+                $scope.markAsRead = function (event,item, group, index) {
+                    //Added event parameter to stop propagate, so that behaviour of outsideClick won't be interrupted.
+                    event.stopPropagation();
                     WSOps.doSend(angular.toJson({data: {view: 'notify', id:item.id}}));
                     $scope.notifications[group].splice(index,1);
+
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                    return false;
                 };
 
                 // if markasread triggered outside the directive
