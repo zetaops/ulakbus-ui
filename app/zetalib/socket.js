@@ -31,7 +31,6 @@ angular.module('ulakbus')
         });
 
         var websocket;
-        var ws_is_generated;
         var refresh_count = 0;
         var refresh_websocket = refresh_count < 5 ? 1000 : 5000;
         var isSupported = function() {
@@ -59,7 +58,6 @@ angular.module('ulakbus')
                 websocket.onerror = function (evt) {
                     wsOps.onError(evt)
                 };
-                ws_is_generated = true;
             } else {
                 var error = {
                     error: "Tarayıcınız websocket desteklememektedir. Lütfen güncel bir tarayıcı kullanınız.",
@@ -73,10 +71,22 @@ angular.module('ulakbus')
         };
 
         var wsOps = {};
+        var keepAlivePing = function (interval) {
+            return setInterval(function () {
+                if ($rootScope.websocketIsOpen) {
+                wsOps.doSend(angular.toJson({data: {view: "ping"}}));
+                } else {
+                    $timeout(function () {
+                        this(interval);
+                    }, 1000);
+                }
+            }, interval);
+        };
         wsOps.onOpen = function (evt) {
             $rootScope.websocketIsOpen = true;
             $log.info("CONNECTED", evt);
-            wsOps.loggedOut === false;
+            keepAlivePing(30000);
+            wsOps.loggedOut = false;
         };
         wsOps.onClose = function (event) {
             $rootScope.websocketIsOpen = false;
@@ -136,7 +146,7 @@ angular.module('ulakbus')
         };
         // reactor with promise
         wsOps.request = function (data) {
-            if (ws_is_generated) {
+            if ($rootScope.websocketIsOpen) {
                 var request = {
                     callbackID: Math.random().toString(36).substring(7),
                     data: data
@@ -152,7 +162,7 @@ angular.module('ulakbus')
                     }
                 );
             } else {
-                // is ws_is_generated is not true try again in one second
+                // is $rootScope.websocketIsOpen is not true try again in one second
                 $timeout(function () {
                     wsOps.request(data);
                 }, 1000);

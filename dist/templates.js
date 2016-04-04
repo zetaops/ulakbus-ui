@@ -200,7 +200,7 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
     "    </div>\n" +
     "    <div ng-repeat=\"node in ListNode\">\n" +
     "        <h3>{{ node.title }}\n" +
-    "        <span>\n" +
+    "        <span ng-if=\"meta.allow_add_listnode !== false\">\n" +
     "            <a modal-for-nodes=\"{{node.schema.model_name}},ListNode,add\">\n" +
     "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
     "            </a>\n" +
@@ -266,8 +266,9 @@ angular.module("components/crud/templates/list.html", []).run(["$templateCache",
     "        <select name=\"selective_list\" id=\"selective_list\"\n" +
     "                ng-change=\"update_selective_list(selective_list_key)\"\n" +
     "                ng-model=\"selective_list_key\"\n" +
+    "                ng-options=\"item as item.key for item in all_objects\"\n" +
     "                class=\"form-control\">\n" +
-    "            <option ng-repeat=\"item in all_objects\" value=\"{{$index}}\" ng-selected=\"selective_list_key\">{{item.key}}</option>\n" +
+    "            <!--<option ng-repeat=\"item in all_objects\" value=\"{{$index}}\">{{item.key}}</option>-->\n" +
     "        </select>\n" +
     "    </div>\n" +
     "    <div class=\"tablescroll\" ng-if=\"objects[1]\">\n" +

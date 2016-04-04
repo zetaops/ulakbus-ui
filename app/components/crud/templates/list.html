@@ -14,8 +14,9 @@
         <select name="selective_list" id="selective_list"
                 ng-change="update_selective_list(selective_list_key)"
                 ng-model="selective_list_key"
+                ng-options="item as item.key for item in all_objects"
                 class="form-control">
-            <option ng-repeat="item in all_objects" value="{{$index}}" ng-selected="selective_list_key">{{item.key}}</option>
+            <!--<option ng-repeat="item in all_objects" value="{{$index}}">{{item.key}}</option>-->
         </select>
     </div>
     <div class="tablescroll" ng-if="objects[1]">

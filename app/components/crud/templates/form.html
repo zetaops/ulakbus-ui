@@ -20,7 +20,7 @@
     </div>
     <div ng-repeat="node in ListNode">
         <h3>{{ node.title }}
-        <span>
+        <span ng-if="meta.allow_add_listnode !== false">
             <a modal-for-nodes="{{node.schema.model_name}},ListNode,add">
                 <i class="fa fa-plus-circle fa-fw"></i>
             </a>

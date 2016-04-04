@@ -95,6 +95,9 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                 if (scope.meta['selective_listing'] === true) {
                     angular.forEach(scope.objects, function (_v, _k) {
                         angular.forEach(_v.objects, function (value, key) {
+                            if (_v.selected === true) {
+                                scope.selected_key = _k;
+                            }
                             if (key > 0) {
                                 var linkIndexes = {};
                                 angular.forEach(value.actions, function (v, k) {
@@ -296,7 +299,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
 
         // selective listing for list page todo: add to documentation
         $scope.update_selective_list = function (key) {
-            $scope.objects = $scope.all_objects[key]["objects"];
+            $scope.objects = key["objects"];
         };
         // end of selective listing
         $scope.listFormCmd = function () {
@@ -330,9 +333,10 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             }
 
             // if selective listing then change objects key to its first item
-            if ($scope.meta.selective_listing) {
+            if (angular.isDefined($scope.meta.selective_listing)) {
                 $scope.all_objects = angular.copy($scope.objects);
-                $scope.objects = $scope.all_objects[0]["objects"];
+                $scope.selective_list_key = $scope.all_objects[$scope.selected_key];
+                $scope.objects = $scope.selective_list_key["objects"];
             }
         };
         $scope.reloadCmd = function () {
