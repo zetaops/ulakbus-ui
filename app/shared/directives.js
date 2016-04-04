@@ -51,43 +51,7 @@ angular.module('ulakbus')
                  * Group notifications
                  * @param notifications
                  */
-
-                //test entries for notifications
-                $scope.testmessage = function(){
-                    $scope.notifications[1].push({
-                        title: "Kemange mage kako",
-                        body: "Sugarke Mage kako"
-                    });
-                    $scope.notifications[1].push({
-                        title: "Yandan gel mage kako",
-                        body: "Candan gel Mage kako"
-                    });
-                    $scope.notifications[2].push({
-                        title: "Kemange mage kako",
-                        body: "Sugarke Mage kako"
-                    });
-                    $scope.notifications[2].push({
-                        title: "Yandan gel mage kako",
-                        body: "Candan gel Mage kako"
-                    });
-                    $scope.notifications[3].push({
-                        title: "Kemange mage kako",
-                        body: "Sugarke Mage kako"
-                    });
-                    $scope.notifications[3].push({
-                        title: "Yandan gel mage kako",
-                        body: "Candan gel Mage kako"
-                    });
-                }
-                $scope.testmessage();
-
-                $scope.ddEventHandler = function(){
-                    $event.preventDefault();
-                    $event.stopPropagation();
-                    return false;
-                }
-
-
+                
                 $scope.popModal = function(item){
                      var modalInstance = $uibModal.open({
                         animation: true,
