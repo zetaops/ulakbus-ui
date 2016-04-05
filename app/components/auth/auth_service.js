@@ -28,6 +28,9 @@ angular.module('ulakbus.auth')
                         $rootScope.$broadcast("user_ready");
                         $rootScope.$broadcast("ws_turn_on");
                         return $location.path('/dashboard');
+                    }
+                    if (data.cmd === 'retry') {
+                        $location.path('/login');
                     } else{
                         if (angular.isDefined(data.forms) && $location.path() !== '/login'){
                             $location.path('/login');

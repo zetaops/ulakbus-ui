@@ -47,10 +47,10 @@ angular.module('ulakbus')
                 websocket.onclose = function (evt) {
                     wsOps.onClose(evt);
                     if (wsOps.loggedOut === true) {return;}
-                    // $timeout(function () {
-                    //     generate_ws();
-                    //     refresh_count += 1;
-                    // }, refresh_websocket);
+                    $timeout(function () {
+                        generate_ws();
+                        refresh_count += 1;
+                    }, refresh_websocket);
                 };
                 websocket.onmessage = function (evt) {
                     wsOps.onMessage(evt)
