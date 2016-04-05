@@ -318,7 +318,7 @@ angular.module('ulakbus')
                 };
 
                 // check login status
-                AuthService.check_auth();
+                // AuthService.check_auth();
 
                 var generate_dashboard = function () {
                     if ($rootScope.current_user !== true){

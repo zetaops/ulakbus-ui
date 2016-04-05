@@ -57,7 +57,9 @@ angular.module('ulakbus')
 
             .otherwise({redirectTo: '/dashboard'});
     }])
-    .run(function ($rootScope) {
+    .run(function ($rootScope, AuthService) {
+
+        AuthService.check_auth();
 
         $rootScope.loggedInUser = false;
         $rootScope.loginAttempt = 0;

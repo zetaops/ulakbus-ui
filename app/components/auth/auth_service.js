@@ -22,6 +22,7 @@ angular.module('ulakbus.auth')
             return $http
                 .post(Generator.makeUrl(scope), scope.form_params)
                 .success(function (data, status, headers, config) {
+                    // if response data.cmd is 'upgrade'
                     if (data.cmd === 'upgrade') {
                         $rootScope.loggedInUser = true;
                         $rootScope.$broadcast("user_ready");
