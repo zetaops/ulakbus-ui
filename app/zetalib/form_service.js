@@ -326,7 +326,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                     try {
                         if (item.type === 'date') {
-                            scope.model[k][item.name] = generator.dateformatter(scope.model[k][item.name]);
+                            //scope.model[k][item.name] = generator.dateformatter(scope.model[k][item.name]);
                         }
                     } catch (e) {
                         $log.debug('Error: ', e.message);
@@ -549,7 +549,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             },
                             format: 'dd.MM.yyyy',
                             onSelect: function () {
-                                scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
+                                var tempDate = angular.copy(scope.model[k]);
+                                tempDate = Date.parse(tempDate, "dd.MM.yyyy");
+                                scope.model[k] = tempDate;
+                                //scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
                             }
                         };
                     }
