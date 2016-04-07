@@ -1,0 +1,83 @@
+<div class="col-lg-6 col-md-12 student-assignment-list">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">Görevler</div>
+        </div>
+        <div class="panel-body">
+
+            <ul>
+                <li ng-repeat="(k,v) in task_list" class="last-assignment">
+                    <div class="panel-heading">
+                        <div class="panel-title">{{k}}</div>
+                    </div>
+                    <a ng-repeat="task in v" role="button" ng-click="gototask(task.wf_token)" class="clearfix">
+                                	<span class="assignment-status">
+                                    	<div class="assignment-circle" uib-tooltip="Acil"></div>
+                                    </span>
+                                    <span class="assignment-title">
+                                    	<div>{{task.title}}</div>
+                                    	<div>{{task.description}}</div>
+                                    </span>
+                                    <span class="assignment-due-date">
+                                    	<div>18</div>
+                                        <div>ŞUB</div>
+                                    </span>
+                    </a>
+                </li>
+                <!-- end of urgent-assignment -->
+                <!--<li class="approaching-assignment">-->
+                    <!--<a href="#" class="clearfix">-->
+                                	<!--<span class="assignment-status">-->
+                                    	<!--<div class="assignment-circle" uib-tooltip="Yaklaşıyor"></div>-->
+                                    <!--</span>-->
+                                    <!--<span class="assignment-title">-->
+                                    	<!--<div>Storyboard Design</div>-->
+                                        <!--<div>435 - Project Management and Development</div>-->
+                                    <!--</span>-->
+                                    <!--<span class="assignment-due-date">-->
+                                    	<!--<div>27</div>-->
+                                        <!--<div>ŞUB</div>-->
+                                    <!--</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--&lt;!&ndash; end of approaching-assignment &ndash;&gt;-->
+                <!--<li class="non-urgent-assignment">-->
+                    <!--<a href="#" class="clearfix">-->
+                                	<!--<span class="assignment-status">-->
+                                    	<!--<div class="assignment-circle" uib-tooltip="Acil olmayan"></div>-->
+                                    <!--</span>-->
+                                    <!--<span class="assignment-title">-->
+                                    	<!--<div>Design Report</div>-->
+                                        <!--<div>435 - Project Management and Development</div>-->
+                                    <!--</span>-->
+                                    <!--<span class="assignment-due-date">-->
+                                    	<!--<div>05</div>-->
+                                        <!--<div>MAR</div>-->
+                                    <!--</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--&lt;!&ndash; end of non-urgent-assignment &ndash;&gt;-->
+
+                <!--<li class="last-assignment">-->
+                    <!--<div class="panel-heading">-->
+                        <!--<div class="panel-title">Tamamlanan Son Görevler</div>-->
+                    <!--</div>-->
+                    <!--<a href="#" class="clearfix">-->
+                                	<!--<span class="assignment-status">-->
+                                    	<!--<div></div>-->
+                                    <!--</span>-->
+                                    <!--<span class="assignment-title">-->
+                                    	<!--<div>Design Report</div>-->
+                                        <!--<div>435 - Project Management and Development</div>-->
+                                    <!--</span>-->
+                                    <!--<span class="assignment-due-date">-->
+                                    	<!--<div><i class="fa fa-check"></i></div>-->
+                                    <!--</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!-- end of last-assignment -->
+            </ul>
+
+        </div>
+    </div>
+</div>
