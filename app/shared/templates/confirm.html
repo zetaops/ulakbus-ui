@@ -1,0 +1,19 @@
+<div class="form-group schema-form-submit {{form.htmlClass}}">
+    <button class="btn {{ form.style || 'btn-default' }}"
+            type="button"
+            ng-disabled="form.readonly"
+            uib-popover-template="'confirmPopoverTemplate.html'"
+            popover-title="{{form.title}}"
+            popover-placement="bottom"
+            popover-trigger="outsideClick">
+        <span ng-if="form.icon" class="{{form.icon}}"></span>
+        {{form.title}}
+    </button>
+    <script type="text/ng-template" id="confirmPopoverTemplate.html">
+            <div>{{form.title}}</div>
+            <div class="form-group">
+                <p>{{form.confirm_message}}</p>
+                <button class="btn btn-default" ng-click="form.confirm()"></button>
+            </div>
+    </script>
+</div>

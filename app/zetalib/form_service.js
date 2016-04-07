@@ -229,10 +229,14 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 var buttonClass = (buttonPositions[v.position] || buttonPositions.bottom);
                 var redirectTo = scope.modalElements ? false : true;
 
+                // in case backend needs styling the buttons
+                // it needs to send style key with options below
+                // btn-default btn-primary btn-success btn-info btn warning
+                // btn-danger is default
                 scope.form[scope.form.indexOf(k)] = {
                     type: v.type,
                     title: v.title,
-                    style: "btn-danger hide " + buttonClass,
+                    style: (v.style || "btn-danger")+" hide " + buttonClass,
                     onClick: function () {
                         delete scope.form_params.cmd;
                         delete scope.form_params.flow;
@@ -505,6 +509,24 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             name: k,
                             key: k,
                             titleMap: v.titleMap
+                        };
+                    }
+                },
+                confirm: {
+                    default: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            type: "template",
+                            title: v.title,
+                            confirm_message: v.confirm_message,
+                            templateUrl: "shared/templates/confirm.html",
+                            name: k,
+                            key: k,
+                            cmd: v.cmd,
+                            confirm: function () {
+                                console.log(v.cmd);
+                                // send cmd with submit
+                            }
+
                         };
                     }
                 },
