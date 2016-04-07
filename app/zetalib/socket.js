@@ -25,7 +25,7 @@ angular.module('ulakbus')
     /**
      * WSOps operates all websocket interactions
      */
-    .factory('WSOps', function (WSUri, $q, $log, $rootScope, $timeout, ErrorService, WS) {
+    .factory('WSOps', function (WSUri, $q, $log, $rootScope, $timeout, ErrorService, WS, IsOnline) {
         $rootScope.$on('ws_turn_on', function () {
             generate_ws();
         });
@@ -71,10 +71,20 @@ angular.module('ulakbus')
         };
 
         var wsOps = {};
+        var pingCounter = 0;
+        var checkPing = function () {
+            if (pingCounter > 2) {
+                websocket.close();
+                $log.debug("websocket not pong");
+                pingCounter = 0;
+            }
+        };
         var keepAlivePing = function (interval) {
             return setInterval(function () {
-                if ($rootScope.websocketIsOpen) {
-                wsOps.doSend(angular.toJson({data: {view: "ping"}}));
+                if ($rootScope.websocketIsOpen && IsOnline.get_status()) {
+                    wsOps.doSend(angular.toJson({data: {view: "ping"}}));
+                    pingCounter += 1;
+                    checkPing();
                 } else {
                     $timeout(function () {
                         this(interval);
@@ -85,7 +95,7 @@ angular.module('ulakbus')
         wsOps.onOpen = function (evt) {
             $rootScope.websocketIsOpen = true;
             $log.info("CONNECTED", evt);
-            keepAlivePing(30000);
+            keepAlivePing(20000);
             wsOps.loggedOut = false;
         };
         wsOps.onClose = function (event) {
@@ -106,6 +116,8 @@ angular.module('ulakbus')
                         callback.resolve(data);
                     } else {
                         $log.info("Data without callback: %o", data);
+                        // if pong in msg
+                        if (msg_data.msg === 'pong') {pingCounter -= 1;}
                     }
                 },
                 error: function () {
@@ -118,6 +130,9 @@ angular.module('ulakbus')
                     var callback = wsOps.callbacks[msg_data.callbackID];
                     delete wsOps.callbacks[msg_data.callbackID];
                     callback.resolve(msg_data);
+                },
+                task_list: function () {
+                    $rootScope.$broadcast('task_list', msg_data["task_list"]);
                 }
             };
             // do_action is the dispatcher function for incoming events
