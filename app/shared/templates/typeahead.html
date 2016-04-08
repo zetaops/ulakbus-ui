@@ -19,10 +19,12 @@
                 <!--</ul>-->
             <!--</span>-->
         <input type="text"
+               autocomplete="off"
                ng-model="$$value$$"
-               uib-typeahead="item.name for item in form.titleMap | filter:$viewValue"
+               uib-typeahead="item as item.name for item in form.titleMap"
                typeahead-wait-ms="500"
                typeahead-loading="loadingTitleMap"
+               typeahead-on-select="form.onDropdownSelect($item, form.name)"
                placeholder="{{form.title}}"
                ng-model-options="form.ngModelOptions"
                ng-disabled="form.readonly"

@@ -121,7 +121,7 @@ angular.module('ulakbus')
                     }
                 },
                 error: function () {
-                    ErrorService.handle(msg_data, 'ws');
+                    return ErrorService.handle(msg_data, 'ws');
                 },
                 notification: function () {
                     $rootScope.$broadcast('notifications', msg_data["notifications"]);

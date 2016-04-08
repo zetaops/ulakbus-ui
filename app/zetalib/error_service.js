@@ -99,9 +99,10 @@ angular.module('ulakbus')
                     $location.reload();
                 },
                 "401": function () {
-                    $location.path('/login');
                     if ($location.path() === "/login") {
                         $log.debug("show errors on login form");
+                    } else {
+                        return window.location.reload();
                     }
                 },
                 "403": function () {

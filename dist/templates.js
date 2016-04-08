@@ -442,13 +442,15 @@ angular.module("components/crud/templates/show.html", []).run(["$templateCache",
     "                </thead>\n" +
     "                <tbody ng-if=\"obj.type==='table-multiRow'\">\n" +
     "                    <tr ng-repeat=\"row in obj.fields\">\n" +
-    "                        <td ng-repeat=\"(k,v) in row track by $index\"><markdown ng-bind-html=\"v\"></markdown></td>\n" +
+    "                        <!--<td ng-repeat=\"(k,v) in row track by $index\"><markdown ng-bind-html=\"v\"></markdown></td>-->\n" +
+    "                        <td ng-repeat=\"(k,v) in row track by $index\" ng-bind-html=\"v | markdown\"></td>\n" +
     "                    </tr>\n" +
     "                </tbody>\n" +
     "                <tbody ng-if=\"obj.type==='table'\">\n" +
     "                    <tr ng-repeat=\"(key, value) in obj.fields\">\n" +
     "                        <td class=\"col-md-2\">{{key}}</td>\n" +
-    "                        <td class=\"col-md-8\"><markdown ng-bind-html=\"value\"></markdown></td>\n" +
+    "                        <!--<td class=\"col-md-8\"><markdown ng-bind-html=\"value\"></markdown></td>-->\n" +
+    "                        <td class=\"col-md-8\" ng-bind-html=\"value | markdown\"></td>\n" +
     "                    </tr>\n" +
     "                </tbody>\n" +
     "            </table>\n" +
@@ -2993,10 +2995,12 @@ angular.module("shared/templates/typeahead.html", []).run(["$templateCache", fun
     "                <!--</ul>-->\n" +
     "            <!--</span>-->\n" +
     "        <input type=\"text\"\n" +
+    "               autocomplete=\"off\"\n" +
     "               ng-model=\"$$value$$\"\n" +
-    "               uib-typeahead=\"item.name for item in form.titleMap | filter:$viewValue\"\n" +
+    "               uib-typeahead=\"item as item.name for item in form.titleMap\"\n" +
     "               typeahead-wait-ms=\"500\"\n" +
     "               typeahead-loading=\"loadingTitleMap\"\n" +
+    "               typeahead-on-select=\"form.onDropdownSelect($item, form.name)\"\n" +
     "               placeholder=\"{{form.title}}\"\n" +
     "               ng-model-options=\"form.ngModelOptions\"\n" +
     "               ng-disabled=\"form.readonly\"\n" +

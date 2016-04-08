@@ -22,10 +22,10 @@ angular.module('ulakbus.dashboard')
             scope: {},
             controller: function ($scope) {
                 $scope.task_list = [
-                    {WFToken: "yfuialhfuial", title: "sample 1 workflow", description: "sample 1", wf_type: "type x"},
-                    {WFToken: "yfuialhfuial", title: "sample 2 workflow", description: "sample 2", wf_type: "type x"},
-                    {WFToken: "yfuialhfuial", title: "sample 3 workflow", description: "sample 3", wf_type: "type y"},
-                    {WFToken: "yfuialhfuial", title: "sample 4 workflow", description: "sample 4", wf_type: "type y"}
+                    {WFToken: "yfuialhfuial", title: "sample 1 workflow", description: "sample 1", wf_type: "type x", date: '02.05.2016'},
+                    {WFToken: "yfuialhfuial", title: "sample 2 workflow", description: "sample 2", wf_type: "type x", date: '02.05.2016'},
+                    {WFToken: "yfuialhfuial", title: "sample 3 workflow", description: "sample 3", wf_type: "type y", date: '02.05.2016'},
+                    {WFToken: "yfuialhfuial", title: "sample 4 workflow", description: "sample 4", wf_type: "type y", date: '02.05.2016'}
                 ];
                 var regroup_tasks = function () {
                     var grouped_tasks = {};
