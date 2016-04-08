@@ -384,7 +384,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 var formitem = scope.form[scope.form.indexOf(k)];
                 var modelScope = {
                     "form_params": {
-                        wf: v.wf || scope.wf,
+                        wf: v.wf || scope.wf || scope.form_params.wf,
                         model: v.model_name || v.schema[0].model_name,
                         cmd: v.list_cmd || 'select_list',
                         query: ''
