@@ -25,7 +25,7 @@ angular.module('ulakbus')
     /**
      * WSOps operates all websocket interactions
      */
-    .factory('WSOps', function (WSUri, $q, $log, $rootScope, $timeout, ErrorService, WS, IsOnline) {
+       .factory('WSOps', function (WSUri, $q, $log, $rootScope, $timeout, $document, ErrorService, WS, IsOnline) {
         $rootScope.$on('ws_turn_on', function () {
             generate_ws();
         });
@@ -137,6 +137,9 @@ angular.module('ulakbus')
             };
             // do_action is the dispatcher function for incoming events
             var do_action = function (options) {
+                // remove mask from crud here
+                togglePageReadyMask(0);
+                $log.info("togglePageReadyMask off");
                 var args = [].slice.call(arguments, 0),
                     initialized = false,
                     action = 'init';
@@ -170,6 +173,9 @@ angular.module('ulakbus')
                 wsOps.callbacks[request.callbackID] = deferred;
                 websocket.send(angular.toJson(request));
                 $log.info('SENT:', data);
+                togglePageReadyMask(1);
+                $log.info("togglePageReadyMask on");
+                //
                 // todo: add success & error promises
                 return deferred.promise.then(function (response) {
                         request.response = response;
@@ -189,6 +195,29 @@ angular.module('ulakbus')
             websocket.close();
             $log.info("CLOSED");
             delete websocket;
+        };
+
+        var pageReady;
+        var mask = angular.element('<div class="body-mask"><div class="loader"></div>' +
+            '</div>');
+        mask.css({zIndex: '2010', opacity: '0.6'});
+        var body = $document.find('body').eq(0);
+        var togglePageReadyMask = function (st) {
+            var toggle = [
+                function () {
+                    if (pageReady === 0) {return;}
+                    $timeout(function () {
+                        mask.remove();
+                        pageReady = 0;
+                    }, 1000);
+                },
+                function () {
+                    if (pageReady === 1) {return;}
+                    body.append(mask);
+                    pageReady = 1;
+                }
+            ];
+            toggle[st]();
         };
 
         return wsOps;
