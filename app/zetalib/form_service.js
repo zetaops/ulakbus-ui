@@ -568,13 +568,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             status: {opened: false},
                             open: function ($event) {
                                 this.status.opened = true;
+                                scope.model[k] = Moment(scope.model[k], "DD.MM.YYYY").toDate();
                             },
                             format: 'dd.MM.yyyy',
                             onSelect: function () {
-                                var tempDate = angular.copy(scope.model[k]);
-                                tempDate = Date.parse(tempDate, "dd.MM.yyyy");
-                                scope.model[k] = tempDate;
-                                //scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
+                                scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
                             }
                         };
                     }
