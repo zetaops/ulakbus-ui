@@ -16,26 +16,25 @@ angular.module('ulakbus')
         return {url: base + 'ws'}
     })
     /**
-     * websocket with callbackId
-     * use when need to retrieve special data
-     */
-    .service('WSWithCallback', function () {
-        return {"cbs": []};
-    })
-    /**
      * WSOps operates all websocket interactions
      */
-       .factory('WSOps', function (WSUri, $q, $log, $rootScope, $timeout, $document, ErrorService, WS, IsOnline) {
+    .factory('WSOps', function (WSUri, $q, $log, $rootScope, $timeout, $document, ErrorService, WS, IsOnline) {
         $rootScope.$on('ws_turn_on', function () {
             generate_ws();
         });
-
+        // websocket object
         var websocket;
+        // when websocket tries to reconnect it counts
         var refresh_count = 0;
+        // an interval integer in miliseconds depending on refresh_count
         var refresh_websocket = refresh_count < 5 ? 1000 : 5000;
-        var isSupported = function() {
+        // check and return if browser supports websocket
+        var isSupported = function () {
             return "WebSocket" in window;
         };
+        /**
+         * generate_ws generates web socket with necessary functions to configure
+         */
         var generate_ws = function () {
             if (isSupported()) {
                 $log.info('Openning web socket...');
@@ -46,7 +45,9 @@ angular.module('ulakbus')
                 };
                 websocket.onclose = function (evt) {
                     wsOps.onClose(evt);
-                    if (wsOps.loggedOut === true) {return;}
+                    if (wsOps.loggedOut === true) {
+                        return;
+                    }
                     $timeout(function () {
                         generate_ws();
                         refresh_count += 1;
@@ -70,8 +71,13 @@ angular.module('ulakbus')
 
         };
 
+        // wsOps is service object when WSOps called
         var wsOps = {};
         var pingCounter = 0;
+        // ping is to keep alive websocket session when ui is open and used
+        // backend needs it to refresh session in order to not timeout
+        // checkPing is control function if 3 ping sent without response 'pong' refresh websocket object by closing it
+        // keepAlivePing is a function sends ping data when socket opens
         var checkPing = function () {
             if (pingCounter > 2) {
                 websocket.close();
@@ -101,10 +107,9 @@ angular.module('ulakbus')
         wsOps.onClose = function (event) {
             $rootScope.websocketIsOpen = false;
             $log.info("DISCONNEDTED", event);
-
         };
         // two types of data can be come from websocket: with and without callback
-        //
+        // if callback in callbacks list it will run the callback and delete it
         wsOps.callbacks = {};
         wsOps.onMessage = function (event) {
             // msg_methods are dispatch methods for incoming events. init is the default method to run
@@ -116,22 +121,28 @@ angular.module('ulakbus')
                         callback.resolve(data);
                     } else {
                         $log.info("Data without callback: %o", data);
-                        // if pong in msg
-                        if (msg_data.msg === 'pong') {pingCounter -= 1;}
+                        // if pong in msg reduce pingCounter
+                        if (msg_data.msg === 'pong') {
+                            pingCounter -= 1;
+                        }
                     }
                 },
                 error: function () {
+                    // when error in message redirect to ErrorService with error data
                     return ErrorService.handle(msg_data, 'ws');
                 },
                 notification: function () {
+                    // broadcast notifications data to notifications directive
                     $rootScope.$broadcast('notifications', msg_data["notifications"]);
                 },
                 dashboard: function () {
+                    // dashboard consists of menu and user specifications
                     var callback = wsOps.callbacks[msg_data.callbackID];
                     delete wsOps.callbacks[msg_data.callbackID];
                     callback.resolve(msg_data);
                 },
                 task_list: function () {
+                    // broadcast task list to task_list directive in dashboard_widget_directives.js
                     $rootScope.$broadcast('task_list', msg_data["task_list"]);
                 }
             };
@@ -150,7 +161,9 @@ angular.module('ulakbus')
                 return msg_methods[action](args[0]);
             };
             var msg_data = angular.fromJson(event.data);
-            if (msg_data.error) {msg_data.cmd = 'error';}
+            if (msg_data.error) {
+                msg_data.cmd = 'error';
+            }
             do_action(msg_data, msg_data.cmd);
 
             $log.info("MESSAGE:", event, "Data:", JSON.parse(event.data));
@@ -196,7 +209,11 @@ angular.module('ulakbus')
             $log.info("CLOSED");
             delete websocket;
         };
-
+        /**
+         * below elements used by togglePageReadyMask function
+         * when data with callback function sent to websocket it toggles on the mask
+         * so the user not able to interact with interface
+         */
         var pageReady;
         var mask = angular.element('<div class="body-mask"><div class="loader"></div>' +
             '</div>');
@@ -205,14 +222,18 @@ angular.module('ulakbus')
         var togglePageReadyMask = function (st) {
             var toggle = [
                 function () {
-                    if (pageReady === 0) {return;}
+                    if (pageReady === 0) {
+                        return;
+                    }
                     $timeout(function () {
                         mask.remove();
                         pageReady = 0;
                     }, 1000);
                 },
                 function () {
-                    if (pageReady === 1) {return;}
+                    if (pageReady === 1) {
+                        return;
+                    }
                     body.append(mask);
                     pageReady = 1;
                 }
