@@ -384,7 +384,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 var formitem = scope.form[scope.form.indexOf(k)];
                 var modelScope = {
                     "form_params": {
-                        wf: v.wf || scope.wf,
+                        wf: v.wf || scope.wf || scope.form_params.wf,
                         model: v.model_name || v.schema[0].model_name,
                         cmd: v.list_cmd || 'select_list',
                         query: ''
@@ -568,13 +568,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             status: {opened: false},
                             open: function ($event) {
                                 this.status.opened = true;
+                                scope.model[k] = Moment(scope.model[k], "DD.MM.YYYY").toDate();
                             },
                             format: 'dd.MM.yyyy',
                             onSelect: function () {
-                                var tempDate = angular.copy(scope.model[k]);
-                                tempDate = Date.parse(tempDate, "dd.MM.yyyy");
-                                scope.model[k] = tempDate;
-                                //scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
+                                scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
                             }
                         };
                     }
