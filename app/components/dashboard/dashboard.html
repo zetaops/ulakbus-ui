@@ -1,5 +1,93 @@
 <div ng-app="ulakbus.dashboard" class="dashboard academician-dashboard">
     <div class="starter-template">
+    
+        <div class="row">
+            <div class="col-md-12 academic-calendar-widget">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">Akademik Takvim Göstergeci</div>
+                        <div class="panel-action pull-right">Tüm Akademik Takvim</div>
+                    </div>
+                    <div class="panel-body">
+                    	
+                        <div class="calendar-inner">
+                        
+                        	<div class="calendar-line"></div>
+                        	
+                            <div class="date-circle-container">
+                                <div class="date-circle">
+                                    <a class="popper" data-toggle="popover">
+                                        <div class="date-day">02</div>
+                                        <div class="date-month">ŞUB</div>
+                                    </a>
+                                    <div class="year">2016</div>
+                                    
+                                </div>
+                                <!-- end of date-circle -->
+                                <div class="date-circle">
+                                    <a>
+                                        <div class="date-day">03</div>
+                                        <div class="date-month">ŞUB</div>
+                                    </a>
+                                    <div class="year">2016</div>
+                                </div>
+                                <!-- end of date-circle -->
+                                <div class="date-circle">
+                                    <a>
+                                        <div class="date-day">04</div>
+                                        <div class="date-month">ŞUB</div>
+                                    </a>
+                                    <div class="year">2016</div>
+                                </div>
+                                <!-- end of date-circle -->
+                                <div class="date-circle date-today">
+                                    <a>
+                                        <div class="date-day">05</div>
+                                        <div class="date-month">ŞUB</div>
+                                    </a>
+                                    <div class="year">2016</div>
+                                </div>
+                                <!-- end of date-circle -->
+                                <div class="date-circle">
+                                    <a>
+                                        <div class="date-day">06</div>
+                                        <div class="date-month">ŞUB</div>
+                                    </a>
+                                    <div class="year">2016</div>
+                                </div>
+                                <!-- end of date-circle -->
+                                <div class="date-circle">
+                                    <a>
+                                        <div class="date-day">07</div>
+                                        <div class="date-month">ŞUB</div>
+                                    </a>
+                                    <div class="year">2016</div>
+                                </div>
+                                <!-- end of date-circle -->
+                                <div class="date-circle">
+                                    <a>
+                                        <div class="date-day">08</div>
+                                        <div class="date-month">ŞUB</div>
+                                    </a>
+                                    <div class="year">2016</div>
+                                </div>
+                                <!-- end of date-circle -->
+                                </div>
+                            <!-- end of date-circle-container -->
+                        	
+                        </div>
+                        <!-- end of calendar-inner -->
+                        
+                        <div class="calendar-widget-navigation">
+                        	<span class="fa fa-angle-left"></span>
+                            <span class="fa fa-angle-right"></span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    
         <!--<user-tasks></user-tasks>-->
         <ng-include src="'components/dashboard/user-templates/student.html'" ng-if="$root.current_user.is_student"></ng-include>
         <ng-include src="'components/dashboard/user-templates/staff.html'" ng-if="!$root.current_user.is_student"></ng-include>
