@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/admin/bpmn_manager.html', 'components/auth/login.html', 'components/crud/templates/crud-preload.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/inline_edit.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/directives/user-tasks.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/academician.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/uitemplates/academician.html', 'components/uitemplates/base.html', 'components/uitemplates/staff.html', 'components/uitemplates/student.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/confirm.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/notificationsModalContent.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
+angular.module('templates-prod', ['components/admin/bpmn_manager.html', 'components/auth/login.html', 'components/crud/templates/crud-preload.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/inline_edit.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/directives/academic-calendar.html', 'components/dashboard/directives/calendar-popover.html', 'components/dashboard/directives/user-tasks.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/academician.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/uitemplates/academician.html', 'components/uitemplates/base.html', 'components/uitemplates/staff.html', 'components/uitemplates/student.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/confirm.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/notificationsModalContent.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
 
 angular.module("components/admin/bpmn_manager.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/admin/bpmn_manager.html",
@@ -463,10 +463,115 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
   $templateCache.put("components/dashboard/dashboard.html",
     "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard academician-dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
+    "        <academic-calendar></academic-calendar>\n" +
     "        <!--<user-tasks></user-tasks>-->\n" +
     "        <ng-include src=\"'components/dashboard/user-templates/student.html'\" ng-if=\"$root.current_user.is_student\"></ng-include>\n" +
     "        <ng-include src=\"'components/dashboard/user-templates/staff.html'\" ng-if=\"!$root.current_user.is_student\"></ng-include>\n" +
     "        <ng-include src=\"'components/dashboard/user-templates/academician.html'\" ng-if=\"$root.current_user.is_staff && $root.current_user.is_academic\"></ng-include>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("components/dashboard/directives/academic-calendar.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/dashboard/directives/academic-calendar.html",
+    "<div class=\"row\">\n" +
+    "    <div class=\"col-md-12 academic-calendar-widget\">\n" +
+    "        <div class=\"panel panel-default\">\n" +
+    "            <div class=\"panel-heading\">\n" +
+    "                <div class=\"panel-title\">Akademik Takvim Göstergeci</div>\n" +
+    "                <div class=\"panel-action pull-right\">Tüm Akademik Takvim</div>\n" +
+    "            </div>\n" +
+    "            <div class=\"panel-body\">\n" +
+    "\n" +
+    "                <div class=\"calendar-inner\">\n" +
+    "\n" +
+    "                    <div class=\"calendar-line\"></div>\n" +
+    "\n" +
+    "                    <div class=\"date-circle-container\">\n" +
+    "                        <div class=\"date-circle\">\n" +
+    "                            <a class=\"popper\" data-toggle=\"popover\">\n" +
+    "                                <div class=\"date-day\">02</div>\n" +
+    "                                <div class=\"date-month\">ŞUB</div>\n" +
+    "                            </a>\n" +
+    "                            <div class=\"year\">2016</div>\n" +
+    "\n" +
+    "                        </div>\n" +
+    "                        <!-- end of date-circle -->\n" +
+    "                        <div class=\"date-circle\">\n" +
+    "                            <a>\n" +
+    "                                <div class=\"date-day\">03</div>\n" +
+    "                                <div class=\"date-month\">ŞUB</div>\n" +
+    "                            </a>\n" +
+    "                            <div class=\"year\">2016</div>\n" +
+    "                        </div>\n" +
+    "                        <!-- end of date-circle -->\n" +
+    "                        <div class=\"date-circle\">\n" +
+    "                            <a>\n" +
+    "                                <div class=\"date-day\">04</div>\n" +
+    "                                <div class=\"date-month\">ŞUB</div>\n" +
+    "                            </a>\n" +
+    "                            <div class=\"year\">2016</div>\n" +
+    "                        </div>\n" +
+    "                        <!-- end of date-circle -->\n" +
+    "                        <div class=\"date-circle date-today\">\n" +
+    "                            <a popover-trigger=\"mouseenter\" popover-placement=\"bottom\" uib-popover-template=\"'components/dashboard/directives/calendar-popover.html'\">\n" +
+    "                                <div class=\"date-day\">05</div>\n" +
+    "                                <div class=\"date-month\">ŞUB</div>\n" +
+    "                            </a>\n" +
+    "                            <div class=\"year\">2016</div>\n" +
+    "                        </div>\n" +
+    "                        <!-- end of date-circle -->\n" +
+    "                        <div class=\"date-circle\">\n" +
+    "                            <a>\n" +
+    "                                <div class=\"date-day\">06</div>\n" +
+    "                                <div class=\"date-month\">ŞUB</div>\n" +
+    "                            </a>\n" +
+    "                            <div class=\"year\">2016</div>\n" +
+    "                        </div>\n" +
+    "                        <!-- end of date-circle -->\n" +
+    "                        <div class=\"date-circle\">\n" +
+    "                            <a>\n" +
+    "                                <div class=\"date-day\">07</div>\n" +
+    "                                <div class=\"date-month\">ŞUB</div>\n" +
+    "                            </a>\n" +
+    "                            <div class=\"year\">2016</div>\n" +
+    "                        </div>\n" +
+    "                        <!-- end of date-circle -->\n" +
+    "                        <div class=\"date-circle\">\n" +
+    "                            <a>\n" +
+    "                                <div class=\"date-day\">08</div>\n" +
+    "                                <div class=\"date-month\">ŞUB</div>\n" +
+    "                            </a>\n" +
+    "                            <div class=\"year\">2016</div>\n" +
+    "                        </div>\n" +
+    "                        <!-- end of date-circle -->\n" +
+    "                    </div>\n" +
+    "                    <!-- end of date-circle-container -->\n" +
+    "\n" +
+    "                </div>\n" +
+    "                <!-- end of calendar-inner -->\n" +
+    "\n" +
+    "                <div class=\"calendar-widget-navigation\">\n" +
+    "                    <span class=\"fa fa-angle-left\"></span>\n" +
+    "                    <span class=\"fa fa-angle-right\"></span>\n" +
+    "                </div>\n" +
+    "\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("components/dashboard/directives/calendar-popover.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/dashboard/directives/calendar-popover.html",
+    "<div class=\"academic-calendar-widget-popover\">\n" +
+    "	<div class=\"content-wrapper\">\n" +
+    "        <label>5 Şubat 2016</label>\n" +
+    "        <p>Öğrenci katkı paylarının Ödenmesi için son gün</p>\n" +
+    "    </div>\n" +
+    "    <div class=\"content-wrapper\">\n" +
+    "        <label>5 - 8 Şubat 2016</label>\n" +
+    "        <p>Etkileşimli kayıtlar ve danışman onayları (Ön lisans, lisans ve lisansüstü programlar)</p>\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -1800,7 +1905,7 @@ angular.module("shared/templates/datefield.html", []).run(["$templateCache", fun
     "               id=\"{{form.key.slice(-1)[0]}}\"\n" +
     "               ng-model-options=\"form.ngModelOptions\"\n" +
     "               ng-model=\"$$value$$\"\n" +
-    "               ng-disabled=\"form.readonly\"\n" +
+    "               ng-disabled=\"form.is_disabled()\"\n" +
     "               schema-validate=\"form\"\n" +
     "               name=\"{{form.key.slice(-1)[0]}}\"\n" +
     "               aria-describedby=\"{{form.key.slice(-1)[0] + 'Status'}}\"\n" +
