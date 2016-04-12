@@ -45,4 +45,15 @@ angular.module('ulakbus.dashboard')
                 }
             }
         };
-    });
+    })
+    .directive('academicCalendar', function () {
+        return {
+            templateUrl: 'components/dashboard/directives/academic-calendar.html',
+            restrict: 'E',
+            replace: true,
+            scope: {},
+            controller: function ($scope) {
+                
+            }
+        };
+    });;

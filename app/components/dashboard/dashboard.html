@@ -1,5 +1,6 @@
 <div ng-app="ulakbus.dashboard" class="dashboard academician-dashboard">
     <div class="starter-template">
+        <academic-calendar></academic-calendar>
         <!--<user-tasks></user-tasks>-->
         <ng-include src="'components/dashboard/user-templates/student.html'" ng-if="$root.current_user.is_student"></ng-include>
         <ng-include src="'components/dashboard/user-templates/staff.html'" ng-if="!$root.current_user.is_student"></ng-include>

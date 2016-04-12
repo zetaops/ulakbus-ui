@@ -565,13 +565,23 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                     return deferred.promise;
                                 }
                             },
+                            disabled: false,
+                            is_disabled: function () {
+                                return this.disabled;
+                            },
                             status: {opened: false},
                             open: function ($event) {
-                                this.status.opened = true;
+                                this.disabled = true;
+                                // scope.$apply();
                                 scope.model[k] = Moment(scope.model[k], "DD.MM.YYYY").toDate();
+                                var that = this;
+                                $timeout(function () {
+                                    that.status.opened = true;
+                                }, 100);
                             },
                             format: 'dd.MM.yyyy',
                             onSelect: function () {
+                                this.disabled = false;
                                 scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
                             }
                         };
