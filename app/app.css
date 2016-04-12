@@ -2051,6 +2051,25 @@ table.dataTable thead .sorting:after {
 	right:25px;
 }
 
+.academic-calendar-widget-popover label {
+	color:#A61229;
+}
+
+.academic-calendar-widget-popover .content-wrapper {
+	border-bottom:1px solid #dedede;
+	margin-bottom:10px;
+}
+
+.academic-calendar-widget-popover .content-wrapper:last-child {
+	border:none;
+}
+
+.academic-calendar-widget .date-circle .popover {
+	width:450px !important;
+	padding-bottom:0 !important;
+}
+
+
 /* END OF ACADEMIC CALENDER DASHBOARD WIDGET */
 
 
