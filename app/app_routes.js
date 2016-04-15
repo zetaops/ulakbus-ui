@@ -27,6 +27,10 @@ angular.module('ulakbus')
                 templateUrl: 'components/uitemplates/base.html',
                 controller: 'NewDesignsCtrl'
             })
+            .when('/formservicepg', {
+                templateUrl: 'components/uitemplates/form_service_pg.html',
+                controller: 'FormServicePg'
+            })
 
             // use crud without selected user
             // important: regex urls must be defined later than static ones
@@ -54,6 +58,7 @@ angular.module('ulakbus')
                 templateUrl: 'components/crud/templates/crud.html',
                 controller: 'CRUDListFormController'
             })
+
 
             .otherwise({redirectTo: '/dashboard'});
     }])
