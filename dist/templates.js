@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/admin/bpmn_manager.html', 'components/auth/login.html', 'components/crud/templates/crud-preload.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/inline_edit.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/directives/academic-calendar.html', 'components/dashboard/directives/calendar-popover.html', 'components/dashboard/directives/user-tasks.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/academician.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/uitemplates/academician.html', 'components/uitemplates/base.html', 'components/uitemplates/staff.html', 'components/uitemplates/student.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/confirm.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-notification.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/notificationsModalContent.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
+angular.module('templates-prod', ['components/admin/bpmn_manager.html', 'components/auth/login.html', 'components/crud/templates/crud-preload.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/inline_edit.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/quick_add.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/directives/academic-calendar.html', 'components/dashboard/directives/calendar-popover.html', 'components/dashboard/directives/user-tasks.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/academician.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/uitemplates/academician.html', 'components/uitemplates/base.html', 'components/uitemplates/staff.html', 'components/uitemplates/student.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/confirm.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/notificationsModalContent.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
 
 angular.module("components/admin/bpmn_manager.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/admin/bpmn_manager.html",
@@ -200,11 +200,12 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
     "    </div>\n" +
     "    <div ng-repeat=\"node in ListNode\">\n" +
     "        <h3>{{ node.title }}\n" +
-    "        <span ng-if=\"meta.allow_add_listnode !== false\">\n" +
-    "            <a modal-for-nodes=\"{{node.schema.model_name}},ListNode,add\">\n" +
-    "                <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
-    "            </a>\n" +
-    "        </span>\n" +
+    "            <span ng-if=\"meta.allow_add_listnode !== false\" ng-hide=\"node.quick_add === true\">\n" +
+    "                <a modal-for-nodes=\"{{node.schema.model_name}},ListNode,add\">\n" +
+    "                    <i class=\"fa fa-plus-circle fa-fw\"></i>\n" +
+    "                </a>\n" +
+    "            </span>\n" +
+    "            <quick-add node=\"node\" ng-if=\"node.quick_add === true\"></quick-add>\n" +
     "        </h3>\n" +
     "\n" +
     "        <div class=\"list-node-table\" ng-if=\"!meta.translate_widget\">\n" +
@@ -410,7 +411,8 @@ angular.module("components/crud/templates/nodeTable.html", []).run(["$templateCa
     "            </td>\n" +
     "            <td ng-if=\"meta.allow_actions!==false\">\n" +
     "                <div ng-hide=\"meta.object_actions.length > 0\">\n" +
-    "                    <span modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}\">\n" +
+    "                    <span modal-for-nodes=\"{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}\"\n" +
+    "                          ng-hide=\"node.quick_add === true\">\n" +
     "                        <i class=\"fa fa-pencil-square-o fa-fw\"></i>\n" +
     "                    </span>\n" +
     "                    <span ng-click=\"remove(node, 'ListNode', $index)\"><i class=\"fa fa-times fa-fw\"></i></span>\n" +
@@ -423,6 +425,25 @@ angular.module("components/crud/templates/nodeTable.html", []).run(["$templateCa
     "\n" +
     "        </tbody>\n" +
     "    </table>\n" +
+    "</div>");
+}]);
+
+angular.module("components/crud/templates/quick_add.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/crud/templates/quick_add.html",
+    "<div>\n" +
+    "    <input class=\"form-control\"\n" +
+    "           type=\"text\"\n" +
+    "           placeholder=\"eklemek istediğiniz nesneyi yazınız...\"\n" +
+    "           ng-model=\"kw\"\n" +
+    "           uib-typeahead=\"item as item.name for item in getTitleMap($viewValue)\"\n" +
+    "           typeahead-on-select=\"onSelect($item)\"\n" +
+    "           typeahead-loading=\"loadingTitleMap\" typeahead-no-results=\"noResults\"\n" +
+    "           typeahead-wait-ms=\"500\"/>\n" +
+    "\n" +
+    "    <div ng-show=\"loadingTitleMap\" class=\"loader\"></div>\n" +
+    "    <div ng-show=\"noResults\">\n" +
+    "        <i class=\"fa fa-close\"></i> bulunamadı.\n" +
+    "    </div>\n" +
     "</div>");
 }]);
 
@@ -450,7 +471,7 @@ angular.module("components/crud/templates/show.html", []).run(["$templateCache",
     "                    <tr ng-repeat=\"(key, value) in obj.fields\">\n" +
     "                        <td class=\"col-md-2\">{{key}}</td>\n" +
     "                        <!--<td class=\"col-md-8\"><markdown ng-bind-html=\"value\"></markdown></td>-->\n" +
-    "                        <td class=\"col-md-8\" ng-bind-html=\"value | markdown\"></td>\n" +
+    "                        <td class=\"col-md-8\" ng-bind-html=\"markdownWorkaround(value) | markdown\"></td>\n" +
     "                    </tr>\n" +
     "                </tbody>\n" +
     "            </table>\n" +
@@ -464,10 +485,10 @@ angular.module("components/dashboard/dashboard.html", []).run(["$templateCache",
     "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard academician-dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
     "        <academic-calendar></academic-calendar>\n" +
-    "        <!--<user-tasks></user-tasks>-->\n" +
     "        <ng-include src=\"'components/dashboard/user-templates/student.html'\" ng-if=\"$root.current_user.is_student\"></ng-include>\n" +
     "        <ng-include src=\"'components/dashboard/user-templates/staff.html'\" ng-if=\"!$root.current_user.is_student\"></ng-include>\n" +
     "        <ng-include src=\"'components/dashboard/user-templates/academician.html'\" ng-if=\"$root.current_user.is_staff && $root.current_user.is_academic\"></ng-include>\n" +
+    "        <user-tasks></user-tasks>\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -668,7 +689,7 @@ angular.module("components/dashboard/user-info.html", []).run(["$templateCache",
     "<div style=\"width:400px;\">\n" +
     "    <div class=\"row\">\n" +
     "        <div class=\"col-md-6\">\n" +
-    "            <img src=\"img/sample-profile-pic.jpg\" alt=\"{{userPopover.name}}\" class=\"img-thumbnail\">\n" +
+    "            <img ng-src=\"userPopover.image\" alt=\"{{userPopover.name}}\" class=\"img-thumbnail\">\n" +
     "        </div>\n" +
     "    </div>\n" +
     "\n" +
@@ -1225,10 +1246,10 @@ angular.module("components/devSettings/devSettings.html", []).run(["$templateCac
     "            </td>\n" +
     "        </tr>\n" +
     "        <tr>\n" +
-    "            <td>Notifications:</td>\n" +
+    "            <td>KeepAlive Ping:</td>\n" +
     "            <td>\n" +
     "                <button class=\"btn\"\n" +
-    "                        ng-class=\"{'btn-success':notificate=='on', 'btn-danger':notificate=='off'}\" ng-click=\"setnotification()\">{{notificate}}</button>\n" +
+    "                        ng-class=\"{'btn-success':keepAlive=='on', 'btn-danger':keepAlive=='off'}\" ng-click=\"setKeepAlive()\">{{keepAlive}}</button>\n" +
     "            </td>\n" +
     "        </tr>\n" +
     "        <tr>\n" +
@@ -2442,119 +2463,6 @@ angular.module("shared/templates/directives/selectedUserPopover.html", []).run([
     "        </div>\n" +
     "    </div>\n" +
     "</div>");
-}]);
-
-angular.module("shared/templates/directives/sidebar-notification.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("shared/templates/directives/sidebar-notification.html",
-    "<div class=\"right-sidebar\">\n" +
-    "\n" +
-    "    <div class=\"right-sidebar-box\">\n" +
-    "        <div class=\"right-sidebar-messages\">\n" +
-    "\n" +
-    "            <div class=\"right-sidebar-title clearfix\">\n" +
-    "                <h3>Mesajlar</h3>\n" +
-    "                <span><a role=\"button\">Tüm Mesajlar</a></span>\n" +
-    "            </div>\n" +
-    "            <!-- end of right-sidebar-title -->\n" +
-    "\n" +
-    "            <div class=\"right-sidebar-message-block\" ng-repeat=\"notify in notifications[2] | limitTo:5\">\n" +
-    "                <a class=\"clearfix\">\n" +
-    "                    <img src=\"../../../img/sample-profile-pic.jpg\">\n" +
-    "                    <div class=\"right-sidebar-message-content\">\n" +
-    "                        <div>{{notify.title}}</div>\n" +
-    "                        <div>{{notify.body}}</div>\n" +
-    "                        <div>16:05</div>\n" +
-    "                    </div>\n" +
-    "                    <!-- end of right-sidebar-message-content -->\n" +
-    "                </a>\n" +
-    "            </div>\n" +
-    "            <!-- end of right-sidebar-message-block -->\n" +
-    "\n" +
-    "        </div>\n" +
-    "        <!-- end of right-sidebar-messages -->\n" +
-    "    </div>\n" +
-    "    <!-- end of right-sidebar-box -->\n" +
-    "\n" +
-    "\n" +
-    "    <div class=\"right-sidebar-box\">\n" +
-    "        <div class=\"right-sidebar-tasks\">\n" +
-    "\n" +
-    "            <div class=\"right-sidebar-title clearfix\">\n" +
-    "                <h3>Görevler</h3>\n" +
-    "                <span><a role=\"button\">Tüm Görevler</a></span>\n" +
-    "            </div>\n" +
-    "            <!-- end of right-sidebar-title -->\n" +
-    "\n" +
-    "            <!--<div class=\"right-sidebar-task-block\">-->\n" +
-    "            <!--<div class=\"task-type\">Devam Eden Görevler</div>-->\n" +
-    "            <!--<a role=\"button\">-->\n" +
-    "            <!--<div class=\"task-title\">Öğrenci Kayıt</div>-->\n" +
-    "            <!--<div class=\"progress\">-->\n" +
-    "            <!--<div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"25\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"min-width: 2em; width:25%;\">-->\n" +
-    "            <!--25%-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!--&lt;!&ndash; end of progress &ndash;&gt;-->\n" +
-    "            <!--</a>-->\n" +
-    "            <!--</div>-->\n" +
-    "            <!-- end of right-sidebar-task-block -->\n" +
-    "\n" +
-    "            <div class=\"right-sidebar-task-block\">\n" +
-    "                <div class=\"task-type\">Onay Bekleyen Görevler</div>\n" +
-    "                <a ng-repeat=\"notify in notifications[1] | limitTo:5\">\n" +
-    "                    <div class=\"task-title\">{{notify.title}}</div>\n" +
-    "                </a>\n" +
-    "            </div>\n" +
-    "            <!-- end of right-sidebar-task-block -->\n" +
-    "\n" +
-    "        </div>\n" +
-    "        <!-- end of right-sidebar-tasks -->\n" +
-    "    </div>\n" +
-    "    <!-- end of right-sidebar-box -->\n" +
-    "\n" +
-    "\n" +
-    "    <div class=\"right-sidebar-box\">\n" +
-    "        <div class=\"right-sidebar-announcements\">\n" +
-    "\n" +
-    "            <div class=\"right-sidebar-title clearfix\">\n" +
-    "                <h3>Duyurular</h3>\n" +
-    "                <span><a role=\"button\">Tüm Duyurular</a></span>\n" +
-    "            </div>\n" +
-    "            <!-- end of right-sidebar-title -->\n" +
-    "\n" +
-    "            <div class=\"right-sidebar-announcement-block\">\n" +
-    "                <a ng-repeat=\"notify in notifications[3] | limitTo:5\">{{notify.body}}</a>\n" +
-    "            </div>\n" +
-    "            <!-- end of right-sidebar-status-block -->\n" +
-    "\n" +
-    "        </div>\n" +
-    "        <!-- end of right-sidebar-status -->\n" +
-    "    </div>\n" +
-    "    <!-- end of right-sidebar-box -->\n" +
-    "\n" +
-    "\n" +
-    "    <div class=\"right-sidebar-box\">\n" +
-    "        <div class=\"right-sidebar-last-actions\">\n" +
-    "\n" +
-    "            <div class=\"right-sidebar-title clearfix\">\n" +
-    "                <h3>Son İşlemler</h3>\n" +
-    "                <span><a role=\"button\">Tüm İşlemler</a></span>\n" +
-    "            </div>\n" +
-    "            <!-- end of right-sidebar-title -->\n" +
-    "\n" +
-    "            <div class=\"right-sidebar-last-action-block\">\n" +
-    "                <a role=\"button\">Birinci dönem bitimine 10 gün kaldı.</a>\n" +
-    "                <a role=\"button\">Ders seçimi işlemleri xx tarihinde başlayacaktır.</a>\n" +
-    "            </div>\n" +
-    "            <!-- end of right-sidebar-status-block -->\n" +
-    "\n" +
-    "        </div>\n" +
-    "        <!-- end of right-sidebar-status -->\n" +
-    "    </div>\n" +
-    "    <!-- end of right-sidebar-box -->\n" +
-    "\n" +
-    "</div>\n" +
-    "<!-- end of right-sidebar -->");
 }]);
 
 angular.module("shared/templates/directives/sidebar-search.html", []).run(["$templateCache", function($templateCache) {

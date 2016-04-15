@@ -7,12 +7,20 @@
  */
 
 'use strict';
+angular.module('ulakbus')
+    .factory('DevSettings', function ($cookies) {
+        var devSettings = {};
+        devSettings.settings = {
+            keepAlive: $cookies.get("keepAlive") || 'on'
+        };
+        return devSettings;
+    });
 
 angular.module('ulakbus.devSettings', ['ngRoute'])
 
-    .controller('DevSettingsController', function ($scope, $cookies, $rootScope, RESTURL) {
+    .controller('DevSettingsController', function ($scope, $cookies, $rootScope, RESTURL, DevSettings) {
         $scope.backendurl = $cookies.get("backendurl");
-        $scope.notificate = $cookies.get("notificate") || "on";
+        $scope.keepAlive = $cookies.get("keepAlive") || "on";
         //$scope.querydebug = $cookies.get("querydebug") || "on";
 
         $scope.changeSettings = function (what, set) {
@@ -30,8 +38,9 @@ angular.module('ulakbus.devSettings', ['ngRoute'])
             RESTURL.url = $scope.backendurl;
         };
 
-        $scope.setnotification = function () {
-            $scope.changeSettings("notificate", $scope.switchOnOff($scope.notificate));
+        $scope.setKeepAlive = function () {
+            $scope.changeSettings("keepAlive", $scope.switchOnOff($scope.keepAlive));
+            DevSettings.settings.keepAlive = $cookies.get("keepAlive");
         };
 
         //$scope.setquerydebug = function () {

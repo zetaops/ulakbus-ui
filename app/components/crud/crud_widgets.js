@@ -8,6 +8,16 @@
  */
 
 angular.module('ulakbus.crud')
+    /**
+     * this is a directive for quick add widget of listnodes
+     * quick add widget does simply that; no need to add listnode item with model,
+     * simply add an item to listnode searching related ulakbus model
+     * needs that keys in listnode schema:
+     * quick_add: true
+     * quick_add_model: <modelname>
+     * quick_add_field: to which field the data found will be added
+     * thanks u.u
+     */
     .directive('quickAdd', function (Generator) {
         return {
             templateUrl: 'components/crud/templates/quick_add.html',

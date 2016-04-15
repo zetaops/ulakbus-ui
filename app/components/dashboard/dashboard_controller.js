@@ -40,6 +40,11 @@ angular.module('ulakbus.dashboard', [])
         $scope.students = [];
         $scope.staffs = [];
 
+        /**
+         * this function is for searchin student or personel
+         * uses $scope.keyword objects
+         * @param where
+         */
         $scope.search = function (where) {
             if ($scope.keyword.staff.length > 2 || $scope.keyword.student.length > 2) {
                 $timeout(function () {
@@ -66,16 +71,27 @@ angular.module('ulakbus.dashboard', [])
 
         $scope.userPopover = {templateUrl: 'components/dashboard/user-info.html'};
 
+        /**
+         * when student or personel search results appear,
+         * user can see the sample info of student/personel before to select it
+         * this function triggered onhover the item
+         * @param type
+         * @param key
+         */
         $scope.get_info = function (type, key) {
             Generator.get_list({url: 'crud', form_params: {wf: 'crud', model: type, object_id: key, cmd: 'show'}})
                 .then(function (data) {
-                    $scope.userPopover.name = data.data.object.unicode;
-                    $scope.userPopover.tcno = data.data.object.tckn;
-
-                    //debugger;
+                    $scope.userPopover.name = data.object['Ad'] + " " + data.object['Soyad'];
+                    $scope.userPopover.tcno = data.object['TC Kimlik No'];
+                    $scope.userPopover.image = data.object['Avatar'] || 'img/sample-profile-pic.jpg';
                 })
         };
 
+        /**
+         * @description selecting  
+         * @param who - who is the data of selected person in search results
+         * @param type - type can be 'ogrenci' or 'personel'
+         */
         $scope.select = function (who, type) {
             $rootScope.$broadcast('selectedUser', {name: who[0], tcno: who[1], key: who[2]});
             // get 'who's related transactions and manipulate sidebar menu
@@ -84,6 +100,9 @@ angular.module('ulakbus.dashboard', [])
 
         };
 
+        /**
+         * dashboard also catches notifications to use in widgets
+         */
         $scope.$on("notifications", function (event, data) {
             $scope.notifications = data;
         });
@@ -92,11 +111,16 @@ angular.module('ulakbus.dashboard', [])
             $scope.selectedUser = data;
         });
 
+        /**
+         * removes selected user
+         */
         $scope.deselectUser = function () {
             delete $scope.selectedUser;
             delete $scope.selectedMenuItems;
         };
 
+        // this function needed by tasks widget
+        // if a user wants to dismiss a task it broadcasts the item to markasread
         $scope.markAsRead = function (items) {
             $rootScope.$broadcast("markasread", items);
         };
@@ -105,19 +129,4 @@ angular.module('ulakbus.dashboard', [])
         //    $route.reload();
         //}
 
-    })
-    .directive('sidebarNotifications', function () {
-
-        return {
-            templateUrl: 'shared/templates/directives/sidebar-notification.html',
-            restrict: 'E',
-            replace: true,
-            link: function ($scope) {
-                // sidebar notifications from rootScope broadcast
-
-                //$scope.$on("notifications", function (event, data) {
-                //    $scope.notifications = data;
-                //});
-            }
-        }
     });

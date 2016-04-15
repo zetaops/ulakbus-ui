@@ -309,7 +309,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         inline_edit: scope.inline_edit
                     },
                     url: scope.url,
-                    wf: scope.wf,
+                    wf: v.wf || scope.wf,
+                    quick_add: v.quick_add,
+                    quick_add_field: v.quick_add_field,
+                    quick_add_model: v.quick_add_model,
                     nodeModelChange: function (item) {
                     }
 
@@ -317,6 +320,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                 angular.forEach(v.schema, function (item) {
                     scope[v.type][k].schema.properties[item.name] = angular.copy(item);
+
+                    if (angular.isDefined(item.wf)) {
+                        scope[v.type][k].schema.properties[item.name]['wf'] = angular.copy(item.wf);
+                    }
 
                     // prepare required fields
                     if (item.required === true && item.name !== 'idx') {
@@ -1286,7 +1293,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 scope.node.schema.wf = scope.node.url;
 
                                 angular.forEach(scope.node.schema.properties, function (value, key) {
-                                    scope.node.schema.properties[key].wf = scope.node.url;
+                                    if (angular.isDefined(scope.node.schema.properties[key].wf)){}
+                                    else {
+                                        scope.node.schema.properties[key].wf = scope.node.url;
+                                    }
                                     scope.node.schema.properties[key].list_cmd = 'select_list';
                                 });
 

@@ -18,7 +18,7 @@ angular.module('ulakbus')
     /**
      * WSOps operates all websocket interactions
      */
-    .factory('WSOps', function (WSUri, $q, $log, $rootScope, $timeout, $document, ErrorService, WS, IsOnline) {
+    .factory('WSOps', function (WSUri, $q, $log, $rootScope, $timeout, $document, ErrorService, WS, IsOnline, DevSettings) {
         $rootScope.$on('ws_turn_on', function () {
             generate_ws();
         });
@@ -87,14 +87,10 @@ angular.module('ulakbus')
         };
         var keepAlivePing = function (interval) {
             return setInterval(function () {
-                if ($rootScope.websocketIsOpen && IsOnline.get_status()) {
+                if ($rootScope.websocketIsOpen && IsOnline.get_status() && DevSettings.settings.keepAlive === 'on') {
                     wsOps.doSend(angular.toJson({data: {view: "ping"}}));
                     pingCounter += 1;
                     checkPing();
-                } else {
-                    $timeout(function () {
-                        this(interval);
-                    }, 1000);
                 }
             }, interval);
         };
