@@ -20,7 +20,7 @@
                     <tr ng-repeat="(key, value) in obj.fields">
                         <td class="col-md-2">{{key}}</td>
                         <!--<td class="col-md-8"><markdown ng-bind-html="value"></markdown></td>-->
-                        <td class="col-md-8" ng-bind-html="value | markdown"></td>
+                        <td class="col-md-8" ng-bind-html="markdownWorkaround(value) | markdown"></td>
                     </tr>
                 </tbody>
             </table>

@@ -41,7 +41,8 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
              * @memberof ulakbus.crud
              * @ngdoc function
              * @name generateParam
-             * @description generateParam is a function to generate required params to post backend api.
+             * @description generateParam is a function to generate required params to send backend api.
+             * backend needs that params to work without errors
              * @param {object} scope
              * @param {object} routeParams
              * @param {string} cmd
@@ -92,6 +93,8 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                 angular.forEach(pageData, function (value, key) {
                     scope[key] = value;
                 });
+                // when selective_list is sent with meta key it means
+                // "objects" is a list of "objects"s
                 if (scope.meta['selective_listing'] === true) {
                     angular.forEach(scope.objects, function (_v, _k) {
                         angular.forEach(_v.objects, function (value, key) {
@@ -169,6 +172,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
         if ($location.url().indexOf('?=') > 0) {
             return $location.url($location.url().replace('?=', ''));
         }
+        // before calling get_wf parameters need to be generated with CrudUtility.generateParam
         CrudUtility.generateParam($scope, $routeParams);
         Generator.get_wf($scope);
     })
@@ -199,15 +203,19 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                 $scope.show_crud = true;
             }, 500);
         });
-        
+
+        // todo: new feature wf_step is for to start a workflow from a certain step
         $scope.wf_step = $routeParams.step;
 
+        // pagination data is coming from api when too much results
         $scope.paginate = function (reloadData) {
                        $scope.form_params.cmd = $scope.reload_cmd;
                         $scope.form_params = angular.extend($scope.form_params, reloadData);
                         $log.debug('reload data', $scope);
                         Generator.get_wf($scope);
                     };
+
+        // reload_cmd can be broadcasted app-wide, when $on it reloadCmd is called
         $scope.$on('reload_cmd', function(event, data){
             $scope.reload_cmd = data;
             $scope.reloadCmd();
@@ -241,19 +249,18 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
         };
 
         $scope.do_action = function (key, todo) {
-            //Generator.doItemAction($scope, key, todo.cmd, todo.wf, todo.mode || 'normal');
             Generator.doItemAction($scope, key, todo, todo.mode || 'normal');
         };
 
         $scope.getNumber = function (num) {
             return new Array(num);
         };
-        
-        // trust as html for using markdown support
-        
-        $scope.trustAsHtml = function (value) {
-            return $sce.trustAsHtml(value);
-        }
+
+        $scope.markdownWorkaround = function (value) {
+            // this is new line workaround for markdown support
+            // kind of ugly hack
+            return value.replace('\n', '<br>');
+        };
 
         // inline edit fields
         $scope.datepickerstatuses = {};
