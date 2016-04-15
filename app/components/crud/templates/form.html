@@ -20,11 +20,12 @@
     </div>
     <div ng-repeat="node in ListNode">
         <h3>{{ node.title }}
-        <span ng-if="meta.allow_add_listnode !== false">
-            <a modal-for-nodes="{{node.schema.model_name}},ListNode,add">
-                <i class="fa fa-plus-circle fa-fw"></i>
-            </a>
-        </span>
+            <span ng-if="meta.allow_add_listnode !== false" ng-hide="node.quick_add === true">
+                <a modal-for-nodes="{{node.schema.model_name}},ListNode,add">
+                    <i class="fa fa-plus-circle fa-fw"></i>
+                </a>
+            </span>
+            <quick-add node="node" ng-if="node.quick_add === true"></quick-add>
         </h3>
 
         <div class="list-node-table" ng-if="!meta.translate_widget">

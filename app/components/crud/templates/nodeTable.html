@@ -66,7 +66,8 @@
             </td>
             <td ng-if="meta.allow_actions!==false">
                 <div ng-hide="meta.object_actions.length > 0">
-                    <span modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}">
+                    <span modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}"
+                          ng-hide="node.quick_add === true">
                         <i class="fa fa-pencil-square-o fa-fw"></i>
                     </span>
                     <span ng-click="remove(node, 'ListNode', $index)"><i class="fa fa-times fa-fw"></i></span>
