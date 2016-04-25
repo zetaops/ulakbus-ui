@@ -4,6 +4,6 @@
         <ng-include src="'components/dashboard/user-templates/student.html'" ng-if="$root.current_user.is_student"></ng-include>
         <ng-include src="'components/dashboard/user-templates/staff.html'" ng-if="!$root.current_user.is_student"></ng-include>
         <ng-include src="'components/dashboard/user-templates/academician.html'" ng-if="$root.current_user.is_staff && $root.current_user.is_academic"></ng-include>
-        <user-tasks></user-tasks>
+        <!-- <user-tasks></user-tasks> -->
     </div>
 </div>

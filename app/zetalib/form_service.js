@@ -29,7 +29,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @name Generator
      * @description form service's Generator factory service handles all generic form operations
      */
-    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps) {
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints) {
         var generator = {};
         /**
          * @memberof ulakbus.formService
@@ -191,6 +191,84 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             return scope;
         };
         /**
+         * @description generates form constraints as async validators
+         * async validators defined in form_constraints.js
+         * keys are input names
+         * @example
+         * `
+         * forms.constraints = {
+         *
+         *      // date field type constraint to greater than certain date
+         *      'birth_date': {
+         *          cons: 'gt_date',
+         *          val: '22.10.1988',
+         *          val_msg: 'Birthdate must be greater than 22.10.1988'
+         *      },
+         *      // a number field lesser than a certain number
+         *      'number': {
+         *          cons: 'lt',
+         *          val: 50,
+         *          val_msg: 'number must be lesser than 50'
+         *      },
+         *      // a field lesser than multiple fields' values
+         *      'some_input': {
+         *          cons: 'lt_m',
+         *          val: ['this', 'and', 'that', 'inputs'],
+         *          val_msg: 'some_input must be lesser than this, and, that, inputs'
+         *      },
+         *      // a field shows some other fields
+         *      'some_input2': {
+         *          cons: 'selectbox_fields',
+         *          val: [
+         *              {'val1': ['this', 'and']},
+         *              {'val2': ['this2', 'and2']}]
+         *          val_msg: 'some_input2 disables this, and, this, inputs'
+         *      },
+         *      // a field hides some other fields
+         *      'some_input3': {
+         *          cons: 'checkbox_fields',
+         *          val: [
+         *              {'val1': ['this', 'and']},
+         *              {'val2': ['this2', 'and2']}]
+         *          val_msg: 'some_input2 disables this, and, this, inputs'
+         *      },
+         *      // todo: a field change changes other field or fields values
+         * }
+         * `
+         * @param scope
+         */
+        generator.constraints = function (scope) {
+            angular.forEach(scope.form, function (v, k) {
+                try {
+                    var cons = scope.forms.constraints[v] || scope.forms.constraints[v.key];
+                    if (angular.isDefined(cons)) {
+                        if (v.constructor === String) {
+                            scope.form[k] = {
+                                key: v,
+                                validationMessage: {'form_cons': cons.val_msg},
+                                $validators: {
+                                    form_cons: function (value) {
+                                        return FormConstraints[cons.cons](value, cons.val);
+                                    }
+                                }
+                            };
+                        } else {
+                            v.key = v.key;
+                            v.validationMessage = angular.extend({'form_cons': cons.val_msg}, v.validationMessage);
+                            v.$asyncValidators = angular.extend({
+                                form_cons: function (value) {
+                                    return FormConstraints[cons.cons](value, cons.val)
+                                }
+                            }, v.$asyncValidators);
+                        }
+                    }
+                } catch (e) {
+                    $log.error(e.message);
+                }
+            });
+            return generator.group(scope);
+        };
+        /**
          * @memberof ulakbus.formService
          * @ngdoc function
          * @name prepareFormItems
@@ -236,7 +314,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 scope.form[scope.form.indexOf(k)] = {
                     type: v.type,
                     title: v.title,
-                    style: (v.style || "btn-danger")+" hide " + buttonClass,
+                    style: (v.style || "btn-danger") + " hide " + buttonClass,
                     onClick: function () {
                         delete scope.form_params.cmd;
                         delete scope.form_params.flow;
@@ -273,6 +351,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         }
                     }
                 };
+                // ADD CONSTRAINTS if cons
+
                 // replace buttons according to their position values
                 $timeout(function () {
                     var selectorBottom = '.buttons-on-bottom' + workOnDiv;
@@ -311,8 +391,9 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     url: scope.url,
                     wf: v.wf || scope.wf,
                     quick_add: v.quick_add,
-                    quick_add_field: v.quick_add_field,
+                    quick_add_view: v.quick_add_view,
                     quick_add_model: v.quick_add_model,
+                    quick_add_field: v.quick_add_field,
                     nodeModelChange: function (item) {
                     }
 
@@ -596,11 +677,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 },
                 int: {default: _numbers},
                 boolean: {
-                    default: function () {
+                    default: function (scope, v, k) {
                     }
                 },
                 string: {
-                    default: function () {
+                    default: function (scope, v, k) {
                     }
                 },
                 typeahead: {
@@ -745,8 +826,16 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 }
             };
 
+            // todo: delete after constraints done
+            scope.forms = scope.forms || {};
+            scope.forms.constraints = {
+                "erkek_kardes_sayisi": {
+                    "cons": "ltm",
+                    "val": ["kiz_kardes_sayisi"],
+                    "val_msg": "Erkek kardes sayisi kiz kardes sayisindan az olamaz."
+                }
+            };
             angular.forEach(scope.schema.properties, function (v, k) {
-
                 // generically change _id fields model value
                 if ('form_params' in scope) {
                     if (k == scope.form_params.param) {
@@ -766,7 +855,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             });
 
             $log.debug('scope at after prepareformitems', scope);
-            return generator.group(scope);
+            generator.constraints(scope);
         };
         /**
          * @memberof ulakbus.formService
@@ -1293,7 +1382,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 scope.node.schema.wf = scope.node.url;
 
                                 angular.forEach(scope.node.schema.properties, function (value, key) {
-                                    if (angular.isDefined(scope.node.schema.properties[key].wf)){}
+                                    if (angular.isDefined(scope.node.schema.properties[key].wf)) {
+                                    }
                                     else {
                                         scope.node.schema.properties[key].wf = scope.node.url;
                                     }

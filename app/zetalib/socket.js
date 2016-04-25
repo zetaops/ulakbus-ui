@@ -145,8 +145,8 @@ angular.module('ulakbus')
             // do_action is the dispatcher function for incoming events
             var do_action = function (options) {
                 // remove mask from crud here
-                togglePageReadyMask(0);
-                $log.info("togglePageReadyMask off");
+                // togglePageReadyMask(0);
+                // $log.info("togglePageReadyMask off");
                 var args = [].slice.call(arguments, 0),
                     initialized = false,
                     action = 'init';
@@ -182,8 +182,8 @@ angular.module('ulakbus')
                 wsOps.callbacks[request.callbackID] = deferred;
                 websocket.send(angular.toJson(request));
                 $log.info('SENT:', data);
-                togglePageReadyMask(1);
-                $log.info("togglePageReadyMask on");
+                // togglePageReadyMask(1);
+                // $log.info("togglePageReadyMask on");
                 //
                 // todo: add success & error promises
                 return deferred.promise.then(function (response) {

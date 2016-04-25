@@ -34,10 +34,9 @@ angular.module('ulakbus.crud')
                 $scope.generateTitleMap = function (kw) {
                     var searchData = {
                         form_params: {
+                            view: $scope.node.quick_add_view,
                             model: $scope.node.quick_add_model,
-                            wf: 'crud',
-                            query: kw,
-                            cmd: 'object_search'
+                            query: kw
                         }
                     };
                     if (angular.isDefined($scope.$parent.form_params.param)){
