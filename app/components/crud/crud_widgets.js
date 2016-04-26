@@ -14,6 +14,7 @@ angular.module('ulakbus.crud')
      * simply add an item to listnode searching related ulakbus model
      * needs that keys in listnode schema:
      * quick_add: true
+     * quick_add_view: <viewname>
      * quick_add_model: <modelname>
      * quick_add_field: to which field the data found will be added
      * thanks u.u

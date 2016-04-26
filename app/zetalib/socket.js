@@ -203,7 +203,6 @@ angular.module('ulakbus')
             wsOps.loggedOut = true;
             websocket.close();
             $log.info("CLOSED");
-            delete websocket;
         };
         /**
          * below elements used by togglePageReadyMask function

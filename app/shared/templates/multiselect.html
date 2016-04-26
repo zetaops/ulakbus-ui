@@ -26,7 +26,9 @@
                         class="form-control {{form.fieldHtmlClass}}"
                         schema-validate="form"
                         ng-options="item as item.name for item in form.filteredItems"
-                        name="filterItems" multiple>
+                        name="filterItems"
+                        size=30 style="height: 60%;"
+                        multiple>
                 </select>
             </div>
 
@@ -45,7 +47,9 @@
                         class="form-control {{form.fieldHtmlClass}}"
                         schema-validate="form"
                         ng-options="item as item.name for item in form.selectedFilteredItems"
-                        name="selectedItems" multiple>
+                        name="selectedItems"
+                        size=30 style="height: 60%;"
+                        multiple>
                 </select>
             </div>
         </div>

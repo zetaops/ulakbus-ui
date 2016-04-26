@@ -82,7 +82,7 @@ module.exports = function (grunt) {
                     {expand: true, cwd: 'app/styles/images/', src: '*', dest: 'dist/css/images/', flatten: true},
                     {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
+                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
                 ]
             },
             local_prod: {
@@ -124,6 +124,7 @@ module.exports = function (grunt) {
                     "app/zetalib/interceptors.js",
                     "app/zetalib/general.js",
                     "app/zetalib/form_service.js",
+                    "app/zetalib/form_constraints.js",
                     "app/zetalib/error_service.js",
                     "app/zetalib/action_service.js",
                     "app/zetalib/socket.js",
@@ -132,6 +133,7 @@ module.exports = function (grunt) {
                     "app/components/auth/auth_service.js",
                     "app/components/dashboard/dashboard_controller.js",
                     "app/components/crud/crud_controller.js",
+                    "app/components/crud/crud_widgets.js",
                     "app/components/debug/debug_controller.js",
                     "app/components/devSettings/devSettings_controller.js",
                     "app/components/error_pages/error_controller.js",

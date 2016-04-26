@@ -7,7 +7,7 @@
  * @author Evren Kutar
  */
 angular.module('ulakbus')
-    .factory('FormConstraints', function ($q, $timeout) {
+    .factory('FormConstraints', function ($q, $log, $timeout) {
         // Generic functions
         /**
          * gets expression and returns reject/resolve promise
@@ -52,7 +52,7 @@ angular.module('ulakbus')
          * @param type {String}
          * @returns {Promise}
          */
-        fo_co.lt = function (value, ref_val) {
+        fo_co.lt = function (value, ref_val, input_name) {
             return cond(value > ref_val);
         };
         /**
@@ -62,7 +62,7 @@ angular.module('ulakbus')
          * @param type {String}
          * @returns {Promise}
          */
-        fo_co.lt_date = function (value, ref_val) {
+        fo_co.lt_date = function (value, ref_val, input_name) {
             return cond(value > ref_val);
         };
         /**
@@ -72,7 +72,7 @@ angular.module('ulakbus')
          * @param type {String}
          * @returns {Promise}
          */
-        fo_co.ltm = function (value, ref_vals) {
+        fo_co.ltm = function (value, ref_vals, input_name) {
             return cond_multiple(value, ref_vals, 'lt');
         };
         /**
@@ -82,7 +82,7 @@ angular.module('ulakbus')
          * @param type {String}
          * @returns {Promise}
          */
-        fo_co.gt = function (value, ref_val) {
+        fo_co.gt = function (value, ref_val, input_name) {
             return cond(value < ref_val);
         };
         /**
@@ -92,7 +92,7 @@ angular.module('ulakbus')
          * @param type {String}
          * @returns {Promise}
          */
-        fo_co.gt_date = function (value, ref_val) {
+        fo_co.gt_date = function (value, ref_val, input_name) {
             return cond(value < ref_val);
         };
         /**
@@ -102,7 +102,7 @@ angular.module('ulakbus')
          * @param type {String}
          * @returns {Promise}
          */
-        fo_co.gtm = function (value, ref_vals) {
+        fo_co.gtm = function (value, ref_vals, input_name) {
             return cond_multiple(value, ref_vals, 'gt');
         };
         /**
@@ -111,15 +111,27 @@ angular.module('ulakbus')
          * @param fields {Array} they must be schemaform schema property items
          * @param type {String}
          */
-        fo_co.disable_fields = function (value, fields) {
-            $timeout(function () {
-                if (value.length > 0) {
-                    // todo: test and make it work
-                    fields.style = 'hidden';
-                } else {
-                    fields.style = 'show';
+        fo_co.selectbox_fields = function (value, fields, input_name) {
+            // use disableErrorState to disable hidden field validations
+
+            var form_items = angular.element(document.querySelectorAll('bootstrap-decorator'));
+            angular.forEach(form_items, function (v, k) {
+                angular.element(v).removeClass('hide');
+                var checkpoint;
+                try{
+                    if (angular.isDefined(v.querySelector('input')) && v.querySelector('input') !== null ) {
+                        checkpoint = v.querySelector('input').name
+                    } else {
+                        checkpoint = v.querySelector('select').name;
+                    }
+                    if (checkpoint !== input_name[0] && checkpoint !== fields[value][0]) {
+                        angular.element(v).addClass('hide');
+                        $log.debug(checkpoint, fields[value], angular.isDefined(fields[checkpoint]));
+                    }
+                } catch(e){
+                    $log.error(e.message);
                 }
-            })
+            });
         };
         return fo_co;
     });

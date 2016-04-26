@@ -2871,7 +2871,9 @@ angular.module("shared/templates/multiselect.html", []).run(["$templateCache", f
     "                        class=\"form-control {{form.fieldHtmlClass}}\"\n" +
     "                        schema-validate=\"form\"\n" +
     "                        ng-options=\"item as item.name for item in form.filteredItems\"\n" +
-    "                        name=\"filterItems\" multiple>\n" +
+    "                        name=\"filterItems\"\n" +
+    "                        size=30 style=\"height: 60%;\"\n" +
+    "                        multiple>\n" +
     "                </select>\n" +
     "            </div>\n" +
     "\n" +
@@ -2890,7 +2892,9 @@ angular.module("shared/templates/multiselect.html", []).run(["$templateCache", f
     "                        class=\"form-control {{form.fieldHtmlClass}}\"\n" +
     "                        schema-validate=\"form\"\n" +
     "                        ng-options=\"item as item.name for item in form.selectedFilteredItems\"\n" +
-    "                        name=\"selectedItems\" multiple>\n" +
+    "                        name=\"selectedItems\"\n" +
+    "                        size=30 style=\"height: 60%;\"\n" +
+    "                        multiple>\n" +
     "                </select>\n" +
     "            </div>\n" +
     "        </div>\n" +

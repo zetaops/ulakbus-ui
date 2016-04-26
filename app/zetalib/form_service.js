@@ -248,16 +248,16 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 validationMessage: {'form_cons': cons.val_msg},
                                 $validators: {
                                     form_cons: function (value) {
-                                        return FormConstraints[cons.cons](value, cons.val);
+                                        return FormConstraints[cons.cons](value, cons.val, v);
                                     }
                                 }
                             };
                         } else {
                             v.key = v.key;
                             v.validationMessage = angular.extend({'form_cons': cons.val_msg}, v.validationMessage);
-                            v.$asyncValidators = angular.extend({
+                            v.$validators = angular.extend({
                                 form_cons: function (value) {
-                                    return FormConstraints[cons.cons](value, cons.val)
+                                    return FormConstraints[cons.cons](value, cons.val, v.key);
                                 }
                             }, v.$asyncValidators);
                         }
@@ -827,14 +827,15 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             };
 
             // todo: delete after constraints done
-            scope.forms = scope.forms || {};
-            scope.forms.constraints = {
-                "erkek_kardes_sayisi": {
-                    "cons": "ltm",
-                    "val": ["kiz_kardes_sayisi"],
-                    "val_msg": "Erkek kardes sayisi kiz kardes sayisindan az olamaz."
-                }
-            };
+            // scope.forms = scope.forms || {};
+            // scope.forms.constraints = {
+            //     "cinsiyet": {
+            //         "cons": "selectbox_fields",
+            //         "val":
+            //            {'1': ["kiz_kardes_sayisi"], '2': ["erkek_kardes_sayisi"]},
+            //         "val_msg": "Erkek kardes sayisi kiz kardes sayisindan az olamaz."
+            //     }
+            // };
             angular.forEach(scope.schema.properties, function (v, k) {
                 // generically change _id fields model value
                 if ('form_params' in scope) {

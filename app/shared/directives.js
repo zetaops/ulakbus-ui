@@ -68,7 +68,7 @@ angular.module('ulakbus')
 
                 $scope.groupNotifications = function (notifications) {
 
-                    // $scope.notifications = {1: [], 2: [], 3: [], 4: []};
+                    $scope.notifications = {1: [], 2: [], 3: [], 4: []};
 
                     angular.forEach(notifications, function (value, key) {
                         $scope.notifications[value.type].push(value);
@@ -336,7 +336,7 @@ angular.module('ulakbus')
                                     var newItems = {};
                                     angular.forEach(items, function (value, key) {
                                         newItems[value.kategori] = newItems[value.kategori] || [];
-                                        value['baseCategory'] = baseCategory;
+                                        // value['baseCategory'] = baseCategory;
                                         newItems[value.kategori].push(value);
                                     });
                                     return newItems;
