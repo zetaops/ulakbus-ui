@@ -2382,3 +2382,8 @@ table.dataTable thead .sorting:after {
     top:0; left:0;
     z-index: 1099;
 }
+
+/* for overflowing buttons not collapsing each other */
+.bottom-margined{
+    margin-bottom: 0.75em;
+}

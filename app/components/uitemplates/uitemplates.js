@@ -36,7 +36,12 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'schemaForm', 'ulakbus.formSer
             },
             {
                 name: 'Deneme Form 2',
-                form: ['email', 'id', 'name'],
+                form: ['email', 'id', 'name',
+                        { type:'button', title:'DickButt1DickButt1DickButt1' },
+                        { type:'button', title:'DickButt2DickButt2DickButt2' },
+                        { type:'button', title:'DickButt3DickButt3DickButt3' },
+
+                ],
                 schema: {
                     properties: {
                         email: {title: 'email', type: 'string'},

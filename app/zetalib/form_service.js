@@ -314,7 +314,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 scope.form[scope.form.indexOf(k)] = {
                     type: v.type,
                     title: v.title,
-                    style: (v.style || "btn-danger") + " hide " + buttonClass,
+                    style: (v.style || "btn-danger") + " hide bottom-margined " + buttonClass,
                     onClick: function () {
                         delete scope.form_params.cmd;
                         delete scope.form_params.flow;

@@ -1,6 +1,11 @@
 <div>
     <select ng-model="selection" ng-options="forms.indexOf(form) as form.name for form in forms" ng-change="selectform(selection)">
     </select>
-
-    <form sf-schema="schema" sf-form="form" sf-model="model"></form>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6 center">
+                <form sf-schema="schema" sf-form="form" sf-model="model"></form>
+            </div>
+        </div>
+    </div>
 </div>
