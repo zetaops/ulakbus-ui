@@ -18,7 +18,7 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'schemaForm', 'ulakbus.formSer
     "name" for defining the name shown in dropdown box. Paste the JSON of form as a member of $scope.forms.
      */
 
-    .controller('FormServicePg', function ($scope, Generator) {
+    .controller('FormServicePg', function ($scope, Generator, $timeout) {
         $scope.forms = [
             {
                 name: 'Deneme Form 1',
@@ -35,17 +35,18 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'schemaForm', 'ulakbus.formSer
                 }
             },
             {
-                name: 'Deneme Form 2',
-                form: ['email', 'id', 'name'],
+                name: 'Confirm Form Trial',
+                form: ['email', 'id', 'name', 'confirm'],
                 schema: {
                     properties: {
                         email: {title: 'email', type: 'string'},
                         id: {title: 'id', type: 'number'},
-                        name: {title: 'name', type: 'string'}
+                        name: {title: 'name', type: 'string'},
+                        confirm: {title: 'Confirm Form', style:"btn-success", type:'confirm', confirm_message: "zaaa xDê", cmd:"list_user"}
                     }, required: [], type: 'object', title: 'servicetest'
                 },
                 model: {
-                    email: 'test@test.com', id: 2, name: 'cageman'
+                    email: 'test@test.com', id: 3, name: 'cageman'
                 }
             }
         ];
@@ -55,6 +56,9 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'schemaForm', 'ulakbus.formSer
         $scope.selectform = function (index) {
             var form = $scope.forms[index];
             $scope = Generator.generate($scope, {forms: form});
+            $timeout(function(){
+                $scope.$apply();
+            })
         };
         $scope.selectform($scope.selection);
     });

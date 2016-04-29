@@ -610,9 +610,30 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             name: k,
                             key: k,
                             cmd: v.cmd,
+                            style: v.style,
                             confirm: function () {
                                 console.log(v.cmd);
                                 // send cmd with submit
+                                generator.submit(scope, false)
+                                    // .success(function(data){
+                                    //     // response data contains object_id and unicode
+                                    //     // scope.model can be reached via prototype chain
+                                    //     scope.model[formName] = data.forms.model.object_key;
+                                    //     // scope.form prototype chain returns this form item
+                                    //     scope.form.titleMap.push({
+                                    //         value: data.forms.model.object_key,
+                                    //         name: data.forms.model.unicode
+                                    //     });
+                                    //     scope.form.selected_item = {
+                                    //         value: data.forms.model.object_key,
+                                    //         name: data.forms.model.unicode
+                                    //     };
+                                    //     scope.$watch(document.querySelector('input[name=' + scope.form.model_name + ']'),
+                                    //         function () {
+                                    //             angular.element(document.querySelector('input[name=' + scope.form.model_name + ']')).val(scope.form.selected_item.name);
+                                    //         }
+                                    //     );
+                                    // });
                             }
 
                         };
