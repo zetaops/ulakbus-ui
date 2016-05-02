@@ -333,11 +333,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         if (scope.modalElements) {
                             scope.submitModalForm();
                         } else {
-                            if (v.validation === false) {
+                            if (v.validation === false || !v.form_validate) {
                                 generator.submit(scope, redirectTo);
                             } else {
                                 scope.$broadcast('schemaFormValidate');
-                                if (scope[workOnForm].$valid) {
+                                if (scope[workOnForm].$valid || !v.form_validate) {
                                     generator.submit(scope, redirectTo);
                                     scope.$broadcast('disposeModal');
                                 } else {
@@ -369,6 +369,12 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             };
             var _numbers = function (scope, v, k) {
                 v.type = 'number';
+                v.validationMessage = {'max': 'bu alan -2147483647 ve 2147483647 arasında olmalıdır.'}
+                v.$validators = {
+                    max: function(value){
+                        return 2147483647>value>-2147483647;
+                    }
+                };
                 scope.model[k] = parseInt(scope.model[k]);
             };
             var _node_default = function (scope, v, k) {
@@ -428,6 +434,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 });
 
                 $timeout(function () {
+                    // todo: needs refactor
                     if (v.type === 'ListNode') {
                         scope[v.type][k].items = angular.copy(scope.model[k] || []);
                         angular.forEach(scope[v.type][k].items, function (value, key) {
@@ -726,7 +733,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         // todo: write a function to refresh titleMap after new item add to linkedModel
                         //});
 
-                        scope.generateTitleMap = function (modelScope) {
+                        var generateTitleMap = function (modelScope) {
                             return generator.get_list(modelScope).then(function (res) {
                                 formitem.titleMap = [];
                                 angular.forEach(res.objects, function (item) {
@@ -772,12 +779,12 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             },
                             getTitleMap: function (viewValue) {
                                 modelScope.form_params.query = viewValue;
-                                return scope.generateTitleMap(modelScope);
+                                return generateTitleMap(modelScope);
                             },
                             getDropdownTitleMap: function () {
                                 delete modelScope.form_params.query;
                                 formitem.gettingTitleMap = true;
-                                scope.generateTitleMap(modelScope)
+                                generateTitleMap(modelScope)
                                     .then(function (data) {
                                         formitem.titleMap = data;
                                         formitem.gettingTitleMap = false;
@@ -850,7 +857,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     generate_fields[v.type][v.widget || 'default'](scope, v, k);
                 }
                 catch (e) {
-                    // raise not implemented
+                    // todo: raise not implemented
                     console.log(v.type)
                 }
             });
@@ -930,6 +937,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @description Changes html disabled and enabled attributes of all buttons on current page.
          * @param {boolean} position
          */
+        // todo: remove
         generator.button_switch = function (position) {
             var buttons = angular.element(document.querySelectorAll('button'));
             var positions = {true: "enabled", false: "disabled"};
@@ -957,12 +965,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     generator.get_form(scope);
                 }, 500);
             }
-            //return $http
-            //    .post(generator.makeUrl(scope), scope.form_params)
-            //    .then(function (res) {
-            //        //generator.button_switch(true);
-            //        return generator.generate(scope, res.data);
-            //    });
         };
         /**
          * @memberof ulakbus.formService
@@ -973,12 +975,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_list = function (scope) {
-            //return $http
-            //    .post(generator.makeUrl(scope), scope.form_params)
-            //    .then(function (res) {
-            //        //generator.button_switch(true);
-            //        return res;
-            //    });
 
             if ($rootScope.websocketIsOpen === true) {
                 return WSOps.request(scope.form_params)
@@ -1001,6 +997,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_wf = function (scope) {
+            // todo: remove this condition
             if ($rootScope.websocketIsOpen === true) {
                 WSOps.request(scope.form_params)
                     .then(function (data) {
@@ -1012,13 +1009,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     generator.get_wf(scope);
                 }, 500);
             }
-
-
-            //return $http
-            //    .post(generator.makeUrl(scope), scope.form_params)
-            //    .then(function (res) {
-            //        return generator.pathDecider(res.data.client_cmd, scope, res.data);
-            //    });
         };
         /**
          * @memberof ulakbus.formService
@@ -1258,33 +1248,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     generator.scope($scope, redirectTo);
                 }, 500);
             }
-
-            //return $http.post(generator.makeUrl($scope), data)
-            //    .success(function (data, status, headers) {
-            //        if (headers('content-type') === "application/pdf") {
-            //            var a = document.createElement("a");
-            //            document.body.appendChild(a);
-            //            a.style = "display: none";
-            //            var file = new Blob([data], {type: 'application/pdf'});
-            //            var fileURL = URL.createObjectURL(file);
-            //            var fileName = $scope.schema.title;
-            //            a.href = fileURL;
-            //            a.download = fileName;
-            //            a.click();
-            //        }
-            //        if (redirectTo === true) {
-            //            if (data.client_cmd) {
-            //                generator.pathDecider(data.client_cmd, $scope, data);
-            //            }
-            //            if (data.msgbox) {
-            //                $scope.msgbox = data.msgbox;
-            //                var newElement = $compile("<msgbox></msgbox>")($scope);
-            //                // this is the default action, which is removing page items and reload page with msgbox
-            //                angular.element(document.querySelector('.main.ng-scope')).children().remove();
-            //                angular.element(document.querySelector('.main.ng-scope')).append(newElement);
-            //            }
-            //        }
-            //    });
         };
         return generator;
     })

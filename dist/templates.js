@@ -182,7 +182,19 @@ angular.module("components/crud/templates/form.html", []).run(["$templateCache",
     "    <div class=\"buttons-on-top\"></div>\n" +
     "\n" +
     "    <form id=\"formgenerated\" name=\"formgenerated\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\"\n" +
-    "          ng-submit=\"onSubmit(formgenerated)\" form-locator></form>\n" +
+    "          ng-submit=\"onSubmit(formgenerated)\" form-locator>\n" +
+    "        <!--<div>-->\n" +
+    "            <!--<uib-tabset active=\"active\">-->\n" +
+    "                <!--<uib-tab index=\"0\" heading=\"Static title\">-->\n" +
+    "                    <!--<div ng-repeat=\"field in form\">-->\n" +
+    "                        <!--<em>before</em>-->\n" +
+    "                        <!--<div sf-insert-field=\"[field]\"></div>-->\n" +
+    "                        <!--<em>after</em>-->\n" +
+    "                    <!--</div>-->\n" +
+    "                <!--</uib-tab>-->\n" +
+    "            <!--</uib-tabset>-->\n" +
+    "        <!--</div>-->\n" +
+    "    </form>\n" +
     "\n" +
     "    <div ng-repeat=\"node in Node\">\n" +
     "        <h3>{{ node.title }}\n" +
@@ -367,7 +379,7 @@ angular.module("components/crud/templates/nodeTable.html", []).run(["$templateCa
     "            <th ng-repeat=\"(key,value) in node.items[0] track by $index\"\n" +
     "                ng-if=\"key!=='idx' && node.schema.properties[key]\">\n" +
     "                <span ng-if=\"value.verbose_name\">{{ value.verbose_name }}</span>\n" +
-    "                <span ng-if=\"!value.verbose_name\">{{key}}</span>\n" +
+    "                <span ng-if=\"!value.verbose_name\">{{node.schema.properties[key]['title']|| key}}</span>\n" +
     "            </th>\n" +
     "            <th ng-if=\"meta.allow_actions!==false\">İşlem</th>\n" +
     "        </tr>\n" +
@@ -2737,7 +2749,7 @@ angular.module("shared/templates/foreignKey.html", []).run(["$templateCache", fu
     "                        data-toggle=\"dropdown\">\n" +
     "                    <span class=\"caret\"></span>\n" +
     "                </button>\n" +
-    "                <ul class=\"dropdown-menu\">\n" +
+    "                <ul class=\"dropdown-menu\" ng-if=\"form.titleMap.length > 0\">\n" +
     "                    <li class=\"text-center\" ng-if=\"form.gettingTitleMap\"><a><span class=\"loader\"></span></a></li>\n" +
     "                    <li ng-repeat=\"item in form.titleMap\">\n" +
     "                        <a ng-click=\"form.onDropdownSelect(item, form.name)\">{{item\n" +

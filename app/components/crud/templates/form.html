@@ -2,7 +2,19 @@
     <div class="buttons-on-top"></div>
 
     <form id="formgenerated" name="formgenerated" sf-schema="schema" sf-form="form" sf-model="model"
-          ng-submit="onSubmit(formgenerated)" form-locator></form>
+          ng-submit="onSubmit(formgenerated)" form-locator>
+        <!--<div>-->
+            <!--<uib-tabset active="active">-->
+                <!--<uib-tab index="0" heading="Static title">-->
+                    <!--<div ng-repeat="field in form">-->
+                        <!--<em>before</em>-->
+                        <!--<div sf-insert-field="[field]"></div>-->
+                        <!--<em>after</em>-->
+                    <!--</div>-->
+                <!--</uib-tab>-->
+            <!--</uib-tabset>-->
+        <!--</div>-->
+    </form>
 
     <div ng-repeat="node in Node">
         <h3>{{ node.title }}

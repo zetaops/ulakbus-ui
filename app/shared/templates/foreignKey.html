@@ -14,7 +14,7 @@
                         data-toggle="dropdown">
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" ng-if="form.titleMap.length > 0">
                     <li class="text-center" ng-if="form.gettingTitleMap"><a><span class="loader"></span></a></li>
                     <li ng-repeat="item in form.titleMap">
                         <a ng-click="form.onDropdownSelect(item, form.name)">{{item
