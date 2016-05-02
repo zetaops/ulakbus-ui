@@ -102,7 +102,7 @@ angular.module('ulakbus')
         };
         wsOps.onClose = function (event) {
             $rootScope.websocketIsOpen = false;
-            $log.info("DISCONNEDTED", event);
+            $log.info("DISCONNECTED", event);
         };
         // two types of data can be come from websocket: with and without callback
         // if callback in callbacks list it will run the callback and delete it

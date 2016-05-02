@@ -22,7 +22,7 @@
             <th ng-repeat="(key,value) in node.items[0] track by $index"
                 ng-if="key!=='idx' && node.schema.properties[key]">
                 <span ng-if="value.verbose_name">{{ value.verbose_name }}</span>
-                <span ng-if="!value.verbose_name">{{key}}</span>
+                <span ng-if="!value.verbose_name">{{node.schema.properties[key]['title']|| key}}</span>
             </th>
             <th ng-if="meta.allow_actions!==false">İşlem</th>
         </tr>

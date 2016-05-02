@@ -60,8 +60,11 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
 
                 scope.form_params = {
                     //cmd: cmd,
+                    // model name in ulakbus
                     model: routeParams.model,
+                    // generic value passing by backend. would be any of these: id, personel_id, etc.
                     param: scope.param || routeParams.param,
+                    // generic value passing by backend. would be the value of param
                     id: scope.param_id || routeParams.param_id,
                     wf: routeParams.wf,
                     object_id: routeParams.key,
