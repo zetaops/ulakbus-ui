@@ -286,6 +286,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          *
          * @returns scope {Object}
          */
+        
+
         generator.prepareFormItems = function (scope) {
 
             angular.forEach(scope.form, function (value, key) {
@@ -611,10 +613,13 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             key: k,
                             cmd: v.cmd,
                             style: v.style,
+                            togglePopover: function(event){
+
+                            },
                             confirm: function () {
                                 console.log(v.cmd);
                                 // send cmd with submit
-                                generator.submit(scope, false)
+                                generator.submit(scope, false);
                                     // .success(function(data){
                                     //     // response data contains object_id and unicode
                                     //     // scope.model can be reached via prototype chain
