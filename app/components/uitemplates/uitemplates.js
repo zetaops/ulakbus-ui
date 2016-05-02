@@ -44,7 +44,7 @@ var app=angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.formService']
                         email: {title: 'email', type: 'string'},
                         id: {title: 'id', type: 'number'},
                         name: {title: 'name', type: 'string'},
-                        confirm: {title: 'Confirm Form', style:"btn-success", type:'confirm', confirm_message: "zaaa xDê", cmd:"list_user"}
+                        confirm: {title: 'Confirm Form', style:"btn-success", type:'confirm', confirm_message: "zaaa xDê", cmd:"list_user", readonly:"true"}
                     }, required: [], type: 'object', title: 'servicetest'
                 },
                 model: {
