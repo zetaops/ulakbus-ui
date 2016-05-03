@@ -6,9 +6,9 @@
  * (GPLv3).  See LICENSE.txt for details.
  */
 
-angular.module('ulakbus.uitemplates', ['ngRoute', 'schemaForm', 'ulakbus.formService'])
+var app=angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.formService']);
 
-    .controller('NewDesignsCtrl', function ($scope) {
+    app.controller('NewDesignsCtrl', function ($scope) {
         $scope.items = ['student', 'staff', 'academician'];
         $scope.selection = $scope.items[0];
     })
@@ -18,18 +18,18 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'schemaForm', 'ulakbus.formSer
     "name" for defining the name shown in dropdown box. Paste the JSON of form as a member of $scope.forms.
      */
 
-    .controller('FormServicePg', function ($scope, Generator) {
+    app.controller('FormServicePg', function ($scope, Generator) {
         $scope.forms = [
             {
                 name: 'Deneme Form 1',
-                form: ['email', 'id', 'name',
-                    { type: "button", cmd:"list_user", title: "submit without validation", validation: false },
-                    { type: "button", cmd:"list_user", title: "confirm with validation"}],
+                form: ['email', 'id', 'name', 'novalid'],
                 schema: {
                     properties: {
                         email: {title: 'email', type: 'string'},
                         id: {title: 'id', type: 'number'},
-                        name: {title: 'name', type: 'string'}
+                        name: {title: 'name', type: 'string'},
+                        novalid: { type: "button", cmd:"list_user2", title: "submit without validation", form_validate: false }
+
                     }, required: ["email", "id", "name"], type: 'object', title: 'servicetest'
                 },
                 model: {
@@ -38,12 +38,7 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'schemaForm', 'ulakbus.formSer
             },
             {
                 name: 'Deneme Form 2',
-                form: ['email', 'id', 'name',
-                        { type:'button', title:'DickButt1DickButt1DickButt1' },
-                        { type:'button', title:'DickButt2DickButt2DickButt2' },
-                        { type:'button', title:'DickButt3DickButt3DickButt3' },
-
-                ],
+                form: ['email', 'id', 'name'],
                 schema: {
                     properties: {
                         email: {title: 'email', type: 'string'},

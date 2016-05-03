@@ -333,11 +333,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         if (scope.modalElements) {
                             scope.submitModalForm();
                         } else {
-                            if (v.validation === false || !v.form_validate) {
+                            if (!v.form_validate && angular.isDefined(v.form_validate)) {
                                 generator.submit(scope, redirectTo);
                             } else {
                                 scope.$broadcast('schemaFormValidate');
-                                if (scope[workOnForm].$valid || !v.form_validate) {
+                                if (scope[workOnForm].$valid) {
                                     generator.submit(scope, redirectTo);
                                     scope.$broadcast('disposeModal');
                                 } else {
