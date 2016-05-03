@@ -22,13 +22,15 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'schemaForm', 'ulakbus.formSer
         $scope.forms = [
             {
                 name: 'Deneme Form 1',
-                form: ['email', 'id', 'name'],
+                form: ['email', 'id', 'name',
+                    { type: "button", cmd:"list_user", title: "submit without validation", validation: false },
+                    { type: "button", cmd:"list_user", title: "confirm with validation"}],
                 schema: {
                     properties: {
                         email: {title: 'email', type: 'string'},
                         id: {title: 'id', type: 'number'},
                         name: {title: 'name', type: 'string'}
-                    }, required: [], type: 'object', title: 'servicetest'
+                    }, required: ["email", "id", "name"], type: 'object', title: 'servicetest'
                 },
                 model: {
                     email: 'test@test.com', id: 2, name: 'travolta'
