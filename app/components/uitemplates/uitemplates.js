@@ -6,19 +6,15 @@
  * (GPLv3).  See LICENSE.txt for details.
  */
 
-var app=angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.formService']);
-
-    app.controller('NewDesignsCtrl', function ($scope) {
+angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.formService'])
+    
+    
+    .controller('NewDesignsCtrl', function ($scope) {
         $scope.items = ['student', 'staff', 'academician'];
         $scope.selection = $scope.items[0];
     })
-
-    /*
-    This controller is for testing new SchemaForm components. In addition, forms need to have the attribute:
-    "name" for defining the name shown in dropdown box. Paste the JSON of form as a member of $scope.forms.
-     */
-
-    app.controller('FormServicePg', function ($scope, Generator) {
+    
+    .controller('FormServicePg', function ($scope, Generator) {
         $scope.forms = [
             {
                 name: 'Deneme Form 1',
@@ -44,7 +40,16 @@ var app=angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.formService']
                         email: {title: 'email', type: 'string'},
                         id: {title: 'id', type: 'number'},
                         name: {title: 'name', type: 'string'},
-                        confirm: {title: 'Confirm Form', style:"btn-success", type:'confirm', confirm_message: "zaaa xDê", cmd:"list_user", readonly:"true"}
+                        confirm: {
+                            title: 'Confirm Form',
+                            style:"btn-success",
+                            type:'confirm',
+                            confirm_message: "kelmangeeeeeeee kakooooo kakoooo şugarkeeeeee mageee kakoooo yandan geeeelll mage kakooooo kakoooo candan geeelll magee kakoooo mo kak kamiloooo biya westeee mo kak kamiloooo biya westeee me türbayyy dicaaa vilesgeee me haraaayy dicaaaa vilesgeeee voşdikeeelll mage kakoooo kakooo yandan geeeelll mage kakooo şugarkeeeee mageeee kakooo kakooooo candan geeell magee kakoooo gel mageeeee kakooo kakoooo şugarkeeee maneee kakooo yandan geeell mageee kakooo kakoooo candan geellll mane kakoooo mo kak kamiloooo biya westeee mo kak kamiloooo biya westeee me türbayyy dicaaa vilesgeee me haraaayy dicaaaa vilesgeeee voşdikeeelll mage kakoooo kakooo yandan geeeelll mage kakooo şugarkeeeee mageeee kakooo kakooooo candan geeell magee kakoooo﻿.",
+                            buttons: [
+                                {   text: "button 1", style: "btn-warning", dismiss: true },
+                                {   text: "button 2", cmd:"cmd1", style: "btn-success"},
+                            ],
+                            readonly:"true"}
                     }, required: [], type: 'object', title: 'servicetest'
                 },
                 model: {
@@ -58,9 +63,6 @@ var app=angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.formService']
         $scope.selectform = function (index) {
             var form = $scope.forms[index];
             $scope = Generator.generate($scope, {forms: form});
-            $timeout(function(){
-                $scope.$apply();
-            })
         };
         $scope.selectform($scope.selection);
     });

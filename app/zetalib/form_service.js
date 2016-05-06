@@ -29,7 +29,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @name Generator
      * @description form service's Generator factory service handles all generic form operations
      */
-    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints) {
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal) {
         var generator = {};
         /**
          * @memberof ulakbus.formService
@@ -609,6 +609,33 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         };
                     }
                 },
+                //this field is a need for next features
+                confirmprev: {
+                    default: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            type: "template",
+                            isOpen: false,
+                            title: v.title,
+                            confirm_message: v.confirm_message,
+                            templateUrl: "shared/templates/confirm.html",
+                            name: k,
+                            key: k,
+                            cmd: v.cmd,
+                            style: v.style,
+                            clickHandler: function(){
+                                this.isOpen = !this.isOpen;
+                            },
+                            confirm: function () {
+                                this.isOpen = false;
+                                // send cmd with submit
+                                delete scope.form_params.cmd;
+                                scope.form_params['cmd'] = v.cmd;
+                                generator.submit(scope, false);
+                            }
+
+                        };
+                    }
+                },
                 confirm: {
                     default: function (scope, v, k) {
                         scope.form[scope.form.indexOf(k)] = {
@@ -618,34 +645,50 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             templateUrl: "shared/templates/confirm.html",
                             name: k,
                             key: k,
-                            cmd: v.cmd,
                             style: v.style,
-                            togglePopover: function(event){
-
+                            buttons: v.buttons,
+                            modalInstance: "",
+                            // buttons is an object array
+                            //Example:
+                            //buttons: [{
+                            //  text: "Button text",
+                            //  cmd: "button command",
+                            //  style: "btn-warning",
+                            //  dismiss: false --> this one is for deciding if the button can dismiss modal
+                            //}]
+                            modalFunction: function(field){
+                                this.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: 'confirmModalTemplate.html',
+                                    controller: function ($scope){
+                                        $scope.form = field;
+                                    }
+                                });
                             },
-                            confirm: function () {
-                                console.log(v.cmd);
+                            openModal: function(field){
+                                if (!v.form_validate && angular.isDefined(v.form_validate)){
+                                    this.modalFunction(field);
+                                }
+                                else{
+                                    scope.$broadcast('schemaFormValidate');
+                                    if (scope.$valid === true) {
+                                        this.modalFunction(field);
+                                        scope.$broadcast('disposeModal');
+                                    } else {
+                                        // focus to first input with validation error
+                                        $timeout(function () {
+                                            var firsterror = angular.element(document.querySelectorAll('input.ng-invalid'))[0];
+                                            firsterror.focus();
+                                        });
+                                    }
+                                }
+                            },
+                            send: function (cmd, dismiss) {
                                 // send cmd with submit
-                                generator.submit(scope, false);
-                                    // .success(function(data){
-                                    //     // response data contains object_id and unicode
-                                    //     // scope.model can be reached via prototype chain
-                                    //     scope.model[formName] = data.forms.model.object_key;
-                                    //     // scope.form prototype chain returns this form item
-                                    //     scope.form.titleMap.push({
-                                    //         value: data.forms.model.object_key,
-                                    //         name: data.forms.model.unicode
-                                    //     });
-                                    //     scope.form.selected_item = {
-                                    //         value: data.forms.model.object_key,
-                                    //         name: data.forms.model.unicode
-                                    //     };
-                                    //     scope.$watch(document.querySelector('input[name=' + scope.form.model_name + ']'),
-                                    //         function () {
-                                    //             angular.element(document.querySelector('input[name=' + scope.form.model_name + ']')).val(scope.form.selected_item.name);
-                                    //         }
-                                    //     );
-                                    // });
+                                delete scope.form_params.cmd;
+                                scope.form_params['cmd'] = v.cmd;
+                                if (dismiss) this.modalInstance.dismiss('cancel');
+                                if (cmd) generator.submit(scope, false);
                             }
 
                         };
