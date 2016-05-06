@@ -666,14 +666,14 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 });
                             },
                             openModal: function(field){
+                                var workOnForm = scope.modalElements ? scope.modalElements.workOnForm : 'formgenerated';
                                 if (!v.form_validate && angular.isDefined(v.form_validate)){
                                     this.modalFunction(field);
                                 }
                                 else{
                                     scope.$broadcast('schemaFormValidate');
-                                    if (scope.$valid === true) {
+                                    if (scope[workOnForm].$valid) {
                                         this.modalFunction(field);
-                                        scope.$broadcast('disposeModal');
                                     } else {
                                         // focus to first input with validation error
                                         $timeout(function () {

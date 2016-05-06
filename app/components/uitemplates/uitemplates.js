@@ -23,13 +23,13 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.formService'])
         $scope.forms = [
             {
                 name: 'Deneme Form 1',
-                form: ['email', 'id', 'name', 'novalid'],
+                form: ['email', 'id', 'name', 'valid'],
                 schema: {
                     properties: {
                         email: {title: 'email', type: 'string'},
                         id: {title: 'id', type: 'number'},
                         name: {title: 'name', type: 'string'},
-                        novalid: { type: "button", cmd:"list_user2", title: "submit without validation", form_validate: false }
+                        valid: { type: 'submit', cmd:"list_user2", title: "submit with validation" }
 
                     }, required: ["email", "id", "name"], type: 'object', title: 'servicetest'
                 },
@@ -49,7 +49,7 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.formService'])
                             title: 'Confirm Form',
                             style:"btn-success",
                             type:'confirm',
-                            confirm_message: "kelmangeeeeeeee kakooooo kakoooo şugarkeeeeee mageee kakoooo yandan geeeelll mage kakooooo kakoooo candan geeelll magee kakoooo mo kak kamiloooo biya westeee mo kak kamiloooo biya westeee me türbayyy dicaaa vilesgeee me haraaayy dicaaaa vilesgeeee voşdikeeelll mage kakoooo kakooo yandan geeeelll mage kakooo şugarkeeeee mageeee kakooo kakooooo candan geeell magee kakoooo gel mageeeee kakooo kakoooo şugarkeeee maneee kakooo yandan geeell mageee kakooo kakoooo candan geellll mane kakoooo mo kak kamiloooo biya westeee mo kak kamiloooo biya westeee me türbayyy dicaaa vilesgeee me haraaayy dicaaaa vilesgeeee voşdikeeelll mage kakoooo kakooo yandan geeeelll mage kakooo şugarkeeeee mageeee kakooo kakooooo candan geeell magee kakoooo﻿.",
+                            confirm_message:"Lorem Ipsum Dolor Sit Amet",
                             buttons: [
                                 {   text: "button 1", style: "btn-warning", dismiss: true },
                                 {   text: "button 2", cmd:"cmd1", style: "btn-success"},
