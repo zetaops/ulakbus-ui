@@ -15,6 +15,11 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.formService'])
     })
     
     .controller('FormServicePg', function ($scope, Generator) {
+
+    /*
+    This controller is for testing new SchemaForm components. In addition, forms need to have the attribute:
+    "name" for defining the name shown in dropdown box. Paste the JSON of form as a member of $scope.forms.
+     */
         $scope.forms = [
             {
                 name: 'Deneme Form 1',
