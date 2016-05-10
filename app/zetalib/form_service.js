@@ -610,33 +610,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         };
                     }
                 },
-                //this field is a need for next features
-                confirmprev: {
-                    default: function (scope, v, k) {
-                        scope.form[scope.form.indexOf(k)] = {
-                            type: "template",
-                            isOpen: false,
-                            title: v.title,
-                            confirm_message: v.confirm_message,
-                            templateUrl: "shared/templates/confirm.html",
-                            name: k,
-                            key: k,
-                            cmd: v.cmd,
-                            style: v.style,
-                            clickHandler: function(){
-                                this.isOpen = !this.isOpen;
-                            },
-                            confirm: function () {
-                                this.isOpen = false;
-                                // send cmd with submit
-                                delete scope.form_params.cmd;
-                                scope.form_params['cmd'] = v.cmd;
-                                generator.submit(scope, false);
-                            }
-
-                        };
-                    }
-                },
                 confirm: {
                     default: function (scope, v, k) {
                         scope.form[scope.form.indexOf(k)] = {
