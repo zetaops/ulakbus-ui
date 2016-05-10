@@ -6,7 +6,7 @@
  * (GPLv3).  See LICENSE.txt for details.
  */
 
-angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.formService'])
+angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.crud'])
     
     
     .controller('NewDesignsCtrl', function ($scope) {
@@ -14,13 +14,13 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.formService'])
         $scope.selection = $scope.items[0];
     })
     
-    .controller('FormServicePg', function ($scope, Generator) {
+    .controller('FormServicePg', function ($scope, Generator, CrudUtility) {
 
     /*
     This controller is for testing new SchemaForm components. In addition, forms need to have the attribute:
     "name" for defining the name shown in dropdown box. Paste the JSON of form as a member of $scope.forms.
      */
-        $scope.forms = [
+        $scope.trialList = [
             {
                 name: 'Deneme Form 1',
                 form: ['email', 'id', 'name', 'valid'],
@@ -51,10 +51,11 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.formService'])
                             type:'confirm',
                             confirm_message:"Lorem Ipsum Dolor Sit Amet",
                             buttons: [
-                                {   text: "button 1", style: "btn-warning", dismiss: true },
+                                {   text: "button 1", cmd:"zeaaa", style: "btn-warning", dismiss: true},
                                 {   text: "button 2", cmd:"cmd1", style: "btn-success"},
                             ],
-                            readonly:"true"}
+                            readonly:"true",
+                            form_validate: false}
                     }, required: [], type: 'object', title: 'servicetest'
                 },
                 model: {
@@ -64,10 +65,13 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.formService'])
         ];
         $scope.form_params = {};
         $scope.selection = 0;
+        $scope.meta = {};
 
         $scope.selectform = function (index) {
-            var form = $scope.forms[index];
-            $scope = Generator.generate($scope, {forms: form});
+            var data = { forms: $scope.trialList[index] };
+            CrudUtility.listPageItems($scope, data);
+            Generator.generate($scope, data);
+            Generator.setPageData({pageData: false});
         };
         $scope.selectform($scope.selection);
     });

@@ -3,6 +3,5 @@
     <form name="modalForm" sf-schema="schema" sf-form="form" sf-model="model" modal-form-locator></form>
 </div>
 <div class="modal-footer">
-    <button type="submit" class="btn btn-primary" ng-click="onNodeSubmit()">Tamam</button>
-    <button type="button" class="btn btn-warning" ng-click="cancel()">İptal</button>
+    <button ng-repeat="b in buttons" type="{{b.type}}" class="btn {{b.style || 'btn-default'}}" ng-click="onNodeBtnClk(b)">{{b.text}}</button>
 </div>
