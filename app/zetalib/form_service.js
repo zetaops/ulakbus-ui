@@ -29,7 +29,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @name Generator
      * @description form service's Generator factory service handles all generic form operations
      */
-    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints) {
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal) {
         var generator = {};
         /**
          * @memberof ulakbus.formService
@@ -286,6 +286,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          *
          * @returns scope {Object}
          */
+        
+
         generator.prepareFormItems = function (scope) {
 
             angular.forEach(scope.form, function (value, key) {
@@ -394,6 +396,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         model_name: k,
                         inline_edit: scope.inline_edit
                     },
+                    buttons: v.buttons,
                     url: scope.url,
                     wf: v.wf || scope.wf,
                     quick_add: v.quick_add,
@@ -607,6 +610,33 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         };
                     }
                 },
+                //this field is a need for next features
+                confirmprev: {
+                    default: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            type: "template",
+                            isOpen: false,
+                            title: v.title,
+                            confirm_message: v.confirm_message,
+                            templateUrl: "shared/templates/confirm.html",
+                            name: k,
+                            key: k,
+                            cmd: v.cmd,
+                            style: v.style,
+                            clickHandler: function(){
+                                this.isOpen = !this.isOpen;
+                            },
+                            confirm: function () {
+                                this.isOpen = false;
+                                // send cmd with submit
+                                delete scope.form_params.cmd;
+                                scope.form_params['cmd'] = v.cmd;
+                                generator.submit(scope, false);
+                            }
+
+                        };
+                    }
+                },
                 confirm: {
                     default: function (scope, v, k) {
                         scope.form[scope.form.indexOf(k)] = {
@@ -616,12 +646,73 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             templateUrl: "shared/templates/confirm.html",
                             name: k,
                             key: k,
-                            cmd: v.cmd,
-                            confirm: function () {
-                                console.log(v.cmd);
-                                // send cmd with submit
-                            }
+                            style: v.style,
+                            buttons: v.buttons,
+                            modalInstance: "",
+                            // buttons is an object array
+                            //Example:
+                            //buttons: [{
+                            //  text: "Button text",
+                            //  cmd: "button command",
+                            //  style: "btn-warning",
+                            //  dismiss: false --> this one is for deciding if the button can dismiss modal
+                            //}]
+                            modalFunction: function(){
+                                delete scope.form_params.cmd;
+                                delete scope.form_params.flow;
+                                if (v.cmd) {
+                                    scope.form_params["cmd"] = v.cmd;
+                                }
+                                if (v.flow) {
+                                    scope.form_params["flow"] = v.flow;
+                                }
+                                if (v.wf) {
+                                    delete scope.form_params["cmd"];
+                                    scope.form_params["wf"] = v.wf;
+                                }
 
+                                var modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: 'shared/templates/confirmModalContent.html',
+                                    controller: 'ModalController',
+                                    resolve: {
+                                        items: function(){
+                                            var newscope = {
+                                                form: {
+                                                    title: v.title,
+                                                    confirm_message: v.confirm_message,
+                                                    buttons: v.buttons,
+                                                    onClick: function (cmd) {
+                                                        // send cmd with submit
+                                                        modalInstance.dismiss();
+                                                        if (cmd) generator.submit(scope, false);
+                                                    }
+                                                }
+                                            };
+                                            return newscope;
+                                        }
+                                    }
+
+                                });
+                            },
+                            openModal: function(){
+                                var workOnForm = scope.modalElements ? scope.modalElements.workOnForm : 'formgenerated';
+                                if (!v.form_validate && angular.isDefined(v.form_validate)){
+                                    this.modalFunction();
+                                }
+                                else{
+                                    scope.$broadcast('schemaFormValidate');
+                                    if (scope[workOnForm].$valid) {
+                                        this.modalFunction();
+                                    } else {
+                                        // focus to first input with validation error
+                                        $timeout(function () {
+                                            var firsterror = angular.element(document.querySelectorAll('input.ng-invalid'))[0];
+                                            firsterror.focus();
+                                        });
+                                    }
+                                }
+                            }
                         };
                     }
                 },
@@ -898,31 +989,61 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.doItemAction = function ($scope, key, todo, mode) {
+            $scope.form_params.cmd = todo.cmd;
+            $scope.form_params.wf = $scope.wf;
+            if (todo.wf) {
+                $scope.url = todo.wf;
+                $scope.form_params.wf = todo.wf;
+                delete $scope.token;
+                delete $scope.form_params.model;
+                delete $scope.form_params.cmd
+            }
+            if (todo.object_key) {
+                $scope.form_params[todo.object_key] = key;
+            } else {
+                $scope.form_params.object_id = key;
+            }
+            $scope.form_params.param = $scope.param;
+            $scope.form_params.id = $scope.param_id;
+            $scope.form_params.token = $scope.token;
+
             var _do = {
                 normal: function () {
                     $log.debug('normal mode starts');
-                    $scope.form_params.cmd = todo.cmd;
-                    $scope.form_params.wf = $scope.wf;
-                    if (todo.wf) {
-                        $scope.url = todo.wf;
-                        $scope.form_params.wf = todo.wf;
-                        delete $scope.token;
-                        delete $scope.form_params.model;
-                        delete $scope.form_params.cmd
-                    }
-                    if (todo.object_key) {
-                        $scope.form_params[todo.object_key] = key;
-                    } else {
-                        $scope.form_params.object_id = key;
-                    }
-                    $scope.form_params.param = $scope.param;
-                    $scope.form_params.id = $scope.param_id;
-                    $scope.form_params.token = $scope.token;
-
                     return generator.get_wf($scope);
                 },
                 modal: function () {
-                    $log.debug('modal mode is not not ready');
+                    $log.debug('modal mode starts');
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        backdrop: 'static',
+                        keyboard: false,
+                        templateUrl: 'shared/templates/confirmModalContent.html',
+                        controller: 'ModalController',
+                        size: '',
+                        resolve: {
+                            items: function () {
+                                var newscope = {
+                                    form: {
+                                        buttons: [ { text: "Evet", style: "btn-success", cmd:"confirm" }, { text: "Hayir", "style": "btn-warning", dismiss: true } ],
+                                        title: todo.name,
+                                        confirm_message: "Islemi onayliyor musunuz?",
+                                        onClick: function(cmd){
+                                            modalInstance.close();
+                                            if (cmd === "confirm" && angular.isDefined(cmd)) {
+                                                modalInstance.close();
+                                                return generator.get_wf($scope);
+                                            }
+                                        }
+
+                                    }
+                                }
+                                return newscope;
+                            }
+                        }
+                    });
+
+
                 },
                 new: function () {
                     $log.debug('new mode is not not ready');
@@ -1292,10 +1413,22 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             }
         };
 
-        $scope.onNodeSubmit = function () {
-            $scope.$broadcast('schemaFormValidate');
-            if ($scope.modalForm.$valid) {
+        $scope.onNodeBtnClk = function (button) {
+            if(!button.form_validate && angular.isDefined(button.form_validate)){
                 $uibModalInstance.close($scope);
+            }
+            else{
+                $scope.$broadcast('schemaFormValidate');
+                if ($scope.modalForm.$valid) {
+                    $uibModalInstance.close($scope);
+                }
+                else {
+                    // focus to first input with validation error
+                    $timeout(function () {
+                        var firsterror = angular.element(document.querySelectorAll('input.ng-invalid'))[0];
+                        firsterror.focus();
+                    });
+                }
             }
         };
 

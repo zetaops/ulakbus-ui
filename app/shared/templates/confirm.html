@@ -2,18 +2,19 @@
     <button class="btn {{ form.style || 'btn-default' }}"
             type="button"
             ng-disabled="form.readonly"
-            uib-popover-template="'confirmPopoverTemplate.html'"
-            popover-title="{{form.title}}"
-            popover-placement="bottom"
-            popover-trigger="outsideClick">
+            ng-click="form.openModal()">
         <span ng-if="form.icon" class="{{form.icon}}"></span>
         {{form.title}}
     </button>
-    <script type="text/ng-template" id="confirmPopoverTemplate.html">
-            <div>{{form.title}}</div>
-            <div class="form-group">
-                <p>{{form.confirm_message}}</p>
-                <button class="btn btn-default" ng-click="form.confirm()"></button>
-            </div>
-    </script>
+    <!--<script type="text/ng-template" id="confirmModalTemplate.html">-->
+        <!--<div class="modal-header">-->
+            <!--<h3 class="modal-title">{{form.title}}</h3>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+            <!--<p>{{form.confirm_message}}</p>-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+            <!--<button ng-repeat="b in form.buttons" class="btn {{b.style || 'btn-default'}}" type="button" ng-click="form.send(b.cmd,(b.dismiss || false))">{{b.text}}</button>-->
+        <!--</div>-->
+    <!--</script>-->
 </div>

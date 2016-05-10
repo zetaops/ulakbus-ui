@@ -2843,8 +2843,7 @@ angular.module("shared/templates/listnodeModalContent.html", []).run(["$template
     "    <form name=\"modalForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" modal-form-locator></form>\n" +
     "</div>\n" +
     "<div class=\"modal-footer\">\n" +
-    "    <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"onNodeSubmit()\">Tamam</button>\n" +
-    "    <button type=\"button\" class=\"btn btn-warning\" ng-click=\"cancel()\">İptal</button>\n" +
+    "    <button ng-repeat=\"b in schema.buttons\" type=\"{{b.type}}\" class=\"btn {{b.style || 'btn-default'}}\" ng-click=\"onNodeSubmit(b)\">{{b.text}}</button>\n" +
     "</div>");
 }]);
 
