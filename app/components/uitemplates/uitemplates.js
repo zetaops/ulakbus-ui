@@ -51,8 +51,8 @@ angular.module('ulakbus.uitemplates', ['ngRoute', 'ulakbus.crud'])
                             type:'confirm',
                             confirm_message:"Lorem Ipsum Dolor Sit Amet",
                             buttons: [
-                                {   text: "button 1", cmd:"zeaaa", style: "btn-warning", dismiss: true},
-                                {   text: "button 2", cmd:"cmd1", style: "btn-success"},
+                                {   text: "button 1", cmd:"zeaaa", style: "btn-warning"},
+                                {   text: "button 2", cmd:"cmd1", style: "btn-success"}
                             ],
                             readonly:"true",
                             form_validate: false}
