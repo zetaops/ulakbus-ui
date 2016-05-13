@@ -1,6 +1,5 @@
 .pyc
 .pyo
-.nvmrc
 logs/*
 !.gitkeep
 tmp
