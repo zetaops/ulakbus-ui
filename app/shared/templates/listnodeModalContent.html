@@ -3,5 +3,5 @@
     <form name="modalForm" sf-schema="schema" sf-form="form" sf-model="model" modal-form-locator></form>
 </div>
 <div class="modal-footer">
-    <button ng-repeat="b in buttons" type="{{b.type}}" class="btn {{b.style || 'btn-default'}}" ng-click="onNodeBtnClk(b)">{{b.text}}</button>
+    <button ng-repeat="b in schema.footerButtons" type="{{b.type}}" class="btn {{b.style || 'btn-default'}}" ng-click="onNodeBtnClk(b)">{{b.text}}</button>
 </div>
