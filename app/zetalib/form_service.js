@@ -58,6 +58,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          */
         generator.generate = function (scope, data) {
 
+            $log.debug("data before generation:", data);
             // if no form in response (in case of list and single item request) return scope
             if (!data.forms) {
                 return scope;
@@ -1405,6 +1406,12 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             }
         };
 
+        // $scope.onNodeSubmit = function () {
+        //     $scope.$broadcast('schemaFormValidate');
+        //     if ($scope.modalForm.$valid) {
+        //         $uibModalInstance.close($scope);
+        //     }
+        // };
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
@@ -1459,6 +1466,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                     }
                                     scope.node.schema.properties[key].list_cmd = 'select_list';
                                 });
+
+                                // scope.node.schema.footerButtons = [
+                                //     {type: "submit", text:"Onayla", style:"btn-success" },
+                                //     {type: "button", text:"Vazgec", style:"btn-danger" },
+                                // ]
 
                                 var newscope = {
                                     wf: scope.node.wf,
