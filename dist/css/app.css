@@ -2397,6 +2397,11 @@ table.dataTable thead .sorting:after {
     z-index: 1099;
 }
 
+/* for overflowing buttons not collapsing each other */
+.bottom-margined{
+    margin-bottom: 0.75em;
+}
+
 /*
  * metismenu - v1.1.3
  * Easy menu jQuery plugin for Twitter Bootstrap 3
