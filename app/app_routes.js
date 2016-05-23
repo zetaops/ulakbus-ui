@@ -61,9 +61,6 @@ angular.module('ulakbus')
                 templateUrl: 'components/crud/templates/crud.html',
                 controller: 'CRUDListFormController'
             })
-
-
-
             .otherwise({redirectTo: '/dashboard'});
     }])
     .factory('IsOnline', function () {
