@@ -68,7 +68,8 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                     id: scope.param_id || routeParams.param_id,
                     wf: routeParams.wf,
                     object_id: routeParams.key,
-                    filters: {}
+                    filters: {},
+                    token: scope.token || routeParams.token
                 };
 
                 if (scope.param_id) {
