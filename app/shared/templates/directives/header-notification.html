@@ -70,7 +70,7 @@
         </a>
         <ul class="dropdown-tasks" uib-dropdown-menu ng-if="notifications[1].length > 0">
             <li ng-repeat="notify in notifications[1] | limitTo: '8'">
-                <a>
+                <a href="{{notify.url}}">
                     <div>
                         <p>
                             <strong>{{notify.title}}</strong>
