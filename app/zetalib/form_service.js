@@ -1387,31 +1387,13 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             }
         };
 
-        $scope.onNodeBtnClk = function (button) {
-            if(!button.form_validate && angular.isDefined(button.form_validate)){
+        $scope.onNodeSubmit = function () {
+            $scope.$broadcast('schemaFormValidate');
+            if ($scope.modalForm.$valid) {
                 $uibModalInstance.close($scope);
             }
-            else{
-                $scope.$broadcast('schemaFormValidate');
-                if ($scope.modalForm.$valid) {
-                    $uibModalInstance.close($scope);
-                }
-                else {
-                    // focus to first input with validation error
-                    $timeout(function () {
-                        var firsterror = angular.element(document.querySelectorAll('input.ng-invalid'))[0];
-                        firsterror.focus();
-                    });
-                }
-            }
         };
-
-        // $scope.onNodeSubmit = function () {
-        //     $scope.$broadcast('schemaFormValidate');
-        //     if ($scope.modalForm.$valid) {
-        //         $uibModalInstance.close($scope);
-        //     }
-        // };
+        
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
