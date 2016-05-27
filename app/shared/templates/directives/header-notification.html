@@ -38,7 +38,7 @@
         </a>
         <ul class="dropdown-messages" uib-dropdown-menu ng-show="notifications[2].length > 0">
             <li ng-repeat="notify in notifications[2] | limitTo: '8'">
-                <a>
+                <a href="{{notify.url}}">
                     <div ng-click="popModal(notify)">
                         <div>
                             <strong>{{notify.title}}</strong>
@@ -70,7 +70,7 @@
         </a>
         <ul class="dropdown-tasks" uib-dropdown-menu ng-if="notifications[1].length > 0">
             <li ng-repeat="notify in notifications[1] | limitTo: '8'">
-                <a>
+                <a href="{{notify.url}}">
                     <div>
                         <p>
                             <strong>{{notify.title}}</strong>
@@ -106,7 +106,7 @@
         </a>
         <ul class="dropdown-alerts" uib-dropdown-menu ng-if="notifications[3].length > 0">
             <li ng-repeat="notify in notifications[3] | limitTo: '8'">
-                <a role="button">
+                <a role="button" href="{{notify.url}}">
                     <div>
                         <i class="fa fa-comment fa-fw"></i> New Comment
                         <span class="pull-right text-muted small">4 minutes ago</span>

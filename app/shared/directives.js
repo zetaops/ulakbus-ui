@@ -43,7 +43,7 @@ angular.module('ulakbus')
             restrict: 'E',
             replace: true,
             scope: {},
-            controller: function ($scope) {
+            controller: function ($scope, $log) {
                 // notification categories:
                 // 1: tasks, 2: messages, 3: announcements, 4: recents
                 $scope.notifications = {1: [], 2: [], 3: [], 4: []};
@@ -80,6 +80,7 @@ angular.module('ulakbus')
                  * When "notifications" send via websocket, parse notifications by type.
                  */
                 $scope.$on("notifications", function (event, data) {
+                    $log.debug("Notification!", data);
                     $scope.groupNotifications(data);
                 });
 
