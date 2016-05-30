@@ -2237,7 +2237,7 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        </a>\n" +
     "        <ul class=\"dropdown-messages\" uib-dropdown-menu ng-show=\"notifications[2].length > 0\">\n" +
     "            <li ng-repeat=\"notify in notifications[2] | limitTo: '8'\">\n" +
-    "                <a>\n" +
+    "                <a href=\"{{notify.url}}\">\n" +
     "                    <div ng-click=\"popModal(notify)\">\n" +
     "                        <div>\n" +
     "                            <strong>{{notify.title}}</strong>\n" +
@@ -2269,7 +2269,7 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        </a>\n" +
     "        <ul class=\"dropdown-tasks\" uib-dropdown-menu ng-if=\"notifications[1].length > 0\">\n" +
     "            <li ng-repeat=\"notify in notifications[1] | limitTo: '8'\">\n" +
-    "                <a>\n" +
+    "                <a href=\"{{notify.url}}\">\n" +
     "                    <div>\n" +
     "                        <p>\n" +
     "                            <strong>{{notify.title}}</strong>\n" +
@@ -2305,7 +2305,7 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        </a>\n" +
     "        <ul class=\"dropdown-alerts\" uib-dropdown-menu ng-if=\"notifications[3].length > 0\">\n" +
     "            <li ng-repeat=\"notify in notifications[3] | limitTo: '8'\">\n" +
-    "                <a role=\"button\">\n" +
+    "                <a role=\"button\" href=\"{{notify.url}}\">\n" +
     "                    <div>\n" +
     "                        <i class=\"fa fa-comment fa-fw\"></i> New Comment\n" +
     "                        <span class=\"pull-right text-muted small\">4 minutes ago</span>\n" +
@@ -2886,7 +2886,8 @@ angular.module("shared/templates/listnodeModalContent.html", []).run(["$template
     "    <form name=\"modalForm\" sf-schema=\"schema\" sf-form=\"form\" sf-model=\"model\" modal-form-locator></form>\n" +
     "</div>\n" +
     "<div class=\"modal-footer\">\n" +
-    "    <button ng-repeat=\"b in schema.footerButtons\" type=\"{{b.type}}\" class=\"btn {{b.style || 'btn-default'}}\" ng-click=\"onNodeBtnClk(b)\">{{b.text}}</button>\n" +
+    "    <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"onNodeSubmit()\">Tamam</button>\n" +
+    "    <button type=\"button\" class=\"btn btn-warning\" ng-click=\"cancel()\">İptal</button>\n" +
     "</div>");
 }]);
 
