@@ -773,6 +773,35 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             }
                         };
                         v.type = 'string';
+                    },
+                    custom: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            type: "template",
+                            title: v.title,
+                            getTitleMap: function (viewValue) {
+                                // v.view is where that value will looked up
+                                var searchData = {
+                                    "url": v.wf,
+                                    "wf": v.wf,
+                                    "view": v.view,
+                                    "query": viewValue
+                                };
+                                generator.get_list(searchData).then(function (res) {
+                                    // response must be in titleMap format
+                                    return res;
+                                });
+                            },
+                            templateUrl: "shared/templates/typeahead.html",
+                            name: k,
+                            key: k,
+                            onDropdownSelect: function (item, inputname) {
+                                scope.model[k] = item.value;
+                                $timeout(function () {
+                                    document.querySelector('input[name=' + inputname + ']').value = item.name;
+                                });
+                            }
+                        };
+                        v.type = 'string';
                     }
                 },
                 text_general: {
