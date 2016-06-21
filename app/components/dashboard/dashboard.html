@@ -5,5 +5,301 @@
         <ng-include src="'components/dashboard/user-templates/staff.html'" ng-if="!$root.current_user.is_student"></ng-include>
         <ng-include src="'components/dashboard/user-templates/academician.html'" ng-if="$root.current_user.is_staff && $root.current_user.is_academic"></ng-include>
         <!-- <user-tasks></user-tasks> -->
+        
+        
+        <!-- chat-app -->
+        <div class="chat-app">
+        	<div class="chat-app-container">
+            
+            	<div class="side-navigation">
+                
+                	<ul class="channels">
+                    	<li class="title">CHANNELS <span class="badge">8</span></li>
+                        <li class="notification">Channel One</li>
+                        <li>Channel Two</li>
+                        <li>Channel Three</li>
+                        <li>Channel Four</li>
+                        <li>Channel Five</li>
+                        <li>Channel Six</li>
+                        <li>Channel Seven</li>
+                        <li>Channel Eight</li>
+                    </ul>
+                    <!-- end of channels -->
+                    
+                    <ul class="direct-messages">
+                    	<li class="compose"><span class="glyphicon glyphicon-plus-sign"></span> Create New Message</li>
+                    	<li class="title">DIRECT MESSAGES <span class="badge">14</span></li>
+                        <li class="online active">Erkan Öğümsöğütlü</li>
+                        <li class="online notification">Gökhan Boranalp</li>
+                        <li class="online notification">Evren Esat Özkat</li>
+                        <li>Ali Rıza Keleş</li>
+                        <li>Cem Güreşçi</li>
+                        <li>Evren Kutar</li>
+                        <li class="online">Özgür Fırat Çınar</li>
+                        <li class="online">Gökhan Boranalp</li>
+                        <li class="online">Erkan Öğümsöğütlü</li>
+                        <li>Ali Rıza Keleş</li>
+                        <li>Cem Güreşçi</li>
+                        <li class="online">Evren Esat Özkat</li>
+                        <li>Evren Kutar</li>
+                        <li class="online">Özgür Fırat Çınar</li>
+                    </ul>
+                    <!-- end of channels -->
+                
+                </div>
+                <!-- end of side-navigation -->
+                
+                <div class="conversation-section">
+                
+                	<div class="conversation-header">
+                    	<div class="conversation-user">
+                        	<div class="user-photo"><img src="../../img/erkan.jpg"></div>
+                            <div class="user-name">Erkan Öğümsöğütlü</div>
+                        </div>
+                        <div class="conversation-search">
+                        	<input type="text" placeholder="Arama Yap">
+                        </div>
+                        <div class="close-chat-app">
+                        	<span class="glyphicon glyphicon-remove"></span>
+                        </div>
+                    </div>
+                    <!-- end of header -->
+                    
+                    <div class="conversation-body">
+                        <div class="conversation-body-inner">
+                        
+                        	<div class="beginning-of-conversation">
+                            	This is the beginning of the conversation
+                            </div>
+                        
+                        	<div class="conversation-block clearfix">
+                            
+                            	<div class="conversation-actions">
+                                	<div class="action">Edit</div>
+                                    <div class="action">Delete</div>
+                                </div>
+                                
+                            	<div class="user-photo">
+                                	<img src="../../img/erkan.jpg">
+                                </div>
+                                <div class="user-message">
+                                	<div class="message-header clearfix">
+                                        <div class="user-name">Erkan Öğümsöğütlü</div>
+                                        <div class="message-time">13:16</div>
+                                    </div>
+                                    <div class="message-content">
+                                    	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris.
+                                    </div>
+                                    <!-- end of message-content -->
+                                </div>
+                                <!-- end of user-message -->
+                            </div>
+                            <!-- end of conversation-block -->
+                            
+                            <div class="conversation-block clearfix">
+                            	<div class="user-photo">
+                                	<img src="../../img/sibel.jpg">
+                                </div>
+                                <div class="user-message">
+                                	<div class="message-header clearfix">
+                                        <div class="user-name">Sibel Demir</div>
+                                        <div class="message-time">13:19</div>
+                                    </div>
+                                    <div class="message-content">
+                                    	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris, lacinia ac arcu at, ultricies condimentum massa.
+                                    </div>
+                                    <!-- end of message-content -->
+                                </div>
+                                <!-- end of user-message -->
+                            </div>
+                            <!-- end of conversation-block -->
+                            
+                            <div class="conversation-block clearfix">
+                            
+                            	<div class="conversation-actions">
+                                	<div class="action">Edit</div>
+                                    <div class="action">Delete</div>
+                                </div>
+                                
+                            	<div class="user-photo">
+                                	<img src="../../img/erkan.jpg">
+                                </div>
+                                <div class="user-message">
+                                	<div class="message-header clearfix">
+                                        <div class="user-name">Erkan Öğümsöğütlü</div>
+                                        <div class="message-time">13:25</div>
+                                    </div>
+                                    <div class="message-content">
+                                    	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris, lacinia ac arcu at, ultricies condimentum massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris, lacinia ac arcu at, ultricies condimentum massa.
+                                    </div>
+                                    <!-- end of message-content -->
+                                </div>
+                                <!-- end of user-message -->
+                            </div>
+                            <!-- end of conversation-block -->
+                            
+                            <div class="conversation-block clearfix">
+                            	<div class="user-photo">
+                                	<img src="../../img/sibel.jpg">
+                                </div>
+                                <div class="user-message">
+                                	<div class="message-header clearfix">
+                                        <div class="user-name">Sibel Demir</div>
+                                        <div class="message-time">13:33</div>
+                                    </div>
+                                    <div class="message-content">
+                                    	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris, lacinia ac arcu at, ultricies condimentum massa.
+                                    </div>
+                                    <!-- end of message-content -->
+                                </div>
+                                <!-- end of user-message -->
+                            </div>
+                            <!-- end of conversation-block -->
+                            
+                            <div class="conversation-block clearfix">
+                            
+                            	<div class="conversation-actions">
+                                	<div class="action">Edit</div>
+                                    <div class="action">Delete</div>
+                                </div>
+                                
+                            	<div class="user-photo">
+                                	<img src="../../img/erkan.jpg">
+                                </div>
+                                <div class="user-message">
+                                	<div class="message-header clearfix">
+                                        <div class="user-name">Erkan Öğümsöğütlü</div>
+                                        <div class="message-time">13:34</div>
+                                    </div>
+                                    <div class="message-content">
+                                    	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris, lacinia ac arcu at, ultricies condimentum massa.
+                                    </div>
+                                    <!-- end of message-content -->
+                                </div>
+                                <!-- end of user-message -->
+                            </div>
+                            <!-- end of conversation-block -->
+                            
+                            <div class="conversation-block clearfix">
+                            
+                            	<div class="conversation-actions">
+                                	<div class="action">Edit</div>
+                                    <div class="action">Delete</div>
+                                </div>
+                                
+                            	<div class="user-photo">
+                                	<img src="../../img/erkan.jpg">
+                                </div>
+                                <div class="user-message">
+                                	<div class="message-header clearfix">
+                                        <div class="user-name">Erkan Öğümsöğütlü</div>
+                                        <div class="message-time">13:36</div>
+                                    </div>
+                                    <div class="message-content">
+                                    	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris, lacinia ac arcu at, ultricies condimentum massa.
+                                    </div>
+                                    <!-- end of message-content -->
+                                </div>
+                                <!-- end of user-message -->
+                            </div>
+                            <!-- end of conversation-block -->
+                            
+                            <div class="conversation-block clearfix">
+                            
+                            	<div class="conversation-actions">
+                                	<div class="action">Edit</div>
+                                    <div class="action">Delete</div>
+                                </div>
+                                
+                            	<div class="user-photo">
+                                	<img src="../../img/erkan.jpg">
+                                </div>
+                                <div class="user-message">
+                                	<div class="message-header clearfix">
+                                        <div class="user-name">Erkan Öğümsöğütlü</div>
+                                        <div class="message-time">13:40</div>
+                                    </div>
+                                    <div class="message-content">
+                                    	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris, lacinia ac arcu at, ultricies condimentum massa.
+                                    </div>
+                                    <!-- end of message-content -->
+                                </div>
+                                <!-- end of user-message -->
+                            </div>
+                            <!-- end of conversation-block -->
+                            
+                            <div class="conversation-block clearfix">
+                            
+                            	<div class="conversation-actions">
+                                	<div class="action">Edit</div>
+                                    <div class="action">Delete</div>
+                                </div>
+                                
+                            	<div class="user-photo">
+                                	<img src="../../img/erkan.jpg">
+                                </div>
+                                <div class="user-message">
+                                	<div class="message-header clearfix">
+                                        <div class="user-name">Erkan Öğümsöğütlü</div>
+                                        <div class="message-time">13:46</div>
+                                    </div>
+                                    <div class="message-content">
+                                    	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris, lacinia ac arcu at, ultricies condimentum massa.
+                                    </div>
+                                    <!-- end of message-content -->
+                                </div>
+                                <!-- end of user-message -->
+                            </div>
+                            <!-- end of conversation-block -->
+                            
+                        </div>
+                    </div>
+                    <!-- end of conversation-body -->
+                    
+                    <div class="conversation-footer">
+                    
+                    	<textarea placeholder="Mesajını buraya yaz..."></textarea>
+                        <div class="add-attachment">
+                            <span class="glyphicon glyphicon-file"></span>
+                            <span class="glyphicon glyphicon-picture"></span>
+                        </div>
+                    
+                    </div>
+                    <!-- end of footer -->
+                
+                </div>
+                <!-- end of conversation-section -->
+            	
+                <div class="create-new-message-window">
+                	<div class="close-create-new-message-window"><span class="glyphicon glyphicon-remove"></span></div>
+                	<input type="text" placeholder="Birini ismi ile ara...">
+                    <div class="search-results">
+                    	<div class="user">
+                        	<img src="../../img/erkan.jpg">
+                            <div class="user-name">Erkan Öğümsöğütlü</div>
+                        </div>
+                        <div class="user">
+                        	<img src="../../img/gokhan.jpg">
+                            <div class="user-name">Gökhan Boranalp</div>
+                        </div>
+                        <div class="user">
+                        	<img src="../../img/evren.jpg">
+                            <div class="user-name">Evren Kutar</div>
+                        </div>
+                        <div class="user">
+                        	<img src="../../img/sibel.jpg">
+                            <div class="user-name">Sibel Demir</div>
+                        </div>
+                    </div>
+                    <!-- end of search-results -->
+                </div>
+                <!-- end of create-new-message-window -->
+                
+            </div>
+            <!-- end of chat app-container -->
+        </div>
+        <!-- end of chat-app -->
+        
+        
     </div>
 </div>
