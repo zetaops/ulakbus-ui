@@ -24,7 +24,7 @@
            type="text"
            autocomplete="off"
            ng-model="$$value$$"
-           uib-typeahead="item as item.name for item in getTitleMap($viewValue)"
+           uib-typeahead="item as item.name for item in form.getTitleMap($viewValue)"
            typeahead-wait-ms="500"
            typeahead-loading="loadingTitleMap"
            typeahead-on-select="form.onDropdownSelect($item, form.name)"

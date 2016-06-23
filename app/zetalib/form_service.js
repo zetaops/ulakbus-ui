@@ -778,13 +778,16 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         scope.form[scope.form.indexOf(k)] = {
                             type: "template",
                             title: v.title,
+                            widget: v.widget,
                             getTitleMap: function (viewValue) {
                                 // v.view is where that value will looked up
                                 var searchData = {
-                                    "url": v.wf,
-                                    "wf": v.wf,
-                                    "view": v.view,
-                                    "query": viewValue
+                                    "form_params": {
+                                        "url": v.wf,
+                                        "wf": v.wf,
+                                        "view": v.view,
+                                        "query": viewValue
+                                    }
                                 };
                                 generator.get_list(searchData).then(function (res) {
                                     // response must be in titleMap format
