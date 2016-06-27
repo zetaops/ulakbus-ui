@@ -654,12 +654,57 @@ angular.module('ulakbus')
                             scope.$parent.model[changeEvent.target.name] = {
                                 file_name: changeEvent.target.files[0].name,
                                 file_content: scope.$parent.model[changeEvent.target.name]
-                            }
+                            };
                             document.querySelector('#image-preview').src = URL.createObjectURL(changeEvent.target.files[0]);
                         });
-                    }
+                    };
                     reader.readAsDataURL(changeEvent.target.files[0]);
                 });
             }
         }
+    })
+
+    // listen for message in directives below
+
+    .directive('messaging', function (Generator, MessagingService, $log, $rootScope) {
+        return {
+            templateUrl: 'shared/templates/directives/messaging/index.html',
+            restrict: 'E',
+            replace: true,
+            scope: {},
+            controller: function ($scope) {
+                $scope.messages = [];
+                $scope.$on("messages", function (event, data) {
+                    $log.debug("Message List Received", data);
+                    $scope.messages(data);
+                });
+
+                $scope.$on("message", function (event, data) {
+                    $log.debug("Message Received", data);
+                    // do relevant action here
+                });
+                
+            }
+        };
+    })
+
+    .directive('messageDetail', function (Generator, MessagingService, $log, $rootScope) {
+        return {
+            templateUrl: 'shared/templates/directives/messaging/detail.html',
+            restrict: 'E',
+            replace: true,
+            scope: {},
+            controller: function ($scope) {
+                $scope.messages = [];
+                $scope.$on("detailMessages", function (event, data) {
+                    $log.debug("Detail Message Received", data);
+                    $scope.messages = data;
+                });
+                $scope.$on("message", function (event, data) {
+                    $log.debug("Message Received", data);
+                    // do relevant action here
+                    // if channel_key belongs to detail screen then append msg to the end of the thread
+                });
+            }
+        };
     });

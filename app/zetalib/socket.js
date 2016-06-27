@@ -127,9 +127,27 @@ angular.module('ulakbus')
                     // when error in message redirect to ErrorService with error data
                     return ErrorService.handle(msg_data, 'ws');
                 },
-                notification: function () {
+                message: function () {
                     // broadcast notifications data to notifications directive
-                    $rootScope.$broadcast('notifications', msg_data["notifications"]);
+                    // parse messages by type
+                    // (1, "Info Notification"),
+                    // (11, "Error Notification"),
+                    // (111, "Success Notification"),
+                    // (2, "Direct Message"),
+                    // (3, "Broadcast Message"),
+                    // (4, "Channel Message")
+                    var type = {
+                        1: "notifications",
+                        11: "notifications",
+                        111: "notifications",
+                        2: "message",
+                        3: "message",
+                        4: "message"
+                    };
+                    // this way it broadcasts to relevant listener
+                    // i group messages and notifications into 2 groups
+                    // necessary actions will taken where it is listened
+                    $rootScope.$broadcast(type[msg_data["type"]], msg_data);
                 },
                 dashboard: function () {
                     // dashboard consists of menu and user specifications
