@@ -1,0 +1,38 @@
+<div class="chat-app">
+    <div class="chat-app-container">
+
+        <div class="side-navigation">
+
+            <ul class="channels">
+                <li class="title">CHANNELS <span class="badge">{{ }}</span></li>
+                <li class="notification">Channel One</li>
+            </ul>
+
+            <ul class="channels">
+                <li class="title">NOTIFICATIONS <span class="badge">8</span></li>
+                <li class="notification">Notification One</li>
+            </ul>
+
+            <ul class="direct-messages">
+                <li class="compose"><span class="glyphicon glyphicon-plus-sign"></span> Create New Message</li>
+                <li class="title">DIRECT MESSAGES <span class="badge">14</span></li>
+                <li class="online" ng-class="{'active':'active', 'notification': 'notification'}">Erkan Öğümsöğütlü</li>
+            </ul>
+
+        </div>
+
+        <message-detail></message-detail>
+
+        <div class="create-new-message-window">
+            <div class="close-create-new-message-window"><span class="glyphicon glyphicon-remove"></span></div>
+            <input type="text" placeholder="Birini ismi ile ara...">
+            <div class="search-results">
+                <div class="user">
+                    <img src="../../../../img/erkan.jpg">
+                    <div class="user-name">Erkan Öğümsöğütlü</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

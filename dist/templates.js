@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/admin/bpmn_manager.html', 'components/auth/login.html', 'components/crud/templates/crud-preload.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/inline_edit.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/quick_add.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/directives/academic-calendar.html', 'components/dashboard/directives/calendar-popover.html', 'components/dashboard/directives/user-tasks.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/academician.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/uitemplates/academician.html', 'components/uitemplates/base.html', 'components/uitemplates/form_service_pg.html', 'components/uitemplates/staff.html', 'components/uitemplates/student.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/confirm.html', 'shared/templates/confirmModalContent.html', 'shared/templates/confirmprev.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/notificationsModalContent.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
+angular.module('templates-prod', ['components/admin/bpmn_manager.html', 'components/auth/login.html', 'components/crud/templates/crud-preload.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/inline_edit.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/quick_add.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/directives/academic-calendar.html', 'components/dashboard/directives/calendar-popover.html', 'components/dashboard/directives/user-tasks.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/academician.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/uitemplates/academician.html', 'components/uitemplates/base.html', 'components/uitemplates/form_service_pg.html', 'components/uitemplates/staff.html', 'components/uitemplates/student.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/confirm.html', 'shared/templates/confirmModalContent.html', 'shared/templates/confirmprev.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/messaging/detail.html', 'shared/templates/directives/messaging/index.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/notificationsModalContent.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
 
 angular.module("components/admin/bpmn_manager.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/admin/bpmn_manager.html",
@@ -2356,6 +2356,104 @@ angular.module("shared/templates/directives/menuCollapse.html", []).run(["$templ
     "</div>");
 }]);
 
+angular.module("shared/templates/directives/messaging/detail.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/messaging/detail.html",
+    "<div class=\"conversation-section\">\n" +
+    "\n" +
+    "    <div class=\"conversation-header\">\n" +
+    "        <div class=\"conversation-user\">\n" +
+    "            <div class=\"user-photo\"><img src=\"../../../img/erkan.jpg\"></div>\n" +
+    "            <div class=\"user-name\">Erkan Öğümsöğütlü</div>\n" +
+    "        </div>\n" +
+    "        <div class=\"conversation-search\">\n" +
+    "            <input type=\"text\" placeholder=\"Arama Yap\">\n" +
+    "        </div>\n" +
+    "        <div class=\"close-chat-app\">\n" +
+    "            <span class=\"glyphicon glyphicon-remove\"></span>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"conversation-body\">\n" +
+    "        <div class=\"conversation-body-inner\">\n" +
+    "\n" +
+    "            <div class=\"beginning-of-conversation\">\n" +
+    "                This is the beginning of the conversation\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div class=\"conversation-block clearfix\">\n" +
+    "\n" +
+    "                <div class=\"conversation-actions\">\n" +
+    "                    <div class=\"action\">Edit</div>\n" +
+    "                    <div class=\"action\">Delete</div>\n" +
+    "                </div>\n" +
+    "\n" +
+    "                <div class=\"user-photo\">\n" +
+    "                    <img src=\"../../../img/erkan.jpg\">\n" +
+    "                </div>\n" +
+    "                <div class=\"user-message\">\n" +
+    "                    <div class=\"message-header clearfix\">\n" +
+    "                        <div class=\"user-name\">Erkan Öğümsöğütlü</div>\n" +
+    "                        <div class=\"message-time\">13:16</div>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"message-content\">\n" +
+    "                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris.\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"conversation-footer\">\n" +
+    "\n" +
+    "        <textarea placeholder=\"Mesajını buraya yaz...\"></textarea>\n" +
+    "        <div class=\"add-attachment\">\n" +
+    "            <span class=\"glyphicon glyphicon-file\"></span>\n" +
+    "            <span class=\"glyphicon glyphicon-picture\"></span>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>");
+}]);
+
+angular.module("shared/templates/directives/messaging/index.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/messaging/index.html",
+    "<div class=\"chat-app\">\n" +
+    "    <div class=\"chat-app-container\">\n" +
+    "\n" +
+    "        <div class=\"side-navigation\">\n" +
+    "\n" +
+    "            <ul class=\"channels\">\n" +
+    "                <li class=\"title\">CHANNELS <span class=\"badge\">8</span></li>\n" +
+    "                <li class=\"notification\">Channel One</li>\n" +
+    "            </ul>\n" +
+    "\n" +
+    "            <ul class=\"direct-messages\">\n" +
+    "                <li class=\"compose\"><span class=\"glyphicon glyphicon-plus-sign\"></span> Create New Message</li>\n" +
+    "                <li class=\"title\">DIRECT MESSAGES <span class=\"badge\">14</span></li>\n" +
+    "                <li class=\"online active notification\">Erkan Öğümsöğütlü</li>\n" +
+    "            </ul>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <message-detail></message-detail>\n" +
+    "\n" +
+    "        <div class=\"create-new-message-window\">\n" +
+    "            <div class=\"close-create-new-message-window\"><span class=\"glyphicon glyphicon-remove\"></span></div>\n" +
+    "            <input type=\"text\" placeholder=\"Birini ismi ile ara...\">\n" +
+    "            <div class=\"search-results\">\n" +
+    "                <div class=\"user\">\n" +
+    "                    <img src=\"../../../../img/erkan.jpg\">\n" +
+    "                    <div class=\"user-name\">Erkan Öğümsöğütlü</div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
 angular.module("shared/templates/directives/msgbox.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/msgbox.html",
     "<div class=\"row\">\n" +
@@ -3062,35 +3160,38 @@ angular.module("shared/templates/typeahead.html", []).run(["$templateCache", fun
     "        {{form.title}}\n" +
     "    </label>\n" +
     "\n" +
-    "    <!--<div class=\"form-group input-group\">-->\n" +
-    "            <!--<span class=\"input-group-btn\">-->\n" +
-    "                <!--<button class=\"btn btn-default dropdown-toggle\" type=\"button\"-->\n" +
-    "                        <!--data-toggle=\"dropdown\">-->\n" +
-    "                    <!--<span class=\"caret\"></span>-->\n" +
-    "                <!--</button>-->\n" +
-    "                <!--<ul class=\"dropdown-menu\">-->\n" +
-    "                    <!--<li class=\"text-center\" ng-if=\"form.gettingTitleMap\"><a><span class=\"loader\"></span></a></li>-->\n" +
-    "                    <!--<li ng-repeat=\"item in form.titleMap\">-->\n" +
-    "                        <!--<a ng-click=\"form.onDropdownSelect(item, form.name)\">{{item-->\n" +
-    "                            <!--.name}}</a>-->\n" +
-    "                    <!--</li>-->\n" +
-    "                <!--</ul>-->\n" +
-    "            <!--</span>-->\n" +
-    "        <input type=\"text\"\n" +
-    "               autocomplete=\"off\"\n" +
-    "               ng-model=\"$$value$$\"\n" +
-    "               uib-typeahead=\"item as item.name for item in form.titleMap\"\n" +
-    "               typeahead-wait-ms=\"500\"\n" +
-    "               typeahead-loading=\"loadingTitleMap\"\n" +
-    "               typeahead-on-select=\"form.onDropdownSelect($item, form.name)\"\n" +
-    "               placeholder=\"{{form.title}}\"\n" +
-    "               ng-model-options=\"form.ngModelOptions\"\n" +
-    "               ng-disabled=\"form.readonly\"\n" +
-    "               sf-changed=\"form\"\n" +
-    "               class=\"form-control {{form.fieldHtmlClass}}\"\n" +
-    "               schema-validate=\"form\"\n" +
-    "               name=\"{{form.name}}\"/>\n" +
-    "    <!--</div>-->\n" +
+    "    <input ng-if=\"form.widget!=='custom'\"\n" +
+    "           type=\"text\"\n" +
+    "           autocomplete=\"off\"\n" +
+    "           ng-model=\"$$value$$\"\n" +
+    "           uib-typeahead=\"item as item.name for item in form.titleMap\"\n" +
+    "           typeahead-wait-ms=\"500\"\n" +
+    "           typeahead-loading=\"loadingTitleMap\"\n" +
+    "           typeahead-on-select=\"form.onDropdownSelect($item, form.name)\"\n" +
+    "           placeholder=\"{{form.title}}\"\n" +
+    "           ng-model-options=\"form.ngModelOptions\"\n" +
+    "           ng-disabled=\"form.readonly\"\n" +
+    "           sf-changed=\"form\"\n" +
+    "           class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "           schema-validate=\"form\"\n" +
+    "           name=\"{{form.name}}\"/>\n" +
+    "\n" +
+    "    <input ng-if=\"form.widget==='custom'\"\n" +
+    "           type=\"text\"\n" +
+    "           autocomplete=\"off\"\n" +
+    "           ng-model=\"$$value$$\"\n" +
+    "           uib-typeahead=\"item as item.name for item in getTitleMap($viewValue)\"\n" +
+    "           typeahead-wait-ms=\"500\"\n" +
+    "           typeahead-loading=\"loadingTitleMap\"\n" +
+    "           typeahead-on-select=\"form.onDropdownSelect($item, form.name)\"\n" +
+    "           placeholder=\"{{form.title}}\"\n" +
+    "           ng-model-options=\"form.ngModelOptions\"\n" +
+    "           ng-disabled=\"form.readonly\"\n" +
+    "           sf-changed=\"form\"\n" +
+    "           class=\"form-control {{form.fieldHtmlClass}}\"\n" +
+    "           schema-validate=\"form\"\n" +
+    "           name=\"{{form.name}}\"/>\n" +
+    "\n" +
     "    <div ng-show=\"loadingTitleMap\" class=\"loader\"></div>\n" +
     "    <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
     "</div>");
