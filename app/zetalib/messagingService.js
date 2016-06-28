@@ -15,7 +15,7 @@ angular.module('ulakbus.messagingService', ['ui.bootstrap'])
  * @name Generator
  * @description form service's Generator factory service handles all generic form operations
  */
-    .factory('MessagingService', function ($q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal) {
+    .factory('MessagingService', function ($q, $timeout, $sce, $location, $route, $compile, $log, $rootScope, Moment, WSOps) {
         var msg = {};
         msg.send = function (msg) {
             /**
@@ -24,9 +24,6 @@ angular.module('ulakbus.messagingService', ['ui.bootstrap'])
              * MSG_TYPES can be follwing;
              *
              * MSG_TYPES = (
-             *      (1, "Info Notification"),
-             *      (11, "Error Notification"),
-             *      (111, "Success Notification"),
              *      (2, "Direct Message"),
              *      (3, "Broadcast Message"),
              *      (4, "Channel Message")
@@ -87,6 +84,29 @@ angular.module('ulakbus.messagingService', ['ui.bootstrap'])
              */
 
         };
+        msg.update = function (msg, action) {
+            /**
+             * update / delete a message here
+             */
+            var outgoing = {
+                form_params: {
+                    view: '_zops_' + action + '_message',
+                    message: {
+                        'channel': msg.channel, // this can be both channel and direct msg. remember direct msg is channel
+                        'receiver': msg.receiver,
+                        'client_id': msg.client_id, // "Client side unique id for referencing this message",
+                        'title': msg.title, // "Title of the message. Can be blank.",
+                        'body': msg.body, // "Message body.",
+                        'type': msg.TYPE // type can be one of the above
+                    }
+
+                }
+            };
+            return WSOps.request(outgoing).then(function (data) {
+                $log.debug("update request sent");
+                return data;
+            })
+        };
         /**
          * use this method to get all messages of channel and direct messages
          * REMEMBER; direct messages are also channels, everything is channel on backend!
@@ -137,7 +157,5 @@ angular.module('ulakbus.messagingService', ['ui.bootstrap'])
                 return data;
             });
         };
-        msg.channels = [];
-
         return msg;
     });
