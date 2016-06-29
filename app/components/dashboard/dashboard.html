@@ -1,5 +1,245 @@
 <div ng-app="ulakbus.dashboard" class="dashboard academician-dashboard">
     <div class="starter-template">
+    	
+        <div class="row">
+            <div class="col-md-12 course-prg-scheduler">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">Course Scheduler Widget</div>
+                    </div>
+                    <div class="panel-body">
+                    
+                    <div class="col-xs-3"> <!-- required for floating -->
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs tabs-left">
+                          <li class="active"><a data-target="#one" data-toggle="tab">Eğitim Görevlisi 1</a></li>
+                          <li><a data-target="#two" data-toggle="tab">Eğitim Görevlisi 2</a></li>
+                          <li><a data-target="#three" data-toggle="tab">Eğitim Görevlisi 3</a></li>
+                          <li><a data-target="#four" data-toggle="tab">Eğitim Görevlisi 4</a></li>
+                          <li><a data-target="#five" data-toggle="tab">Eğitim Görevlisi 5</a></li>
+                          <li><a data-target="#six" data-toggle="tab">Eğitim Görevlisi 6</a></li>
+                          <li><a data-target="#seven" data-toggle="tab">Eğitim Görevlisi 7</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-xs-9">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="one">
+                          
+                          	<div class="info-header clearfix">
+                            	<div class="info-wrapper">
+                                	<img src="../../img/gokhan.jpg" class="profile-pic">
+                                    <span class="user-name">Öğretim Görevlisi 1</span>
+                                </div>
+                                <div class="info-wrapper">
+                                	<div style="margin-top:14px;">
+                                    	<span>Ders Yükü:</span> <span>20 saat</span>
+                                    </div>
+                                </div>
+                                <div class="info-wrapper pull-right" style="margin-right:0;">
+                                	<button class="btn btn-success">Kaydet</button>
+                                </div>
+                            </div>
+                            <!-- end of header -->
+                            
+                            <div class="table-warning">
+                            	<span class="glyphicon glyphicon-exclamation-sign"></span> Tabloda en az 30 saat uygun olarak işaretlemelisiniz.
+                            </div>
+                            
+                            <table border="1">
+                              <tbody>
+                              	<tr class="headers">
+                                  <td></td>
+                                  <td>PZT</td>
+                                  <td>SAL</td>
+                                  <td>ÇAR</td>
+                                  <td>PER</td>
+                                  <td>CUM</td>
+                                  <td>CMT</td>
+                                  <td>PAZ</td>
+                                </tr>
+                                <tr>
+                                  <td>08:00 - 12:00</td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  <select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>12:00 - 15:00</td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  <select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>15:00 - 17:00</td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  	<select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                  <select id="basic" class="selectpicker form-control">
+                                      <option>Uygun</option>
+                                      <option>Belirsiz</option>
+                                      <option>Meşgul</option>
+                                    </select>
+                                  </td>
+                                </tr>
+                                
+                              </tbody>
+                            </table>
+
+                            
+                          </div>
+                          <!-- end of one -->
+                          <div class="tab-pane" id="two">Tab Two</div>
+                          <div class="tab-pane" id="three">Tab Three</div>
+                          <div class="tab-pane" id="four">Tab Four</div>
+                          <div class="tab-pane" id="five">Tab Five</div>
+                          <div class="tab-pane" id="six">Tab Six</div>
+                          <div class="tab-pane" id="seven">Tab Seven</div>
+                        </div>
+                    </div>  
+                    
+                    </div>
+                    <!-- end of panel-body -->
+                </div>
+                <!-- end of panel -->        
+            </div>
+            <!-- end of course-prg-scheduler -->
+        </div>
+        <!-- end of row -->
+        
         <academic-calendar></academic-calendar>
         <ng-include src="'components/dashboard/user-templates/student.html'" ng-if="$root.current_user.is_student"></ng-include>
         <ng-include src="'components/dashboard/user-templates/staff.html'" ng-if="!$root.current_user.is_student"></ng-include>
