@@ -32,36 +32,63 @@
     </li>-->
     <li uib-dropdown auto-close="outsideClick">
         <a uib-dropdown-toggle>
-            <div class="badge" ng-show="notifications[2].length > 0">{{notifications[2].length}}</div>
+            <div class="badge">2</div>
             <i class="fa fa-envelope fa-fw" tooltip-placement="bottom" uib-tooltip="Mesajlar"></i>  <i
                 class="fa fa-caret-down"></i>
         </a>
-        <ul class="dropdown-messages" uib-dropdown-menu ng-show="notifications[2].length > 0">
-            <li ng-repeat="notify in notifications[2] | limitTo: '8'">
-                <a href="{{notify.url}}">
-                    <div ng-click="popModal(notify)">
-                        <div>
-                            <strong>{{notify.title}}</strong>
-                            <span class="pull-right text-muted">
-                                <em>22 Ekim 2015</em>
-                            </span>
-                        </div>
-                        <div>{{notify.body}}...</div>
-                    </div>
-                    <span ng-click="markAsRead($event,notify, 2, $index)" class="pull-right fa fa-times"></span>
-                </a>
-            </li>
-            <li class="divider"></li>
+        <ul class="dropdown-messages" uib-dropdown-menu>
+        
+        	<div class="messages-header">
+            	<p>Messages <span class="badge">2</span></p>
+                <a><span class="glyphicon glyphicon-edit"></span></a>
+            </div>
+        
+        	<li class="divider"></li>
+        
             <li>
-                <a class="text-center">
-                    <strong>Read All Messages</strong>
-                    <i class="fa fa-angle-right"></i>
+                <a class="clearfix unread">
+                    <div class="left-part">
+                    	<img class="profile-pic" src="../../../img/sample-profile-pic.jpg">
+                    </div>
+                    <div class="right-part">
+                    	<div class="profile-name">Sample Name</div>
+                        <div class="message-time">13:12</div>
+                        <div class="message-content">Lorem ipsum dolor sit amet, consestetur.</div>
+                    </div>
                 </a>
             </li>
+            <li>
+                <a class="clearfix unread">
+                    <div class="left-part">
+                    	<img class="profile-pic" src="../../../img/erkan.jpg">
+                    </div>
+                    <div class="right-part">
+                    	<div class="profile-name">Erkan Öğümsöğütlü</div>
+                        <div class="message-time">Dün</div>
+                        <div class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi placerat neque nec quam dapibus, fringilla tincidunt justo ultricies. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a class="clearfix">
+                    <div class="left-part">
+                    	<img class="profile-pic" src="../../../img/gokhan.jpg">
+                    </div>
+                    <div class="right-part">
+                    	<div class="profile-name">Gökhan Boranalp</div>
+                        <div class="message-time">12 Tem</div>
+                        <div class="message-content">Aliquam sed.</div>
+                    </div>
+                </a>
+            </li>
+
         </ul>
         <!-- /.dropdown-messages -->
     </li>
     <!-- /.dropdown -->
+    
+   <!-- 
+    
     <li uib-dropdown auto-close="outsideClick">
         <a uib-dropdown-toggle>
             <div class="badge" ng-if="notifications[1].length > 0">{{notifications[1].length}}</div>
@@ -83,7 +110,7 @@
                                 <!--<span class="sr-only">40% Complete (success)</span>-->
                             <!--</div>-->
                         <!--</div>-->
-
+					<!--
                     </div>
                 </a>
             </li>
@@ -95,25 +122,42 @@
                 </a>
             </li>
         </ul>
-        <!-- /.dropdown-tasks -->
+        <!-- /.dropdown-tasks 
     </li>
+    -->
+    
+    
     <!-- /.dropdown -->
     <li uib-dropdown auto-close="outsideClick">
         <a uib-dropdown-toggle>
-        	<div class="badge" ng-if="notifications[3].length > 0">{{notifications[3].length}}</div>
-            <i class="fa fa-bell fa-fw" tooltip-placement="bottom" uib-tooltip="Duyurular"></i>  <i
+        	<div class="badge">1</div>
+            <i class="fa fa-bell fa-fw" tooltip-placement="bottom" uib-tooltip="Bildirimler"></i>  <i
                 class="fa fa-caret-down"></i>
         </a>
-        <ul class="dropdown-alerts" uib-dropdown-menu ng-if="notifications[3].length > 0">
-            <li ng-repeat="notify in notifications[3] | limitTo: '8'">
-                <a role="button" href="{{notify.url}}">
-                    <div>
-                        <i class="fa fa-comment fa-fw"></i> New Comment
-                        <span class="pull-right text-muted small">4 minutes ago</span>
-                        <span ng-click="markAsRead($event,notify, 3, $index)" class="pull-right fa fa-times"></span>
-                    </div>
+        <ul class="dropdown-alerts" uib-dropdown-menu>
+        	<li class="notifications-header">
+            	<p>Notifications <span class="badge">1</span></p>
+                <a>See all</a>
+            </li>
+            <li>
+                <a class="unread">
+                    <div class="notification-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi placerat neque nec quam dapibus, fringilla tincidunt justo ultricies. Pellentesque habitant morbi tristique senectus et.</div>
+                    <div class="notification-time">18:20</div>
                 </a>
             </li>
+            <li>
+                <a>
+                    <div class="notification-content">Nam eget eros enim. Aliquam sed odio pulvinar, sollicitudin massa et, tristique nulla.</div>
+                    <div class="notification-time">Dün 16:44</div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <div class="notification-content">Suspendisse nisl quam</div>
+                    <div class="notification-time">10 Temmuz 13:28</div>
+                </a>
+            </li>
+            
         </ul>
         <!-- /.dropdown-alerts -->
     </li>
