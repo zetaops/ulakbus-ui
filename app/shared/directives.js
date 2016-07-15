@@ -686,6 +686,10 @@ angular.module('ulakbus')
                     }
                 });
 
+                this.hideApp = function(){
+                    $scope.hidden = true;
+                }
+
                 $scope.messages = [];
                 $scope.$on("messages", function (event, data) {
                     $log.debug("Message List Received", data);
@@ -707,6 +711,10 @@ angular.module('ulakbus')
             restrict: 'E',
             replace: true,
             scope: {},
+            require: "^messaging",
+            link: function(iScope, iElem, iAttrs, messagingCtrl){
+                iScope.hideApp = messagingCtrl.hideApp;
+            },
             controller: function ($scope) {
                 $scope.messages = [];
                 $scope.$on("detailMessages", function (event, data) {
