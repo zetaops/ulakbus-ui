@@ -2570,13 +2570,20 @@ table.dataTable thead .sorting:after {
 }
 
 .chat-app .add-user-unit input {
-	width: 400px;
+    width: 400px;
     margin-top: 40px;
     height: 50px;
     padding-left: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;
+}
+
+.chat-app-close-btn {
+    display: block;
+    position: absolute;
+    right: 5px;
+    top: 5px;
 }
 
 

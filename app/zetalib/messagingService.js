@@ -15,8 +15,15 @@ angular.module('ulakbus.messagingService', ['ui.bootstrap'])
  * @name Generator
  * @description form service's Generator factory service handles all generic form operations
  */
-    .factory('MessagingService', function ($q, $timeout, $sce, $location, $route, $compile, $log, $rootScope, Moment, WSOps) {
+    .factory('MessagingService', function ($q, $timeout, $sce, $location, $route, $compile, $log, $rootScope, Moment, WSOps, Utils) {
         var msg = {};
+
+        msg.CHANNEL_TYPE = {
+            "PUBLIC": 15,
+            "DIRECT": 10,
+            "NOTIFICATION": 5
+        };
+
         msg.send = function (msg) {
             /**
              * send the message as following structure;
@@ -155,6 +162,38 @@ angular.module('ulakbus.messagingService', ['ui.bootstrap'])
             return WSOps.request(outgoing).then(function (data) {
                 $log.debug("message sent:", data);
                 return data;
+            });
+        };
+        msg.list_channels = function list_channels (){
+            /**
+             * request channels list as below;
+             * {
+             *     'view':'_zops_list_channels',
+             * }
+             *
+             * wait for response
+             *
+             * {
+             *     'channels': [
+             *     {'name': string, // name of channel
+             *      'key': key,     // key of channel
+             *      'unread': int,  // unread message count
+             *      'type': int,    // channel type,
+             *                      // 15: public channels (chat room/broadcast channel distinction comes from "read_only" flag)
+             *                      // 10: direct channels
+             *                      // 5:  one and only private channel which can be "Notifications"
+             *     'read_only': boolean, //  true if this is a read-only subscription to a broadcast channel
+             *                           //  false if it's a public chat room
+             *
+             *     'actions':[('action name', 'view name'),]
+             * }
+             *
+             */
+            var outgoing = {
+                view: '_zops_list_channels'
+            };
+            return WSOps.request(outgoing).then(function (data) {
+                return Utils.groupBy(data.channels||[], "type");
             });
         };
         return msg;

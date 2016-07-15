@@ -673,6 +673,19 @@ angular.module('ulakbus')
             replace: true,
             scope: {},
             controller: function ($scope) {
+                var dismissWatcher = $scope.$watch(function(){
+                    return $rootScope.websocketIsOpen
+                }, function(isOpen){
+                    if (isOpen){
+                        dismissWatcher();
+                        MessagingService.list_channels().then(function (groupedChannels){
+                            $scope.publicChannels = groupedChannels[MessagingService.CHANNEL_TYPE.PUBLIC];
+                            $scope.notificationsChannels = groupedChannels[MessagingService.CHANNEL_TYPE.NOTIFICATION];
+                            $scope.directChannels = groupedChannels[MessagingService.CHANNEL_TYPE.DIRECT];
+                        });
+                    }
+                });
+
                 $scope.messages = [];
                 $scope.$on("messages", function (event, data) {
                     $log.debug("Message List Received", data);
