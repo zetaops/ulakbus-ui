@@ -1,0 +1,85 @@
+<div>
+    <button class="chat-app-button" ng-show="hidden" ng-click="hidden = false"><i class="glyphicon glyphicon-comment"></i></button>
+    <div class="chat-app" ng-hide="hidden">
+
+        <div class="chat-app-container">
+
+            <div class="side-navigation">
+                <ul class="channels">
+                    <li class="title">NOTIFICATIONS <span class="badge" ng-show="notificationChannel.unread">{{notificationChannel.unread}}</span></li>
+                </ul>
+
+                <ul class="channels">
+                    <li class="title">CHANNELS <span class="add-action glyphicon glyphicon-plus-sign"></span></li>
+                    <li class="notification" ng-repeat="ch in publicChannels">{{ch.name}}</li>
+                </ul>
+
+                <ul class="direct-messages">
+                    <li class="title">DIRECT MESSAGES <span class="add-action glyphicon glyphicon-plus-sign" ng-click="showSearch.user = true"></span></li>
+                    <li class="online" ng-class="{'active':'active', 'notification': 'notification'}">Erkan Öğümsöğütlü</li>
+                </ul>
+
+            </div>
+
+            <div class="conversation-section">
+
+                <div class="conversation-header">
+                    <div class="conversation-user">
+                        <div class="user-photo"><img src="../../../img/erkan.jpg"></div>
+                        <div class="user-name">Erkan Öğümsöğütlü</div>
+                    </div>
+                    <div class="conversation-search">
+                        <input type="text" placeholder="Arama Yap">
+                    </div>
+                    <div class="close-chat-app" ng-click="hideApp()">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </div>
+                </div>
+
+                <div class="conversation-body">
+                    <div class="conversation-body-inner">
+
+                        <div class="beginning-of-conversation">
+                            This is the beginning of the conversation
+                        </div>
+
+                        <div class="conversation-block clearfix">
+
+                            <div class="conversation-actions">
+                                <div class="action">Edit</div>
+                                <div class="action">Delete</div>
+                            </div>
+
+                            <div class="user-photo">
+                                <img src="../../../img/erkan.jpg">
+                            </div>
+                            <div class="user-message">
+                                <div class="message-header clearfix">
+                                    <div class="user-name">Erkan Öğümsöğütlü</div>
+                                    <div class="message-time">13:16</div>
+                                </div>
+                                <div class="message-content">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="conversation-footer">
+
+                    <textarea placeholder="Mesajını buraya yaz..."></textarea>
+                    <div class="add-attachment">
+                        <span class="glyphicon glyphicon-file"></span>
+                        <span class="glyphicon glyphicon-picture"></span>
+                    </div>
+
+                </div>
+            </div>
+
+            <messaging-search-user ng-show="showSearch.user"></messaging-search-user>
+
+        </div>
+    </div>
+</div>

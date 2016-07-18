@@ -7,10 +7,10 @@
  * @author Evren Kutar
  */
 
-angular.module('ulakbus.messagingService', ['ui.bootstrap'])
+angular.module('ulakbus.messaging', ['ui.bootstrap'])
 
 /**
- * @memberof ulakbus.formService
+ * @memberof ulakbus.messaging
  * @ngdoc factory
  * @name Generator
  * @description form service's Generator factory service handles all generic form operations
@@ -23,6 +23,20 @@ angular.module('ulakbus.messagingService', ['ui.bootstrap'])
             "DIRECT": 10,
             "NOTIFICATION": 5
         };
+
+        function wsReady () {
+            /**
+             * wait until websocket will be open
+             */
+                var deferred = $q.defer();
+            var dismissWatcher = $rootScope.$watch('websocketIsOpen', function(isOpen){
+                if (isOpen){
+                    dismissWatcher();
+                    deferred.resolve();
+                }
+            });
+            return deferred.promise;
+        }
 
         msg.send = function (msg) {
             /**
@@ -192,9 +206,24 @@ angular.module('ulakbus.messagingService', ['ui.bootstrap'])
             var outgoing = {
                 view: '_zops_list_channels'
             };
-            return WSOps.request(outgoing).then(function (data) {
-                return Utils.groupBy(data.channels||[], "type");
+            return wsReady().then(function(){
+                return WSOps.request(outgoing).then(function (data) {
+                    return Utils.groupBy(data.channels||[], "type");
+                });
             });
         };
+
+        msg.search_user = function (query) {
+            var outgoing = {
+                view: '_zops_search_user',
+                query: query
+            };
+            return wsReady().then(function(){
+                return WSOps.request(outgoing).then(function (data) {
+                    return data.results
+                });
+            });
+        };
+
         return msg;
     });
