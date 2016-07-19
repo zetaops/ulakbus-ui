@@ -20,8 +20,13 @@ angular.module("ulakbus.messaging")
                     $scope.directChannels = groupedChannels[MessagingService.CHANNEL_TYPE.DIRECT];
                 });
 
-                this.startDirectChannel = function(){
-
+                this.createDirectChannel = function(user){
+                    // user format is ['username', 'key', 'avatarUrl']
+                    var key = user[1];
+                    MessagingService.create_direct_channel(key)
+                        .then(function(result){
+                            $log.info("Channel for user ", user[0], "created: ", result);
+                        });
                 };
 
                 $scope.hideApp = function(){

@@ -11,7 +11,7 @@ angular.module("ulakbus.messaging")
             },
             link: function(iScope, iElem, iAttrs, messagingCtrl){
                 iScope.selectUser = function(user){
-                    messagingCtrl.startDirectChannel(user);
+                    messagingCtrl.createDirectChannel(user);
                     iScope.hide();
                 }
             },

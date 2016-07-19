@@ -16,7 +16,7 @@
 
                 <ul class="direct-messages">
                     <li class="title">DIRECT MESSAGES <span class="add-action glyphicon glyphicon-plus-sign" ng-click="showSearch.user = true"></span></li>
-                    <li class="online" ng-class="{'active':'active', 'notification': 'notification'}">Erkan Öğümsöğütlü</li>
+                    <li ng-class="{'notification': userChannel.unread}" ng-repeat="userChannel in directChannels">{{userChannel.name}}</li>
                 </ul>
 
             </div>
