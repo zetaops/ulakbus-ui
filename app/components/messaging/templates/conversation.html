@@ -1,14 +1,14 @@
 <span class="loader" ng-show="loadingChannel"></span>
-<div class="conversation-section" ng-hide="selectedChannel">
-    <div class="conversation-body" >
-        <div class="conversation-body-inner">
 
-            <div class="beginning-of-conversation">
-                Select or create channel to begin conversation
-            </div>
-        </div>
+<div class="conversation-section conversation-section-empty" ng-hide="selectedChannel">
+    <div class="close-chat-app" ng-click="hideApp()">
+        <span class="glyphicon glyphicon-remove" ></span>
+    </div>
+    <div class="conversation-body" >
+        Select or create channel to begin conversation
     </div>
 </div>
+
 <div class="conversation-section" ng-hide="loadingChannel || !selectedChannel">
     <div class="conversation-header">
         <div class="conversation-user">

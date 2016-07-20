@@ -2289,7 +2289,7 @@ table.dataTable thead .sorting:after {
     margin-top: 15px;
 }
 
-.chat-app .conversation-header .close-chat-app {
+.chat-app .conversation-header .close-chat-app, .chat-app .conversation-section-empty .close-chat-app  {
 	display: inline-block;
     float: left;
     width: 40px;
@@ -2301,6 +2301,13 @@ table.dataTable thead .sorting:after {
     border-radius: 3px;
 	margin-top:15px;
     cursor: pointer;
+}
+
+.chat-app .conversation-section-empty .close-chat-app {
+    display: block;
+    position: absolute;
+    right: 15px;
+    top: 0px;
 }
 
 .chat-app .conversation-header .chat-app-actions {
@@ -2374,7 +2381,7 @@ table.dataTable thead .sorting:after {
 	border-radius:100%;
 }
 
-.chat-app .conversation-section .conversation-body .beginning-of-conversation {
+.chat-app .conversation-section .conversation-body .beginning-of-conversation, .chat-app .conversation-section-empty .conversation-body {
 	text-align: center;
     font-family: 'robotobold';
     font-size: 20px;
@@ -2382,6 +2389,10 @@ table.dataTable thead .sorting:after {
     padding: 15px;
     margin-bottom: 30px;
     border-bottom: 1px solid #f3f3f3;
+}
+
+.chat-app .conversation-section-empty .conversation-body {
+    padding-top: 100px;
 }
 
 .chat-app .conversation-section .conversation-body .conversation-block {
