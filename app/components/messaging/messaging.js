@@ -64,7 +64,7 @@ angular.module("ulakbus.messaging")
 
             controller: function ($scope) {
 
-                $scope.hidden = false;
+                $scope.hidden = true;
 
                 // shared object to populate models through scopes
                 $scope.shared = {};
