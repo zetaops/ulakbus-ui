@@ -2310,6 +2310,13 @@ table.dataTable thead .sorting:after {
     top: 0px;
 }
 
+.chat-app .conversation-section-empty .close-chat-app {
+    display: block;
+    position: absolute;
+    right: 15px;
+    top: 0px;
+}
+
 .chat-app .conversation-header .chat-app-actions {
 	display: inline-block;
     float: left;
