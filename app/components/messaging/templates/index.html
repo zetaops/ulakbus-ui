@@ -10,75 +10,20 @@
                 </ul>
 
                 <ul class="channels">
-                    <li class="title">CHANNELS <span class="add-action glyphicon glyphicon-plus-sign"></span></li>
-                    <li class="notification" ng-repeat="ch in publicChannels">{{ch.name}}</li>
+                    <li class="title">CHANNELS <span class="add-action glyphicon glyphicon-plus-sign" ng-click="createChannel()"></span></li>
+                    <li ng-class="{'notification': ch.unread, 'active': selectedChannel == ch}" ng-repeat="ch in publicChannels" ng-click="selectChannel(ch)">{{ch.name}}</li>
                 </ul>
 
                 <ul class="direct-messages">
-                    <li class="title">DIRECT MESSAGES <span class="add-action glyphicon glyphicon-plus-sign" ng-click="showSearch.user = true"></span></li>
-                    <li ng-class="{'notification': userChannel.unread}" ng-repeat="userChannel in directChannels">{{userChannel.name}}</li>
+                    <li class="title">DIRECT MESSAGES <span class="add-action glyphicon glyphicon-plus-sign" ng-click="searchUser()"></span></li>
+                    <li ng-class="{'notification': userChannel.unread, 'active': selectedChannel == userChannel}" ng-repeat="userChannel in directChannels" ng-click="selectChannel(userChannel)">{{userChannel.name}}</li>
                 </ul>
 
             </div>
 
-            <div class="conversation-section">
+            <ng-include src="'components/messaging/templates/conversation.html'"></ng-include>
 
-                <div class="conversation-header">
-                    <div class="conversation-user">
-                        <div class="user-photo"><img src="../../../img/erkan.jpg"></div>
-                        <div class="user-name">Erkan Öğümsöğütlü</div>
-                    </div>
-                    <div class="conversation-search">
-                        <input type="text" placeholder="Arama Yap">
-                    </div>
-                    <div class="close-chat-app" ng-click="hideApp()">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </div>
-                </div>
-
-                <div class="conversation-body">
-                    <div class="conversation-body-inner">
-
-                        <div class="beginning-of-conversation">
-                            This is the beginning of the conversation
-                        </div>
-
-                        <div class="conversation-block clearfix">
-
-                            <div class="conversation-actions">
-                                <div class="action">Edit</div>
-                                <div class="action">Delete</div>
-                            </div>
-
-                            <div class="user-photo">
-                                <img src="../../../img/erkan.jpg">
-                            </div>
-                            <div class="user-message">
-                                <div class="message-header clearfix">
-                                    <div class="user-name">Erkan Öğümsöğütlü</div>
-                                    <div class="message-time">13:16</div>
-                                </div>
-                                <div class="message-content">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris.
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="conversation-footer">
-
-                    <textarea placeholder="Mesajını buraya yaz..."></textarea>
-                    <div class="add-attachment">
-                        <span class="glyphicon glyphicon-file"></span>
-                        <span class="glyphicon glyphicon-picture"></span>
-                    </div>
-
-                </div>
-            </div>
-
-            <messaging-search-user ng-show="showSearch.user"></messaging-search-user>
+            <div class="popup-placeholder"></div>
 
         </div>
     </div>

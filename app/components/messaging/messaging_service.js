@@ -44,6 +44,16 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             })
         }
 
+        // prepare messages for UI
+        function prepareMessages (messages){
+            for (var i = 0; i < messages.length; i++){
+                var message = messages[i];
+                // FIXME: process timezone properly
+                var ts = message.timestamp.replace(/\.0+Z$/, "");
+                message.moment = Moment(ts);
+            }
+        }
+
         msg.list_channels = function list_channels (){
             /**
              * request channels list as below;
@@ -194,6 +204,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Show channel ", channelKey, ": ", result);
+                prepareMessages(result.last_messages);
                 return result;
             })
         };
@@ -225,10 +236,14 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         msg.create_message = function(channelKey, msgType, body, attachments){
             var outgoing = {
                 view: '_zops_create_message',
-                channel: channelKey,
-                type: msgType,
-                body: body,
-                attachments: attachments
+                message: {
+                    channel: channelKey,
+                    type: msgType,
+                    title: "",
+                    receiver: "",
+                    body: body,
+                    attachments: attachments
+                }
             };
 
             return wsRequest(outgoing).then(function(result){
@@ -334,4 +349,44 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         }
 
         return msg;
+    })
+
+    .service("MessagingPopup", function($q, $compile, $http, $rootScope){
+
+        function compile(template, config){
+            var resultDeferred = $q.defer();
+            var scope = config.scope || $rootScope.$new(true);
+            var rootElement = config.rootElement;
+            var element = $compile(template)(scope);
+            if (config.link){
+                config.link(scope);
+            }
+
+            scope.done = function(result){
+                resultDeferred.resolve.apply(this, arguments);
+            };
+            scope.cancel = function(){
+                resultDeferred.reject.apply(this, arguments);
+            };
+
+            rootElement.empty();
+            rootElement.append(element);
+
+            resultDeferred.promise._done = scope.done;
+            resultDeferred.promise._cancel = scope.cancel;
+            return resultDeferred.promise.finally(function(){
+                rootElement.empty();
+                scope.$destroy();
+            });
+        }
+
+        this.show = function(config){
+            if (config.templateUrl){
+                return $http({method: 'GET', url: config.templateUrl, cache: true}).then(function(result){
+                    return compile(result.data, config)
+                });
+            }
+            return compile(config.template, config);
+        };
+
     });
