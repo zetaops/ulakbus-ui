@@ -80,6 +80,56 @@ angular.module(
 
         return {url: backendurl};
     })())
+    .factory('IsOnline', function ($window, $document, $rootScope) {
+
+        var isOnlineService = {};
+        isOnlineService.status = true;
+
+        var offlineMask = angular.element(
+            '<div class="body-mask" style="z-index: 2010; opacity: 0.6">' +
+            '<div class="alert alert-danger text-center" role="alert" style="z-index: 2011; position: relative">' +
+            'İnternet bağlantınız kesilmiştir. Bağlantı sağlandığında kaldığınız yerden devam edebilirsiniz.' +
+            '</div>' +
+            '</div>'
+        );
+        var body = $document.find('body').eq(0);
+
+        isOnlineService.set_status = function (state) {
+            // status changed
+            if (state != isOnlineService.status){
+                // online
+                if (state){
+                    offlineMask.remove();
+                    // is user is set, reload page to init
+                    if ($rootScope.current_user === true){
+                        window.location.reload();
+                    }
+                }
+                // offline
+                else {
+                    body.append(offlineMask);
+                }
+            }
+            isOnlineService.status = state;
+        };
+
+        isOnlineService.get_status = function () {
+            return isOnlineService.status;
+        };
+
+        // @if NODE_ENV='PRODUCTION'
+        isOnlineService.status = navigator.onLine;
+        $window.addEventListener("offline", function(){
+            isOnlineService.set_status(false);
+        });
+
+        $window.addEventListener("online", function(){
+            isOnlineService.set_status(true);
+        });
+        // @endif
+
+        return isOnlineService;
+    })
     // .service('DESIGN', function ($routeParams, $cookies, $log) {
     //     // use route param to change cookie for design
     //     // this is a config as a service added for designer can work without backend
