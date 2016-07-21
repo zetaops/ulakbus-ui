@@ -38,146 +38,22 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             return deferred.promise;
         }
 
-        msg.send = function (msg) {
-            /**
-             * send the message as following structure;
-             *
-             * MSG_TYPES can be follwing;
-             *
-             * MSG_TYPES = (
-             *      (2, "Direct Message"),
-             *      (3, "Broadcast Message"),
-             *      (4, "Channel Message")
-             * )
-             *
-             * {
-             *  'view':'_zops_create_message',
-             *  'message': {
-             *      'channel': "code_name of the channel",
-             *      'receiver': "Key of receiver. Can be blank for non-direct messages",
-             *      'client_id': "Client side unique id for referencing this message",
-             *      'title': "Title of the message. Can be blank.",
-             *      'body': "Message body.",
-             *      'type': zengine.messaging.model.MSG_TYPES,
-             *      'attachments': [{
-             *          'description': "Can be blank.",
-             *          'name': "File name with extension.",
-             *          'content': "base64 encoded file content"
-             *          }]
-             * }
-             *
-             * wait for response as
-             *
-             * {
-             *      'msg_key': "Key of the just created message object",
-             * }
-             *
-             */
-            function prepMsg(msg) {
-                var outgoing = {
-                    form_params: {
-                        view: '_zops_create_message',
-                        message: {
-                            'channel': msg.channel, // this can be both channel and direct msg. remember direct msg is channel
-                            'receiver': msg.receiver,
-                            'client_id': msg.client_id, // "Client side unique id for referencing this message",
-                            'title': msg.title, // "Title of the message. Can be blank.",
-                            'body': msg.body, // "Message body.",
-                            'type': msg.TYPE, // type can be one of the above
-                            // 'attachments': [{ // do it with fileread directive
-                            //     'description': "Can be blank.",
-                            //     'name': "File name with extension.",
-                            //     'content': "base64 encoded file content"
-                            // }]
-                        }
-                    }
-                };
-                return outgoing;
-            }
-
-            WSOps.request(prepMsg(msg)).then(function (data) {
-                $log.debug("message sent:", data);
-            });
-        };
-        msg.incoming = function () {
-            /**
-             *
-             */
-
-        };
-        msg.update = function (msg, action) {
-            /**
-             * update / delete a message here
-             */
-            var outgoing = {
-                form_params: {
-                    view: '_zops_' + action + '_message',
-                    message: {
-                        'channel': msg.channel, // this can be both channel and direct msg. remember direct msg is channel
-                        'receiver': msg.receiver,
-                        'client_id': msg.client_id, // "Client side unique id for referencing this message",
-                        'title': msg.title, // "Title of the message. Can be blank.",
-                        'body': msg.body, // "Message body.",
-                        'type': msg.TYPE // type can be one of the above
-                    }
-
-                }
-            };
-            return WSOps.request(outgoing).then(function (data) {
-                $log.debug("update request sent");
-                return data;
+        function wsRequest (outgoing){
+            return wsReady().then(function(){
+                return WSOps.request(outgoing);
             })
-        };
-        /**
-         * use this method to get all messages of channel and direct messages
-         * REMEMBER; direct messages are also channels, everything is channel on backend!
-         * @param chnls
-         * @returns {*}
-         */
-        msg.get_channel = function (chnls) {
-            /**
-             * request channels as below;
-             *
-             * {
-             *    'view':'_zops_show_channel',
-             *    'channel_key': "Key of the requested channel"
-             * }
-             *
-             * wait for response
-             *
-             * {
-             *    'channel_key': "key of channel",
-             *    'description': string,
-             *    'no_of_members': int,
-             *    'member_list': [
-             *        {'name': string,
-             *         'is_online': bool,
-             *         'avatar_url': string,
-             *        }],
-             *    'last_messages': [
-             *        {'content': string,
-             *         'key': string,
-             *         'actions':[
-             *            {'title': string,
-             *             'cmd': string
-             *             }
-             *            ]
-             *        }
-             *    ]
-             * }
-             *
-             */
-            var outgoing = {
-                form_params: {
-                    view: '_zops_show_channel',
-                    channel_key: chnls.key
-                }
-            };
-            return WSOps.request(outgoing).then(function (data) {
-                $log.debug("message sent:", data);
-                return data;
-            });
-        };
+        }
+
+        // prepare messages for UI
+        function prepareMessages (messages){
+            for (var i = 0; i < messages.length; i++){
+                var message = messages[i];
+                // FIXME: process timezone properly
+                var ts = message.timestamp.replace(/\.0+Z$/, "");
+                message.moment = Moment(ts);
+            }
+        }
+
         msg.list_channels = function list_channels (){
             /**
              * request channels list as below;
@@ -206,10 +82,8 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             var outgoing = {
                 view: '_zops_list_channels'
             };
-            return wsReady().then(function(){
-                return WSOps.request(outgoing).then(function (data) {
-                    return Utils.groupBy(data.channels||[], "type");
-                });
+            return wsRequest(outgoing).then(function (data) {
+                return Utils.groupBy(data.channels||[], "type");
             });
         };
 
@@ -218,12 +92,301 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
                 view: '_zops_search_user',
                 query: query
             };
-            return wsReady().then(function(){
-                return WSOps.request(outgoing).then(function (data) {
+
+            return wsRequest(outgoing).then(function (data) {
                     return data.results
-                });
             });
         };
 
+        msg.search_unit = function (query) {
+            var outgoing = {
+                view: '_zops_search_unit',
+                query: query
+            };
+
+            return wsRequest(outgoing).then(function (data) {
+                return data.results
+            });
+        };
+
+        msg.create_direct_channel = function (key) {
+            var outgoing = {
+                'view': '_zops_create_direct_channel',
+                'user_key': key
+            };
+
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Create direct channel result: ", result);
+                return result;
+            })
+        };
+
+        msg.create_channel = function (name, desription) {
+            var outgoing = {
+                view:'_zops_create_channel',
+                name: name,
+                description: desription
+            };
+
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Channel ", name, "created: ", result);
+                return result;
+            })
+        };
+
+        msg.add_members = function (channelKey, members, readOnly) {
+            var outgoing = {
+                view:'_zops_add_members',
+                channel_key: channelKey,
+                read_only: !!readOnly,
+                members: members
+            };
+
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Members ", members, " added to channel ", channelKey, ": ", result);
+                return result;
+            })
+        };
+
+        msg.add_unit_to_channel = function (channelKey, unitKey, readOnly) {
+            var outgoing = {
+                view: '_zops_add_unit_to_channel',
+                channel_key: channelKey,
+                unit_key: unitKey,
+                read_only: !!readOnly
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Unit ", unitKey, " added to channel ", channelKey, ": ", result);
+                return result;
+            });
+        };
+
+        msg.delete_channel =  function (channelKey) {
+            var outgoing = {
+                view: '_zops_delete_channel',
+                channel_key: channelKey
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Channel ", channelKey, " deleted: ", result);
+                return result;
+            })
+        };
+
+        msg.edit_channel = function (channelKey, name, desription) {
+            var outgoing = {
+                view:'_zops_create_channel',
+                channel_key: channelKey,
+                name: name,
+                description: desription
+            };
+
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Channel ", channelKey, " edited: ", result);
+                return result;
+            })
+        };
+
+        msg.pin_channel = function (channelKey) {
+            var outgoing = {
+                view: '_zops_pin_channel',
+                channel_key: channelKey
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Channel ", channelKey, " pinned: ", result);
+                return result;
+            })
+        };
+
+        msg.show_channel = function(channelKey){
+            var outgoing = {
+                view: '_zops_show_channel',
+                channel_key: channelKey
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Show channel ", channelKey, ": ", result);
+                prepareMessages(result.last_messages);
+                return result;
+            })
+        };
+
+        msg.channel_history = function (channelKey, lastMessageTimestamp) {
+            var outgoing = {
+                view:'_zops_channel_history',
+                channel_key: channelKey,
+                timestamp: lastMessageTimestamp
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Load channel ", channelKey, "history: ", result);
+                return result;
+            })
+        };
+
+        msg.report_last_seen_message = function (channelKey, msgKey, timestamp){
+            var outgoing = {
+                channel_key: channelKey,
+                msg_key: msgKey,
+                timestamp: timestamp,
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Report last seen message ", channelKey, msgKey, timestamp, ": ", result);
+                return result;
+            })
+        };
+
+        msg.create_message = function(channelKey, msgType, body, attachments){
+            var outgoing = {
+                view: '_zops_create_message',
+                message: {
+                    channel: channelKey,
+                    type: msgType,
+                    title: "",
+                    receiver: "",
+                    body: body,
+                    attachments: attachments
+                }
+            };
+
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Message sent: ", result);
+                return result;
+            })
+        };
+
+        msg.find_message = function (channelKey, query, pageNumber) {
+            var outgoing = {
+                    view: '_zops_search_find_message',
+                    channel_key: channelKey,
+                    query: query,
+                    page: pageNumber
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Find message: ",  result);
+                return result;
+            });
+        };
+
+        msg.delete_message = function (msgKey) {
+            var outgoing = {
+                view: '_zops_delete_message',
+                message_key: msgKey
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Delete message ", msgKey,":", result);
+                return result;
+            });
+        };
+
+        msg.edit_message = function(msgKey, body) {
+            var outgoing = {
+                view: '_zops_edit_message',
+                message: {
+                    key: msgKey,
+                    body: body
+                }
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Edit message", msgKey, ":", result);
+                return result;
+            });
+        };
+
+        msg.flag_message = function (msgKey, flag) {
+            var outgoing = {
+                view: '_zops_flag_message',
+                message: {
+                    'key': msgKey,
+                    'flag': flag
+                }
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Flag message ", msgKey, flag, ":", result);
+                return result;
+            });
+        };
+
+        msg.get_message_actions = function (msgKey) {
+            var outgoing = {
+                view: '_zops_get_message_actions',
+                message_key: msgKey
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Get message actions", msgKey, ":", result);
+                return result;
+            });
+        };
+
+        msg.add_to_favorites = function (msgKey) {
+            var outgoing = {
+                view: '_zops_add_to_favorites',
+                message_key: msgKey
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Add message ", msgKey, " to favorites: ", result);
+                return result;
+            });
+        };
+
+        msg.remove_from_favorites = function (msgKey) {
+            var outgoing = {
+                view: '_zops_remove_to_favorites',
+                message_key: msgKey
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Remove message ", msgKey, " from favorites: ", result);
+                return result;
+            });
+        };
+
+        msg.list_favorites = function (channelKey) {
+            var outgoing = {
+                view: '_zops_list_favorites',
+                channel_key: channelKey
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("List favorites for channel", channelKey, ": ", result);
+                return result;
+            });
+        }
+
         return msg;
+    })
+
+    .service("MessagingPopup", function($q, $compile, $http, $rootScope){
+
+        function compile(template, config){
+            var resultDeferred = $q.defer();
+            var scope = config.scope || $rootScope.$new(true);
+            var rootElement = config.rootElement;
+            var element = $compile(template)(scope);
+            if (config.link){
+                config.link(scope);
+            }
+
+            scope.done = function(result){
+                resultDeferred.resolve.apply(this, arguments);
+            };
+            scope.cancel = function(){
+                resultDeferred.reject.apply(this, arguments);
+            };
+
+            rootElement.empty();
+            rootElement.append(element);
+
+            resultDeferred.promise._done = scope.done;
+            resultDeferred.promise._cancel = scope.cancel;
+            return resultDeferred.promise.finally(function(){
+                rootElement.empty();
+                scope.$destroy();
+            });
+        }
+
+        this.show = function(config){
+            if (config.templateUrl){
+                return $http({method: 'GET', url: config.templateUrl, cache: true}).then(function(result){
+                    return compile(result.data, config)
+                });
+            }
+            return compile(config.template, config);
+        };
+
     });

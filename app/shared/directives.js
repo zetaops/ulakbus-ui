@@ -739,4 +739,3 @@ angular.module('ulakbus')
             }
         }
     });
-

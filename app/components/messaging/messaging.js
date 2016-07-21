@@ -134,6 +134,7 @@ angular.module("ulakbus.messaging")
                     $scope.hidden = true;
                 };
 
+
                 function selectChannel(channelKey){
                     $scope.loadingChannel = true;
                     return MessagingService.show_channel(channelKey).then(function(result){
