@@ -8,6 +8,16 @@
         <div class="conversation-search">
             <input type="text" placeholder="Arama Yap">
         </div>
+        <div class="dropdown">
+            <div class="chat-app-actions dropdown-toggle" data-toggle="dropdown" id="chat-app-actions">
+                <span class="glyphicon glyphicon-option-vertical"></span>
+            </div>
+            <ul class="dropdown-menu" aria-labelledby="chat-app-actions" style="left: inherit; top: 53px; right: 66px;">
+                <li><a href="#">Action One</a></li>
+                <li><a href="#">Action Two</a></li>
+                <li><a href="#">Action Three</a></li>
+            </ul>
+        </div>
         <div class="close-chat-app">
             <span class="glyphicon glyphicon-remove"></span>
         </div>
@@ -23,8 +33,14 @@
             <div class="conversation-block clearfix">
 
                 <div class="conversation-actions">
-                    <div class="action">Edit</div>
-                    <div class="action">Delete</div>
+                    <div class="action"><span class="glyphicon glyphicon-star-empty"></span></div>
+                    <div class="action dropdown-toggle" data-toggle="dropdown">
+                    	<span class="glyphicon glyphicon-option-horizontal"></span>
+                    </div>
+                    <ul class="dropdown-menu" style="left:-86px;">
+                      <li><a href="#">Edit</a></li>
+                      <li><a href="#">Delete</a></li>
+                    </ul>
                 </div>
 
                 <div class="user-photo">
@@ -48,8 +64,14 @@
 
         <textarea placeholder="Mesajını buraya yaz..."></textarea>
         <div class="add-attachment">
-            <span class="glyphicon glyphicon-file"></span>
-            <span class="glyphicon glyphicon-picture"></span>
+            <span class="glyphicon glyphicon-send"></span>
+            <div class="dropup" style="float:left;">
+            <span class="glyphicon glyphicon-paperclip dropdown-toggle" data-toggle="dropdown" id="attachment"></span>
+            <ul class="dropdown-menu" aria-labelledby="attachment" style="left:-104px;">
+            	<li><a href="#">Image</a></li>
+            	<li><a href="#">File</a></li>
+            </ul>
+            </div>
         </div>
 
     </div>

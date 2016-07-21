@@ -25,6 +25,10 @@ body {
 	padding:15px;
 }
 
+.dropdown-toggle {
+	cursor:pointer;	
+}
+
 .badge {
     border-radius: 100%;
     width: 22px;
@@ -2115,6 +2119,10 @@ table.dataTable thead .sorting:after {
     padding-bottom: 15px;
 }
 
+.chat-app .side-navigation ul.channels li.public-ro-channel {
+	font-style:italic;
+}
+
 .chat-app .side-navigation ul li {
 	list-style: none;
     color: #fff;
@@ -2203,7 +2211,7 @@ table.dataTable thead .sorting:after {
     top: 9px;
 }
 
-.chat-app .side-navigation ul li.notification:after {
+.chat-app .side-navigation ul li.unread:after {
 	content: " ";
     width: 8px;
     height: 8px;
@@ -2232,7 +2240,7 @@ table.dataTable thead .sorting:after {
 
 .chat-app .conversation-header .conversation-user {
 	display: inline-block;
-    width: 280px;
+    width: 240px;
     margin-left: 23px;
 	float: left;
 }
@@ -2248,6 +2256,10 @@ table.dataTable thead .sorting:after {
     margin-left: 10px;
     font-family: 'robotobold';
     font-size: 16px;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 180px;
 }
 
 .chat-app .conversation-header .conversation-search {
@@ -2266,6 +2278,19 @@ table.dataTable thead .sorting:after {
 }
 
 .chat-app .conversation-header .close-chat-app {
+	display: inline-block;
+    float: left;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #efefef;
+    text-align: center;
+    line-height: 40px;
+    margin-left: 10px;
+    border-radius: 3px;
+	margin-top:15px;
+}
+
+.chat-app .conversation-header .chat-app-actions {
 	display: inline-block;
     float: left;
     width: 40px;
@@ -2422,7 +2447,7 @@ table.dataTable thead .sorting:after {
 	font-family: 'robotomedium';
 }
 
-.chat-app .create-new-message-window {
+.chat-app .chat-popup-window {
 	position: absolute;
     top: 0;
     left: 0;
@@ -2445,7 +2470,7 @@ table.dataTable thead .sorting:after {
 	outline:none;
 }
 
-.chat-app .close-create-new-message-window {
+.chat-app .close-chat-popup-window {
 	width: 50px;
     height: 50px;
     border: 1px solid #ccc;
@@ -2460,7 +2485,7 @@ table.dataTable thead .sorting:after {
 	cursor:pointer;
 }
 
-.chat-app .close-create-new-message-window:hover {
+.chat-app .close-chat-popup-window:hover {
 	background-color:#efefef;
 	color:#000000;
 }
@@ -2498,6 +2523,60 @@ table.dataTable thead .sorting:after {
     font-family: 'robotobold';
     font-size: 18px;
     margin-top: 9px;
+}
+
+.chat-app .create-new-channel-window h3 {
+	width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+}
+
+.chat-app .create-new-channel-window .text-center input {
+	width: 400px;
+    margin-top: 40px;
+    height: 50px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.chat-app .create-new-channel-window .text-center textarea {
+	width: 400px;
+    margin: 20px;
+    height: 110px;
+    padding-left: 15px;
+    padding-top: 15px;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 5px;
+    outline: none;
+    max-width: 400px;
+	max-height:200px;
+}
+
+.chat-app .create-new-channel-window button {
+	width: 400px;
+	margin-top:0px;
+	height: 50px;
+    font-size: 19px;
+}
+
+.chat-app .add-user-unit h3 {
+	width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+}
+
+.chat-app .add-user-unit input {
+	width: 400px;
+    margin-top: 40px;
+    height: 50px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
 }
 
 

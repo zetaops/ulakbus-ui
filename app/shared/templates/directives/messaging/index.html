@@ -5,26 +5,27 @@
 
             <ul class="channels">
                 <li class="title">CHANNELS <span class="badge">{{ }}</span></li>
-                <li class="notification">Channel One</li>
+                <li class="unread">Public Channel</li>
+                <li class="public-ro-channel">Public Read Only Channel</li>
             </ul>
 
             <ul class="channels">
                 <li class="title">NOTIFICATIONS <span class="badge">8</span></li>
-                <li class="notification">Notification One</li>
+                <li class="unread">Notification One</li>
             </ul>
 
             <ul class="direct-messages">
                 <li class="compose"><span class="glyphicon glyphicon-plus-sign"></span> Create New Message</li>
                 <li class="title">DIRECT MESSAGES <span class="badge">14</span></li>
-                <li class="online" ng-class="{'active':'active', 'notification': 'notification'}">Erkan Öğümsöğütlü</li>
+                <li class="online" ng-class="{'active':'active', 'unread': 'unread'}">Erkan Öğümsöğütlü</li>
             </ul>
 
         </div>
 
         <message-detail></message-detail>
 
-        <div class="create-new-message-window">
-            <div class="close-create-new-message-window"><span class="glyphicon glyphicon-remove"></span></div>
+        <div class="chat-popup-window create-new-message-window">
+            <div class="close-chat-popup-window"><span class="glyphicon glyphicon-remove"></span></div>
             <input type="text" placeholder="Birini ismi ile ara...">
             <div class="search-results">
                 <div class="user">
@@ -33,6 +34,27 @@
                 </div>
             </div>
         </div>
+        <!-- end of create-new-message-window -->
+        
+        <div class="chat-popup-window create-new-channel-window">
+            <div class="close-chat-popup-window"><span class="glyphicon glyphicon-remove"></span></div>
+            <h3>Create New Channel</h3>
+            <div class="text-center">
+                <input type="text" placeholder="Channel Name"><br>
+                <textarea placeholder="Channel Description"></textarea>
+                <button class="btn btn-success">Create</button>
+            </div>
+        </div>
+        <!-- end of create-new-message-window -->
+        
+        <div class="chat-popup-window add-user-unit" style="display:block;">
+            <div class="close-chat-popup-window"><span class="glyphicon glyphicon-remove"></span></div>
+            <h3>Add User/Unit</h3>
+            <div class="text-center">
+                <input type="text" placeholder="Search User/Unit to Add"><br>
+            </div>
+        </div>
+        <!-- end of create-new-message-window -->
 
     </div>
 </div>
