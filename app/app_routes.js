@@ -63,47 +63,7 @@ angular.module('ulakbus')
             })
             .otherwise({redirectTo: '/dashboard'});
     }])
-    .factory('IsOnline', function () {
-        var isOnlineService = {};
-        isOnlineService.status = navigator.onLine;
-        isOnlineService.set_status = function (state) {
-            isOnlineService.status = state;
-        };
-        isOnlineService.get_status = function () {
-            return isOnlineService.status;
-        };
-        return isOnlineService;
-    })
-    .run(function ($window, $rootScope, $document, $route, IsOnline) {
-        // in this run configuration we detect internet connection and append a mask to body
-        // when reconnect the mask will be removed
-        var offlineMask = angular.element('<div class="body-mask">' +
-            '</div>');
-        offlineMask.css({zIndex: '2010', opacity: '0.6'});
-        var offlineAlert = angular.element(
-            '<div class="alert alert-danger text-center" role="alert">' +
-            'İnternet bağlantınız kesilmiştir. Bağlantı sağlandığında kaldığınız yerden devam edebilirsiniz.' +
-            '</div>'
-        ).css({zIndex: '2011', position: 'relative'});
-        var body = $document.find('body').eq(0);
-        // detect internet connection
-        var is_online = navigator.onLine;
-        if (!is_online){body.append(offlineMask).append(offlineAlert);}
-        $window.addEventListener("offline", function () {
-            is_online = false;
-            IsOnline.set_status(false);
-            body.append(offlineMask).append(offlineAlert);
-        }, false);
 
-        $window.addEventListener("online", function () {
-            is_online = true;
-            IsOnline.set_status(true);
-            offlineMask.remove();
-            offlineAlert.remove();
-            if ($rootScope.current_user === true){window.location.reload();}
-            // $route.reload();
-        }, false);
-    })
     .run(function ($rootScope, AuthService) {
 
         AuthService.check_auth();
