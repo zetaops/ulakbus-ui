@@ -10,6 +10,18 @@ angular.module("ulakbus.messaging")
             return channelKey;
         }
 
+        function searchWrapper(scope, promiseWrapper){
+            scope.loading = true;
+            scope.searchResult = [];
+            promiseWrapper()
+                .then(function(result){
+                    scope.searchResult = result;
+                })
+                .finally(function(){
+                    scope.loading = false;
+                })
+        }
+
         return {
             templateUrl: 'components/messaging/templates/index.html',
             restrict: 'E',
@@ -31,15 +43,9 @@ angular.module("ulakbus.messaging")
                         rootElement: popupRootElement,
                         link: function(scope){
                             scope.onChange = function(query){
-                                scope.loading = true;
-                                scope.searchResult = [];
-                                MessagingService.search_user(query)
-                                    .then(function(users){
-                                        scope.searchResult = users;
-                                    })
-                                    .finally(function(){
-                                        scope.loading = false;
-                                    })
+                                searchWrapper(scope, function(){
+                                    return MessagingService.search_user(query);
+                                })
                             };
                             scope.onChange("");
                         }
@@ -56,10 +62,48 @@ angular.module("ulakbus.messaging")
                             scope.channel = {};
                         }
                     }).then(function(channel){
-                        return MessagingService.create_channel(channel.name, channel.description);
+                        return MessagingService.create_channel(channel.name, channel.description||"");
                     });
                 };
 
+                iScope.addUserToChannel = function(channel){
+                    MessagingPopup.show({
+                        templateUrl: "components/messaging/templates/add_user_unit.html",
+                        rootElement: popupRootElement,
+                        link: function(scope){
+                            scope.title = "Add User";
+                            scope.placeholder = "Search User to Add";
+                            scope.onChange = function(query){
+                                searchWrapper(scope, function(){
+                                    return MessagingService.search_user(query);
+                                })
+                            };
+                            scope.onChange("");
+                        }
+                    }).then(function(userKey){
+                        return MessagingService.add_members([userKey]);
+                    });
+                };
+
+                iScope.addUnitToChannel = function(){
+                    MessagingPopup.show({
+                        templateUrl: "components/messaging/templates/add_user_unit.html",
+                        rootElement: popupRootElement,
+                        link: function(scope){
+                            scope.title = "Add Unit";
+                            scope.placeholder = "Search Unit to Add";
+                            scope.onChange = function(query){
+                                searchWrapper(scope, function(){
+                                    return MessagingService.search_unit(query);
+                                })
+                            };
+                            scope.onChange("");
+                        }
+                    }).then(function(unitKey){
+                        var channelKey = getKey(iScope.selectedChannel);
+                        return MessagingService.add_members(channelKey, unitKey);
+                    });
+                };
             },
 
             controller: function ($scope) {
@@ -116,6 +160,10 @@ angular.module("ulakbus.messaging")
                     MessagingService.create_message(channelKey, msgType, content).then(function(result){
                         $scope.shared.message = "";
                     });
+                }
+
+                $scope.canAddUserAndChannel = function (channel) {
+                    return channel && channel.type == MessagingService.CHANNEL_TYPE.PUBLIC;
                 }
             }
         };
