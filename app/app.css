@@ -2085,8 +2085,8 @@ table.dataTable thead .sorting:after {
     position: fixed;
     bottom: 15px;
     right: 15px;
-	-moz-box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
-    box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0px 0px 45px rgba(0,0,0,0.4);
+    box-shadow: 0px 0px 45px rgba(0,0,0,0.4);
     z-index: 10;
     border-radius: 3px;	
 }
@@ -2535,6 +2535,18 @@ table.dataTable thead .sorting:after {
 .chat-app .conversation-section .user-message .message-content .file-attached .attachment-download:hover {
 	opacity:1;
 }
+
+.chat-app .conversation-section .user-message .edit-text-message input {
+	width: 100%;
+    margin-bottom: 7px;
+    margin-top: 7px;
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding-left: 7px;
+    outline: none;
+}
+
 
 .chat-app .chat-popup-window {
 	position: absolute;
