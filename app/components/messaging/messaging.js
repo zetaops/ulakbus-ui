@@ -293,6 +293,15 @@ angular.module("ulakbus.messaging")
                 $rootScope.$on("notifications", function(e, notification){
                     appendMessage(iScope.selectedChannel, MessagingService.prepareMessage(notification));
                 });
+
+                $rootScope.$on("user_ready", function(){
+                    // init service after user logged in
+                    iScope.selectedChannel = null;
+                    iScope.publicChannels = [];
+                    iScope.notificationsChannel = [];
+                    iScope.directChannels = []
+                    iScope.hideApp();
+                });
             }
         };
     })
