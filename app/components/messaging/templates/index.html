@@ -1,6 +1,6 @@
 <div>
-    <button class="chat-app-button" ng-show="hidden" ng-click="hidden = false"><i class="glyphicon glyphicon-comment"></i></button>
-    <div class="chat-app" ng-hide="hidden">
+    <a class="chat-app-button" ng-show="chatAppIsHidden" ng-click="showApp()"><i class="glyphicon glyphicon-comment"></i></a>
+    <div class="chat-app" ng-hide="chatAppIsHidden">
 
         <div class="chat-app-container">
 
@@ -11,12 +11,12 @@
 
                 <ul class="channels">
                     <li class="title">CHANNELS <span class="add-action glyphicon glyphicon-plus-sign" ng-click="createChannel()"></span></li>
-                    <li ng-class="{'notification': ch.unread, 'active': selectedChannel == ch}" ng-repeat="ch in publicChannels" ng-click="selectChannel(ch)">{{ch.name}}</li>
+                    <li ng-class="{'notification': ch.unread, 'active': isChannelSelected(ch)}" title="{{ch.description}}" ng-repeat="ch in publicChannels" ng-click="selectChannel(ch)">{{ch.name}}</li>
                 </ul>
 
                 <ul class="direct-messages">
                     <li class="title">DIRECT MESSAGES <span class="add-action glyphicon glyphicon-plus-sign" ng-click="searchUser()"></span></li>
-                    <li ng-class="{'notification': userChannel.unread, 'active': selectedChannel == userChannel}" ng-repeat="userChannel in directChannels" ng-click="selectChannel(userChannel)">{{userChannel.name}}</li>
+                    <li ng-class="{'notification': userChannel.unread, 'active': isChannelSelected(userChannel), 'online': userChannel.is_online}" ng-repeat="userChannel in directChannels" ng-click="selectChannel(userChannel)">{{userChannel.name}}</li>
                 </ul>
 
             </div>
@@ -24,7 +24,6 @@
             <ng-include src="'components/messaging/templates/conversation.html'"></ng-include>
 
             <div class="popup-placeholder"></div>
-
         </div>
     </div>
 </div>

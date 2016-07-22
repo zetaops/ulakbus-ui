@@ -12,8 +12,8 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
 /**
  * @memberof ulakbus.messaging
  * @ngdoc factory
- * @name Generator
- * @description form service's Generator factory service handles all generic form operations
+ * @name MessagingService
+ * @description Service handles all stuff related to messaging
  */
     .factory('MessagingService', function ($q, $timeout, $sce, $location, $route, $compile, $log, $rootScope, Moment, WSOps, Utils) {
         var msg = {};
@@ -44,15 +44,20 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             })
         }
 
-        // prepare messages for UI
         function prepareMessages (messages){
             for (var i = 0; i < messages.length; i++){
                 var message = messages[i];
-                // FIXME: process timezone properly
-                var ts = message.timestamp.replace(/\.0+Z$/, "");
-                message.moment = Moment(ts);
+                msg.prepareMessage(message);
             }
         }
+
+        // prepare message to show in UI
+        msg.prepareMessage = function(message){
+            var ts = message.timestamp.replace(/\.0+Z$/, "");
+            // FIXME: process timezone properly
+            message.moment = Moment(ts);
+            return message;
+        };
 
         msg.list_channels = function list_channels (){
             /**
@@ -83,6 +88,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
                 view: '_zops_list_channels'
             };
             return wsRequest(outgoing).then(function (data) {
+                console.error("channels: ", data.channels);
                 return Utils.groupBy(data.channels||[], "type");
             });
         };
@@ -174,14 +180,14 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
 
         msg.edit_channel = function (channelKey, name, desription) {
             var outgoing = {
-                view:'_zops_create_channel',
+                view:'_zops_edit_channel',
                 channel_key: channelKey,
                 name: name,
                 description: desription
             };
 
             return wsRequest(outgoing).then(function(result){
-                $log.info("Channel ", channelKey, " edited: ", result);
+                $log.info("Channel ", channelKey, " edited: ", outgoing, result);
                 return result;
             })
         };
@@ -198,12 +204,14 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         };
 
         msg.show_channel = function(channelKey){
+
             var outgoing = {
                 view: '_zops_show_channel',
                 channel_key: channelKey
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Show channel ", channelKey, ": ", result);
+                console.error("channel: ", result);
                 prepareMessages(result.last_messages);
                 return result;
             })
@@ -225,7 +233,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             var outgoing = {
                 channel_key: channelKey,
                 msg_key: msgKey,
-                timestamp: timestamp,
+                timestamp: timestamp
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Report last seen message ", channelKey, msgKey, timestamp, ": ", result);
@@ -293,10 +301,8 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         msg.flag_message = function (msgKey, flag) {
             var outgoing = {
                 view: '_zops_flag_message',
-                message: {
-                    'key': msgKey,
-                    'flag': flag
-                }
+                key: msgKey,
+                flag: flag
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Flag message ", msgKey, flag, ":", result);
@@ -318,7 +324,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         msg.add_to_favorites = function (msgKey) {
             var outgoing = {
                 view: '_zops_add_to_favorites',
-                message_key: msgKey
+                key: msgKey
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Add message ", msgKey, " to favorites: ", result);
@@ -329,7 +335,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         msg.remove_from_favorites = function (msgKey) {
             var outgoing = {
                 view: '_zops_remove_to_favorites',
-                message_key: msgKey
+                key: msgKey
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Remove message ", msgKey, " from favorites: ", result);
@@ -346,7 +352,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
                 $log.info("List favorites for channel", channelKey, ": ", result);
                 return result;
             });
-        }
+        };
 
         return msg;
     })

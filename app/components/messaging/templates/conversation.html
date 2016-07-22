@@ -13,7 +13,7 @@
     <div class="conversation-header">
         <div class="conversation-user">
             <div class="user-photo" ng-show="selectedChannel.avatar_url"><img ng-src="{{selectedChannel.avatar_url}}"></div>
-            <div class="user-name">{{selectedChannel.name}}</div>
+            <div class="user-name" title="{{selectedChannel.description}}">{{selectedChannel.name}}</div>
         </div>
         <div class="conversation-search">
             <input type="text" placeholder="Arama Yap">
@@ -23,7 +23,7 @@
                 <span class="glyphicon glyphicon-option-vertical"></span>
             </div>
             <ul class="dropdown-menu" ng-show="selectedChannel.actions.length > 0" aria-labelledby="chat-app-actions" style="left: inherit; top: 53px; right: 66px;" >
-                <li><a ng-click="applyChannelAction(action)" ng-repeat="action in selectedChannel.actions">{{action[0]}}</a></li>
+                <li><a ng-click="applyChannelAction(selectedChannel, action)" ng-repeat="action in selectedChannel.actions">{{action[0]}}</a></li>
             </ul>
         </div>
         <div class="close-chat-app" ng-click="hideApp()">
@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <div class="conversation-body">
+    <div class="conversation-body" scroll-down-when-update="lastMessage">
         <div class="conversation-body-inner">
 
             <div class="beginning-of-conversation">
@@ -41,17 +41,16 @@
             <div class="conversation-block clearfix" ng-repeat="msg in selectedChannel.messages">
                 <div class="conversation-actions">
                     <div class="action"><span class="glyphicon glyphicon-star-empty"></span></div>
-                    <div class="action dropdown-toggle" data-toggle="dropdown">
+                    <div class="action dropdown-toggle" data-toggle="dropdown" ng-click="getMessageActions(msg)">
                         <span class="glyphicon glyphicon-option-horizontal"></span>
                     </div>
-                    <ul class="dropdown-menu" style="left:-86px;">
-                        <li><a href="#">Edit</a></li>
-                        <li><a href="#" ng-click="deleteConfirmation()">Delete</a></li>
+                    <ul class="dropdown-menu" style="left:-86px;" >
+                        <li ng-repeat="act in msg.actions"><a href="#" ng-click="applyMessageAction(msg, act)">{{act[0]}}</a></li>
                     </ul>
                 </div>
 
                 <div class="user-photo">
-                    <img src="../../../img/erkan.jpg">
+                    <img ng-src="{{msg.avatar_url}}" ng-show="msg.avatar_url">
                 </div>
                 <div class="user-message">
                     <div class="message-header clearfix">

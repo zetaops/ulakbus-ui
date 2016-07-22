@@ -2203,7 +2203,7 @@ table.dataTable thead .sorting:after {
 	padding-left: 40px;
 }
 
-.chat-app .side-navigation ul.direct-messages li.active {
+.chat-app .side-navigation ul.direct-messages li.active, .chat-app .side-navigation ul.channels li.active {
 	background-color: #B51533;
 }
 
@@ -2521,7 +2521,7 @@ table.dataTable thead .sorting:after {
 	color:#000000;
 }
 
-.chat-app .create-new-message-window .search-results {
+.chat-app .create-new-message-window .search-results, .chat-app .add-user-unit .search-results {
 	width: 50%;
     margin-left: 25%;
     margin-top: 25px;
@@ -2529,7 +2529,7 @@ table.dataTable thead .sorting:after {
     overflow: auto;
 }
 
-.chat-app .create-new-message-window .search-results .user {
+.chat-app .create-new-message-window .search-results .user, .chat-app .add-user-unit .search-results .user {
 	width: 100%;
     display: inline-block;
     padding: 10px;
@@ -2537,23 +2537,46 @@ table.dataTable thead .sorting:after {
 	cursor:pointer;
 }
 
-.chat-app .create-new-message-window .search-results .user:hover {
+.chat-app .create-new-message-window .search-results .user:hover, .chat-app .add-user-unit .search-results .user:hover{
 	background-color:#efefef;
 }
 
-.chat-app .create-new-message-window .search-results .user img {
+.chat-app .create-new-message-window .search-results .user img, .chat-app .add-user-unit .search-results .user img{
 	width: 45px;
     height: 45px;
     border-radius: 100%;
     float: left;
 }
 
-.chat-app .create-new-message-window .search-results .user .user-name {
+.chat-app .create-new-message-window .search-results .user .user-name, .chat-app .add-user-unit .search-results .user .user-name {
 	float: left;
     margin-left: 15px;
     font-family: 'robotobold';
     font-size: 18px;
     margin-top: 9px;
+}
+
+.chat-app-button {
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    text-align: center;
+    cursor: pointer;
+}
+
+.chat-app-button i {
+    top: 16px;
+    color: #333;
+    font-size: 20px;
 }
 
 .chat-app .create-new-channel-window h3 {
