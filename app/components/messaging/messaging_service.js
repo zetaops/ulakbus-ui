@@ -53,9 +53,14 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
 
         // prepare message to show in UI
         msg.prepareMessage = function(message){
-            var ts = message.timestamp.replace(/\.0+Z$/, "");
-            // FIXME: process timezone properly
-            message.moment = Moment(ts);
+            if (!message.timestamp){
+                message.moment = Moment();
+                console.error("NO TS: ", message);
+            } else {
+                var ts = message.timestamp.replace(/\.0+Z$/, "");
+                // FIXME: process timezone properly
+                message.moment = Moment(ts);
+            }
             return message;
         };
 
