@@ -2505,6 +2505,11 @@ table.dataTable thead .sorting:after {
 
 /* COURSE PROGRAM SCHEDULER */
 
+.course-prg-scheduler select {
+	height:50px;
+	border:none;	
+}
+
 .course-prg-scheduler .tab-content {
 	padding:25px 0;
 }
