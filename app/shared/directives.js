@@ -32,78 +32,28 @@ angular.module('ulakbus')
      * @ngdoc directive
      * @name headerNotification
      * @description This directive is responsible to get and show notification.
-     * It calls API's /notify path with given interval and broadcasts `notifications` application-wide.
-     * There are 4 types of notifications:
-     * 1: tasks, 2: messages, 3: announcements, 4: recents
+     * It calls API's '_zops_unread_count' view to init its state and updates state when 'message' or 'notifications' broadcast message received     *
      * - Notifications can be disabled in /dev/settings page
      */
-    .directive('headerNotification', function (WSOps, $rootScope, $cookies, $interval, RESTURL, $uibModal) {
+    .directive('headerNotification', function ($rootScope, $uibModal, MessagingService) {
         return {
             templateUrl: 'shared/templates/directives/header-notification.html',
             restrict: 'E',
             replace: true,
             scope: {},
             controller: function ($scope, $log) {
-                // notification categories:
-                // 1: tasks, 2: messages, 3: announcements, 4: recents
-                $scope.notifications = {1: [], 2: [], 3: [], 4: []};
-                /**
-                 * Group notifications
-                 * @param notifications
-                 */
-                
-                $scope.popModal = function(item){
-                     var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: 'shared/templates/notificationsModalContent.html',
-                        controller: function($scope){
-                            $scope.notification = item;
-                            $scope.cancel = function() {
-                                modalInstance.dismiss('cancel');
-                            };
-                        },
-                        size: 'lg'
-                    });
+                $scope.count = {
+                    messages: 0,
+                    notifications: 0
+                };
+                function initCounters(){
+                    MessagingService.get_unread_messages_count()
+                        .then(function(result){
+                            $scope.count.messages = result.messages;
+                            $scope.count.notifiations = result.notifications;
+                        })
                 }
-
-                $scope.groupNotifications = function (notifications) {
-
-                    $scope.notifications = {1: [], 2: [], 3: [], 4: []};
-
-                    angular.forEach(notifications, function (value, key) {
-                        $scope.notifications[value.type].push(value);
-                    });
-                    $scope.$apply();
-                };
-
-                /**
-                 * When "notifications" send via websocket, parse notifications by type.
-                 */
-                $scope.$on("notifications", function (event, data) {
-                    $log.debug("Notification!", data);
-                    $scope.groupNotifications(data);
-                });
-
-                /**
-                 * When clicked mark the notification as read.
-                 * @param items
-                 * @todo: do it in detail page of notification
-                 */
-                $scope.markAsRead = function (event,item, group, index) {
-                    //Added event parameter to stop propagate, so that behaviour of outsideClick won't be interrupted.
-                    event.stopPropagation();
-                    WSOps.doSend(angular.toJson({data: {view: 'notify', id:item.id}}));
-                    $scope.notifications[group].splice(index,1);
-
-                    $event.preventDefault();
-                    $event.stopPropagation();
-                    return false;
-                };
-
-                // if markasread triggered outside the directive
-                // $scope.$on("markasread", function (event, data) {
-                //     $scope.markAsRead(data);
-                // });
+                initCounters();
             }
         };
     })
