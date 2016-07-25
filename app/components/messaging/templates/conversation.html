@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <div class="conversation-body" scroll-down-when-update="lastMessage">
+    <div class="conversation-body" ng-class="{readonly: selectedChannel.read_only}" scroll-down-when-update="lastMessage">
         <div class="conversation-body-inner">
 
             <div class="beginning-of-conversation">
@@ -65,8 +65,7 @@
         </div>
     </div>
 
-    <div class="conversation-footer">
-
+    <div class="conversation-footer" ng-show="!selectedChannel.read_only">
         <textarea placeholder="Mesajını buraya yaz..." ng-model="shared.message" on-enter-pressed="sendMessage(shared.message)"></textarea>
         <div class="add-attachment">
             <span class="glyphicon glyphicon-send" ng-click="sendMessage(shared.message);"></span>

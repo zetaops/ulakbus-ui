@@ -2336,6 +2336,10 @@ table.dataTable thead .sorting:after {
 	overflow-x: hidden;
 }
 
+.chat-app .conversation-body.readonly {
+    height: calc(100% - 100px);
+}
+
 .chat-app .conversation-footer {
 	height: 70px;
     width: 560px;
