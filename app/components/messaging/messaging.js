@@ -2,12 +2,13 @@ angular.module("ulakbus.messaging")
 
     .directive('messaging', function (Generator, MessagingService, $log, $rootScope, MessagingPopup, Utils) {
 
+        // get channel key
         function getKey (channel) {
             if (!channel) return;
             if (!angular.isObject(channel)) return channel;
             var channelKey = channel.channel_key;
-            if (channel.hasOwnProperty('key')){
-                channelKey = channel.key; // direct channel
+            if (!channelKey && channel.hasOwnProperty('key')){
+                channelKey = channel.key;
             }
             return channelKey;
         }
@@ -36,7 +37,7 @@ angular.module("ulakbus.messaging")
 
                 var popupRootElement = $(iElem).find('.popup-placeholder');
 
-                function editChannelPopup (channel){
+                function editChannelPopup(channel){
                     return MessagingPopup.show({
                         templateUrl: "components/messaging/templates/create_channel.html",
                         rootElement: popupRootElement,
@@ -61,7 +62,7 @@ angular.module("ulakbus.messaging")
                 }
 
                 function appendMessage(channel, message){
-                    if (channel && getKey(channel) == getKey(iScope.selectedChannel)){
+                    if (channel && getKey(message) == getKey(channel)){
                         if (channel.messages){
                             channel.messages.push(message);
                         }
@@ -81,6 +82,15 @@ angular.module("ulakbus.messaging")
                         Utils.deleteWhere(iScope.selectedChannel.messages, {'key': messageKey});
                     }
                 }
+
+                function reportLastSeenMessage(){
+                    if (!iScope.lastMessage || !iScope.selectedChannel) return;
+                    // instantly received messages haven't timestamp. Use moment
+                    // FIXME: change to proper moment processing
+                    // var ts = iScope.lastMessage.moment.toISOString();
+                    var ts = iScope.lastMessage.moment.format("YYYY-MM-DDTHH:mm:ss");
+                    MessagingService.report_last_seen_message(getKey(iScope.selectedChannel), iScope.lastMessage.key, ts);
+                };
 
                 iScope.deleteConfirmation = function(title){
                     return MessagingPopup.show({
@@ -222,13 +232,15 @@ angular.module("ulakbus.messaging")
                     var channelKey = getKey(channel);
                     selectChannel(channelKey, silent).then(function(result){
                         iScope.selectedChannel = result;
+                        iScope.selectedChannel.read_only = channel.read_only;
                         iScope.selectedChannel.messages = result.last_messages;
                         updateLastMessage(channel.messages);
+                        reportLastSeenMessage();
                     });
                 };
 
                 iScope.isChannelSelected = function(channel){
-                    return getKey(channel) == getKey(iScope.selectedChannel);
+                    return iScope.selectedChannel && getKey(channel) == getKey(iScope.selectedChannel);
                 }
 
                 iScope.sendMessage = function(content){

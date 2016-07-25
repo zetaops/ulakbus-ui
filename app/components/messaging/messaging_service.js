@@ -15,8 +15,9 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
  * @name MessagingService
  * @description Service handles all stuff related to messaging
  */
-    .factory('MessagingService', function ($q, $timeout, $sce, $location, $route, $compile, $log, $rootScope, Moment, WSOps, Utils) {
+    .factory('MessagingService', function ($q, $timeout, $compile, $log, $rootScope, Moment, WSOps, Utils) {
         var msg = {};
+        var notificationsChannelKey;
 
         msg.CHANNEL_TYPE = {
             "PUBLIC": 15,
@@ -28,7 +29,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             /**
              * wait until websocket will be open
              */
-                var deferred = $q.defer();
+            var deferred = $q.defer();
             var dismissWatcher = $rootScope.$watch('websocketIsOpen', function(isOpen){
                 if (isOpen){
                     dismissWatcher();
@@ -55,14 +56,21 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         msg.prepareMessage = function(message){
             if (!message.timestamp){
                 message.moment = Moment();
-                console.error("NO TS: ", message);
             } else {
-                var ts = message.timestamp.replace(/\.0+Z$/, "");
-                // FIXME: process timezone properly
+                var ts = message.timestamp.replace("Z", "");
                 message.moment = Moment(ts);
             }
             return message;
         };
+
+        msg.get_notifications_channel_key = function(){
+            return notificationsChannelKey;
+        };
+
+        /**
+         * API
+         *
+         * */
 
         msg.list_channels = function list_channels (){
             /**
@@ -94,7 +102,10 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             };
             return wsRequest(outgoing).then(function (data) {
                 console.error("channels: ", data.channels);
-                return Utils.groupBy(data.channels||[], "type");
+                var grouped = Utils.groupBy(data.channels||[], "type");
+                // save notifications channel key
+                notificationsChannelKey = grouped[msg.CHANNEL_TYPE.NOTIFICATION][0].key;
+                return grouped;
             });
         };
 
@@ -209,14 +220,12 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         };
 
         msg.show_channel = function(channelKey){
-
             var outgoing = {
                 view: '_zops_show_channel',
-                channel_key: channelKey
+                key: channelKey
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Show channel ", channelKey, ": ", result);
-                console.error("channel: ", result);
                 prepareMessages(result.last_messages);
                 return result;
             })
@@ -234,8 +243,19 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             })
         };
 
+        msg.get_unread_messages_count = function(){
+            var outgoing = {
+                'view': '_zops_unread_count'
+            };
+            return wsRequest(outgoing).then(function(result){
+                $log.info("Get unread messages count: ", result);
+                return result;
+            })
+        };
+
         msg.report_last_seen_message = function (channelKey, msgKey, timestamp){
             var outgoing = {
+                view: '_zops_report_last_seen_message',
                 channel_key: channelKey,
                 msg_key: msgKey,
                 timestamp: timestamp
