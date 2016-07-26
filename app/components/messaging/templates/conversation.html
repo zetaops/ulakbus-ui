@@ -45,7 +45,7 @@
                         <span class="glyphicon glyphicon-option-horizontal"></span>
                     </div>
                     <ul class="dropdown-menu" style="left:-86px;" >
-                        <li ng-repeat="act in msg.actions"><a href="#" ng-click="applyMessageAction(msg, act)">{{act[0]}}</a></li>
+                        <li ng-repeat="act in msg.actions"><a ng-click="applyMessageAction(msg, act)">{{act[0]}}</a></li>
                     </ul>
                 </div>
 
@@ -72,8 +72,8 @@
             <div class="dropup" style="float:left;">
                 <span class="glyphicon glyphicon-paperclip dropdown-toggle" data-toggle="dropdown" id="attachment"></span>
                 <ul class="dropdown-menu" aria-labelledby="attachment" style="left:-104px;">
-                    <li><a href="#">Görsel</a></li>
-                    <li><a href="#">Dosya</a></li>
+                    <li><a >Görsel</a></li>
+                    <li><a >Dosya</a></li>
                 </ul>
             </div>
         </div>
