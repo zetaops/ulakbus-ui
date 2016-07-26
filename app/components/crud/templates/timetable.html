@@ -14,8 +14,9 @@
                 </div>
 
                 <div class="col-xs-9">
+                    <div class="loader" ng-show="loadingTable">Loading...</div>
                     <!-- Tab panes -->
-                    <div class="tab-content">
+                    <div class="tab-content" ng-hide="loadingTable">
                         <div class="tab-pane active" id="one">
 
                             <div class="info-header clearfix">
@@ -25,14 +26,14 @@
                                 </div>
                                 <div class="info-wrapper">
                                     <div style="margin-top:14px;">
-                                        <span>Ders Yükü:</span> <span>{{currentLecturer.totalHours}} saat</span>
+                                        <span><b>Ders Yükü:</b></span> <span>{{currentLecturer.totalHours}} saat</span>
                                     </div>
                                 </div>
                             </div>
                             <!-- end of header -->
 
-                            <div class="table-warning">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span> Tabloda en az 30 saat uygun olarak işaretlemelisiniz.
+                            <div class="table-warning" ng-show="message">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span> {{message.title}}<br/>{{message.msg}}
                             </div>
 
                             <table border="1">
@@ -47,17 +48,15 @@
                                     <td>CMT</td>
                                     <td>PAZ</td>
                                 </tr>
-                                <tr ng-repeat="(time, days) in timetable">
-                                    <td>{{time}}</td>
-                                    <td ng-repeat="day in days">
-                                        <select ng-model="day.durum" class="form-control" ng-options="option.value as option.name for option in availableStates">
-                                        </select>
+                                <tr ng-repeat="time in timetable">
+                                    <td>{{time[0]}}</td>
+                                    <td ng-repeat="day in time[1]">
+                                        <select class="form-control" ng-model="day.durum" ng-change="changeValue(day)" ng-options="option.value as option.name for option in availableStates"></select>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
-
-
+                            <div class="loader pull-right" ng-show="loadingAction">Loading...</div>
                         </div>
                     </div>
                 </div>

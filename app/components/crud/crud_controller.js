@@ -490,7 +490,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
      * @name crudTimetableDirective
      * @description directive for displaying timetable widget
      */
-    .directive("crudTimetableDirective", function(){
+    .directive("crudTimetableDirective", function(WSOps, $q){
         // todo: replace with utils service method
         function groupBy (list, propName) {
             return list.reduce(function(acc, item) {
@@ -499,21 +499,31 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             }, {});
         };
 
+        function get_wf(scope, data){
+            data.token = scope.token;
+            data.wf = scope.wf;
+            return WSOps.request(data).then(function(result){
+                if (result.ogretim_elemani_zt){
+                    return result;
+                } else {
+                    Generator.pathDecider(result.client_cmd || ['list'], scope, result);
+                    // prevent result processing
+                    return $q.reject();
+                }
+            }).then(function(result){
+                scope.message = result.msgbox;
+                return result.ogretim_elemani_zt
+            })
+        }
+
         return {
             templateUrl: 'components/crud/templates/timetable.html',
             restrict: 'E',
             replace: true,
             link: function(iScope, iElem, iAtrrs){
-                console.log("SXF: ", iScope.ogretim_elemani_zt);
 
                 iScope.lecturerList = iScope.ogretim_elemani_zt.ogretim_elemanlari;
-
-                iScope.currentLecturer = {
-                    key: iScope.ogretim_elemani_zt.oe_key,
-                    name: iScope.ogretim_elemani_zt.name,
-                    avatar_url: iScope.ogretim_elemani_zt.avatar_url,
-                    totalHours: iScope.ogretim_elemani_zt.toplam_ders_saati
-                };
+                initLecturer(iScope.ogretim_elemani_zt);
 
                 iScope.availableStates = [
                     {value: 1, name: "Uygun"},
@@ -521,7 +531,15 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                     {value: 3, name: "Meşgul"}
                 ];
 
-                prepareTimetable(iScope.ogretim_elemani_zt.uygunluk_durumu);
+                function initLecturer(data){
+                    iScope.currentLecturer = {
+                        key: data.oe_key,
+                        name: data.name,
+                        avatar_url: data.avatar_url,
+                        totalHours: data.toplam_ders_saati
+                    };
+                    prepareTimetable(data.uygunluk_durumu);
+                };
 
                 function prepareTimetable(timetable){
                     var grouped = groupBy(timetable, "saat");
@@ -531,11 +549,49 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                             return a.gun < b.gun ? -1 : 1;
                         });
                     }
-                    iScope.timetable = grouped;
+                    var acc = [];
+                    for (var t in grouped){
+                        if (grouped.hasOwnProperty(t)){
+                            acc.push([t, grouped[t]]);
+                        }
+                    }
+                    iScope.timetable = acc.sort(function(a, b){
+                        return a[0] > b[0] ? 1 : -1;
+                    });
                 }
 
-                iScope.selectLecturer = function(){
+                iScope.selectLecturer = function(lecturer){
+                    iScope.loadingTable = true;
+                    get_wf(iScope, {
+                        cmd: 'personel_sec',
+                        secili_og_elemani: {key: lecturer.key}
+                    }).then(function(response){
+                        initLecturer(response);
+                    }).finally(function(){
+                        iScope.loadingTable = false;
+                    })
+                };
 
+                iScope.changeValue = function(time){
+                    iScope.loadingAction = true;
+                    get_wf(iScope, {
+                        cmd: 'degistir',
+                        change: {
+                            'key': time.key,
+                            'durum': time.durum
+                        }
+                    }).then(function(table){
+                        var days = table.uygunluk_durumu;
+                        // update durum value from the response
+                        for (var i=0; i<days.length; i++){
+                            if (days[i].key == time.key){
+                                time.durum = days[i].durum;
+                                break;
+                            }
+                        }
+                    }).finally(function(){
+                        iScope.loadingAction = false;
+                    })
                 }
             }
         }
