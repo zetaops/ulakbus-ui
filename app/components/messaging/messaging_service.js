@@ -301,7 +301,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         msg.delete_message = function (msgKey) {
             var outgoing = {
                 view: '_zops_delete_message',
-                message_key: msgKey
+                key: msgKey
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Delete message ", msgKey,":", result);
@@ -338,7 +338,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         msg.get_message_actions = function (msgKey) {
             var outgoing = {
                 view: '_zops_get_message_actions',
-                message_key: msgKey
+                key: msgKey
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Get message actions", msgKey, ":", result);

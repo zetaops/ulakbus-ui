@@ -6,16 +6,16 @@
 
             <div class="side-navigation">
                 <ul class="channels">
-                    <li class="title" ng-click="selectChannel(notificationsChannel)">NOTIFICATIONS <span class="badge" ng-show="notificationsChannel.unread">{{notificationsChannel.unread}}</span></li>
+                    <li class="title" ng-click="selectChannel(notificationsChannel)">BİLDİRİMLER <span class="badge" ng-show="notificationsChannel.unread">{{notificationsChannel.unread}}</span></li>
                 </ul>
 
                 <ul class="channels">
-                    <li class="title">CHANNELS <span class="add-action glyphicon glyphicon-plus-sign" ng-click="createChannel()"></span></li>
+                    <li class="title">KANALLAR <span class="add-action glyphicon glyphicon-plus-sign" ng-click="createChannel()"></span></li>
                     <li ng-class="{'notification': ch.unread, 'active': isChannelSelected(ch)}" title="{{ch.description}}" ng-repeat="ch in publicChannels" ng-click="selectChannel(ch)">{{ch.name}}</li>
                 </ul>
 
                 <ul class="direct-messages">
-                    <li class="title">DIRECT MESSAGES <span class="add-action glyphicon glyphicon-plus-sign" ng-click="searchUser()"></span></li>
+                    <li class="title">MESAJLAR <span class="add-action glyphicon glyphicon-plus-sign" ng-click="searchUser()"></span></li>
                     <li ng-class="{'notification': userChannel.unread, 'active': isChannelSelected(userChannel), 'online': userChannel.is_online}" ng-repeat="userChannel in directChannels" ng-click="selectChannel(userChannel)">{{userChannel.name}}</li>
                 </ul>
 

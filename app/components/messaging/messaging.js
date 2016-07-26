@@ -43,11 +43,11 @@ angular.module("ulakbus.messaging")
                         rootElement: popupRootElement,
                         link: function(scope){
                             scope.channel = channel||{};
-                            scope.title = "Edit channel";
-                            scope.actionTitle = "Edit";
+                            scope.title = "Kanalı düzenle";
+                            scope.actionTitle = "Düzenle";
                             if (!channel){
-                                scope.title = "Create new channel";
-                                scope.actionTitle = "Create";
+                                scope.title = "Yeni Kanal Oluştur";
+                                scope.actionTitle = "Oluştur";
                             }
                         }
                     })
@@ -96,7 +96,7 @@ angular.module("ulakbus.messaging")
                     return MessagingPopup.show({
                         templateUrl: "components/messaging/templates/delete_confirmation.html",
                         link: function(scope){
-                            scope.title = title || "Are you sure you want to delete?";
+                            scope.title = title || "Silmek istediğinize emin misiniz?";
                         },
                         rootElement: popupRootElement
                     })
@@ -166,7 +166,7 @@ angular.module("ulakbus.messaging")
                             break;
 
                         case '_zops_delete_channel':
-                            iScope.deleteConfirmation('Are you sure you want to delete channel?')
+                            iScope.deleteConfirmation('Kanalı silmek istediğinize emin misiniz?')
                                 .then(function(){
                                     MessagingService.delete_channel(getKey(channel));
                                 });
@@ -183,8 +183,8 @@ angular.module("ulakbus.messaging")
                                 templateUrl: "components/messaging/templates/add_user_unit.html",
                                 rootElement: popupRootElement,
                                 link: function(scope){
-                                    scope.title = "Add User to channel";
-                                    scope.placeholder = "Search User to Add";
+                                    scope.title = "Kanala kullanıcı ekle";
+                                    scope.placeholder = "Eklemek için kullanıcı ara";
                                     scope.onChange = function(query){
                                         searchWrapper(scope, function(){
                                             return MessagingService.search_user(query);
@@ -202,8 +202,8 @@ angular.module("ulakbus.messaging")
                                 templateUrl: "components/messaging/templates/add_user_unit.html",
                                 rootElement: popupRootElement,
                                 link: function(scope){
-                                    scope.title = "Add Unit";
-                                    scope.placeholder = "Search Unit to Add";
+                                    scope.title = "Birim Ekle";
+                                    scope.placeholder = "Kanala eklemek için birim ara";
                                     scope.onChange = function(query){
                                         searchWrapper(scope, function(){
                                             return MessagingService.search_unit(query);
@@ -278,7 +278,7 @@ angular.module("ulakbus.messaging")
                                 });
                             break;
                         case "_zops_delete_message":
-                            iScope.deleteConfirmation("Are you sure you want to delete message?")
+                            iScope.deleteConfirmation("Mesajı silmek istediğinize emin misiniz?")
                                 .then(function(){
                                     return MessagingService.delete_message(message.key).then(function(){
                                         deleteMessageLocally(message.key);
