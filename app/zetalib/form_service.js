@@ -461,6 +461,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     }
                 });
 
+
+                // todo: check this place to fix 'keys instead of names' bug
                 if (scope.model[k]) {
                     angular.forEach(scope.model[k], function (value, key) {
                         angular.forEach(value, function (y, x) {
@@ -1166,6 +1168,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             //    $rootScope.$broadcast('reload_cmd', $scope.reload_cmd);
             //    //return;
             //}
+
             /**
              * @memberof ulakbus.formService
              * @ngdoc function
@@ -1325,10 +1328,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          *
          * @param {Object} $scope
          * @param {Object} redirectTo
+         * @param {Boolean} dontProcessReply - used in modal forms
          * @returns {*}
          * @todo diff for all submits to recognize form change. if no change returns to view with no submit
          */
-        generator.submit = function ($scope, redirectTo) {
+        generator.submit = function ($scope, redirectTo, dontProcessReply) {
 
             /**
              * In case of unformatted date object in any key recursively, it must be converted.
@@ -1366,9 +1370,12 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             };
 
             if ($rootScope.websocketIsOpen === true) {
-                WSOps.request(send_data)
+                return WSOps.request(send_data)
                     .then(function (data) {
-                        return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
+                        if (!dontProcessReply){
+                            return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
+                        }
+                        return data;
                     });
             } else {
                 $timeout(function () {
@@ -1514,6 +1521,14 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             var reformattedModel = {};
                             angular.forEach(childmodel.model, function (value, key) {
                                 if (key.indexOf('_id') > -1) {
+
+                                    // todo: understand why we got object here!
+                                    // hack to fix bug with value as object
+                                    if (angular.isObject(value) && value.value){
+                                        value = value.value;
+                                        childmodel.model[key] = value;
+                                    }
+
                                     angular.forEach(childmodel.form, function (v, k) {
                                         if (v.formName === key) {
                                             //if (!childmodel.model[key].key) {
@@ -1522,11 +1537,15 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                                     return element;
                                                 }
                                             }
+                                            var unicodeValue = v.titleMap.find(indexInTitleMap);
+                                            if (unicodeValue){
+                                                unicodeValue = unicodeValue.name;
+                                                reformattedModel[key] = {
+                                                    "key": value,
+                                                    "unicode": unicodeValue
+                                                }
+                                            }
 
-                                            reformattedModel[key] = {
-                                                "key": value,
-                                                "unicode": v.titleMap.find(indexInTitleMap).name
-                                            };
                                             //}
                                         }
                                     });
@@ -1616,27 +1635,18 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                     modalInstance.result.then(function (childscope, key) {
                         var formName = childscope.formName;
-                        Generator.submit(childscope, false)
-                            .success(function (data) {
+                        Generator.submit(childscope, false, true).then(
+                            function (data) {
                                 // response data contains object_id and unicode
-                                // scope.model can be reached via prototype chain
-                                scope.model[formName] = data.forms.model.object_key;
-                                // scope.form prototype chain returns this form item
-                                scope.form.titleMap.push({
-                                    value: data.forms.model.object_key,
-                                    name: data.forms.model.unicode
-                                });
-                                scope.form.selected_item = {
+                                // scope.form can be reached via prototype chain
+                                var item = {
                                     value: data.forms.model.object_key,
                                     name: data.forms.model.unicode
                                 };
-                                scope.$watch(document.querySelector('input[name=' + scope.form.model_name + ']'),
-                                    function () {
-                                        angular.element(document.querySelector('input[name=' + scope.form.model_name + ']')).val(scope.form.selected_item.name);
-                                    }
-                                );
+                                scope.form.titleMap.push(item);
+                                scope.form.onSelect(item, formName);
+
                             });
-                        //$route.reload();
                     });
                 });
             }
