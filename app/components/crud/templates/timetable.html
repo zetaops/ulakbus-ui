@@ -1,0 +1,70 @@
+<div class="row academician-dashboard dashboard">
+    <div class="col-md-12 course-prg-scheduler">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">Course Scheduler Widget</div>
+            </div>
+            <div class="panel-body">
+
+                <div class="col-xs-3"> <!-- required for floating -->
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs tabs-left">
+                        <li ng-repeat="lecturer in lecturerList" ng-click="selectLecturer(lecturer)" ng-class="{active: currentLecturer.key == lecturer.key}"><a>{{lecturer.name}}</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-xs-9">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="one">
+
+                            <div class="info-header clearfix">
+                                <div class="info-wrapper">
+                                    <img ng-src="{{currentLecturer.avatar_url}}" class="profile-pic">
+                                    <span class="user-name">{{currentLecturer.name}}</span>
+                                </div>
+                                <div class="info-wrapper">
+                                    <div style="margin-top:14px;">
+                                        <span>Ders Yükü:</span> <span>{{currentLecturer.totalHours}} saat</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of header -->
+
+                            <div class="table-warning">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span> Tabloda en az 30 saat uygun olarak işaretlemelisiniz.
+                            </div>
+
+                            <table border="1">
+                                <tbody>
+                                <tr class="headers">
+                                    <td></td>
+                                    <td>PZT</td>
+                                    <td>SAL</td>
+                                    <td>ÇAR</td>
+                                    <td>PER</td>
+                                    <td>CUM</td>
+                                    <td>CMT</td>
+                                    <td>PAZ</td>
+                                </tr>
+                                <tr ng-repeat="(time, days) in timetable">
+                                    <td>{{time}}</td>
+                                    <td ng-repeat="day in days">
+                                        <select ng-model="day.durum" class="form-control" ng-options="option.value as option.name for option in availableStates">
+                                        </select>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- end of panel-body -->
+        </div>
+        <!-- end of panel -->
+    </div>
+</div>

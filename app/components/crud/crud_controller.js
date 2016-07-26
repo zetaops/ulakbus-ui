@@ -483,4 +483,60 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                 }
             }
         };
+    })
+    /**
+     * @memberof ulakbus.crud
+     * @ngdoc directive
+     * @name crudTimetableDirective
+     * @description directive for displaying timetable widget
+     */
+    .directive("crudTimetableDirective", function(){
+        // todo: replace with utils service method
+        function groupBy (list, propName) {
+            return list.reduce(function(acc, item) {
+                (acc[item[propName]] = acc[item[propName]] || []).push(item);
+                return acc;
+            }, {});
+        };
+
+        return {
+            templateUrl: 'components/crud/templates/timetable.html',
+            restrict: 'E',
+            replace: true,
+            link: function(iScope, iElem, iAtrrs){
+                console.log("SXF: ", iScope.ogretim_elemani_zt);
+
+                iScope.lecturerList = iScope.ogretim_elemani_zt.ogretim_elemanlari;
+
+                iScope.currentLecturer = {
+                    key: iScope.ogretim_elemani_zt.oe_key,
+                    name: iScope.ogretim_elemani_zt.name,
+                    avatar_url: iScope.ogretim_elemani_zt.avatar_url,
+                    totalHours: iScope.ogretim_elemani_zt.toplam_ders_saati
+                };
+
+                iScope.availableStates = [
+                    {value: 1, name: "Uygun"},
+                    {value: 2, name: "Belirsiz"},
+                    {value: 3, name: "Meşgul"}
+                ];
+
+                prepareTimetable(iScope.ogretim_elemani_zt.uygunluk_durumu);
+
+                function prepareTimetable(timetable){
+                    var grouped = groupBy(timetable, "saat");
+                    for (var day in grouped){
+                        var dayItems = grouped[day];
+                        grouped[day] = dayItems.sort(function(a, b){
+                            return a.gun < b.gun ? -1 : 1;
+                        });
+                    }
+                    iScope.timetable = grouped;
+                }
+
+                iScope.selectLecturer = function(){
+
+                }
+            }
+        }
     });
