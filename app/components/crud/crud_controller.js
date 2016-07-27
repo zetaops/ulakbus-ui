@@ -483,4 +483,172 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                 }
             }
         };
+    })
+
+    .controller("crudTimetableDirectiveCtrl", function($scope, WSOps, $q){
+        // todo: replace with utils service method
+        function groupBy (list, propName) {
+            return list.reduce(function(acc, item) {
+                (acc[item[propName]] = acc[item[propName]] || []).push(item);
+                return acc;
+            }, {});
+        };
+        $scope.groupBy = groupBy;
+
+        $scope.get_wf = function get_wf(data){
+            var fieldName = $scope.mainFieldName || 'ogretim_elemani_zt';
+            data.token = $scope.token;
+            data.wf = $scope.wf;
+            return WSOps.request(data).then(function(result){
+                if (result[fieldName]){
+                    return result;
+                }
+                Generator.pathDecider(result.client_cmd || ['list'], $scope, result);
+                // prevent result processing
+                return $q.reject();
+            }).then(function(result){
+                $scope.message = result.notification;
+                return result[fieldName]
+            })
+        }
+
+        $scope.prepareTimetable = function prepareTimetable(timetable){
+            var grouped = groupBy(timetable, "saat");
+            for (var day in grouped){
+                var dayItems = grouped[day];
+                grouped[day] = dayItems.sort(function(a, b){
+                    return a.gun < b.gun ? -1 : 1;
+                });
+            }
+            var acc = [];
+            for (var t in grouped){
+                if (grouped.hasOwnProperty(t)){
+                    acc.push([t, grouped[t]]);
+                }
+            }
+            return  acc.sort(function(a, b){
+                return a[0] > b[0] ? 1 : -1;
+            });
+        }
+    })
+
+    .directive("crudTimetableDirective", function(){
+        return {
+            templateUrl: 'components/crud/templates/timetable.html',
+            restrict: 'E',
+            replace: true,
+            controller: 'crudTimetableDirectiveCtrl',
+            link: function(iScope, iElem, iAtrrs){
+                var mainFieldName = 'ogretim_elemani_zt';
+                iScope.mainFieldName = mainFieldName;
+                iScope.tablesList = iScope[mainFieldName].ogretim_elemanlari;
+                iScope.widgetTitle = "Öğretim Elemanı Zaman Tablosu"
+
+                initLecturer(iScope[mainFieldName]);
+
+                function initLecturer(data){
+                    iScope.currentTable = {
+                        key: data.oe_key,
+                        name: data.name,
+                        avatar_url: data.avatar_url,
+                        totalHours: data.toplam_ders_saati
+                    };
+                    iScope.timetable = iScope.prepareTimetable(data.uygunluk_durumu);
+                };
+
+                iScope.selectTable = function(lecturer){
+                    iScope.loadingTable = true;
+                    iScope.get_wf({
+                        cmd: 'personel_sec',
+                        secili_og_elemani: {key: lecturer.key}
+                    }).then(function(response){
+                        initLecturer(response);
+                    }).finally(function(){
+                        iScope.loadingTable = false;
+                    })
+                };
+
+                iScope.changeValue = function(time){
+                    iScope.loadingAction = true;
+                    iScope.get_wf({
+                        cmd: 'degistir',
+                        change: {
+                            'key': time.key,
+                            'durum': time.durum
+                        }
+                    }).then(function(table){
+                        var days = table.uygunluk_durumu;
+                        // update durum value from the response
+                        for (var i=0; i<days.length; i++){
+                            if (days[i].key == time.key){
+                                time.durum = days[i].durum;
+                                break;
+                            }
+                        }
+                    }).finally(function(){
+                        iScope.loadingAction = false;
+                    })
+                }
+            }
+        }
+    })
+
+    .directive("crudTimetableDirective2", function(){
+        return {
+            templateUrl: 'components/crud/templates/timetable.html',
+            restrict: 'E',
+            replace: true,
+            controller: 'crudTimetableDirectiveCtrl',
+            link: function(iScope, iElem, iAtrrs){
+                var mainFieldName = 'derslik_zaman_tablosu';
+                iScope.mainFieldName = mainFieldName;
+                iScope.tablesList = iScope[mainFieldName].derslikler;
+                iScope.widgetTitle = "Derslik Zaman Tablosu";
+
+                initTable(iScope[mainFieldName]);
+
+                function initTable(data){
+                    iScope.currentTable = {
+                        key: data.oe_key,
+                        name: data.name,
+                        avatar_url: data.avatar_url
+                    };
+                    iScope.timetable = iScope.prepareTimetable(data.zaman_plani);
+                };
+
+                iScope.selectTable = function(lecturer){
+                    iScope.loadingTable = true;
+                    iScope.get_wf({
+                        cmd: 'personel_sec',
+                        secili_og_elemani: {key: lecturer.key}
+                    }).then(function(response){
+                        initLecturer(response);
+                    }).finally(function(){
+                        iScope.loadingTable = false;
+                    })
+                };
+
+                iScope.changeValue = function(time){
+                    iScope.loadingAction = true;
+                    iScope.get_wf({
+                        cmd: 'degistir',
+                        change: {
+                            'key': time.key,
+                            'durum': time.durum
+                        }
+                    }).then(function(table){
+                        var days = table.uygunluk_durumu;
+                        // update durum value from the response
+                        for (var i=0; i<days.length; i++){
+                            if (days[i].key == time.key){
+                                time.durum = days[i].durum;
+                                break;
+                            }
+                        }
+                    }).finally(function(){
+                        iScope.loadingAction = false;
+                    })
+                }
+            }
+        }
     });

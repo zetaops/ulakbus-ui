@@ -1,4 +1,6 @@
 <div ng-hide="show_crud === false" class="container-fluid">
+    <crud-timetable-directive ng-if="ogretim_elemani_zt"></crud-timetable-directive>
+    <crud-timetable-directive2 ng-if="derslik_zaman_tablosu"></crud-timetable-directive2>
     <div ng-class="{'col-md-8': meta.allow_filters}">
         <msgbox ng-show="msgbox"></msgbox>
         <h3 ng-class="{'mid-h3': !objects}">{{ schema.title }}</h3>

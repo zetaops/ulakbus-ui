@@ -1,0 +1,19 @@
+<div class="action-selector" ng-class="{readonly: readonly}">
+    <span class="action-indicator" ng-class="value"></span>
+    <div class="popover bottom ng-hide" ng-if="!readonly">
+        <div class="arrow"></div>
+        <div class="popover-content">
+            <ul class="actions-selector-select">
+                <li ng-click="setModelValue(1)">
+                    <span class="action-indicator action-indicator_appropriate"></span>
+                </li>
+                <li ng-click="setModelValue(2)">
+                    <span class="action-indicator action-indicator_uncertain"></span>
+                </li>
+                <li ng-click="setModelValue(3)">
+                    <span class="action-indicator action-indicator_busy"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

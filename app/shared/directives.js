@@ -707,4 +707,58 @@ angular.module('ulakbus')
                 });
             }
         };
+    })
+    .directive('timetableActionSelector', function($timeout){
+        // Display/hide popover with actions
+        // global listener used to close popover when user clicks outside of the popover
+        $('html').on('click', function(e) {
+            var target = $(e.target);
+            if (target.parents().is('.action-selector')){
+                target.parents('.action-selector').children('.popover').toggleClass('ng-hide');
+                return;
+            }
+            if (target.hasClass('action-selector')){
+                target.children('.popover').toggleClass('ng-hide');
+                return;
+            };
+            $('.course-prg-scheduler .action-selector>.popover').toggleClass('ng-hide', true);
+        });
+
+        return {
+            templateUrl: 'shared/templates/directives/timetable-action-selector.html',
+            scope: {
+                externalModel: '=ngModel',
+                onChange: "&ngChange"
+            },
+            link: function(iScope, iElem, iAttrs){
+                var valueToClassMap = {
+                    1: 'action-indicator_appropriate',
+                    2: 'action-indicator_uncertain',
+                    3: 'action-indicator_busy'
+                };
+
+                if (iAttrs.hasOwnProperty('readonly')){
+                    iAttrs.$observe('readonly', function(v){
+                        if (v && v == 'false') v = false;
+                        iScope.readonly = v;
+                    });
+                }
+
+                iScope.$watch('externalModel', function(value){
+                    iScope.value = valueToClassMap[value];
+                });
+
+                iScope.setModelValue = function(value){
+                    var oldValue = iScope.externalModel;
+                    iScope.externalModel = value;
+                    // call change in next digest
+                    $timeout(function(){
+                        if (iScope.onChange && value != oldValue) {
+                            iScope.onChange();
+                        }
+                    });
+
+                }
+            }
+        }
     });

@@ -1,0 +1,79 @@
+<div class="row academician-dashboard dashboard">
+    <div class="col-md-12 course-prg-scheduler">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">{{widgetTitle}}</div>
+            </div>
+            <div class="panel-body">
+
+                <div class="col-xs-3 tabs-container"> <!-- required for floating -->
+                    <ul class="tabs-left">
+                        <li ng-repeat="table in tablesList" ng-click="selectTable(table)" ng-class="{active: currentTable.key == table.key}"><a>{{table.name}}</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-xs-9">
+                    <div class="loader" ng-show="loadingTable">Loading...</div>
+                    <!-- Tab panes -->
+
+                    <div class="tab-content" ng-hide="loadingTable">
+                        <div class="tab-pane active">
+                            <div class="info-header clearfix">
+                                <div class="info-wrapper">
+                                    <img ng-src="{{currentTable.avatar_url}}" class="profile-pic" ng-show="currentTable.avatar_url">
+                                    <span class="user-name">{{currentTable.name}}</span>
+                                </div>
+                                <div class="info-wrapper info-wrapper_hours" ng-show="currentTable.totalHours">
+                                    <span class="info-title">Ders Yükü:</span> <span>{{currentTable.totalHours}} saat</span>
+                                </div>
+                            </div>
+                            <!-- end of header -->
+
+                            <div class="table-warning" ng-show="message">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span> {{message.message}}
+                            </div>
+                            <div class="table-container">
+                                <table>
+                                    <tbody>
+                                    <tr class="headers">
+                                        <td></td>
+                                        <td>PZT</td>
+                                        <td>SAL</td>
+                                        <td>ÇAR</td>
+                                        <td>PER</td>
+                                        <td>CUM</td>
+                                        <td>CMT</td>
+                                        <td>PAZ</td>
+                                    </tr>
+                                    <tr ng-repeat="time in timetable">
+                                        <td>{{time[0]}}</td>
+                                        <td ng-repeat="day in time[1]">
+                                            <div timetable-action-selector ng-model="day.durum" readonly="{{currentTable.readonly}}" ng-change="changeValue(day)"></div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="loader pull-right" ng-show="loadingAction">Loading...</div>
+                            <ul class="legend">
+                                <li>
+                                    <span class="action-indicator action-indicator_appropriate"></span> Uygun
+                                </li>
+                                <li>
+                                    <span class="action-indicator action-indicator_uncertain"></span> Mümkünse boş bırakılmalı
+                                </li>
+                                <li>
+                                    <span class="action-indicator action-indicator_busy"></span> Kesinlike boş bırakılmalı
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- end of panel-body -->
+        </div>
+        <!-- end of panel -->
+    </div>
+</div>
