@@ -2596,7 +2596,7 @@ table.dataTable thead .sorting:after {
 
 .course-prg-scheduler .tabs-container {
     overflow-y: auto;
-    height: 100%;
+    height: 550px;
 }
 
 .course-prg-scheduler .tabs-left {
@@ -2639,6 +2639,8 @@ table.dataTable thead .sorting:after {
 .course-prg-scheduler .tab-content .info-header .info-wrapper {
 	float:left;
 	margin-right:45px;
+    height: 50px;
+    line-height: 50px;
 }
 
 .course-prg-scheduler .tab-content .info-header .info-wrapper .user-name {
@@ -2649,7 +2651,6 @@ table.dataTable thead .sorting:after {
 }
 
 .course-prg-scheduler .tab-content .info-wrapper.info-wrapper_hours {
-    padding-top: 11px;
     font-size: 17px;
     color: #444;
 }
@@ -2686,6 +2687,11 @@ table.dataTable thead .sorting:after {
     font-size: 20px;
     float: left;
     margin-right: 10px;
+}
+
+.course-prg-scheduler .tab-content .table-container {
+    max-height: 350px;
+    overflow-y: auto;
 }
 
 .course-prg-scheduler .tab-content table tr.headers td {
@@ -2769,7 +2775,16 @@ table.dataTable thead .sorting:after {
      border-style: solid;
      border-width: 5px 5px 0 5px;
      border-color: #808080 transparent transparent transparent;
- }
+}
+
+.course-prg-scheduler .action-selector.readonly {
+    right: 0;
+    padding-right: 0;
+}
+
+.course-prg-scheduler .action-selector.readonly:after {
+    display: none;
+}
 
 .course-prg-scheduler .action-selector .popover {
     display: block;
