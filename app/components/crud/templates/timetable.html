@@ -2,13 +2,13 @@
     <div class="col-md-12 course-prg-scheduler">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <div class="panel-title">Course Scheduler Widget</div>
+                <div class="panel-title">{{widgetTitle}}</div>
             </div>
             <div class="panel-body">
 
-                <div class="col-xs-3"> <!-- required for floating -->
+                <div class="col-xs-3 tabs-container"> <!-- required for floating -->
                     <ul class="tabs-left">
-                        <li ng-repeat="lecturer in lecturerList" ng-click="selectLecturer(lecturer)" ng-class="{active: currentLecturer.key == lecturer.key}"><a>{{lecturer.name}}</a></li>
+                        <li ng-repeat="table in tablesList" ng-click="selectTable(table)" ng-class="{active: currentTable.key == table.key}"><a>{{table.name}}</a></li>
                     </ul>
                 </div>
 
@@ -17,43 +17,43 @@
                     <!-- Tab panes -->
 
                     <div class="tab-content" ng-hide="loadingTable">
-                        <div class="tab-pane active" id="one">
-
+                        <div class="tab-pane active">
                             <div class="info-header clearfix">
                                 <div class="info-wrapper">
-                                    <img ng-src="{{currentLecturer.avatar_url}}" class="profile-pic">
-                                    <span class="user-name">{{currentLecturer.name}}</span>
+                                    <img ng-src="{{currentTable.avatar_url}}" class="profile-pic" ng-show="currentTable.avatar_url">
+                                    <span class="user-name">{{currentTable.name}}</span>
                                 </div>
-                                <div class="info-wrapper info-wrapper_hours">
-                                    <span class="info-title">Ders Yükü:</span> <span>{{currentLecturer.totalHours}} saat</span>
+                                <div class="info-wrapper info-wrapper_hours" ng-show="currentTable.totalHours">
+                                    <span class="info-title">Ders Yükü:</span> <span>{{currentTable.totalHours}} saat</span>
                                 </div>
                             </div>
                             <!-- end of header -->
 
                             <div class="table-warning" ng-show="message">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span> {{message.title}}<br/>{{message.msg}}
+                                <span class="glyphicon glyphicon-exclamation-sign"></span> {{message.message}}
                             </div>
-
-                            <table border="1">
-                                <tbody>
-                                <tr class="headers">
-                                    <td></td>
-                                    <td>PZT</td>
-                                    <td>SAL</td>
-                                    <td>ÇAR</td>
-                                    <td>PER</td>
-                                    <td>CUM</td>
-                                    <td>CMT</td>
-                                    <td>PAZ</td>
-                                </tr>
-                                <tr ng-repeat="time in timetable">
-                                    <td>{{time[0]}}</td>
-                                    <td ng-repeat="day in time[1]">
-                                        <div timetable-action-selector ng-model="day.durum" ng-change="changeValue(day)"></div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-container">
+                                <table>
+                                    <tbody>
+                                    <tr class="headers">
+                                        <td></td>
+                                        <td>PZT</td>
+                                        <td>SAL</td>
+                                        <td>ÇAR</td>
+                                        <td>PER</td>
+                                        <td>CUM</td>
+                                        <td>CMT</td>
+                                        <td>PAZ</td>
+                                    </tr>
+                                    <tr ng-repeat="time in timetable">
+                                        <td>{{time[0]}}</td>
+                                        <td ng-repeat="day in time[1]">
+                                            <div timetable-action-selector ng-model="day.durum" readonly="{{currentTable.readonly}}" ng-change="changeValue(day)"></div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <div class="loader pull-right" ng-show="loadingAction">Loading...</div>
                             <ul class="legend">
                                 <li>
