@@ -7,8 +7,7 @@
             <div class="panel-body">
 
                 <div class="col-xs-3"> <!-- required for floating -->
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs tabs-left">
+                    <ul class="tabs-left">
                         <li ng-repeat="lecturer in lecturerList" ng-click="selectLecturer(lecturer)" ng-class="{active: currentLecturer.key == lecturer.key}"><a>{{lecturer.name}}</a></li>
                     </ul>
                 </div>
@@ -16,6 +15,7 @@
                 <div class="col-xs-9">
                     <div class="loader" ng-show="loadingTable">Loading...</div>
                     <!-- Tab panes -->
+
                     <div class="tab-content" ng-hide="loadingTable">
                         <div class="tab-pane active" id="one">
 
@@ -24,10 +24,8 @@
                                     <img ng-src="{{currentLecturer.avatar_url}}" class="profile-pic">
                                     <span class="user-name">{{currentLecturer.name}}</span>
                                 </div>
-                                <div class="info-wrapper">
-                                    <div style="margin-top:14px;">
-                                        <span><b>Ders Yükü:</b></span> <span>{{currentLecturer.totalHours}} saat</span>
-                                    </div>
+                                <div class="info-wrapper info-wrapper_hours">
+                                    <span class="info-title">Ders Yükü:</span> <span>{{currentLecturer.totalHours}} saat</span>
                                 </div>
                             </div>
                             <!-- end of header -->
@@ -51,12 +49,24 @@
                                 <tr ng-repeat="time in timetable">
                                     <td>{{time[0]}}</td>
                                     <td ng-repeat="day in time[1]">
-                                        <select class="form-control" ng-model="day.durum" ng-change="changeValue(day)" ng-options="option.value as option.name for option in availableStates"></select>
+                                        <div timetable-action-selector ng-model="day.durum" ng-change="changeValue(day)"></div>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                             <div class="loader pull-right" ng-show="loadingAction">Loading...</div>
+                            <ul class="legend">
+                                <li>
+                                    <span class="action-indicator action-indicator_appropriate"></span> Uygun
+                                </li>
+                                <li>
+                                    <span class="action-indicator action-indicator_uncertain"></span> Mümkünse boş bırakılmalı
+                                </li>
+                                <li>
+                                    <span class="action-indicator action-indicator_busy"></span> Kesinlike boş bırakılmalı
+                                </li>
+                            </ul>
+
                         </div>
                     </div>
                 </div>
