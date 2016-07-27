@@ -147,7 +147,9 @@ angular.module('ulakbus')
                     // this way it broadcasts to relevant listener
                     // i group messages and notifications into 2 groups
                     // necessary actions will taken where it is listened
-                    $rootScope.$broadcast(type[msg_data["type"]], msg_data);
+                    $timeout(function(){
+                        $rootScope.$broadcast(type[msg_data["type"]], msg_data);
+                    });
                 },
                 dashboard: function () {
                     // dashboard consists of menu and user specifications

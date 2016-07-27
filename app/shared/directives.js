@@ -32,78 +32,28 @@ angular.module('ulakbus')
      * @ngdoc directive
      * @name headerNotification
      * @description This directive is responsible to get and show notification.
-     * It calls API's /notify path with given interval and broadcasts `notifications` application-wide.
-     * There are 4 types of notifications:
-     * 1: tasks, 2: messages, 3: announcements, 4: recents
+     * It calls API's '_zops_unread_count' view to init its state and updates state when 'message' or 'notifications' broadcast message received     *
      * - Notifications can be disabled in /dev/settings page
      */
-    .directive('headerNotification', function (WSOps, $rootScope, $cookies, $interval, RESTURL, $uibModal) {
+    .directive('headerNotification', function ($rootScope, $uibModal, MessagingService) {
         return {
             templateUrl: 'shared/templates/directives/header-notification.html',
             restrict: 'E',
             replace: true,
             scope: {},
             controller: function ($scope, $log) {
-                // notification categories:
-                // 1: tasks, 2: messages, 3: announcements, 4: recents
-                $scope.notifications = {1: [], 2: [], 3: [], 4: []};
-                /**
-                 * Group notifications
-                 * @param notifications
-                 */
-                
-                $scope.popModal = function(item){
-                     var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: 'shared/templates/notificationsModalContent.html',
-                        controller: function($scope){
-                            $scope.notification = item;
-                            $scope.cancel = function() {
-                                modalInstance.dismiss('cancel');
-                            };
-                        },
-                        size: 'lg'
-                    });
+                $scope.count = {
+                    messages: 0,
+                    notifications: 0
+                };
+                function initCounters(){
+                    MessagingService.get_unread_messages_count()
+                        .then(function(result){
+                            $scope.count.messages = result.messages;
+                            $scope.count.notifiations = result.notifications;
+                        })
                 }
-
-                $scope.groupNotifications = function (notifications) {
-
-                    $scope.notifications = {1: [], 2: [], 3: [], 4: []};
-
-                    angular.forEach(notifications, function (value, key) {
-                        $scope.notifications[value.type].push(value);
-                    });
-                    $scope.$apply();
-                };
-
-                /**
-                 * When "notifications" send via websocket, parse notifications by type.
-                 */
-                $scope.$on("notifications", function (event, data) {
-                    $log.debug("Notification!", data);
-                    $scope.groupNotifications(data);
-                });
-
-                /**
-                 * When clicked mark the notification as read.
-                 * @param items
-                 * @todo: do it in detail page of notification
-                 */
-                $scope.markAsRead = function (event,item, group, index) {
-                    //Added event parameter to stop propagate, so that behaviour of outsideClick won't be interrupted.
-                    event.stopPropagation();
-                    WSOps.doSend(angular.toJson({data: {view: 'notify', id:item.id}}));
-                    $scope.notifications[group].splice(index,1);
-
-                    $event.preventDefault();
-                    $event.stopPropagation();
-                    return false;
-                };
-
-                // if markasread triggered outside the directive
-                // $scope.$on("markasread", function (event, data) {
-                //     $scope.markAsRead(data);
-                // });
+                initCounters();
             }
         };
     })
@@ -663,64 +613,20 @@ angular.module('ulakbus')
             }
         }
     })
-
-    // listen for message in directives below
-
-    .directive('messaging', function (Generator, MessagingService, $log, $rootScope) {
-        return {
-            templateUrl: 'shared/templates/directives/messaging/index.html',
-            restrict: 'E',
-            replace: true,
-            scope: {},
-            controller: function ($scope) {
-                $scope.messages = [];
-                $scope.$on("messages", function (event, data) {
-                    $log.debug("Message List Received", data);
-                    $scope.messages(data);
-                });
-
-                $scope.$on("message", function (event, data) {
-                    $log.debug("Message Received", data);
-                    // do relevant action here
-                });
-                
-            }
-        };
-    })
-
-    .directive('messageDetail', function (Generator, MessagingService, $log, $rootScope) {
-        return {
-            templateUrl: 'shared/templates/directives/messaging/detail.html',
-            restrict: 'E',
-            replace: true,
-            scope: {},
-            controller: function ($scope) {
-                $scope.messages = [];
-                $scope.$on("detailMessages", function (event, data) {
-                    $log.debug("Detail Message Received", data);
-                    $scope.messages = data;
-                });
-                $scope.$on("message", function (event, data) {
-                    $log.debug("Message Received", data);
-                    // do relevant action here
-                    // if channel_key belongs to detail screen then append msg to the end of the thread
-                });
-            }
-        };
-    })
-    .directive('timetableActionSelector', function($timeout){
+    .directive('timetableActionSelector', function($timeout) {
         // Display/hide popover with actions
         // global listener used to close popover when user clicks outside of the popover
-        $('html').on('click', function(e) {
+        $('html').on('click', function (e) {
             var target = $(e.target);
-            if (target.parents().is('.action-selector')){
+            if (target.parents().is('.action-selector')) {
                 target.parents('.action-selector').children('.popover').toggleClass('ng-hide');
                 return;
             }
-            if (target.hasClass('action-selector')){
+            if (target.hasClass('action-selector')) {
                 target.children('.popover').toggleClass('ng-hide');
                 return;
-            };
+            }
+            ;
             $('.course-prg-scheduler .action-selector>.popover').toggleClass('ng-hide', true);
         });
 
@@ -730,35 +636,56 @@ angular.module('ulakbus')
                 externalModel: '=ngModel',
                 onChange: "&ngChange"
             },
-            link: function(iScope, iElem, iAttrs){
+            link: function (iScope, iElem, iAttrs) {
                 var valueToClassMap = {
                     1: 'action-indicator_appropriate',
                     2: 'action-indicator_uncertain',
                     3: 'action-indicator_busy'
                 };
 
-                if (iAttrs.hasOwnProperty('readonly')){
-                    iAttrs.$observe('readonly', function(v){
+                if (iAttrs.hasOwnProperty('readonly')) {
+                    iAttrs.$observe('readonly', function (v) {
                         if (v && v == 'false') v = false;
                         iScope.readonly = v;
                     });
                 }
 
-                iScope.$watch('externalModel', function(value){
+                iScope.$watch('externalModel', function (value) {
                     iScope.value = valueToClassMap[value];
                 });
 
-                iScope.setModelValue = function(value){
+                iScope.setModelValue = function (value) {
                     var oldValue = iScope.externalModel;
                     iScope.externalModel = value;
                     // call change in next digest
-                    $timeout(function(){
+                    $timeout(function () {
                         if (iScope.onChange && value != oldValue) {
                             iScope.onChange();
                         }
                     });
 
                 }
+            }
+        }
+    })
+
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name onEnterPressed
+     * @description Fire action when enter pressed on element
+     */
+    .directive("onEnterPressed", function () {
+        return {
+            link: function (scope, element, attrs) {
+                element.bind("keydown keypress", function (event) {
+                    if(event.which === 13 && !event.ctrlKey) {
+                        scope.$apply(function (){
+                            scope.$eval(attrs.onEnterPressed);
+                        });
+                        event.preventDefault();
+                    }
+                })
             }
         }
     });

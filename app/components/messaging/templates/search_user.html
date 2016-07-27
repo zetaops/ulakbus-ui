@@ -1,0 +1,11 @@
+<div class="chat-popup-window create-new-message-window">
+    <div class="close-chat-popup-window" ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span></div>
+    <input type="text" placeholder="Birini ismi ile ara..." ng-model="query" ng-change="onChange(query)">
+    <div class="search-results">
+        <span class="loader" ng-show="loading"></span>
+        <div class="user" ng-repeat="user in searchResult" ng-click="done(user)">
+            <img ng-src="{{user[2]}}" ng-show="user[2]">
+            <div class="user-name">{{user[0]}}</div>
+        </div>
+    </div>
+</div>

@@ -32,9 +32,9 @@
     </li>-->
     <li uib-dropdown auto-close="outsideClick">
         <a uib-dropdown-toggle>
-            <div class="badge" ng-show="notifications[2].length > 0">{{notifications[2].length}}</div>
-            <i class="fa fa-envelope fa-fw" tooltip-placement="bottom" uib-tooltip="Mesajlar"></i>  <i
-                class="fa fa-caret-down"></i>
+            <div class="badge" ng-show="count.messages > 0">{{count.messages}}</div>
+            <i class="fa fa-envelope fa-fw" tooltip-placement="bottom" uib-tooltip="Mesajlar"></i>
+            <!--<i class="fa fa-caret-down"></i>-->
         </a>
         <ul class="dropdown-messages" uib-dropdown-menu ng-show="notifications[2].length > 0">
             <li ng-repeat="notify in notifications[2] | limitTo: '8'">
@@ -62,47 +62,47 @@
         <!-- /.dropdown-messages -->
     </li>
     <!-- /.dropdown -->
-    <li uib-dropdown auto-close="outsideClick">
-        <a uib-dropdown-toggle>
-            <div class="badge" ng-if="notifications[1].length > 0">{{notifications[1].length}}</div>
-            <i class="fa fa-tasks fa-fw" tooltip-placement="bottom" uib-tooltip="Görevler"></i>  <i
-                class="fa fa-caret-down"></i>
-        </a>
-        <ul class="dropdown-tasks" uib-dropdown-menu ng-if="notifications[1].length > 0">
-            <li ng-repeat="notify in notifications[1] | limitTo: '8'">
-                <a href="{{notify.url}}">
-                    <div>
-                        <p>
-                            <strong>{{notify.title}}</strong>
-                            <span class="pull-right text-muted">{{notify.body}}</span>
-                            <span ng-click="markAsRead($event,notify, 1, $index)" class="pull-right fa fa-times"></span>
-                        </p>
-                        <!-- todo: progress bar will be used in future developments-->
-                        <!--<div class="progress progress-striped active">-->
-                            <!--<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">-->
-                                <!--<span class="sr-only">40% Complete (success)</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
+    <!--<li uib-dropdown auto-close="outsideClick">-->
+        <!--<a uib-dropdown-toggle>-->
+            <!--<div class="badge" ng-if="notifications[1].length > 0">{{notifications[1].length}}</div>-->
+            <!--<i class="fa fa-tasks fa-fw" tooltip-placement="bottom" uib-tooltip="Görevler"></i>  <i-->
+                <!--class="fa fa-caret-down"></i>-->
+        <!--</a>-->
+        <!--<ul class="dropdown-tasks" uib-dropdown-menu ng-if="notifications[1].length > 0">-->
+            <!--<li ng-repeat="notify in notifications[1] | limitTo: '8'">-->
+                <!--<a href="{{notify.url}}">-->
+                    <!--<div>-->
+                        <!--<p>-->
+                            <!--<strong>{{notify.title}}</strong>-->
+                            <!--<span class="pull-right text-muted">{{notify.body}}</span>-->
+                            <!--<span ng-click="markAsRead($event,notify, 1, $index)" class="pull-right fa fa-times"></span>-->
+                        <!--</p>-->
+                        <!--&lt;!&ndash; todo: progress bar will be used in future developments&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="progress progress-striped active">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<span class="sr-only">40% Complete (success)</span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a class="text-center">
-                    <strong>See All Tasks</strong>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-        </ul>
+                    <!--</div>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li class="divider"></li>-->
+            <!--<li>-->
+                <!--<a class="text-center">-->
+                    <!--<strong>See All Tasks</strong>-->
+                    <!--<i class="fa fa-angle-right"></i>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
         <!-- /.dropdown-tasks -->
     </li>
     <!-- /.dropdown -->
     <li uib-dropdown auto-close="outsideClick">
         <a uib-dropdown-toggle>
-        	<div class="badge" ng-if="notifications[3].length > 0">{{notifications[3].length}}</div>
-            <i class="fa fa-bell fa-fw" tooltip-placement="bottom" uib-tooltip="Duyurular"></i>  <i
-                class="fa fa-caret-down"></i>
+        	<div class="badge" ng-if="count.notifications > 0">{{count.notifications}}</div>
+            <i class="fa fa-bell fa-fw" tooltip-placement="bottom" uib-tooltip="Duyurular"></i>
+            <!--<i class="fa fa-caret-down"></i>-->
         </a>
         <ul class="dropdown-alerts" uib-dropdown-menu ng-if="notifications[3].length > 0">
             <li ng-repeat="notify in notifications[3] | limitTo: '8'">
@@ -112,6 +112,13 @@
                         <span class="pull-right text-muted small">4 minutes ago</span>
                         <span ng-click="markAsRead($event,notify, 3, $index)" class="pull-right fa fa-times"></span>
                     </div>
+                </a>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <a class="text-center">
+                    <strong>See All Notifications</strong>
+                    <i class="fa fa-angle-right"></i>
                 </a>
             </li>
         </ul>

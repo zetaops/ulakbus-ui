@@ -128,6 +128,7 @@ module.exports = function (grunt) {
                     "app/zetalib/error_service.js",
                     "app/zetalib/action_service.js",
                     "app/zetalib/socket.js",
+                    "app/zetalib/utils_service.js",
                     "app/shared/directives.js",
                     "app/components/auth/auth_controller.js",
                     "app/components/auth/auth_service.js",
@@ -140,7 +141,8 @@ module.exports = function (grunt) {
                     "app/components/wf/wf_controller.js",
                     "app/components/version/version.js",
                     "app/components/version/interpolate-filter.js",
-                    "app/components/version/version-directive.js"
+                    "app/components/version/version-directive.js",
+                    "app/components/messaging/*.js"
                 ],
                 dest: 'dist/app.js'
             },
@@ -196,7 +198,8 @@ module.exports = function (grunt) {
                     'app/shared/scripts/theme.js',
                     'app/shared/directives.js',
                     'app/components/**/*controller.js',
-                    'app/components/**/*service.js'
+                    'app/components/**/*service.js',
+                    'app/components/messaging/*.js',
                 ],
                 dest: 'dist/<%= grunt.branchname %>/app.js'
             },

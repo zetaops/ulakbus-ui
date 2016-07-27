@@ -28,7 +28,7 @@ angular.module(
         'ngSanitize',
         'ngCookies',
         'ulakbus.formService',
-        'ulakbus.messagingService',
+        'ulakbus.messaging',
         'ulakbus.dashboard',
         'ulakbus.auth',
         'ulakbus.error_pages',

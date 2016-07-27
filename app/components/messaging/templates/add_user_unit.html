@@ -1,0 +1,15 @@
+<div class="chat-popup-window add-user-unit" style="display:block;">
+    <div class="close-chat-popup-window" ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span></div>
+    <h3>{{title}}</h3>
+    <div class="text-center">
+        <input type="text" ng-model="query" ng-change="onChange(query)" placeholder="{{placeholder}}">
+    </div>
+    <div class="search-results">
+        <span class="loader" ng-show="loading"></span>
+        <div class="user" ng-repeat="item in searchResult" ng-click="done(item[1])">
+            <img ng-src="{{item[2]}}" ng-show="item[2]">
+            <div class="user-name">{{item[0]}}</div>
+        </div>
+    </div>
+</div>
+

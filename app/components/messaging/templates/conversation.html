@@ -1,0 +1,83 @@
+<span class="loader" ng-show="loadingChannel"></span>
+
+<div class="conversation-section conversation-section-empty" ng-hide="selectedChannel">
+    <div class="close-chat-app" ng-click="hideApp()">
+        <span class="glyphicon glyphicon-remove" ></span>
+    </div>
+    <div class="conversation-body" >
+        Konuşmaya başlamak için bir kanal seçin ya da oluşturun.
+    </div>
+</div>
+
+<div class="conversation-section" ng-hide="loadingChannel || !selectedChannel">
+    <div class="conversation-header">
+        <div class="conversation-user">
+            <div class="user-photo" ng-show="selectedChannel.avatar_url"><img ng-src="{{selectedChannel.avatar_url}}"></div>
+            <div class="user-name" title="{{selectedChannel.description}}">{{selectedChannel.name}}</div>
+        </div>
+        <div class="conversation-search">
+            <input type="text" placeholder="Arama Yap">
+        </div>
+        <div class="dropdown">
+            <div class="chat-app-actions dropdown-toggle" data-toggle="dropdown" id="chat-app-actions">
+                <span class="glyphicon glyphicon-option-vertical"></span>
+            </div>
+            <ul class="dropdown-menu" ng-show="selectedChannel.actions.length > 0" aria-labelledby="chat-app-actions" style="left: inherit; top: 53px; right: 66px;" >
+                <li><a ng-click="applyChannelAction(selectedChannel, action)" ng-repeat="action in selectedChannel.actions">{{action[0]}}</a></li>
+            </ul>
+        </div>
+        <div class="close-chat-app" ng-click="hideApp()">
+            <span class="glyphicon glyphicon-remove"></span>
+        </div>
+    </div>
+
+    <div class="conversation-body" ng-class="{readonly: selectedChannel.read_only}" scroll-down-when-update="lastMessage">
+        <div class="conversation-body-inner">
+
+            <div class="beginning-of-conversation">
+                Burası yazışmanın başı!
+            </div>
+
+            <div class="conversation-block clearfix" ng-repeat="msg in selectedChannel.messages">
+                <div class="conversation-actions">
+                    <div class="action"><span class="glyphicon glyphicon-star-empty"></span></div>
+                    <div class="action dropdown-toggle" data-toggle="dropdown" ng-click="getMessageActions(msg)">
+                        <span class="glyphicon glyphicon-option-horizontal"></span>
+                    </div>
+                    <ul class="dropdown-menu" style="left:-86px;" >
+                        <li ng-repeat="act in msg.actions"><a ng-click="applyMessageAction(msg, act)">{{act[0]}}</a></li>
+                    </ul>
+                </div>
+
+                <div class="user-photo">
+                    <img ng-src="{{msg.avatar_url}}" ng-show="msg.avatar_url">
+                </div>
+                <div class="user-message">
+                    <div class="message-header clearfix">
+                        <div class="user-name">{{::msg.sender_name}}</div>
+                        <div class="message-time">{{::msg.moment|fromNow}}</div>
+                    </div>
+                    <div class="message-content">
+                        {{::msg.content}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="conversation-footer" ng-show="!selectedChannel.read_only">
+        <textarea placeholder="Mesajını buraya yaz..." ng-model="shared.message" on-enter-pressed="sendMessage(shared.message)"></textarea>
+        <div class="add-attachment">
+            <span class="glyphicon glyphicon-send" ng-click="sendMessage(shared.message);"></span>
+            <div class="dropup" style="float:left;">
+                <span class="glyphicon glyphicon-paperclip dropdown-toggle" data-toggle="dropdown" id="attachment"></span>
+                <ul class="dropdown-menu" aria-labelledby="attachment" style="left:-104px;">
+                    <li><a >Görsel</a></li>
+                    <li><a >Dosya</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>

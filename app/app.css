@@ -2160,6 +2160,18 @@ table.dataTable thead .sorting:after {
 	font-family: 'robotoblack';
 }
 
+.chat-app .side-navigation ul li.title .add-action {
+    display: inline-block;
+    position: absolute;
+    right: 21px;
+    top: 6px;
+    /*margin-left: 4px;*/
+    /*top: 2px;*/
+    /*position: relative;*/
+    /*display: inline-block;*/
+
+}
+
 .chat-app .side-navigation ul li.compose {
 	background-color: #6f0d20;
     margin: 5px 10px;
@@ -2191,7 +2203,7 @@ table.dataTable thead .sorting:after {
 	padding-left: 40px;
 }
 
-.chat-app .side-navigation ul.direct-messages li.active {
+.chat-app .side-navigation ul.direct-messages li.active, .chat-app .side-navigation ul.channels li.active {
 	background-color: #B51533;
 }
 
@@ -2277,7 +2289,7 @@ table.dataTable thead .sorting:after {
     margin-top: 15px;
 }
 
-.chat-app .conversation-header .close-chat-app {
+.chat-app .conversation-header .close-chat-app, .chat-app .conversation-section-empty .close-chat-app  {
 	display: inline-block;
     float: left;
     width: 40px;
@@ -2288,6 +2300,21 @@ table.dataTable thead .sorting:after {
     margin-left: 10px;
     border-radius: 3px;
 	margin-top:15px;
+    cursor: pointer;
+}
+
+.chat-app .conversation-section-empty .close-chat-app {
+    display: block;
+    position: absolute;
+    right: 15px;
+    top: 0px;
+}
+
+.chat-app .conversation-section-empty .close-chat-app {
+    display: block;
+    position: absolute;
+    right: 15px;
+    top: 0px;
 }
 
 .chat-app .conversation-header .chat-app-actions {
@@ -2307,6 +2334,10 @@ table.dataTable thead .sorting:after {
 	overflow: auto;
     height: calc(100% - 140px);
 	overflow-x: hidden;
+}
+
+.chat-app .conversation-body.readonly {
+    height: calc(100% - 100px);
 }
 
 .chat-app .conversation-footer {
@@ -2361,7 +2392,7 @@ table.dataTable thead .sorting:after {
 	border-radius:100%;
 }
 
-.chat-app .conversation-section .conversation-body .beginning-of-conversation {
+.chat-app .conversation-section .conversation-body .beginning-of-conversation, .chat-app .conversation-section-empty .conversation-body {
 	text-align: center;
     font-family: 'robotobold';
     font-size: 20px;
@@ -2369,6 +2400,10 @@ table.dataTable thead .sorting:after {
     padding: 15px;
     margin-bottom: 30px;
     border-bottom: 1px solid #f3f3f3;
+}
+
+.chat-app .conversation-section-empty .conversation-body {
+    padding-top: 100px;
 }
 
 .chat-app .conversation-section .conversation-body .conversation-block {
@@ -2456,7 +2491,7 @@ table.dataTable thead .sorting:after {
     z-index: 11;
     background-color: rgba(255,255,255,0.97);
 	border-radius:3px;
-	display:none;
+	/*display:none;*/
 }
 
 .chat-app .create-new-message-window input {
@@ -2490,7 +2525,7 @@ table.dataTable thead .sorting:after {
 	color:#000000;
 }
 
-.chat-app .create-new-message-window .search-results {
+.chat-app .create-new-message-window .search-results, .chat-app .add-user-unit .search-results {
 	width: 50%;
     margin-left: 25%;
     margin-top: 25px;
@@ -2498,7 +2533,7 @@ table.dataTable thead .sorting:after {
     overflow: auto;
 }
 
-.chat-app .create-new-message-window .search-results .user {
+.chat-app .create-new-message-window .search-results .user, .chat-app .add-user-unit .search-results .user {
 	width: 100%;
     display: inline-block;
     padding: 10px;
@@ -2506,23 +2541,46 @@ table.dataTable thead .sorting:after {
 	cursor:pointer;
 }
 
-.chat-app .create-new-message-window .search-results .user:hover {
+.chat-app .create-new-message-window .search-results .user:hover, .chat-app .add-user-unit .search-results .user:hover{
 	background-color:#efefef;
 }
 
-.chat-app .create-new-message-window .search-results .user img {
+.chat-app .create-new-message-window .search-results .user img, .chat-app .add-user-unit .search-results .user img{
 	width: 45px;
     height: 45px;
     border-radius: 100%;
     float: left;
 }
 
-.chat-app .create-new-message-window .search-results .user .user-name {
+.chat-app .create-new-message-window .search-results .user .user-name, .chat-app .add-user-unit .search-results .user .user-name {
 	float: left;
     margin-left: 15px;
     font-family: 'robotobold';
     font-size: 18px;
     margin-top: 9px;
+}
+
+.chat-app-button {
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    text-align: center;
+    cursor: pointer;
+}
+
+.chat-app-button i {
+    top: 16px;
+    color: #333;
+    font-size: 20px;
 }
 
 .chat-app .create-new-channel-window h3 {
@@ -2570,7 +2628,7 @@ table.dataTable thead .sorting:after {
 }
 
 .chat-app .add-user-unit input {
-	width: 400px;
+    width: 400px;
     margin-top: 40px;
     height: 50px;
     padding-left: 15px;
@@ -2579,6 +2637,33 @@ table.dataTable thead .sorting:after {
     outline: none;
 }
 
+.chat-app-close-btn {
+    display: block;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+
+.chat-app-button {
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    z-index: 9999;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.chat-app-button i {
+    margin-top: 3px;
+    font-size: 18px;
+}
 
 /* END OF CHAT APPLICATION */
 
