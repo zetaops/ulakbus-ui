@@ -1,6 +1,6 @@
-<div class="action-selector">
+<div class="action-selector" ng-class="{readonly: readonly}">
     <span class="action-indicator" ng-class="value"></span>
-    <div class="popover bottom ng-hide">
+    <div class="popover bottom ng-hide" ng-if="!readonly">
         <div class="arrow"></div>
         <div class="popover-content">
             <ul class="actions-selector-select">

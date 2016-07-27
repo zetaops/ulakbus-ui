@@ -737,6 +737,13 @@ angular.module('ulakbus')
                     3: 'action-indicator_busy'
                 };
 
+                if (iAttrs.hasOwnProperty('readonly')){
+                    iAttrs.$observe('readonly', function(v){
+                        if (v && v == 'false') v = false;
+                        iScope.readonly = v;
+                    });
+                }
+
                 iScope.$watch('externalModel', function(value){
                     iScope.value = valueToClassMap[value];
                 });
