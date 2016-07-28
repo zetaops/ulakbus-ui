@@ -42,18 +42,17 @@ angular.module('ulakbus')
             replace: true,
             scope: {},
             controller: function ($scope, $log) {
-                $scope.count = {
-                    messages: 0,
-                    notifications: 0
-                };
-                function initCounters(){
-                    MessagingService.get_unread_messages_count()
-                        .then(function(result){
-                            $scope.count.messages = result.messages;
-                            $scope.count.notifiations = result.notifications;
-                        })
+                $scope.count = MessagingService.get_unread_counters();
+                // initialize counters
+                MessagingService.get_unread_messages_count();
+
+                $scope.showMessagesWindow = function(type){
+                    if (type == 'notifications'){
+                        var channelKey = MessagingService.get_notifications_channel_key();
+                        return MessagingService.show_messaging_window(channelKey);
+                    }
+                    MessagingService.show_messaging_window();
                 }
-                initCounters();
             }
         };
     })

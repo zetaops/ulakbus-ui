@@ -25,6 +25,16 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             "NOTIFICATION": 5
         };
 
+        msg.SHOW_MESSAGING_WINDOW_EVENT = "show_messaging_window";
+
+        var unread = {
+            messages: {count: 0},
+            notifications: {count: 0}
+        };
+        var currentChannelKey;
+        // track messaging app state for proper unread messages count
+        var messagingAppIsHidden = true;
+
         function wsReady () {
             /**
              * wait until websocket will be open
@@ -52,6 +62,14 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             }
         }
 
+        function increaseUnread(message, messageType){
+            // skip current channel messages. Don't update counters
+            if (!messagingAppIsHidden && message.channel_key == currentChannelKey){
+                return;
+            }
+            unread[messageType].count += 1;
+        }
+
         // prepare message to show in UI
         msg.prepareMessage = function(message){
             if (!message.timestamp){
@@ -66,6 +84,25 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         msg.get_notifications_channel_key = function(){
             return notificationsChannelKey;
         };
+
+        msg.get_unread_counters = function(){
+            return unread;
+        };
+
+        msg.reset_current_channel = function(){
+            currentChannelKey = null;
+        }
+
+        msg.toggle_messaging_window_visibility = function(visibility, resetCurrentChannel){
+            messagingAppIsHidden = !visibility;
+            if (resetCurrentChannel){
+                msg.reset_current_channel();
+            }
+        };
+
+        msg.show_messaging_window = function(channelKey){
+            $rootScope.$broadcast(msg.SHOW_MESSAGING_WINDOW_EVENT, channelKey);
+        }
 
         /**
          * API
@@ -226,6 +263,19 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Show channel ", channelKey, ": ", result);
+                // decrease unread messages for current channel
+                if (result.unread){
+                    var counter;
+                    if (result.type == msg.CHANNEL_TYPE.NOTIFICATION){
+                         counter = unread.notifications
+                    } else {
+                        counter = unread.messages;
+                    }
+                    counter.count -= result.unread;
+                    if (counter.count < 0) counter.count = 0;
+                }
+                // save current channel key
+                currentChannelKey = result.key;
                 prepareMessages(result.last_messages);
                 return result;
             })
@@ -249,6 +299,9 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Get unread messages count: ", result);
+                // update internal unread messages counters
+                unread.messages.count = result.messages;
+                unread.notifications.count = result.notifications;
                 return result;
             })
         };
@@ -378,6 +431,18 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
                 return result;
             });
         };
+
+        /**
+         * Event listeners
+         */
+
+        $rootScope.$on("message", function(e, message){
+            increaseUnread(message, 'messages');
+        });
+
+        $rootScope.$on("notifications", function(e, message){
+            increaseUnread(message, 'notifications');
+        });
 
         return msg;
     })
