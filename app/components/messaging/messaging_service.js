@@ -520,6 +520,11 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             };
         });
 
+        // initialize unread messages counter when user logged in
+        $rootScope.$on("user_ready", function(){
+            msg.get_unread_messages_count();
+        });
+
         return msg;
     })
 
