@@ -184,7 +184,9 @@ angular.module("ulakbus.messaging")
                         case '_zops_delete_channel':
                             iScope.deleteConfirmation('Kanalı silmek istediğinize emin misiniz?')
                                 .then(function(){
-                                    MessagingService.delete_channel(getKey(channel));
+                                    MessagingService.delete_channel(getKey(channel)).then(function(){
+                                        iScope.selectedChannel = null;
+                                    });
                                 });
                             break;
 

@@ -275,6 +275,9 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Channel ", channelKey, " deleted: ", result);
+                if (channelsMap[channelKey]){
+                    channelsMap[channelKey].deleted = true;
+                }
                 return result;
             })
         };
