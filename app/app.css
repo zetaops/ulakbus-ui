@@ -2611,6 +2611,7 @@ table.dataTable thead .sorting:after {
 	outline:none;
 }
 
+
 .chat-app .close-chat-popup-window {
 	width: 50px;
     height: 50px;
@@ -2735,12 +2736,29 @@ table.dataTable thead .sorting:after {
 
 .chat-app .add-user-unit input {
     width: 400px;
-    margin-top: 40px;
+    margin-top: 10px;
     height: 50px;
     padding-left: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;
+}
+
+
+.chat-app .add-user-unit .checkbox-inline {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 20px;
+    padding-left: 25px;
+    border: none;
+}
+
+.chat-app .add-user-unit .checkbox-inline input {
+    width: 20px;
+    margin-top: 0;
+    margin-left: -25px;
+    border: none;
+    height: 20px;
 }
 
 .chat-app-close-btn {

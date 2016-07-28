@@ -210,8 +210,10 @@ angular.module("ulakbus.messaging")
                                     };
                                     scope.onChange("");
                                 }
-                            }).then(function(userKey){
-                                return MessagingService.add_members(getKey(channel), [userKey]);
+                            }).then(function(user){
+                                var userKey = user.key;
+                                var channelKey = getKey(channel);
+                                return MessagingService.add_members(channelKey, [userKey], user.readonly);
                             });
                             break;
 
@@ -229,9 +231,10 @@ angular.module("ulakbus.messaging")
                                     };
                                     scope.onChange("");
                                 }
-                            }).then(function(unitKey){
-                                var channelKey = getKey(iScope.selectedChannel);
-                                return MessagingService.add_members(channelKey, unitKey);
+                            }).then(function(unit){
+                                var unitKey = unit.key;
+                                var channelKey = getKey(channel);
+                                return MessagingService.add_members(channelKey, unitKey, unit.readonly);
                             });
                             break;
                     }

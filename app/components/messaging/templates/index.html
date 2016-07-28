@@ -11,7 +11,7 @@
 
                 <ul class="channels">
                     <li class="title">KANALLAR <span class="add-action glyphicon glyphicon-plus-sign" ng-click="createChannel()"></span></li>
-                    <li ng-class="{'unread': ch.unread, 'active': isChannelSelected(ch)}" title="{{ch.description}}" ng-repeat="ch in publicChannels" ng-click="selectChannel(ch)">{{ch.name}}</li>
+                    <li ng-class="{'unread': ch.unread, 'public-ro-channel': ch.read_only, 'active': isChannelSelected(ch)}" title="{{ch.description}}" ng-repeat="ch in publicChannels" ng-click="selectChannel(ch)">{{ch.name}}</li>
                 </ul>
 
                 <ul class="direct-messages">
