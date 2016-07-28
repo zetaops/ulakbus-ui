@@ -31,11 +31,26 @@ angular.module("ulakbus.messaging")
             scope: {},
             link: function(iScope, iElem, iAttrs){
                 iScope.chatAppIsHidden = true;
+                // track if user is logged in
+
+
+                // reset state when user log in/log out
+                $rootScope.$watch('loggedInUser', function(v){
+                    iScope.loggedIn = v;
+                    reset();
+                });
 
                 // shared object to populate models through scopes
                 iScope.shared = {};
 
                 var popupRootElement = $(iElem).find('.popup-placeholder');
+
+                function reset(){
+                    iScope.selectedChannel = null;
+                    iScope.publicChannels = [];
+                    iScope.notificationsChannel = [];
+                    iScope.directChannels = [];
+                }
 
                 function editChannelPopup(channel){
                     return MessagingPopup.show({
@@ -308,10 +323,7 @@ angular.module("ulakbus.messaging")
 
                 $rootScope.$on("user_ready", function(){
                     // init service after user logged in
-                    iScope.selectedChannel = null;
-                    iScope.publicChannels = [];
-                    iScope.notificationsChannel = [];
-                    iScope.directChannels = []
+                    reset();
                     iScope.hideApp();
                 });
             }

@@ -2087,7 +2087,7 @@ table.dataTable thead .sorting:after {
     right: 15px;
 	-moz-box-shadow: 0px 0px 45px rgba(0,0,0,0.4);
     box-shadow: 0px 0px 45px rgba(0,0,0,0.4);
-    z-index: 10;
+    z-index: 2100;
     border-radius: 3px;	
 }
 
