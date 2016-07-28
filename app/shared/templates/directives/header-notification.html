@@ -31,8 +31,8 @@
         &lt;!&ndash; /.dropdown-messages &ndash;&gt;
     </li>-->
     <li uib-dropdown auto-close="outsideClick">
-        <a uib-dropdown-toggle>
-            <div class="badge" ng-show="count.messages > 0">{{count.messages}}</div>
+        <a uib-dropdown-toggle ng-click="showMessagesWindow('messages')">
+            <div class="badge" ng-show="count.messages.count > 0">{{count.messages.count}}</div>
             <i class="fa fa-envelope fa-fw" tooltip-placement="bottom" uib-tooltip="Mesajlar"></i>
             <!--<i class="fa fa-caret-down"></i>-->
         </a>
@@ -99,8 +99,8 @@
     </li>
     <!-- /.dropdown -->
     <li uib-dropdown auto-close="outsideClick">
-        <a uib-dropdown-toggle>
-        	<div class="badge" ng-if="count.notifications > 0">{{count.notifications}}</div>
+        <a uib-dropdown-toggle ng-click="showMessagesWindow('notifications')">
+            <div class="badge" ng-if="count.notifications.count > 0">{{count.notifications.count}}</div>
             <i class="fa fa-bell fa-fw" tooltip-placement="bottom" uib-tooltip="Duyurular"></i>
             <!--<i class="fa fa-caret-down"></i>-->
         </a>

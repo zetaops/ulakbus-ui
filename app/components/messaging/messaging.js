@@ -1,6 +1,6 @@
 angular.module("ulakbus.messaging")
 
-    .directive('messaging', function (Generator, MessagingService, $log, $rootScope, MessagingPopup, Utils) {
+    .directive('messaging', function (Generator, MessagingService, $log, $rootScope, MessagingPopup, Utils, $q) {
 
         // get channel key
         function getKey (channel) {
@@ -32,10 +32,23 @@ angular.module("ulakbus.messaging")
             link: function(iScope, iElem, iAttrs){
                 iScope.chatAppIsHidden = true;
 
+                // reset state when user log in/log out
+                $rootScope.$watch('loggedInUser', function(v){
+                    iScope.loggedIn = v;
+                    reset();
+                });
+
                 // shared object to populate models through scopes
                 iScope.shared = {};
 
                 var popupRootElement = $(iElem).find('.popup-placeholder');
+
+                function reset(){
+                    iScope.selectedChannel = null;
+                    iScope.publicChannels = [];
+                    iScope.notificationsChannel = [];
+                    iScope.directChannels = [];
+                }
 
                 function editChannelPopup(channel){
                     return MessagingPopup.show({
@@ -66,8 +79,9 @@ angular.module("ulakbus.messaging")
                         if (channel.messages){
                             channel.messages.push(message);
                         }
-                    }
+                    };
                     updateLastMessage(message);
+                    reportLastSeenMessage();
                 }
 
                 function updateAndSelect(channelKey){
@@ -103,10 +117,12 @@ angular.module("ulakbus.messaging")
                 };
 
                 iScope.updateChannelsList = function(){
-                    return MessagingService.list_channels().then(function (groupedChannels) {
+                    return MessagingService.list_channels().then(function (channels) {
+                        var groupedChannels = channels.grouped;
                         iScope.publicChannels = groupedChannels[MessagingService.CHANNEL_TYPE.PUBLIC];
                         iScope.notificationsChannel = groupedChannels[MessagingService.CHANNEL_TYPE.NOTIFICATION][0];
                         iScope.directChannels = groupedChannels[MessagingService.CHANNEL_TYPE.DIRECT];
+
                     });
                 }
 
@@ -123,11 +139,13 @@ angular.module("ulakbus.messaging")
 
                 iScope.hideApp = function(){
                     iScope.chatAppIsHidden = true;
+                    MessagingService.toggle_messaging_window_visibility(false);
                 };
 
                 iScope.showApp = function(){
                     iScope.chatAppIsHidden = false;
-                    iScope.updateChannelsList();
+                    MessagingService.toggle_messaging_window_visibility(true);
+                    return iScope.updateChannelsList();
                 }
 
                 iScope.searchUser = function(){
@@ -221,11 +239,10 @@ angular.module("ulakbus.messaging")
 
                 function selectChannel(channelKey, silent){
                     if (!silent) iScope.loadingChannel = true;
-                    return MessagingService.show_channel(channelKey).then(function(result){
-                        return result;
-                    }).finally(function(){
-                        iScope.loadingChannel = false;
-                    })
+                    return MessagingService.show_channel(channelKey)
+                        .finally(function(){
+                            iScope.loadingChannel = false;
+                        })
                 }
 
                 iScope.selectChannel = function(channel, silent){
@@ -308,12 +325,21 @@ angular.module("ulakbus.messaging")
 
                 $rootScope.$on("user_ready", function(){
                     // init service after user logged in
-                    iScope.selectedChannel = null;
-                    iScope.publicChannels = [];
-                    iScope.notificationsChannel = [];
-                    iScope.directChannels = []
+                    reset();
                     iScope.hideApp();
                 });
+
+                $rootScope.$on(MessagingService.SHOW_MESSAGING_WINDOW_EVENT, function(e, channelKey){
+                    var showApp = $q.when();
+                    if (iScope.chatAppIsHidden){
+                        showApp = iScope.showApp();
+                    }
+                    if (channelKey && channelKey != getKey(iScope.selectedChannel)){
+                        showApp.then(function(){
+                            iScope.selectChannel(channelKey);
+                        })
+                    }
+                })
             }
         };
     })

@@ -2087,7 +2087,7 @@ table.dataTable thead .sorting:after {
     right: 15px;
 	-moz-box-shadow: 0px 0px 45px rgba(0,0,0,0.4);
     box-shadow: 0px 0px 45px rgba(0,0,0,0.4);
-    z-index: 10;
+    z-index: 2100;
     border-radius: 3px;	
 }
 
@@ -2481,6 +2481,11 @@ table.dataTable thead .sorting:after {
 .chat-app .conversation-section .user-message .message-content {
 	font-family: 'robotomedium';
 }
+
+.chat-app .conversation-section .message-content-url {
+    display: block;
+}
+
 
 .chat-app .conversation-section .user-message .message-content .attachment-message {
 	color: #909090;
@@ -2966,6 +2971,7 @@ table.dataTable thead .sorting:after {
 .course-prg-scheduler .action-selector.readonly {
     right: 0;
     padding-right: 0;
+    cursor: default;
 }
 
 .course-prg-scheduler .action-selector.readonly:after {

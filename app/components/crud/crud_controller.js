@@ -551,7 +551,8 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                         key: data.oe_key,
                         name: data.name,
                         avatar_url: data.avatar_url,
-                        totalHours: data.toplam_ders_saati
+                        totalHours: data.toplam_ders_saati,
+                        readonly: data.readonly
                     };
                     iScope.timetable = iScope.prepareTimetable(data.uygunluk_durumu);
                 };
@@ -611,18 +612,19 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                     iScope.currentTable = {
                         key: data.oe_key,
                         name: data.name,
-                        avatar_url: data.avatar_url
+                        avatar_url: data.avatar_url,
+                        readonly: data.readonly
                     };
                     iScope.timetable = iScope.prepareTimetable(data.zaman_plani);
                 };
 
-                iScope.selectTable = function(lecturer){
+                iScope.selectTable = function(table){
                     iScope.loadingTable = true;
                     iScope.get_wf({
-                        cmd: 'personel_sec',
-                        secili_og_elemani: {key: lecturer.key}
+                        cmd: 'derslik_degistir',
+                        secili_derslik: {key: table.key}
                     }).then(function(response){
-                        initLecturer(response);
+                        initTable(response);
                     }).finally(function(){
                         iScope.loadingTable = false;
                     })

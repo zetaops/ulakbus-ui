@@ -40,7 +40,6 @@
 
             <div class="conversation-block clearfix" ng-repeat="msg in selectedChannel.messages">
                 <div class="conversation-actions">
-                    <div class="action"><span class="glyphicon glyphicon-star-empty"></span></div>
                     <div class="action dropdown-toggle" data-toggle="dropdown" ng-click="getMessageActions(msg)">
                         <span class="glyphicon glyphicon-option-horizontal"></span>
                     </div>
@@ -59,6 +58,7 @@
                     </div>
                     <div class="message-content">
                         {{::msg.content}}
+                        <a class="message-content-url" href="{{::msg.url}}" ng-if="msg.url">{{msg.url}}</a>
                     </div>
                 </div>
             </div>

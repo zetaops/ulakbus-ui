@@ -18,12 +18,25 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
     .factory('MessagingService', function ($q, $timeout, $compile, $log, $rootScope, Moment, WSOps, Utils) {
         var msg = {};
         var notificationsChannelKey;
+        var channelsMap = {};
+        // channels loader promise
+        var channelsLoader;
 
         msg.CHANNEL_TYPE = {
             "PUBLIC": 15,
             "DIRECT": 10,
             "NOTIFICATION": 5
         };
+
+        msg.SHOW_MESSAGING_WINDOW_EVENT = "show_messaging_window";
+
+        var unread = {
+            messages: {count: 0},
+            notifications: {count: 0}
+        };
+        var currentChannelKey;
+        // track messaging app state for proper unread messages count
+        var messagingAppIsHidden = true;
 
         function wsReady () {
             /**
@@ -52,6 +65,44 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             }
         }
 
+        function increaseUnread(message, messageType){
+            // skip current channel messages. Don't update counters
+            if (!messagingAppIsHidden && message.channel_key == currentChannelKey){
+                return;
+            }
+            checkIfInitialized().then(function(){
+                var channel = channelsMap[message.channel_key];
+                if (channel){
+                    channel.unread += 1;
+                }
+                unread[messageType].count += 1;
+            })
+        }
+
+        function decreaseUnread(channel){
+            // get channel from channelsMap. Channels in channelMap has unread property
+            // which is updated when messages arrive
+            channel = channelsMap[channel.key];
+            if (channel && channel.unread){
+                var counter;
+                if (channel.type == msg.CHANNEL_TYPE.NOTIFICATION){
+                    counter = unread.notifications
+                } else {
+                    counter = unread.messages;
+                }
+                counter.count -= channel.unread;
+                if (counter.count < 0) counter.count = 0;
+                channel.unread = 0;
+            }
+        }
+
+        function checkIfInitialized(){
+            if (!channelsLoader){
+                return msg.list_channels()
+            }
+            return channelsLoader;
+        }
+
         // prepare message to show in UI
         msg.prepareMessage = function(message){
             if (!message.timestamp){
@@ -64,8 +115,34 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         };
 
         msg.get_notifications_channel_key = function(){
-            return notificationsChannelKey;
+            return checkIfInitialized().then(function(){
+                return notificationsChannelKey;
+            });
         };
+
+        msg.get_unread_counters = function(){
+            return unread;
+        };
+
+        msg.reset_state = function(){
+            currentChannelKey = null;
+            notificationsChannelKey = null;
+            channelsMap = {};
+            unread.messages.count = 0;
+            unread.notifications.count = 0;
+            channelsLoader = false;
+        }
+
+        msg.toggle_messaging_window_visibility = function(visibility, resetState){
+            messagingAppIsHidden = !visibility;
+            if (resetState){
+                msg.reset_state();
+            }
+        };
+
+        msg.show_messaging_window = function(channelKey){
+            $rootScope.$broadcast(msg.SHOW_MESSAGING_WINDOW_EVENT, channelKey);
+        }
 
         /**
          * API
@@ -100,13 +177,21 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             var outgoing = {
                 view: '_zops_list_channels'
             };
-            return wsRequest(outgoing).then(function (data) {
-                console.error("channels: ", data.channels);
+
+            channelsLoader = wsRequest(outgoing).then(function (data) {
                 var grouped = Utils.groupBy(data.channels||[], "type");
+                // add all channels to channels map
+                for (var i = 0; i < data.channels.length; i++){
+                    var channel = data.channels[i];
+                    channelsMap[channel.key] = channel;
+                }
                 // save notifications channel key
                 notificationsChannelKey = grouped[msg.CHANNEL_TYPE.NOTIFICATION][0].key;
-                return grouped;
+
+                return {grouped: grouped, channelsMap: channelsMap};
             });
+
+            return channelsLoader;
         };
 
         msg.search_user = function (query) {
@@ -226,6 +311,10 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Show channel ", channelKey, ": ", result);
+                // decrease unread messages for current channel
+                decreaseUnread(result);
+                // save current channel key
+                currentChannelKey = result.key;
                 prepareMessages(result.last_messages);
                 return result;
             })
@@ -249,6 +338,9 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Get unread messages count: ", result);
+                // update internal unread messages counters
+                unread.messages.count = result.messages;
+                unread.notifications.count = result.notifications;
                 return result;
             })
         };
@@ -378,6 +470,25 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
                 return result;
             });
         };
+
+        /**
+         * Event listeners
+         */
+
+        $rootScope.$on("message", function(e, message){
+            increaseUnread(message, 'messages');
+        });
+
+        $rootScope.$on("notifications", function(e, message){
+            increaseUnread(message, 'notifications');
+        });
+
+        // reset state on logout
+        $rootScope.$watch("loggedInUser", function(value){
+            if (!value){
+                msg.reset_state();
+            };
+        });
 
         return msg;
     })
