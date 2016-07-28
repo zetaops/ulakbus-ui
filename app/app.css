@@ -2971,6 +2971,7 @@ table.dataTable thead .sorting:after {
 .course-prg-scheduler .action-selector.readonly {
     right: 0;
     padding-right: 0;
+    cursor: default;
 }
 
 .course-prg-scheduler .action-selector.readonly:after {
