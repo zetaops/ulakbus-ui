@@ -2482,6 +2482,11 @@ table.dataTable thead .sorting:after {
 	font-family: 'robotomedium';
 }
 
+.chat-app .conversation-section .message-content-url {
+    display: block;
+}
+
+
 .chat-app .conversation-section .user-message .message-content .attachment-message {
 	color: #909090;
 }
