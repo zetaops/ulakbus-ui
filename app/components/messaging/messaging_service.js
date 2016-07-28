@@ -19,6 +19,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         var msg = {};
         var notificationsChannelKey;
         var channelsMap = {};
+        var groupedChannels = {};
         // channels loader promise
         var channelsLoader;
 
@@ -128,6 +129,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             currentChannelKey = null;
             notificationsChannelKey = null;
             channelsMap = {};
+            groupedChannels = {};
             unread.messages.count = 0;
             unread.notifications.count = 0;
             channelsLoader = false;
@@ -179,16 +181,22 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             };
 
             channelsLoader = wsRequest(outgoing).then(function (data) {
-                var grouped = Utils.groupBy(data.channels||[], "type");
+                var initialGroups = {};
+                initialGroups[msg.CHANNEL_TYPE.PUBLIC] = [];
+                initialGroups[msg.CHANNEL_TYPE.DIRECT] = [];
+                initialGroups[msg.CHANNEL_TYPE.NOTIFICATION] = [];
+                groupedChannels = Utils.groupBy(data.channels||[], "type", initialGroups);
+
                 // add all channels to channels map
                 for (var i = 0; i < data.channels.length; i++){
                     var channel = data.channels[i];
                     channelsMap[channel.key] = channel;
                 }
-                // save notifications channel key
-                notificationsChannelKey = grouped[msg.CHANNEL_TYPE.NOTIFICATION][0].key;
 
-                return {grouped: grouped, channelsMap: channelsMap};
+                // save notifications channel key
+                notificationsChannelKey = groupedChannels[msg.CHANNEL_TYPE.NOTIFICATION][0].key;
+
+                return {grouped: groupedChannels, channelsMap: channelsMap};
             });
 
             return channelsLoader;
@@ -484,6 +492,25 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
 
         $rootScope.$on("notifications", function(e, message){
             increaseUnread(message, 'notifications');
+        });
+
+        $rootScope.$on("channel_change", function(e, action, channel){
+            checkIfInitialized().then(function(){
+                if (action == 'add'){
+                    var group = groupedChannels[channel.type];
+                    if (!channelsMap[channel.key]){
+                        channelsMap[channel.key] = channel;
+                    }
+                    return group.push(channel);
+                }
+
+                if (action == 'status'){
+                    var localChannel = channelsMap[channel.channel_key];
+                    if (localChannel){
+                        localChannel.is_online = channel.is_online;
+                    }
+                }
+            })
         });
 
         // reset state on logout
