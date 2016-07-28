@@ -43,8 +43,6 @@ angular.module('ulakbus')
             scope: {},
             controller: function ($scope, $log) {
                 $scope.count = MessagingService.get_unread_counters();
-                // initialize counters
-                MessagingService.get_unread_messages_count();
 
                 $scope.showMessagesWindow = function(type){
                     if (type == 'notifications'){
