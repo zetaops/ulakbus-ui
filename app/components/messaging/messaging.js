@@ -81,6 +81,7 @@ angular.module("ulakbus.messaging")
                         }
                     };
                     updateLastMessage(message);
+                    reportLastSeenMessage();
                 }
 
                 function updateAndSelect(channelKey){
