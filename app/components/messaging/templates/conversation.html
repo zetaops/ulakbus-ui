@@ -58,7 +58,7 @@
                     </div>
                     <div class="message-content">
                         {{::msg.content}}
-                        <a class="message-content-url" href="{{::msg.url}}" ng-if="msg.url">{{msg.url}}</a>
+                        <a class="message-content-url" href="{{::msg.url}}" ng-click="hideApp()" ng-if="msg.url">{{msg.url}}</a>
                     </div>
                 </div>
             </div>
