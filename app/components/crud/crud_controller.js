@@ -616,13 +616,13 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                     iScope.timetable = iScope.prepareTimetable(data.zaman_plani);
                 };
 
-                iScope.selectTable = function(lecturer){
+                iScope.selectTable = function(table){
                     iScope.loadingTable = true;
                     iScope.get_wf({
-                        cmd: 'personel_sec',
-                        secili_og_elemani: {key: lecturer.key}
+                        cmd: 'derslik_degistir',
+                        secili_derslik: {key: table.key}
                     }).then(function(response){
-                        initLecturer(response);
+                        initTable(response);
                     }).finally(function(){
                         iScope.loadingTable = false;
                     })
