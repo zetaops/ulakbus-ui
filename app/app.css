@@ -2085,8 +2085,8 @@ table.dataTable thead .sorting:after {
     position: fixed;
     bottom: 15px;
     right: 15px;
-	-moz-box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
-    box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 0px 45px rgba(0,0,0,0.4);
+    box-shadow: 0px 0px 45px rgba(0,0,0,0.4);
     z-index: 10;
     border-radius: 3px;	
 }
@@ -2478,9 +2478,110 @@ table.dataTable thead .sorting:after {
 	margin-top: 4px;
 }
 
-.chat-app .conversation-section .conversation-body .conversation-block .user-message .message-content {
+.chat-app .conversation-section .user-message .message-content {
 	font-family: 'robotomedium';
 }
+
+.chat-app .conversation-section .user-message .message-content .attachment-message {
+	color: #909090;
+}
+
+.chat-app .conversation-section .user-message .message-content .attachment-message span {
+	color: #b51533;
+}
+
+.chat-app .conversation-section .user-message .message-content .attachment-holder {
+	position:relative;
+	display: inline-block;
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}
+
+.chat-app .conversation-section .user-message .message-content .attachment-holder .attachment-download {
+	position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #fff;
+    font-size: 21px;
+	opacity:0;
+	cursor:pointer;
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}
+
+.chat-app .conversation-section .user-message .message-content .attachment-holder:hover > .attachment-download {
+	opacity:0.6;
+}
+
+.chat-app .conversation-section .user-message .message-content .attachment-holder .attachment-download:hover {
+	opacity:1;
+}
+
+.chat-app .conversation-section .user-message .message-content .image-attached img {
+	width: 220px;
+    border-radius: 3px;
+    border: 1px solid #a0a0a0;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached {
+	width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px;
+    padding-left: 5px;
+	background-color:#fff;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached img {
+	width: 40px;
+	float:left;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached .attached-file-info {
+	float:left;
+	margin-left:10px;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached .attached-file-info div:first-child {
+	color: #333;
+    font-size: 15px;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached .attached-file-info div:last-child {
+	color: #a2a2a2;
+    font-size: 13px;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached .attachment-download {
+	color:#333;
+	margin-top:10px;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached:hover > .attachment-download {
+	opacity:0.6;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached .attachment-download:hover {
+	opacity:1;
+}
+
+.chat-app .conversation-section .user-message .edit-text-message input {
+	width: 100%;
+    margin-bottom: 7px;
+    margin-top: 7px;
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding-left: 7px;
+    outline: none;
+}
+
 
 .chat-app .chat-popup-window {
 	position: absolute;
