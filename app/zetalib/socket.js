@@ -160,6 +160,16 @@ angular.module('ulakbus')
                 task_list: function () {
                     // broadcast task list to task_list directive in dashboard_widget_directives.js
                     $rootScope.$broadcast('task_list', msg_data["task_list"]);
+                },
+                channel_subscription: function(){
+                    $timeout(function(){
+                        $rootScope.$broadcast('channel_change', 'add', msg_data);
+                    })
+                },
+                user_status: function(){
+                    $timeout(function(){
+                        $rootScope.$broadcast('channel_change', 'status', msg_data);
+                    })
                 }
             };
             // do_action is the dispatcher function for incoming events
@@ -182,7 +192,7 @@ angular.module('ulakbus')
             }
             do_action(msg_data, msg_data.cmd);
 
-            $log.info("MESSAGE:", event, "Data:", JSON.parse(event.data));
+            $log.info("MESSAGE:", msg_data.cmd, event, "Data:", JSON.parse(event.data));
         };
         wsOps.onError = function (evt) {
             $log.error("ERROR :: " + evt);

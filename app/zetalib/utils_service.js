@@ -26,14 +26,16 @@ angular.module("ulakbus")
         /**
          * @param list {Array} Array of objects to group
          * @param propName {String} property name to group array by
+         * @param initialObject {Object} initial object for groups setup
          * @returns {Object}
          */
 
-        this.groupBy = function (list, propName) {
+        this.groupBy = function (list, propName,  initialObject) {
+            if (!initialObject) initialObject = {};
             return list.reduce(function(acc, item) {
                 (acc[item[propName]] = acc[item[propName]] || []).push(item);
                 return acc;
-            }, {});
+            }, initialObject);
         };
 
         /**
