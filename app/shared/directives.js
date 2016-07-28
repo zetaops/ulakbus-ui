@@ -48,8 +48,10 @@ angular.module('ulakbus')
 
                 $scope.showMessagesWindow = function(type){
                     if (type == 'notifications'){
-                        var channelKey = MessagingService.get_notifications_channel_key();
-                        return MessagingService.show_messaging_window(channelKey);
+                        return MessagingService.get_notifications_channel_key()
+                            .then(function(channelKey){
+                                return MessagingService.show_messaging_window(channelKey);
+                            })
                     }
                     MessagingService.show_messaging_window();
                 }

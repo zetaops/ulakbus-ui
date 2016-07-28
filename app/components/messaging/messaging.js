@@ -1,6 +1,6 @@
 angular.module("ulakbus.messaging")
 
-    .directive('messaging', function (Generator, MessagingService, $log, $rootScope, MessagingPopup, Utils) {
+    .directive('messaging', function (Generator, MessagingService, $log, $rootScope, MessagingPopup, Utils, $q) {
 
         // get channel key
         function getKey (channel) {
@@ -30,8 +30,6 @@ angular.module("ulakbus.messaging")
             restrict: 'E',
             scope: {},
             link: function(iScope, iElem, iAttrs){
-                var channelsMap = {};
-
                 iScope.chatAppIsHidden = true;
 
                 // reset state when user log in/log out
@@ -47,7 +45,6 @@ angular.module("ulakbus.messaging")
 
                 function reset(){
                     iScope.selectedChannel = null;
-                    MessagingService.reset_current_channel();
                     iScope.publicChannels = [];
                     iScope.notificationsChannel = [];
                     iScope.directChannels = [];
@@ -82,14 +79,7 @@ angular.module("ulakbus.messaging")
                         if (channel.messages){
                             channel.messages.push(message);
                         }
-                    } else {
-                        // update unread counter
-                        var ch = channelsMap[message.channel_key];
-                        if (ch){
-                            ch.unread += 1;
-                        }
-                    }
-
+                    };
                     updateLastMessage(message);
                 }
 
@@ -112,13 +102,7 @@ angular.module("ulakbus.messaging")
                     // FIXME: change to proper moment processing
                     // var ts = iScope.lastMessage.moment.toISOString();
                     var ts = iScope.lastMessage.moment.format("YYYY-MM-DDTHH:mm:ss");
-                    MessagingService.report_last_seen_message(getKey(iScope.selectedChannel), iScope.lastMessage.key, ts).then(function(){
-                        // set unread to 0 in channels list
-                        var ch = channelsMap[getKey(iScope.selectedChannel)];
-                        if (ch){
-                            ch.unread = 0;
-                        }
-                    })
+                    MessagingService.report_last_seen_message(getKey(iScope.selectedChannel), iScope.lastMessage.key, ts);
                 };
 
                 iScope.deleteConfirmation = function(title){
@@ -132,20 +116,12 @@ angular.module("ulakbus.messaging")
                 };
 
                 iScope.updateChannelsList = function(){
-                    return MessagingService.list_channels().then(function (groupedChannels) {
+                    return MessagingService.list_channels().then(function (channels) {
+                        var groupedChannels = channels.grouped;
                         iScope.publicChannels = groupedChannels[MessagingService.CHANNEL_TYPE.PUBLIC];
                         iScope.notificationsChannel = groupedChannels[MessagingService.CHANNEL_TYPE.NOTIFICATION][0];
                         iScope.directChannels = groupedChannels[MessagingService.CHANNEL_TYPE.DIRECT];
-                        // add all channels to channels map
-                        for(var key in groupedChannels){
-                            if (groupedChannels.hasOwnProperty(key)){
-                                var channels = groupedChannels[key];
-                                channels.forEach(function(channel){
-                                    channelsMap[channel.key] = channel;
-                                })
-                            }
-                        }
-                        console.error("CHALLL : ", channelsMap);
+
                     });
                 }
 
@@ -262,11 +238,10 @@ angular.module("ulakbus.messaging")
 
                 function selectChannel(channelKey, silent){
                     if (!silent) iScope.loadingChannel = true;
-                    return MessagingService.show_channel(channelKey).then(function(result){
-                        return result;
-                    }).finally(function(){
-                        iScope.loadingChannel = false;
-                    })
+                    return MessagingService.show_channel(channelKey)
+                        .finally(function(){
+                            iScope.loadingChannel = false;
+                        })
                 }
 
                 iScope.selectChannel = function(channel, silent){
@@ -354,11 +329,13 @@ angular.module("ulakbus.messaging")
                 });
 
                 $rootScope.$on(MessagingService.SHOW_MESSAGING_WINDOW_EVENT, function(e, channelKey){
+                    var showApp = $q.when();
                     if (iScope.chatAppIsHidden){
-                        iScope.showApp().then(function(){
-                            if (channelKey){
-                                iScope.selectChannel(channelKey);
-                            }
+                        showApp = iScope.showApp();
+                    }
+                    if (channelKey && channelKey != getKey(iScope.selectedChannel)){
+                        showApp.then(function(){
+                            iScope.selectChannel(channelKey);
                         })
                     }
                 })
