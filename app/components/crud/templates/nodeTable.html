@@ -19,10 +19,8 @@
                 </label>
             </th>
             <th scope="row" style="text-align:center">#</th>
-            <th ng-repeat="(key,value) in node.items[0] track by $index"
-                ng-if="key!=='idx' && node.schema.properties[key]">
-                <span ng-if="value.verbose_name">{{ value.verbose_name }}</span>
-                <span ng-if="!value.verbose_name">{{node.schema.properties[key]['title']|| key}}</span>
+            <th ng-repeat="propName in node.form" ng-init="prop = node.schema.properties[propName]">
+                <span ng-if="!value.verbose_name">{{prop.title||prop.name}}</span>
             </th>
             <th ng-if="meta.allow_actions!==false">İşlem</th>
         </tr>
@@ -44,25 +42,20 @@
             </td>
         </tr>
 
-        <tr ng-repeat="listnodemodel in node.items track by $index"
-            ng-init="outerIndex=$index"
-            ng-if="node.schema.formType=='ListNode'">
+        <tr ng-repeat="listnodemodel in node.items track by $index" ng-init="outerIndex=$index" ng-if="node.schema.formType=='ListNode'">
             <td ng-if="meta.allow_selection===true" width="60">
                 <label>
                     <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
                 </label>
             </td>
             <th scope="row" style="text-align:center">{{$index+1}}</th>
-            <td ng-repeat="(k, v) in listnodemodel track by $index"
-                ng-init="innerIndex=$index"
-                ng-if="k!=='idx' && node.schema.properties[k]">
-                <span ng-if="!node.schema.inline_edit || node.schema.inline_edit.indexOf(k) < 0">{{ v.unicode || v }}</span>
+            <td ng-repeat="propName in node.form" ng-init="k = propName; v = listnodemodel[propName]; inline = node.schema.inline_edit && node.schema.inline_edit.indexOf(k) > -1">
+                <span ng-if="!inline">{{ v.unicode || v }}</span>
                 <!--<input type="{{node.schema.properties[k].type}}"-->
                 <!--ng-if="node.schema.inline_edit.indexOf(k) > -1"-->
                 <!--ng-model="node.model[outerIndex][k]"-->
                 <!--ng-change="nodeModelChange(this)">-->
-                <ng-include src="'components/crud/templates/inline_edit.html'"
-                            ng-if="node.schema.inline_edit.indexOf(k) > -1"></ng-include>
+                <ng-include src="'components/crud/templates/inline_edit.html'" ng-if="inline"></ng-include>
             </td>
             <td ng-if="meta.allow_actions!==false">
                 <div ng-hide="meta.object_actions.length > 0">
