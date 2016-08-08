@@ -19,7 +19,11 @@
                 </label>
             </th>
             <th scope="row" style="text-align:center">#</th>
+<<<<<<< 6a71c6920efc5235eff71bf42763b82cc30f1827
             <th ng-repeat="prop in node.schema.properties_list">
+=======
+            <th ng-repeat="propName in node.form" ng-init="prop = node.schema.properties[propName]">
+>>>>>>> FIX, rfix#5379. Fix ListNode's dose not respect schema order
                 <span ng-if="!value.verbose_name">{{prop.title||prop.name}}</span>
             </th>
             <th ng-if="meta.allow_actions!==false">İşlem</th>
