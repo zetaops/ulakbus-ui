@@ -116,7 +116,9 @@ angular.module('ulakbus')
                         delete wsOps.callbacks[data.callbackID];
                         callback.resolve(data);
                     } else {
-                        $log.info("Data without callback: %o", data);
+                        if (data.msg != 'pong') {
+                            $log.info("Data without callback: %o", data);
+                        };
                         // if pong in msg reduce pingCounter
                         if (msg_data.msg === 'pong') {
                             pingCounter -= 1;
@@ -181,8 +183,9 @@ angular.module('ulakbus')
                 msg_data.cmd = 'error';
             }
             do_action(msg_data, msg_data.cmd);
-
-            $log.info("MESSAGE:", event, "Data:", JSON.parse(event.data));
+            if (msg_data.msg != "pong"){
+                $log.info("MESSAGE:", event, "Data:", msg_data);
+            }
         };
         wsOps.onError = function (evt) {
             $log.error("ERROR :: " + evt);
