@@ -2480,6 +2480,7 @@ table.dataTable thead .sorting:after {
 
 .chat-app .conversation-section .user-message .message-content {
 	font-family: 'robotomedium';
+    position: relative;
 }
 
 .chat-app .conversation-section .message-content-url {
@@ -2576,14 +2577,14 @@ table.dataTable thead .sorting:after {
 	opacity:1;
 }
 
-.chat-app .conversation-section .user-message .edit-text-message input {
+
+.chat-app .conversation-section .user-message .edit-text-message .editor {
 	width: 100%;
     margin-bottom: 7px;
     margin-top: 7px;
-    height: 30px;
     border-radius: 3px;
     border: 1px solid #ccc;
-    padding-left: 7px;
+    padding: 5px 10px;
     outline: none;
 }
 

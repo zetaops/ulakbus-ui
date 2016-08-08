@@ -14,7 +14,7 @@ angular.module("ulakbus")
 
         // check if obj1 has properties values equal to corresponding properties in obj2
         function hasEqualProperties(obj1, obj2){
-            var result = true
+            var result = true;
             for (var prop in obj2){
                 if(obj2.hasOwnProperty(prop)){
                     result = result && obj2[prop] == obj1[prop];
@@ -47,6 +47,19 @@ angular.module("ulakbus")
             for (var i = 0; i < list.length; i++){
                 if (hasEqualProperties(list[i], condition)){
                     list.splice(i, 1);
+                    return list[i];
+                }
+            }
+        };
+
+        /**
+         * @param list {Array} Array of objects to group
+         * @param condition {Object} conditions object. If object in collection has same values as in conditions object found object will be returned
+         * @returns {Object}|undefined
+         */
+        this.findWhere = function(list, condition){
+            for (var i = 0; i < list.length; i++){
+                if (hasEqualProperties(list[i], condition)){
                     return list[i];
                 }
             }

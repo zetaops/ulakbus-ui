@@ -684,6 +684,35 @@ angular.module('ulakbus')
                         });
                         event.preventDefault();
                     }
+                });
+
+                scope.$on('$destroy', function(){
+                    element.unbind('keydown keypress');
+                })
+            }
+        }
+    })
+
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name onEscPressed
+     * @description Fire action when ESC pressed on element
+     */
+    .directive("onEscPressed", function () {
+        return {
+            link: function (scope, element, attrs) {
+                element.bind("keydown keypress", function (event) {
+                    if(event.which === 27 ) {
+                        scope.$apply(function (){
+                            scope.$eval(attrs.onEscPressed);
+                        });
+                        event.preventDefault();
+                    }
+                });
+
+                scope.$on('$destroy', function(){
+                    element.unbind('keydown keypress');
                 })
             }
         }

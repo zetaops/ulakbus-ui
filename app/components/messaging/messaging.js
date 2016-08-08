@@ -1,6 +1,6 @@
 angular.module("ulakbus.messaging")
 
-    .directive('messaging', function (Generator, MessagingService, $log, $rootScope, MessagingPopup, Utils, $q) {
+    .directive('messaging', function (Generator, MessagingService, $log, $rootScope, MessagingPopup, Utils, $q, $timeout) {
 
         // get channel key
         function getKey (channel) {
@@ -79,9 +79,19 @@ angular.module("ulakbus.messaging")
                         if (channel.messages){
                             channel.messages.push(message);
                         }
-                    };
+                    }
                     updateLastMessage(message);
                     reportLastSeenMessage();
+                }
+
+                function updateMessage(message){
+                    // update current channel messages only
+                    if (message.channel_key != getKey(iScope.selectedChannel)) return;
+                    // update only visible messages
+                    var storedMessage = Utils.findWhere(iScope.selectedChannel.messages, {key: message.key})
+                    if (storedMessage){
+                        angular.extend(storedMessage, message)
+                    }
                 }
 
                 function updateAndSelect(channelKey){
@@ -276,6 +286,7 @@ angular.module("ulakbus.messaging")
                 iScope.applyMessageAction = function(message, action){
                     var actionView = action[1];
                     switch (actionView) {
+
                         case "_zops_favorite_message":
                             MessagingService.add_to_favorites(message.key)
                                 .then(function(){
@@ -283,6 +294,7 @@ angular.module("ulakbus.messaging")
                                     message.actions = null;
                                 });
                             break;
+
                         case "_zops_flag_message":
                             MessagingService.flag_message(message.key, true)
                                 .then(function(){
@@ -290,6 +302,7 @@ angular.module("ulakbus.messaging")
                                     message.actions = null;
                                 });
                             break;
+
                         case "_zops_unflag_message":
                             MessagingService.flag_message(message.key, false)
                                 .then(function(){
@@ -297,6 +310,7 @@ angular.module("ulakbus.messaging")
                                     message.actions = null;
                                 });
                             break;
+
                         case "_zops_delete_message":
                             iScope.deleteConfirmation("Mesajı silmek istediğinize emin misiniz?")
                                 .then(function(){
@@ -305,7 +319,31 @@ angular.module("ulakbus.messaging")
                                     })
                                 });
                             break;
+
                         case "_zops_edit_message":
+                            // find message content container
+                            var messageContainer = $("#msg-"+message.key);
+                            MessagingPopup.show({
+                                templateUrl: "components/messaging/templates/edit_message.html",
+                                rootElement: messageContainer,
+                                // activate inplace editor logic
+                                inplaceEditor: true,
+                                link: function (scope) {
+                                    scope.internalContent = scope.content;
+                                    scope.save = function(){
+                                        // delete message if new content is empty
+                                        if (!scope.internalContent){
+                                            return iScope.applyMessageAction(message, ['_', '_zops_delete_message']);
+                                        }
+                                        MessagingService.edit_message(message.key, scope.internalContent)
+                                            .then(function(){
+                                                // apply changes to element
+                                                scope.content = scope.internalContent;
+                                                scope.done();
+                                            });
+                                    };
+                                }
+                            });
                             break;
                     }
                 };
@@ -319,7 +357,11 @@ angular.module("ulakbus.messaging")
 
                 // listen to new messages and add them to selected channel if any
                 $rootScope.$on("message", function(e, message){
-                    appendMessage(iScope.selectedChannel, MessagingService.prepareMessage(message));
+                    if (message.is_update){
+                        updateMessage(message);
+                    } else {
+                        appendMessage(iScope.selectedChannel, MessagingService.prepareMessage(message));
+                    }
                 });
                 // notifications in messaging window are processed as ordinary messages
                 $rootScope.$on("notifications", function(e, notification){
@@ -371,3 +413,58 @@ angular.module("ulakbus.messaging")
             }
         }
     })
+
+    .directive("contenteditable", function(){
+        return {
+            require: "?ngModel",
+            scope: {},
+            link: function(iScope, iElem, iAttrs, ngModel) {
+                if(!ngModel) return;
+
+                ngModel.$render = function() {
+                    iElem.text(ngModel.$viewValue || '');
+                };
+
+                // Listen for change events to enable binding
+                iElem.on('blur keyup change', function() {
+                    iScope.$evalAsync(read);
+                });
+
+                function read() {
+                    var html = iElem.text();
+                    ngModel.$setViewValue(html);
+                }
+
+                iScope.$on('$destroy', function(){
+                    iElem.off('blur keyup change');
+                })
+            }
+        }
+    })
+
+    .directive('autoFocus', function($timeout){
+        function placeCaretAtEnd(el) {
+            el.focus();
+            if (typeof window.getSelection != "undefined"
+                && typeof document.createRange != "undefined") {
+                var range = document.createRange();
+                range.selectNodeContents(el);
+                range.collapse(false);
+                var sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            } else if (typeof document.body.createTextRange != "undefined") {
+                var textRange = document.body.createTextRange();
+                textRange.moveToElementText(el);
+                textRange.collapse(false);
+                textRange.select();
+            }
+        }
+        return {
+            link: function(iScope, iElem){
+                $timeout(function(){
+                    placeCaretAtEnd(iElem[0]);
+                }, 500);
+            }
+        }
+    });

@@ -71,6 +71,10 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             if (!messagingAppIsHidden && message.channel_key == currentChannelKey){
                 return;
             }
+
+            // skip message updates
+            if (message.is_update) return;
+
             checkIfInitialized().then(function(){
                 var channel = channelsMap[message.channel_key];
                 if (channel){
@@ -534,11 +538,12 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             var resultDeferred = $q.defer();
             var scope = config.scope || $rootScope.$new(true);
             var rootElement = config.rootElement;
-            var element = $compile(template)(scope);
-            if (config.link){
-                config.link(scope);
-            }
+            var originalContent, element;
 
+            if (config.inplaceEditor){
+                originalContent = rootElement.text();
+                scope.content = originalContent;
+            }
             scope.done = function(result){
                 resultDeferred.resolve.apply(this, arguments);
             };
@@ -546,14 +551,26 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
                 resultDeferred.reject.apply(this, arguments);
             };
 
+            if (config.link){
+                config.link(scope);
+            }
+
+            element = $compile(template)(scope);
+
             rootElement.empty();
             rootElement.append(element);
 
             resultDeferred.promise._done = scope.done;
             resultDeferred.promise._cancel = scope.cancel;
-            return resultDeferred.promise.finally(function(){
-                rootElement.empty();
-                scope.$destroy();
+            return resultDeferred.promise
+                .finally(function(){
+                    // inplace editor can change scope.content and it will be applied to original rootElement
+                    if (config.inplaceEditor){
+                        rootElement.text(scope.content);
+                    } else {
+                        rootElement.empty();
+                    }
+                    scope.$destroy();
             });
         }
 
@@ -566,4 +583,4 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             return compile(config.template, config);
         };
 
-    });
+    })
