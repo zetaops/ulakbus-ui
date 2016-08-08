@@ -57,7 +57,7 @@
                         <div class="message-time">{{::msg.moment|fromNow}}</div>
                     </div>
                     <div class="message-content">
-                        {{::msg.content}}
+                        <div class="editable-message-content" id="msg-{{msg.key}}">{{msg.content}}</div>
                         <a class="message-content-url" href="{{::msg.url}}" ng-click="hideApp()" ng-if="msg.url">{{msg.url}}</a>
                     </div>
                 </div>
