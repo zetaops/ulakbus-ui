@@ -278,6 +278,9 @@ angular.module("ulakbus.messaging")
                         iScope.selectedChannel = result;
                         iScope.selectedChannel.read_only = channel.read_only;
                         iScope.selectedChannel.messages = result.last_messages;
+                        if (iScope.selectedChannel.messages.length < 15){
+                            iScope.allMessagesLoaded = true;
+                        }
                         updateLastMessage(channel.messages);
                         reportLastSeenMessage();
                     });
@@ -382,6 +385,7 @@ angular.module("ulakbus.messaging")
                                 }
                                 // prepend loaded messages to current channel messages list
                                 messages.unshift.apply(messages, result.messages);
+                                return true;
                             });
                     }
                 };
@@ -462,14 +466,17 @@ angular.module("ulakbus.messaging")
                             var id = elem.find("[id]").first().attr('id');
                             $timeout(function(){iScope.loading = true});
                             $q.when(iScope.loadMoreCallback())
-                                .finally(function(){
+                                .finally(function(loaded){
                                     $timeout(function(){
                                         iScope.loading = false;
-                                        // try to restore last scroll position;
-                                        var lastTopElem = elem.find("#"+id);
-                                        if (lastTopElem){
-                                            var top = lastTopElem.offset().top - elem.offset().top - 100;
-                                            elem.scrollTop(top);
+                                        // if new elements loaded
+                                        if (loaded){
+                                            // try to restore last scroll position;
+                                            var lastTopElem = elem.find("#"+id);
+                                            if (lastTopElem){
+                                                var top = lastTopElem.offset().top - elem.offset().top - 100;
+                                                elem.scrollTop(top);
+                                            }
                                         }
                                     });
                                 })
