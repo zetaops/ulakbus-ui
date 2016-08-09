@@ -343,6 +343,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Load channel ", channelKey, "history: ", result);
+                prepareMessages(result.messages);
                 return result;
             })
         };

@@ -45,6 +45,7 @@ angular.module("ulakbus.messaging")
 
                 function reset(){
                     iScope.selectedChannel = null;
+                    iScope.allMessagesLoaded = false;
                     iScope.publicChannels = [];
                     iScope.notificationsChannel = [];
                     iScope.directChannels = [];
@@ -270,6 +271,8 @@ angular.module("ulakbus.messaging")
                 }
 
                 iScope.selectChannel = function(channel, silent){
+                    // enable channel history loading
+                    iScope.allMessagesLoaded = false;
                     var channelKey = getKey(channel);
                     selectChannel(channelKey, silent).then(function(result){
                         iScope.selectedChannel = result;
@@ -367,11 +370,18 @@ angular.module("ulakbus.messaging")
                 };
 
                 iScope.loadMore = function(){
+                    if (iScope.allMessagesLoaded) return;
                     if (iScope.selectedChannel.messages.length > 0){
                         var first = iScope.selectedChannel.messages[0];
-                        return MessagingService.channel_history(iScope.selectedChannel, first.timestamp)
+                        return MessagingService.channel_history(getKey(iScope.selectedChannel), first.timestamp)
                             .then(function(result){
-                                console.error("RES: ", result);
+                                var messages = iScope.selectedChannel.messages;
+                                if (result.messages.length == 0){
+                                    iScope.allMessagesLoaded = true;
+                                    return;
+                                }
+                                // prepend loaded messages to current channel messages list
+                                messages.unshift.apply(messages, result.messages);
                             });
                     }
                 };
@@ -433,6 +443,7 @@ angular.module("ulakbus.messaging")
     })
 
     .directive("loadMoreTop", function($compile, $timeout, $q) {
+        // centered loader
         var loaderTpl = $compile('<div class="loader" style="float: none; margin: auto; margin-top: 10px;" ng-show="loading"></div>');
         return {
             scope: {
@@ -442,18 +453,31 @@ angular.module("ulakbus.messaging")
                 var elem = $(iElem);
                 iElem.prepend(angular.element(loaderTpl(iScope)));
                 iScope.loading = false;
-                elem.scroll(function(e){
+
+                function onScroll(){
                     var scrollTop = elem.scrollTop();
                     if (scrollTop <= 0 && !iScope.loading){
                         if (iScope.loadMoreCallback){
+                            // save last top element with id position
+                            var id = elem.find("[id]").first().attr('id');
                             $timeout(function(){iScope.loading = true});
                             $q.when(iScope.loadMoreCallback())
                                 .finally(function(){
-                                    $timeout(function(){iScope.loading = false});
+                                    $timeout(function(){
+                                        iScope.loading = false;
+                                        // try to restore last scroll position;
+                                        var lastTopElem = elem.find("#"+id);
+                                        if (lastTopElem){
+                                            var top = lastTopElem.offset().top - elem.offset().top - 100;
+                                            elem.scrollTop(top);
+                                        }
+                                    });
                                 })
                         }
                     }
-                });
+                }
+
+                elem.scroll(onScroll);
             }
         }
     })
