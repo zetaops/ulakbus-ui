@@ -31,10 +31,10 @@
         </div>
     </div>
 
-    <div class="conversation-body" ng-class="{readonly: selectedChannel.read_only}" scroll-down-when-update="lastMessage">
+    <div class="conversation-body" ng-class="{readonly: selectedChannel.read_only}" scroll-down-when-update="{{lastMessage}}" load-more-top="loadMore()">
         <div class="conversation-body-inner">
 
-            <div class="beginning-of-conversation">
+            <div class="beginning-of-conversation" ng-show="allMessagesLoaded">
                 Burası yazışmanın başı!
             </div>
 
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="user-photo">
-                    <img ng-src="{{msg.avatar_url}}" ng-show="msg.avatar_url">
+                    <img ng-src="{{::msg.avatar_url}}" ng-if="msg.avatar_url">
                 </div>
                 <div class="user-message">
                     <div class="message-header clearfix">
@@ -57,8 +57,8 @@
                         <div class="message-time">{{::msg.moment|fromNow}}</div>
                     </div>
                     <div class="message-content">
-                        <div class="editable-message-content" id="msg-{{msg.key}}">{{msg.content}}</div>
-                        <a class="message-content-url" href="{{::msg.url}}" ng-click="hideApp()" ng-if="msg.url">{{msg.url}}</a>
+                        <div class="editable-message-content" id="msg-{{::msg.key}}">{{::msg.content}}</div>
+                        <a class="message-content-url" href="{{::msg.url}}" ng-click="hideApp()" ng-if="msg.url">{{::msg.url}}</a>
                     </div>
                 </div>
             </div>

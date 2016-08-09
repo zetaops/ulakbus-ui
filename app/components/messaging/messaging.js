@@ -66,6 +66,10 @@ angular.module("ulakbus.messaging")
                     })
                 }
 
+                function getMessageElementByKey(key){
+                    return $("#msg-"+key);
+                }
+
                 function updateLastMessage(message){
                     if (!message && iScope.selectedChannel && iScope.selectedChannel.messages.length > 0){
                         var last = iScope.selectedChannel.messages.length - 1;
@@ -91,6 +95,11 @@ angular.module("ulakbus.messaging")
                     var storedMessage = Utils.findWhere(iScope.selectedChannel.messages, {key: message.key})
                     if (storedMessage){
                         angular.extend(storedMessage, message)
+                        var msgElement = getMessageElementByKey(message.key);
+                        // use manual update because of 'bind-once' for messages list
+                        if (msgElement) {
+                            msgElement.text(message.content);
+                        }
                     }
                 }
 
@@ -324,7 +333,7 @@ angular.module("ulakbus.messaging")
 
                         case "_zops_edit_message":
                             // find message content container
-                            var messageContainer = $("#msg-"+message.key);
+                            var messageContainer = getMessageElementByKey(message.key);
                             MessagingPopup.show({
                                 templateUrl: "components/messaging/templates/edit_message.html",
                                 rootElement: messageContainer,
@@ -355,6 +364,16 @@ angular.module("ulakbus.messaging")
                     MessagingService.get_message_actions(message.key).then(function(result){
                         message.actions = result.actions;
                     })
+                };
+
+                iScope.loadMore = function(){
+                    if (iScope.selectedChannel.messages.length > 0){
+                        var first = iScope.selectedChannel.messages[0];
+                        return MessagingService.channel_history(iScope.selectedChannel, first.timestamp)
+                            .then(function(result){
+                                console.error("RES: ", result);
+                            });
+                    }
                 };
 
                 // listen to new messages and add them to selected channel if any
@@ -399,17 +418,40 @@ angular.module("ulakbus.messaging")
 
     .directive("scrollDownWhenUpdate", function($timeout){
         return {
-            scope: {
-                changesWatcher: "&scrollDownWhenUpdate"
-            },
             link: function(iScope, iElem, iAttrs){
                 var elem = $(iElem);
-                iScope.$watch(iScope.changesWatcher, function(value){
+                iAttrs.$observe("scrollDownWhenUpdate", function(value){
                     if (value){
                         // update on next digest
                         $timeout(function(){
                             elem.scrollTop(elem[0].scrollHeight);
                         }, 0);
+                    }
+                });
+            }
+        }
+    })
+
+    .directive("loadMoreTop", function($compile, $timeout, $q) {
+        var loaderTpl = $compile('<div class="loader" style="float: none; margin: auto; margin-top: 10px;" ng-show="loading"></div>');
+        return {
+            scope: {
+                loadMoreCallback: "&loadMoreTop"
+            },
+            link: function(iScope, iElem, iAttrs){
+                var elem = $(iElem);
+                iElem.prepend(angular.element(loaderTpl(iScope)));
+                iScope.loading = false;
+                elem.scroll(function(e){
+                    var scrollTop = elem.scrollTop();
+                    if (scrollTop <= 0 && !iScope.loading){
+                        if (iScope.loadMoreCallback){
+                            $timeout(function(){iScope.loading = true});
+                            $q.when(iScope.loadMoreCallback())
+                                .finally(function(){
+                                    $timeout(function(){iScope.loading = false});
+                                })
+                        }
                     }
                 });
             }
