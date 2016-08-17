@@ -29,7 +29,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @name Generator
      * @description form service's Generator factory service handles all generic form operations
      */
-    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal) {
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal, $filter) {
         var generator = {};
         /**
          * @memberof ulakbus.formService
@@ -292,6 +292,13 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         generator.prepareFormItems = function (scope) {
 
             angular.forEach(scope.form, function (value, key) {
+
+                // parse markdown for help text
+                if (value.type === 'help'){
+                    var markdown = $filter('markdown');
+                    value.helpvalue = markdown(value.helpvalue);
+                }
+
                 if (value.type === 'select') {
                     scope.schema.properties[value.key].type = 'select';
                     scope.schema.properties[value.key].titleMap = value.titleMap;
