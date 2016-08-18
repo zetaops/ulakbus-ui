@@ -1552,12 +1552,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                     angular.forEach(childmodel.form, function (v, k) {
                                         if (v.formName === key) {
                                             //if (!childmodel.model[key].key) {
-                                            function indexInTitleMap(element, index, array) {
+                                            var unicodeValue = v.titleMap.find(function (element, index, array) {
                                                 if (element['value'] === value) {
                                                     return element;
                                                 }
-                                            }
-                                            var unicodeValue = v.titleMap.find(indexInTitleMap);
+                                            });
                                             if (unicodeValue){
                                                 unicodeValue = unicodeValue.name;
                                                 reformattedModel[key] = {
