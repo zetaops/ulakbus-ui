@@ -19,6 +19,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         var msg = {};
         var notificationsChannelKey;
         var channelsMap = {};
+        var groupedChannels = {};
         // channels loader promise
         var channelsLoader;
 
@@ -70,6 +71,10 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             if (!messagingAppIsHidden && message.channel_key == currentChannelKey){
                 return;
             }
+
+            // skip message updates
+            if (message.is_update) return;
+
             checkIfInitialized().then(function(){
                 var channel = channelsMap[message.channel_key];
                 if (channel){
@@ -128,6 +133,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             currentChannelKey = null;
             notificationsChannelKey = null;
             channelsMap = {};
+            groupedChannels = {};
             unread.messages.count = 0;
             unread.notifications.count = 0;
             channelsLoader = false;
@@ -179,16 +185,22 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             };
 
             channelsLoader = wsRequest(outgoing).then(function (data) {
-                var grouped = Utils.groupBy(data.channels||[], "type");
+                var initialGroups = {};
+                initialGroups[msg.CHANNEL_TYPE.PUBLIC] = [];
+                initialGroups[msg.CHANNEL_TYPE.DIRECT] = [];
+                initialGroups[msg.CHANNEL_TYPE.NOTIFICATION] = [];
+                groupedChannels = Utils.groupBy(data.channels||[], "type", initialGroups);
+
                 // add all channels to channels map
                 for (var i = 0; i < data.channels.length; i++){
                     var channel = data.channels[i];
                     channelsMap[channel.key] = channel;
                 }
-                // save notifications channel key
-                notificationsChannelKey = grouped[msg.CHANNEL_TYPE.NOTIFICATION][0].key;
 
-                return {grouped: grouped, channelsMap: channelsMap};
+                // save notifications channel key
+                notificationsChannelKey = groupedChannels[msg.CHANNEL_TYPE.NOTIFICATION][0].key;
+
+                return {grouped: groupedChannels, channelsMap: channelsMap};
             });
 
             return channelsLoader;
@@ -275,6 +287,9 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Channel ", channelKey, " deleted: ", result);
+                if (channelsMap[channelKey]){
+                    channelsMap[channelKey].deleted = true;
+                }
                 return result;
             })
         };
@@ -328,6 +343,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             };
             return wsRequest(outgoing).then(function(result){
                 $log.info("Load channel ", channelKey, "history: ", result);
+                prepareMessages(result.messages);
                 return result;
             })
         };
@@ -483,11 +499,35 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             increaseUnread(message, 'notifications');
         });
 
+        $rootScope.$on("channel_change", function(e, action, channel){
+            checkIfInitialized().then(function(){
+                if (action == 'add'){
+                    var group = groupedChannels[channel.type];
+                    if (!channelsMap[channel.key]){
+                        channelsMap[channel.key] = channel;
+                    }
+                    return group.push(channel);
+                }
+
+                if (action == 'status'){
+                    var localChannel = channelsMap[channel.channel_key];
+                    if (localChannel){
+                        localChannel.is_online = channel.is_online;
+                    }
+                }
+            })
+        });
+
         // reset state on logout
         $rootScope.$watch("loggedInUser", function(value){
             if (!value){
                 msg.reset_state();
             };
+        });
+
+        // initialize unread messages counter when user logged in
+        $rootScope.$on("user_ready", function(){
+            msg.get_unread_messages_count();
         });
 
         return msg;
@@ -499,11 +539,12 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             var resultDeferred = $q.defer();
             var scope = config.scope || $rootScope.$new(true);
             var rootElement = config.rootElement;
-            var element = $compile(template)(scope);
-            if (config.link){
-                config.link(scope);
-            }
+            var originalContent, element;
 
+            if (config.inplaceEditor){
+                originalContent = rootElement.text();
+                scope.content = originalContent;
+            }
             scope.done = function(result){
                 resultDeferred.resolve.apply(this, arguments);
             };
@@ -511,14 +552,26 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
                 resultDeferred.reject.apply(this, arguments);
             };
 
+            if (config.link){
+                config.link(scope);
+            }
+
+            element = $compile(template)(scope);
+
             rootElement.empty();
             rootElement.append(element);
 
             resultDeferred.promise._done = scope.done;
             resultDeferred.promise._cancel = scope.cancel;
-            return resultDeferred.promise.finally(function(){
-                rootElement.empty();
-                scope.$destroy();
+            return resultDeferred.promise
+                .finally(function(){
+                    // inplace editor can change scope.content and it will be applied to original rootElement
+                    if (config.inplaceEditor){
+                        rootElement.text(scope.content);
+                    } else {
+                        rootElement.empty();
+                    }
+                    scope.$destroy();
             });
         }
 
@@ -531,4 +584,4 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             return compile(config.template, config);
         };
 
-    });
+    })

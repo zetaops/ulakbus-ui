@@ -43,8 +43,6 @@ angular.module('ulakbus')
             scope: {},
             controller: function ($scope, $log) {
                 $scope.count = MessagingService.get_unread_counters();
-                // initialize counters
-                MessagingService.get_unread_messages_count();
 
                 $scope.showMessagesWindow = function(type){
                     if (type == 'notifications'){
@@ -686,6 +684,35 @@ angular.module('ulakbus')
                         });
                         event.preventDefault();
                     }
+                });
+
+                scope.$on('$destroy', function(){
+                    element.unbind('keydown keypress');
+                })
+            }
+        }
+    })
+
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name onEscPressed
+     * @description Fire action when ESC pressed on element
+     */
+    .directive("onEscPressed", function () {
+        return {
+            link: function (scope, element, attrs) {
+                element.bind("keydown keypress", function (event) {
+                    if(event.which === 27 ) {
+                        scope.$apply(function (){
+                            scope.$eval(attrs.onEscPressed);
+                        });
+                        event.preventDefault();
+                    }
+                });
+
+                scope.$on('$destroy', function(){
+                    element.unbind('keydown keypress');
                 })
             }
         }
