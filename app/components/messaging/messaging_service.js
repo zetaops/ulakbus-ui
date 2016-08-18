@@ -533,7 +533,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         return msg;
     })
 
-    .service("MessagingPopup", function($q, $compile, $http, $rootScope){
+    .service("MessagingPopup", function($q, $compile, $templateRequest, $rootScope){
 
         function compile(template, config){
             var resultDeferred = $q.defer();
@@ -577,8 +577,8 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
 
         this.show = function(config){
             if (config.templateUrl){
-                return $http({method: 'GET', url: config.templateUrl, cache: true}).then(function(result){
-                    return compile(result.data, config)
+                return $templateRequest(config.templateUrl).then(function(result){
+                    return compile(result, config)
                 });
             }
             return compile(config.template, config);
