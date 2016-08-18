@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/admin/bpmn_manager.html', 'components/auth/login.html', 'components/crud/templates/crud-preload.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/inline_edit.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/quick_add.html', 'components/crud/templates/show.html', 'components/dashboard/dashboard.html', 'components/dashboard/directives/academic-calendar.html', 'components/dashboard/directives/calendar-popover.html', 'components/dashboard/directives/user-tasks.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/academician.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/uitemplates/academician.html', 'components/uitemplates/base.html', 'components/uitemplates/form_service_pg.html', 'components/uitemplates/staff.html', 'components/uitemplates/student.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/confirm.html', 'shared/templates/confirmModalContent.html', 'shared/templates/confirmprev.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/messaging/detail.html', 'shared/templates/directives/messaging/index.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/notificationsModalContent.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
+angular.module('templates-prod', ['components/admin/bpmn_manager.html', 'components/auth/login.html', 'components/crud/templates/crud-preload.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/inline_edit.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/quick_add.html', 'components/crud/templates/show.html', 'components/crud/templates/timetable.html', 'components/dashboard/dashboard.html', 'components/dashboard/directives/academic-calendar.html', 'components/dashboard/directives/calendar-popover.html', 'components/dashboard/directives/user-tasks.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/academician.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/messaging/templates/add_user_unit.html', 'components/messaging/templates/conversation.html', 'components/messaging/templates/create_channel.html', 'components/messaging/templates/delete_confirmation.html', 'components/messaging/templates/edit_message.html', 'components/messaging/templates/index.html', 'components/messaging/templates/search_user.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/uitemplates/academician.html', 'components/uitemplates/base.html', 'components/uitemplates/form_service_pg.html', 'components/uitemplates/staff.html', 'components/uitemplates/student.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/confirm.html', 'shared/templates/confirmModalContent.html', 'shared/templates/confirmprev.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/messaging/detail.html', 'shared/templates/directives/messaging/index.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/directives/timetable-action-selector.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/notificationsModalContent.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
 
 angular.module("components/admin/bpmn_manager.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/admin/bpmn_manager.html",
@@ -74,6 +74,8 @@ angular.module("components/crud/templates/crud-preload.html", []).run(["$templat
 angular.module("components/crud/templates/crud.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/crud/templates/crud.html",
     "<div ng-hide=\"show_crud === false\" class=\"container-fluid\">\n" +
+    "    <crud-timetable-directive ng-if=\"ogretim_elemani_zt\"></crud-timetable-directive>\n" +
+    "    <crud-timetable-directive2 ng-if=\"derslik_zaman_tablosu\"></crud-timetable-directive2>\n" +
     "    <div ng-class=\"{'col-md-8': meta.allow_filters}\">\n" +
     "        <msgbox ng-show=\"msgbox\"></msgbox>\n" +
     "        <h3 ng-class=\"{'mid-h3': !objects}\">{{ schema.title }}</h3>\n" +
@@ -85,7 +87,8 @@ angular.module("components/crud/templates/crud.html", []).run(["$templateCache",
     "</div>\n" +
     "<div ng-show=\"show_crud === false\" class=\"crud-mask\">\n" +
     "    <span class=\"loader\"></span>\n" +
-    "</div>");
+    "</div>\n" +
+    "");
 }]);
 
 angular.module("components/crud/templates/filter.html", []).run(["$templateCache", function($templateCache) {
@@ -376,10 +379,12 @@ angular.module("components/crud/templates/nodeTable.html", []).run(["$templateCa
     "                </label>\n" +
     "            </th>\n" +
     "            <th scope=\"row\" style=\"text-align:center\">#</th>\n" +
-    "            <th ng-repeat=\"(key,value) in node.items[0] track by $index\"\n" +
-    "                ng-if=\"key!=='idx' && node.schema.properties[key]\">\n" +
-    "                <span ng-if=\"value.verbose_name\">{{ value.verbose_name }}</span>\n" +
-    "                <span ng-if=\"!value.verbose_name\">{{node.schema.properties[key]['title']|| key}}</span>\n" +
+    "<<<<<<< 6a71c6920efc5235eff71bf42763b82cc30f1827\n" +
+    "            <th ng-repeat=\"prop in node.schema.properties_list\">\n" +
+    "=======\n" +
+    "            <th ng-repeat=\"propName in node.form\" ng-init=\"prop = node.schema.properties[propName]\">\n" +
+    ">>>>>>> FIX, rfix#5379. Fix ListNode's dose not respect schema order\n" +
+    "                <span ng-if=\"!value.verbose_name\">{{prop.title||prop.name}}</span>\n" +
     "            </th>\n" +
     "            <th ng-if=\"meta.allow_actions!==false\">İşlem</th>\n" +
     "        </tr>\n" +
@@ -401,25 +406,20 @@ angular.module("components/crud/templates/nodeTable.html", []).run(["$templateCa
     "            </td>\n" +
     "        </tr>\n" +
     "\n" +
-    "        <tr ng-repeat=\"listnodemodel in node.items track by $index\"\n" +
-    "            ng-init=\"outerIndex=$index\"\n" +
-    "            ng-if=\"node.schema.formType=='ListNode'\">\n" +
+    "        <tr ng-repeat=\"listnodemodel in node.items\" ng-init=\"outerIndex=$index\" ng-if=\"node.schema.formType=='ListNode'\">\n" +
     "            <td ng-if=\"meta.allow_selection===true\" width=\"60\">\n" +
     "                <label>\n" +
     "                    <input type=\"checkbox\" style=\"zoom:1.5; margin:5px 0 0 8px;\">\n" +
     "                </label>\n" +
     "            </td>\n" +
     "            <th scope=\"row\" style=\"text-align:center\">{{$index+1}}</th>\n" +
-    "            <td ng-repeat=\"(k, v) in listnodemodel track by $index\"\n" +
-    "                ng-init=\"innerIndex=$index\"\n" +
-    "                ng-if=\"k!=='idx' && node.schema.properties[k]\">\n" +
-    "                <span ng-if=\"!node.schema.inline_edit || node.schema.inline_edit.indexOf(k) < 0\">{{ v.unicode || v }}</span>\n" +
+    "            <td ng-repeat=\"prop in node.schema.properties_list\" ng-init=\"k = prop.name; v = listnodemodel[k]; inline = node.schema.inline_edit && node.schema.inline_edit.indexOf(k) > -1\">\n" +
+    "                <span ng-if=\"!inline\">{{ v.unicode || v }}</span>\n" +
     "                <!--<input type=\"{{node.schema.properties[k].type}}\"-->\n" +
     "                <!--ng-if=\"node.schema.inline_edit.indexOf(k) > -1\"-->\n" +
     "                <!--ng-model=\"node.model[outerIndex][k]\"-->\n" +
     "                <!--ng-change=\"nodeModelChange(this)\">-->\n" +
-    "                <ng-include src=\"'components/crud/templates/inline_edit.html'\"\n" +
-    "                            ng-if=\"node.schema.inline_edit.indexOf(k) > -1\"></ng-include>\n" +
+    "                <ng-include src=\"'components/crud/templates/inline_edit.html'\" ng-if=\"inline\"></ng-include>\n" +
     "            </td>\n" +
     "            <td ng-if=\"meta.allow_actions!==false\">\n" +
     "                <div ng-hide=\"meta.object_actions.length > 0\">\n" +
@@ -437,7 +437,8 @@ angular.module("components/crud/templates/nodeTable.html", []).run(["$templateCa
     "\n" +
     "        </tbody>\n" +
     "    </table>\n" +
-    "</div>");
+    "</div>\n" +
+    "");
 }]);
 
 angular.module("components/crud/templates/quick_add.html", []).run(["$templateCache", function($templateCache) {
@@ -492,17 +493,103 @@ angular.module("components/crud/templates/show.html", []).run(["$templateCache",
     "</div>");
 }]);
 
+angular.module("components/crud/templates/timetable.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/crud/templates/timetable.html",
+    "<div class=\"row academician-dashboard dashboard\">\n" +
+    "    <div class=\"col-md-12 course-prg-scheduler\">\n" +
+    "        <div class=\"panel panel-default\">\n" +
+    "            <div class=\"panel-heading\">\n" +
+    "                <div class=\"panel-title\">{{widgetTitle}}</div>\n" +
+    "            </div>\n" +
+    "            <div class=\"panel-body\">\n" +
+    "\n" +
+    "                <div class=\"col-xs-3 tabs-container\"> <!-- required for floating -->\n" +
+    "                    <ul class=\"tabs-left\">\n" +
+    "                        <li ng-repeat=\"table in tablesList\" ng-click=\"selectTable(table)\" ng-class=\"{active: currentTable.key == table.key}\"><a>{{table.name}}</a></li>\n" +
+    "                    </ul>\n" +
+    "                </div>\n" +
+    "\n" +
+    "                <div class=\"col-xs-9\">\n" +
+    "                    <div class=\"loader\" ng-show=\"loadingTable\">Loading...</div>\n" +
+    "                    <!-- Tab panes -->\n" +
+    "\n" +
+    "                    <div class=\"tab-content\" ng-hide=\"loadingTable\">\n" +
+    "                        <div class=\"tab-pane active\">\n" +
+    "                            <div class=\"info-header clearfix\">\n" +
+    "                                <div class=\"info-wrapper\">\n" +
+    "                                    <img ng-src=\"{{currentTable.avatar_url}}\" class=\"profile-pic\" ng-show=\"currentTable.avatar_url\">\n" +
+    "                                    <span class=\"user-name\">{{currentTable.name}}</span>\n" +
+    "                                </div>\n" +
+    "                                <div class=\"info-wrapper info-wrapper_hours\" ng-show=\"currentTable.totalHours\">\n" +
+    "                                    <span class=\"info-title\">Ders Yükü:</span> <span>{{currentTable.totalHours}} saat</span>\n" +
+    "                                </div>\n" +
+    "                            </div>\n" +
+    "                            <!-- end of header -->\n" +
+    "\n" +
+    "                            <div class=\"table-warning\" ng-show=\"message\">\n" +
+    "                                <span class=\"glyphicon glyphicon-exclamation-sign\"></span> {{message.message}}\n" +
+    "                            </div>\n" +
+    "                            <div class=\"table-container\">\n" +
+    "                                <table>\n" +
+    "                                    <tbody>\n" +
+    "                                    <tr class=\"headers\">\n" +
+    "                                        <td></td>\n" +
+    "                                        <td>PZT</td>\n" +
+    "                                        <td>SAL</td>\n" +
+    "                                        <td>ÇAR</td>\n" +
+    "                                        <td>PER</td>\n" +
+    "                                        <td>CUM</td>\n" +
+    "                                        <td>CMT</td>\n" +
+    "                                        <td>PAZ</td>\n" +
+    "                                    </tr>\n" +
+    "                                    <tr ng-repeat=\"time in timetable\">\n" +
+    "                                        <td>{{time[0]}}</td>\n" +
+    "                                        <td ng-repeat=\"day in time[1]\">\n" +
+    "                                            <div timetable-action-selector ng-model=\"day.durum\" readonly=\"{{currentTable.readonly}}\" ng-change=\"changeValue(day)\"></div>\n" +
+    "                                        </td>\n" +
+    "                                    </tr>\n" +
+    "                                    </tbody>\n" +
+    "                                </table>\n" +
+    "                            </div>\n" +
+    "                            <div class=\"loader pull-right\" ng-show=\"loadingAction\">Loading...</div>\n" +
+    "                            <ul class=\"legend\">\n" +
+    "                                <li>\n" +
+    "                                    <span class=\"action-indicator action-indicator_appropriate\"></span> Uygun\n" +
+    "                                </li>\n" +
+    "                                <li>\n" +
+    "                                    <span class=\"action-indicator action-indicator_uncertain\"></span> Mümkünse boş bırakılmalı\n" +
+    "                                </li>\n" +
+    "                                <li>\n" +
+    "                                    <span class=\"action-indicator action-indicator_busy\"></span> Kesinlike boş bırakılmalı\n" +
+    "                                </li>\n" +
+    "                            </ul>\n" +
+    "\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "\n" +
+    "            </div>\n" +
+    "            <!-- end of panel-body -->\n" +
+    "        </div>\n" +
+    "        <!-- end of panel -->\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "");
+}]);
+
 angular.module("components/dashboard/dashboard.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/dashboard/dashboard.html",
     "<div ng-app=\"ulakbus.dashboard\" class=\"dashboard academician-dashboard\">\n" +
     "    <div class=\"starter-template\">\n" +
+    "        \n" +
     "        <academic-calendar></academic-calendar>\n" +
     "        <ng-include src=\"'components/dashboard/user-templates/student.html'\" ng-if=\"$root.current_user.is_student\"></ng-include>\n" +
     "        <ng-include src=\"'components/dashboard/user-templates/staff.html'\" ng-if=\"!$root.current_user.is_student\"></ng-include>\n" +
     "        <ng-include src=\"'components/dashboard/user-templates/academician.html'\" ng-if=\"$root.current_user.is_staff && $root.current_user.is_academic\"></ng-include>\n" +
     "        <!-- <user-tasks></user-tasks> -->\n" +
     "    </div>\n" +
-    "</div>");
+    "</div>\n" +
+    "");
 }]);
 
 angular.module("components/dashboard/directives/academic-calendar.html", []).run(["$templateCache", function($templateCache) {
@@ -1307,6 +1394,206 @@ angular.module("components/error_pages/500.html", []).run(["$templateCache", fun
     "\n" +
     "    </div>\n" +
     "</div>");
+}]);
+
+angular.module("components/messaging/templates/add_user_unit.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/messaging/templates/add_user_unit.html",
+    "<div class=\"chat-popup-window add-user-unit\" style=\"display:block;\">\n" +
+    "    <div class=\"close-chat-popup-window\" ng-click=\"cancel()\"><span class=\"glyphicon glyphicon-remove\"></span></div>\n" +
+    "    <h3>{{title}}</h3>\n" +
+    "    <label class=\"checkbox-inline\" >\n" +
+    "        <input type=\"checkbox\" ng-model=\"readonly\"/>\n" +
+    "        Read only\n" +
+    "    </label>\n" +
+    "    <div class=\"text-center\">\n" +
+    "        <input type=\"text\" ng-model=\"query\" ng-change=\"onChange(query)\" placeholder=\"{{placeholder}}\">\n" +
+    "    </div>\n" +
+    "    <div class=\"search-results\">\n" +
+    "        <span class=\"loader\" ng-show=\"loading\"></span>\n" +
+    "        <div class=\"user\" ng-repeat=\"item in searchResult\" ng-click=\"done({key: item[1], readonly: readonly})\">\n" +
+    "            <img ng-src=\"{{item[2]}}\" ng-show=\"item[2]\">\n" +
+    "            <div class=\"user-name\">{{item[0]}}</div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("components/messaging/templates/conversation.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/messaging/templates/conversation.html",
+    "<span class=\"loader\" ng-show=\"loadingChannel\"></span>\n" +
+    "\n" +
+    "<div class=\"conversation-section conversation-section-empty\" ng-hide=\"selectedChannel\">\n" +
+    "    <div class=\"close-chat-app\" ng-click=\"hideApp()\">\n" +
+    "        <span class=\"glyphicon glyphicon-remove\" ></span>\n" +
+    "    </div>\n" +
+    "    <div class=\"conversation-body\" >\n" +
+    "        Konuşmaya başlamak için bir kanal seçin ya da oluşturun.\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"conversation-section\" ng-hide=\"loadingChannel || !selectedChannel\">\n" +
+    "    <div class=\"conversation-header\">\n" +
+    "        <div class=\"conversation-user\">\n" +
+    "            <div class=\"user-photo\" ng-show=\"selectedChannel.avatar_url\"><img ng-src=\"{{selectedChannel.avatar_url}}\"></div>\n" +
+    "            <div class=\"user-name\" title=\"{{selectedChannel.description}}\">{{selectedChannel.name}}</div>\n" +
+    "        </div>\n" +
+    "        <div class=\"conversation-search\">\n" +
+    "            <input type=\"text\" placeholder=\"Arama Yap\">\n" +
+    "        </div>\n" +
+    "        <div class=\"dropdown\">\n" +
+    "            <div class=\"chat-app-actions dropdown-toggle\" data-toggle=\"dropdown\" id=\"chat-app-actions\">\n" +
+    "                <span class=\"glyphicon glyphicon-option-vertical\"></span>\n" +
+    "            </div>\n" +
+    "            <ul class=\"dropdown-menu\" ng-show=\"selectedChannel.actions.length > 0\" aria-labelledby=\"chat-app-actions\" style=\"left: inherit; top: 53px; right: 66px;\" >\n" +
+    "                <li><a ng-click=\"applyChannelAction(selectedChannel, action)\" ng-repeat=\"action in selectedChannel.actions\">{{action[0]}}</a></li>\n" +
+    "            </ul>\n" +
+    "        </div>\n" +
+    "        <div class=\"close-chat-app\" ng-click=\"hideApp()\">\n" +
+    "            <span class=\"glyphicon glyphicon-remove\"></span>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"conversation-body\" ng-class=\"{readonly: selectedChannel.read_only}\" scroll-down-when-update=\"{{lastMessage}}\" load-more-top=\"loadMore()\">\n" +
+    "        <div class=\"conversation-body-inner\">\n" +
+    "\n" +
+    "            <div class=\"beginning-of-conversation\" ng-show=\"allMessagesLoaded\">\n" +
+    "                Burası yazışmanın başı!\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div class=\"conversation-block clearfix\" ng-repeat=\"msg in selectedChannel.messages\">\n" +
+    "                <div class=\"conversation-actions\">\n" +
+    "                    <div class=\"action dropdown-toggle\" data-toggle=\"dropdown\" ng-click=\"getMessageActions(msg)\">\n" +
+    "                        <span class=\"glyphicon glyphicon-option-horizontal\"></span>\n" +
+    "                    </div>\n" +
+    "                    <ul class=\"dropdown-menu\" style=\"left:-86px;\" >\n" +
+    "                        <li ng-repeat=\"act in msg.actions\"><a ng-click=\"applyMessageAction(msg, act)\">{{act[0]}}</a></li>\n" +
+    "                    </ul>\n" +
+    "                </div>\n" +
+    "\n" +
+    "                <div class=\"user-photo\">\n" +
+    "                    <img ng-src=\"{{::msg.avatar_url}}\" ng-if=\"msg.avatar_url\">\n" +
+    "                </div>\n" +
+    "                <div class=\"user-message\">\n" +
+    "                    <div class=\"message-header clearfix\">\n" +
+    "                        <div class=\"user-name\">{{::msg.sender_name}}</div>\n" +
+    "                        <div class=\"message-time\">{{::msg.moment|fromNow}}</div>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"message-content\">\n" +
+    "                        <div class=\"editable-message-content\" id=\"msg-{{::msg.key}}\">{{::msg.content}}</div>\n" +
+    "                        <a class=\"message-content-url\" href=\"{{::msg.url}}\" ng-click=\"hideApp()\" ng-if=\"msg.url\">{{::msg.url}}</a>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"conversation-footer\" ng-show=\"!selectedChannel.read_only\">\n" +
+    "        <textarea placeholder=\"Mesajını buraya yaz...\" ng-model=\"shared.message\" on-enter-pressed=\"sendMessage(shared.message)\"></textarea>\n" +
+    "        <div class=\"add-attachment\">\n" +
+    "            <span class=\"glyphicon glyphicon-send\" ng-click=\"sendMessage(shared.message);\"></span>\n" +
+    "            <div class=\"dropup\" style=\"float:left;\">\n" +
+    "                <span class=\"glyphicon glyphicon-paperclip dropdown-toggle\" data-toggle=\"dropdown\" id=\"attachment\"></span>\n" +
+    "                <ul class=\"dropdown-menu\" aria-labelledby=\"attachment\" style=\"left:-104px;\">\n" +
+    "                    <li><a >Görsel</a></li>\n" +
+    "                    <li><a >Dosya</a></li>\n" +
+    "                </ul>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "");
+}]);
+
+angular.module("components/messaging/templates/create_channel.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/messaging/templates/create_channel.html",
+    "<div class=\"chat-popup-window create-new-channel-window\">\n" +
+    "    <div class=\"close-chat-popup-window\" ng-click=\"cancel()\"><span class=\"glyphicon glyphicon-remove\"></span></div>\n" +
+    "    <h3>{{title}}</h3>\n" +
+    "    <div class=\"text-center\">\n" +
+    "        <input type=\"text\" placeholder=\"Channel Name\" ng-model=\"channel.name\"><br>\n" +
+    "        <textarea placeholder=\"Channel Description\" ng-model=\"channel.description\"></textarea>\n" +
+    "        <button class=\"btn btn-success\" ng-click=\"done(channel)\">{{actionTitle}}</button>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "");
+}]);
+
+angular.module("components/messaging/templates/delete_confirmation.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/messaging/templates/delete_confirmation.html",
+    "<div class=\"chat-popup-window confirmation-window\">\n" +
+    "    <div class=\"close-chat-popup-window\" ng-click=\"cancel()\"><span class=\"glyphicon glyphicon-remove\"></span></div>\n" +
+    "\n" +
+    "    <div class=\"text-center\" style=\"margin-top: 150px;font-size: 26px;\">\n" +
+    "        <p>{{title}}</p>\n" +
+    "        <button class=\"btn btn-success\" style=\"font-size: 20px;\" ng-click=\"done()\">Evet</button>\n" +
+    "        <button class=\"btn btn-default\" style=\"font-size: 20px;\" ng-click=\"cancel()\">Vazgeç</button>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "");
+}]);
+
+angular.module("components/messaging/templates/edit_message.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/messaging/templates/edit_message.html",
+    "<div class=\"edit-text-message\">\n" +
+    "    <div class=\"editor\" contenteditable=\"\" auto-focus on-enter-pressed=\"save()\" on-esc-pressed=\"cancel()\" ng-model=\"internalContent\"></div>\n" +
+    "    <button class=\"btn btn-default\" ng-click=\"cancel()\">Cancel</button>\n" +
+    "    <button class=\"btn btn-success\" ng-click=\"save()\">Save Changes</button>\n" +
+    "</div>\n" +
+    "");
+}]);
+
+angular.module("components/messaging/templates/index.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/messaging/templates/index.html",
+    "<div ng-show=\"loggedIn\">\n" +
+    "    <a class=\"chat-app-button\" ng-show=\"chatAppIsHidden\" ng-click=\"showApp()\"><i class=\"glyphicon glyphicon-comment\"></i></a>\n" +
+    "    <div class=\"chat-app\" ng-hide=\"chatAppIsHidden\">\n" +
+    "\n" +
+    "        <div class=\"chat-app-container\">\n" +
+    "\n" +
+    "            <div class=\"side-navigation\">\n" +
+    "                <ul class=\"channels\">\n" +
+    "                    <li class=\"title\" ng-click=\"selectChannel(notificationsChannel)\">BİLDİRİMLER <span class=\"badge\" ng-show=\"notificationsChannel.unread\">{{notificationsChannel.unread}}</span></li>\n" +
+    "                </ul>\n" +
+    "\n" +
+    "                <ul class=\"channels\">\n" +
+    "                    <li class=\"title\">KANALLAR <span class=\"add-action glyphicon glyphicon-plus-sign\" ng-click=\"createChannel()\"></span></li>\n" +
+    "                    <li ng-class=\"{'unread': ch.unread, 'public-ro-channel': ch.read_only, 'active': isChannelSelected(ch)}\" title=\"{{ch.description}}\" ng-repeat=\"ch in publicChannels\" ng-click=\"selectChannel(ch)\" ng-hide=\"ch.deleted\">{{ch.name}}</li>\n" +
+    "                </ul>\n" +
+    "\n" +
+    "                <ul class=\"direct-messages\">\n" +
+    "                    <li class=\"title\">MESAJLAR <span class=\"add-action glyphicon glyphicon-plus-sign\" ng-click=\"searchUser()\"></span></li>\n" +
+    "                    <li ng-class=\"{'unread': userChannel.unread, 'active': isChannelSelected(userChannel), 'online': userChannel.is_online}\" ng-repeat=\"userChannel in directChannels\" ng-click=\"selectChannel(userChannel)\" ng-hide=\"userChannel.deleted\">{{userChannel.name}}</li>\n" +
+    "                </ul>\n" +
+    "\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <ng-include src=\"'components/messaging/templates/conversation.html'\"></ng-include>\n" +
+    "\n" +
+    "            <div class=\"popup-placeholder\"></div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "");
+}]);
+
+angular.module("components/messaging/templates/search_user.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("components/messaging/templates/search_user.html",
+    "<div class=\"chat-popup-window create-new-message-window\">\n" +
+    "    <div class=\"close-chat-popup-window\" ng-click=\"cancel()\"><span class=\"glyphicon glyphicon-remove\"></span></div>\n" +
+    "    <input type=\"text\" placeholder=\"Birini ismi ile ara...\" ng-model=\"query\" ng-change=\"onChange(query)\">\n" +
+    "    <div class=\"search-results\">\n" +
+    "        <span class=\"loader\" ng-show=\"loading\"></span>\n" +
+    "        <div class=\"user\" ng-repeat=\"user in searchResult\" ng-click=\"done(user)\">\n" +
+    "            <img ng-src=\"{{user[2]}}\" ng-show=\"user[2]\">\n" +
+    "            <div class=\"user-name\">{{user[0]}}</div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "");
 }]);
 
 angular.module("components/uitemplates/404.html", []).run(["$templateCache", function($templateCache) {
@@ -2230,10 +2517,10 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        &lt;!&ndash; /.dropdown-messages &ndash;&gt;\n" +
     "    </li>-->\n" +
     "    <li uib-dropdown auto-close=\"outsideClick\">\n" +
-    "        <a uib-dropdown-toggle>\n" +
-    "            <div class=\"badge\" ng-show=\"notifications[2].length > 0\">{{notifications[2].length}}</div>\n" +
-    "            <i class=\"fa fa-envelope fa-fw\" tooltip-placement=\"bottom\" uib-tooltip=\"Mesajlar\"></i>  <i\n" +
-    "                class=\"fa fa-caret-down\"></i>\n" +
+    "        <a uib-dropdown-toggle ng-click=\"showMessagesWindow('messages')\">\n" +
+    "            <div class=\"badge\" ng-show=\"count.messages.count > 0\">{{count.messages.count}}</div>\n" +
+    "            <i class=\"fa fa-envelope fa-fw\" tooltip-placement=\"bottom\" uib-tooltip=\"Mesajlar\"></i>\n" +
+    "            <!--<i class=\"fa fa-caret-down\"></i>-->\n" +
     "        </a>\n" +
     "        <ul class=\"dropdown-messages\" uib-dropdown-menu ng-show=\"notifications[2].length > 0\">\n" +
     "            <li ng-repeat=\"notify in notifications[2] | limitTo: '8'\">\n" +
@@ -2261,47 +2548,47 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        <!-- /.dropdown-messages -->\n" +
     "    </li>\n" +
     "    <!-- /.dropdown -->\n" +
-    "    <li uib-dropdown auto-close=\"outsideClick\">\n" +
-    "        <a uib-dropdown-toggle>\n" +
-    "            <div class=\"badge\" ng-if=\"notifications[1].length > 0\">{{notifications[1].length}}</div>\n" +
-    "            <i class=\"fa fa-tasks fa-fw\" tooltip-placement=\"bottom\" uib-tooltip=\"Görevler\"></i>  <i\n" +
-    "                class=\"fa fa-caret-down\"></i>\n" +
-    "        </a>\n" +
-    "        <ul class=\"dropdown-tasks\" uib-dropdown-menu ng-if=\"notifications[1].length > 0\">\n" +
-    "            <li ng-repeat=\"notify in notifications[1] | limitTo: '8'\">\n" +
-    "                <a href=\"{{notify.url}}\">\n" +
-    "                    <div>\n" +
-    "                        <p>\n" +
-    "                            <strong>{{notify.title}}</strong>\n" +
-    "                            <span class=\"pull-right text-muted\">{{notify.body}}</span>\n" +
-    "                            <span ng-click=\"markAsRead($event,notify, 1, $index)\" class=\"pull-right fa fa-times\"></span>\n" +
-    "                        </p>\n" +
-    "                        <!-- todo: progress bar will be used in future developments-->\n" +
-    "                        <!--<div class=\"progress progress-striped active\">-->\n" +
-    "                            <!--<div class=\"progress-bar progress-bar-success\" role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 40%\">-->\n" +
-    "                                <!--<span class=\"sr-only\">40% Complete (success)</span>-->\n" +
-    "                            <!--</div>-->\n" +
-    "                        <!--</div>-->\n" +
+    "    <!--<li uib-dropdown auto-close=\"outsideClick\">-->\n" +
+    "        <!--<a uib-dropdown-toggle>-->\n" +
+    "            <!--<div class=\"badge\" ng-if=\"notifications[1].length > 0\">{{notifications[1].length}}</div>-->\n" +
+    "            <!--<i class=\"fa fa-tasks fa-fw\" tooltip-placement=\"bottom\" uib-tooltip=\"Görevler\"></i>  <i-->\n" +
+    "                <!--class=\"fa fa-caret-down\"></i>-->\n" +
+    "        <!--</a>-->\n" +
+    "        <!--<ul class=\"dropdown-tasks\" uib-dropdown-menu ng-if=\"notifications[1].length > 0\">-->\n" +
+    "            <!--<li ng-repeat=\"notify in notifications[1] | limitTo: '8'\">-->\n" +
+    "                <!--<a href=\"{{notify.url}}\">-->\n" +
+    "                    <!--<div>-->\n" +
+    "                        <!--<p>-->\n" +
+    "                            <!--<strong>{{notify.title}}</strong>-->\n" +
+    "                            <!--<span class=\"pull-right text-muted\">{{notify.body}}</span>-->\n" +
+    "                            <!--<span ng-click=\"markAsRead($event,notify, 1, $index)\" class=\"pull-right fa fa-times\"></span>-->\n" +
+    "                        <!--</p>-->\n" +
+    "                        <!--&lt;!&ndash; todo: progress bar will be used in future developments&ndash;&gt;-->\n" +
+    "                        <!--&lt;!&ndash;<div class=\"progress progress-striped active\">&ndash;&gt;-->\n" +
+    "                            <!--&lt;!&ndash;<div class=\"progress-bar progress-bar-success\" role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 40%\">&ndash;&gt;-->\n" +
+    "                                <!--&lt;!&ndash;<span class=\"sr-only\">40% Complete (success)</span>&ndash;&gt;-->\n" +
+    "                            <!--&lt;!&ndash;</div>&ndash;&gt;-->\n" +
+    "                        <!--&lt;!&ndash;</div>&ndash;&gt;-->\n" +
     "\n" +
-    "                    </div>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "            <li class=\"divider\"></li>\n" +
-    "            <li>\n" +
-    "                <a class=\"text-center\">\n" +
-    "                    <strong>See All Tasks</strong>\n" +
-    "                    <i class=\"fa fa-angle-right\"></i>\n" +
-    "                </a>\n" +
-    "            </li>\n" +
-    "        </ul>\n" +
+    "                    <!--</div>-->\n" +
+    "                <!--</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "            <!--<li class=\"divider\"></li>-->\n" +
+    "            <!--<li>-->\n" +
+    "                <!--<a class=\"text-center\">-->\n" +
+    "                    <!--<strong>See All Tasks</strong>-->\n" +
+    "                    <!--<i class=\"fa fa-angle-right\"></i>-->\n" +
+    "                <!--</a>-->\n" +
+    "            <!--</li>-->\n" +
+    "        <!--</ul>-->\n" +
     "        <!-- /.dropdown-tasks -->\n" +
     "    </li>\n" +
     "    <!-- /.dropdown -->\n" +
     "    <li uib-dropdown auto-close=\"outsideClick\">\n" +
-    "        <a uib-dropdown-toggle>\n" +
-    "        	<div class=\"badge\" ng-if=\"notifications[3].length > 0\">{{notifications[3].length}}</div>\n" +
-    "            <i class=\"fa fa-bell fa-fw\" tooltip-placement=\"bottom\" uib-tooltip=\"Duyurular\"></i>  <i\n" +
-    "                class=\"fa fa-caret-down\"></i>\n" +
+    "        <a uib-dropdown-toggle ng-click=\"showMessagesWindow('notifications')\">\n" +
+    "            <div class=\"badge\" ng-if=\"count.notifications.count > 0\">{{count.notifications.count}}</div>\n" +
+    "            <i class=\"fa fa-bell fa-fw\" tooltip-placement=\"bottom\" uib-tooltip=\"Duyurular\"></i>\n" +
+    "            <!--<i class=\"fa fa-caret-down\"></i>-->\n" +
     "        </a>\n" +
     "        <ul class=\"dropdown-alerts\" uib-dropdown-menu ng-if=\"notifications[3].length > 0\">\n" +
     "            <li ng-repeat=\"notify in notifications[3] | limitTo: '8'\">\n" +
@@ -2311,6 +2598,13 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "                        <span class=\"pull-right text-muted small\">4 minutes ago</span>\n" +
     "                        <span ng-click=\"markAsRead($event,notify, 3, $index)\" class=\"pull-right fa fa-times\"></span>\n" +
     "                    </div>\n" +
+    "                </a>\n" +
+    "            </li>\n" +
+    "            <li class=\"divider\"></li>\n" +
+    "            <li>\n" +
+    "                <a class=\"text-center\">\n" +
+    "                    <strong>See All Notifications</strong>\n" +
+    "                    <i class=\"fa fa-angle-right\"></i>\n" +
     "                </a>\n" +
     "            </li>\n" +
     "        </ul>\n" +
@@ -2368,8 +2662,18 @@ angular.module("shared/templates/directives/messaging/detail.html", []).run(["$t
     "        <div class=\"conversation-search\">\n" +
     "            <input type=\"text\" placeholder=\"Arama Yap\">\n" +
     "        </div>\n" +
+    "        <div class=\"dropdown\">\n" +
+    "            <div class=\"chat-app-actions dropdown-toggle\" data-toggle=\"dropdown\" id=\"chat-app-actions\">\n" +
+    "                <span class=\"glyphicon glyphicon-option-vertical\"></span>\n" +
+    "            </div>\n" +
+    "            <ul class=\"dropdown-menu\" aria-labelledby=\"chat-app-actions\" style=\"left: inherit; top: 53px; right: 66px;\">\n" +
+    "                <li><a href=\"#\">Action One</a></li>\n" +
+    "                <li><a href=\"#\">Action Two</a></li>\n" +
+    "                <li><a href=\"#\">Action Three</a></li>\n" +
+    "            </ul>\n" +
+    "        </div>\n" +
     "        <div class=\"close-chat-app\">\n" +
-    "            <span class=\"glyphicon glyphicon-remove\"></span>\n" +
+    "            <span class=\"glyphicon glyphicon-remove\" ng-click=\"hideApp()\"></span>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "\n" +
@@ -2381,15 +2685,21 @@ angular.module("shared/templates/directives/messaging/detail.html", []).run(["$t
     "            </div>\n" +
     "\n" +
     "            <div class=\"conversation-block clearfix\">\n" +
-    "\n" +
     "                <div class=\"conversation-actions\">\n" +
-    "                    <div class=\"action\">Edit</div>\n" +
-    "                    <div class=\"action\">Delete</div>\n" +
+    "                    <div class=\"action\"><span class=\"glyphicon glyphicon-star-empty\"></span></div>\n" +
+    "                    <div class=\"action dropdown-toggle\" data-toggle=\"dropdown\">\n" +
+    "                    	<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n" +
+    "                    </div>\n" +
+    "                    <ul class=\"dropdown-menu\" style=\"left:-86px;\">\n" +
+    "                      <li><a href=\"#\">Edit</a></li>\n" +
+    "                      <li><a href=\"#\">Delete</a></li>\n" +
+    "                    </ul>\n" +
     "                </div>\n" +
     "\n" +
     "                <div class=\"user-photo\">\n" +
     "                    <img src=\"../../../img/erkan.jpg\">\n" +
     "                </div>\n" +
+    "                \n" +
     "                <div class=\"user-message\">\n" +
     "                    <div class=\"message-header clearfix\">\n" +
     "                        <div class=\"user-name\">Erkan Öğümsöğütlü</div>\n" +
@@ -2398,8 +2708,83 @@ angular.module("shared/templates/directives/messaging/detail.html", []).run(["$t
     "                    <div class=\"message-content\">\n" +
     "                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris.\n" +
     "                    </div>\n" +
+    "                    <div class=\"edit-text-message\">\n" +
+    "                        <input type=\"text\">\n" +
+    "                        <button class=\"btn btn-default\">Cancel</button>\n" +
+    "                        <button class=\"btn btn-success\">Save Changes</button>\n" +
+    "                    </div>\n" +
+    "                    <!-- end of edit-text-message -->\n" +
     "                </div>\n" +
     "            </div>\n" +
+    "            <!-- end of conversation-block -->\n" +
+    "            \n" +
+    "            <div class=\"conversation-block clearfix\">\n" +
+    "                <div class=\"conversation-actions\">\n" +
+    "                    <div class=\"action\"><span class=\"glyphicon glyphicon-star-empty\"></span></div>\n" +
+    "                    <div class=\"action dropdown-toggle\" data-toggle=\"dropdown\">\n" +
+    "                    	<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n" +
+    "                    </div>\n" +
+    "                    <ul class=\"dropdown-menu\" style=\"left:-86px;\">\n" +
+    "                      <li><a href=\"#\">Edit</a></li>\n" +
+    "                      <li><a href=\"#\">Delete</a></li>\n" +
+    "                    </ul>\n" +
+    "                </div>\n" +
+    "\n" +
+    "                <div class=\"user-photo\">\n" +
+    "                    <img src=\"../../../img/erkan.jpg\">\n" +
+    "                </div>\n" +
+    "                \n" +
+    "                <div class=\"user-message\">\n" +
+    "                    <div class=\"message-header clearfix\">\n" +
+    "                        <div class=\"user-name\">Erkan Öğümsöğütlü</div>\n" +
+    "                        <div class=\"message-time\">13:16</div>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"message-content\">\n" +
+    "                        <p class=\"attachment-message\">uploaded an image: <span>sample.jpg</span></p>\n" +
+    "                        <a href=\"#\" class=\"attachment-holder image-attached\" target=\"_blank\">\n" +
+    "                        	<img src=\"../../../img/sample.jpg\">\n" +
+    "                            <span class=\"glyphicon glyphicon-download attachment-download\"></span>\n" +
+    "                        </a>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "            <!-- end of conversation-block -->\n" +
+    "            \n" +
+    "            <div class=\"conversation-block clearfix\">\n" +
+    "                <div class=\"conversation-actions\">\n" +
+    "                    <div class=\"action\"><span class=\"glyphicon glyphicon-star-empty\"></span></div>\n" +
+    "                    <div class=\"action dropdown-toggle\" data-toggle=\"dropdown\">\n" +
+    "                    	<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n" +
+    "                    </div>\n" +
+    "                    <ul class=\"dropdown-menu\" style=\"left:-86px;\">\n" +
+    "                      <li><a href=\"#\">Edit</a></li>\n" +
+    "                      <li><a href=\"#\">Delete</a></li>\n" +
+    "                    </ul>\n" +
+    "                </div>\n" +
+    "\n" +
+    "                <div class=\"user-photo\">\n" +
+    "                    <img src=\"../../../img/erkan.jpg\">\n" +
+    "                </div>\n" +
+    "                \n" +
+    "                <div class=\"user-message\">\n" +
+    "                    <div class=\"message-header clearfix\">\n" +
+    "                        <div class=\"user-name\">Erkan Öğümsöğütlü</div>\n" +
+    "                        <div class=\"message-time\">13:16</div>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"message-content\">\n" +
+    "                        <p class=\"attachment-message\">uploaded a file</p>\n" +
+    "                        <a href=\"#\" class=\"attachment-holder file-attached\" target=\"_blank\">\n" +
+    "                        	<img src=\"../../../img/file-icon.png\">\n" +
+    "                            <div class=\"attached-file-info\">\n" +
+    "                            	<div>ulakbus-pdf</div>\n" +
+    "                                <div>128KB PDF</div>\n" +
+    "                            </div>\n" +
+    "                            <span class=\"glyphicon glyphicon-download attachment-download\"></span>\n" +
+    "                        </a>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "            <!-- end of conversation-block -->\n" +
     "\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -2408,39 +2793,52 @@ angular.module("shared/templates/directives/messaging/detail.html", []).run(["$t
     "\n" +
     "        <textarea placeholder=\"Mesajını buraya yaz...\"></textarea>\n" +
     "        <div class=\"add-attachment\">\n" +
-    "            <span class=\"glyphicon glyphicon-file\"></span>\n" +
-    "            <span class=\"glyphicon glyphicon-picture\"></span>\n" +
+    "            <span class=\"glyphicon glyphicon-send\"></span>\n" +
+    "            <div class=\"dropup\" style=\"float:left;\">\n" +
+    "            <span class=\"glyphicon glyphicon-paperclip dropdown-toggle\" data-toggle=\"dropdown\" id=\"attachment\"></span>\n" +
+    "            <ul class=\"dropdown-menu\" aria-labelledby=\"attachment\" style=\"left:-104px;\">\n" +
+    "            	<li><a href=\"#\">Image</a></li>\n" +
+    "            	<li><a href=\"#\">File</a></li>\n" +
+    "            </ul>\n" +
+    "            </div>\n" +
     "        </div>\n" +
     "\n" +
     "    </div>\n" +
     "\n" +
-    "</div>");
+    "</div>\n" +
+    "");
 }]);
 
 angular.module("shared/templates/directives/messaging/index.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/directives/messaging/index.html",
-    "<div class=\"chat-app\">\n" +
+    "<div class=\"chat-app\" ng-hide=\"hidden\">\n" +
     "    <div class=\"chat-app-container\">\n" +
     "\n" +
     "        <div class=\"side-navigation\">\n" +
     "\n" +
     "            <ul class=\"channels\">\n" +
-    "                <li class=\"title\">CHANNELS <span class=\"badge\">8</span></li>\n" +
-    "                <li class=\"notification\">Channel One</li>\n" +
+    "                <li class=\"title\">CHANNELS <span class=\"badge\">{{ }}</span></li>\n" +
+    "                <li class=\"unread\">Public Channel</li>\n" +
+    "                <li class=\"public-ro-channel\">Public Read Only Channel</li>\n" +
+    "            </ul>\n" +
+    "\n" +
+    "            <ul class=\"channels\">\n" +
+    "                <li class=\"title\">NOTIFICATIONS <span class=\"badge\">8</span></li>\n" +
+    "                <li class=\"unread\">Notification One</li>\n" +
     "            </ul>\n" +
     "\n" +
     "            <ul class=\"direct-messages\">\n" +
     "                <li class=\"compose\"><span class=\"glyphicon glyphicon-plus-sign\"></span> Create New Message</li>\n" +
     "                <li class=\"title\">DIRECT MESSAGES <span class=\"badge\">14</span></li>\n" +
-    "                <li class=\"online active notification\">Erkan Öğümsöğütlü</li>\n" +
+    "                <li class=\"online\" ng-class=\"{'active':'active', 'unread': 'unread'}\">Erkan Öğümsöğütlü</li>\n" +
     "            </ul>\n" +
     "\n" +
     "        </div>\n" +
     "\n" +
     "        <message-detail></message-detail>\n" +
     "\n" +
-    "        <div class=\"create-new-message-window\">\n" +
-    "            <div class=\"close-create-new-message-window\"><span class=\"glyphicon glyphicon-remove\"></span></div>\n" +
+    "        <div class=\"chat-popup-window create-new-message-window\">\n" +
+    "            <div class=\"close-chat-popup-window\"><span class=\"glyphicon glyphicon-remove\"></span></div>\n" +
     "            <input type=\"text\" placeholder=\"Birini ismi ile ara...\">\n" +
     "            <div class=\"search-results\">\n" +
     "                <div class=\"user\">\n" +
@@ -2449,9 +2847,30 @@ angular.module("shared/templates/directives/messaging/index.html", []).run(["$te
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
-    "\n" +
+    "        <!-- end of create-new-message-window -->\n" +
+    "        \n" +
+    "        <div class=\"chat-popup-window create-new-channel-window\">\n" +
+    "            <div class=\"close-chat-popup-window\"><span class=\"glyphicon glyphicon-remove\"></span></div>\n" +
+    "            <h3>Create New Channel</h3>\n" +
+    "            <div class=\"text-center\">\n" +
+    "                <input type=\"text\" placeholder=\"Channel Name\"><br>\n" +
+    "                <textarea placeholder=\"Channel Description\"></textarea>\n" +
+    "                <button class=\"btn btn-success\">Create</button>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <!-- end of create-new-message-window -->\n" +
+    "        \n" +
+    "        <div class=\"chat-popup-window add-user-unit\">\n" +
+    "            <div class=\"close-chat-popup-window\"><span class=\"glyphicon glyphicon-remove\"></span></div>\n" +
+    "            <h3>Add User/Unit</h3>\n" +
+    "            <div class=\"text-center\">\n" +
+    "                <input type=\"text\" placeholder=\"Search User/Unit to Add\"><br>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <!-- end of create-new-message-window -->\n" +
     "    </div>\n" +
-    "</div>");
+    "</div>\n" +
+    "");
 }]);
 
 angular.module("shared/templates/directives/msgbox.html", []).run(["$templateCache", function($templateCache) {
@@ -2828,6 +3247,30 @@ angular.module("shared/templates/directives/timeline.html", []).run(["$templateC
     "</div>");
 }]);
 
+angular.module("shared/templates/directives/timetable-action-selector.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/directives/timetable-action-selector.html",
+    "<div class=\"action-selector\" ng-class=\"{readonly: readonly}\">\n" +
+    "    <span class=\"action-indicator\" ng-class=\"value\"></span>\n" +
+    "    <div class=\"popover bottom ng-hide\" ng-if=\"!readonly\">\n" +
+    "        <div class=\"arrow\"></div>\n" +
+    "        <div class=\"popover-content\">\n" +
+    "            <ul class=\"actions-selector-select\">\n" +
+    "                <li ng-click=\"setModelValue(1)\">\n" +
+    "                    <span class=\"action-indicator action-indicator_appropriate\"></span>\n" +
+    "                </li>\n" +
+    "                <li ng-click=\"setModelValue(2)\">\n" +
+    "                    <span class=\"action-indicator action-indicator_uncertain\"></span>\n" +
+    "                </li>\n" +
+    "                <li ng-click=\"setModelValue(3)\">\n" +
+    "                    <span class=\"action-indicator action-indicator_busy\"></span>\n" +
+    "                </li>\n" +
+    "            </ul>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "");
+}]);
+
 angular.module("shared/templates/fieldset.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/fieldset.html",
     "<fieldset ng-disabled=\"form.readonly\" class=\"schema-form-fieldset {{form.htmlClass}}\">\n" +
@@ -3180,7 +3623,7 @@ angular.module("shared/templates/typeahead.html", []).run(["$templateCache", fun
     "           type=\"text\"\n" +
     "           autocomplete=\"off\"\n" +
     "           ng-model=\"$$value$$\"\n" +
-    "           uib-typeahead=\"item as item.name for item in getTitleMap($viewValue)\"\n" +
+    "           uib-typeahead=\"item as item.name for item in form.getTitleMap($viewValue)\"\n" +
     "           typeahead-wait-ms=\"500\"\n" +
     "           typeahead-loading=\"loadingTitleMap\"\n" +
     "           typeahead-on-select=\"form.onDropdownSelect($item, form.name)\"\n" +
