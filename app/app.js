@@ -73,6 +73,12 @@ angular.module(
             window.location.href = window.location.href.split('?')[0];
         }
 
+        // add proto definition if not set
+        if (backendurl.indexOf("http") != 0){
+            var proto = window.location.href.split("/")[0];
+            backendurl = proto + backendurl;
+        }
+
         return {url: backendurl};
     })())
     .factory('IsOnline', function ($window, $document, $rootScope) {
