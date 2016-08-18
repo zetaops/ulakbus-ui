@@ -19,7 +19,7 @@
                 </label>
             </th>
             <th scope="row" style="text-align:center">#</th>
-            <th ng-repeat="propName in node.form" ng-init="prop = node.schema.properties[propName]">
+            <th ng-repeat="prop in node.schema.properties_list">
                 <span ng-if="!value.verbose_name">{{prop.title||prop.name}}</span>
             </th>
             <th ng-if="meta.allow_actions!==false">İşlem</th>
@@ -42,14 +42,14 @@
             </td>
         </tr>
 
-        <tr ng-repeat="listnodemodel in node.items track by $index" ng-init="outerIndex=$index" ng-if="node.schema.formType=='ListNode'">
+        <tr ng-repeat="listnodemodel in node.items" ng-init="outerIndex=$index" ng-if="node.schema.formType=='ListNode'">
             <td ng-if="meta.allow_selection===true" width="60">
                 <label>
                     <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
                 </label>
             </td>
             <th scope="row" style="text-align:center">{{$index+1}}</th>
-            <td ng-repeat="propName in node.form" ng-init="k = propName; v = listnodemodel[propName]; inline = node.schema.inline_edit && node.schema.inline_edit.indexOf(k) > -1">
+            <td ng-repeat="prop in node.schema.properties_list" ng-init="k = prop.name; v = listnodemodel[k]; inline = node.schema.inline_edit && node.schema.inline_edit.indexOf(k) > -1">
                 <span ng-if="!inline">{{ v.unicode || v }}</span>
                 <!--<input type="{{node.schema.properties[k].type}}"-->
                 <!--ng-if="node.schema.inline_edit.indexOf(k) > -1"-->

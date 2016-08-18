@@ -515,6 +515,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
         $scope.prepareTimetable = function prepareTimetable(timetable){
             var grouped = groupBy(timetable, "saat");
             for (var day in grouped){
+                if (!grouped.hasOwnProperty(day)) continue;
                 var dayItems = grouped[day];
                 grouped[day] = dayItems.sort(function(a, b){
                     return a.gun < b.gun ? -1 : 1;

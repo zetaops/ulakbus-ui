@@ -184,7 +184,7 @@ angular.module('ulakbus')
             }
             do_action(msg_data, msg_data.cmd);
             if (msg_data.msg != "pong"){
-                $log.info("MESSAGE:", event, "Data:", msg_data);
+                $log.info("MESSAGE:", event, "Data:", angular.copy(msg_data));
             }
         };
         wsOps.onError = function (evt) {
