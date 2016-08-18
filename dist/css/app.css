@@ -39,6 +39,10 @@ body {
 	padding:15px;
 }
 
+.dropdown-toggle {
+	cursor:pointer;	
+}
+
 .badge {
     border-radius: 100%;
     width: 22px;
@@ -2095,9 +2099,9 @@ table.dataTable thead .sorting:after {
     position: fixed;
     bottom: 15px;
     right: 15px;
-	-moz-box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
-    box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
-    z-index: 10;
+	-moz-box-shadow: 0px 0px 45px rgba(0,0,0,0.4);
+    box-shadow: 0px 0px 45px rgba(0,0,0,0.4);
+    z-index: 2100;
     border-radius: 3px;	
 }
 
@@ -2127,6 +2131,10 @@ table.dataTable thead .sorting:after {
 .chat-app .side-navigation ul.channels {
 	border-bottom: 1px solid #9B1334;
     padding-bottom: 15px;
+}
+
+.chat-app .side-navigation ul.channels li.public-ro-channel {
+	font-style:italic;
 }
 
 .chat-app .side-navigation ul li {
@@ -2166,6 +2174,18 @@ table.dataTable thead .sorting:after {
 	font-family: 'robotoblack';
 }
 
+.chat-app .side-navigation ul li.title .add-action {
+    display: inline-block;
+    position: absolute;
+    right: 21px;
+    top: 6px;
+    /*margin-left: 4px;*/
+    /*top: 2px;*/
+    /*position: relative;*/
+    /*display: inline-block;*/
+
+}
+
 .chat-app .side-navigation ul li.compose {
 	background-color: #6f0d20;
     margin: 5px 10px;
@@ -2197,7 +2217,7 @@ table.dataTable thead .sorting:after {
 	padding-left: 40px;
 }
 
-.chat-app .side-navigation ul.direct-messages li.active {
+.chat-app .side-navigation ul.direct-messages li.active, .chat-app .side-navigation ul.channels li.active {
 	background-color: #B51533;
 }
 
@@ -2217,7 +2237,7 @@ table.dataTable thead .sorting:after {
     top: 9px;
 }
 
-.chat-app .side-navigation ul li.notification:after {
+.chat-app .side-navigation ul li.unread:after {
 	content: " ";
     width: 8px;
     height: 8px;
@@ -2246,7 +2266,7 @@ table.dataTable thead .sorting:after {
 
 .chat-app .conversation-header .conversation-user {
 	display: inline-block;
-    width: 280px;
+    width: 240px;
     margin-left: 23px;
 	float: left;
 }
@@ -2262,6 +2282,10 @@ table.dataTable thead .sorting:after {
     margin-left: 10px;
     font-family: 'robotobold';
     font-size: 16px;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 180px;
 }
 
 .chat-app .conversation-header .conversation-search {
@@ -2279,7 +2303,35 @@ table.dataTable thead .sorting:after {
     margin-top: 15px;
 }
 
-.chat-app .conversation-header .close-chat-app {
+.chat-app .conversation-header .close-chat-app, .chat-app .conversation-section-empty .close-chat-app  {
+	display: inline-block;
+    float: left;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #efefef;
+    text-align: center;
+    line-height: 40px;
+    margin-left: 10px;
+    border-radius: 3px;
+	margin-top:15px;
+    cursor: pointer;
+}
+
+.chat-app .conversation-section-empty .close-chat-app {
+    display: block;
+    position: absolute;
+    right: 15px;
+    top: 0px;
+}
+
+.chat-app .conversation-section-empty .close-chat-app {
+    display: block;
+    position: absolute;
+    right: 15px;
+    top: 0px;
+}
+
+.chat-app .conversation-header .chat-app-actions {
 	display: inline-block;
     float: left;
     width: 40px;
@@ -2296,6 +2348,10 @@ table.dataTable thead .sorting:after {
 	overflow: auto;
     height: calc(100% - 140px);
 	overflow-x: hidden;
+}
+
+.chat-app .conversation-body.readonly {
+    height: calc(100% - 100px);
 }
 
 .chat-app .conversation-footer {
@@ -2350,7 +2406,7 @@ table.dataTable thead .sorting:after {
 	border-radius:100%;
 }
 
-.chat-app .conversation-section .conversation-body .beginning-of-conversation {
+.chat-app .conversation-section .conversation-body .beginning-of-conversation, .chat-app .conversation-section-empty .conversation-body {
 	text-align: center;
     font-family: 'robotobold';
     font-size: 20px;
@@ -2358,6 +2414,10 @@ table.dataTable thead .sorting:after {
     padding: 15px;
     margin-bottom: 30px;
     border-bottom: 1px solid #f3f3f3;
+}
+
+.chat-app .conversation-section-empty .conversation-body {
+    padding-top: 100px;
 }
 
 .chat-app .conversation-section .conversation-body .conversation-block {
@@ -2432,11 +2492,118 @@ table.dataTable thead .sorting:after {
 	margin-top: 4px;
 }
 
-.chat-app .conversation-section .conversation-body .conversation-block .user-message .message-content {
+.chat-app .conversation-section .user-message .message-content {
 	font-family: 'robotomedium';
+    position: relative;
 }
 
-.chat-app .create-new-message-window {
+.chat-app .conversation-section .message-content-url {
+    display: block;
+}
+
+
+.chat-app .conversation-section .user-message .message-content .attachment-message {
+	color: #909090;
+}
+
+.chat-app .conversation-section .user-message .message-content .attachment-message span {
+	color: #b51533;
+}
+
+.chat-app .conversation-section .user-message .message-content .attachment-holder {
+	position:relative;
+	display: inline-block;
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}
+
+.chat-app .conversation-section .user-message .message-content .attachment-holder .attachment-download {
+	position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #fff;
+    font-size: 21px;
+	opacity:0;
+	cursor:pointer;
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}
+
+.chat-app .conversation-section .user-message .message-content .attachment-holder:hover > .attachment-download {
+	opacity:0.6;
+}
+
+.chat-app .conversation-section .user-message .message-content .attachment-holder .attachment-download:hover {
+	opacity:1;
+}
+
+.chat-app .conversation-section .user-message .message-content .image-attached img {
+	width: 220px;
+    border-radius: 3px;
+    border: 1px solid #a0a0a0;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached {
+	width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px;
+    padding-left: 5px;
+	background-color:#fff;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached img {
+	width: 40px;
+	float:left;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached .attached-file-info {
+	float:left;
+	margin-left:10px;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached .attached-file-info div:first-child {
+	color: #333;
+    font-size: 15px;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached .attached-file-info div:last-child {
+	color: #a2a2a2;
+    font-size: 13px;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached .attachment-download {
+	color:#333;
+	margin-top:10px;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached:hover > .attachment-download {
+	opacity:0.6;
+}
+
+.chat-app .conversation-section .user-message .message-content .file-attached .attachment-download:hover {
+	opacity:1;
+}
+
+
+.chat-app .conversation-section .user-message .edit-text-message .editor {
+	width: 100%;
+    margin-bottom: 7px;
+    margin-top: 7px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    outline: none;
+}
+
+
+.chat-app .chat-popup-window {
 	position: absolute;
     top: 0;
     left: 0;
@@ -2445,7 +2612,7 @@ table.dataTable thead .sorting:after {
     z-index: 11;
     background-color: rgba(255,255,255,0.97);
 	border-radius:3px;
-	display:none;
+	/*display:none;*/
 }
 
 .chat-app .create-new-message-window input {
@@ -2459,7 +2626,8 @@ table.dataTable thead .sorting:after {
 	outline:none;
 }
 
-.chat-app .close-create-new-message-window {
+
+.chat-app .close-chat-popup-window {
 	width: 50px;
     height: 50px;
     border: 1px solid #ccc;
@@ -2474,12 +2642,12 @@ table.dataTable thead .sorting:after {
 	cursor:pointer;
 }
 
-.chat-app .close-create-new-message-window:hover {
+.chat-app .close-chat-popup-window:hover {
 	background-color:#efefef;
 	color:#000000;
 }
 
-.chat-app .create-new-message-window .search-results {
+.chat-app .create-new-message-window .search-results, .chat-app .add-user-unit .search-results {
 	width: 50%;
     margin-left: 25%;
     margin-top: 25px;
@@ -2487,7 +2655,7 @@ table.dataTable thead .sorting:after {
     overflow: auto;
 }
 
-.chat-app .create-new-message-window .search-results .user {
+.chat-app .create-new-message-window .search-results .user, .chat-app .add-user-unit .search-results .user {
 	width: 100%;
     display: inline-block;
     padding: 10px;
@@ -2495,18 +2663,18 @@ table.dataTable thead .sorting:after {
 	cursor:pointer;
 }
 
-.chat-app .create-new-message-window .search-results .user:hover {
+.chat-app .create-new-message-window .search-results .user:hover, .chat-app .add-user-unit .search-results .user:hover{
 	background-color:#efefef;
 }
 
-.chat-app .create-new-message-window .search-results .user img {
+.chat-app .create-new-message-window .search-results .user img, .chat-app .add-user-unit .search-results .user img{
 	width: 45px;
     height: 45px;
     border-radius: 100%;
     float: left;
 }
 
-.chat-app .create-new-message-window .search-results .user .user-name {
+.chat-app .create-new-message-window .search-results .user .user-name, .chat-app .add-user-unit .search-results .user .user-name {
 	float: left;
     margin-left: 15px;
     font-family: 'robotobold';
@@ -2514,8 +2682,360 @@ table.dataTable thead .sorting:after {
     margin-top: 9px;
 }
 
+.chat-app-button {
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    text-align: center;
+    cursor: pointer;
+}
+
+.chat-app-button i {
+    top: 16px;
+    color: #333;
+    font-size: 20px;
+}
+
+.chat-app .create-new-channel-window h3 {
+	width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+}
+
+.chat-app .create-new-channel-window .text-center input {
+	width: 400px;
+    margin-top: 40px;
+    height: 50px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.chat-app .create-new-channel-window .text-center textarea {
+	width: 400px;
+    margin: 20px;
+    height: 110px;
+    padding-left: 15px;
+    padding-top: 15px;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 5px;
+    outline: none;
+    max-width: 400px;
+	max-height:200px;
+}
+
+.chat-app .create-new-channel-window button {
+	width: 400px;
+	margin-top:0px;
+	height: 50px;
+    font-size: 19px;
+}
+
+.chat-app .add-user-unit h3 {
+	width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+}
+
+.chat-app .add-user-unit input {
+    width: 400px;
+    margin-top: 10px;
+    height: 50px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+
+.chat-app .add-user-unit .checkbox-inline {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 20px;
+    padding-left: 25px;
+    border: none;
+}
+
+.chat-app .add-user-unit .checkbox-inline input {
+    width: 20px;
+    margin-top: 0;
+    margin-left: -25px;
+    border: none;
+    height: 20px;
+}
+
+.chat-app-close-btn {
+    display: block;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+
+.chat-app-button {
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    z-index: 9999;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.chat-app-button i {
+    margin-top: 3px;
+    font-size: 18px;
+}
 
 /* END OF CHAT APPLICATION */
+
+/* COURSE PROGRAM SCHEDULER */
+
+
+.course-prg-scheduler {
+	margin:15px !important;
+	margin-left:0 !important;
+}
+
+.course-prg-scheduler .panel-body {
+    height: 550px;
+}
+
+.course-prg-scheduler .tabs-container {
+    overflow-y: auto;
+    height: 550px;
+}
+
+.course-prg-scheduler .tabs-left {
+    margin-right: 10px;
+    border-right: 1px solid #dddddf;
+    padding: 20px 0 20px 10px !important;
+    min-height: 550px;
+}
+
+.course-prg-scheduler ul.tabs-left li {
+    border-radius: 5px 0 0 5px;
+    border: 1px solid #fff;
+    border-right-color: #dddddf;
+    position: relative;
+    right: -1px;
+}
+
+.course-prg-scheduler ul.tabs-left li.active, .course-prg-scheduler ul.tabs-left li:hover {
+    border: 1px solid #dddddf;
+    border-right-color: #fff;
+}
+
+.course-prg-scheduler .tab-content {
+    padding: 25px 10px 25px 40px;
+}
+
+.course-prg-scheduler ul.tabs-left li.active a {
+    color: #bc1e2d;
+}
+
+.course-prg-scheduler ul.tabs-left li a:hover {
+    background: none;
+    cursor: pointer;
+}
+
+.course-prg-scheduler .tab-content .info-header {
+    margin-bottom: 30px;
+}
+
+.course-prg-scheduler .tab-content .info-header .info-wrapper {
+	float:left;
+	margin-right:45px;
+    height: 50px;
+    line-height: 50px;
+}
+
+.course-prg-scheduler .tab-content .info-header .info-wrapper .user-name {
+	font-family:'robotobold';
+	font-size: 17px;
+    color: #444;
+    margin-left: 10px;
+}
+
+.course-prg-scheduler .tab-content .info-wrapper.info-wrapper_hours {
+    font-size: 17px;
+    color: #444;
+}
+
+.course-prg-scheduler .tab-content .info-wrapper.info-wrapper_hours .info-title {
+    font-family:'robotobold';
+}
+
+
+.course-prg-scheduler .tab-content .info-header .info-wrapper .btn {
+	margin-top:8px;
+}
+
+.course-prg-scheduler .tab-content .info-header .profile-pic {
+	width: 50px;
+    height: 50px;
+    border-radius: 100%;
+	margin-right:7px;	
+}
+
+.course-prg-scheduler .tab-content .table-warning {
+	background-color: #dedede;
+    padding: 10px 15px;
+    border-radius: 2px;
+    font-size: 15px;
+    font-weight: normal;
+    color: #444;
+    display: inline-block;
+    margin: 0 auto 15px auto;
+}
+
+.course-prg-scheduler .tab-content .table-warning .icon {
+    color: #8e8e8e;
+    font-size: 20px;
+    float: left;
+    margin-right: 10px;
+}
+
+.course-prg-scheduler .tab-content .table-container {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.course-prg-scheduler .tab-content table tr.headers td {
+	font-family:'robotobold';
+    font-size: 16px;
+}
+
+.course-prg-scheduler .tab-content table , .course-prg-scheduler .tab-content th, .course-prg-scheduler .tab-content td {
+    border: 1px solid black;
+}
+
+.course-prg-scheduler .tab-content table tr td:first-child {
+	font-size: 14px;
+	/*font-family:'robotobold';*/
+	width: 180px;
+	/*background-color:#f9f9f9;*/
+}
+
+.course-prg-scheduler .tab-content table td {
+	width: 100px;
+    height: 70px;
+	text-align:center;
+}
+
+.course-prg-scheduler .loader {
+    margin-top: 25px;
+}
+
+.course-prg-scheduler ul.legend {
+    margin-top: 15px;
+}
+
+.course-prg-scheduler ul.legend li {
+    border: none;
+    display: inline-block;
+    padding: 15px 10px;
+}
+
+.course-prg-scheduler ul.legend li .action-indicator {
+    margin-right: 5px;
+}
+
+.course-prg-scheduler .action-indicator {
+    border: 10px solid #eee;
+    border-radius: 10px;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    vertical-align: middle;
+}
+
+.course-prg-scheduler .action-indicator.action-indicator_appropriate {
+    border-color: #8ac73e;
+}
+
+.course-prg-scheduler .action-indicator.action-indicator_busy{
+    border-color: #ed1b24;
+}
+
+.course-prg-scheduler .action-indicator.action-indicator_uncertain {
+    border-color: #f7941d;
+}
+
+.course-prg-scheduler .action-selector {
+    display: inline-block;
+    position: relative;
+    padding-right: 15px;
+    cursor: pointer;
+    right: -7px;
+}
+
+.course-prg-scheduler .action-selector:after {
+     content: ' ';
+     display: block;
+     position: absolute;
+     top: 50%;
+     right: 0;
+     margin-top: -2px;
+     width: 0;
+     height: 0;
+     border-style: solid;
+     border-width: 5px 5px 0 5px;
+     border-color: #808080 transparent transparent transparent;
+}
+
+.course-prg-scheduler .action-selector.readonly {
+    right: 0;
+    padding-right: 0;
+    cursor: default;
+}
+
+.course-prg-scheduler .action-selector.readonly:after {
+    display: none;
+}
+
+.course-prg-scheduler .action-selector .popover {
+    display: block;
+    top: 25px;
+    left: -19px;
+    height: 120px;
+}
+
+.course-prg-scheduler .action-selector .popover .popover-content {
+    padding: 0 0 10px;
+}
+
+.course-prg-scheduler .action-selector .popover ul.actions-selector-select li {
+    padding: 7px 17px;
+    border-bottom: 1px solid #dddddf;
+}
+
+.course-prg-scheduler .action-selector .popover ul.actions-selector-select li:hover {
+    background-color: #f9f9f9;
+}
+
+.course-prg-scheduler .action-selector ul.actions-selector-select li:last-child {
+    border-bottom: none;
+}
+
+/* END OF COURSE PROGRAM SCHEDULER */
 
 
 /* Responsive: Portrait tablets and up */
@@ -2828,6 +3348,7 @@ table.dataTable thead .sorting:after {
 .bottom-margined{
     margin-bottom: 0.75em;
 }
+
 
 /*
  * metismenu - v1.1.3

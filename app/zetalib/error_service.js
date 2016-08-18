@@ -102,7 +102,6 @@ angular.module('ulakbus')
                     if ($location.path() === "/login") {
                         $log.debug("show errors on login form");
                     } else {
-                        alert("Want relogin!");
                         return window.location.reload();
                     }
                 },
