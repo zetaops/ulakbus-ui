@@ -1,0 +1,80 @@
+<div class="tablescroll">
+    <table class="table table-bordered" style="background-color:#fff;">
+        <thead>
+        <tr ng-if="node.schema.formType=='Node'">
+            <!--<th colspan="2">-->
+            <!--<label>-->
+            <!--<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">-->
+            <!--Hepsini Seç-->
+            <!--</label>-->
+            <!--</th>-->
+            <th ng-repeat="(key,value) in node.model track by $index">{{ key }}</th>
+            <th>İşlem</th>
+        </tr>
+        <tr ng-if="node.schema.formType=='ListNode'">
+            <th colspan="2" ng-if="meta.allow_selection===true">
+                <label>
+                    <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
+                    Hepsini Seç
+                </label>
+            </th>
+            <th scope="row" style="text-align:center">#</th>
+<<<<<<< 6a71c6920efc5235eff71bf42763b82cc30f1827
+            <th ng-repeat="prop in node.schema.properties_list">
+=======
+            <th ng-repeat="propName in node.form" ng-init="prop = node.schema.properties[propName]">
+>>>>>>> FIX, rfix#5379. Fix ListNode's dose not respect schema order
+                <span ng-if="!value.verbose_name">{{prop.title||prop.name}}</span>
+            </th>
+            <th ng-if="meta.allow_actions!==false">İşlem</th>
+        </tr>
+        </thead>
+        <tbody ng-class="{hidden: node.lengthModels < 1}">
+
+        <tr ng-if="node.schema.formType=='Node'">
+            <!--<td width="60">-->
+            <!--<label>-->
+            <!--<input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">-->
+            <!--</label>-->
+            <!--</td>-->
+            <!--<th scope="row" style="text-align:center">1</th>-->
+            <td ng-repeat="value in node.model track by $index">{{ value }}</td>
+            <td>
+                <button modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit">Düzenle</button>
+                <br>
+                <button ng-click="remove(node, 'Node', $index)">Sil</button>
+            </td>
+        </tr>
+
+        <tr ng-repeat="listnodemodel in node.items" ng-init="outerIndex=$index" ng-if="node.schema.formType=='ListNode'">
+            <td ng-if="meta.allow_selection===true" width="60">
+                <label>
+                    <input type="checkbox" style="zoom:1.5; margin:5px 0 0 8px;">
+                </label>
+            </td>
+            <th scope="row" style="text-align:center">{{$index+1}}</th>
+            <td ng-repeat="prop in node.schema.properties_list" ng-init="k = prop.name; v = listnodemodel[k]; inline = node.schema.inline_edit && node.schema.inline_edit.indexOf(k) > -1">
+                <span ng-if="!inline">{{ v.unicode || v }}</span>
+                <!--<input type="{{node.schema.properties[k].type}}"-->
+                <!--ng-if="node.schema.inline_edit.indexOf(k) > -1"-->
+                <!--ng-model="node.model[outerIndex][k]"-->
+                <!--ng-change="nodeModelChange(this)">-->
+                <ng-include src="'components/crud/templates/inline_edit.html'" ng-if="inline"></ng-include>
+            </td>
+            <td ng-if="meta.allow_actions!==false">
+                <div ng-hide="meta.object_actions.length > 0">
+                    <span modal-for-nodes="{{node.schema.model_name}},{{node.schema.formType}},edit,{{$index}}"
+                          ng-hide="node.quick_add === true">
+                        <i class="fa fa-pencil-square-o fa-fw"></i>
+                    </span>
+                    <span ng-click="remove(node, 'ListNode', $index)"><i class="fa fa-times fa-fw"></i></span>
+                </div>
+                <div ng-show="meta.object_actions.length > 0">
+                    <!-- define object actions here -->
+                </div>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>

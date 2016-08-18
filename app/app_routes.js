@@ -5,54 +5,73 @@ angular.module('ulakbus')
         $routeProvider
             .when('/login', {
                 templateUrl: 'components/auth/login.html',
-                controller: 'LoginCtrl'
+                controller: 'LoginController'
             })
             .when('/dashboard', {
                 templateUrl: 'components/dashboard/dashboard.html',
-                controller: 'DashCtrl'
+                controller: 'DashController'
             })
             .when('/dev/settings', {
                 templateUrl: 'components/devSettings/devSettings.html',
-                controller: 'DevSettingsCtrl'
+                controller: 'DevSettingsController'
             })
             .when('/debug/list', {
                 templateUrl: 'components/debug/debug.html',
-                controller: 'DebugCtrl'
+                controller: 'DebugController'
             })
-
+            .when('/admin/bpmnmanager', {
+                templateUrl: 'components/admin/bpmn_manager.html',
+                controller: 'BpmnManagerController'
+            })
+            .when('/newdesigns', {
+                templateUrl: 'components/uitemplates/base.html',
+                controller: 'NewDesignsCtrl'
+            })
+            .when('/formservicepg', {
+                templateUrl: 'components/uitemplates/form_service_pg.html',
+                controller: 'FormServicePg'
+            })
             // use crud without selected user
             // important: regex urls must be defined later than static ones
             .when('/:wf/', {
+                templateUrl: 'components/crud/templates/crud-preload.html',
+                controller: 'CRUDController'
+            })
+            .when('/cwf/:wf/:token', {
                 templateUrl: 'components/crud/templates/crud.html',
-                controller: 'CRUDCtrl'
+                controller: 'CRUDController'
             })
             .when('/:wf/do/:cmd', {
                 templateUrl: 'components/crud/templates/crud.html',
-                controller: 'CRUDListFormCtrl'
+                controller: 'CRUDListFormController'
             })
             .when('/:wf/do/:cmd/:key', {
                 templateUrl: 'components/crud/templates/crud.html',
-                controller: 'CRUDListFormCtrl'
+                controller: 'CRUDListFormController'
             })
             .when('/:wf/:model', {
-                templateUrl: 'components/crud/templates/crud.html',
-                controller: 'CRUDCtrl'
+                templateUrl: 'components/crud/templates/crud-preload.html',
+                controller: 'CRUDController'
             })
             .when('/:wf/:model/do/:cmd', {
                 templateUrl: 'components/crud/templates/crud.html',
-                controller: 'CRUDListFormCtrl'
+                controller: 'CRUDListFormController'
             })
             .when('/:wf/:model/do/:cmd/:key', {
                 templateUrl: 'components/crud/templates/crud.html',
-                controller: 'CRUDListFormCtrl'
+                controller: 'CRUDListFormController'
             })
-
             .otherwise({redirectTo: '/dashboard'});
     }])
-    .run(function ($rootScope) {
 
-        $rootScope.loggedInUser = true;
+    .run(function ($rootScope, AuthService) {
+
+        AuthService.check_auth();
+
+        $rootScope.loggedInUser = false;
         $rootScope.loginAttempt = 0;
+        $rootScope.websocketIsOpen = false;
+        $rootScope.current_user = true;
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
             // will be used when needed
         });

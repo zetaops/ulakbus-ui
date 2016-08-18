@@ -20,7 +20,7 @@
  * @requires ulakbus.formService
  * @type {ng.$compileProvider|*}
  */
-angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formService'])
+angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formService'])
     .config(function (sfErrorMessageProvider) {
         sfErrorMessageProvider.setDefaultMessage(302, 'Bu alan zorunludur.');
         sfErrorMessageProvider.setDefaultMessage(200, 'En az {{schema.minLength}} değer giriniz.');
@@ -41,7 +41,8 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
              * @memberof ulakbus.crud
              * @ngdoc function
              * @name generateParam
-             * @description generateParam is a function to generate required params to post backend api.
+             * @description generateParam is a function to generate required params to send backend api.
+             * backend needs that params to work without errors
              * @param {object} scope
              * @param {object} routeParams
              * @param {string} cmd
@@ -59,12 +60,16 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
 
                 scope.form_params = {
                     //cmd: cmd,
+                    // model name in ulakbus
                     model: routeParams.model,
+                    // generic value passing by backend. would be any of these: id, personel_id, etc.
                     param: scope.param || routeParams.param,
+                    // generic value passing by backend. would be the value of param
                     id: scope.param_id || routeParams.param_id,
                     wf: routeParams.wf,
                     object_id: routeParams.key,
-                    filters: {}
+                    filters: {},
+                    token: routeParams.token
                 };
 
                 if (scope.param_id) {
@@ -92,27 +97,65 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
                 angular.forEach(pageData, function (value, key) {
                     scope[key] = value;
                 });
-                angular.forEach(scope.objects, function (value, key) {
-                    if (key > 0) {
-                        var linkIndexes = {};
-                        angular.forEach(value.actions, function (v, k) {
-                            if (v.show_as === 'link') {linkIndexes = v}
-                        });
-                        angular.forEach(value.fields, function (v, k) {
-                            if (value.actions.length > 0 && linkIndexes.fields){
-                                scope.objects[key].fields[k] = {
-                                    type: linkIndexes.fields.indexOf(k) > -1 ? 'link' : 'str',
-                                    content: v,
-                                    cmd: linkIndexes.cmd,
-                                    mode: linkIndexes.mode
-                                };
+                // when selective_list is sent with meta key it means
+                // "objects" is a list of "objects"s
+                if (scope.meta['selective_listing'] === true) {
+                    angular.forEach(scope.objects, function (_v, _k) {
+                        angular.forEach(_v.objects, function (value, key) {
+                            if (_v.selected === true) {
+                                scope.selected_key = _k;
                             }
-                            else {
-                                scope.objects[key].fields[k] = {type: 'str', content: v};
+                            if (key > 0) {
+                                var linkIndexes = {};
+                                angular.forEach(value.actions, function (v, k) {
+                                    if (v.show_as === 'link') {linkIndexes = v}
+                                });
+                                angular.forEach(value.fields, function (v, k) {
+                                    try {
+                                        if (value.actions.length > 0 && linkIndexes.fields){
+                                            scope.objects[_k][key].fields[k] = {
+                                                type: linkIndexes.fields.indexOf(k) > -1 ? 'link' : 'str',
+                                                content: v,
+                                                cmd: linkIndexes.cmd,
+                                                mode: linkIndexes.mode
+                                            };
+                                        }
+                                        else {
+                                            scope.objects[_k]['objects'][key].fields[k] = {type: 'str', content: v};
+                                        }
+                                    } catch (e) {
+                                        $log.error(e);
+                                        scope.objects[_k]['objects'][key].fields[k] = {type: 'str', content: v};
+                                    }
+
+                                });
                             }
                         });
-                    }
-                });
+                    });
+                } else {
+                    angular.forEach(scope.objects, function (value, key) {
+                        if (key > 0) {
+                            var linkIndexes = {};
+                            angular.forEach(value.actions, function (v, k) {
+                                if (v.show_as === 'link') {linkIndexes = v}
+                            });
+                            angular.forEach(value.fields, function (v, k) {
+                                if (value.actions.length > 0 && linkIndexes.fields){
+                                    scope.objects[key].fields[k] = {
+                                        type: linkIndexes.fields.indexOf(k) > -1 ? 'link' : 'str',
+                                        content: v,
+                                        cmd: linkIndexes.cmd,
+                                        mode: linkIndexes.mode
+                                    };
+                                }
+                                else {
+                                    scope.objects[key].fields[k] = {type: 'str', content: v};
+                                }
+                            });
+                        }
+                    });
+                }
+
                 $log.debug(scope.objects);
             }
         }
@@ -128,8 +171,12 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
      *
      * @returns {object}
      */
-    .controller('CRUDCtrl', function ($scope, $routeParams, Generator, CrudUtility) {
+    .controller('CRUDController', function ($scope, $routeParams, $location, Generator, CrudUtility) {
         // get required params by calling CrudUtility.generateParam function
+        if ($location.url().indexOf('?=') > 0) {
+            return $location.url($location.url().replace('?=', ''));
+        }
+        // before calling get_wf parameters need to be generated with CrudUtility.generateParam
         CrudUtility.generateParam($scope, $routeParams);
         Generator.get_wf($scope);
     })
@@ -137,8 +184,8 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
     /**
      * @memberof ulakbus.crud
      * @ngdoc controller
-     * @name CRUDListFormCtrl
-     * @description CRUDListFormCtrl is the main controller for crud module
+     * @name CRUDListFormController
+     * @description CRUDListFormController is the main controller for crud module
      * Based on the client_cmd parameter it generates its scope items.
      * client_cmd can be in ['show', 'list', 'form', 'reload', 'refresh']
      * There are 3 directives to manipulate controllers scope objects in crud.html
@@ -152,18 +199,30 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
      *
      * @returns {object}
      */
-    .controller('CRUDListFormCtrl', function ($scope, $rootScope, $location, $http, $log, $uibModal, $timeout, Generator, $routeParams, CrudUtility) {
-        // reloadData must be a json object
-        $scope.reload = function (reloadData) {
-            $scope.form_params.cmd = $scope.reload_cmd;
-            $scope.form_params = angular.extend($scope.form_params, reloadData);
-            $log.debug('reload data', $scope);
-            Generator.get_wf($scope);
-        };
+    .controller('CRUDListFormController', function ($scope, $rootScope, $location, $sce, $http, $log, $uibModal, $timeout, Generator, $routeParams, CrudUtility) {
+        // below show crud and $on --> $viewContentLoaded callback is for masking the view with unrendered and ugly html
+        $scope.show_crud = false;
+        $scope.$on('$viewContentLoaded', function () {
+            $timeout(function () {
+                $scope.show_crud = true;
+            }, 500);
+        });
 
+        // todo: new feature wf_step is for to start a workflow from a certain step
+        $scope.wf_step = $routeParams.step;
+
+        // pagination data is coming from api when too much results
+        $scope.paginate = function (reloadData) {
+                       $scope.form_params.cmd = $scope.reload_cmd;
+                        $scope.form_params = angular.extend($scope.form_params, reloadData);
+                        $log.debug('reload data', $scope);
+                        Generator.get_wf($scope);
+                    };
+
+        // reload_cmd can be broadcasted app-wide, when $on it reloadCmd is called
         $scope.$on('reload_cmd', function(event, data){
             $scope.reload_cmd = data;
-            $scope.reload({});
+            $scope.reloadCmd();
         });
 
         // search directive updates objects after search results
@@ -176,6 +235,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
         // object by its name. to manage to locate the form to controllers scope we use a directive called form locator
         // a bit dirty way to find form working on but solves our problem
         $scope.$on('formLocator', function (event) {
+
             $scope.formgenerated = event.targetScope.formgenerated;
         });
 
@@ -183,7 +243,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
         $scope.remove = function (item, type, index) {
             $scope[type][item.title].model.splice(index, 1);
             $scope[type][item.title].items.splice(index, 1);
-        }
+        };
 
         $scope.onSubmit = function (form) {
             $scope.$broadcast('schemaFormValidate');
@@ -193,12 +253,28 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
         };
 
         $scope.do_action = function (key, todo) {
-            //Generator.doItemAction($scope, key, todo.cmd, todo.wf, todo.mode || 'normal');
             Generator.doItemAction($scope, key, todo, todo.mode || 'normal');
         };
 
         $scope.getNumber = function (num) {
             return new Array(num);
+        };
+
+        $scope.markdownWorkaround = function (value) {
+            // this is new line workaround for markdown support
+            // kind of ugly hack
+            return value.replace('\n', '<br>');
+        };
+
+        // inline edit fields
+        $scope.datepickerstatuses = {};
+
+        $scope.inline_datepicker_status = function (field) {
+            return ($scope.datepickerstatuses[field] || false);
+        };
+
+        $scope.openDatepicker = function (field) {
+            $scope.datepickerstatuses[field] = true;
         };
 
         $scope.createListObjects = function () {
@@ -231,6 +307,12 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
             }
             $scope.createListObjects();
         };
+
+        // selective listing for list page todo: add to documentation
+        $scope.update_selective_list = function (key) {
+            $scope.objects = key["objects"];
+        };
+        // end of selective listing
         $scope.listFormCmd = function () {
             // function to set scope objects
             var setpageobjects = function (data) {
@@ -260,13 +342,26 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
             if ($scope.object) {
                 $scope.createListObjects();
             }
+
+            // if selective listing then change objects key to its first item
+            if (angular.isDefined($scope.meta.selective_listing)) {
+                $scope.all_objects = angular.copy($scope.objects);
+                $scope.selective_list_key = $scope.all_objects[$scope.selected_key];
+                $scope.objects = $scope.selective_list_key["objects"];
+            }
         };
         $scope.reloadCmd = function () {
-            $scope.reload({});
+            var pageData = Generator.getPageData();
+            CrudUtility.generateParam($scope, pageData, $routeParams.cmd);
+            $log.debug('reload data', $scope);
+            Generator.get_wf($scope);
         };
         $scope.resetCmd = function () {
+            var pageData = Generator.getPageData();
+            CrudUtility.generateParam($scope, pageData, $routeParams.cmd);
             delete $scope.token;
-            $scope.cmd = 'reset';
+            delete $scope.filters;
+            delete $scope.cmd;
             Generator.get_wf($scope);
         };
 
@@ -353,6 +448,7 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
             replace: true,
             link: function ($scope) {
                 $scope.form_params.filters = $scope.form_params.filters || {};
+                $scope.form_params.token = $scope.token;
                 $scope.filterList = {};
                 $scope.filterCollapsed = {};
                 $scope.$watch('list_filters', function () {
@@ -387,4 +483,175 @@ angular.module('ulakbus.crud', ['ui.bootstrap', 'schemaForm', 'ulakbus.formServi
                 }
             }
         };
+    })
+
+    .controller("crudTimetableDirectiveCtrl", function($scope, WSOps, $q){
+        // todo: replace with utils service method
+        function groupBy (list, propName) {
+            return list.reduce(function(acc, item) {
+                (acc[item[propName]] = acc[item[propName]] || []).push(item);
+                return acc;
+            }, {});
+        };
+        $scope.groupBy = groupBy;
+
+        $scope.get_wf = function get_wf(data){
+            var fieldName = $scope.mainFieldName || 'ogretim_elemani_zt';
+            data.token = $scope.token;
+            data.wf = $scope.wf;
+            return WSOps.request(data).then(function(result){
+                if (result[fieldName]){
+                    return result;
+                }
+                Generator.pathDecider(result.client_cmd || ['list'], $scope, result);
+                // prevent result processing
+                return $q.reject();
+            }).then(function(result){
+                $scope.message = result.notification;
+                return result[fieldName]
+            })
+        }
+
+        $scope.prepareTimetable = function prepareTimetable(timetable){
+            var grouped = groupBy(timetable, "saat");
+            for (var day in grouped){
+                if (!grouped.hasOwnProperty(day)) continue;
+                var dayItems = grouped[day];
+                grouped[day] = dayItems.sort(function(a, b){
+                    return a.gun < b.gun ? -1 : 1;
+                });
+            }
+            var acc = [];
+            for (var t in grouped){
+                if (grouped.hasOwnProperty(t)){
+                    acc.push([t, grouped[t]]);
+                }
+            }
+            return  acc.sort(function(a, b){
+                return a[0] > b[0] ? 1 : -1;
+            });
+        }
+    })
+
+    .directive("crudTimetableDirective", function(){
+        return {
+            templateUrl: 'components/crud/templates/timetable.html',
+            restrict: 'E',
+            replace: true,
+            controller: 'crudTimetableDirectiveCtrl',
+            link: function(iScope, iElem, iAtrrs){
+                var mainFieldName = 'ogretim_elemani_zt';
+                iScope.mainFieldName = mainFieldName;
+                iScope.tablesList = iScope[mainFieldName].ogretim_elemanlari;
+                iScope.widgetTitle = "Öğretim Elemanı Zaman Tablosu"
+
+                initLecturer(iScope[mainFieldName]);
+
+                function initLecturer(data){
+                    iScope.currentTable = {
+                        key: data.oe_key,
+                        name: data.name,
+                        avatar_url: data.avatar_url,
+                        totalHours: data.toplam_ders_saati,
+                        readonly: data.readonly
+                    };
+                    iScope.timetable = iScope.prepareTimetable(data.uygunluk_durumu);
+                };
+
+                iScope.selectTable = function(lecturer){
+                    iScope.loadingTable = true;
+                    iScope.get_wf({
+                        cmd: 'personel_sec',
+                        secili_og_elemani: {key: lecturer.key}
+                    }).then(function(response){
+                        initLecturer(response);
+                    }).finally(function(){
+                        iScope.loadingTable = false;
+                    })
+                };
+
+                iScope.changeValue = function(time){
+                    iScope.loadingAction = true;
+                    iScope.get_wf({
+                        cmd: 'degistir',
+                        change: {
+                            'key': time.key,
+                            'durum': time.durum
+                        }
+                    }).then(function(table){
+                        var days = table.uygunluk_durumu;
+                        // update durum value from the response
+                        for (var i=0; i<days.length; i++){
+                            if (days[i].key == time.key){
+                                time.durum = days[i].durum;
+                                break;
+                            }
+                        }
+                    }).finally(function(){
+                        iScope.loadingAction = false;
+                    })
+                }
+            }
+        }
+    })
+
+    .directive("crudTimetableDirective2", function(){
+        return {
+            templateUrl: 'components/crud/templates/timetable.html',
+            restrict: 'E',
+            replace: true,
+            controller: 'crudTimetableDirectiveCtrl',
+            link: function(iScope, iElem, iAtrrs){
+                var mainFieldName = 'derslik_zaman_tablosu';
+                iScope.mainFieldName = mainFieldName;
+                iScope.tablesList = iScope[mainFieldName].derslikler;
+                iScope.widgetTitle = "Derslik Zaman Tablosu";
+
+                initTable(iScope[mainFieldName]);
+
+                function initTable(data){
+                    iScope.currentTable = {
+                        key: data.oe_key,
+                        name: data.name,
+                        avatar_url: data.avatar_url,
+                        readonly: data.readonly
+                    };
+                    iScope.timetable = iScope.prepareTimetable(data.zaman_plani);
+                };
+
+                iScope.selectTable = function(table){
+                    iScope.loadingTable = true;
+                    iScope.get_wf({
+                        cmd: 'derslik_degistir',
+                        secili_derslik: {key: table.key}
+                    }).then(function(response){
+                        initTable(response);
+                    }).finally(function(){
+                        iScope.loadingTable = false;
+                    })
+                };
+
+                iScope.changeValue = function(time){
+                    iScope.loadingAction = true;
+                    iScope.get_wf({
+                        cmd: 'degistir',
+                        change: {
+                            'key': time.key,
+                            'durum': time.durum
+                        }
+                    }).then(function(table){
+                        var days = table.uygunluk_durumu;
+                        // update durum value from the response
+                        for (var i=0; i<days.length; i++){
+                            if (days[i].key == time.key){
+                                time.durum = days[i].durum;
+                                break;
+                            }
+                        }
+                    }).finally(function(){
+                        iScope.loadingAction = false;
+                    })
+                }
+            }
+        }
     });

@@ -20,6 +20,8 @@ module.exports = function (config) {
             'app/bower_components/angular-gettext/dist/angular-gettext.min.js',
             'app/bower_components/angular-route/angular-route.js',
             'app/bower_components/angular-resource/angular-resource.js',
+            "app/bower_components/showdown/dist/showdown.min.js",
+            "app/bower_components/angular-markdown-filter/markdown.js",
             'app/bower_components/angular-sanitize/angular-sanitize.min.js',
             'app/bower_components/tv4/tv4.js',
             'app/bower_components/objectpath/lib/ObjectPath.js',
@@ -29,7 +31,7 @@ module.exports = function (config) {
             'app/bower_components/moment/min/moment.min.js',
             'app/app.js',
             'app/app_routes.js',
-            'app/zetalib/**/*.js',
+            'app/zetalib/**/!(action_service).js',
             'app/components/**/*.js'
         ],
 
@@ -37,7 +39,8 @@ module.exports = function (config) {
 
         frameworks: ['jasmine'],
 
-        browsers: ['PhantomJS'],
+        //browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari'],
+        browsers: ['Chrome'],
 
         customLaunchers: {
             'PhantomJS_custom': {
@@ -46,7 +49,7 @@ module.exports = function (config) {
                     windowName: 'my-window',
                     settings: {
                         webSecurityEnabled: false
-                    },
+                    }
                 },
                 flags: ['--load-images=true'],
                 debug: true
@@ -60,9 +63,12 @@ module.exports = function (config) {
 
         plugins: [
             'karma-phantomjs-launcher',
+            'karma-chrome-launcher',
+            //'karma-firefox-launcher',
+            //'karma-safari-launcher',
             'karma-jasmine',
-            'karma-junit-reporter',
-            'karma-coverage'
+            //'karma-junit-reporter',
+            //'karma-coverage'
         ],
 
         junitReporter: {
@@ -70,34 +76,33 @@ module.exports = function (config) {
             suite: 'unit'
         },
 
-        reporters: ['progress', 'coverage'],
+        //reporters: ['progress', 'coverage'],
 
-        preprocessors: {
-            'app/app.js': ['coverage'],
-            'app/app_routes.js': ['coverage'],
-            'app/components/auth/*.js': ['coverage'],
-            'app/components/crud/*.js': ['coverage'],
-            'app/components/dashboard/*.js': ['coverage'],
-            'app/components/version/*.js': ['coverage'],
-            'app/zetalib/**/*.js': ['coverage']
-        },
+        //preprocessors: {
+        //    'app/app.js': ['coverage'],
+        //    'app/app_routes.js': ['coverage'],
+        //    'app/components/auth/*.js': ['coverage'],
+        //    'app/components/crud/*.js': ['coverage'],
+        //    'app/components/dashboard/*.js': ['coverage'],
+        //    'app/components/version/*.js': ['coverage'],
+        //    'app/zetalib/**/!(action_service).js': ['coverage']
+        //},
 
-        coverageReporter: {
-            check: {
-                global: {
-                    statements: 60,
-                    branches: 10,
-                    functions: 60,
-                    lines: 60,
-                    excludes: [
-                        'app/components/uitemplates/*.js',
-                        //'app/zetalib/interceptors.js'
-                    ]
-                }
-            },
-            type : 'html',
-            dir : 'coverage/'
-        }
+        //coverageReporter: {
+        //    check: {
+        //        global: {
+        //            statements: 60,
+        //            branches: 10,
+        //            functions: 60,
+        //            lines: 60,
+        //            excludes: [
+        //                'app/components/uitemplates/*.js'
+        //            ]
+        //        }
+        //    },
+        //    type : 'html',
+        //    dir : 'coverage/'
+        //}
 
     });
 };

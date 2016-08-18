@@ -1,0 +1,7 @@
+<div class="modal-body" style="padding: 0 !important; border-radius: 6px;">
+    <input type="text" ng-model="act.selected" placeholder="İşlem ismi giriniz..."
+           typeahead-on-select="doThis($item)"
+           uib-typeahead="act as act.name for act in actions | filter:$viewValue" typeahead-no-results="noResults"
+           typeahead-wait-ms="500" class="form-control" style="border-radius: 6px; height: 50px; line-height: 40px"
+           autofocus>
+</div>

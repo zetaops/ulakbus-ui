@@ -1,0 +1,41 @@
+<div class="form-group {{form.htmlClass}} schema-form-select col-md-12"
+     ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}">
+    <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">
+        {{form.title}}
+    </label>
+
+    <input ng-if="form.widget!=='custom'"
+           type="text"
+           autocomplete="off"
+           ng-model="$$value$$"
+           uib-typeahead="item as item.name for item in form.titleMap"
+           typeahead-wait-ms="500"
+           typeahead-loading="loadingTitleMap"
+           typeahead-on-select="form.onDropdownSelect($item, form.name)"
+           placeholder="{{form.title}}"
+           ng-model-options="form.ngModelOptions"
+           ng-disabled="form.readonly"
+           sf-changed="form"
+           class="form-control {{form.fieldHtmlClass}}"
+           schema-validate="form"
+           name="{{form.name}}"/>
+
+    <input ng-if="form.widget==='custom'"
+           type="text"
+           autocomplete="off"
+           ng-model="$$value$$"
+           uib-typeahead="item as item.name for item in form.getTitleMap($viewValue)"
+           typeahead-wait-ms="500"
+           typeahead-loading="loadingTitleMap"
+           typeahead-on-select="form.onDropdownSelect($item, form.name)"
+           placeholder="{{form.title}}"
+           ng-model-options="form.ngModelOptions"
+           ng-disabled="form.readonly"
+           sf-changed="form"
+           class="form-control {{form.fieldHtmlClass}}"
+           schema-validate="form"
+           name="{{form.name}}"/>
+
+    <div ng-show="loadingTitleMap" class="loader"></div>
+    <div class="help-block" sf-message="form.description"></div>
+</div>

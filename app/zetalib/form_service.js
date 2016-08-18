@@ -19,7 +19,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * Moment.js used for date type conversions.
      * there must be no global object, so we change it into a service here.
      */
-    .service('Moment', function(){
+    .service('Moment', function () {
         return window.moment;
     })
 
@@ -29,7 +29,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @name Generator
      * @description form service's Generator factory service handles all generic form operations
      */
-    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment) {
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal, $filter, Utils) {
         var generator = {};
         /**
          * @memberof ulakbus.formService
@@ -58,6 +58,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          */
         generator.generate = function (scope, data) {
 
+            $log.debug("data before generation:", data);
             // if no form in response (in case of list and single item request) return scope
             if (!data.forms) {
                 return scope;
@@ -182,12 +183,91 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 )
             });
 
-            $log.debug('grouped form: ', newForm);
-            $log.debug('rest of form: ', scope.form);
-            $log.debug('form united: ', newForm.concat(scope.form));
-
+            if (newForm.length > 0) {
+                $log.debug('grouped form: ', newForm);
+                $log.debug('rest of form: ', scope.form);
+                $log.debug('form united: ', newForm.concat(scope.form));
+            }
             scope.form = newForm.concat(scope.form);
             return scope;
+        };
+        /**
+         * @description generates form constraints as async validators
+         * async validators defined in form_constraints.js
+         * keys are input names
+         * @example
+         * `
+         * forms.constraints = {
+         *
+         *      // date field type constraint to greater than certain date
+         *      'birth_date': {
+         *          cons: 'gt_date',
+         *          val: '22.10.1988',
+         *          val_msg: 'Birthdate must be greater than 22.10.1988'
+         *      },
+         *      // a number field lesser than a certain number
+         *      'number': {
+         *          cons: 'lt',
+         *          val: 50,
+         *          val_msg: 'number must be lesser than 50'
+         *      },
+         *      // a field lesser than multiple fields' values
+         *      'some_input': {
+         *          cons: 'lt_m',
+         *          val: ['this', 'and', 'that', 'inputs'],
+         *          val_msg: 'some_input must be lesser than this, and, that, inputs'
+         *      },
+         *      // a field shows some other fields
+         *      'some_input2': {
+         *          cons: 'selectbox_fields',
+         *          val: [
+         *              {'val1': ['this', 'and']},
+         *              {'val2': ['this2', 'and2']}]
+         *          val_msg: 'some_input2 disables this, and, this, inputs'
+         *      },
+         *      // a field hides some other fields
+         *      'some_input3': {
+         *          cons: 'checkbox_fields',
+         *          val: [
+         *              {'val1': ['this', 'and']},
+         *              {'val2': ['this2', 'and2']}]
+         *          val_msg: 'some_input2 disables this, and, this, inputs'
+         *      },
+         *      // todo: a field change changes other field or fields values
+         * }
+         * `
+         * @param scope
+         */
+        generator.constraints = function (scope) {
+            angular.forEach(scope.form, function (v, k) {
+                try {
+                    var cons = scope.forms.constraints[v] || scope.forms.constraints[v.key];
+                    if (angular.isDefined(cons)) {
+                        if (v.constructor === String) {
+                            scope.form[k] = {
+                                key: v,
+                                validationMessage: {'form_cons': cons.val_msg},
+                                $validators: {
+                                    form_cons: function (value) {
+                                        return FormConstraints[cons.cons](value, cons.val, v);
+                                    }
+                                }
+                            };
+                        } else {
+                            v.key = v.key;
+                            v.validationMessage = angular.extend({'form_cons': cons.val_msg}, v.validationMessage);
+                            v.$validators = angular.extend({
+                                form_cons: function (value) {
+                                    return FormConstraints[cons.cons](value, cons.val, v.key);
+                                }
+                            }, v.$asyncValidators);
+                        }
+                    }
+                } catch (e) {
+                    $log.error(e.message);
+                }
+            });
+            return generator.group(scope);
         };
         /**
          * @memberof ulakbus.formService
@@ -207,9 +287,17 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          *
          * @returns scope {Object}
          */
+
         generator.prepareFormItems = function (scope) {
 
             angular.forEach(scope.form, function (value, key) {
+
+                // parse markdown for help text
+                if (value.type === 'help'){
+                    var markdown = $filter('markdown');
+                    value.helpvalue = markdown(value.helpvalue);
+                }
+
                 if (value.type === 'select') {
                     scope.schema.properties[value.key].type = 'select';
                     scope.schema.properties[value.key].titleMap = value.titleMap;
@@ -217,8 +305,655 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 }
             });
 
-            angular.forEach(scope.schema.properties, function (v, k) {
+            var _buttons = function (scope, v, k) {
+                var buttonPositions = scope.modalElements ? scope.modalElements.buttonPositions : {
+                    bottom: 'move-to-bottom',
+                    top: 'move-to-top',
+                    none: ''
+                };
+                var workOnForm = scope.modalElements ? scope.modalElements.workOnForm : 'formgenerated';
+                var workOnDiv = scope.modalElements ? scope.modalElements.workOnDiv : '';
+                var buttonClass = (buttonPositions[v.position] || buttonPositions.bottom);
+                var redirectTo = scope.modalElements ? false : true;
 
+                // in case backend needs styling the buttons
+                // it needs to send style key with options below
+                // btn-default btn-primary btn-success btn-info btn warning
+                // btn-danger is default
+                scope.form[scope.form.indexOf(k)] = {
+                    type: v.type,
+                    title: v.title,
+                    style: (v.style || "btn-danger") + " hide bottom-margined " + buttonClass,
+                    onClick: function () {
+                        delete scope.form_params.cmd;
+                        delete scope.form_params.flow;
+                        if (v.cmd) {
+                            scope.form_params["cmd"] = v.cmd;
+                        }
+                        if (v.flow) {
+                            scope.form_params["flow"] = v.flow;
+                        }
+                        if (v.wf) {
+                            delete scope.form_params["cmd"];
+                            scope.form_params["wf"] = v.wf;
+                        }
+                        scope.model[k] = 1;
+                        // todo: test it
+                        if (scope.modalElements) {
+                            scope.submitModalForm();
+                        } else {
+                            if (!v.form_validate && angular.isDefined(v.form_validate)) {
+                                generator.submit(scope, redirectTo);
+                            } else {
+                                scope.$broadcast('schemaFormValidate');
+                                if (scope[workOnForm].$valid) {
+                                    generator.submit(scope, redirectTo);
+                                    scope.$broadcast('disposeModal');
+                                } else {
+                                    // focus to first input with validation error
+                                    $timeout(function () {
+                                        var firsterror = angular.element(document.querySelectorAll('input.ng-invalid'))[0];
+                                        firsterror.focus();
+                                    });
+                                }
+                            }
+                        }
+                    }
+                };
+                // ADD CONSTRAINTS if cons
+
+                // replace buttons according to their position values
+                $timeout(function () {
+                    var selectorBottom = '.buttons-on-bottom' + workOnDiv;
+                    //var selectorTop = '.buttons-on-top'+workOnDiv;
+
+                    var buttonsToBottom = angular.element(document.querySelector('.' + buttonClass));
+                    angular.element(document.querySelector(selectorBottom)).append(buttonsToBottom);
+                    //var buttonsToTop = angular.element(document.querySelector('.' + buttonClass));
+                    //angular.element(document.querySelector(selectorTop)).append(buttonsToTop);
+
+                    buttonsToBottom.removeClass('hide');
+                    //buttonsToTop.removeClass('hide');
+                }, 500);
+            };
+            var _numbers = function (scope, v, k) {
+                v.type = 'number';
+                v.validationMessage = {'max': 'bu alan -2147483647 ve 2147483647 arasında olmalıdır.'}
+                v.$validators = {
+                    max: function(value){
+                        return 2147483647>value>-2147483647;
+                    }
+                };
+                scope.model[k] = parseInt(scope.model[k]);
+            };
+            var _node_default = function (scope, v, k) {
+
+                scope[v.type] = scope[v.type] || {};
+
+                // no pass by reference
+                scope[v.type][k] = angular.copy({
+                    title: v.title,
+                    form: [],
+                    schema: {
+                        properties: {},
+                        properties_list: [],
+                        required: [],
+                        title: v.title,
+                        type: "object",
+                        formType: v.type,
+                        model_name: k,
+                        inline_edit: scope.inline_edit
+                    },
+                    buttons: v.buttons,
+                    url: scope.url,
+                    wf: v.wf || scope.wf,
+                    quick_add: v.quick_add,
+                    quick_add_view: v.quick_add_view,
+                    quick_add_model: v.quick_add_model,
+                    quick_add_field: v.quick_add_field,
+                    nodeModelChange: function (item) {
+                    }
+
+                });
+
+                angular.forEach(v.schema, function (item) {
+                    scope[v.type][k].schema.properties[item.name] = angular.copy(item);
+
+                    // save properties order in schema
+                    if (item.name != 'idx'){
+                        scope[v.type][k].schema.properties_list.push(scope[v.type][k].schema.properties[item.name]);
+                    }
+
+                    if (angular.isDefined(item.wf)) {
+                        scope[v.type][k].schema.properties[item.name]['wf'] = angular.copy(item.wf);
+                    }
+
+                    // prepare required fields
+                    if (item.required === true && item.name !== 'idx') {
+                        scope[v.type][k].schema.required.push(angular.copy(item.name));
+                    }
+
+                    // idx field must be hidden
+                    if (item.name !== 'idx') {
+                        scope[v.type][k].form.push(item.name);
+                    }
+
+                    try {
+                        if (item.type === 'date') {
+                            //scope.model[k][item.name] = generator.dateformatter(scope.model[k][item.name]);
+                        }
+                    } catch (e) {
+                        $log.debug('Error: ', e.message);
+                    }
+
+
+                });
+
+                $timeout(function () {
+                    if (v.type != 'ListNode') return;
+
+                    // todo: needs refactor
+                    var list = scope[v.type][k];
+                    list.items = angular.copy(scope.model[k] || []);
+
+                    angular.forEach(list.items, function (node, fieldName) {
+
+                        if (!Object.keys(node).length) return;
+
+                        angular.forEach(node, function (prop, propName) {
+                            var propInSchema = list.schema.properties[propName];
+                            try {
+                                if (propInSchema.type === 'date') {
+                                    node[propName] = generator.dateformatter(prop);
+                                    list.model[fieldName][propName] = generator.dateformatter(prop);
+                                }
+                                if (propInSchema.type === 'select') {
+                                    node[propName] = generator.item_from_array(prop.toString(), list.schema.properties[propName].titleMap)
+                                }
+                                if (propInSchema.titleMap){
+                                    node[propName] = {
+                                        key: prop,
+                                        unicode: generator.item_from_array(prop, propInSchema.titleMap)
+                                    };
+                                }
+                            } catch (e) {
+                                $log.debug('Field is not date');
+                            }
+                        });
+
+                    });
+                });
+
+                scope.model[k] = scope.model[k] || [];
+
+                scope[v.type][k].model = scope.model[k];
+
+                // lengthModels is length of the listnode models. if greater than 0 show records on template
+                scope[v.type][k]['lengthModels'] = scope.model[k] ? 1 : 0;
+
+            };
+            var _node_filter_interface = function (scope, v, k) {
+                var formitem = scope.form[scope.form.indexOf(k)];
+                var modelScope = {
+                    "form_params": {
+                        wf: v.wf || scope.wf || scope.form_params.wf,
+                        model: v.model_name || v.schema[0].model_name,
+                        cmd: v.list_cmd || 'select_list',
+                        query: ''
+                    }
+                };
+
+                scope.generateTitleMap = function (modelScope) {
+                    generator.get_list(modelScope).then(function (res) {
+                        formitem.titleMap = [];
+                        angular.forEach(res.objects, function (item) {
+                            if (item !== "-1") {
+                                formitem.titleMap.push({
+                                    "value": item.key,
+                                    "name": item.value
+                                });
+                            }
+                        });
+                        formitem.filteredItems = generator.get_diff_array(angular.copy(formitem.titleMap), angular.copy(formitem.selectedFilteredItems), 1);
+                    })
+                };
+
+                var modelItems = [];
+                var modelKeys = [];
+
+                angular.forEach(scope.model[k], function (value, mkey) {
+                    modelItems.push({
+                        "value": value[v.schema[0].name].key,
+                        "name": value[v.schema[0].name].unicode
+                    });
+                    var modelKey = {};
+                    modelKey[v.schema[0].name] = value[v.schema[0].name].key;
+                    modelKeys.push(modelKey);
+                });
+                scope.model[k] = angular.copy(modelKeys);
+
+                formitem = {
+                    type: "template",
+                    templateUrl: "shared/templates/multiselect.html",
+                    title: v.title,
+                    // formName will be used in modal return to save item on form
+                    formName: k,
+                    wf: v.wf || scope.wf,
+                    add_cmd: v.add_cmd,
+                    name: v.model_name || v.schema[0].model_name,
+                    model_name: v.model_name || v.schema[0].model_name,
+                    filterValue: '',
+                    selected_item: {},
+                    filteredItems: [],
+                    selectedFilteredItems: modelItems,
+                    titleMap: scope.generateTitleMap(modelScope),
+                    appendFiltered: function (filterValue) {
+                        if (filterValue.length > 2) {
+                            formitem.filteredItems = [];
+                            angular.forEach(formitem.titleMap, function (value, key) {
+                                if (value.name.indexOf(filterValue) > -1) {
+                                    formitem.filteredItems.push(formitem.titleMap[key]);
+                                }
+                            });
+                        }
+                        if (filterValue <= 2) {
+                            formitem.filteredItems = formitem.titleMap
+                        }
+                        formitem.filteredItems = generator.get_diff_array(formitem.filteredItems, formitem.selectedFilteredItems);
+                    },
+                    select: function (selectedItemsModel) {
+                        if (!selectedItemsModel) {
+                            return;
+                        }
+                        formitem.selectedFilteredItems = formitem.selectedFilteredItems.concat(selectedItemsModel);
+                        formitem.appendFiltered(formitem.filterValue);
+                        scope.model[k] = (scope.model[k] || []).concat(formitem.dataToModel(selectedItemsModel));
+                    },
+                    deselect: function (selectedFilteredItemsModel) {
+                        if (!selectedFilteredItemsModel) {
+                            return;
+                        }
+                        formitem.selectedFilteredItems = generator.get_diff_array(angular.copy(formitem.selectedFilteredItems), angular.copy(selectedFilteredItemsModel));
+                        formitem.appendFiltered(formitem.filterValue);
+                        formitem.filteredItems = formitem.filteredItems.concat(selectedFilteredItemsModel);
+                        scope.model[k] = generator.get_diff_array(scope.model[k] || [], formitem.dataToModel(selectedFilteredItemsModel));
+                    },
+                    dataToModel: function (data) {
+                        var dataValues = [];
+                        angular.forEach(data, function (value, key) {
+                            var dataKey = {};
+                            dataKey[v.schema[0].name] = value.value;
+                            dataValues.push(dataKey);
+                        });
+                        return dataValues;
+                    }
+                };
+
+                scope.form[scope.form.indexOf(k)] = formitem;
+
+            };
+            // generate_fields covers all field types as functions
+            var generate_fields = {
+                button: {default: _buttons},
+                submit: {default: _buttons},
+                file: {
+                    default: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            type: "template",
+                            title: v.title,
+                            templateUrl: "shared/templates/filefield.html",
+                            name: k,
+                            key: k,
+                            fileInsert: function () {
+                                $scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
+                            },
+                            imageSrc: scope.model[k] ? $rootScope.settings.static_url + scope.model[k] : '',
+                            avatar: k === 'avatar'
+                        };
+                        v.type = 'string';
+                    }
+                },
+                select: {
+                    default: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            type: "template",
+                            title: v.title,
+                            templateUrl: "shared/templates/select.html",
+                            name: k,
+                            key: k,
+                            titleMap: v.titleMap
+                        };
+                    }
+                },
+                confirm: {
+                    default: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            type: "template",
+                            title: v.title,
+                            confirm_message: v.confirm_message,
+                            templateUrl: "shared/templates/confirm.html",
+                            name: k,
+                            key: k,
+                            style: v.style,
+                            buttons: v.buttons,
+                            modalInstance: "",
+                            // buttons is an object array
+                            //Example:
+                            //buttons: [{
+                            //  text: "Button text",
+                            //  cmd: "button command",
+                            //  style: "btn-warning",
+                            //  dismiss: false --> this one is for deciding if the button can dismiss modal
+                            //}]
+                            modalFunction: function(){
+                                delete scope.form_params.cmd;
+                                delete scope.form_params.flow;
+                                if (v.cmd) {
+                                    scope.form_params["cmd"] = v.cmd;
+                                }
+                                if (v.flow) {
+                                    scope.form_params["flow"] = v.flow;
+                                }
+                                if (v.wf) {
+                                    delete scope.form_params["cmd"];
+                                    scope.form_params["wf"] = v.wf;
+                                }
+
+                                var modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: 'shared/templates/confirmModalContent.html',
+                                    controller: 'ModalController',
+                                    resolve: {
+                                        items: function(){
+                                            var newscope = {
+                                                form: {
+                                                    title: v.title,
+                                                    confirm_message: v.confirm_message,
+                                                    buttons: v.buttons,
+                                                    onClick: function (cmd) {
+                                                        // send cmd with submit
+                                                        modalInstance.dismiss();
+                                                        if (cmd) generator.submit(scope, false);
+                                                    }
+                                                }
+                                            };
+                                            return newscope;
+                                        }
+                                    }
+
+                                });
+                            },
+                            openModal: function(){
+                                var workOnForm = scope.modalElements ? scope.modalElements.workOnForm : 'formgenerated';
+                                if (!v.form_validate && angular.isDefined(v.form_validate)){
+                                    this.modalFunction();
+                                }
+                                else{
+                                    scope.$broadcast('schemaFormValidate');
+                                    if (scope[workOnForm].$valid) {
+                                        this.modalFunction();
+                                    } else {
+                                        // focus to first input with validation error
+                                        $timeout(function () {
+                                            var firsterror = angular.element(document.querySelectorAll('input.ng-invalid'))[0];
+                                            firsterror.focus();
+                                        });
+                                    }
+                                }
+                            }
+                        };
+                    }
+                },
+                date: {
+                    default: function (scope, v, k) {
+                        $log.debug('date:', scope.model[k]);
+                        scope.model[k] = generator.dateformatter(scope.model[k]);
+                        scope.form[scope.form.indexOf(k)] = {
+                            key: k, name: k, title: v.title,
+                            type: 'template',
+                            templateUrl: 'shared/templates/datefield.html',
+                            validationMessage: {
+                                'dateNotValid': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>",
+                                302: 'Bu alan zorunludur.'
+                            },
+                            $asyncValidators: {
+                                'dateNotValid': function (value) {
+                                    var deferred = $q.defer();
+                                    $timeout(function () {
+                                        scope.model[k] = angular.copy(generator.dateformatter(value));
+                                        if (scope.schema.required.indexOf(k) > -1) {
+                                            deferred.resolve();
+                                        }
+                                        if (value.constructor === Date) {
+                                            deferred.resolve();
+                                        }
+                                        else {
+                                            var dateValue = d = value.split('.');
+                                            if (isNaN(Date.parse(value)) || dateValue.length !== 3) {
+                                                deferred.reject();
+                                            } else {
+                                                deferred.resolve();
+                                            }
+                                        }
+                                    });
+                                    return deferred.promise;
+                                }
+                            },
+                            disabled: false,
+                            is_disabled: function () {
+                                return this.disabled;
+                            },
+                            status: {opened: false},
+                            open: function ($event) {
+                                this.disabled = true;
+                                // scope.$apply();
+                                scope.model[k] = Moment(scope.model[k], "DD.MM.YYYY").toDate();
+                                var that = this;
+                                $timeout(function () {
+                                    that.status.opened = true;
+                                }, 100);
+                            },
+                            format: 'dd.MM.yyyy',
+                            onSelect: function () {
+                                this.disabled = false;
+                                scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
+                            }
+                        };
+                    }
+                },
+                int: {default: _numbers},
+                boolean: {
+                    default: function (scope, v, k) {
+                    }
+                },
+                string: {
+                    default: function (scope, v, k) {
+                    }
+                },
+                typeahead: {
+                    default: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            type: "template",
+                            title: v.title,
+                            titleMap: v.titleMap,
+                            templateUrl: "shared/templates/typeahead.html",
+                            name: k,
+                            key: k,
+                            onDropdownSelect: function (item, inputname) {
+                                scope.model[k] = item.value;
+                                $timeout(function () {
+                                    document.querySelector('input[name=' + inputname + ']').value = item.name;
+                                });
+                            }
+                        };
+                        v.type = 'string';
+                    },
+                    custom: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            type: "template",
+                            title: v.title,
+                            widget: v.widget,
+                            getTitleMap: function (viewValue) {
+                                // v.view is where that value will looked up
+                                var searchData = {
+                                    "form_params": {
+                                        "url": v.wf,
+                                        "wf": v.wf,
+                                        "view": v.view,
+                                        "query": viewValue
+                                    }
+                                };
+                                generator.get_list(searchData).then(function (res) {
+                                    // response must be in titleMap format
+                                    return res;
+                                });
+                            },
+                            templateUrl: "shared/templates/typeahead.html",
+                            name: k,
+                            key: k,
+                            onDropdownSelect: function (item, inputname) {
+                                scope.model[k] = item.value;
+                                $timeout(function () {
+                                    document.querySelector('input[name=' + inputname + ']').value = item.name;
+                                });
+                            }
+                        };
+                        v.type = 'string';
+                    }
+                },
+                text_general: {
+                    default: function (scope, v, k) {
+                        v.type = 'string',
+                            v["x-schema-form"] = {
+                                "type": "textarea"
+                            }
+                    }
+                },
+                float: {default: _numbers},
+                model: {
+                    default: function (scope, v, k) {
+
+                        var formitem = scope.form[scope.form.indexOf(k)];
+                        var modelScope = {
+                            "url": v.wf,
+                            "wf": v.wf,
+                            "form_params": {wf: v.wf, model: v.model_name, cmd: v.list_cmd}
+                        };
+
+                        //scope.$on('refreshTitleMap', function (event, data) {
+                        // todo: write a function to refresh titleMap after new item add to linkedModel
+                        //});
+
+                        var generateTitleMap = function (modelScope) {
+                            return generator.get_list(modelScope).then(function (res) {
+                                formitem.titleMap = [];
+                                angular.forEach(res.objects, function (item) {
+                                    if (item !== -1) {
+                                        formitem.titleMap.push({
+                                            "value": item.key,
+                                            "name": item.value
+                                        });
+                                    } else {
+                                        formitem.focusToInput = true;
+                                    }
+                                });
+
+                                return formitem.titleMap;
+
+                            });
+                        };
+
+                        formitem = {
+                            type: "template",
+                            templateUrl: "shared/templates/foreignKey.html",
+                            // formName will be used in modal return to save item on form
+                            formName: k,
+                            title: v.title,
+                            wf: v.wf,
+                            add_cmd: v.add_cmd,
+                            name: k,
+                            key: k,
+                            model_name: v.model_name,
+                            selected_item: {},
+                            titleMap: [],
+                            onSelect: function (item, inputname) {
+                                scope.model[k] = item.value;
+                                $timeout(function () {
+                                    document.querySelector('input[name=' + inputname + ']').value = item.name;
+                                });
+                            },
+                            onDropdownSelect: function (item, inputname) {
+                                scope.model[k] = item.value;
+                                $timeout(function () {
+                                    document.querySelector('input[name=' + inputname + ']').value = item.name;
+                                });
+                            },
+                            getTitleMap: function (viewValue) {
+                                modelScope.form_params.query = viewValue;
+                                return generateTitleMap(modelScope);
+                            },
+                            getDropdownTitleMap: function () {
+                                delete modelScope.form_params.query;
+                                formitem.gettingTitleMap = true;
+                                generateTitleMap(modelScope)
+                                    .then(function (data) {
+                                        formitem.titleMap = data;
+                                        formitem.gettingTitleMap = false;
+                                    });
+                            }
+                        };
+
+                        scope.form[scope.form.indexOf(k)] = formitem;
+
+                        // get selected item from titleMap using model value
+                        if (scope.model[k]) {
+                            generator.get_list({
+                                url: 'crud',
+                                form_params: {
+                                    wf: v.wf,
+                                    model: v.model_name,
+                                    object_id: scope.model[k],
+                                    cmd: 'object_name'
+                                }
+                            }).then(function (data) {
+
+                                    try {
+                                        $timeout(function () {
+                                            document.querySelector('input[name=' + k + ']').value = data.object_name;
+                                        }, 200);
+
+                                    }
+                                    catch (e) {
+                                        document.querySelector('input[name=' + k + ']').value = data.object_name;
+                                        $log.debug('exception', e);
+                                    }
+
+                                });
+                        }
+                    }
+                },
+                Node: {
+                    default: _node_default,
+                    filter_interface: _node_filter_interface
+                },
+                ListNode: {
+                    default: _node_default,
+                    filter_interface: _node_filter_interface
+                }
+            };
+
+            // todo: delete after constraints done
+            // scope.forms = scope.forms || {};
+            // scope.forms.constraints = {
+            //     "cinsiyet": {
+            //         "cons": "selectbox_fields",
+            //         "val":
+            //            {'1': ["kiz_kardes_sayisi"], '2': ["erkek_kardes_sayisi"]},
+            //         "val_msg": "Erkek kardes sayisi kiz kardes sayisindan az olamaz."
+            //     }
+            // };
+
+            angular.forEach(scope.schema.properties, function (v, k) {
                 // generically change _id fields model value
                 if ('form_params' in scope) {
                     if (k == scope.form_params.param) {
@@ -227,443 +962,17 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         return;
                     }
                 }
-
-                if (v.type === 'file') {
-                    scope.form[scope.form.indexOf(k)] = {
-                        type: "template",
-                        title: v.title,
-                        templateUrl: "shared/templates/filefield.html",
-                        name: k,
-                        key: k,
-                        fileInsert: function () {
-                            $scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
-                        },
-                        imageSrc: scope.model[k] ? $rootScope.settings.static_url + scope.model[k] : '',
-                        avatar: k === 'avatar'
-                    };
-                    v.type = 'string';
+                try {
+                    generate_fields[v.type][v.widget || 'default'](scope, v, k);
                 }
-
-                if (v.type === 'select') {
-                    scope.form[scope.form.indexOf(k)] = {
-                        type: "template",
-                        title: v.title,
-                        templateUrl: "shared/templates/select.html",
-                        name: k,
-                        key: k,
-                        titleMap: v.titleMap
-                    };
-                }
-
-                if (v.type === 'submit' || v.type === 'button') {
-                    var buttonPositions = scope.modalElements ? scope.modalElements.buttonPositions : {
-                        bottom: 'move-to-bottom',
-                        top: 'move-to-top',
-                        none: ''
-                    };
-                    var workOnForm = scope.modalElements ? scope.modalElements.workOnForm : 'formgenerated';
-                    var workOnDiv = scope.modalElements ? scope.modalElements.workOnDiv : '';
-                    var buttonClass = (buttonPositions[v.position] || buttonPositions.bottom);
-                    var redirectTo = scope.modalElements ? false : true;
-
-                    scope.form[scope.form.indexOf(k)] = {
-                        type: v.type,
-                        title: v.title,
-                        style: "btn-danger hide " + buttonClass,
-                        onClick: function () {
-                            delete scope.form_params.cmd;
-                            delete scope.form_params.flow;
-                            if (v.cmd) {
-                                scope.form_params["cmd"] = v.cmd;
-                            }
-                            if (v.flow) {
-                                scope.form_params["flow"] = v.flow;
-                            }
-                            if (v.wf) {
-                                delete scope.form_params["cmd"];
-                                scope.form_params["wf"] = v.wf;
-                            }
-                            scope.model[k] = 1;
-                            // todo: test it
-                            if (scope.modalElements) {
-                                scope.submitModalForm();
-                            } else {
-                                if (v.validation === false) {
-                                    generator.submit(scope, redirectTo);
-                                } else {
-                                    scope.$broadcast('schemaFormValidate');
-                                    if (scope[workOnForm].$valid) {
-                                        generator.submit(scope, redirectTo);
-                                        scope.$broadcast('disposeModal');
-                                    } else {
-                                        // focus to first input with validation error
-                                        $timeout(function () {
-                                            var firsterror = angular.element(document.querySelectorAll('input.ng-invalid'))[0]
-                                            firsterror.focus();
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                    };
-                    // replace buttons according to their position values
-                    $timeout(function () {
-                        var selectorBottom = '.buttons-on-bottom' + workOnDiv;
-                        //var selectorTop = '.buttons-on-top'+workOnDiv;
-
-                        var buttonsToBottom = angular.element(document.querySelector('.' + buttonClass));
-                        angular.element(document.querySelector(selectorBottom)).append(buttonsToBottom);
-                        //var buttonsToTop = angular.element(document.querySelector('.' + buttonClass));
-                        //angular.element(document.querySelector(selectorTop)).append(buttonsToTop);
-
-                        buttonsToBottom.removeClass('hide');
-                        //buttonsToTop.removeClass('hide');
-                    }, 500);
-                }
-
-                // check if type is date and if type date found change it to string
-                if (v.type === 'date') {
-                    $log.debug('date:', scope.model[k]);
-                    scope.model[k] = generator.dateformatter(scope.model[k]);
-                    scope.form[scope.form.indexOf(k)] = {
-                        key: k, name: k, title: v.title,
-                        type: 'template',
-                        templateUrl: 'shared/templates/datefield.html',
-                        validationMessage: {
-                            'dateNotValid': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>",
-                            302: 'Bu alan zorunludur.'
-                        },
-                        $asyncValidators: {
-                            'dateNotValid': function (value) {
-                                var deferred = $q.defer();
-                                $timeout(function () {
-                                    scope.model[k] = angular.copy(generator.dateformatter(value));
-                                    if (scope.schema.required.indexOf(k) > -1) {
-                                        deferred.resolve();
-                                    }
-                                    if (value.constructor === Date) {
-                                        deferred.resolve();
-                                    }
-                                    else {
-                                        var dateValue = d = value.split('.');
-                                        if (isNaN(Date.parse(value)) || dateValue.length !== 3) {
-                                            deferred.reject();
-                                        } else {
-                                            deferred.resolve();
-                                        }
-                                    }
-                                });
-                                return deferred.promise;
-                            }
-                        },
-                        status: {opened: false},
-                        open: function ($event) {
-                            this.status.opened = true;
-                        },
-                        format: 'dd.MM.yyyy',
-                        onSelect: function () {
-                            scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
-                        }
-                    };
-                }
-
-                if (v.type === 'int' || v.type === 'float') {
-                    v.type = 'number';
-                    scope.model[k] = parseInt(scope.model[k]);
-                }
-
-                if (v.type === 'text_general') {
-                    v.type = 'string';
-                    v["x-schema-form"] = {
-                        "type": "textarea"
-                        //"placeholder": ""
-                    }
-                }
-
-                // if type is model use foreignKey.html template to show them
-                if (v.type === 'model') {
-
-                    var formitem = scope.form[scope.form.indexOf(k)];
-                    var modelScope = {"url": v.wf, "wf": v.wf, "form_params": {model: v.model_name, cmd: v.list_cmd}};
-
-                    //scope.$on('refreshTitleMap', function (event, data) {
-                    // todo: write a function to refresh titleMap after new item add to linkedModel
-                    //});
-
-                    scope.generateTitleMap = function (modelScope) {
-                        return generator.get_list(modelScope).then(function (res) {
-                            formitem.titleMap = [];
-                            angular.forEach(res.data.objects, function (item) {
-                                if (item !== -1) {
-                                    formitem.titleMap.push({
-                                        "value": item.key,
-                                        "name": item.value
-                                    });
-                                } else {
-                                    formitem.focusToInput = true;
-                                }
-                            });
-
-                            return formitem.titleMap;
-
-                        });
-                    };
-
-                    // get selected item from titleMap using model value
-                    if (scope.model[k]) {
-                        generator.get_list({
-                                url: 'crud',
-                                form_params: {model: v.model_name, object_id: scope.model[k], cmd: 'object_name'}
-                            })
-                            .then(function (data) {
-                                try {
-                                    scope.$watch(document.querySelector('input[name=' + v.model_name + ']'),
-                                        function () {
-                                            document.querySelector('input[name=' + k + ']').value = data.data.object_name;
-                                        }
-                                    );
-                                }
-                                catch (e) {
-                                    document.querySelector('input[name=' + k + ']').value = data.data.object_name;
-                                    $log.debug('exception', e);
-                                }
-
-                            });
-                    }
-
-                    formitem = {
-                        type: "template",
-                        templateUrl: "shared/templates/foreignKey.html",
-                        // formName will be used in modal return to save item on form
-                        formName: k,
-                        title: v.title,
-                        wf: v.wf,
-                        add_cmd: v.add_cmd,
-                        name: k,
-                        key: k,
-                        model_name: v.model_name,
-                        selected_item: {},
-                        titleMap: [],
-                        onSelect: function (item, inputname) {
-                            scope.model[k] = item.value;
-                            $timeout(function () {
-                                document.querySelector('input[name=' + inputname + ']').value = item.name;
-                            });
-                        },
-                        onDropdownSelect: function (item, inputname) {
-                            scope.model[k] = item.value;
-                            $timeout(function () {
-                                document.querySelector('input[name=' + inputname + ']').value = item.name;
-                            });
-                        },
-                        getTitleMap: function (viewValue) {
-                            modelScope.form_params.query = viewValue;
-                            return scope.generateTitleMap(modelScope);
-                        },
-                        getDropdownTitleMap: function () {
-                            delete modelScope.form_params.query;
-                            formitem.gettingTitleMap = true;
-                            scope.generateTitleMap(modelScope)
-                                .then(function (data) {
-                                    formitem.titleMap = data;
-                                    formitem.gettingTitleMap = false;
-                                });
-
-
-                        }
-                    };
-
-                    scope.form[scope.form.indexOf(k)] = formitem;
-                }
-
-                if ((v.type === 'ListNode' || v.type === 'Node') && v.widget === 'filter_interface') {
-                    var formitem = scope.form[scope.form.indexOf(k)];
-                    var modelScope = {
-                        "url": v.wf || scope.wf, "wf": v.wf || scope.wf,
-                        "form_params": {model: v.model_name || v.schema[0].model_name, cmd: v.list_cmd || 'select_list', query: ''}
-                    };
-
-                    scope.generateTitleMap = function (modelScope) {
-                        generator.get_list(modelScope).then(function (res) {
-                            formitem.titleMap = [];
-                            angular.forEach(res.data.objects, function (item) {
-                                if (item !== "-1") {
-                                    formitem.titleMap.push({
-                                        "value": item.key,
-                                        "name": item.value
-                                    });
-                                }
-                            });
-                            formitem.filteredItems = generator.get_diff_array(angular.copy(formitem.titleMap), angular.copy(formitem.selectedFilteredItems), 1);
-                        })
-                    };
-
-                    var modelItems = [];
-                    var modelKeys = [];
-                    angular.forEach(scope.model[k], function (value, mkey) {
-                        modelItems.push({
-                            "value": value[v.schema[0].name].key,
-                            "name": value[v.schema[0].name].unicode
-                        });
-                        var modelKey = {};
-                        modelKey[v.schema[0].name] = value[v.schema[0].name].key;
-                        modelKeys.push(modelKey);
-                    });
-                    scope.model[k] = angular.copy(modelKeys);
-
-                    formitem = {
-                        type: "template",
-                        templateUrl: "shared/templates/multiselect.html",
-                        title: v.title,
-                        // formName will be used in modal return to save item on form
-                        formName: k,
-                        wf: v.wf,
-                        add_cmd: v.add_cmd,
-                        name: v.model_name,
-                        model_name: v.model_name,
-                        filterValue: '',
-                        selected_item: {},
-                        filteredItems: [],
-                        selectedFilteredItems: modelItems,
-                        titleMap: scope.generateTitleMap(modelScope),
-                        appendFiltered: function (filterValue) {
-                            if (filterValue.length > 2) {
-                                formitem.filteredItems = [];
-                                angular.forEach(formitem.titleMap, function (value, key) {
-                                    if (value.name.indexOf(filterValue) > -1) {
-                                        formitem.filteredItems.push(formitem.titleMap[key]);
-                                    }
-                                });
-                            }
-                            if (filterValue <= 2) { formitem.filteredItems = formitem.titleMap}
-                            formitem.filteredItems = generator.get_diff_array(formitem.filteredItems, formitem.selectedFilteredItems);
-                        },
-                        select: function (selectedItemsModel) {
-                            if (!selectedItemsModel) {
-                                return;
-                            }
-                            formitem.selectedFilteredItems = formitem.selectedFilteredItems.concat(selectedItemsModel);
-                            formitem.appendFiltered(formitem.filterValue);
-                            scope.model[k] = (scope.model[k] || []).concat(formitem.dataToModel(selectedItemsModel));
-                        },
-                        deselect: function (selectedFilteredItemsModel) {
-                            if (!selectedFilteredItemsModel) {
-                                return;
-                            }
-                            formitem.selectedFilteredItems = generator.get_diff_array(angular.copy(formitem.selectedFilteredItems), angular.copy(selectedFilteredItemsModel));
-                            formitem.appendFiltered(formitem.filterValue);
-                            formitem.filteredItems = formitem.filteredItems.concat(selectedFilteredItemsModel);
-                            scope.model[k] = generator.get_diff_array(scope.model[k] || [], formitem.dataToModel(selectedFilteredItemsModel));
-                        },
-                        dataToModel: function (data) {
-                            var dataValues = [];
-                            angular.forEach(data, function (value, key) {
-                                var dataKey = {};
-                                dataKey[v.schema[0].name] = value.value;
-                                dataValues.push(dataKey);
-                            });
-                            return dataValues;
-                        }
-                    };
-
-                    scope.form[scope.form.indexOf(k)] = formitem;
-
-                }
-
-                if ((v.type === 'ListNode' || v.type === 'Node') && v.widget !== 'filter_interface') {
-
-                    scope[v.type] = scope[v.type] || {};
-
-                    // no pass by reference
-                    scope[v.type][k] = angular.copy({
-                        title: v.title,
-                        form: [],
-                        schema: {
-                            properties: {},
-                            required: [],
-                            title: v.title,
-                            type: "object",
-                            formType: v.type,
-                            model_name: k,
-                            inline_edit: scope.inline_edit
-                        },
-                        url: scope.url,
-                        wf: scope.wf,
-                        nodeModelChange: function (item) {
-                            //debugger;
-                        }
-
-                    });
-
-                    angular.forEach(v.schema, function (item) {
-                        scope[v.type][k].schema.properties[item.name] = angular.copy(item);
-
-                        // prepare required fields
-                        if (item.required === true && item.name !== 'idx') {
-                            scope[v.type][k].schema.required.push(angular.copy(item.name));
-                        }
-
-                        // idx field must be hidden
-                        if (item.name !== 'idx') {
-                            scope[v.type][k].form.push(item.name);
-                        }
-
-                        try {
-                            if (item.type === 'date') {
-                                scope.model[k][item.name] = generator.dateformatter(scope.model[k][item.name]);
-                            }
-                        } catch (e) {
-                            $log.debug('Error: ', e.message);
-                        }
-
-
-                    });
-
-                    $timeout(function () {
-                        if (v.type === 'ListNode') {
-                            scope[v.type][k].items = angular.copy(scope.model[k] || []);
-                            angular.forEach(scope[v.type][k].items, function (value, key) {
-                                if (value.constructor === Object) {
-                                    angular.forEach(value, function (x, y) {
-                                        try {
-                                            if (scope[v.type][k].schema.properties[y].type === 'date') {
-                                                scope[v.type][k].items[key][y] = generator.dateformatter(x);
-                                                scope[v.type][k].model[key][y] = generator.dateformatter(x);
-                                            }
-                                            if (scope[v.type][k].schema.properties[y].type === 'select') {
-                                                scope[v.type][k].items[key][y] = generator.item_from_array(x.toString(), scope[v.type][k].schema.properties[y].titleMap)
-                                            }
-                                        } catch (e) {
-                                            $log.debug('Field is not date');
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-
-                    if (scope.model[k]) {
-                        angular.forEach(scope.model[k], function (value, key) {
-                            angular.forEach(value, function (y, x) {
-                                if (y.constructor === Object) {
-                                    scope.model[k][key][x] = y.key;
-                                }
-                            });
-                        });
-                    }
-
-                    scope.model[k] = scope.model[k] || [];
-
-                    scope[v.type][k].model = scope.model[k];
-
-                    // lengthModels is length of the listnode models. if greater than 0 show records on template
-                    scope[v.type][k]['lengthModels'] = scope.model[k] ? 1 : 0;
-
+                catch (e) {
+                    // todo: raise not implemented
+                    console.log(v.type)
                 }
             });
 
             $log.debug('scope at after prepareformitems', scope);
-            return generator.group(scope);
+            generator.constraints(scope);
         };
         /**
          * @memberof ulakbus.formService
@@ -698,30 +1007,61 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.doItemAction = function ($scope, key, todo, mode) {
+            $scope.form_params.cmd = todo.cmd;
+            $scope.form_params.wf = $scope.wf;
+            if (todo.wf) {
+                $scope.url = todo.wf;
+                $scope.form_params.wf = todo.wf;
+                delete $scope.token;
+                delete $scope.form_params.model;
+                delete $scope.form_params.cmd
+            }
+            if (todo.object_key) {
+                $scope.form_params[todo.object_key] = key;
+            } else {
+                $scope.form_params.object_id = key;
+            }
+            $scope.form_params.param = $scope.param;
+            $scope.form_params.id = $scope.param_id;
+            $scope.form_params.token = $scope.token;
+
             var _do = {
                 normal: function () {
                     $log.debug('normal mode starts');
-                    $scope.form_params.cmd = todo.cmd;
-                    if (todo.wf) {
-                        $scope.url = todo.wf;
-                        $scope.form_params.wf = todo.wf;
-                        delete $scope.token;
-                        delete $scope.form_params.model;
-                        delete $scope.form_params.cmd
-                    }
-                    if (todo.object_key) {
-                        $scope.form_params[todo.object_key] = key;
-                    } else {
-                        $scope.form_params.object_id = key;
-                    }
-                    $scope.form_params.param = $scope.param;
-                    $scope.form_params.id = $scope.param_id;
-                    $scope.form_params.token = $scope.token;
-
                     return generator.get_wf($scope);
                 },
                 modal: function () {
-                    $log.debug('modal mode is not not ready');
+                    $log.debug('modal mode starts');
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        backdrop: 'static',
+                        keyboard: false,
+                        templateUrl: 'shared/templates/confirmModalContent.html',
+                        controller: 'ModalController',
+                        size: '',
+                        resolve: {
+                            items: function () {
+                                var newscope = {
+                                    form: {
+                                        buttons: [ { text: "Evet", style: "btn-success", cmd:"confirm" }, { text: "Hayir", "style": "btn-warning", dismiss: true } ],
+                                        title: todo.name,
+                                        confirm_message: "Islemi onayliyor musunuz?",
+                                        onClick: function(cmd){
+                                            modalInstance.close();
+                                            if (cmd === "confirm" && angular.isDefined(cmd)) {
+                                                modalInstance.close();
+                                                return generator.get_wf($scope);
+                                            }
+                                        }
+
+                                    }
+                                }
+                                return newscope;
+                            }
+                        }
+                    });
+
+
                 },
                 new: function () {
                     $log.debug('new mode is not not ready');
@@ -736,6 +1076,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @description Changes html disabled and enabled attributes of all buttons on current page.
          * @param {boolean} position
          */
+            // todo: remove
         generator.button_switch = function (position) {
             var buttons = angular.element(document.querySelectorAll('button'));
             var positions = {true: "enabled", false: "disabled"};
@@ -743,7 +1084,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 button[positions[position]] = true;
             });
             $log.debug('buttons >> ', positions[position])
-        }
+        };
         /**
          * @memberof ulakbus.formService
          * @ngdoc function
@@ -753,13 +1094,16 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_form = function (scope) {
-            generator.button_switch(false);
-            return $http
-                .post(generator.makeUrl(scope), scope.form_params)
-                .then(function (res) {
-                    generator.button_switch(true);
-                    return generator.generate(scope, res.data);
-                });
+            if ($rootScope.websocketIsOpen === true) {
+                return WSOps.request(scope.form_params)
+                    .then(function (data) {
+                        return generator.generate(scope, data);
+                    });
+            } else {
+                $timeout(function () {
+                    generator.get_form(scope);
+                }, 500);
+            }
         };
         /**
          * @memberof ulakbus.formService
@@ -770,13 +1114,17 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_list = function (scope) {
-            generator.button_switch(false);
-            return $http
-                .post(generator.makeUrl(scope), scope.form_params)
-                .then(function (res) {
-                    generator.button_switch(true);
-                    return res;
-                });
+
+            if ($rootScope.websocketIsOpen === true) {
+                return WSOps.request(scope.form_params)
+                    .then(function (data) {
+                        return data;
+                    });
+            } else {
+                $timeout(function () {
+                    generator.get_list(scope);
+                }, 500);
+            }
         };
         /**
          * @memberof ulakbus.formService
@@ -788,59 +1136,19 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_wf = function (scope) {
-            generator.button_switch(false);
-            return $http
-                .post(generator.makeUrl(scope), scope.form_params)
-                .then(function (res) {
-                    generator.button_switch(true);
-                    if (res.data.client_cmd) {
-                        return generator.pathDecider(res.data.client_cmd, scope, res.data);
-                    }
-                    if (res.data.msgbox) {
-                        scope.msgbox = res.data.msgbox;
-                        var newElement = $compile("<msgbox></msgbox>")(scope);
-                        // this is the default action, which is removing page items and reload page with msgbox
-                        angular.element(document.querySelector('.main.ng-scope')).children().remove();
-                        angular.element(document.querySelector('.main.ng-scope')).append(newElement);
-                    }
-                });
+            // todo: remove this condition
+            if ($rootScope.websocketIsOpen === true) {
+                WSOps.request(scope.form_params)
+                    .then(function (data) {
+                        return generator.pathDecider(data.client_cmd || ['list'], scope, data);
+                    });
+            } else {
+                $timeout(function () {
+                    // todo: loop restrict listen ws open
+                    generator.get_wf(scope);
+                }, 500);
+            }
         };
-        /**
-         * @memberof ulakbus.formService
-         * @ngdoc function
-         * @name isValidEmail
-         * @description checks if given value is a valid email address.
-         * @param email
-         * @returns {boolean}
-         */
-        generator.isValidEmail = function (email) {
-            var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-            return re.test(email);
-        };
-        /**
-         * @memberof ulakbus.formService
-         * @ngdoc function
-         * @name isValidTCNo
-         * @description checks if given value is a valid identity number for Turkey.
-         * @param tcno
-         * @returns {boolean}
-         */
-        generator.isValidTCNo = function (tcno) {
-            var re = /^([1-9]{1}[0-9]{9}[0,2,4,6,8]{1})$/i;
-            return re.test(tcno);
-        };
-        /**
-         * @memberof ulakbus.formService
-         * @ngdoc function
-         * @name isValidDate
-         * @description checks if given value can be parsed as Date object
-         * @param dateValue
-         * @returns {boolean}
-         */
-        generator.isValidDate = function (dateValue) {
-            return !isNaN(Date.parse(dateValue));
-        };
-
         /**
          * @memberof ulakbus.formService
          * @ngdoc property
@@ -856,8 +1164,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         generator.setPageData = function (value) {
             generator.pageData = value;
         };
-
-
         /**
          * @memberof ulakbus.formService
          * @ngdoc function
@@ -868,10 +1174,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @param {Object} data
          */
         generator.pathDecider = function (client_cmd, $scope, data) {
-            if (client_cmd[0] === 'reload' || client_cmd[0] === 'reset') {
-                $rootScope.$broadcast('reload_cmd', $scope.reload_cmd);
-                return;
-            }
+            //if (client_cmd[0] === 'reload' || client_cmd[0] === 'reset') {
+            //    $rootScope.$broadcast('reload_cmd', $scope.reload_cmd);
+            //    //return;
+            //}
+
             /**
              * @memberof ulakbus.formService
              * @ngdoc function
@@ -916,7 +1223,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 data['param'] = $scope.form_params.param;
                 data['param_id'] = $scope.form_params.id;
                 data['pageData'] = true;
-                data['second_client_cmd'] = client_cmd[1];
+                //data['second_client_cmd'] = client_cmd[1];
                 generator.setPageData(data);
 
                 redirectTo($scope, client_cmd[0]);
@@ -924,7 +1231,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             dispatchClientCmd();
         };
-
         /**
          * @memberof ulakbus.formService
          * @ngdoc function
@@ -1032,11 +1338,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          *
          * @param {Object} $scope
          * @param {Object} redirectTo
+         * @param {Boolean} dontProcessReply - used in modal forms
          * @returns {*}
          * @todo diff for all submits to recognize form change. if no change returns to view with no submit
          */
-        generator.submit = function ($scope, redirectTo) {
-
+        generator.submit = function ($scope, redirectTo, dontProcessReply) {
             /**
              * In case of unformatted date object in any key recursively, it must be converted.
              * @param model
@@ -1046,7 +1352,9 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     if (value && value.constructor === Date) {
                         model[key] = generator.dateformatter(value);
                     }
-                    if (value && value.constructor === Object) {convertDate(value);}
+                    if (value && value.constructor === Object) {
+                        convertDate(value);
+                    }
                 });
             };
 
@@ -1056,10 +1364,13 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             angular.forEach($scope.Node, function (value, key) {
                 $scope.model[key] = value.model;
             });
-            var data = {
+            // todo: unused var delete
+            var send_data = {
                 "form": $scope.model,
+                "object_key": $scope.object_key,
                 "token": $scope.token,
                 "model": $scope.form_params.model,
+                "wf": $scope.form_params.wf,
                 "cmd": $scope.form_params.cmd,
                 "flow": $scope.form_params.flow,
                 "object_id": $scope.object_id,
@@ -1067,32 +1378,19 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 "query": $scope.form_params.query
             };
 
-            return $http.post(generator.makeUrl($scope), data)
-                .success(function (data, status, headers) {
-                    if (headers('content-type') === "application/pdf") {
-                        var a = document.createElement("a");
-                        document.body.appendChild(a);
-                        a.style = "display: none";
-                        var file = new Blob([data], {type: 'application/pdf'});
-                        var fileURL = URL.createObjectURL(file);
-                        var fileName = $scope.schema.title;
-                        a.href = fileURL;
-                        a.download = fileName;
-                        a.click();
-                    }
-                    if (redirectTo === true) {
-                        if (data.client_cmd) {
-                            generator.pathDecider(data.client_cmd, $scope, data);
+            if ($rootScope.websocketIsOpen === true) {
+                return WSOps.request(send_data)
+                    .then(function (data) {
+                        if (!dontProcessReply){
+                            return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
                         }
-                        if (data.msgbox) {
-                            $scope.msgbox = data.msgbox;
-                            var newElement = $compile("<msgbox></msgbox>")($scope);
-                            // this is the default action, which is removing page items and reload page with msgbox
-                            angular.element(document.querySelector('.main.ng-scope')).children().remove();
-                            angular.element(document.querySelector('.main.ng-scope')).append(newElement);
-                        }
-                    }
-                });
+                        return data;
+                    });
+            } else {
+                $timeout(function () {
+                    generator.scope($scope, redirectTo);
+                }, 500);
+            }
         };
         return generator;
     })
@@ -1100,7 +1398,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
     /**
      * @memberof ulakbus.formService
      * @ngdoc controller
-     * @name ModalCtrl
+     * @name ModalController
      * @description controller for listnode, node and linkedmodel modal and save data of it
      * @param {Object} items
      * @param {Object} $scope
@@ -1108,7 +1406,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @param {Object} $route
      * @returns {Object} returns value for modal
      */
-    .controller('ModalCtrl', function ($scope, $uibModalInstance, Generator, items) {
+    .controller('ModalController', function ($scope, $uibModalInstance, Generator, items, $timeout, Utils) {
         angular.forEach(items, function (value, key) {
             $scope[key] = items[key];
         });
@@ -1118,6 +1416,17 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         });
 
         $scope.$on('modalFormLocator', function (event) {
+            // fix default model with unicode assign
+            $timeout(function () {
+                Utils.iterate($scope.model, function(modelValue, k){
+                    if (angular.isUndefined($scope.edit)) return;
+
+                    var unicode = $scope.items[$scope.edit][k].unicode;
+                    if (unicode){
+                        document.querySelector('input[name=' + k + ']').value = unicode;
+                    }
+                })
+            });
             $scope.linkedModelForm = event.targetScope.linkedModelForm;
         });
 
@@ -1159,7 +1468,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @returns {Object} openmodal directive
      */
 
-    .directive('modalForNodes', function ($uibModal, Generator) {
+    .directive('modalForNodes', function ($uibModal, Generator, Utils) {
         return {
             link: function (scope, element, attributes) {
                 element.on('click', function () {
@@ -1168,7 +1477,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         backdrop: 'static',
                         keyboard: false,
                         templateUrl: 'shared/templates/listnodeModalContent.html',
-                        controller: 'ModalCtrl',
+                        controller: 'ModalController',
                         size: 'lg',
                         resolve: {
                             items: function () {
@@ -1191,9 +1500,18 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 scope.node.schema.wf = scope.node.url;
 
                                 angular.forEach(scope.node.schema.properties, function (value, key) {
-                                    scope.node.schema.properties[key].wf = scope.node.url;
+                                    if (angular.isDefined(scope.node.schema.properties[key].wf)) {
+                                    }
+                                    else {
+                                        scope.node.schema.properties[key].wf = scope.node.url;
+                                    }
                                     scope.node.schema.properties[key].list_cmd = 'select_list';
                                 });
+
+                                // scope.node.schema.footerButtons = [
+                                //     {type: "submit", text:"Onayla", style:"btn-success" },
+                                //     {type: "button", text:"Vazgec", style:"btn-danger" },
+                                // ]
 
                                 var newscope = {
                                     wf: scope.node.wf,
@@ -1204,7 +1522,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                                 Generator.generate(newscope, {forms: scope.node});
                                 // modal will add only one item to listNode, so just need one model (not array)
-                                newscope.model = newscope.model[node.edit] || newscope.model[0] || {};
+                                newscope.model = newscope.model[node.edit] || {};
                                 return newscope;
                             }
                         }
@@ -1223,19 +1541,30 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             var reformattedModel = {};
                             angular.forEach(childmodel.model, function (value, key) {
                                 if (key.indexOf('_id') > -1) {
+
+                                    // todo: understand why we got object here!
+                                    // hack to fix bug with value as object
+                                    if (angular.isObject(value) && value.value){
+                                        value = value.value;
+                                        childmodel.model[key] = value;
+                                    }
+
                                     angular.forEach(childmodel.form, function (v, k) {
                                         if (v.formName === key) {
                                             //if (!childmodel.model[key].key) {
-                                            function indexInTitleMap(element, index, array) {
+                                            var unicodeValue = v.titleMap.find(function (element, index, array) {
                                                 if (element['value'] === value) {
                                                     return element;
                                                 }
+                                            });
+                                            if (unicodeValue){
+                                                unicodeValue = unicodeValue.name;
+                                                reformattedModel[key] = {
+                                                    "key": value,
+                                                    "unicode": unicodeValue
+                                                }
                                             }
 
-                                            reformattedModel[key] = {
-                                                "key": value,
-                                                "unicode": v.titleMap.find(indexInTitleMap).name
-                                            };
                                             //}
                                         }
                                     });
@@ -1290,15 +1619,17 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         backdrop: 'static',
                         keyboard: false,
                         templateUrl: 'shared/templates/linkedModelModalContent.html',
-                        controller: 'ModalCtrl',
+                        controller: 'ModalController',
                         size: 'lg',
                         resolve: {
                             items: function () {
                                 var formName = attributes.addModalForLinkedModel;
                                 return Generator.get_form({
-                                    url: scope.form.wf,
-                                    wf: scope.form.wf,
-                                    form_params: {model: scope.form.model_name, cmd: scope.form.add_cmd},
+                                    form_params: {
+                                        wf: scope.form.wf,
+                                        model: scope.form.model_name,
+                                        cmd: scope.form.add_cmd
+                                    },
                                     modalElements: {
                                         // define button position properties
                                         buttonPositions: {
@@ -1323,27 +1654,18 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                     modalInstance.result.then(function (childscope, key) {
                         var formName = childscope.formName;
-                        Generator.submit(childscope, false)
-                            .success(function (data) {
+                        Generator.submit(childscope, false, true).then(
+                            function (data) {
                                 // response data contains object_id and unicode
-                                // scope.model can be reached via prototype chain
-                                scope.model[formName] = data.forms.model.object_key;
-                                // scope.form prototype chain returns this form item
-                                scope.form.titleMap.push({
-                                    value: data.forms.model.object_key,
-                                    name: data.forms.model.unicode
-                                });
-                                scope.form.selected_item = {
+                                // scope.form can be reached via prototype chain
+                                var item = {
                                     value: data.forms.model.object_key,
                                     name: data.forms.model.unicode
                                 };
-                                scope.$watch(document.querySelector('input[name=' + scope.form.model_name + ']'),
-                                    function () {
-                                        angular.element(document.querySelector('input[name=' + scope.form.model_name + ']')).val(scope.form.selected_item.name);
-                                    }
-                                );
+                                scope.form.titleMap.push(item);
+                                scope.form.onSelect(item, formName);
+
                             });
-                        //$route.reload();
                     });
                 });
             }

@@ -9,7 +9,7 @@
 'use strict';
 
 angular.module('ulakbus.debug', ['ngRoute'])
-    .controller('DebugCtrl', function ($scope, $rootScope, $location) {
+    .controller('DebugController', function ($scope, $rootScope, $location) {
 
         $scope.debug_queries = $rootScope.debug_queries;
 

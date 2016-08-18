@@ -1,0 +1,15 @@
+<div>
+    <input class="form-control"
+           type="text"
+           placeholder="eklemek istediğiniz nesneyi yazınız..."
+           ng-model="kw"
+           uib-typeahead="item as item.name for item in getTitleMap($viewValue)"
+           typeahead-on-select="onSelect($item)"
+           typeahead-loading="loadingTitleMap" typeahead-no-results="noResults"
+           typeahead-wait-ms="500"/>
+
+    <div ng-show="loadingTitleMap" class="loader"></div>
+    <div ng-show="noResults">
+        <i class="fa fa-close"></i> bulunamadı.
+    </div>
+</div>

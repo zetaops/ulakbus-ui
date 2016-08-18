@@ -3,13 +3,24 @@
     <search-directive ng-if="meta['allow_search']===true"></search-directive>
     <div class="clearfix"></div>
     <!--<h1>{{form_params.model || form_params.wf}}</h1>-->
-    <div class="row" ng-if="!objects[1]">
+    <div class="row" ng-if="(!meta.selective_listing && !objects[1])">
         <div class="col-md-12">
             <p class="no-content">Listelenecek içerik yok.</p>
         </div>
     </div>
+    <!-- todo: add `selective_list` to documentation -->
+    <div ng-if="meta.selective_listing === true" class="row" style="margin-bottom: 25px;">
+        <label for="selective_list">{{meta.selective_listing_label || "Sayfa içinde filtrelemek için seçim yapınız."}}</label>
+        <select name="selective_list" id="selective_list"
+                ng-change="update_selective_list(selective_list_key)"
+                ng-model="selective_list_key"
+                ng-options="item as item.key for item in all_objects"
+                class="form-control">
+            <!--<option ng-repeat="item in all_objects" value="{{$index}}">{{item.key}}</option>-->
+        </select>
+    </div>
     <div class="tablescroll" ng-if="objects[1]">
-        <table class="table table-bordered" style="background-color:#fff;">
+        <table class="table table-bordered table-striped" style="background-color:#fff;">
             <thead>
             <tr>
                 <td ng-if="meta.allow_selection === true">
@@ -20,7 +31,7 @@
                 </td>
                 <td ng-repeat="value in objects[0] track by $index" ng-if="objects[0]!='-1'">{{value}}</td>
                 <td ng-if="objects[0]=='-1'">{{ schema.title||model}}</td>
-                <td>İşlem</td>
+                <td ng-if="meta.allow_actions !== false">İşlem</td>
             </tr>
             </thead>
             <tbody>
@@ -34,11 +45,14 @@
 
                 <td ng-repeat="field in object.fields track by $index">
                     <a role="button" ng-if="field.type==='link'"
-                       ng-click="do_action(object.key, field)">{{field.content}}</a>
-                    <span ng-if="field.type==='str'">{{field.content}}</span>
+                       ng-click="do_action(object.key, field)"><markdown ng-bind-html="field.content"></markdown></a>
+                    <span ng-if="field.type==='str'" ng-bind-html="field.content || '' | markdown"></span>
+                    <!--<a role="button" ng-if="field.type==='link'"-->
+                       <!--ng-click="do_action(object.key, field)">{{trustashtml(field.content) | markdown}}</a>-->
+                    <!--<span ng-if="field.type==='str'">{{trustashtml(field.content) | markdown}}</span>-->
                 </td>
 
-                <td>
+                <td ng-if="meta.allow_actions !== false">
                     <button class="btn btn-info" style="margin-right: 5px;" ng-repeat="action in object.actions track by $index"
                             ng-if="action.show_as==='button'"
                             ng-click="do_action(object.key, action)">{{action
@@ -55,16 +69,16 @@
     <nav ng-if="pagination && pagination.total_pages > 1" class="text-center">
         <ul class="pagination">
             <li ng-class="{disabled:pagination.page===1}">
-                <a aria-label="Önceki" ng-click="reload({page:pagination.page-1})">
+                <a role="button" aria-label="Önceki" ng-click="paginate({page:pagination.page-1})">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li ng-repeat="page in getNumber(pagination.total_pages) track by $index"
                 ng-class="{active:$index+1===pagination.page}">
-                <a ng-click="reload({page:$index+1})">{{$index+1}}</a>
+                <a role="button" ng-click="paginate({page:$index+1})">{{$index+1}}</a>
             </li>
             <li ng-class="{disabled:pagination.page===pagination.total_pages}">
-                <a aria-label="Sonraki" ng-click="reload({page:pagination.page+1})">
+                <a role="button" aria-label="Sonraki" ng-click="paginate({page:pagination.page+1})">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

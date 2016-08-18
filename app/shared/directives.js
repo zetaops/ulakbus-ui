@@ -4,7 +4,6 @@
  *
  * This file is licensed under the GNU General Public License v3
  * (GPLv3).  See LICENSE.txt for details.
- * @type {ng.$compileProvider|*}
  */
 
 angular.module('ulakbus')
@@ -15,14 +14,15 @@ angular.module('ulakbus')
      * @description logout directive provides a button with click event. When triggered it post to
      * '/logout' path of the API.
      */
-    .directive('logout', function ($http, $location, RESTURL) {
+    .directive('logout', function ($http, $location, RESTURL, AuthService) {
         return {
             link: function ($scope, $element, $rootScope) {
                 $element.on('click', function () {
-                    $http.post(RESTURL.url + 'logout', {}).then(function () {
-                        $rootScope.loggedInUser = false;
-                        $location.path("/login");
-                    });
+                    AuthService.logout();
+                    //$http.post(RESTURL.url + 'logout', {}).then(function () {
+                    //    $rootScope.loggedInUser = false;
+                    //    $location.path("/login");
+                    //});
                 });
             }
         };
@@ -32,68 +32,27 @@ angular.module('ulakbus')
      * @ngdoc directive
      * @name headerNotification
      * @description This directive is responsible to get and show notification.
-     * It calls API's /notify path with given interval and broadcasts `notifications` application-wide.
-     * There are 4 types of notifications:
-     * 1: tasks, 2: messages, 3: announcements, 4: recents
+     * It calls API's '_zops_unread_count' view to init its state and updates state when 'message' or 'notifications' broadcast message received     *
      * - Notifications can be disabled in /dev/settings page
      */
-    .directive('headerNotification', function ($http, $rootScope, $cookies, $interval, RESTURL) {
+    .directive('headerNotification', function ($rootScope, $uibModal, MessagingService) {
         return {
             templateUrl: 'shared/templates/directives/header-notification.html',
             restrict: 'E',
             replace: true,
-            link: function ($scope) {
-                /**
-                 * Group notifications
-                 * @param notifications
-                 */
-                $scope.groupNotifications = function (notifications) {
-                    // notification categories:
-                    // 1: tasks, 2: messages, 3: announcements, 4: recents
-                    $scope.notifications = {1: [], 2: [], 3: [], 4: []};
+            scope: {},
+            controller: function ($scope, $log) {
+                $scope.count = MessagingService.get_unread_counters();
 
-                    angular.forEach(notifications, function (value, key) {
-                        $scope.notifications[value.type].push(value);
-                    });
-                };
-                /**
-                 * Get notifications from API's /notify path and group it then broadcast "notifications" object.
-                 * {ignoreLoadingBar: true} is telling loading bar not work on this particular request.
-                 */
-                $scope.getNotifications = function () {
-                    // ignore loading bar here
-                    $http.get(RESTURL.url + "notify", {ignoreLoadingBar: true}).success(function (data) {
-                        $scope.groupNotifications(data.notifications);
-                        $rootScope.$broadcast("notifications", $scope.notifications);
-                    });
-                };
-
-                $scope.getNotifications();
-
-                // check notifications every 5 seconds
-                $interval(function () {
-                    if ($cookies.get("notificate") == "on") {
-                        $scope.getNotifications();
+                $scope.showMessagesWindow = function(type){
+                    if (type == 'notifications'){
+                        return MessagingService.get_notifications_channel_key()
+                            .then(function(channelKey){
+                                return MessagingService.show_messaging_window(channelKey);
+                            })
                     }
-                }, 5000);
-
-                /**
-                 * When clicked mark the notification as read.
-                 * @param items
-                 * @todo: do it in detail page of notification
-                 */
-                $scope.markAsRead = function (items) {
-                    $http.post(RESTURL.url + "notify", {ignoreLoadingBar: true, read: [items]})
-                        .success(function (data) {
-                            $scope.groupNotifications(data.notifications);
-                            $rootScope.$broadcast("notifications", $scope.notifications);
-                        });
-                };
-
-                // if markasread triggered outside the directive
-                $scope.$on("markasread", function (event, data) {
-                    $scope.markAsRead(data);
-                });
+                    MessagingService.show_messaging_window();
+                }
             }
         };
     })
@@ -134,10 +93,10 @@ angular.module('ulakbus')
                     $scope.$broadcast('schemaFormValidate');
                     if (form.$valid) {
                         var searchparams = {
-                            url: $scope.wf,
                             token: $scope.$parent.token,
                             object_id: $scope.$parent.object_id,
                             form_params: {
+                                wf: $scope.$parent.wf,
                                 model: $scope.$parent.form_params.model,
                                 cmd: $scope.$parent.reload_cmd,
                                 flow: $scope.$parent.form_params.flow,
@@ -145,10 +104,7 @@ angular.module('ulakbus')
                             }
                         };
 
-                        Generator.submit(searchparams).success(function (data) {
-                            // update objects item of page scope
-                            $rootScope.$broadcast('updateObjects', data.objects);
-                        });
+                        Generator.submit(searchparams);
                     }
                 };
             }
@@ -221,7 +177,7 @@ angular.module('ulakbus')
             scope: {},
             controller: function ($scope, $rootScope) {
                 $rootScope.collapsed = false;
-                $rootScope.sidebarPinned = $cookies.get('sidebarPinned') || 0;
+                $rootScope.sidebarPinned = $cookies.get('sidebarPinned') || 1;
 
                 $scope.collapseToggle = function () {
                     if ($window.innerWidth > '768') {
@@ -290,41 +246,6 @@ angular.module('ulakbus')
     /**
      * @memberof ulakbus
      * @ngdoc directive
-     * @name selectedUser
-     * @description Selected user on which the current job done is hold in this directive.
-     * @deprecated
-     */
-    .directive('selectedUser', function ($http, RESTURL) {
-        return {
-            templateUrl: 'shared/templates/directives/selected-user.html',
-            restrict: 'E',
-            replace: true,
-            link: function ($scope, $rootScope) {
-                $scope.$on('selectedUser', function ($event, data) {
-                    $scope.selectedUser = data;
-                    $scope.dynamicPopover = {
-                        content: '',
-                        name: data.name,
-                        tcno: data.tcno,
-                        key: data.key,
-                        templateUrl: 'shared/templates/directives/selectedUserPopover.html',
-                        title: 'İşlem Yapılan Kişi'
-                    };
-                });
-                $scope.$on('selectedUserTrigger', function ($event, data) {
-                    var postToApi = {model: 'Personel', cmd: 'show', id: data[1]};
-                    //postToApi[data[0]]=data[1];
-                    $http.get(RESTURL.url + 'ara/personel/' + data[1]).success(
-                        function (data) {
-                        }
-                    );
-                })
-            }
-        };
-    })
-    /**
-     * @memberof ulakbus
-     * @ngdoc directive
      * @name sidebar
      * @description Changes breadcrumb when an item selected consists of menu items of related user or transaction
      * controller communicates with dashboard controller to shape menu items and authz.
@@ -335,7 +256,7 @@ angular.module('ulakbus')
             restrict: 'E',
             replace: true,
             scope: {},
-            controller: function ($scope, $rootScope, $cookies, $route, $http, RESTURL, $log, $location, $window, $timeout) {
+            controller: function ($scope, $rootScope, $cookies, $route, AuthService, WSOps, RESTURL, $log, $location, $window, $timeout) {
                 $scope.prepareMenu = function (menuItems) {
                     var newMenuItems = {};
                     angular.forEach(menuItems, function (value, key) {
@@ -346,72 +267,90 @@ angular.module('ulakbus')
                     return newMenuItems;
                 };
 
-                var sidebarmenu = $('#side-menu');
-                //var sidebarUserMenu = $('#side-user-menu');
-                sidebarmenu.metisMenu();
-                $http.get(RESTURL.url + 'menu/')
-                    .success(function (data) {
-                        $scope.allMenuItems = angular.copy(data);
+                // check login status
+                // AuthService.check_auth();
 
-                        // regroup menu items based on their category
-                        function reGroupMenuItems(items, baseCategory) {
-                            var newItems = {};
-                            angular.forEach(items, function (value, key) {
-                                newItems[value.kategori] = newItems[value.kategori] || [];
-                                value['baseCategory'] = baseCategory;
-                                newItems[value.kategori].push(value);
+                var generate_dashboard = function () {
+                    if ($rootScope.current_user !== true){
+                        return;
+                    }
+                    if ($rootScope.websocketIsOpen) {
+                        var sidebarmenu = $('#side-menu');
+                        sidebarmenu.metisMenu();
+                        WSOps.request({view: 'dashboard'})
+                            .then(function (data) {
+                                $scope.allMenuItems = angular.copy(data);
+
+                                // regroup menu items based on their category
+                                function reGroupMenuItems(items, baseCategory) {
+                                    var newItems = {};
+                                    angular.forEach(items, function (value, key) {
+                                        newItems[value.kategori] = newItems[value.kategori] || [];
+                                        // value['baseCategory'] = baseCategory;
+                                        newItems[value.kategori].push(value);
+                                    });
+                                    return newItems;
+                                }
+
+                                angular.forEach($scope.allMenuItems, function (value, key) {
+                                    if (key !== 'current_user' && key !== 'settings') {
+                                        $scope.allMenuItems[key] = reGroupMenuItems(value, key);
+                                    }
+                                });
+
+                                // quick menus to dashboard via rootscope
+
+                                $rootScope.quick_menu = reGroupMenuItems(data.quick_menu, 'quick_menus');
+                                $rootScope.quick_menu = data.quick_menu;
+                                delete data.quick_menu;
+                                $log.debug('quick menu', $rootScope.quick_menu);
+
+                                // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
+                                // related items
+                                $rootScope.$broadcast("authz", data);
+                                $rootScope.searchInputs = data;
+
+                                if (data.current_user) {
+                                    // $rootScope.$broadcast("ws_turn_on");
+                                    // to display main view without flickering
+                                    // $rootScope.$broadcast("user_ready");
+                                }
+
+                                $rootScope.current_user = data.current_user;
+                                if (data.ogrenci || data.personel) {
+                                    $rootScope.current_user.can_search = true;
+                                }
+                                $rootScope.settings = data.settings;
+
+                                $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
+
+                                $timeout(function () {
+                                    sidebarmenu.metisMenu();
+                                });
                             });
-                            return newItems;
-                        }
-
-                        angular.forEach($scope.allMenuItems, function (value, key) {
-                            if (key !== 'current_user' && key !== 'settings') {
-                                $scope.allMenuItems[key] = reGroupMenuItems(value, key);
-                            }
-                        });
-
-                        // quick menus to dashboard via rootscope
-
-                        $rootScope.quick_menu = reGroupMenuItems(data.quick_menu, 'quick_menus');
-                        $rootScope.quick_menu = data.quick_menu;
-                        delete data.quick_menu;
-                        $log.debug('quick menu', $rootScope.quick_menu);
-
-                        // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
-                        // related items
-                        $rootScope.$broadcast("authz", data);
-                        $rootScope.searchInputs = data;
-
-                        $rootScope.current_user = data.current_user;
-                        if (data.ogrenci || data.personel) {
-                            $rootScope.current_user.can_search = true;
-                        }
-                        $rootScope.settings = data.settings;
-
-                        $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
-
-                        // if selecteduser on cookie then add related part to the menu
-
-                        //if ($cookies.get("selectedUserType")) {
-                        //    $scope.menuItems[$cookies.get("selectedUserType")] = $scope.allMenuItems[$cookies.get("selectedUserType")];
-                        //}
-
+                            // .error(function (data, status, headers, config) {
+                            //     $log.error('menu not retrieved', data);
+                            //     $log.info('design switch', DESIGN.switch);
+                            //     if (!DESIGN.switch) {
+                            //         $location.path('/login');
+                            //     }
+                            // });
+                    } else {
                         $timeout(function () {
-                            sidebarmenu.metisMenu();
-                            //sidebarUserMenu.metisMenu();
-                        });
-                    });
+                            generate_dashboard();
+                        }, 500);
+                    }
+                };
+                $scope.$on("generate_dashboard", function () {
+                    generate_dashboard();
+                });
+                // generate_menu();
 
                 // changing menu items by listening for broadcast
-
                 $scope.$on("menuitems", function (event, data) {
                     var menu = {};
                     menu[data] = $scope.allMenuItems[data];
                     $rootScope.$broadcast("usermenuitems", $scope.prepareMenu(menu));
-                    //$timeout(function () {
-                    //    sidebarmenu.metisMenu();
-                    //    sidebarUserMenu.metisMenu();
-                    //});
                 });
 
                 $scope.$on('selectedUser', function ($event, data) {
@@ -423,26 +362,26 @@ angular.module('ulakbus')
                     delete $scope.selectedMenuItems;
                 };
 
-                $scope.openSidebar = function () {
-                    if ($window.innerWidth > '768') {
-                        if ($rootScope.sidebarPinned === 0) {
-                            jQuery("span.menu-text, span.arrow, .sidebar footer, #side-menu").fadeIn(400);
-                            jQuery(".sidebar").css("width", "250px");
-                            jQuery(".manager-view").css("width", "calc(100% - 250px)");
-                            $rootScope.collapsed = false;
-                        }
-                    }
-                };
-
-                $scope.closeSidebar = function () {
-                    if ($window.innerWidth > '768') {
-                        if ($rootScope.sidebarPinned === 0) {
-                            jQuery(".sidebar").css("width", "62px");
-                            jQuery(".manager-view").css("width", "calc(100% - 62px)");
-                            $rootScope.collapsed = true;
-                        }
-                    }
-                };
+                // $scope.openSidebar = function () {
+                //     if ($window.innerWidth > '768') {
+                //         if ($rootScope.sidebarPinned === 0) {
+                //             jQuery("span.menu-text, span.arrow, .sidebar footer, #side-menu").fadeIn(400);
+                //             jQuery(".sidebar").css("width", "250px");
+                //             jQuery(".manager-view").css("width", "calc(100% - 250px)");
+                //             $rootScope.collapsed = false;
+                //         }
+                //     }
+                // };
+                //
+                // $scope.closeSidebar = function () {
+                //     if ($window.innerWidth > '768') {
+                //         if ($rootScope.sidebarPinned === 0) {
+                //             jQuery(".sidebar").css("width", "62px");
+                //             jQuery(".manager-view").css("width", "calc(100% - 62px)");
+                //             $rootScope.collapsed = true;
+                //         }
+                //     }
+                // };
 
                 $rootScope.$watch(function ($rootScope) {
                         return $rootScope.section;
@@ -664,12 +603,117 @@ angular.module('ulakbus')
                             scope.$parent.model[changeEvent.target.name] = {
                                 file_name: changeEvent.target.files[0].name,
                                 file_content: scope.$parent.model[changeEvent.target.name]
-                            }
+                            };
                             document.querySelector('#image-preview').src = URL.createObjectURL(changeEvent.target.files[0]);
                         });
-                    }
+                    };
                     reader.readAsDataURL(changeEvent.target.files[0]);
                 });
+            }
+        }
+    })
+    .directive('timetableActionSelector', function($timeout) {
+        // Display/hide popover with actions
+        // global listener used to close popover when user clicks outside of the popover
+        $('html').on('click', function (e) {
+            var target = $(e.target);
+            if (target.parents().is('.action-selector')) {
+                target.parents('.action-selector').children('.popover').toggleClass('ng-hide');
+                return;
+            }
+            if (target.hasClass('action-selector')) {
+                target.children('.popover').toggleClass('ng-hide');
+                return;
+            }
+            ;
+            $('.course-prg-scheduler .action-selector>.popover').toggleClass('ng-hide', true);
+        });
+
+        return {
+            templateUrl: 'shared/templates/directives/timetable-action-selector.html',
+            scope: {
+                externalModel: '=ngModel',
+                onChange: "&ngChange"
+            },
+            link: function (iScope, iElem, iAttrs) {
+                var valueToClassMap = {
+                    1: 'action-indicator_appropriate',
+                    2: 'action-indicator_uncertain',
+                    3: 'action-indicator_busy'
+                };
+
+                if (iAttrs.hasOwnProperty('readonly')) {
+                    iAttrs.$observe('readonly', function (v) {
+                        if (v && v == 'false') v = false;
+                        iScope.readonly = v;
+                    });
+                }
+
+                iScope.$watch('externalModel', function (value) {
+                    iScope.value = valueToClassMap[value];
+                });
+
+                iScope.setModelValue = function (value) {
+                    var oldValue = iScope.externalModel;
+                    iScope.externalModel = value;
+                    // call change in next digest
+                    $timeout(function () {
+                        if (iScope.onChange && value != oldValue) {
+                            iScope.onChange();
+                        }
+                    });
+
+                }
+            }
+        }
+    })
+
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name onEnterPressed
+     * @description Fire action when enter pressed on element
+     */
+    .directive("onEnterPressed", function () {
+        return {
+            link: function (scope, element, attrs) {
+                element.bind("keydown keypress", function (event) {
+                    if(event.which === 13 && !event.ctrlKey) {
+                        scope.$apply(function (){
+                            scope.$eval(attrs.onEnterPressed);
+                        });
+                        event.preventDefault();
+                    }
+                });
+
+                scope.$on('$destroy', function(){
+                    element.unbind('keydown keypress');
+                })
+            }
+        }
+    })
+
+    /**
+     * @memberof ulakbus
+     * @ngdoc directive
+     * @name onEscPressed
+     * @description Fire action when ESC pressed on element
+     */
+    .directive("onEscPressed", function () {
+        return {
+            link: function (scope, element, attrs) {
+                element.bind("keydown keypress", function (event) {
+                    if(event.which === 27 ) {
+                        scope.$apply(function (){
+                            scope.$eval(attrs.onEscPressed);
+                        });
+                        event.preventDefault();
+                    }
+                });
+
+                scope.$on('$destroy', function(){
+                    element.unbind('keydown keypress');
+                })
             }
         }
     });

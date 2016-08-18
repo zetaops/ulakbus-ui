@@ -82,7 +82,7 @@ module.exports = function (grunt) {
                     {expand: true, cwd: 'app/styles/images/', src: '*', dest: 'dist/css/images/', flatten: true},
                     {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
+                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
                 ]
             },
             local_prod: {
@@ -124,19 +124,28 @@ module.exports = function (grunt) {
                     "app/zetalib/interceptors.js",
                     "app/zetalib/general.js",
                     "app/zetalib/form_service.js",
+                    "app/zetalib/form_constraints.js",
+                    "app/zetalib/error_service.js",
+                    "app/zetalib/action_service.js",
+                    "app/zetalib/socket.js",
+                    "app/zetalib/utils_service.js",
                     "app/shared/directives.js",
                     "app/components/auth/auth_controller.js",
                     "app/components/auth/auth_service.js",
                     "app/components/dashboard/dashboard_controller.js",
                     "app/components/crud/crud_controller.js",
+                    "app/components/crud/crud_widgets.js",
                     "app/components/debug/debug_controller.js",
                     "app/components/devSettings/devSettings_controller.js",
                     "app/components/error_pages/error_controller.js",
                     "app/components/wf/wf_controller.js",
                     "app/components/version/version.js",
                     "app/components/version/interpolate-filter.js",
-                    "app/components/version/version-directive.js"
+                    "app/components/version/version-directive.js",
+                    "app/components/messaging/messaging_service.js",
+                    "app/components/messaging/messaging.js"
                 ],
+                nonull: true,
                 dest: 'dist/app.js'
             },
             components: {
@@ -148,6 +157,8 @@ module.exports = function (grunt) {
                     "app/bower_components/angular-resource/angular-resource.js",
                     "app/bower_components/angular-bootstrap/ui-bootstrap.js",
                     "app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
+                    "app/bower_components/showdown/dist/showdown.min.js",
+                    "app/bower_components/angular-markdown-filter/markdown.js",
                     "app/bower_components/angular-sanitize/angular-sanitize.js",
                     "app/bower_components/tv4/tv4.js",
                     "app/bower_components/objectpath/lib/ObjectPath.js",
@@ -159,7 +170,8 @@ module.exports = function (grunt) {
                     "app/bower_components/metisMenu/dist/metisMenu.js",
                     "app/bower_components/Chart.js/Chart.js",
                     "app/bower_components/intro.js/intro.js",
-                    "app/bower_components/moment/min/moment.min.js"
+                    "app/bower_components/moment/min/moment.min.js",
+                    "app/bower_components/toastr/toastr.min.js"
                 ],
                 dest: 'dist/bower_components/components.js'
             },
@@ -173,7 +185,8 @@ module.exports = function (grunt) {
                         "app/bower_components/angular-loading-bar/build/loading-bar.min.css",
                         "app/bower_components/font-awesome/css/font-awesome.min.css",
                         "app/bower_components/intro.js/intro.css",
-                        "app/bower_components/intro.js/themes/introjs-nassim.css"
+                        "app/bower_components/intro.js/themes/introjs-nassim.css",
+                        "app/bower_components/toastr/toastr.min.css"
                     ]
                 }
             },
@@ -187,7 +200,9 @@ module.exports = function (grunt) {
                     'app/shared/scripts/theme.js',
                     'app/shared/directives.js',
                     'app/components/**/*controller.js',
-                    'app/components/**/*service.js'
+                    'app/components/**/*service.js',
+                    "app/components/messaging/messaging_service.js",
+                    "app/components/messaging/messaging.js"
                 ],
                 dest: 'dist/<%= grunt.branchname %>/app.js'
             },
@@ -311,7 +326,7 @@ module.exports = function (grunt) {
             dev: {
                 files: {
                     'app/index.html': 'app/main.html',
-                    'app/app.js': 'app/main.js',
+                    'app/app.js': 'app/main.js'
                 }
             },
             prod: {

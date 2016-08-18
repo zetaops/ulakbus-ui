@@ -1,0 +1,11 @@
+<div>
+    <select ng-model="selection" ng-options="trialList.indexOf(trial) as trial.name for trial in trialList" ng-change="selectform(selection)">
+    </select>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-8 center">
+                <form sf-schema="schema" sf-form="form" sf-model="model"></form>
+            </div>
+        </div>
+    </div>
+</div>

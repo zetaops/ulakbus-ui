@@ -21,7 +21,11 @@ angular.module('ulakbus.dashboard', [])
         $uibTooltipProvider.setTriggers({'click': 'mouseleave'});
     })
 
-    .controller('DashCtrl', function ($scope, $rootScope, $timeout, $http, $cookies, RESTURL, Generator) {
+    .controller('DashController', function ($scope, $rootScope, $routeParams, $route, $timeout, $http, $cookies, RESTURL, Generator, WSOps) {
+        // first generate_dashboard broadcasted to get menu and dashboard items
+        // sidebar directive listens for "generate_dashboard"
+        $rootScope.$broadcast("generate_dashboard");
+
         $scope.section = function (section_index) {
             $rootScope.section = section_index;
         };
@@ -36,43 +40,58 @@ angular.module('ulakbus.dashboard', [])
         $scope.students = [];
         $scope.staffs = [];
 
+        /**
+         * this function is for searchin student or personel
+         * uses $scope.keyword objects
+         * @param where
+         */
         $scope.search = function (where) {
-            $timeout(function () {
-                if (where === 'personel') {
-                    // if input length greater than 2 search for the value
-                    if ($scope.keyword.staff.length > 2) {
-                        $scope.getItems(where, $scope.keyword.staff).success(function (data) {
+            if ($scope.keyword.staff.length > 2 || $scope.keyword.student.length > 2) {
+                $timeout(function () {
+                    if (where === 'personel') {
+                        // if input length greater than 2 search for the value
+
+                        $scope.getItems(where, $scope.keyword.staff).then(function (data) {
                             $scope.staffs = data.results;
                         });
                     }
-                }
-                if (where === 'ogrenci') {
-                    if ($scope.keyword.student.length > 2) {
-                        $scope.getItems(where, $scope.keyword.student).success(function (data) {
+                    if (where === 'ogrenci') {
+                        $scope.getItems(where, $scope.keyword.student).then(function (data) {
                             $scope.students = data.results;
                         })
                     }
-                }
-            }, 500);
+                }, 500);
+            }
         };
 
         $scope.getItems = function (where, what) {
             $scope.showResults = true;
-            return $http.get(RESTURL.url + 'ara/' + where + '/' + what);
+            return WSOps.request({view: where + '_ara', query: what});
         };
 
         $scope.userPopover = {templateUrl: 'components/dashboard/user-info.html'};
 
+        /**
+         * when student or personel search results appear,
+         * user can see the sample info of student/personel before to select it
+         * this function triggered onhover the item
+         * @param type
+         * @param key
+         */
         $scope.get_info = function (type, key) {
-            Generator.get_list({url: 'crud', form_params: {model: type, object_id: key, cmd: 'show'}})
+            Generator.get_list({url: 'crud', form_params: {wf: 'crud', model: type, object_id: key, cmd: 'show'}})
                 .then(function (data) {
-                    $scope.userPopover.name = data.data.object.unicode;
-                    $scope.userPopover.tcno = data.data.object.tckn;
-
-                    //debugger;
+                    $scope.userPopover.name = data.object['Ad'] + " " + data.object['Soyad'];
+                    $scope.userPopover.tcno = data.object['TC Kimlik No'];
+                    $scope.userPopover.image = data.object['Avatar'] || 'img/sample-profile-pic.jpg';
                 })
         };
 
+        /**
+         * @description selecting  
+         * @param who - who is the data of selected person in search results
+         * @param type - type can be 'ogrenci' or 'personel'
+         */
         $scope.select = function (who, type) {
             $rootScope.$broadcast('selectedUser', {name: who[0], tcno: who[1], key: who[2]});
             // get 'who's related transactions and manipulate sidebar menu
@@ -81,6 +100,9 @@ angular.module('ulakbus.dashboard', [])
 
         };
 
+        /**
+         * dashboard also catches notifications to use in widgets
+         */
         $scope.$on("notifications", function (event, data) {
             $scope.notifications = data;
         });
@@ -89,28 +111,22 @@ angular.module('ulakbus.dashboard', [])
             $scope.selectedUser = data;
         });
 
+        /**
+         * removes selected user
+         */
         $scope.deselectUser = function () {
             delete $scope.selectedUser;
             delete $scope.selectedMenuItems;
         };
 
+        // this function needed by tasks widget
+        // if a user wants to dismiss a task it broadcasts the item to markasread
         $scope.markAsRead = function (items) {
             $rootScope.$broadcast("markasread", items);
-        }
+        };
 
-    })
-    .directive('sidebarNotifications', function () {
+        //if ($routeParams.cmd = 'reload') {
+        //    $route.reload();
+        //}
 
-        return {
-            templateUrl: 'shared/templates/directives/sidebar-notification.html',
-            restrict: 'E',
-            replace: true,
-            link: function ($scope) {
-                // sidebar notifications from rootScope broadcast
-
-                //$scope.$on("notifications", function (event, data) {
-                //    $scope.notifications = data;
-                //});
-            }
-        }
     });

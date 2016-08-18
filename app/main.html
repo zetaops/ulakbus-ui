@@ -26,27 +26,34 @@
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="bower_components/intro.js/introjs.css" type="text/css">
     <link rel="stylesheet" href="bower_components/intro.js/themes/introjs-nassim.css" type="text/css">
+    <link rel="stylesheet" href="bower_components/toastr/toastr.min.css" type="text/css">
     <!-- @endif -->
 
     <!-- @if NODE_ENV == 'PRODUCTION' -->
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/roboto/roboto.css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css">
     <!-- @endif -->
 </head>
-<body>
+<body ng-controller="KeyListenController" ng-keydown="down($event)">
 
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-if="$root.loggedInUser">
+<div ng-show="user_ready === false" class="body-mask">
+    <div class="text-center">
+        <span class="loader"></span>
+    </div>
+</div>
+
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"
+     ng-show="user_ready === true">
     <collapse-menu></collapse-menu>
     <!--<ul class="header-menu">-->
-        <!--<li><a href="">Mesajlar</a></li>-->
-        <!--<li><a href="">Görevler</a></li>-->
-        <!--<li><a href="">Raporlar</a></li>-->
-        <!--<li><a href="">Ayarlar</a></li>-->
+    <!--<li><a href="">Mesajlar</a></li>-->
+    <!--<li><a href="">Görevler</a></li>-->
+    <!--<li><a href="">Raporlar</a></li>-->
+    <!--<li><a href="">Ayarlar</a></li>-->
     <!--</ul>-->
     <div class="navbar-header">
         <div class="brand">
-            <a href="#/dashboard" ng-click="$root.breadcrumbLinks = ['Panel']" class="logo"><img src="/img/brand-logo.png" /></a>
+            <a href="#/dashboard" class="logo"><img src="/img/brand-logo.png"/></a>
         </div>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -59,12 +66,12 @@
     <header-notification></header-notification>
 </nav>
 
-<sidebar ng-if="$root.loggedInUser"></sidebar>
+<sidebar ng-show="user_ready === true"></sidebar>
 
 <div class="manager-view">
     <div class="manager-view-inner">
         <!-- manager-header -->
-        <header-sub-menu ng-if="$root.loggedInUser"></header-sub-menu>
+        <header-sub-menu ng-if="$root.current_user"></header-sub-menu>
         <!-- end of manager-header -->
         <div class="manager-view-content">
             <div class="row">
@@ -72,6 +79,7 @@
 
                 </div>
                 <right-sidebar></right-sidebar>
+                <messaging></messaging>
             </div>
         </div>
     </div>
@@ -86,43 +94,51 @@
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="bower_components/angular-route/angular-route.min.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
-<script src="bower_components/angular-resource/angular-resource.min.js"></script>
-<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<!--<script src="bower_components/angular-resource/angular-resource.min.js"></script>-->
+<!--<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>-->
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="bower_components/showdown/dist/showdown.js"></script>
+<script src="bower_components/angular-markdown-filter/markdown.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="bower_components/tv4/tv4.js"></script>
 <script src="bower_components/objectpath/lib/ObjectPath.js"></script>
-<script src="bower_components/angular-schema-form/dist/schema-form.min.js"></script>
+<script src="bower_components/angular-schema-form/dist/schema-form.js"></script>
 <script src="bower_components/angular-schema-form/dist/bootstrap-decorator.min.js"></script>
 <script src="bower_components/angular-gettext/dist/angular-gettext.min.js"></script>
 <script src="bower_components/moment/min/moment.min.js"></script>
+<script src="bower_components/toastr/toastr.min.js"></script>
 
-
-<!-- TODO: check all js and remove unused -->
-<!--<script src="bower_components/json3/lib/json3.js"></script>-->
 <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
 <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
 <script src="bower_components/intro.js/intro.js"></script>
 <!--<script src="bower_components/Chart.js/Chart.js"></script>-->
 <script src="shared/translations.js"></script>
-<script src="tmp/templates.js"></script>
 <script src="app.js"></script>
 <script src="app_routes.js"></script>
 <script src="shared/scripts/highlight.pack.js"></script>
 <script src="shared/directives.js"></script>
 <script src="zetalib/interceptors.js"></script>
 <script src="zetalib/form_service.js"></script>
+<script src="zetalib/form_constraints.js"></script>
+<script src="zetalib/action_service.js"></script>
+<script src="zetalib/error_service.js"></script>
+<script src="zetalib/socket.js"></script>
+<script src="zetalib/utils_service.js"></script>
 
 <!-- components -->
 
 <script src="components/auth/auth_controller.js"></script>
 <script src="components/auth/auth_service.js"></script>
 <script src="components/dashboard/dashboard_controller.js"></script>
+<script src="components/dashboard/dashboard_widgets_directives.js"></script>
+<script src="components/messaging/messaging_service.js"></script>
+<script src="components/messaging/messaging.js"></script>
 <script src="components/crud/crud_controller.js"></script>
+<script src="components/crud/crud_widgets.js"></script>
 <script src="components/debug/debug_controller.js"></script>
 <script src="components/devSettings/devSettings_controller.js"></script>
-<script src="components/uitemplates/uitemplates.js"></script>
 <script src="components/error_pages/error_controller.js"></script>
+<script src="components/uitemplates/uitemplates.js"></script>
 <script src="components/version/interpolate-filter.js"></script>
 <script src="components/version/version-directive.js"></script>
 <script src="components/version/version.js"></script>
@@ -130,8 +146,7 @@
 
 <!-- @if NODE_ENV == 'PRODUCTION' -->
 <script src="bower_components/jquery.min.js"></script>
-<script src="bower_components/jquery-ui.min.js"></script>
-<script src="bower_components/angular.min.js"></script>
+<script src="bower_components/angular.js"></script>
 <script src="bower_components/components.js"></script>
 <script src="shared/translations.js"></script>
 <script src="templates.js"></script>

@@ -1,7 +1,7 @@
 {
   "name": "ulakbus-ui",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "repository": "https://github.com/zetaops/ulakbus-ui",
   "license": "GPL",
@@ -11,6 +11,8 @@
     "karma": "~0.12",
     "karma-chrome-launcher": "^0.1.12",
     "karma-phantomjs-launcher": "^0.1",
+    "karma-firefox-launcher": "*",
+    "karma-safari-launcher": "*",
     "karma-junit-reporter": "^0.2.2",
     "karma-jasmine": "~0.1",
     "istanbul": "^0.3.15",

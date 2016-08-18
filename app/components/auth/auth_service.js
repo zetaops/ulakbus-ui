@@ -15,8 +15,30 @@ angular.module('ulakbus.auth')
      * @name AuthService
      * @description  provides generic functions for authorization process.
      */
-    .factory('AuthService', function ($http, $rootScope, $location, $log, Generator, RESTURL) {
+    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, WSOps) {
         var authService = {};
+
+        authService.get_form = function (scope) {
+            return $http
+                .post(Generator.makeUrl(scope), scope.form_params)
+                .success(function (data, status, headers, config) {
+                    // if response data.cmd is 'upgrade'
+                    if (data.cmd === 'upgrade') {
+                        $rootScope.loggedInUser = true;
+                        $rootScope.$broadcast("user_ready");
+                        $rootScope.$broadcast("ws_turn_on");
+                        return $location.path('/dashboard');
+                    }
+                    if (data.cmd === 'retry') {
+                        $location.path('/login');
+                    } else{
+                        if (angular.isDefined(data.forms) && $location.path() !== '/login'){
+                            $location.path('/login');
+                        }
+                        return Generator.generate(scope, data);
+                    }
+                });
+        };
 
         /**
          * @memberof ulakbus.auth
@@ -35,12 +57,23 @@ angular.module('ulakbus.auth')
                 .post(RESTURL.url + url, credentials)
                 .success(function (data, status, headers, config) {
                     //$window.sessionStorage.token = data.token;
-
-                    $rootScope.loggedInUser = true;
+                    Generator.button_switch(true);
+                    if (data.cmd === 'upgrade') {
+                        $rootScope.loggedInUser = true;
+                        // $rootScope.$broadcast("regenerate_menu");
+                        // to display main view without flickering
+                        $rootScope.$broadcast("user_ready");
+                        $rootScope.$broadcast("ws_turn_on");
+                        $location.path('/dashboard');
+                    }
+                    if (data.status_code === 403) {
+                        data.title = "İşlem başarısız oldu. Lütfen girdiğiniz bilgileri kontrol ediniz.";
+                        return data;
+                    }
                 })
                 .error(function (data, status, headers, config) {
                     // Handle login errors here
-                    data.title = "İşlem başarısız oldu. Lütfen girdiğiniz bilgileri kontrol ediniz."
+                    data.title = "İşlem başarısız oldu. Lütfen girdiğiniz bilgileri kontrol ediniz.";
                     return data;
                 });
         };
@@ -54,12 +87,20 @@ angular.module('ulakbus.auth')
          * @returns {*}
          */
         authService.logout = function () {
-            $log.debug("logout");
-            return $http.post(RESTURL.url + 'logout', {}).success(function (data) {
+
+            $rootScope.loginAttempt = 0;
+            WSOps.request({wf: 'logout'}).then(function (data) {
                 $rootScope.loggedInUser = false;
+                $rootScope.current_user = true;
                 $log.debug("loggedout");
                 $location.path("/login");
+                WSOps.close();
             });
+        };
+
+        authService.check_auth = function () {
+            var post_data = {url: 'login', form_params:{}};
+            return authService.get_form(post_data);
         };
 
         return authService;

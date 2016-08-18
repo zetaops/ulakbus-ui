@@ -1,9 +1,15 @@
-<div class="container-fluid">
+<div ng-hide="show_crud === false" class="container-fluid">
+    <crud-timetable-directive ng-if="ogretim_elemani_zt"></crud-timetable-directive>
+    <crud-timetable-directive2 ng-if="derslik_zaman_tablosu"></crud-timetable-directive2>
     <div ng-class="{'col-md-8': meta.allow_filters}">
-        <h3>{{ schema.title }}</h3>
+        <msgbox ng-show="msgbox"></msgbox>
+        <h3 ng-class="{'mid-h3': !objects}">{{ schema.title }}</h3>
         <crud-show-directive ng-if="object"></crud-show-directive>
         <crud-form-directive ng-if="forms"></crud-form-directive>
         <crud-list-directive ng-if="objects"></crud-list-directive>
     </div>
     <crud-filters ng-show="meta.allow_filters === true" class="col-md-4 filtre"></crud-filters>
+</div>
+<div ng-show="show_crud === false" class="crud-mask">
+    <span class="loader"></span>
 </div>

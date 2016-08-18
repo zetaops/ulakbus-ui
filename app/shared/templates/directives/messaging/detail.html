@@ -1,0 +1,154 @@
+<div class="conversation-section">
+
+    <div class="conversation-header">
+        <div class="conversation-user">
+            <div class="user-photo"><img src="../../../img/erkan.jpg"></div>
+            <div class="user-name">Erkan Öğümsöğütlü</div>
+        </div>
+        <div class="conversation-search">
+            <input type="text" placeholder="Arama Yap">
+        </div>
+        <div class="dropdown">
+            <div class="chat-app-actions dropdown-toggle" data-toggle="dropdown" id="chat-app-actions">
+                <span class="glyphicon glyphicon-option-vertical"></span>
+            </div>
+            <ul class="dropdown-menu" aria-labelledby="chat-app-actions" style="left: inherit; top: 53px; right: 66px;">
+                <li><a href="#">Action One</a></li>
+                <li><a href="#">Action Two</a></li>
+                <li><a href="#">Action Three</a></li>
+            </ul>
+        </div>
+        <div class="close-chat-app">
+            <span class="glyphicon glyphicon-remove" ng-click="hideApp()"></span>
+        </div>
+    </div>
+
+    <div class="conversation-body">
+        <div class="conversation-body-inner">
+
+            <div class="beginning-of-conversation">
+                This is the beginning of the conversation
+            </div>
+
+            <div class="conversation-block clearfix">
+                <div class="conversation-actions">
+                    <div class="action"><span class="glyphicon glyphicon-star-empty"></span></div>
+                    <div class="action dropdown-toggle" data-toggle="dropdown">
+                    	<span class="glyphicon glyphicon-option-horizontal"></span>
+                    </div>
+                    <ul class="dropdown-menu" style="left:-86px;">
+                      <li><a href="#">Edit</a></li>
+                      <li><a href="#">Delete</a></li>
+                    </ul>
+                </div>
+
+                <div class="user-photo">
+                    <img src="../../../img/erkan.jpg">
+                </div>
+                
+                <div class="user-message">
+                    <div class="message-header clearfix">
+                        <div class="user-name">Erkan Öğümsöğütlü</div>
+                        <div class="message-time">13:16</div>
+                    </div>
+                    <div class="message-content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus mauris.
+                    </div>
+                    <div class="edit-text-message">
+                        <input type="text">
+                        <button class="btn btn-default">Cancel</button>
+                        <button class="btn btn-success">Save Changes</button>
+                    </div>
+                    <!-- end of edit-text-message -->
+                </div>
+            </div>
+            <!-- end of conversation-block -->
+            
+            <div class="conversation-block clearfix">
+                <div class="conversation-actions">
+                    <div class="action"><span class="glyphicon glyphicon-star-empty"></span></div>
+                    <div class="action dropdown-toggle" data-toggle="dropdown">
+                    	<span class="glyphicon glyphicon-option-horizontal"></span>
+                    </div>
+                    <ul class="dropdown-menu" style="left:-86px;">
+                      <li><a href="#">Edit</a></li>
+                      <li><a href="#">Delete</a></li>
+                    </ul>
+                </div>
+
+                <div class="user-photo">
+                    <img src="../../../img/erkan.jpg">
+                </div>
+                
+                <div class="user-message">
+                    <div class="message-header clearfix">
+                        <div class="user-name">Erkan Öğümsöğütlü</div>
+                        <div class="message-time">13:16</div>
+                    </div>
+                    <div class="message-content">
+                        <p class="attachment-message">uploaded an image: <span>sample.jpg</span></p>
+                        <a href="#" class="attachment-holder image-attached" target="_blank">
+                        	<img src="../../../img/sample.jpg">
+                            <span class="glyphicon glyphicon-download attachment-download"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- end of conversation-block -->
+            
+            <div class="conversation-block clearfix">
+                <div class="conversation-actions">
+                    <div class="action"><span class="glyphicon glyphicon-star-empty"></span></div>
+                    <div class="action dropdown-toggle" data-toggle="dropdown">
+                    	<span class="glyphicon glyphicon-option-horizontal"></span>
+                    </div>
+                    <ul class="dropdown-menu" style="left:-86px;">
+                      <li><a href="#">Edit</a></li>
+                      <li><a href="#">Delete</a></li>
+                    </ul>
+                </div>
+
+                <div class="user-photo">
+                    <img src="../../../img/erkan.jpg">
+                </div>
+                
+                <div class="user-message">
+                    <div class="message-header clearfix">
+                        <div class="user-name">Erkan Öğümsöğütlü</div>
+                        <div class="message-time">13:16</div>
+                    </div>
+                    <div class="message-content">
+                        <p class="attachment-message">uploaded a file</p>
+                        <a href="#" class="attachment-holder file-attached" target="_blank">
+                        	<img src="../../../img/file-icon.png">
+                            <div class="attached-file-info">
+                            	<div>ulakbus-pdf</div>
+                                <div>128KB PDF</div>
+                            </div>
+                            <span class="glyphicon glyphicon-download attachment-download"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- end of conversation-block -->
+
+        </div>
+    </div>
+
+    <div class="conversation-footer">
+
+        <textarea placeholder="Mesajını buraya yaz..."></textarea>
+        <div class="add-attachment">
+            <span class="glyphicon glyphicon-send"></span>
+            <div class="dropup" style="float:left;">
+            <span class="glyphicon glyphicon-paperclip dropdown-toggle" data-toggle="dropdown" id="attachment"></span>
+            <ul class="dropdown-menu" aria-labelledby="attachment" style="left:-104px;">
+            	<li><a href="#">Image</a></li>
+            	<li><a href="#">File</a></li>
+            </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>
