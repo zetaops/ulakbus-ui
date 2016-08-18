@@ -379,11 +379,7 @@ angular.module("components/crud/templates/nodeTable.html", []).run(["$templateCa
     "                </label>\n" +
     "            </th>\n" +
     "            <th scope=\"row\" style=\"text-align:center\">#</th>\n" +
-    "<<<<<<< 6a71c6920efc5235eff71bf42763b82cc30f1827\n" +
     "            <th ng-repeat=\"prop in node.schema.properties_list\">\n" +
-    "=======\n" +
-    "            <th ng-repeat=\"propName in node.form\" ng-init=\"prop = node.schema.properties[propName]\">\n" +
-    ">>>>>>> FIX, rfix#5379. Fix ListNode's dose not respect schema order\n" +
     "                <span ng-if=\"!value.verbose_name\">{{prop.title||prop.name}}</span>\n" +
     "            </th>\n" +
     "            <th ng-if=\"meta.allow_actions!==false\">İşlem</th>\n" +
