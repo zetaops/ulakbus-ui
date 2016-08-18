@@ -142,8 +142,10 @@ module.exports = function (grunt) {
                     "app/components/version/version.js",
                     "app/components/version/interpolate-filter.js",
                     "app/components/version/version-directive.js",
-                    "app/components/messaging/*.js"
+                    "app/components/messaging/messaging_service.js",
+                    "app/components/messaging/messaging.js"
                 ],
+                nonull: true,
                 dest: 'dist/app.js'
             },
             components: {
@@ -199,7 +201,8 @@ module.exports = function (grunt) {
                     'app/shared/directives.js',
                     'app/components/**/*controller.js',
                     'app/components/**/*service.js',
-                    'app/components/messaging/*.js',
+                    "app/components/messaging/messaging_service.js",
+                    "app/components/messaging/messaging.js"
                 ],
                 dest: 'dist/<%= grunt.branchname %>/app.js'
             },
@@ -323,7 +326,7 @@ module.exports = function (grunt) {
             dev: {
                 files: {
                     'app/index.html': 'app/main.html',
-                    'app/app.js': 'app/main.js',
+                    'app/app.js': 'app/main.js'
                 }
             },
             prod: {

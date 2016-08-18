@@ -29,7 +29,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @name Generator
      * @description form service's Generator factory service handles all generic form operations
      */
-    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal, $filter) {
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal, $filter, Utils) {
         var generator = {};
         /**
          * @memberof ulakbus.formService
@@ -287,7 +287,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          *
          * @returns scope {Object}
          */
-        
 
         generator.prepareFormItems = function (scope) {
 
@@ -397,6 +396,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     form: [],
                     schema: {
                         properties: {},
+                        properties_list: [],
                         required: [],
                         title: v.title,
                         type: "object",
@@ -418,6 +418,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                 angular.forEach(v.schema, function (item) {
                     scope[v.type][k].schema.properties[item.name] = angular.copy(item);
+
+                    // save properties order in schema
+                    if (item.name != 'idx'){
+                        scope[v.type][k].schema.properties_list.push(scope[v.type][k].schema.properties[item.name]);
+                    }
 
                     if (angular.isDefined(item.wf)) {
                         scope[v.type][k].schema.properties[item.name]['wf'] = angular.copy(item.wf);
@@ -445,40 +450,39 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 });
 
                 $timeout(function () {
+                    if (v.type != 'ListNode') return;
+
                     // todo: needs refactor
-                    if (v.type === 'ListNode') {
-                        scope[v.type][k].items = angular.copy(scope.model[k] || []);
-                        angular.forEach(scope[v.type][k].items, function (value, key) {
-                            if (value.constructor === Object) {
-                                angular.forEach(value, function (x, y) {
-                                    try {
-                                        if (scope[v.type][k].schema.properties[y].type === 'date') {
-                                            scope[v.type][k].items[key][y] = generator.dateformatter(x);
-                                            scope[v.type][k].model[key][y] = generator.dateformatter(x);
-                                        }
-                                        if (scope[v.type][k].schema.properties[y].type === 'select') {
-                                            scope[v.type][k].items[key][y] = generator.item_from_array(x.toString(), scope[v.type][k].schema.properties[y].titleMap)
-                                        }
-                                    } catch (e) {
-                                        $log.debug('Field is not date');
-                                    }
-                                });
+                    var list = scope[v.type][k];
+                    list.items = angular.copy(scope.model[k] || []);
+
+                    angular.forEach(list.items, function (node, fieldName) {
+
+                        if (!Object.keys(node).length) return;
+
+                        angular.forEach(node, function (prop, propName) {
+                            var propInSchema = list.schema.properties[propName];
+                            try {
+                                if (propInSchema.type === 'date') {
+                                    node[propName] = generator.dateformatter(prop);
+                                    list.model[fieldName][propName] = generator.dateformatter(prop);
+                                }
+                                if (propInSchema.type === 'select') {
+                                    node[propName] = generator.item_from_array(prop.toString(), list.schema.properties[propName].titleMap)
+                                }
+                                if (propInSchema.titleMap){
+                                    node[propName] = {
+                                        key: prop,
+                                        unicode: generator.item_from_array(prop, propInSchema.titleMap)
+                                    };
+                                }
+                            } catch (e) {
+                                $log.debug('Field is not date');
                             }
                         });
-                    }
-                });
 
-
-                // todo: check this place to fix 'keys instead of names' bug
-                if (scope.model[k]) {
-                    angular.forEach(scope.model[k], function (value, key) {
-                        angular.forEach(value, function (y, x) {
-                            if (y.constructor === Object) {
-                                scope.model[k][key][x] = y.key;
-                            }
-                        });
                     });
-                }
+                });
 
                 scope.model[k] = scope.model[k] || [];
 
@@ -516,6 +520,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                 var modelItems = [];
                 var modelKeys = [];
+
                 angular.forEach(scope.model[k], function (value, mkey) {
                     modelItems.push({
                         "value": value[v.schema[0].name].key,
@@ -895,8 +900,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                         formitem.titleMap = data;
                                         formitem.gettingTitleMap = false;
                                     });
-
-
                             }
                         };
 
@@ -905,15 +908,15 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         // get selected item from titleMap using model value
                         if (scope.model[k]) {
                             generator.get_list({
-                                    url: 'crud',
-                                    form_params: {
-                                        wf: v.wf,
-                                        model: v.model_name,
-                                        object_id: scope.model[k],
-                                        cmd: 'object_name'
-                                    }
-                                })
-                                .then(function (data) {
+                                url: 'crud',
+                                form_params: {
+                                    wf: v.wf,
+                                    model: v.model_name,
+                                    object_id: scope.model[k],
+                                    cmd: 'object_name'
+                                }
+                            }).then(function (data) {
+
                                     try {
                                         $timeout(function () {
                                             document.querySelector('input[name=' + k + ']').value = data.object_name;
@@ -949,6 +952,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             //         "val_msg": "Erkek kardes sayisi kiz kardes sayisindan az olamaz."
             //     }
             // };
+
             angular.forEach(scope.schema.properties, function (v, k) {
                 // generically change _id fields model value
                 if ('form_params' in scope) {
@@ -958,7 +962,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         return;
                     }
                 }
-
                 try {
                     generate_fields[v.type][v.widget || 'default'](scope, v, k);
                 }
@@ -1073,7 +1076,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @description Changes html disabled and enabled attributes of all buttons on current page.
          * @param {boolean} position
          */
-        // todo: remove
+            // todo: remove
         generator.button_switch = function (position) {
             var buttons = angular.element(document.querySelectorAll('button'));
             var positions = {true: "enabled", false: "disabled"};
@@ -1340,7 +1343,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @todo diff for all submits to recognize form change. if no change returns to view with no submit
          */
         generator.submit = function ($scope, redirectTo, dontProcessReply) {
-
             /**
              * In case of unformatted date object in any key recursively, it must be converted.
              * @param model
@@ -1404,7 +1406,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @param {Object} $route
      * @returns {Object} returns value for modal
      */
-    .controller('ModalController', function ($scope, $uibModalInstance, Generator, items) {
+    .controller('ModalController', function ($scope, $uibModalInstance, Generator, items, $timeout, Utils) {
         angular.forEach(items, function (value, key) {
             $scope[key] = items[key];
         });
@@ -1414,6 +1416,17 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         });
 
         $scope.$on('modalFormLocator', function (event) {
+            // fix default model with unicode assign
+            $timeout(function () {
+                Utils.iterate($scope.model, function(modelValue, k){
+                    if (angular.isUndefined($scope.edit)) return;
+
+                    var unicode = $scope.items[$scope.edit][k].unicode;
+                    if (unicode){
+                        document.querySelector('input[name=' + k + ']').value = unicode;
+                    }
+                })
+            });
             $scope.linkedModelForm = event.targetScope.linkedModelForm;
         });
 
@@ -1439,7 +1452,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 $uibModalInstance.close($scope);
             }
         };
-        
+
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
@@ -1455,7 +1468,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @returns {Object} openmodal directive
      */
 
-    .directive('modalForNodes', function ($uibModal, Generator) {
+    .directive('modalForNodes', function ($uibModal, Generator, Utils) {
         return {
             link: function (scope, element, attributes) {
                 element.on('click', function () {
@@ -1539,12 +1552,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                     angular.forEach(childmodel.form, function (v, k) {
                                         if (v.formName === key) {
                                             //if (!childmodel.model[key].key) {
-                                            function indexInTitleMap(element, index, array) {
+                                            var unicodeValue = v.titleMap.find(function (element, index, array) {
                                                 if (element['value'] === value) {
                                                     return element;
                                                 }
-                                            }
-                                            var unicodeValue = v.titleMap.find(indexInTitleMap);
+                                            });
                                             if (unicodeValue){
                                                 unicodeValue = unicodeValue.name;
                                                 reformattedModel[key] = {

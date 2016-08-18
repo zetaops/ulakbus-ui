@@ -64,4 +64,30 @@ angular.module("ulakbus")
                 }
             }
         }
+
+        /**
+         * @param collection {Array|Object} Array of objects to group
+         * @param callback {Function} Callback to apply to every element of the collection
+         * @returns None
+         */
+        this.iterate = function(collection, callback){
+            angular.forEach(collection, function(val, key){
+                // don't iterate over angular binding indexes
+                if (key.indexOf && key.indexOf('$$') == 0){
+                    return;
+                }
+                callback(val, key);
+            })
+        }
+    })
+
+
+    .filter("formatJson", function(){
+        return function(val){
+            try {
+                return JSON.stringify(val, null, 4);
+            } catch(e){
+                return val;
+            }
+        }
     });

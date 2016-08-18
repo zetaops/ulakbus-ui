@@ -146,7 +146,7 @@ angular.module("ulakbus.messaging")
                     });
                 }
 
-                this.createDirectChannel = function(user){
+                iScope.createDirectChannel = function (user){
                     // user format is ['username', 'key', 'avatarUrl']
                     var key = user[1];
                     MessagingService.create_direct_channel(key)
@@ -154,8 +154,6 @@ angular.module("ulakbus.messaging")
                             updateAndSelect(getKey(result));
                         })
                 };
-
-                iScope.createDirectChannel = this.createDirectChannel;
 
                 iScope.hideApp = function(){
                     iScope.chatAppIsHidden = true;
