@@ -18,6 +18,12 @@ body {
     background-color:#999;
 }
 
+.panel {
+	border: none;
+	-webkit-box-shadow: 0px 1px 3px rgba(0,0,0,0.13);
+    box-shadow: 0px 1px 3px rgba(0,0,0,0.13);
+}
+
 .tooltip {
 	font-family:'robotolight';
 	font-size:13px;
@@ -400,7 +406,7 @@ select {
     -webkit-width: calc(100% - 250px);
     position: absolute;
     right: 0;
-    background-color:#f5f5f5;
+    background-color:#e9ebee;
 	-webkit-transition: all .2s;
     -moz-transition: all .2s;
     -ms-transition: all .2s;
@@ -427,12 +433,13 @@ select {
     /*width: calc(100% - 300px);*/
     padding:10px;
     background-color:#fff;
-    border-bottom:1px solid #ccc;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
     position:relative;
     z-index:1;
-    height: 43px;
+    height: 50px;
+	-webkit-box-shadow: 0px 1px 3px rgba(0,0,0,0.13);
+    box-shadow: 0px 1px 3px rgba(0,0,0,0.13);
 }
 
 .manager-view-content {
@@ -520,11 +527,11 @@ select {
 .navbar-top-links .dropdown-user {
     right: 0;
     left: auto;
+	border:none;
 }
 
 .sidebar {
     background-color:#fff;
-    border-right: 1px solid #ccc;
 	-webkit-transition: all .2s;
     -moz-transition: all .2s;
     -ms-transition: all .2s;
@@ -553,12 +560,13 @@ select {
 .sidebar ul li {
     font-family: 'robotomedium';
     letter-spacing: 0.2px;
-    border-bottom: 1px solid #DCDCDC;
+    border-bottom: 1px solid #efefef;
 }
 
 .sidebar ul li a {
 	/*height:40px;*/
 	overflow:hidden;
+	padding:15px;
 }
 
 .sidebar ul li a.active {
@@ -3046,6 +3054,346 @@ table.dataTable thead .sorting:after {
 /* END OF COURSE PROGRAM SCHEDULER */
 
 
+
+/* TASK MANAGER WIDGET */
+
+.task-manager .panel-title {
+	float:left;	
+}
+
+.task-manager .panel-body {
+	height:437px;
+	overflow-y:auto;	
+}
+
+.task-manager .panel-body ul li {
+	position:relative;	
+}
+
+.task-manager .panel-body ul li .dropdown .dropdown-inner {
+	position: absolute;
+    display: inline-block;
+    right: 0px;
+    top: -107px;
+}
+
+.task-manager .panel-body ul li .dropdown-menu{
+	left: -222px;
+    top: 75px;
+}
+
+.task-manager .panel-body ul li .dropdown-menu li a{
+	padding: 14px 26px;
+}
+
+.task-manager .task-status {
+	width:35px;
+	float:left;	
+}
+
+.task-manager .task-status .task-circle {
+	width:10px;
+	height:10px;
+	border-radius:100%;
+	margin-top: 7px;
+    margin-left: 3px;
+}
+
+.task-manager .urgent-task .task-circle {
+	background-color:#D4244B;
+}
+
+.task-manager .urgent-task .task-due-date {
+	color:#D4244B;
+}
+
+.task-manager .approaching-task .task-circle {
+	background-color:#F7941E;
+}
+
+.task-manager .approaching-task .task-due-date {
+	color:#F7941E;
+}
+
+.task-manager .non-urgent-task .task-circle {
+	background-color:#01AEEE;
+}
+
+.task-manager .non-urgent-task .task-due-date {
+	color:#01AEEE;
+}
+
+.task-manager .task-title {
+	width:calc(100% - 80px);	
+	float:left;
+}
+
+.task-manager .task-title {
+	font-family:'robotomedium';
+}
+
+.task-manager .task-title div:nth-child(1) {
+	font-family:'robotomedium';
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-right: 15px;
+}
+
+.task-manager .task-title div:nth-child(2) {
+	font-size:15px;
+	font-family:'robotolight';
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-right: 15px;
+}
+
+.task-manager .task-title div:nth-child(3) {
+	font-size:13px;
+	font-family:'robotolight';
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-right: 15px;
+	margin-top:5px;
+	color: #b5b5b5;
+}
+
+.task-manager .task-actions {
+	width:45px;	
+	position: absolute;
+    right: 23px;
+    top: 21px;
+}
+
+.task-manager .task-actions div {
+	width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 40px;
+    border: 1px solid #f1f1f1;
+	color:#666;
+    margin-top: 13px;
+    float: right;
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}
+
+.task-manager .task-actions div:hover {
+	background-color: #f9f9f9;
+	color:#000;
+}
+
+.task-manager .last-task .task-status div {
+	width:3px;
+	height:47px;
+	background-color: #00A650;
+    margin-left: 6px;
+}
+
+.task-manager .last-task .panel-title {
+	background-color: #fff;
+    border-color: #F2F2F2;
+    font-family: 'robotolight';
+    color: rgb(95, 95, 95);
+    padding: 12px 0 0;
+    font-size: 18px;
+}
+    
+.task-manager .last-task .task-due-date i {
+	color:#01A550;
+	margin-top: 16px;
+}
+
+.task-manager .task-date {
+	float:left;
+	font-family:'robotolight';
+	margin-right:25px;
+	width:30px;
+}
+
+.task-manager .announcement-text {
+	float:left;
+	width:calc(100% - 55px);
+	margin-top:3px;
+}
+
+.task-manager .announcement-date div:first-child {
+	font-size: 22px;
+    text-align: center;
+}
+
+.task-manager .announcement-date div:last-child {
+	font-size: 13px;
+    text-align: center;
+}
+
+.task-manager-search {
+	width: 40%;
+    display: inline-block;
+    float: right;
+	position:relative;
+}
+
+.task-manager-search span {
+	position:absolute;
+	left: 10px;
+    top: 6px;
+}
+
+.task-manager-search input {
+	width: 100%;
+    border: 1px solid #e6e6e6;
+    height: 35px;
+    border-radius: 3px;
+    margin-top: -5px;
+	outline: none;
+    padding-left: 30px;
+}
+
+.task-manager .panel-heading select {
+	margin-left: 20px;
+    border-radius: 3px;
+    margin-top: -3px;
+	border-color:#e6e6e6;
+}
+
+/* END OF TASK MANAGER WIDGET */
+
+
+/* GENERIC SEARCH */
+
+.generic-search .panel {
+	-webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;	
+}
+
+.generic-search .search-box-wrapper {
+	padding:0px 15px;
+	position:relative;
+}
+
+.generic-search .glyphicon {
+	position: absolute;
+    top: 18px;
+    font-size: 17px;
+    color: #a61229;
+}
+
+.generic-search .search-box-wrapper input {
+	height: 50px;
+    width: 100%;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+	padding-left:30px;
+}
+
+.generic-search .search-results {
+	margin-bottom: 0px;
+    display: inline-block;
+    width: 100%;
+	border-top: 1px solid #e5e7ea;
+	padding-top: 10px;
+}
+
+.generic-search .search-results ul {
+	padding-left:0;	
+}
+
+.generic-search .search-results ul li.result-box {
+	list-style: none;
+	border-top:1px solid #f5f5f5;
+}
+
+.generic-search .search-results ul li.result-box:first-child {
+	border:none;
+}
+
+.generic-search .search-results ul li.result-box a {
+	display: block;
+    color: #333;
+    padding: 10px 15px;
+	cursor:pointer;
+}
+
+.generic-search .search-results ul li.result-box a img.profile-pic {
+	width: 70px;
+    height: 70px;
+    border-radius: 100%;
+    margin-right: 15px;
+}
+
+.generic-search .search-results ul li.result-box a .user-info .name {
+	font-family: 'robotomedium';
+    font-size: 17px;
+    margin-bottom: 2px;
+}
+
+.generic-search .search-results ul li.result-box a .user-info .name span {
+	background-color: #252525;
+    padding: 1px 10px;
+    border-radius: 100px;
+    font-size: 13px;
+    color: #e0e0e0;
+	margin-left:5px;
+}
+
+.generic-search .search-results ul li.result-box a .user-info .unit {
+	margin-bottom: 3px;
+    font-size: 14px;
+}
+
+.generic-search .search-results ul li.result-box a .user-info .unit span {
+	font-family: 'robotomedium';
+    font-size: 15px;
+}
+
+.generic-search .search-results ul li.result-box a .user-info .number {
+	font-size: 13px;
+}
+
+
+/* END OF GENERIC SEARCH */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     /* Remove the padding we set earlier */
@@ -3064,7 +3412,7 @@ table.dataTable thead .sorting:after {
         border-bottom: 0;
     }
     .sidebar {
-        z-index: 1;
+        z-index: 2;
         position: absolute;
         overflow-y: auto;
         width: 250px;
