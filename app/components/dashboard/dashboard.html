@@ -59,25 +59,24 @@
             <div class="col-sm-12 task-manager">
                 <div class="panel panel-default">
                     <div class="panel-heading clearfix">
-                        <div class="panel-title">Task Manager</div>
+                        <div class="panel-title">Görev Yöneticisi</div>
                         <select class="pull-left">
-                        	<option selected>All Types</option>
-                        	<option value="type1">Type 1</option>
-                            <option value="type2">Type 2</option>
-                            <option value="type3">Type 3</option>
-                            <option value="type4">Type 4</option>
+                        	<option selected>Bütün Türler</option>
+                        	<option value="type1">Tür 1</option>
+                            <option value="type2">Tür 2</option>
+                            <option value="type3">Tür 3</option>
+                            <option value="type4">Tür 4</option>
                         </select>
                         <select class="pull-left">
-                        	<option selected>All Times</option>
-                        	<option value="type1">Last 1 day</option>
-                            <option value="type2">Last 1 week</option>
-                            <option value="type3">Last 1 month</option>
-                            <option value="type4">Last 1 year</option>
+                        	<option selected>Tüm Zamanlar</option>
+                        	<option value="type1">Son 1 Gün</option>
+                            <option value="type2">Son 1 Hafta</option>
+                            <option value="type3">Son 1 Ay</option>
                         </select>
                         <div class="task-manager-search">
                         	<span class="glyphicon glyphicon-search"></span>
-                            <input type="text" placeholder="Search in task manager">
-                            <input type="checkbox" uib-tooltip="Search in all tasks" tooltip-placement="left">
+                            <input type="text" placeholder="Görev yöneticisi içinde ara">
+                            <input type="checkbox" uib-tooltip="Tüm görevler içersinde ara" tooltip-placement="left">
                         </div>
                     </div>
                     <div class="panel-body">
@@ -85,10 +84,10 @@
                     
                     <!-- Nav tabs -->
                       <ul class="nav nav-tabs nav-justified" role="tablist">
-                        <li role="presentation" class="active"><a href=".current-tasks" aria-controls="current-tasks" role="tab" data-toggle="tab">Active Tasks</a></li>
-                        <li role="presentation"><a href=".future-tasks" aria-controls="future-tasks" role="tab" data-toggle="tab">Future Tasks</a></li>
-                        <li role="presentation"><a href=".completed-tasks" aria-controls="completed-tasks" role="tab" data-toggle="tab">Completed Tasks</a></li>
-                        <li role="presentation"><a href=".expired-tasks" aria-controls="expired-tasks" role="tab" data-toggle="tab">Expired Tasks</a></li>
+                        <li role="presentation" class="active"><a href=".current-tasks" aria-controls="current-tasks" role="tab" data-toggle="tab">Aktif Görevler <span>4</span></a></li>
+                        <li role="presentation"><a href=".future-tasks" aria-controls="future-tasks" role="tab" data-toggle="tab">Gelecekteki Görevler <span>6</span></a></li>
+                        <li role="presentation"><a href=".completed-tasks" aria-controls="completed-tasks" role="tab" data-toggle="tab">Tamamlanan Görevler <span>3</span></a></li>
+                        <li role="presentation"><a href=".expired-tasks" aria-controls="expired-tasks" role="tab" data-toggle="tab">Geçersiz Görevler <span>1</span></a></li>
                       </ul>
                     
                       <!-- Tab panes -->
@@ -103,8 +102,8 @@
                             <li class="urgent-task">
                                 <a href="#" class="clearfix">
                                             <span class="task-status">
-                                                <div class="task-circle" uib-tooltip="Urgent" tooltip-placement="right"></div>
-                                                <img src="../../img/task-manager-icons/unclaimed.png" uib-tooltip="Unclaimed" tooltip-placement="right">
+                                                <div class="task-circle" uib-tooltip="Acil" tooltip-placement="right"></div>
+                                                <img src="../../img/task-manager-icons/unclaimed.png" uib-tooltip="Sahipsiz" tooltip-placement="right">
                                             </span>
                                             <span class="task-title">
                                                 <div>This is a short title of a task</div>
@@ -132,8 +131,8 @@
                             <li class="approaching-task">
                                 <a href="#" class="clearfix">
                                             <span class="task-status">
-                                                <div class="task-circle" uib-tooltip="Approaching" tooltip-placement="right"></div>
-                                                <img src="../../img/task-manager-icons/in-progress.png" uib-tooltip="In Progress" tooltip-placement="right">
+                                                <div class="task-circle" uib-tooltip="Yaklaşan" tooltip-placement="right"></div>
+                                                <img src="../../img/task-manager-icons/in-progress.png" uib-tooltip="İlerleme Halinde" tooltip-placement="right">
                                             </span>
                                             <span class="task-title">
                                                 <div>This is just a little bit of a longer title of a task</div>
@@ -159,8 +158,8 @@
                             <li class="non-urgent-task">
                                 <a href="#" class="clearfix">
                                             <span class="task-status">
-                                                <div class="task-circle" uib-tooltip="Non-urgent" tooltip-placement="right"></div>
-                                                <img src="../../img/task-manager-icons/waiting.png" uib-tooltip="Waiting" tooltip-placement="right">
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
+                                                <img src="../../img/task-manager-icons/waiting.png" uib-tooltip="Tamamlanmayı Bekliyor" tooltip-placement="right">
                                             </span>
                                             <span class="task-title">
                                                 <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
@@ -188,7 +187,7 @@
                             <li class="non-urgent-task">
                                 <a href="#" class="clearfix">
                                             <span class="task-status">
-                                                <div class="task-circle" uib-tooltip="Non-urgent" tooltip-placement="right"></div>
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
                                             </span>
                                             <span class="task-title">
                                                 <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
@@ -228,7 +227,7 @@
                         <li class="non-urgent-task">
                                 <a href="#" class="clearfix">
                                             <span class="task-status">
-                                                <div class="task-circle" uib-tooltip="Non-urgent" tooltip-placement="right"></div>
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
                                             </span>
                                             <span class="task-title">
                                                 <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
@@ -256,7 +255,7 @@
                             <li class="non-urgent-task">
                                 <a href="#" class="clearfix">
                                             <span class="task-status">
-                                                <div class="task-circle" uib-tooltip="Non-urgent" tooltip-placement="right"></div>
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
                                             </span>
                                             <span class="task-title">
                                                 <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
@@ -284,7 +283,7 @@
                             <li class="non-urgent-task">
                                 <a href="#" class="clearfix">
                                             <span class="task-status">
-                                                <div class="task-circle" uib-tooltip="Non-urgent" tooltip-placement="right"></div>
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
                                             </span>
                                             <span class="task-title">
                                                 <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
@@ -312,7 +311,7 @@
                             <li class="non-urgent-task">
                                 <a href="#" class="clearfix">
                                             <span class="task-status">
-                                                <div class="task-circle" uib-tooltip="Non-urgent" tooltip-placement="right"></div>
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
                                             </span>
                                             <span class="task-title">
                                                 <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
@@ -340,7 +339,7 @@
                             <li class="non-urgent-task">
                                 <a href="#" class="clearfix">
                                             <span class="task-status">
-                                                <div class="task-circle" uib-tooltip="Non-urgent" tooltip-placement="right"></div>
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
                                             </span>
                                             <span class="task-title">
                                                 <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
@@ -368,7 +367,7 @@
                             <li class="non-urgent-task">
                                 <a href="#" class="clearfix">
                                             <span class="task-status">
-                                                <div class="task-circle" uib-tooltip="Non-urgent" tooltip-placement="right"></div>
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
                                             </span>
                                             <span class="task-title">
                                                 <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
@@ -406,7 +405,7 @@
                             <li class="completed-task">
                                 <a href="#" class="clearfix">
                                             <span class="task-status">
-                                                <div class="task-circle" uib-tooltip="Completed" tooltip-placement="right"></div>
+                                                <div class="task-circle" uib-tooltip="Tamamlanan" tooltip-placement="right"></div>
                                             </span>
                                             <span class="task-title">
                                                 <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
@@ -434,7 +433,7 @@
                             <li class="completed-task">
                                 <a href="#" class="clearfix">
                                             <span class="task-status">
-                                                <div class="task-circle" uib-tooltip="Completed" tooltip-placement="right"></div>
+                                                <div class="task-circle" uib-tooltip="Tamamlanan" tooltip-placement="right"></div>
                                             </span>
                                             <span class="task-title">
                                                 <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
@@ -462,7 +461,7 @@
                             <li class="completed-task">
                                 <a href="#" class="clearfix">
                                             <span class="task-status">
-                                                <div class="task-circle" uib-tooltip="Completed" tooltip-placement="right"></div>
+                                                <div class="task-circle" uib-tooltip="Tamamlanan" tooltip-placement="right"></div>
                                             </span>
                                             <span class="task-title">
                                                 <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
