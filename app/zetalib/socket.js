@@ -268,6 +268,9 @@ angular.module('ulakbus')
             ];
             toggle[st]();
         };
-
+        if(WSUri.url.match(/127.0.0.1|localhost/)){
+            // to be able to call backend from console at development
+            window.wsops = wsOps;
+        }
         return wsOps;
     });
