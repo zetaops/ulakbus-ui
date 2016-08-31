@@ -3298,6 +3298,18 @@ table.dataTable thead .sorting:after {
     position: relative;	
 }
 
+.task-manager .nav-tabs li a span {
+	width: 25px;
+    height: 25px;
+    background-color: #f3f2f2;
+    display: inline-block;
+    border-radius: 100%;
+    color: #afacac;
+    font-size: 14px;
+    line-height: 25px;
+    margin-left: 10px;
+    font-family: 'robotomedium';
+}
 
 .task-manager .panel-body .nav li {
     border: none;
