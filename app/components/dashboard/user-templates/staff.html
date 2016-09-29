@@ -19,8 +19,8 @@
                         <div class="dashboard-search-results" ng-show="showResults">
                             <ul ng-if="students.length > 0">
                                 <li ng-repeat="student in students">
-                                    <a role="button">
-                                        <span ng-click="select(student, 'ogrenci')">{{student[0]}}</span>
+                                    <a role="button" ng-click="select(student, 'ogrenci')">
+                                        <span>{{student[0]}}</span>
                                         <i class="fa fa-fw fa-info-circle pull-right" popover-placement="bottom"
                                            uib-popover-template="userPopover.templateUrl"
                                            ng-click="get_info('Ogrenci', student[2])"></i></a>
@@ -42,8 +42,8 @@
                         <div class="dashboard-search-results" ng-show="showResults">
                             <ul ng-if="staffs.length > 0">
                                 <li ng-repeat="staff in staffs">
-                                    <a role="button">
-                                        <span ng-click="select(staff, 'personel')">{{staff[0]}}</span>
+                                    <a role="button" ng-click="select(staff, 'personel')">
+                                        <span>{{staff[0]}}</span>
                                         <i class="fa fa-fw fa-info-circle pull-right"
                                            popover-placement="bottom"
                                            uib-popover-template="userPopover.templateUrl"

@@ -87,11 +87,11 @@ angular.module('ulakbus.auth')
          * @returns {*}
          */
         authService.logout = function () {
-
             $rootScope.loginAttempt = 0;
             WSOps.request({wf: 'logout'}).then(function (data) {
                 $rootScope.loggedInUser = false;
                 $rootScope.current_user = true;
+                $rootScope.$broadcast("user_logged_out");
                 $log.debug("loggedout");
                 $location.path("/login");
                 WSOps.close();

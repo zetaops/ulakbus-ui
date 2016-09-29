@@ -459,6 +459,9 @@ angular.module('ulakbus')
                     delete $scope.selectedMenuItems;
                 };
 
+                // clean selection when user logged out
+                $rootScope.$on('user_logged_out', $scope.deselectUser);
+
                 $rootScope.$watch(function ($rootScope) {
                         return $rootScope.section;
                     },
