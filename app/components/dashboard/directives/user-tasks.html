@@ -1,82 +1,471 @@
-<div class="col-lg-6 col-md-12 student-assignment-list">
+<div class=" task-manager">
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="panel-title">Görevler</div>
+        <div class="panel-heading clearfix">
+            <div class="panel-title">Görev Yöneticisi</div>
+            <select class="pull-left" ng-model="taskType" ng-options="item.name as item.title for item in taskTypes"></select>
+            <select class="pull-left">
+                <option selected>Tüm Zamanlar</option>
+                <option value="type1">Son 1 Gün</option>
+                <option value="type2">Son 1 Hafta</option>
+                <option value="type3">Son 1 Ay</option>
+            </select>
+            <div class="task-manager-search">
+                <span class="glyphicon glyphicon-search"></span>
+                <input type="text" placeholder="Görev yöneticisi içinde ara">
+                <input type="checkbox" uib-tooltip="Tüm görevler içersinde ara" tooltip-placement="left">
+            </div>
         </div>
         <div class="panel-body">
 
-            <ul>
-                <li ng-repeat="(k,v) in task_list" class="last-assignment">
-                    <div class="panel-heading">
-                        <div class="panel-title">{{k}}</div>
-                    </div>
-                    <a ng-repeat="task in v" role="button" ng-click="gototask(task.wf_token)" class="clearfix">
-                                	<span class="assignment-status">
-                                    	<div class="assignment-circle" uib-tooltip="Acil"></div>
-                                    </span>
-                                    <span class="assignment-title">
-                                    	<div>{{task.title}}</div>
-                                    	<div>{{task.description}}</div>
-                                    </span>
-                                    <span class="assignment-due-date">
-                                    	<div>18</div>
-                                        <div>ŞUB</div>
-                                    </span>
-                    </a>
-                </li>
-                <!-- end of urgent-assignment -->
-                <!--<li class="approaching-assignment">-->
-                    <!--<a href="#" class="clearfix">-->
-                                	<!--<span class="assignment-status">-->
-                                    	<!--<div class="assignment-circle" uib-tooltip="Yaklaşıyor"></div>-->
-                                    <!--</span>-->
-                                    <!--<span class="assignment-title">-->
-                                    	<!--<div>Storyboard Design</div>-->
-                                        <!--<div>435 - Project Management and Development</div>-->
-                                    <!--</span>-->
-                                    <!--<span class="assignment-due-date">-->
-                                    	<!--<div>27</div>-->
-                                        <!--<div>ŞUB</div>-->
-                                    <!--</span>-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--&lt;!&ndash; end of approaching-assignment &ndash;&gt;-->
-                <!--<li class="non-urgent-assignment">-->
-                    <!--<a href="#" class="clearfix">-->
-                                	<!--<span class="assignment-status">-->
-                                    	<!--<div class="assignment-circle" uib-tooltip="Acil olmayan"></div>-->
-                                    <!--</span>-->
-                                    <!--<span class="assignment-title">-->
-                                    	<!--<div>Design Report</div>-->
-                                        <!--<div>435 - Project Management and Development</div>-->
-                                    <!--</span>-->
-                                    <!--<span class="assignment-due-date">-->
-                                    	<!--<div>05</div>-->
-                                        <!--<div>MAR</div>-->
-                                    <!--</span>-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--&lt;!&ndash; end of non-urgent-assignment &ndash;&gt;-->
 
-                <!--<li class="last-assignment">-->
-                    <!--<div class="panel-heading">-->
-                        <!--<div class="panel-title">Tamamlanan Son Görevler</div>-->
-                    <!--</div>-->
-                    <!--<a href="#" class="clearfix">-->
-                                	<!--<span class="assignment-status">-->
-                                    	<!--<div></div>-->
-                                    <!--</span>-->
-                                    <!--<span class="assignment-title">-->
-                                    	<!--<div>Design Report</div>-->
-                                        <!--<div>435 - Project Management and Development</div>-->
-                                    <!--</span>-->
-                                    <!--<span class="assignment-due-date">-->
-                                    	<!--<div><i class="fa fa-check"></i></div>-->
-                                    <!--</span>-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!-- end of last-assignment -->
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+                <li role="presentation" class="active"><a href=".current-tasks" aria-controls="current-tasks" role="tab" data-toggle="tab">Aktif Görevler <span>4</span></a></li>
+                <li role="presentation"><a href=".future-tasks" aria-controls="future-tasks" role="tab" data-toggle="tab">Gelecekteki Görevler <span>6</span></a></li>
+                <li role="presentation"><a href=".completed-tasks" aria-controls="completed-tasks" role="tab" data-toggle="tab">Tamamlanan Görevler <span>3</span></a></li>
+                <li role="presentation"><a href=".expired-tasks" aria-controls="expired-tasks" role="tab" data-toggle="tab">Geçersiz Görevler <span>1</span></a></li>
             </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane current-tasks active">
+
+
+                    <ul>
+
+
+
+                        <li class="urgent-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Acil" tooltip-placement="right"></div>
+                                                <img src="../../img/task-manager-icons/unclaimed.png" uib-tooltip="Sahipsiz" tooltip-placement="right">
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is a short title of a task</div>
+                                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque molestie diam sed purus vestibulum, et venenatis urna aliquam. Phasellus nunc nisi, aliquet in mollis non, cursus eu sapien.</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+
+                            </a>
+
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of urgent-assignment -->
+                        <li class="approaching-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Yaklaşan" tooltip-placement="right"></div>
+                                                <img src="../../img/task-manager-icons/in-progress.png" uib-tooltip="İlerleme Halinde" tooltip-placement="right">
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is just a little bit of a longer title of a task</div>
+                                                <div>Pellentesque vel ultrices libero. Phasellus accumsan eu massa a euismod. Sed dui diam, tempor non risus sit amet, imperdiet pulvinar nisl. Morbi faucibus iaculis vulputate.</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+                            </a>
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of approaching-assignment -->
+                        <li class="non-urgent-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
+                                                <img src="../../img/task-manager-icons/waiting.png" uib-tooltip="Tamamlanmayı Bekliyor" tooltip-placement="right">
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
+                                                <div>In vel arcu porta, rhoncus ipsum ac, interdum lectus. In ut nibh nibh. Mauris viverra dui a nibh cursus, nec pretium nunc finibus. Nunc efficitur</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+
+                            </a>
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of non-urgent-assignment -->
+
+                        <li class="non-urgent-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
+                                                <div>In vel arcu porta, rhoncus ipsum ac, interdum lectus. In ut nibh nibh. Mauris viverra dui a nibh cursus, nec pretium nunc finibus. Nunc efficitur</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+
+                            </a>
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of non-urgent-assignment -->
+
+                    </ul>
+
+
+                </div>
+                <!-- end of current-tasks -->
+
+
+
+                <div role="tabpanel" class="tab-pane future-tasks">
+
+                    <ul>
+
+                        <li class="non-urgent-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
+                                                <div>In vel arcu porta, rhoncus ipsum ac, interdum lectus. In ut nibh nibh. Mauris viverra dui a nibh cursus, nec pretium nunc finibus. Nunc efficitur</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+
+                            </a>
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of non-urgent-assignment -->
+
+                        <li class="non-urgent-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
+                                                <div>In vel arcu porta, rhoncus ipsum ac, interdum lectus. In ut nibh nibh. Mauris viverra dui a nibh cursus, nec pretium nunc finibus. Nunc efficitur</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+
+                            </a>
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of non-urgent-assignment -->
+
+                        <li class="non-urgent-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
+                                                <div>In vel arcu porta, rhoncus ipsum ac, interdum lectus. In ut nibh nibh. Mauris viverra dui a nibh cursus, nec pretium nunc finibus. Nunc efficitur</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+
+                            </a>
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of non-urgent-assignment -->
+
+                        <li class="non-urgent-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
+                                                <div>In vel arcu porta, rhoncus ipsum ac, interdum lectus. In ut nibh nibh. Mauris viverra dui a nibh cursus, nec pretium nunc finibus. Nunc efficitur</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+
+                            </a>
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of non-urgent-assignment -->
+
+                        <li class="non-urgent-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
+                                                <div>In vel arcu porta, rhoncus ipsum ac, interdum lectus. In ut nibh nibh. Mauris viverra dui a nibh cursus, nec pretium nunc finibus. Nunc efficitur</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+
+                            </a>
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of non-urgent-assignment -->
+
+                        <li class="non-urgent-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Acil Olmayan" tooltip-placement="right"></div>
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
+                                                <div>In vel arcu porta, rhoncus ipsum ac, interdum lectus. In ut nibh nibh. Mauris viverra dui a nibh cursus, nec pretium nunc finibus. Nunc efficitur</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+
+                            </a>
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of non-urgent-assignment -->
+
+                    </ul>
+
+                </div>
+                <!-- end of future-tasks -->
+
+
+                <div role="tabpanel" class="tab-pane completed-tasks">
+
+                    <ul>
+
+                        <li class="completed-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Tamamlanan" tooltip-placement="right"></div>
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
+                                                <div>In vel arcu porta, rhoncus ipsum ac, interdum lectus. In ut nibh nibh. Mauris viverra dui a nibh cursus, nec pretium nunc finibus. Nunc efficitur</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+
+                            </a>
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of non-urgent-assignment -->
+
+                        <li class="completed-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Tamamlanan" tooltip-placement="right"></div>
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
+                                                <div>In vel arcu porta, rhoncus ipsum ac, interdum lectus. In ut nibh nibh. Mauris viverra dui a nibh cursus, nec pretium nunc finibus. Nunc efficitur</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+
+                            </a>
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of non-urgent-assignment -->
+
+                        <li class="completed-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Tamamlanan" tooltip-placement="right"></div>
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
+                                                <div>In vel arcu porta, rhoncus ipsum ac, interdum lectus. In ut nibh nibh. Mauris viverra dui a nibh cursus, nec pretium nunc finibus. Nunc efficitur</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+
+                            </a>
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of non-urgent-assignment -->
+
+                    </ul>
+
+                </div>
+                <!-- end of completed-tasks -->
+
+                <div role="tabpanel" class="tab-pane expired-tasks">
+
+                    <ul>
+
+                        <li class="expired-task">
+                            <a href="#" class="clearfix">
+                                            <span class="task-status">
+                                                <div class="task-circle" uib-tooltip="Expired" tooltip-placement="right"></div>
+                                            </span>
+                                <span class="task-title">
+                                                <div>This is absolutely the longest title between previous task titles and could be even longer and longer </div>
+                                                <div>In vel arcu porta, rhoncus ipsum ac, interdum lectus. In ut nibh nibh. Mauris viverra dui a nibh cursus, nec pretium nunc finibus. Nunc efficitur</div>
+                                                <div>5 Eylül 2016 - Pazartesi</div>
+                                            </span>
+
+                            </a>
+                            <div class="dropdown">
+                                <div class="dropdown-inner">
+                                    <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+                                        <div><span class="glyphicon glyphicon-option-vertical"></span></div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end of dropdown -->
+                        </li>
+                        <!-- end of non-urgent-assignment -->
+
+                    </ul>
+
+                </div>
+                <!-- end of expired tasks -->
+
+            </div>
+            <!-- end of tab-content -->
 
         </div>
     </div>

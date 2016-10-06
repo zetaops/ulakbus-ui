@@ -9,7 +9,7 @@
 
 angular.module("ulakbus")
 
-    .service("Utils", function(){
+    .service("Utils", function($rootScope, $q, WSOps){
         var self = this;
 
         // check if obj1 has properties values equal to corresponding properties in obj2
@@ -78,6 +78,38 @@ angular.module("ulakbus")
                 }
                 callback(val, key);
             })
+        }
+
+        /**
+         *
+         * @description Wait until websocket will be ready to accept request
+         * @returns Promise()
+         */
+        var wsReady = this.wsReady = function() {
+            /**
+             * wait until websocket will be open
+             */
+            var deferred = $q.defer();
+            var dismissWatcher = $rootScope.$watch('websocketIsOpen', function(isOpen){
+                if (isOpen){
+                    dismissWatcher();
+                    deferred.resolve();
+                }
+            });
+            return deferred.promise;
+        };
+
+        /**
+         *
+         * @description Wait until websocket will be ready to accept request
+         * @param outgoing {Object} Request payload
+         * @returns Promise()
+         */
+        this.wsRequest = function(outgoing){
+            return wsReady()
+                .then(function () {
+                    return WSOps.request(outgoing);
+                })
         }
     })
 
