@@ -87,15 +87,19 @@ angular.module("ulakbus")
          */
         var wsReady = this.wsReady = function() {
             /**
-             * wait until websocket will be open
+             * wait until websocket will be open or return immediately if already open
              */
             var deferred = $q.defer();
-            var dismissWatcher = $rootScope.$watch('websocketIsOpen', function(isOpen){
-                if (isOpen){
-                    dismissWatcher();
-                    deferred.resolve();
-                }
-            });
+            if ($rootScope.websocketIsOpen){
+                deferred.resolve();
+            } else {
+                var dismissWatcher = $rootScope.$watch('websocketIsOpen', function(isOpen){
+                    if (isOpen){
+                        dismissWatcher();
+                        deferred.resolve();
+                    }
+                });
+            }
             return deferred.promise;
         };
 
