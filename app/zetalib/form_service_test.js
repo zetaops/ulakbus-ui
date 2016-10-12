@@ -28,7 +28,7 @@ describe('form service module', function () {
             function (Generator) {
                 expect(Generator.group).not.toBe(null);
                 var generated_url = Generator.makeUrl({url: 'test', form_params: {}});
-                expect(generated_url).toEqual("//api.ulakbus.net/test");
+                expect(generated_url).toEqual("http://api.ulakbus.net/test");
             }])
         );
 
@@ -60,7 +60,11 @@ describe('form service module', function () {
                     schema: {
                         properties: {
                             email: {title: 'email', type: 'email'},
-                            id: {title: 'id', type: 'number'},
+                            id: {
+                                title: 'id',
+                                type: 'number',
+                                validationMessage: {max: "bu alan -2147483647 ve 2147483647 arasında olmalıdır."}
+                            },
                             name: {title: 'name', type: 'string'}
                         }, required: [], type: 'object', title: 'servicetest'
                     },
@@ -73,7 +77,7 @@ describe('form service module', function () {
                 var form_generated = Generator.generate(scope, data);
 
 
-                expect(form_generated).toEqual(form_json);
+                expect(angular.equals(form_generated,form_json)).toBe(true);
             }])
         );
 
