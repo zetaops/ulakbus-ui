@@ -739,10 +739,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                     return deferred.promise;
                                 }
                             },
-                            disabled: false,
-                            is_disabled: function () {
-                                return this.disabled;
-                            },
                             status: {opened: false},
                             open: function ($event) {
                                 this.disabled = true;
@@ -755,8 +751,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             },
                             format: 'dd.MM.yyyy',
                             onSelect: function () {
-                                this.disabled = false;
                                 scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
+                                return false;
                             }
                         };
                     }
@@ -984,7 +980,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          */
         generator.dateformatter = function (formObject) {
             var ndate = new Date(formObject);
-            if (isNaN(ndate)) {
+            if (isNaN(ndate) || formObject === null) {
                 return '';
             } else {
                 var newdatearray = Moment(ndate).format('DD.MM.YYYY');
