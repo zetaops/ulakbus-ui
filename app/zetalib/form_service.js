@@ -972,7 +972,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             });
 
             $log.debug('scope at after prepareformitems', scope);
-            generator.constraints(scope);
+            return generator.constraints(scope);
         };
         /**
          * @memberof ulakbus.formService
