@@ -344,7 +344,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             }
 
             // if selective listing then change objects key to its first item
-            if (angular.isDefined($scope.meta.selective_listing)) {
+            if (angular.isDefined($scope.meta) && angular.isDefined($scope.meta.selective_listing)) {
                 $scope.all_objects = angular.copy($scope.objects);
                 $scope.selective_list_key = $scope.all_objects[$scope.selected_key];
                 $scope.objects = $scope.selective_list_key["objects"];

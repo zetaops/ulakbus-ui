@@ -175,7 +175,7 @@ angular.module('ulakbus')
                 }
             };
             // do_action is the dispatcher function for incoming events
-            var do_action = function (options) {
+            var do_action = function () {
                 // remove mask from crud here
                 // togglePageReadyMask(0);
                 // $log.info("togglePageReadyMask off");
