@@ -45,13 +45,7 @@ angular.module("components/admin/bpmn_manager.html", []).run(["$templateCache", 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
     "<div style=\"width: 100%; height: 100%; position: fixed; z-index: 1100; top:0; left:0; background: #fff;\">\n" +
-    "    <nav class=\"navbar navbar-default navbar-static-top\"  style=\"margin-bottom: 0\">\n" +
-    "        <div class=\"alert alert-warning text-center\" role=\"alert\" style=\"margin-bottom: 0\">\n" +
-    "            <b><i class=\"fa fa-exclamation-triangle\" aria-hidden=\"true\"></i> Demo Modu <i class=\"fa fa-exclamation-triangle\" aria-hidden=\"true\"></i></b>\n" +
-    "            <br>\n" +
-    "            <small>HITAP, MERNIS gibi dış servislere bağlı iş akışları demo modunda çalışmamaktadır.</small>\n" +
-    "        </div>\n" +
-    "    </nav>\n" +
+    "    <demo-mode></demo-mode>\n" +
     "    <div ng-app=\"ulakbus.auth\" class=\"container\">\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"col-md-6 col-md-offset-3\">\n" +
@@ -2339,16 +2333,14 @@ angular.module("shared/templates/datefield.html", []).run(["$templateCache", fun
 
 angular.module("shared/templates/demoMode.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("shared/templates/demoMode.html",
-    "<!DOCTYPE html>\n" +
-    "<html lang=\"en\">\n" +
-    "<head>\n" +
-    "    <meta charset=\"UTF-8\">\n" +
-    "    <title>Title</title>\n" +
-    "</head>\n" +
-    "<body>\n" +
-    "\n" +
-    "</body>\n" +
-    "</html>");
+    "<nav class=\"navbar navbar-default navbar-static-top\"  ng-if=\"demo\" style=\"margin-bottom: 0; border: 0; background: transparent\">\n" +
+    "    <div class=\"alert alert-warning text-center\" role=\"alert\" style=\"margin-bottom: 0\">\n" +
+    "        <b><i class=\"fa fa-exclamation-triangle\" aria-hidden=\"true\"></i> Demo Modu <i class=\"fa fa-exclamation-triangle\" aria-hidden=\"true\"></i></b>\n" +
+    "        <br>\n" +
+    "        <small>HITAP, MERNIS gibi dış servislere bağlı iş akışları demo modunda çalışmamaktadır.</small>\n" +
+    "    </div>\n" +
+    "    <div class=\"clearfix\"></div>\n" +
+    "</nav>");
 }]);
 
 angular.module("shared/templates/directives/alert.html", []).run(["$templateCache", function($templateCache) {
