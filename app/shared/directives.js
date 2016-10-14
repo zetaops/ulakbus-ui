@@ -719,4 +719,15 @@ angular.module('ulakbus')
                 })
             }
         }
+    })
+
+    .directive('demoMode', function () {
+        return {
+            templateUrl: 'shared/templates/demoMode.html',
+            restrict: 'E',
+            replace: true,
+            controller: function ($scope, $cookies) {
+                $scope.demo = ($cookies.get("demo") === "true")
+            }
+        }
     });
