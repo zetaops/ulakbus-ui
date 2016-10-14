@@ -133,7 +133,7 @@ angular.module('ulakbus')
             };
 
             function debugMode(type, rejection){
-                if ( $cookies.get("debug") === "true" ){
+                if ( $cookies.get("demo") === "true" ){
                     switch(type){
                         case 403:
                             errorForAlertBox.msg = "Yetkisiz İşlem. İş Akışları Akademik Takvime uygun sırayla çalıştırılmalıdır. Bu iş akışını çalıştırmaya yetkiniz yok veya demo sürümünde olabilirsiniz.";
