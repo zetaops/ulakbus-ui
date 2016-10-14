@@ -1,4 +1,4 @@
-angular.module('templates-prod', ['components/admin/bpmn_manager.html', 'components/auth/login.html', 'components/crud/templates/crud-preload.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/inline_edit.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/quick_add.html', 'components/crud/templates/show.html', 'components/crud/templates/timetable.html', 'components/dashboard/dashboard.html', 'components/dashboard/directives/academic-calendar.html', 'components/dashboard/directives/calendar-popover.html', 'components/dashboard/directives/user-tasks.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/academician.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/messaging/templates/add_user_unit.html', 'components/messaging/templates/conversation.html', 'components/messaging/templates/create_channel.html', 'components/messaging/templates/delete_confirmation.html', 'components/messaging/templates/edit_message.html', 'components/messaging/templates/index.html', 'components/messaging/templates/search_user.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/uitemplates/academician.html', 'components/uitemplates/base.html', 'components/uitemplates/form_service_pg.html', 'components/uitemplates/staff.html', 'components/uitemplates/student.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/confirm.html', 'shared/templates/confirmModalContent.html', 'shared/templates/confirmprev.html', 'shared/templates/datefield.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/messaging/detail.html', 'shared/templates/directives/messaging/index.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/directives/timetable-action-selector.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/notificationsModalContent.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
+angular.module('templates-prod', ['components/admin/bpmn_manager.html', 'components/auth/login.html', 'components/crud/templates/crud-preload.html', 'components/crud/templates/crud.html', 'components/crud/templates/filter.html', 'components/crud/templates/form.html', 'components/crud/templates/inline_edit.html', 'components/crud/templates/list.html', 'components/crud/templates/nodeTable.html', 'components/crud/templates/quick_add.html', 'components/crud/templates/show.html', 'components/crud/templates/timetable.html', 'components/dashboard/dashboard.html', 'components/dashboard/directives/academic-calendar.html', 'components/dashboard/directives/calendar-popover.html', 'components/dashboard/directives/user-tasks.html', 'components/dashboard/user-info.html', 'components/dashboard/user-templates/academician.html', 'components/dashboard/user-templates/staff.html', 'components/dashboard/user-templates/student.html', 'components/debug/debug.html', 'components/devSettings/devSettings.html', 'components/error_pages/404.html', 'components/error_pages/500.html', 'components/messaging/templates/add_user_unit.html', 'components/messaging/templates/conversation.html', 'components/messaging/templates/create_channel.html', 'components/messaging/templates/delete_confirmation.html', 'components/messaging/templates/edit_message.html', 'components/messaging/templates/index.html', 'components/messaging/templates/search_user.html', 'components/uitemplates/404.html', 'components/uitemplates/500.html', 'components/uitemplates/academician.html', 'components/uitemplates/base.html', 'components/uitemplates/form_service_pg.html', 'components/uitemplates/staff.html', 'components/uitemplates/student.html', 'shared/templates/actionsModalContent.html', 'shared/templates/add.html', 'shared/templates/confirm.html', 'shared/templates/confirmModalContent.html', 'shared/templates/confirmprev.html', 'shared/templates/datefield.html', 'shared/templates/demoMode.html', 'shared/templates/directives/alert.html', 'shared/templates/directives/chat.html', 'shared/templates/directives/guide-help.html', 'shared/templates/directives/header-breadcrumb.html', 'shared/templates/directives/header-notification.html', 'shared/templates/directives/header-sub-menu.html', 'shared/templates/directives/menuCollapse.html', 'shared/templates/directives/messaging/detail.html', 'shared/templates/directives/messaging/index.html', 'shared/templates/directives/msgbox.html', 'shared/templates/directives/notifications.html', 'shared/templates/directives/right-sidebar.html', 'shared/templates/directives/search.html', 'shared/templates/directives/selected-user.html', 'shared/templates/directives/selectedUserPopover.html', 'shared/templates/directives/sidebar-search.html', 'shared/templates/directives/sidebar.html', 'shared/templates/directives/sort.html', 'shared/templates/directives/stats.html', 'shared/templates/directives/timeline.html', 'shared/templates/directives/timetable-action-selector.html', 'shared/templates/fieldset.html', 'shared/templates/filefield.html', 'shared/templates/foreignKey.html', 'shared/templates/linkedModelModalContent.html', 'shared/templates/listnodeModalContent.html', 'shared/templates/modalContent.html', 'shared/templates/multiselect.html', 'shared/templates/notificationsModalContent.html', 'shared/templates/select.html', 'shared/templates/translate.html', 'shared/templates/typeahead.html']);
 
 angular.module("components/admin/bpmn_manager.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/admin/bpmn_manager.html",
@@ -45,6 +45,7 @@ angular.module("components/admin/bpmn_manager.html", []).run(["$templateCache", 
 angular.module("components/auth/login.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("components/auth/login.html",
     "<div style=\"width: 100%; height: 100%; position: fixed; z-index: 1100; top:0; left:0; background: #fff;\">\n" +
+    "    <demo-mode></demo-mode>\n" +
     "    <div ng-app=\"ulakbus.auth\" class=\"container\">\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"col-md-6 col-md-offset-3\">\n" +
@@ -957,8 +958,8 @@ angular.module("components/dashboard/user-templates/staff.html", []).run(["$temp
     "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
     "                            <ul ng-if=\"students.length > 0\">\n" +
     "                                <li ng-repeat=\"student in students\">\n" +
-    "                                    <a role=\"button\">\n" +
-    "                                        <span ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</span>\n" +
+    "                                    <a role=\"button\" ng-click=\"select(student, 'ogrenci')\">\n" +
+    "                                        <span>{{student[0]}}</span>\n" +
     "                                        <i class=\"fa fa-fw fa-info-circle pull-right\" popover-placement=\"bottom\"\n" +
     "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
     "                                           ng-click=\"get_info('Ogrenci', student[2])\"></i></a>\n" +
@@ -980,8 +981,8 @@ angular.module("components/dashboard/user-templates/staff.html", []).run(["$temp
     "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
     "                            <ul ng-if=\"staffs.length > 0\">\n" +
     "                                <li ng-repeat=\"staff in staffs\">\n" +
-    "                                    <a role=\"button\">\n" +
-    "                                        <span ng-click=\"select(staff, 'personel')\">{{staff[0]}}</span>\n" +
+    "                                    <a role=\"button\" ng-click=\"select(staff, 'personel')\">\n" +
+    "                                        <span>{{staff[0]}}</span>\n" +
     "                                        <i class=\"fa fa-fw fa-info-circle pull-right\"\n" +
     "                                           popover-placement=\"bottom\"\n" +
     "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
@@ -1041,7 +1042,8 @@ angular.module("components/dashboard/user-templates/staff.html", []).run(["$temp
     "    </div>\n" +
     "\n" +
     "</div>\n" +
-    "<!-- end of dashboard-main-anouncement -->");
+    "<!-- end of dashboard-main-anouncement -->\n" +
+    "");
 }]);
 
 angular.module("components/dashboard/user-templates/student.html", []).run(["$templateCache", function($templateCache) {
@@ -1806,8 +1808,8 @@ angular.module("components/uitemplates/staff.html", []).run(["$templateCache", f
     "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
     "                            <ul ng-if=\"students.length > 0\">\n" +
     "                                <li ng-repeat=\"student in students\">\n" +
-    "                                    <a role=\"button\">\n" +
-    "                                        <span ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</span>\n" +
+    "                                    <a role=\"button\" ng-click=\"select(student, 'ogrenci')\">\n" +
+    "                                        <span>{{student[0]}}</span>\n" +
     "                                        <i class=\"fa fa-fw fa-info-circle pull-right\" popover-placement=\"bottom\"\n" +
     "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
     "                                           ng-click=\"get_info('Ogrenci', student[2])\"></i></a>\n" +
@@ -1829,8 +1831,8 @@ angular.module("components/uitemplates/staff.html", []).run(["$templateCache", f
     "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
     "                            <ul ng-if=\"staffs.length > 0\">\n" +
     "                                <li ng-repeat=\"staff in staffs\">\n" +
-    "                                    <a role=\"button\">\n" +
-    "                                        <span ng-click=\"select(staff, 'personel')\">{{staff[0]}}</span>\n" +
+    "                                    <a role=\"button\" ng-click=\"select(staff, 'personel')\">\n" +
+    "                                        <span>{{staff[0]}}</span>\n" +
     "                                        <i class=\"fa fa-fw fa-info-circle pull-right\"\n" +
     "                                           popover-placement=\"bottom\"\n" +
     "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
@@ -1890,7 +1892,8 @@ angular.module("components/uitemplates/staff.html", []).run(["$templateCache", f
     "    </div>\n" +
     "\n" +
     "</div>\n" +
-    "<!-- end of dashboard-main-anouncement -->");
+    "<!-- end of dashboard-main-anouncement -->\n" +
+    "");
 }]);
 
 angular.module("components/uitemplates/student.html", []).run(["$templateCache", function($templateCache) {
@@ -2274,7 +2277,7 @@ angular.module("shared/templates/datefield.html", []).run(["$templateCache", fun
     "               id=\"{{form.key.slice(-1)[0]}}\"\n" +
     "               ng-model-options=\"form.ngModelOptions\"\n" +
     "               ng-model=\"$$value$$\"\n" +
-    "               ng-disabled=\"form.is_disabled()\"\n" +
+    "               readonly\n" +
     "               schema-validate=\"form\"\n" +
     "               name=\"{{form.key.slice(-1)[0]}}\"\n" +
     "               aria-describedby=\"{{form.key.slice(-1)[0] + 'Status'}}\"\n" +
@@ -2326,6 +2329,18 @@ angular.module("shared/templates/datefield.html", []).run(["$templateCache", fun
     "    <div class=\"help-block\" sf-message=\"form.description\"></div>\n" +
     "</div>\n" +
     "");
+}]);
+
+angular.module("shared/templates/demoMode.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("shared/templates/demoMode.html",
+    "<nav class=\"navbar navbar-default navbar-static-top\"  ng-if=\"demo\" style=\"margin-bottom: 0; border: 0; background: transparent\">\n" +
+    "    <div class=\"alert alert-warning text-center\" role=\"alert\" style=\"margin-bottom: 0\">\n" +
+    "        <b><i class=\"fa fa-exclamation-triangle\" aria-hidden=\"true\"></i> Demo Modu <i class=\"fa fa-exclamation-triangle\" aria-hidden=\"true\"></i></b>\n" +
+    "        <br>\n" +
+    "        <small>HITAP, MERNIS gibi dış servislere bağlı iş akışları demo modunda çalışmamaktadır.</small>\n" +
+    "    </div>\n" +
+    "    <div class=\"clearfix\"></div>\n" +
+    "</nav>");
 }]);
 
 angular.module("shared/templates/directives/alert.html", []).run(["$templateCache", function($templateCache) {
