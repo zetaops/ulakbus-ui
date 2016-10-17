@@ -453,8 +453,11 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                 $scope.filterCollapsed = {};
                 $scope.$watch('list_filters', function () {
                     angular.forEach($scope.list_filters, function (value, key) {
-                        $scope.filterList[value.field] = {values: value.values || [], type: value.type};
+                        $scope.filterList[value.field] = {model : {}, values: value.values || [], type: value.type};
                         $scope.filterCollapsed[value.field] = Object.keys($scope.filterCollapsed).length > 0 ? true : false;
+                        angular.forEach(value.values, function(val,key){
+                            if (val.selected) $scope.filterList[value.field].model[val.value] = val.selected;
+                        });
                     });
                 });
                 $scope.collapseFilter = function (field) {
