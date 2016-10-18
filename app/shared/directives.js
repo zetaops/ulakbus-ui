@@ -357,10 +357,6 @@ angular.module('ulakbus')
                     $scope.selectedUser = data;
                 });
 
-                $scope.deselectUser = function () {
-                    delete $scope.selectedUser;
-                    delete $scope.selectedMenuItems;
-                };
 
                 // $scope.openSidebar = function () {
                 //     if ($window.innerWidth > '768') {

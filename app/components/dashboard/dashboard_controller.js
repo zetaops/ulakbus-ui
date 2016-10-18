@@ -115,6 +115,8 @@ angular.module('ulakbus.dashboard', [])
          * removes selected user
          */
         $scope.deselectUser = function () {
+            jQuery(".right-sidebar").css("width", "0px");
+            jQuery(".manager-view-inner").css("width", "");
             delete $scope.selectedUser;
             delete $scope.selectedMenuItems;
         };
