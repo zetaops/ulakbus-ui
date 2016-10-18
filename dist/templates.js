@@ -2630,8 +2630,8 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        <ul class=\"dropdown-menu dropdown-user\">\n" +
     "            <li><a role=\"button\"><i class=\"fa fa-user fa-fw\"></i> Profil</a></li>\n" +
     "            <li class=\"divider\"></li>\n" +
-    "            <li><a role=\"button\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar</a></li>\n" +
-    "            <li><a href=\"#/dev/settings\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar (Dev)</a></li>\n" +
+    "            <!--<li><a role=\"button\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar</a></li>-->\n" +
+    "            <li><a href=\"#/dev/settings\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar</a></li>\n" +
     "            <li class=\"divider\"></li>\n" +
     "            <li><a ui-sref=\"login\" href=\"javascript:void(0);\" logout><i class=\"fa fa-sign-out fa-fw\"></i> Çıkış</a></li>\n" +
     "        </ul>\n" +
