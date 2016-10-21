@@ -957,8 +957,8 @@ angular.module("components/dashboard/user-templates/staff.html", []).run(["$temp
     "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
     "                            <ul ng-if=\"students.length > 0\">\n" +
     "                                <li ng-repeat=\"student in students\">\n" +
-    "                                    <a role=\"button\" ng-click=\"select(student, 'ogrenci')\">\n" +
-    "                                        <span>{{student[0]}}</span>\n" +
+    "                                    <a role=\"button\">\n" +
+    "                                        <span ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</span>\n" +
     "                                        <i class=\"fa fa-fw fa-info-circle pull-right\" popover-placement=\"bottom\"\n" +
     "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
     "                                           ng-click=\"get_info('Ogrenci', student[2])\"></i></a>\n" +
@@ -980,8 +980,8 @@ angular.module("components/dashboard/user-templates/staff.html", []).run(["$temp
     "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
     "                            <ul ng-if=\"staffs.length > 0\">\n" +
     "                                <li ng-repeat=\"staff in staffs\">\n" +
-    "                                    <a role=\"button\" ng-click=\"select(staff, 'personel')\">\n" +
-    "                                        <span>{{staff[0]}}</span>\n" +
+    "                                    <a role=\"button\">\n" +
+    "                                        <span ng-click=\"select(staff, 'personel')\">{{staff[0]}}</span>\n" +
     "                                        <i class=\"fa fa-fw fa-info-circle pull-right\"\n" +
     "                                           popover-placement=\"bottom\"\n" +
     "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
@@ -1041,8 +1041,7 @@ angular.module("components/dashboard/user-templates/staff.html", []).run(["$temp
     "    </div>\n" +
     "\n" +
     "</div>\n" +
-    "<!-- end of dashboard-main-anouncement -->\n" +
-    "");
+    "<!-- end of dashboard-main-anouncement -->");
 }]);
 
 angular.module("components/dashboard/user-templates/student.html", []).run(["$templateCache", function($templateCache) {
@@ -1807,8 +1806,8 @@ angular.module("components/uitemplates/staff.html", []).run(["$templateCache", f
     "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
     "                            <ul ng-if=\"students.length > 0\">\n" +
     "                                <li ng-repeat=\"student in students\">\n" +
-    "                                    <a role=\"button\" ng-click=\"select(student, 'ogrenci')\">\n" +
-    "                                        <span>{{student[0]}}</span>\n" +
+    "                                    <a role=\"button\">\n" +
+    "                                        <span ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</span>\n" +
     "                                        <i class=\"fa fa-fw fa-info-circle pull-right\" popover-placement=\"bottom\"\n" +
     "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
     "                                           ng-click=\"get_info('Ogrenci', student[2])\"></i></a>\n" +
@@ -1830,8 +1829,8 @@ angular.module("components/uitemplates/staff.html", []).run(["$templateCache", f
     "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
     "                            <ul ng-if=\"staffs.length > 0\">\n" +
     "                                <li ng-repeat=\"staff in staffs\">\n" +
-    "                                    <a role=\"button\" ng-click=\"select(staff, 'personel')\">\n" +
-    "                                        <span>{{staff[0]}}</span>\n" +
+    "                                    <a role=\"button\">\n" +
+    "                                        <span ng-click=\"select(staff, 'personel')\">{{staff[0]}}</span>\n" +
     "                                        <i class=\"fa fa-fw fa-info-circle pull-right\"\n" +
     "                                           popover-placement=\"bottom\"\n" +
     "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
@@ -1891,8 +1890,7 @@ angular.module("components/uitemplates/staff.html", []).run(["$templateCache", f
     "    </div>\n" +
     "\n" +
     "</div>\n" +
-    "<!-- end of dashboard-main-anouncement -->\n" +
-    "");
+    "<!-- end of dashboard-main-anouncement -->");
 }]);
 
 angular.module("components/uitemplates/student.html", []).run(["$templateCache", function($templateCache) {
