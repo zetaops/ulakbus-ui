@@ -584,4 +584,4 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
             return compile(config.template, config);
         };
 
-    })
+    });

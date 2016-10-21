@@ -65,9 +65,8 @@ describe('ulakbus.auth module', function () {
                     })
                     .respond(200, [{
                         'id': 1, 'user': {
-                            'id': 12
-
-                            , 'role': 'admin'
+                            'id': 12,
+                            'role': 'admin'
                         }, 'success': true
                     }]);
 
