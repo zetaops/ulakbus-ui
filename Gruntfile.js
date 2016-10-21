@@ -338,22 +338,22 @@ module.exports = function (grunt) {
                     context: {
                         name: '<%= pkg.name %>',
                         version: '<%= pkg.version %>',
-                        now: '<%= now %>',
-                        ver: '<%= ver %>'
+                        now: '<%= grunt.template.today("yyyymmddHHMM") %>',
+                        ver: '<%= pkg.version %>'
                     }
                 }
             },
             prod_branch: {
                 files: {
                     'dist/<%= grunt.branchname %>/index.html': 'app/main.html',
-                    'dist/<%= grunt.branchname %>/app.js': 'app/main.js',
+                    'dist/<%= grunt.branchname %>/app.js': 'app/main.js'
                 },
                 options: {
                     context: {
                         name: '<%= pkg.name %>',
                         version: '<%= pkg.version %>',
-                        now: '<%= now %>',
-                        ver: '<%= ver %>'
+                        now: '<%= grunt.template.today("yyyymmddHHMM") %>',
+                        ver: '<%= pkg.version %>'
                     }
                 }
             }

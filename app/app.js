@@ -38,6 +38,7 @@ angular.module(
         'ulakbus.version',
         'gettext',
         'markdown',
+        'ngWebSocket',
         'ulakbus.uitemplates'
     ])
     /**
@@ -79,7 +80,10 @@ angular.module(
             backendurl = proto + backendurl;
         }
 
-        return {url: backendurl};
+        return {
+            url: backendurl,
+            ws : backendurl.replace('http', 'ws')+"ws"
+        };
     })())
     .factory('IsOnline', function ($window, $document, $rootScope) {
 
