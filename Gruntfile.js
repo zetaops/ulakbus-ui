@@ -105,7 +105,7 @@ module.exports = function (grunt) {
                 files: [
                     {expand: true, cwd: "app/", src: "app.js", dest: "api-docs-source/"},
                     {expand: true, cwd: "app/zetalib/", src: "interceptors.js", dest: "api-docs-source/"},
-                    {expand: true, cwd: "app/zetalib/", src: "form_service.js", dest: "api-docs-source/"},
+                    {expand: true, cwd: "app/zetalib/", src: "form-service.js", dest: "api-docs-source/"},
                     {expand: true, cwd: "app/shared/", src: "directives.js", dest: "api-docs-source/"},
                     {expand: true, cwd: "app/components/auth/", src: "auth_controller.js", dest: "api-docs-source/"},
                     {expand: true, cwd: "app/components/auth/", src: "auth_service.js", dest: "api-docs-source/"},
@@ -123,8 +123,8 @@ module.exports = function (grunt) {
                     "app/app_routes.js",
                     "app/zetalib/interceptors.js",
                     "app/zetalib/general.js",
-                    "app/zetalib/form_service.js",
-                    "app/zetalib/form_constraints.js",
+                    "app/zetalib/form-service.js",
+                    "app/zetalib/form-constraints.js",
                     "app/zetalib/error_service.js",
                     "app/zetalib/action_service.js",
                     "app/zetalib/socket.js",
@@ -364,7 +364,7 @@ module.exports = function (grunt) {
                 src: [
                     "app/app.js",
                     "app/zetalib/interceptors.js",
-                    "app/zetalib/form_service.js",
+                    "app/zetalib/form-service.js",
                     "app/shared/directives.js",
                     "app/components/auth/auth_controller.js",
                     "app/components/auth/auth_service.js",

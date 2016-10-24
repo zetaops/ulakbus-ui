@@ -301,7 +301,6 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             else {
                 // call generator's get_single_item func
                 var a = "Generator.get_wf($scope)";
-                    console.log(a,Generator.get_wf($scope));
                 Generator.get_wf($scope).then(function (res) {
                     $scope.object = res.data.object;
                     $scope.model = $routeParams.model;

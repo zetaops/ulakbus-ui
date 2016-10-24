@@ -6,8 +6,12 @@ exports.config = {
     ],
 
     capabilities: {
-        'browserName': 'chrome'
+        'browserName': 'chrome',
+        'chromeOptions': {
+            'args': ['show-fps-counter=true']
+        }
     },
+
 
     baseUrl: 'http://localhost:8080/',
 
@@ -16,4 +20,5 @@ exports.config = {
     jasmineNodeOpts: {
         defaultTimeoutInterval: 30000
     }
+
 };

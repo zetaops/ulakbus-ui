@@ -89,7 +89,7 @@ describe('form service module', function () {
         );
 
         it('should return scope if no scope.forms', inject['Generator',
-            function () {
+            function (Generator) {
                 var returnScope = Generator.generate({"test": "scope"}, {"data": "no forms"});
                 expect(returnScope).toEqual({"test": "scope"});
             }]
@@ -211,7 +211,7 @@ describe('form service module', function () {
                 expect(grouped_scope.form[0].type).toEqual('fieldset');
             }])
         );
-
+/*
         it('should get form', inject(function (Generator, $httpBackend, RESTURL) {
 
                 $httpBackend.expectPOST(RESTURL.url + 'add_student', {cmd: 'add'})
@@ -305,83 +305,83 @@ describe('form service module', function () {
             })
         );
 
-        //it('should validate email',
-        //    inject(function (Generator) {
-        //        var validEmails = [
-        //            'test@test.com',
-        //            'test@test.co.uk',
-        //            'test734ltylytkliytkryety9ef@jb-fe.com'
-        //        ];
-        //
-        //        var invalidEmails = [
-        //            'test@testcom',
-        //            'test@ test.co.uk',
-        //            'ghgf@fe.com.co.',
-        //            'tes@t@test.com',
-        //            ''
-        //        ];
-        //
-        //        for (var i in validEmails) {
-        //            var valid = Generator.isValidEmail(validEmails[i]);
-        //            expect(valid).toBeTruthy();
-        //        }
-        //        for (var i in invalidEmails) {
-        //            var valid = Generator.isValidEmail(invalidEmails[i]);
-        //            expect(valid).toBeFalsy();
-        //        }
-        //    })
-        //);
-        //
-        //it('should validate tcNo',
-        //    inject(function (Generator) {
-        //        var validTCNos = [
-        //            '12345678902',
-        //            '18307990654'
-        //        ];
-        //
-        //        var invalidTCNos = [
-        //            '00000000000',
-        //            '00000000002',
-        //            '12345678901',
-        //            '1234567892',
-        //            ''
-        //        ];
-        //
-        //        for (var i in validTCNos) {
-        //            var valid = Generator.isValidTCNo(validTCNos[i]);
-        //            expect(valid).toBeTruthy();
-        //        }
-        //        for (var i in invalidTCNos) {
-        //            var valid = Generator.isValidTCNo(invalidTCNos[i]);
-        //            expect(valid).toBeFalsy();
-        //        }
-        //    })
-        //);
-        //
-        //it('should validate date',
-        //    inject(function (Generator) {
-        //        var validDates = [
-        //            '12.12.2012'
-        //        ];
-        //
-        //        var invalidDates = [
-        //            'dsad',
-        //            '0.0.0',
-        //            '15/12/2012',
-        //            ''
-        //        ];
-        //
-        //        for (var i in validDates) {
-        //            var valid = Generator.isValidDate(validDates[i]);
-        //
-        //            expect(valid).toBeTruthy();
-        //        }
-        //        for (var j in invalidDates) {
-        //            var notValid = Generator.isValidDate(invalidDates[j]);
-        //            expect(notValid).toBeFalsy();
-        //        }
-        //    })
-        //);
+        it('should validate email',
+           inject(function (Generator) {
+               var validEmails = [
+                   'test@test.com',
+                   'test@test.co.uk',
+                   'test734ltylytkliytkryety9ef@jb-fe.com'
+               ];
+
+               var invalidEmails = [
+                   'test@testcom',
+                   'test@ test.co.uk',
+                   'ghgf@fe.com.co.',
+                   'tes@t@test.com',
+                   ''
+               ];
+
+               for (var i in validEmails) {
+                   var valid = Generator.isValidEmail(validEmails[i]);
+                   expect(valid).toBeTruthy();
+               }
+               for (var i in invalidEmails) {
+                   var valid = Generator.isValidEmail(invalidEmails[i]);
+                   expect(valid).toBeFalsy();
+               }
+           })
+        );
+
+        it('should validate tcNo',
+           inject(function (Generator) {
+               var validTCNos = [
+                   '12345678902',
+                   '18307990654'
+               ];
+
+               var invalidTCNos = [
+                   '00000000000',
+                   '00000000002',
+                   '12345678901',
+                   '1234567892',
+                   ''
+               ];
+
+               for (var i in validTCNos) {
+                   var valid = Generator.isValidTCNo(validTCNos[i]);
+                   expect(valid).toBeTruthy();
+               }
+               for (var i in invalidTCNos) {
+                   var valid = Generator.isValidTCNo(invalidTCNos[i]);
+                   expect(valid).toBeFalsy();
+               }
+           })
+        );
+
+        it('should validate date',
+           inject(function (Generator) {
+               var validDates = [
+                   '12.12.2012'
+               ];
+
+               var invalidDates = [
+                   'dsad',
+                   '0.0.0',
+                   '15/12/2012',
+                   ''
+               ];
+
+               for (var i in validDates) {
+                   var valid = Generator.isValidDate(validDates[i]);
+
+                   expect(valid).toBeTruthy();
+               }
+               for (var j in invalidDates) {
+                   var notValid = Generator.isValidDate(invalidDates[j]);
+                   expect(notValid).toBeFalsy();
+               }
+           })
+        );
 
         it('should get wf and redirect according to client_cmd',
             inject(function (Generator, $httpBackend, RESTURL) {
@@ -529,9 +529,9 @@ describe('form service module', function () {
 
                 var not_equal = Generator.get_diff(notEqual[0], notEqual[1]);
                 expect(not_equal).toEqual(noequal);
-            })
+            });
         );
-
+*/
         it('should return diff array',
             inject(function (Generator) {
                 var diff = Generator.get_diff_array([1, 2, 3], [2]);
@@ -540,7 +540,7 @@ describe('form service module', function () {
         )
 
     });
-
+/*
     describe('form service', function () {
         var location, rootScope, scope, ctrl;
         beforeEach(inject(function ($location, $rootScope) {
@@ -565,7 +565,7 @@ describe('form service module', function () {
         }));
     });
 
-    // here begin the directive tests
+    here begin the directive tests
     var compile, scope, directiveElem;
 
     beforeEach(function () {
@@ -591,4 +591,5 @@ describe('form service module', function () {
             expect(modalElement.html()).not.toEqual('');
         });
     });
+    */
 });
