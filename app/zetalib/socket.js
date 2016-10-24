@@ -63,7 +63,7 @@
         socket.onClose(function (evt) {
             $rootScope.websocketIsOpen = false;
             $log.info("DISCONNECTED", evt);
-            socket.reconnect(); //reconnects to ws when connection drops
+            //socket.reconnect(); //reconnects to ws when connection drops
         });
 
         socket.onError(function (evt) {
@@ -71,7 +71,10 @@
         });
 
         socket.onMessage(function (evt) {
+            console.log(evt)
             var message = angular.fromJson(evt.data);
+            console.log(message);
+            if (angular.isUndefined(message)){return};
             if (message.msg === 'pong') {
                 pong();
                 return;
@@ -107,9 +110,9 @@
         function close(reason){
             socket.loginStatus = false;
             msgService.clearQueue();
-            return socket.close().then(function(){
-                $log.info("CLOSED");
-            });
+            $log.info("CLOSED :", reason || "");
+            socket.close();
+            return true;
         }
 
         /**
@@ -130,7 +133,7 @@
                 callbackID: callbackID
             };
             return socket.send(data).then(
-                function(){
+                function(data){
                     return msgService.addToQueue(data)
                 },
                 function(){

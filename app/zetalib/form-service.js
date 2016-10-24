@@ -15,10 +15,10 @@
  * @type {ng.$compileProvider|*}
  */
 angular.module('ulakbus.formService', ['ui.bootstrap'])
-    /**
-     * Moment.js used for date type conversions.
-     * there must be no global object, so we change it into a service here.
-     */
+/**
+ * Moment.js used for date type conversions.
+ * there must be no global object, so we change it into a service here.
+ */
     .service('Moment', function () {
         return window.moment;
     })
@@ -193,7 +193,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         };
         /**
          * @description generates form constraints as async validators
-         * async validators defined in form_constraints.js
+         * async validators defined in form-constraints.js
          * keys are input names
          * @example
          * `
@@ -293,7 +293,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             angular.forEach(scope.form, function (value, key) {
 
                 // parse markdown for help text
-                if (value.type === 'help'){
+                if (value.type === 'help') {
                     var markdown = $filter('markdown');
                     value.helpvalue = markdown(value.helpvalue);
                 }
@@ -380,8 +380,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 v.type = 'number';
                 v.validationMessage = {'max': 'bu alan -2147483647 ve 2147483647 arasında olmalıdır.'}
                 v.$validators = {
-                    max: function(value){
-                        return 2147483647>value>-2147483647;
+                    max: function (value) {
+                        return 2147483647 > value > -2147483647;
                     }
                 };
                 scope.model[k] = parseInt(scope.model[k]);
@@ -420,7 +420,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     scope[v.type][k].schema.properties[item.name] = angular.copy(item);
 
                     // save properties order in schema
-                    if (item.name != 'idx'){
+                    if (item.name != 'idx') {
                         scope[v.type][k].schema.properties_list.push(scope[v.type][k].schema.properties[item.name]);
                     }
 
@@ -470,7 +470,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 if (propInSchema.type === 'select') {
                                     node[propName] = generator.item_from_array(prop.toString(), list.schema.properties[propName].titleMap)
                                 }
-                                if (propInSchema.titleMap){
+                                if (propInSchema.titleMap) {
                                     node[propName] = {
                                         key: prop,
                                         unicode: generator.item_from_array(prop, propInSchema.titleMap)
@@ -645,7 +645,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             //  style: "btn-warning",
                             //  dismiss: false --> this one is for deciding if the button can dismiss modal
                             //}]
-                            modalFunction: function(){
+                            modalFunction: function () {
                                 delete scope.form_params.cmd;
                                 delete scope.form_params.flow;
                                 if (v.cmd) {
@@ -664,7 +664,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                     templateUrl: 'shared/templates/confirmModalContent.html',
                                     controller: 'ModalController',
                                     resolve: {
-                                        items: function(){
+                                        items: function () {
                                             var newscope = {
                                                 form: {
                                                     title: v.title,
@@ -683,12 +683,12 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                                 });
                             },
-                            openModal: function(){
+                            openModal: function () {
                                 var workOnForm = scope.modalElements ? scope.modalElements.workOnForm : 'formgenerated';
-                                if (!v.form_validate && angular.isDefined(v.form_validate)){
+                                if (!v.form_validate && angular.isDefined(v.form_validate)) {
                                     this.modalFunction();
                                 }
-                                else{
+                                else {
                                     scope.$broadcast('schemaFormValidate');
                                     if (scope[workOnForm].$valid) {
                                         this.modalFunction();
@@ -913,18 +913,18 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 }
                             }).then(function (data) {
 
-                                    try {
-                                        $timeout(function () {
-                                            document.querySelector('input[name=' + k + ']').value = data.object_name;
-                                        }, 200);
-
-                                    }
-                                    catch (e) {
+                                try {
+                                    $timeout(function () {
                                         document.querySelector('input[name=' + k + ']').value = data.object_name;
-                                        $log.debug('exception', e);
-                                    }
+                                    }, 200);
 
-                                });
+                                }
+                                catch (e) {
+                                    document.querySelector('input[name=' + k + ']').value = data.object_name;
+                                    $log.debug('exception', e);
+                                }
+
+                            });
                         }
                     }
                 },
@@ -963,7 +963,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 }
                 catch (e) {
                     // todo: raise not implemented
-                    console.log(v.type)
+                    //console.log(v.type)
                 }
             });
 
@@ -1039,10 +1039,14 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             items: function () {
                                 var newscope = {
                                     form: {
-                                        buttons: [ { text: "Evet", style: "btn-success", cmd:"confirm" }, { text: "Hayir", "style": "btn-warning", dismiss: true } ],
+                                        buttons: [{text: "Evet", style: "btn-success", cmd: "confirm"}, {
+                                            text: "Hayir",
+                                            "style": "btn-warning",
+                                            dismiss: true
+                                        }],
                                         title: todo.name,
                                         confirm_message: "Islemi onayliyor musunuz?",
-                                        onClick: function(cmd){
+                                        onClick: function (cmd) {
                                             modalInstance.close();
                                             if (cmd === "confirm" && angular.isDefined(cmd)) {
                                                 modalInstance.close();
@@ -1072,7 +1076,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @description Changes html disabled and enabled attributes of all buttons on current page.
          * @param {boolean} position
          */
-            // todo: remove
+        // todo: remove
         generator.button_switch = function (position) {
             var buttons = angular.element(document.querySelectorAll('button'));
             var positions = {true: "enabled", false: "disabled"};
@@ -1090,16 +1094,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_form = function (scope) {
-            if ($rootScope.websocketIsOpen === true) {
-                return WSOps.request(scope.form_params)
-                    .then(function (data) {
-                        return generator.generate(scope, data);
-                    });
-            } else {
-                $timeout(function () {
-                    generator.get_form(scope);
-                }, 500);
-            }
+            return WSOps.request(scope.form_params)
+                .then(function (data) {
+                    return generator.generate(scope, data);
+                })
         };
         /**
          * @memberof ulakbus.formService
@@ -1110,17 +1108,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_list = function (scope) {
-
-            if ($rootScope.websocketIsOpen === true) {
-                return WSOps.request(scope.form_params)
-                    .then(function (data) {
-                        return data;
-                    });
-            } else {
-                $timeout(function () {
-                    generator.get_list(scope);
-                }, 500);
-            }
+            return WSOps.request(scope.form_params)
+                .then(function (data) {
+                    return data;
+                });
         };
         /**
          * @memberof ulakbus.formService
@@ -1132,18 +1123,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_wf = function (scope) {
-            // todo: remove this condition
-            if ($rootScope.websocketIsOpen === true) {
-                WSOps.request(scope.form_params)
-                    .then(function (data) {
-                        return generator.pathDecider(data.client_cmd || ['list'], scope, data);
-                    });
-            } else {
-                $timeout(function () {
-                    // todo: loop restrict listen ws open
-                    generator.get_wf(scope);
-                }, 500);
-            }
+            return WSOps.request(scope.form_params)
+                .then(function (data) {
+                    return generator.pathDecider(data.client_cmd || ['list'], scope, data);
+                });
         };
         /**
          * @memberof ulakbus.formService
@@ -1374,19 +1357,13 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 "query": $scope.form_params.query
             };
 
-            if ($rootScope.websocketIsOpen === true) {
-                return WSOps.request(send_data)
-                    .then(function (data) {
-                        if (!dontProcessReply){
-                            return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
-                        }
-                        return data;
-                    });
-            } else {
-                $timeout(function () {
-                    generator.scope($scope, redirectTo);
-                }, 500);
-            }
+            return WSOps.request(send_data)
+                .then(function (data) {
+                    if (!dontProcessReply) {
+                        return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
+                    }
+                    return data;
+                });
         };
         return generator;
     })
@@ -1414,11 +1391,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         $scope.$on('modalFormLocator', function (event) {
             // fix default model with unicode assign
             $timeout(function () {
-                Utils.iterate($scope.model, function(modelValue, k){
+                Utils.iterate($scope.model, function (modelValue, k) {
                     if (angular.isUndefined($scope.edit)) return;
 
                     var unicode = $scope.items[$scope.edit][k].unicode;
-                    if (unicode){
+                    if (unicode) {
                         document.querySelector('input[name=' + k + ']').value = unicode;
                     }
                 })
@@ -1540,7 +1517,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                                     // todo: understand why we got object here!
                                     // hack to fix bug with value as object
-                                    if (angular.isObject(value) && value.value){
+                                    if (angular.isObject(value) && value.value) {
                                         value = value.value;
                                         childmodel.model[key] = value;
                                     }
@@ -1553,7 +1530,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                                     return element;
                                                 }
                                             });
-                                            if (unicodeValue){
+                                            if (unicodeValue) {
                                                 unicodeValue = unicodeValue.name;
                                                 reformattedModel[key] = {
                                                     "key": value,

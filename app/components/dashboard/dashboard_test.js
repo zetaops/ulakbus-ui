@@ -31,7 +31,7 @@ describe('dashboard controller module', function () {
         }));
 
         // todo: complete dashboard tests
-        it('should execute DashController functions', inject(function ($rootScope, RESTURL) {
+        /*it('should execute DashController functions', inject(function ($rootScope, RESTURL) {
             $httpBackend.expectGET(RESTURL.url + 'ara/personel/123')
                 .respond(200, {});
 
@@ -49,6 +49,6 @@ describe('dashboard controller module', function () {
             $scope.$broadcast('notifications', {});
             $scope.markAsRead(['123']);
 
-        }));
+        }));*/
     });
 });

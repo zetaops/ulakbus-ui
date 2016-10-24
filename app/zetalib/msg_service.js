@@ -1,18 +1,17 @@
-(function () {
-    'use strict';
+'use strict';
 
-    /**
-     * @ngdoc service
-     * @name Message service
-     * @description socket service handles all web socket connections and events
-     */
+/**
+ * @ngdoc service
+ * @name Message service
+ * @description socket service handles all web socket connections and events
+ */
 
-    angular.module('ulakbus')
-        .service("msgService", msgService);
+angular.module('ulakbus')
+    .service("msgService", msgService);
 
-    msgService.$inject = ['$q', 'ErrorService', '$log', '$rootScope', '$timeout'];
+msgService.$inject = ['$q', 'ErrorService', '$log', '$rootScope', '$timeout'];
 
-    function msgService($q, ErrorService, $log, $rootScope, $timeout) {
+function msgService($q, ErrorService, $log, $rootScope, $timeout) {
         var queue = {};
 
         return {
@@ -29,11 +28,12 @@
         }
 
         function deleteFromQueue(data) {
-            delete queue[data.callbackID];
+            return data.callbackID in queue && (delete queue[data.callbackID]);
         }
 
         function clearQueue() {
             queue = {};
+            return Object.keys(queue).length === 0;
         }
 
         function read(data) {
@@ -93,7 +93,7 @@
                 default:
                     $log.info("unknown action", data);
             }
-            deleteFromQueue(data);
+            return deleteFromQueue(data);
+
         }
     }
-})()
