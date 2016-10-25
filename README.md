@@ -1,6 +1,6 @@
 #Ulakbüs - Bütünleşik Üniversite Sistemi
 
-[![Sohbet odamız açıldı. https://gitter.im/kunthar/ulakbus](https://badges.gitter.im/ulakbus/gitter.svg)](https://gitter.im/kunthar/ulakbus)
+[![Sohbet odamız açıldı. https://gitter.im/zetaops/ulakbus](https://badges.gitter.im/ulakbus/gitter.svg)](https://gitter.im/zetaops/ulakbus)
 
 Belgeler ve projemiz hakkında detaylı bilgi için <a href="http://www.ulakbus.org">Ulakbüs resmi sitesi</a>ni ziyaret ediniz. 
 
