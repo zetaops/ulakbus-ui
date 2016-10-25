@@ -99,7 +99,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                 });
                 // when selective_list is sent with meta key it means
                 // "objects" is a list of "objects"s
-                if (scope.meta['selective_listing'] === true) {
+                if (scope.meta && scope.meta['selective_listing'] === true) {
                     angular.forEach(scope.objects, function (_v, _k) {
                         angular.forEach(_v.objects, function (value, key) {
                             if (_v.selected === true) {
@@ -300,6 +300,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             }
             else {
                 // call generator's get_single_item func
+                var a = "Generator.get_wf($scope)";
                 Generator.get_wf($scope).then(function (res) {
                     $scope.object = res.data.object;
                     $scope.model = $routeParams.model;
@@ -344,7 +345,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             }
 
             // if selective listing then change objects key to its first item
-            if (angular.isDefined($scope.meta.selective_listing)) {
+            if (angular.isDefined($scope.meta) && angular.isDefined($scope.meta.selective_listing)) {
                 $scope.all_objects = angular.copy($scope.objects);
                 $scope.selective_list_key = $scope.all_objects[$scope.selected_key];
                 $scope.objects = $scope.selective_list_key["objects"];
@@ -510,7 +511,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                 $scope.message = result.notification;
                 return result[fieldName]
             })
-        }
+        };
 
         $scope.prepareTimetable = function prepareTimetable(timetable){
             var grouped = groupBy(timetable, "saat");

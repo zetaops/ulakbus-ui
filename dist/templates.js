@@ -957,8 +957,8 @@ angular.module("components/dashboard/user-templates/staff.html", []).run(["$temp
     "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
     "                            <ul ng-if=\"students.length > 0\">\n" +
     "                                <li ng-repeat=\"student in students\">\n" +
-    "                                    <a role=\"button\">\n" +
-    "                                        <span ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</span>\n" +
+    "                                    <a role=\"button\" ng-click=\"select(student, 'ogrenci')\">\n" +
+    "                                        <span>{{student[0]}}</span>\n" +
     "                                        <i class=\"fa fa-fw fa-info-circle pull-right\" popover-placement=\"bottom\"\n" +
     "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
     "                                           ng-click=\"get_info('Ogrenci', student[2])\"></i></a>\n" +
@@ -980,8 +980,8 @@ angular.module("components/dashboard/user-templates/staff.html", []).run(["$temp
     "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
     "                            <ul ng-if=\"staffs.length > 0\">\n" +
     "                                <li ng-repeat=\"staff in staffs\">\n" +
-    "                                    <a role=\"button\">\n" +
-    "                                        <span ng-click=\"select(staff, 'personel')\">{{staff[0]}}</span>\n" +
+    "                                    <a role=\"button\" ng-click=\"select(staff, 'personel')\">\n" +
+    "                                        <span>{{staff[0]}}</span>\n" +
     "                                        <i class=\"fa fa-fw fa-info-circle pull-right\"\n" +
     "                                           popover-placement=\"bottom\"\n" +
     "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
@@ -1041,7 +1041,8 @@ angular.module("components/dashboard/user-templates/staff.html", []).run(["$temp
     "    </div>\n" +
     "\n" +
     "</div>\n" +
-    "<!-- end of dashboard-main-anouncement -->");
+    "<!-- end of dashboard-main-anouncement -->\n" +
+    "");
 }]);
 
 angular.module("components/dashboard/user-templates/student.html", []).run(["$templateCache", function($templateCache) {
@@ -1806,8 +1807,8 @@ angular.module("components/uitemplates/staff.html", []).run(["$templateCache", f
     "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
     "                            <ul ng-if=\"students.length > 0\">\n" +
     "                                <li ng-repeat=\"student in students\">\n" +
-    "                                    <a role=\"button\">\n" +
-    "                                        <span ng-click=\"select(student, 'ogrenci')\">{{student[0]}}</span>\n" +
+    "                                    <a role=\"button\" ng-click=\"select(student, 'ogrenci')\">\n" +
+    "                                        <span>{{student[0]}}</span>\n" +
     "                                        <i class=\"fa fa-fw fa-info-circle pull-right\" popover-placement=\"bottom\"\n" +
     "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
     "                                           ng-click=\"get_info('Ogrenci', student[2])\"></i></a>\n" +
@@ -1829,8 +1830,8 @@ angular.module("components/uitemplates/staff.html", []).run(["$templateCache", f
     "                        <div class=\"dashboard-search-results\" ng-show=\"showResults\">\n" +
     "                            <ul ng-if=\"staffs.length > 0\">\n" +
     "                                <li ng-repeat=\"staff in staffs\">\n" +
-    "                                    <a role=\"button\">\n" +
-    "                                        <span ng-click=\"select(staff, 'personel')\">{{staff[0]}}</span>\n" +
+    "                                    <a role=\"button\" ng-click=\"select(staff, 'personel')\">\n" +
+    "                                        <span>{{staff[0]}}</span>\n" +
     "                                        <i class=\"fa fa-fw fa-info-circle pull-right\"\n" +
     "                                           popover-placement=\"bottom\"\n" +
     "                                           uib-popover-template=\"userPopover.templateUrl\"\n" +
@@ -1890,7 +1891,8 @@ angular.module("components/uitemplates/staff.html", []).run(["$templateCache", f
     "    </div>\n" +
     "\n" +
     "</div>\n" +
-    "<!-- end of dashboard-main-anouncement -->");
+    "<!-- end of dashboard-main-anouncement -->\n" +
+    "");
 }]);
 
 angular.module("components/uitemplates/student.html", []).run(["$templateCache", function($templateCache) {
@@ -2274,7 +2276,7 @@ angular.module("shared/templates/datefield.html", []).run(["$templateCache", fun
     "               id=\"{{form.key.slice(-1)[0]}}\"\n" +
     "               ng-model-options=\"form.ngModelOptions\"\n" +
     "               ng-model=\"$$value$$\"\n" +
-    "               ng-disabled=\"form.is_disabled()\"\n" +
+    "               readonly\n" +
     "               schema-validate=\"form\"\n" +
     "               name=\"{{form.key.slice(-1)[0]}}\"\n" +
     "               aria-describedby=\"{{form.key.slice(-1)[0] + 'Status'}}\"\n" +
@@ -2615,8 +2617,8 @@ angular.module("shared/templates/directives/header-notification.html", []).run([
     "        <ul class=\"dropdown-menu dropdown-user\">\n" +
     "            <li><a role=\"button\"><i class=\"fa fa-user fa-fw\"></i> Profil</a></li>\n" +
     "            <li class=\"divider\"></li>\n" +
-    "            <li><a role=\"button\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar</a></li>\n" +
-    "            <li><a href=\"#/dev/settings\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar (Dev)</a></li>\n" +
+    "            <!--<li><a role=\"button\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar</a></li>-->\n" +
+    "            <li><a href=\"#/dev/settings\"><i class=\"fa fa-gear fa-fw\"></i> Ayarlar</a></li>\n" +
     "            <li class=\"divider\"></li>\n" +
     "            <li><a ui-sref=\"login\" href=\"javascript:void(0);\" logout><i class=\"fa fa-sign-out fa-fw\"></i> Çıkış</a></li>\n" +
     "        </ul>\n" +

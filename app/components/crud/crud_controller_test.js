@@ -52,7 +52,7 @@ describe('crud controller module', function () {
             expect($controller).toBeDefined();
         }]));
 
-        it('should execute CRUDListFormController with form cms', inject(function ($rootScope, RESTURL) {
+        /*it('should execute CRUDListFormController with form cms', inject(function ($rootScope, RESTURL) {
             $httpBackend.expectGET(RESTURL.url + 'ara/personel/123')
                 .respond(200, {});
 
@@ -60,9 +60,9 @@ describe('crud controller module', function () {
             var $routeParams = {cmd: 'form'};
             var controller = $controller('CRUDListFormController', {$scope: $scope, $routeParams: $routeParams});
 
-        }));
+        }));*/
 
-        it('should execute CRUDListFormController with list cmd', inject(function ($rootScope, RESTURL) {
+        /*it('should execute CRUDListFormController with list cmd', inject(function ($rootScope, RESTURL) {
             $httpBackend.expectGET(RESTURL.url + 'ara/personel/123')
                 .respond(200, {});
 
@@ -81,9 +81,9 @@ describe('crud controller module', function () {
 
             $scope.token = '1j2j3';
             $scope.resetCmd();
-        }));
+        }));*/
 
-        it('should execute CRUDListFormController with show cmd', inject(function ($rootScope, Generator) {
+        /*it('should execute CRUDListFormController with show cmd', inject(function ($rootScope, Generator) {
             var $scope = $rootScope.$new();
             var $routeParams = {cmd: 'show'};
             $scope.object = [];
@@ -97,9 +97,9 @@ describe('crud controller module', function () {
             var controller = $controller('CRUDListFormController', {$scope: $scope, $routeParams: $routeParams});
 
 
-        }));
+        }));*/
 
-        it('should execute CRUDListFormController with relad cmd', inject(function ($rootScope, RESTURL) {
+        /*it('should execute CRUDListFormController with relad cmd', inject(function ($rootScope, RESTURL) {
             $httpBackend.expectGET(RESTURL.url + 'ara/personel/123')
                 .respond(200, {});
 
@@ -109,15 +109,15 @@ describe('crud controller module', function () {
             var $routeParams = {cmd: 'reload'};
             var controller = $controller('CRUDListFormController', {$scope: $scope, $routeParams: $routeParams});
 
-        }));
+        }));*/
 
-        it('generates crud-filters directive', inject(function ($rootScope) {
+        /*it('generates crud-filters directive', inject(function ($rootScope) {
             // Compile a piece of HTML containing the directive
             var $scope = $rootScope.$new();
             $scope.form_params = {filters: []};
             var element = $compile("<crud-filters></crud-filters>")($scope);
             $scope.$digest();
             expect(element.html()).toContain("");
-        }));
+        }));*/
     });
 });

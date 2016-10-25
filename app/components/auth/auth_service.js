@@ -68,8 +68,8 @@ angular.module('ulakbus.auth')
                     }
                     if (data.status_code === 403) {
                         data.title = "İşlem başarısız oldu. Lütfen girdiğiniz bilgileri kontrol ediniz.";
-                        return data;
                     }
+                    return data;
                 })
                 .error(function (data, status, headers, config) {
                     // Handle login errors here

@@ -38,6 +38,7 @@ angular.module(
         'ulakbus.version',
         'gettext',
         'markdown',
+        'ngWebSocket',
         // @if NODE_ENV='PRODUCTION'
         'templates-prod',
         // @endif
@@ -84,7 +85,10 @@ angular.module(
             backendurl = proto + backendurl;
         }
 
-        return {url: backendurl};
+        return {
+            url: backendurl,
+            ws : backendurl.replace('http', 'ws')+"ws"
+        };
     })())
     .factory('IsOnline', function ($window, $document, $rootScope) {
 
@@ -149,7 +153,6 @@ angular.module(
     //     return $cookies.get('design') === 'true' ? {switch: true} : {switch: false};
     // })
     .constant('toastr', window.toastr)
-    .constant('WS', window.WebSocket)
     .config(function ($logProvider) {
         // @if NODE_ENV='PRODUCTION'
         $logProvider.debugEnabled(false);
