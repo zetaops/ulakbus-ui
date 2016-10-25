@@ -263,7 +263,8 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
         $scope.markdownWorkaround = function (value) {
             // this is new line workaround for markdown support
             // kind of ugly hack
-            return value.replace('\n', '<br>');
+
+            return typeof value === 'string' ? value.replace('\n', '<br>'): value;
         };
 
         // inline edit fields
