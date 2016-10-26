@@ -57,17 +57,17 @@
             $rootScope.websocketIsOpen = true;
             socket.loginStatus = true;
             ping(); // starts ping interval
-            $log.info("CONNECTED", evt);
+            $log.info("CONNECTED", JSON.stringify(evt));
         });
 
         socket.onClose(function (evt) {
             $rootScope.websocketIsOpen = false;
-            $log.info("DISCONNECTED", evt);
+            $log.info("DISCONNECTED", JSON.stringify(evt));
             //socket.reconnect(); //reconnects to ws when connection drops
         });
 
         socket.onError(function (evt) {
-            $log.error("ERROR :: " + evt);
+            $log.error("ERROR :: " + JSON.stringify(evt));
         });
 
         socket.onMessage(function (evt) {
@@ -79,7 +79,7 @@
                 pong();
                 return;
             }
-            $log.info("MESSAGE:", evt, "Data:", angular.copy(message));
+            $log.info("MESSAGE:", JSON.stringify(evt), "Data:", angular.copy(message));
             msgService.read(message);
         });
 
@@ -122,19 +122,21 @@
          * @param data
          */
         function send(data) {
+
             /**
-             * @name callbackID
-             * @description generetes UUID for unique id
-             * @type {string}
+             * @name genData
+             * @param data
+             * @returns {{data: *, callbackID: string}}
              */
-            var callbackID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {var r = Math.random()*16|0,v=c=='x'?r:r&0x3|0x8;return v.toString(16);});
-            data = {
-                data :data,
-                callbackID: callbackID
+            var genData = function(data){
+                return {
+                    data :data,
+                    callbackID: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {var r = Math.random()*16|0,v=c=='x'?r:r&0x3|0x8;return v.toString(16);})
+                }
             };
-            return socket.send(data).then(
-                function(data){
-                    return msgService.addToQueue(data)
+            return socket.send(genData(data)).then(
+                function(res){
+                    return msgService.addToQueue(res);
                 },
                 function(){
                     return $q.reject();
