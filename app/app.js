@@ -138,7 +138,6 @@ angular.module(
     //     return $cookies.get('design') === 'true' ? {switch: true} : {switch: false};
     // })
     .constant('toastr', window.toastr)
-    .constant('WS', window.WebSocket)
     .config(function ($logProvider) {
         $logProvider.debugEnabled(true);
     })
