@@ -240,31 +240,27 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          */
         generator.constraints = function (scope) {
             angular.forEach(scope.form, function (v, k) {
-                try {
-                    var cons = scope.forms.constraints[v] || scope.forms.constraints[v.key];
-                    if (angular.isDefined(cons)) {
-                        if (v.constructor === String) {
-                            scope.form[k] = {
-                                key: v,
-                                validationMessage: {'form_cons': cons.val_msg},
-                                $validators: {
-                                    form_cons: function (value) {
-                                        return FormConstraints[cons.cons](value, cons.val, v);
-                                    }
-                                }
-                            };
-                        } else {
-                            v.key = v.key;
-                            v.validationMessage = angular.extend({'form_cons': cons.val_msg}, v.validationMessage);
-                            v.$validators = angular.extend({
+                var cons = angular.isDefined(scope.forms) && angular.isDefined(scope.forms.constraints) && (scope.forms.constraints[v] || scope.forms.constraints[v.key]) || void 0;
+                if (angular.isDefined(cons)) {
+                    if (v.constructor === String) {
+                        scope.form[k] = {
+                            key: v,
+                            validationMessage: {'form_cons': cons.val_msg},
+                            $validators: {
                                 form_cons: function (value) {
-                                    return FormConstraints[cons.cons](value, cons.val, v.key);
+                                    return FormConstraints[cons.cons](value, cons.val, v);
                                 }
-                            }, v.$asyncValidators);
-                        }
+                            }
+                        };
+                    } else {
+                        v.key = v.key;
+                        v.validationMessage = angular.extend({'form_cons': cons.val_msg}, v.validationMessage);
+                        v.$validators = angular.extend({
+                            form_cons: function (value) {
+                                return FormConstraints[cons.cons](value, cons.val, v.key);
+                            }
+                        }, v.$asyncValidators);
                     }
-                } catch (e) {
-                    $log.error(e.message);
                 }
             });
             return generator.group(scope);
