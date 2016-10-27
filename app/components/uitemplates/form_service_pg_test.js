@@ -70,10 +70,15 @@ describe("FormServicePg", function(){
                                 email: {title: 'email', type: 'string'},
                                 id: {title: 'id', type: 'number'},
                                 name: {title: 'name', type: 'string'}
-                            }, required: [], type: 'object', title: 'servicetest'
+                            },
+                            required: [],
+                            type: 'object',
+                            title: 'servicetest'
                         },
                         model: {
-                            email: 'test@test.com', id: 2, name: 'cageman'
+                            email: 'test@test.com',
+                            id: 2,
+                            name: 'cageman'
                         }
                     }
                 ];

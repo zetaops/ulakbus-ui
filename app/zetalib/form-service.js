@@ -240,7 +240,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          */
         generator.constraints = function (scope) {
             angular.forEach(scope.form, function (v, k) {
-                var cons = angular.isDefined(scope.forms) && (scope.forms.constraints[v] || scope.forms.constraints[v.key]) || void 0;
+                var cons = angular.isDefined(scope.forms) && angular.isDefined(scope.forms.constraints) && (scope.forms.constraints[v] || scope.forms.constraints[v.key]) || void 0;
                 if (angular.isDefined(cons)) {
                     if (v.constructor === String) {
                         scope.form[k] = {
