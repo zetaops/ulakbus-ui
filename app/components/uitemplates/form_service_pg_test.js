@@ -20,9 +20,11 @@ describe("FormServicePg", function(){
         $controller = _$controller_;
     }));
 
-    describe("Controller is loaded", function(){
-        expect("FormServicePG").toBeDefined();
-    })
+    describe("Controller", function(){
+        it('is loaded', function () {
+            expect("FormServicePG").toBeDefined();
+        })
+    });
 
     describe('RESTURL', function(){
         it('is Loaded',
@@ -30,7 +32,7 @@ describe("FormServicePg", function(){
                 expect(RESTURL).toBeDefined();
             })
         );
-    })
+    });
 
     describe('Generator', function(){
         it('is Loaded',
@@ -38,7 +40,7 @@ describe("FormServicePg", function(){
                 expect(Generator).toBeDefined();
             })
         );
-    })
+    });
 
     describe("$scope.selectform", function() {
         it("Generates schemaForm structures if $scope.forms parameters implemented properly.",
@@ -68,10 +70,15 @@ describe("FormServicePg", function(){
                                 email: {title: 'email', type: 'string'},
                                 id: {title: 'id', type: 'number'},
                                 name: {title: 'name', type: 'string'}
-                            }, required: [], type: 'object', title: 'servicetest'
+                            },
+                            required: [],
+                            type: 'object',
+                            title: 'servicetest'
                         },
                         model: {
-                            email: 'test@test.com', id: 2, name: 'cageman'
+                            email: 'test@test.com',
+                            id: 2,
+                            name: 'cageman'
                         }
                     }
                 ];

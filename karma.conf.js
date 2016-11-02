@@ -20,8 +20,8 @@ module.exports = function (config) {
             'app/bower_components/angular-gettext/dist/angular-gettext.min.js',
             'app/bower_components/angular-route/angular-route.js',
             'app/bower_components/angular-resource/angular-resource.js',
-            "app/bower_components/showdown/dist/showdown.min.js",
-            "app/bower_components/angular-markdown-filter/markdown.js",
+            'app/bower_components/showdown/dist/showdown.min.js',
+            'app/bower_components/angular-markdown-filter/markdown.js',
             'app/bower_components/angular-sanitize/angular-sanitize.min.js',
             'app/bower_components/tv4/tv4.js',
             'app/bower_components/objectpath/lib/ObjectPath.js',
@@ -29,6 +29,8 @@ module.exports = function (config) {
             'app/bower_components/angular-schema-form/dist/bootstrap-decorator.min.js',
             'app/bower_components/angular-mocks/angular-mocks.js',
             'app/bower_components/moment/min/moment.min.js',
+            'app/bower_components/angular-websocket/dist/angular-websocket.min.js',
+            'app/bower_components/angular-websocket/dist/angular-websocket-mock.js',
             'app/app.js',
             'app/app_routes.js',
             'app/zetalib/**/!(action_service).js',
@@ -40,7 +42,7 @@ module.exports = function (config) {
         frameworks: ['jasmine'],
 
         //browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari'],
-        browsers: ['Chrome'],
+        browsers: ['PhantomJS'],
 
         customLaunchers: {
             'PhantomJS_custom': {
@@ -67,8 +69,8 @@ module.exports = function (config) {
             //'karma-firefox-launcher',
             //'karma-safari-launcher',
             'karma-jasmine',
-            //'karma-junit-reporter',
-            //'karma-coverage'
+            'karma-junit-reporter',
+            'karma-coverage'
         ],
 
         junitReporter: {
@@ -76,33 +78,33 @@ module.exports = function (config) {
             suite: 'unit'
         },
 
-        //reporters: ['progress', 'coverage'],
+        reporters: ['progress', 'coverage'],
 
-        //preprocessors: {
-        //    'app/app.js': ['coverage'],
-        //    'app/app_routes.js': ['coverage'],
-        //    'app/components/auth/*.js': ['coverage'],
-        //    'app/components/crud/*.js': ['coverage'],
-        //    'app/components/dashboard/*.js': ['coverage'],
-        //    'app/components/version/*.js': ['coverage'],
-        //    'app/zetalib/**/!(action_service).js': ['coverage']
-        //},
+        preprocessors: {
+            'app/app.js': ['coverage'],
+            'app/app_routes.js': ['coverage'],
+            'app/components/auth/*.js': ['coverage'],
+            'app/components/crud/*.js': ['coverage'],
+            'app/components/dashboard/*.js': ['coverage'],
+            'app/components/version/*.js': ['coverage'],
+            'app/zetalib/**/!(action_service).js': ['coverage']
+        },
 
-        //coverageReporter: {
-        //    check: {
-        //        global: {
-        //            statements: 60,
-        //            branches: 10,
-        //            functions: 60,
-        //            lines: 60,
-        //            excludes: [
-        //                'app/components/uitemplates/*.js'
-        //            ]
-        //        }
-        //    },
-        //    type : 'html',
-        //    dir : 'coverage/'
-        //}
+        coverageReporter: {
+            check: {
+               global: {
+                   statements: 60,
+                   branches: 10,
+                   functions: 60,
+                   lines: 60,
+                   excludes: [
+                       'app/components/uitemplates/*.js'
+                   ]
+               }
+           },
+           type : 'html',
+           dir : 'coverage/'
+        }
 
     });
 };

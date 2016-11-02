@@ -68,8 +68,8 @@ angular.module('ulakbus.auth')
                     }
                     if (data.status_code === 403) {
                         data.title = "İşlem başarısız oldu. Lütfen girdiğiniz bilgileri kontrol ediniz.";
-                        return data;
                     }
+                    return data;
                 })
                 .error(function (data, status, headers, config) {
                     // Handle login errors here
@@ -87,11 +87,11 @@ angular.module('ulakbus.auth')
          * @returns {*}
          */
         authService.logout = function () {
-
             $rootScope.loginAttempt = 0;
             WSOps.request({wf: 'logout'}).then(function (data) {
                 $rootScope.loggedInUser = false;
                 $rootScope.current_user = true;
+                $rootScope.$broadcast("user_logged_out");
                 $log.debug("loggedout");
                 $location.path("/login");
                 WSOps.close();

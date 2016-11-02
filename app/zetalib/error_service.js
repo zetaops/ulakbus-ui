@@ -8,7 +8,7 @@
  */
 
 angular.module('ulakbus')
-    .factory('ErrorService', function (toastr, $rootScope, $location, $log) {
+    .factory('ErrorService', function (toastr, $rootScope, $location, $log, $cookies) {
         var error_service = {};
 
         error_service.handle = function (rejection, prtcl) {
@@ -76,10 +76,10 @@ angular.module('ulakbus')
             };
 
             var errorInAlertBox = function (alertContent) {
-                if (errorInModal) {
+                if (errorInModal && window.location.host.match(/localhost/) && 0) {
                     errorModal();
                 } else {
-                    if ($rootScope.loginAttempt > 0) {
+                    if (1  || $rootScope.loginAttempt > 0) {
                         toastr.error(alertContent.msg, alertContent.title);
                     }
                 }
@@ -90,6 +90,8 @@ angular.module('ulakbus')
                 msg: rejection.data ? rejection.data.description : 'Error',
                 type: 'error'
             };
+
+
 
             var errorDispatch = {
                 "-1": function () {
@@ -112,18 +114,37 @@ angular.module('ulakbus')
                             $location.path("/dashboard");
                         }
                     }
+
+                    debugMode(403, rejection);
+                    errorInAlertBox(errorForAlertBox);
                 },
                 "404": function () {
                     errorInAlertBox(errorForAlertBox);
                 },
                 "500": function () {
+                    debugMode(500, rejection);
                     errorInAlertBox(errorForAlertBox);
                 },
                 "503": function () {
                     rejection.data = {description: "Servise erişilemiyor."};
+                    debugMode(500, rejection);
                     errorInAlertBox(errorForAlertBox);
                 }
             };
+
+            function debugMode(type, rejection){
+                if ( $cookies.get("demo") === "true" ){
+                    switch(type){
+                        case 403:
+                            errorForAlertBox.msg = "Yetkisiz İşlem. İş Akışları Akademik Takvime uygun sırayla çalıştırılmalıdır. Bu iş akışını çalıştırmaya yetkiniz yok veya demo sürümünde olabilirsiniz.";
+                            $location.path("/dashboard");
+                            break;
+                        case 500:
+                            errorForAlertBox.msg = "Sunucu hatası. Demo sürümündeyseniz, erişmeye çalıştığınız servis yanıt vermiyor veya veritabanı sıfırlanıyor olabilir. Lütfen daha sonra yeniden deneyiniz."
+                            break;
+                    };
+                }
+            }
 
             errorDispatch[rejection.status || rejection.code]();
         };

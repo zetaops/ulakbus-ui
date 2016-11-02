@@ -26,8 +26,7 @@
     <link rel="stylesheet" href="bower_components/intro.js/introjs.css" type="text/css">
     <link rel="stylesheet" href="bower_components/intro.js/themes/introjs-nassim.css" type="text/css">
     <link rel="stylesheet" href="bower_components/toastr/toastr.min.css" type="text/css">
-   
-    
+
 </head>
 <body ng-controller="KeyListenController" ng-keydown="down($event)">
 
@@ -36,7 +35,7 @@
         <span class="loader"></span>
     </div>
 </div>
-
+<demo-mode></demo-mode>
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"
      ng-show="user_ready === true">
     <collapse-menu></collapse-menu>
@@ -101,6 +100,7 @@
 <script src="bower_components/angular-gettext/dist/angular-gettext.min.js"></script>
 <script src="bower_components/moment/min/moment.min.js"></script>
 <script src="bower_components/toastr/toastr.min.js"></script>
+<script src="bower_components/angular-websocket/dist/angular-websocket.min.js"></script>
 
 <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
 <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
@@ -112,10 +112,11 @@
 <script src="shared/scripts/highlight.pack.js"></script>
 <script src="shared/directives.js"></script>
 <script src="zetalib/interceptors.js"></script>
-<script src="zetalib/form_service.js"></script>
-<script src="zetalib/form_constraints.js"></script>
+<script src="zetalib/form-service.js"></script>
+<script src="zetalib/form-constraints.js"></script>
 <script src="zetalib/action_service.js"></script>
 <script src="zetalib/error_service.js"></script>
+<script src="zetalib/msg_service.js"></script>
 <script src="zetalib/socket.js"></script>
 <script src="zetalib/utils_service.js"></script>
 
@@ -125,7 +126,7 @@
 <script src="components/auth/auth_service.js"></script>
 <script src="components/dashboard/dashboard_controller.js"></script>
 <script src="components/dashboard/dashboard_widgets_directives.js"></script>
-<script src="components/messaging/messaging_service.js"></script>
+<script src="components/messaging/messaging-service.js"></script>
 <script src="components/messaging/messaging.js"></script>
 <script src="components/crud/crud_controller.js"></script>
 <script src="components/crud/crud_widgets.js"></script>
@@ -136,8 +137,6 @@
 <script src="components/version/interpolate-filter.js"></script>
 <script src="components/version/version-directive.js"></script>
 <script src="components/version/version.js"></script>
-
-
 
 </body>
 </html>
