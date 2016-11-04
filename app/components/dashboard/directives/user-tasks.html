@@ -1,15 +1,18 @@
 <div class=" task-manager">
     <div class="panel panel-default">
         <div class="panel-heading clearfix">
-            <div class="panel-title">Görev Yöneticisi</div>
-            <select class="pull-left" ng-change="taskTypeChange()" ng-model="taskType" ng-options="item.name as item.title for item in taskTypes"></select>
-            <select class="pull-left" ng-change="taskTimeChange()" ng-model="taskTime" ng-options="item.name as item.title for item in taskTimes"></select>
-            <div class="task-manager-search">
-                <span class="glyphicon glyphicon-search"></span>
-                <input type="text" ng-change="taskSearch()"  ng-model="taskManagerSearchQuery" placeholder="Görev yöneticisi içinde ara">
-                <!--
-                    not implemented
-                    <input type="checkbox" ng-change="taskSearch()" ng-model="taskManagerSearchAll" uib-tooltip="Tüm görevler içersinde ara" tooltip-placement="left">-->
+            <div class="panel-title col-md-3">Görev Yöneticisi</div>
+            <div class="col-md-9 row">
+                <div class="col-md-3">
+                    <select class="form-control" ng-change="taskTypeChange()" ng-model="taskType" ng-options="item.name as item.title for item in taskTypes"></select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" ng-change="taskTimeChange()" ng-model="taskTime" ng-options="item.name as item.title for item in taskTimes"></select>
+                </div>
+                <div class="task-manager-search col-md-6">
+                    <span class="glyphicon glyphicon-search"></span>
+                    <input class="form-control" type="text" ng-change="taskSearch()" ng-model="taskManagerSearchQuery" placeholder="Görev yöneticisi içinde ara">
+                </div>
             </div>
         </div>
         <div class="panel-body">

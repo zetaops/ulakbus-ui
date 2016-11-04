@@ -3245,26 +3245,17 @@ table.dataTable thead .sorting:after {
 }
 
 .task-manager-search {
-    display: inline-block;
-    float: right;
 	position:relative;
 }
 
 .task-manager-search span {
 	position:absolute;
-	left: 10px;
-    top: 6px;
+	left: 25px;
+    top: 10px;
 }
 
 .task-manager-search input[type=text] {
-	width: 100%;
-    border: 1px solid #e6e6e6;
-    height: 35px;
-    border-radius: 3px;
-    margin-top: -5px;
-	outline: none;
     padding-left: 30px;
-	padding-right: 30px;
 }
 
 .task-manager-search input[type=checkbox] {
@@ -3273,21 +3264,8 @@ table.dataTable thead .sorting:after {
     top: 2px;
 }
 
-.task-manager-select-group {
-    width: 40%;
-    display: inline-block;
-    position:relative;
-}
-
 .task-manager .panel-heading {
 	border:none;
-}
-
-.task-manager .panel-heading select {
-	margin-left: 20px;
-    border-radius: 3px;
-    margin-top: -3px;
-	border-color:#e6e6e6;
 }
 
 .task-manager .tab-content {
