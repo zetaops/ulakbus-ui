@@ -14,36 +14,47 @@
  * @description Directive for .
  */
 angular.module('ulakbus.dashboard')
-    .service('TasksService', function (Utils) {
+    .service('TasksService', function (WSOps) {
 
         this.get_tasks = function (options) {
-            options = $.extend({
+
+            /*
+            only required fields must be send
+             */
+
+            options = angular.extend({
                 state: 'active',
                 inverted: false,
-                query: '',
-                wf_type: '',
-                start_date: '',
-                finish_date: ''
+                query: false,
+                wf_type: false,
+                start_date: false,
+                finish_date: false
             }, options);
+
             var outgoing = {
-                view: '_zops_get_tasks',
-                state: options.state,            // string,   # "active", "future", "finished", "expired"
-                inverted: options.inverted,      // boolean,  # search on other people's tasks
-                query: options.query,            // string,   # optional. for searching on user's tasks
-                wf_type: options.wf_type,        // string,   # optional. only show tasks of selected wf_type
-                start_date: options.start_date,  // datetime, # optional. only show tasks starts after this date
-                finish_date: options.finish_date // datetime, # optional. only show tasks should end before this date
+                view: '_zops_get_tasks'
             };
-            return Utils.wsRequest(outgoing).then(function (data) {
-                return data.task_list;
+            angular.forEach(options, function (value, key) {
+                value && (outgoing[key] = value);
             });
+            // state         //string,    # "active", "future", "finished", "expired"
+            // inverted      // boolean,  # search on other people's tasks
+            // query         // string,   # optional. for searching on user's tasks
+            // wf_type       // string,   # optional. only show tasks of selected wf_type
+            // start_date    // datetime, # optional. only show tasks starts after this date
+            // finish_date   // datetime, # optional. only show tasks should end before this date
+
+            return WSOps.request(outgoing).then(function (data) {
+                return data;
+            });
+
         };
 
         this.get_task_types = function () {
             var outgoing = {
                 'view': '_zops_get_task_types'
             };
-            return Utils.wsRequest(outgoing).then(function (data) {
+            return WSOps.request(outgoing).then(function (data) {
                 return data.task_types;
             });
         };
@@ -54,7 +65,7 @@ angular.module('ulakbus.dashboard')
                 key: key
             };
 
-            return Utils.wsRequest(outgoing).then(function (data) {
+            return WSOps.request(outgoing).then(function (data) {
                 return data.actions
             });
         };
@@ -65,7 +76,7 @@ angular.module('ulakbus.dashboard')
                 key: key
             };
 
-            return Utils.wsRequest(outgoing);
+            return WSOps.request(outgoing);
         }
 
     })
@@ -75,77 +86,226 @@ angular.module('ulakbus.dashboard')
             restrict: 'E',
             replace: true,
             scope: {},
-            link: function(iScope, iElem, iAttrs){
-                TasksService.get_task_types().then(function(types){
-                    var defaultType = {
-                        name: '',
-                        title: 'Bütün Türler'
-                    };
-                    types.unshift(defaultType);
-                    iScope.taskTypes = types;
-                    iScope.taskType = '';
-                });
-            },
-            controller: function ($scope) {
-
-                // todo: below are for test, will be removed
-                $scope.task_list = [
-                    {
-                        WFToken: "yfuialhfuial",
-                        title: "sample 1 workflow",
-                        description: "sample 1",
-                        wf_type: "type x",
-                        date: '02.05.2016'
-                    },
-                    {
-                        WFToken: "yfuialhfuial",
-                        title: "sample 2 workflow",
-                        description: "sample 2",
-                        wf_type: "type x",
-                        date: '02.05.2016'
-                    },
-                    {
-                        WFToken: "yfuialhfuial",
-                        title: "sample 3 workflow",
-                        description: "sample 3",
-                        wf_type: "type y",
-                        date: '02.05.2016'
-                    },
-                    {
-                        WFToken: "yfuialhfuial",
-                        title: "sample 4 workflow",
-                        description: "sample 4",
-                        wf_type: "type y",
-                        date: '02.05.2016'
-                    }
-                ];
-                /**
-                 * tasks need to be regrouped by wf_type
-                 * @returns {{}}
-                 */
-                var regroup_tasks = function () {
-                    var grouped_tasks = {};
-                    angular.forEach($scope.task_list, function (value, key) {
-                        grouped_tasks[value.wf_type] = grouped_tasks[value.wf_type] || [];
-                        grouped_tasks[value.wf_type].push(value);
+            link: function (iScope, iElem, iAttrs) {
+                TasksService.get_task_types()
+                    .then(function (types) {
+                        var defaultType = {
+                            name: '',
+                            title: 'Bütün Türler'
+                        };
+                        types.unshift(defaultType);
+                        iScope.taskTypes = types;
+                        iScope.taskType = '';
                     });
-                    return grouped_tasks;
+
+                TasksService.get_tasks()
+                    .then(function (data) {
+                        iScope.$broadcast("task_list", data)
+                    });
+
+                iScope.taskTimes = [{
+                    name: "",
+                    title: "Tüm Zamanlar"
+                }, {
+                    name: "1",
+                    title: "Son 1 Gün"
+                }, {
+                    name: "7",
+                    title: "Son 1 Hafta"
+                }, {
+                    name: "30",
+                    title: "Son 1 Ay"
+                }]
+                iScope.taskTime = ""
+            },
+            controller: function ($scope, TasksService,Utils) {
+                $scope.activeTab = "active";
+                $scope.task_list = {
+                    10: true,
+                    20: true,
+                    30: true,
+                    40: true,
+                    90: true
                 };
-                $scope.task_list = regroup_tasks();
+                $scope.task_counts = [];
+                
+                /**
+                 * general function for 
+                 */
                 $scope.$on("task_list", function (event, data) {
-                    $scope.task_list = regroup_tasks(data);
+                    if (data.task_list.length == 0) {
+                        $scope.task_list = {};
+                    } else {
+                        angular.forEach(data.task_list, function (val, i) {
+                            i == 0 && ($scope.task_list[val.state] = false);
+                            $scope.task_list[val.state] = $scope.task_list[val.state] || {}
+                            $scope.task_list[val.state][val.wf_type] = val;
+                        });
+                    }
+                    $scope.task_count = data.task_count
                 });
+                /**
+                 * event for tab change
+                 */
+                $scope.tab = function (state) {
+                    resetQueries();
+                    $scope.activeTab = state;
+                    var options = {
+                        state: state
+                    };
+                    TasksService.get_tasks(options)
+                        .then(function (data) {
+                            $scope.$broadcast("task_list", data)
+                        })
+                };
+                /**
+                 * event for wf_type change
+                 */
+                $scope.taskTypeChange = function () {
+                    var options = getQueries();
+                    TasksService.get_tasks(options)
+                        .then(function (data) {
+                            $scope.$broadcast("task_list", data);
+                        });
+                };
 
                 /**
+                 * event for time range change
+                 */
+                $scope.taskTimeChange = function () {
+                    $scope.finish_date = "";
+                    if ($scope.taskTime !=="") {
+                        var date = new Date();
+                        $scope.finish_date = Utils.formatDate(new Date(date.setTime( date.getTime() + $scope.taskTime * 86400000 )));
+                    }
+                    options = getQueries();
+                    TasksService.get_tasks(options)
+                        .then(function (data) {
+                            $scope.$broadcast("task_list", data);
+                        });
+                };
+
+                /**
+                 * event for search query change
+                 * filters task
+                 */
+                $scope.taskSearch = function () {
+                    var query = $scope.taskManagerSearchQuery;
+                    var options = {
+                        state: $scope.activeTab,
+                    };
+                    switch (query.length) {
+                        case 1:
+                        case 2:
+                            return;
+                        case 0:
+                            break
+                        default:
+                            options.query = query;
+                    }
+                    TasksService.get_tasks(options)
+                        .then(function (data) {
+                            $scope.$broadcast("task_list", data);
+                        });
+                    
+                };
+
+                /**
+                 * @description reset filter from sccope
+                 */
+                function resetQueries() {
+                    $scope.taskManagerSearchQuery = "";
+                    //$scope.taskManagerSearchAll = false;
+                    $scope.taskTime = "";
+                    $scope.taskType = "";
+                }
+
+                /**
+                 * @name getQueries
+                 * @description returnes valid task filters
+                 * @returns {Object} options
+                 */
+                function getQueries(){
+                    var options = {};
+                    options.state = $scope.activeTab 
+                    $scope.taskManagerSearchQuery !== "" && (options.query = $scope.taskManagerSearchQuery);
+                    //$scope.taskManagerSearchAll !== false && (options = $scope.taskManagerSearchAll);
+                    $scope.finish_date !== "" && (options.finish_date = $scope.finish_date);
+                    $scope.taskType !== "" && (options.wf_type = $scope.taskType);
+                    return options;
+
+                }                /**
                  * this will send the websocket that we need to go certain workflow
                  * and websocket will send the wf data with cmd in it
                  * @param wf_token
                  */
+
                 $scope.gototask = function (wf_token) {
-                    WSOps.doSend({view: "open_wf", wf_token: wf_token});
+                    WSOps.send({
+                        view: "open_wf",
+                        wf_token: wf_token
+                    });
                 }
+
+
+
             }
         };
+    })
+    .directive('singleTask', function (TasksService, Utils) {
+        return {
+            templateUrl: 'components/dashboard/directives/single-task.html',
+            restrict: 'E',
+            replace: true,
+            scope: {
+                data: '@data'
+            },
+            link: function (scope, element, attrs, controllers) {
+                scope.task = JSON.parse(scope.data);
+                switch (scope.task.state) {
+                    case 90:
+                        scope.task_class = "expired-task";
+                        scope.task_tooltip = "Geçersiz";
+                        break;
+                    case 40:
+                        scope.task_class = "completed-task";
+                        scope.task_tooltip = "Tamamlanan";
+                        break;
+                    default:
+                        var date = new Date(scope.task.finish_date);
+                        var now = new Date();
+                        var diff = Math.floor((date - now) / 1000 / 60 / 60 / 24);
+                        if (diff < 1) {
+                            scope.task_class = "urgent-task";
+                            scope.task_tooltip = "Acil";
+                        } else if (diff < 3) {
+                            scope.task_class = "approaching-task";
+                            scope.task_tooltip = "Yaklaşan";
+                        } else {
+                            scope.task_class = "non-urgent-task";
+                            scope.task_tooltip = "Acil Olmayan";
+                        }
+                };
+                scope.task_date = Utils.genDate(scope.task.finish_date);
+
+                /*TasksService.get_task_detail(scope.task.key).then(function(data){
+                    scope.task_detail = data;
+                });*/
+                /*TasksService.get_task_actions(scope.task.key).then(function(data){
+                    //scope.task_actions = data;
+                });*/
+            }
+        }
+    })
+    .directive('emptyTask', function (TasksService, Utils) {
+        return {
+            templateUrl: 'components/dashboard/directives/empty-task.html',
+            restrict: 'E',
+            replace: true,
+            scope: {
+                taskType: '@tasktype'
+            }
+        }
     })
     .directive('academicCalendar', function () {
         return {
@@ -157,5 +317,4 @@ angular.module('ulakbus.dashboard')
 
             }
         };
-    });
-;
+    });;
