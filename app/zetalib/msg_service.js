@@ -76,10 +76,6 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout) {
                 case "dashboard":
                     queue[data.callbackID].resolve(data);
                     break;
-                case "task_list":
-                    // broadcast task list to task_list directive in dashboard_widget_directives.js
-                    $rootScope.$broadcast('task_list', data["task_list"]);
-                    break;
                 case "channel_subscription":
                     $timeout(function () {
                         $rootScope.$broadcast('channel_change', 'add', data);

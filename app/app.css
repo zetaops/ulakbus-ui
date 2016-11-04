@@ -3245,7 +3245,6 @@ table.dataTable thead .sorting:after {
 }
 
 .task-manager-search {
-	width: 40%;
     display: inline-block;
     float: right;
 	position:relative;
@@ -3272,6 +3271,12 @@ table.dataTable thead .sorting:after {
 	position: absolute;
     right: 9px;
     top: 2px;
+}
+
+.task-manager-select-group {
+    width: 40%;
+    display: inline-block;
+    position:relative;
 }
 
 .task-manager .panel-heading {
@@ -3330,6 +3335,10 @@ table.dataTable thead .sorting:after {
 .task-manager .panel-body ul.nav li.active a {
 	border-bottom: 2px solid #a61229;
     color: #a61229;
+}
+
+.task-manager .no-task {
+    padding: 50px
 }
 
 /* END OF TASK MANAGER WIDGET */

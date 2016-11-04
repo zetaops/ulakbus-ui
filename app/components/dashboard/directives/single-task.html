@@ -1,0 +1,29 @@
+<li class="{{task_class}}">
+    <a href="#" class="clearfix">
+        <span class="task-status">
+            <div class="task-circle" uib-tooltip="{{task_tooltip}}" tooltip-placement="right"></div>
+            <img ng-if="task.status == false" src="../../img/task-manager-icons/unclaimed.png" uib-tooltip="Sahipsiz" tooltip-placement="right">
+            <img ng-if="task.state == 20" src="../../img/task-manager-icons/in-progress.png" uib-tooltip="İlerleme Halinde" tooltip-placement="right">
+            <img ng-if="task.state == 30" src="../../img/task-manager-icons/waiting.png" uib-tooltip="Tamamlanmayı Bekliyor" tooltip-placement="right">
+        </span>
+        <span class="task-title">
+            <div ng-bind="task.title"></div>
+            <div ng-bind="task.description || '&nbsp;' "></div>
+            <div ng-bind="task_date"></div>
+        </span>
+    </a>
+    <div class="dropdown">
+        <div class="dropdown-inner">
+            <span class="task-actions dropdown-toggle" data-toggle="dropdown">
+            <div>
+                <span class="glyphicon glyphicon-option-vertical"></span>
+            </div>
+            </span>
+            <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+            </ul>
+        </div>
+    </div>
+</li>
