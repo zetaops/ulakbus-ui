@@ -17,7 +17,7 @@
 </select>
 
 <input type="{{node.schema.properties[k].type}}"
-       class="form-control"
+       ng-class="{ 'form-control' : '{{node.schema.properties[k].type}}' !== 'checkbox'}"
        ng-if="node.schema.properties[k].type !== 'date' && node.schema.properties[k].type !== 'select'"
        ng-model="node.model[outerIndex][k]"
        ng-change="nodeModelChange(this)">
