@@ -90,9 +90,21 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout) {
                         $rootScope.$broadcast('channel_change', 'status', data);
                     });
                     break;
+                case "reload":
+                    var alert = {
+                        type: "warning",
+                        title: data.title,
+                        msg: data.msg
+                    };
+                    $rootScope.$broadcast('alertBox', alert);
+                    $timeout(function() {
+                        window.location.href = "/";
+                    },5000);
+                    break;
                 default:
                     $log.info("unknown action", data);
             }
+
             return deleteFromQueue(data);
 
         }
