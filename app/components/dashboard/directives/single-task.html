@@ -1,5 +1,17 @@
 <li class="{{task_class}}">
-    <a href="#" class="clearfix">
+    <div class="task-actions-wrapper" uib-dropdown dropdown-append-to-body>
+        <span class="task-actions" uib-dropdown-toggle>
+            <span class="icon-wrapper">
+                <span class="glyphicon glyphicon-option-vertical"></span>
+            </span>
+        </span>
+        <ul class="dropdown-menu test" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+        </ul>
+    </div>
+    <a href="#" ng-click="gototask()" class="clearfix">
         <span class="task-status">
             <div class="task-circle" uib-tooltip="{{task_tooltip}}" tooltip-placement="right"></div>
             <img ng-if="task.status == false" src="../../img/task-manager-icons/unclaimed.png" uib-tooltip="Sahipsiz" tooltip-placement="right">
@@ -12,18 +24,6 @@
             <div ng-bind="task_date"></div>
         </span>
     </a>
-    <div class="dropdown">
-        <div class="dropdown-inner">
-            <span class="task-actions dropdown-toggle" data-toggle="dropdown">
-            <div>
-                <span class="glyphicon glyphicon-option-vertical"></span>
-            </div>
-            </span>
-            <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-            </ul>
-        </div>
-    </div>
+
+
 </li>

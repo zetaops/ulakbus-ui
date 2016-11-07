@@ -3171,6 +3171,13 @@ table.dataTable thead .sorting:after {
 	color: #b5b5b5;
 }
 
+.task-manager .task-actions-wrapper {
+    position: absolute;
+    right: 23px;
+    top: 21px;
+    width:45px;
+}
+
 .task-manager .task-actions {
 	width:45px;	
 	position: absolute;
@@ -3178,7 +3185,7 @@ table.dataTable thead .sorting:after {
     top: 21px;
 }
 
-.task-manager .task-actions div {
+.task-manager .task-actions .icon-wrapper {
 	width: 40px;
     height: 40px;
     border-radius: 100%;
@@ -3195,7 +3202,7 @@ table.dataTable thead .sorting:after {
     transition: all .2s;
 }
 
-.task-manager .task-actions div:hover {
+.task-manager .task-actions .icon-wrapper:hover {
 	background-color: #f9f9f9;
 	color:#000;
 }
