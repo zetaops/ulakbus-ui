@@ -17,9 +17,8 @@ angular.module('ulakbus.dashboard')
     .service('TasksService', function (WSOps) {
 
         this.get_tasks = function (options) {
-
-            /*
-            only required fields must be send
+            /**
+             * only required fields must be send
              */
 
             options = angular.extend({
@@ -87,6 +86,10 @@ angular.module('ulakbus.dashboard')
             replace: true,
             scope: {},
             link: function (iScope, iElem, iAttrs) {
+                /**
+                 * initialisation of task manager
+                 * getting default values and setting data
+                 */
                 TasksService.get_task_types()
                     .then(function (types) {
                         var defaultType = {
@@ -119,6 +122,9 @@ angular.module('ulakbus.dashboard')
                 iScope.taskTime = ""
             },
             controller: function ($scope, TasksService,Utils) {
+                /**
+                 * default values
+                 * */
                 $scope.activeTab = "active";
                 $scope.task_list = {
                     10: true,
@@ -130,7 +136,7 @@ angular.module('ulakbus.dashboard')
                 $scope.task_counts = [];
                 
                 /**
-                 * general function for 
+                 * general function for getting task_list
                  */
                 $scope.$on("task_list", function (event, data) {
                     if (data.task_list.length == 0) {
@@ -207,7 +213,6 @@ angular.module('ulakbus.dashboard')
                         .then(function (data) {
                             $scope.$broadcast("task_list", data);
                         });
-                    
                 };
 
                 /**
@@ -234,10 +239,7 @@ angular.module('ulakbus.dashboard')
                     $scope.taskType !== "" && (options.wf_type = $scope.taskType);
                     return options;
 
-                }                
-
-
-
+                }
             }
         };
     })
@@ -251,6 +253,9 @@ angular.module('ulakbus.dashboard')
             },
             link: function (scope, element, attrs, controllers) {
                 scope.task = JSON.parse(scope.data);
+                /**
+                 * setting scope values for UI
+                 */
                 switch (scope.task.state) {
                     case 90:
                         scope.task_class = "expired-task";
@@ -261,6 +266,10 @@ angular.module('ulakbus.dashboard')
                         scope.task_tooltip = "Tamamlanan";
                         break;
                     default:
+                        /**
+                         * If task is not completed or expired, we calculate remaining time to task finishtime.
+                         * With this information we show urgency of the task
+                         */
                         var date = new Date(scope.task.finish_date);
                         var now = new Date();
                         var diff = Math.floor((date - now) / 1000 / 60 / 60 / 24);
@@ -275,6 +284,9 @@ angular.module('ulakbus.dashboard')
                             scope.task_tooltip = "Acil Olmayan";
                         }
                 };
+                /**
+                 * Formated date for task view
+                 */
                 scope.task_date = Utils.genDate(scope.task.finish_date);
 
                 /*TasksService.get_task_detail(scope.task.key).then(function(data){
@@ -288,7 +300,6 @@ angular.module('ulakbus.dashboard')
                 /**
                  * this will send the websocket that we need to go certain workflow
                  * and websocket will send the wf data with cmd in it
-                 * @param wf_token
                  */
 
                 $scope.gototask = function () {
@@ -301,6 +312,9 @@ angular.module('ulakbus.dashboard')
         }
     })
     .directive('emptyTask', function (TasksService, Utils) {
+        /**
+         * if no task exist in task status group, no task message shown.
+         */
         return {
             templateUrl: 'components/dashboard/directives/empty-task.html',
             restrict: 'E',
