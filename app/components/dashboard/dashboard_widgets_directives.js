@@ -234,18 +234,7 @@ angular.module('ulakbus.dashboard')
                     $scope.taskType !== "" && (options.wf_type = $scope.taskType);
                     return options;
 
-                }                /**
-                 * this will send the websocket that we need to go certain workflow
-                 * and websocket will send the wf data with cmd in it
-                 * @param wf_token
-                 */
-
-                $scope.gototask = function (wf_token) {
-                    WSOps.send({
-                        view: "open_wf",
-                        wf_token: wf_token
-                    });
-                }
+                }                
 
 
 
@@ -294,6 +283,20 @@ angular.module('ulakbus.dashboard')
                 /*TasksService.get_task_actions(scope.task.key).then(function(data){
                     //scope.task_actions = data;
                 });*/
+            },
+            controller: function($scope,WSOps){
+                /**
+                 * this will send the websocket that we need to go certain workflow
+                 * and websocket will send the wf data with cmd in it
+                 * @param wf_token
+                 */
+
+                $scope.gototask = function () {
+                    WSOps.send({
+                        token: $scope.task.token,
+                        wf: $scope.task.wf_type
+                    });
+                }
             }
         }
     })
