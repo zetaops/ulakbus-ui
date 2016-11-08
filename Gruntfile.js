@@ -73,6 +73,7 @@ module.exports = function (grunt) {
                 files: [
                     {expand: true, cwd: 'app/bower_components/font-awesome/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'brand-logo.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/img/', src: 'brand-logo2.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'loading_spinner.gif', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'sample-profile-pic.jpg', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'empty-profile-pic.jpg', dest: 'dist/img/', flatten: true, filter: 'isFile'},
@@ -89,6 +90,7 @@ module.exports = function (grunt) {
                 files: [
                     {expand: true, cwd: 'app/bower_components/font-awesome/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'brand-logo.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/img/', src: 'brand-logo2.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'loading_spinner.gif', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'sample-profile-pic.jpg', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'empty-profile-pic.jpg', dest: 'dist/img/', flatten: true, filter: 'isFile'},
@@ -128,6 +130,7 @@ module.exports = function (grunt) {
                     "app/zetalib/error_service.js",
                     "app/zetalib/action_service.js",
                     "app/zetalib/socket.js",
+                    "app/zetalib/msg_service.js",
                     "app/zetalib/utils_service.js",
                     "app/shared/directives.js",
                     "app/components/auth/auth_controller.js",
@@ -171,7 +174,8 @@ module.exports = function (grunt) {
                     "app/bower_components/Chart.js/Chart.js",
                     "app/bower_components/intro.js/intro.js",
                     "app/bower_components/moment/min/moment.min.js",
-                    "app/bower_components/toastr/toastr.min.js"
+                    "app/bower_components/toastr/toastr.min.js",
+                    "app/bower_components/angular-websocket/dist/angular-websocket.min.js"
                 ],
                 dest: 'dist/bower_components/components.js'
             },
@@ -226,7 +230,8 @@ module.exports = function (grunt) {
                     "app/bower_components/metisMenu/dist/metisMenu.min.js",
                     "app/bower_components/Chart.js/Chart.min.js",
                     "app/bower_components/intro.js/minified/intro.min.js",
-                    "app/bower_components/moment/min/moment.min.js"
+                    "app/bower_components/moment/min/moment.min.js",
+                    "app/bower_components/angular-websocket/dist/angular-websocket.min.js"
                 ],
                 dest: 'dist/<%= grunt.branchname %>/bower_components/components.js'
             },
