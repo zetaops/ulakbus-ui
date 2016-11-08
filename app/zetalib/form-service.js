@@ -291,7 +291,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 // parse markdown for help text
                 if (value.type === 'help') {
                     var markdown = $filter('markdown');
-                    value.helpvalue = markdown(value.helpvalue);
+                    value.helpvalue = value.helpvalue ? '<div class="alert alert-info">' + markdown(value.helpvalue) + '</div>' : value.helpvalue;
                 }
 
                 if (value.type === 'select') {
