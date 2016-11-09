@@ -1,10 +1,10 @@
-<div class="starter-template">
+<div class="starter-template form-container">
     <div ng-repeat="obj in object" class="detail-page">
-        <div class="info-block-header">
+        <div class="info-block-header" ng-if="obj.title">
             <h3>{{obj.title}}</h3>
         </div>
         <div class="table-responsive">
-            <table class="table">
+            <table class="table table-bordered table-striped">
                 <thead ng-if="obj.type==='table-multiRow'">
                     <tr>
                         <td ng-repeat="(key, value) in obj.fields[0]">{{key}}</td>
