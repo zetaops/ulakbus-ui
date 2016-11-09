@@ -1,16 +1,10 @@
-<div style="width: 100%; height: 100%; position: fixed; z-index: 1100; top:0; left:0; background: #fff;">
-    <div ng-app="ulakbus.auth" class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="login-panel panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Giriş Yap <span ng-if="loggingIn" class="loader pull-right"></span></h3>
-                    </div>
-                    <div class="panel-body">
-                        <form name="loginForm" sf-schema="schema" sf-form="form" sf-model="model"
-                              ng-submit="onSubmit(loginForm)"></form>
-                    </div>
-                </div>
+<div style="width: 100%; height: 100%; position: fixed; z-index: 1100; top:0; left:0; right: 0; bottom: 0; background: #A61229;">
+    <demo-mode></demo-mode>
+    <div class="login-wrapper">
+        <div ng-app="ulakbus.auth" class="login">
+            <div class="logo" title="Ulakbus" ><img src="/img/brand-logo2.png" alt="Ulakbüs"></div>
+            <div class="login-panel">
+                <form name="loginForm" sf-schema="schema" sf-form="form" sf-model="model" ng-submit="onSubmit(loginForm)"></form>
                 <span class="label label-inverse label-warning">{{message}}</span>
             </div>
         </div>

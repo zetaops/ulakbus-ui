@@ -38,7 +38,7 @@ describe('ulakbus.auth module', function () {
 
         it('should get login form', inject(
             function ($rootScope, $httpBackend, RESTURL) {
-                $httpBackend.expectPOST(RESTURL.url + 'login', {cmd: ''})
+                $httpBackend.expectPOST(RESTURL.url + 'login', {})
                     .respond(200, {});
 
                 var $scope = $rootScope.$new();
@@ -50,12 +50,12 @@ describe('ulakbus.auth module', function () {
             })
         );
 
-        it('ensures user can log in', function (AuthService, $httpBackend, RESTURL) {
+        /*it('ensures user can log in', function (AuthService, $httpBackend, RESTURL) {
             // todo: after backend api ready implement this
-        });
+        });*/
 
-        it('should get login success',
-            inject(function (AuthService, $httpBackend, $location, RESTURL) {
+        /*it('should get login success',
+            inject(function (AuthService, $httpBackend, RESTURL) {
 
                 // use httpBackend to imitate login api
                 $httpBackend.expectPOST(RESTURL.url + 'login', {
@@ -65,9 +65,8 @@ describe('ulakbus.auth module', function () {
                     })
                     .respond(200, [{
                         'id': 1, 'user': {
-                            'id': 12
-
-                            , 'role': 'admin'
+                            'id': 12,
+                            'role': 'admin'
                         }, 'success': true
                     }]);
 
@@ -79,24 +78,24 @@ describe('ulakbus.auth module', function () {
 
                 $httpBackend.flush();
             })
-        );
+        );*/
 
-        it('should logout',
-            inject(function (AuthService, $httpBackend, $location, RESTURL) {
-
-                // use httpBackend to imitate login api
-
-                $httpBackend.expectPOST(RESTURL.url + 'logout', {})
-                    .respond(200, {
-                        is_login: false
-                    });
-
-                AuthService.logout().success(function (data) {
-                    expect(data.is_login).toBe(false);
-                });
-
-                $httpBackend.flush();
-            })
-        );
+        // it('should logout',
+        //     inject(function (AuthService, $httpBackend, RESTURL) {
+        //
+        //         // use httpBackend to imitate login api
+        //
+        //         $httpBackend.expectPOST(RESTURL.url + 'logout', {})
+        //             .respond(200, {
+        //                 is_login: false
+        //             });
+        //
+        //         AuthService.logout().success(function (data) {
+        //             expect(data.is_login).toBe(false);
+        //         });
+        //
+        //         $httpBackend.flush();
+        //     })
+        // );
     });
 });

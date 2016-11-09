@@ -73,6 +73,7 @@ module.exports = function (grunt) {
                 files: [
                     {expand: true, cwd: 'app/bower_components/font-awesome/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'brand-logo.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/img/', src: 'brand-logo2.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'loading_spinner.gif', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'sample-profile-pic.jpg', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'empty-profile-pic.jpg', dest: 'dist/img/', flatten: true, filter: 'isFile'},
@@ -89,6 +90,7 @@ module.exports = function (grunt) {
                 files: [
                     {expand: true, cwd: 'app/bower_components/font-awesome/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'brand-logo.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/img/', src: 'brand-logo2.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'loading_spinner.gif', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'sample-profile-pic.jpg', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/img/', src: 'empty-profile-pic.jpg', dest: 'dist/img/', flatten: true, filter: 'isFile'},
@@ -105,7 +107,7 @@ module.exports = function (grunt) {
                 files: [
                     {expand: true, cwd: "app/", src: "app.js", dest: "api-docs-source/"},
                     {expand: true, cwd: "app/zetalib/", src: "interceptors.js", dest: "api-docs-source/"},
-                    {expand: true, cwd: "app/zetalib/", src: "form_service.js", dest: "api-docs-source/"},
+                    {expand: true, cwd: "app/zetalib/", src: "form-service.js", dest: "api-docs-source/"},
                     {expand: true, cwd: "app/shared/", src: "directives.js", dest: "api-docs-source/"},
                     {expand: true, cwd: "app/components/auth/", src: "auth_controller.js", dest: "api-docs-source/"},
                     {expand: true, cwd: "app/components/auth/", src: "auth_service.js", dest: "api-docs-source/"},
@@ -123,11 +125,12 @@ module.exports = function (grunt) {
                     "app/app_routes.js",
                     "app/zetalib/interceptors.js",
                     "app/zetalib/general.js",
-                    "app/zetalib/form_service.js",
-                    "app/zetalib/form_constraints.js",
+                    "app/zetalib/form-service.js",
+                    "app/zetalib/form-constraints.js",
                     "app/zetalib/error_service.js",
                     "app/zetalib/action_service.js",
                     "app/zetalib/socket.js",
+                    "app/zetalib/msg_service.js",
                     "app/zetalib/utils_service.js",
                     "app/shared/directives.js",
                     "app/components/auth/auth_controller.js",
@@ -142,7 +145,7 @@ module.exports = function (grunt) {
                     "app/components/version/version.js",
                     "app/components/version/interpolate-filter.js",
                     "app/components/version/version-directive.js",
-                    "app/components/messaging/messaging_service.js",
+                    "app/components/messaging/messaging-service.js",
                     "app/components/messaging/messaging.js"
                 ],
                 nonull: true,
@@ -171,7 +174,8 @@ module.exports = function (grunt) {
                     "app/bower_components/Chart.js/Chart.js",
                     "app/bower_components/intro.js/intro.js",
                     "app/bower_components/moment/min/moment.min.js",
-                    "app/bower_components/toastr/toastr.min.js"
+                    "app/bower_components/toastr/toastr.min.js",
+                    "app/bower_components/angular-websocket/dist/angular-websocket.min.js"
                 ],
                 dest: 'dist/bower_components/components.js'
             },
@@ -201,7 +205,7 @@ module.exports = function (grunt) {
                     'app/shared/directives.js',
                     'app/components/**/*controller.js',
                     'app/components/**/*service.js',
-                    "app/components/messaging/messaging_service.js",
+                    "app/components/messaging/messaging-service.js",
                     "app/components/messaging/messaging.js"
                 ],
                 dest: 'dist/<%= grunt.branchname %>/app.js'
@@ -226,7 +230,8 @@ module.exports = function (grunt) {
                     "app/bower_components/metisMenu/dist/metisMenu.min.js",
                     "app/bower_components/Chart.js/Chart.min.js",
                     "app/bower_components/intro.js/minified/intro.min.js",
-                    "app/bower_components/moment/min/moment.min.js"
+                    "app/bower_components/moment/min/moment.min.js",
+                    "app/bower_components/angular-websocket/dist/angular-websocket.min.js"
                 ],
                 dest: 'dist/<%= grunt.branchname %>/bower_components/components.js'
             },
@@ -338,22 +343,22 @@ module.exports = function (grunt) {
                     context: {
                         name: '<%= pkg.name %>',
                         version: '<%= pkg.version %>',
-                        now: '<%= now %>',
-                        ver: '<%= ver %>'
+                        now: '<%= grunt.template.today("yyyymmddHHMM") %>',
+                        ver: '<%= pkg.version %>'
                     }
                 }
             },
             prod_branch: {
                 files: {
                     'dist/<%= grunt.branchname %>/index.html': 'app/main.html',
-                    'dist/<%= grunt.branchname %>/app.js': 'app/main.js',
+                    'dist/<%= grunt.branchname %>/app.js': 'app/main.js'
                 },
                 options: {
                     context: {
                         name: '<%= pkg.name %>',
                         version: '<%= pkg.version %>',
-                        now: '<%= now %>',
-                        ver: '<%= ver %>'
+                        now: '<%= grunt.template.today("yyyymmddHHMM") %>',
+                        ver: '<%= pkg.version %>'
                     }
                 }
             }
@@ -364,7 +369,7 @@ module.exports = function (grunt) {
                 src: [
                     "app/app.js",
                     "app/zetalib/interceptors.js",
-                    "app/zetalib/form_service.js",
+                    "app/zetalib/form-service.js",
                     "app/shared/directives.js",
                     "app/components/auth/auth_controller.js",
                     "app/components/auth/auth_service.js",

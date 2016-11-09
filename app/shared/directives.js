@@ -357,10 +357,6 @@ angular.module('ulakbus')
                     $scope.selectedUser = data;
                 });
 
-                $scope.deselectUser = function () {
-                    delete $scope.selectedUser;
-                    delete $scope.selectedMenuItems;
-                };
 
                 // $scope.openSidebar = function () {
                 //     if ($window.innerWidth > '768') {
@@ -717,6 +713,17 @@ angular.module('ulakbus')
                 scope.$on('$destroy', function(){
                     element.unbind('keydown keypress');
                 })
+            }
+        }
+    })
+
+    .directive('demoMode', function () {
+        return {
+            templateUrl: 'shared/templates/demoMode.html',
+            restrict: 'E',
+            replace: true,
+            controller: function ($scope, $cookies) {
+                $scope.demo = ($cookies.get("demo") === "true")
             }
         }
     });

@@ -122,6 +122,26 @@ img.header-profile {
 	margin-right:6px;
 }
 
+/** LOGIN PAGE **/
+
+.login-wrapper {
+    width: 350px;
+    padding: 40px;
+    background-color: #FFFFFF;
+    margin: 200px auto 25px;
+    border-radius: 2px;
+    box-shadow: 0 2px 2px rgba(255, 255, 255, 0.3);
+}
+.login .logo {
+    text-align: center;
+}
+.login .logo img {
+    width:75%;
+    margin:8px auto 40px;
+}
+
+/** END LOGIN PAGE **/
+
 /** DETAIL PAGE **/
 
 .detail-page {
@@ -777,10 +797,6 @@ select {
 .chat-panel .panel-body {
     height: 350px;
     overflow-y: scroll;
-}
-
-.login-panel {
-    margin-top: 25%;
 }
 
 .flot-chart {

@@ -10,7 +10,7 @@ describe('my app', function () {
         expect(browser.getLocationAbsUrl()).toMatch("/login");
     });
 
-
+    /*
     describe('dashboard', function () {
 
         beforeEach(function () {
@@ -38,5 +38,5 @@ describe('my app', function () {
                 toMatch(/Ulakbus Login Form/);
         });
 
-    });
+    });*/
 });
