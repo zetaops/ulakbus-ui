@@ -472,7 +472,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                 $scope.format = 'dd.MM.yyyy';
                 $scope.filterSubmit = function () {
                     angular.forEach($scope.filterList, function (value, key) {
-                        if (value.model) {
+                        if (Object.keys(value.model).length) {
                             if (value.type === 'date') {
                                 var dateValues = [null, null];
                                 angular.forEach(value.model, function (v, k) {
