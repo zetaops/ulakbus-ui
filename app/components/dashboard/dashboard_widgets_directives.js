@@ -296,17 +296,14 @@ angular.module('ulakbus.dashboard')
                     //scope.task_actions = data;
                 });*/
             },
-            controller: function($scope,WSOps){
+            controller: function($scope,$location){
                 /**
                  * this will send the websocket that we need to go certain workflow
                  * and websocket will send the wf data with cmd in it
                  */
 
                 $scope.gototask = function () {
-                    WSOps.send({
-                        token: $scope.task.token,
-                        wf: $scope.task.wf_type
-                    });
+                    $location.path($scope.task.wf_type);
                 }
             }
         }
