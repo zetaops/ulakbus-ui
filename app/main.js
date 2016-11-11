@@ -39,6 +39,7 @@ angular.module(
         'gettext',
         'markdown',
         'ngWebSocket',
+        'ui.select',
         // @if NODE_ENV='PRODUCTION'
         'templates-prod',
         // @endif

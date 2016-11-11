@@ -375,7 +375,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             reset: $scope.resetCmd
         };
 
-        return executeCmd[$routeParams.cmd]();
+        executeCmd[$routeParams.cmd]();
 
     })
 

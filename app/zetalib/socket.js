@@ -113,7 +113,7 @@
         function close(reason){
             msgService.clearQueue();
             $log.info("CLOSED :", reason || "");
-            if (angular.isUndefined(socket)) {
+            if (angular.isDefined(socket)) {
                 socket.loginStatus = false;
                 socket.close();
             }
