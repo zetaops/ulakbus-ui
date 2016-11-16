@@ -3350,13 +3350,3 @@ table.dataTable thead .sorting:after {
 .bottom-margined{
     margin-bottom: 0.75em;
 }
-
-/* AngularUI select */
-
-.select-wrapper {
-    border: 1px solid #ccc;
-    padding-bottom: 1px;
-}
-
-
-/* end  AngularUI select */

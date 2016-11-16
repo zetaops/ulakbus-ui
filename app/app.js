@@ -22,7 +22,6 @@
  */
 angular.module(
     'ulakbus', [
-        //'ui.bootstrap',
         'angular-loading-bar',
         'ngRoute',
         'ngSanitize',

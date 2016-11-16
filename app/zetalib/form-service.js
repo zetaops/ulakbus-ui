@@ -815,21 +815,25 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 },
                 text_general: {
                     default: function (scope, v, k) {
-                        v.type = 'string',
-                            v["x-schema-form"] = {
-                                "type": "textarea"
-                            }
+                        v.type = 'string';
+                        v["x-schema-form"] = {
+                            "type": "textarea"
+                        }
                     }
                 },
                 float: {default: _numbers},
                 model: {
                     default: function (scope, v, k) {
-
+                        scope.form.value = scope.model[k] || undefined;
                         var formitem = scope.form[scope.form.indexOf(k)];
                         var modelScope = {
                             "url": v.wf,
                             "wf": v.wf,
-                            "form_params": {wf: v.wf, model: v.model_name, cmd: v.list_cmd}
+                            "form_params": {
+                                wf: v.wf,
+                                model: v.model_name,
+                                cmd: v.list_cmd
+                            }
                         };
 
                         //scope.$on('refreshTitleMap', function (event, data) {
@@ -868,33 +872,18 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             model_name: v.model_name,
                             selected_item: {},
                             titleMap: [],
-                            onSelect: function (item, inputname) {
-                                scope.model[k] = item.value;
-                                $timeout(function () {
-                                    document.querySelector('input[name=' + inputname + ']').value = item.name;
-                                });
-                            },
-                            onDropdownSelect: function (item, inputname) {
-                                scope.model[k] = item.value;
-                                $timeout(function () {
-                                    document.querySelector('input[name=' + inputname + ']').value = item.name;
-                                });
-                            },
                             getTitleMap: function (viewValue) {
+                                if (viewValue < 3){ return []; };
                                 modelScope.form_params.query = viewValue;
-                                return generateTitleMap(modelScope);
-                            },
-                            getDropdownTitleMap: function () {
-                                delete modelScope.form_params.query;
                                 formitem.gettingTitleMap = true;
-                                generateTitleMap(modelScope)
+                                return generateTitleMap(modelScope)
                                     .then(function (data) {
-                                        formitem.titleMap = data;
                                         formitem.gettingTitleMap = false;
+                                        delete modelScope.form_params.query;
+                                        return formitem.titleMap = data;
                                     });
                             }
                         };
-
                         scope.form[scope.form.indexOf(k)] = formitem;
 
                         // get selected item from titleMap using model value
@@ -908,18 +897,15 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                     cmd: 'object_name'
                                 }
                             }).then(function (data) {
-
                                 try {
                                     $timeout(function () {
-                                        document.querySelector('input[name=' + k + ']').value = data.object_name;
+                                        scope.form.value = data.object_name;
                                     }, 200);
-
                                 }
                                 catch (e) {
                                     document.querySelector('input[name=' + k + ']').value = data.object_name;
                                     $log.debug('exception', e);
                                 }
-
                             });
                         }
                     }

@@ -1,45 +1,44 @@
-<div class="form-group {{form.htmlClass}} schema-form-select col-md-12"
-     ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}">
+<div class="form-group {{form.htmlClass}} schema-form-select">
     <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">
         {{form.title}}
     </label>
-    <a role="button"><i class="fa fa-plus-circle fa-fw" style="font-size: 24px;"
-                        add-modal-for-linked-model="{{form.formName}}"></i></a>
+    <div class="form-group">
+        <div class="input-group ">
+            <div class="select-wrapper">
+                <ui-select
+                        ng-model="form.value"
+                        title="{{form.title}}"
+                        ng-model-options="form.ngModelOptions"
+                        sf-changed="form"
+                        schema-validate="form"
+                        ng-disabled="form.readonly"
+                        theme="bootstrap"
+                        placeholder="{{form.title}}"
+                        name="{{form.key.slice(-1)[0]}}"
+                        sf-changed="form"
+                        name="{{form.name}}"
+                        schema-validate="form"
+                        id="{{form.key.slice(-1)[0]}}"
 
-    <div class="form-group input-group" tooltip-enable="form.focusToInput"
-         tooltip-is-open="form.focusToInput"
-         tooltip-placement="bottom" uib-tooltip="Arama sonucu çok fazla, filtre ediniz.">
+                >
+                    <ui-select-match placeholder="">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices
+                            repeat="item in form.titleMap"
+                            refresh="form.getTitleMap($select.search)"
+                            refresh-delay="500"
+                    >
+                        <span ng-bind-html="item.name | highlight: { name: $select.search }  "></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
             <span class="input-group-btn">
-                <button class="btn btn-default dropdown-toggle" type="button" ng-click="form.getDropdownTitleMap()"
-                        data-toggle="dropdown">
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" ng-if="form.titleMap.length > 0">
-                    <li class="text-center" ng-if="form.gettingTitleMap"><a><span class="loader"></span></a></li>
-                    <li ng-repeat="item in form.titleMap">
-                        <a ng-click="form.onDropdownSelect(item, form.name)">{{item
-                            .name}}</a>
-                    </li>
-                </ul>
+              <button type="button" add-modal-for-linked-model="{{form.formName}}" class="btn btn-default" uib-tooltip="Yeni&nbsp;Ekle">
+                <span class="glyphicon glyphicon-plus"></span>
+              </button>
             </span>
-        <input type="text"
-               ng-model="$$value$$"
-               uib-typeahead="item as item.name for item in form.getTitleMap($viewValue)"
-               typeahead-on-select="form.onSelect($item, form.name)"
-               typeahead-loading="loadingTitleMap" typeahead-no-results="noResults"
-               typeahead-wait-ms="500"
-               placeholder="{{form.title}}"
-               ng-model-options="form.ngModelOptions"
-               ng-disabled="form.readonly"
-               sf-changed="form"
-               class="form-control {{form.fieldHtmlClass}}"
-               schema-validate="form"
-               name="{{form.name}}"/>
+        </div>
     </div>
-    <div ng-show="loadingTitleMap" class="loader"></div>
-    <div ng-show="noResults">
-        <i class="fa fa-close"></i> bulunamadı
-    </div>
+
 
     <!--<select ng-model="$$value$$"-->
     <!--value="$$value$$"-->
