@@ -747,7 +747,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             },
                             format: 'dd.MM.yyyy',
                             onSelect: function () {
-                                scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
+                                // causes date picker error data will be formated when submiting
+                                //scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
                                 return false;
                             }
                         };
@@ -1326,8 +1327,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 angular.forEach(model, function (value, key) {
                     if (value && value.constructor === Date) {
                         model[key] = generator.dateformatter(value);
-                    }
-                    if (value && value.constructor === Object) {
+                    } else if (value && value.constructor === Object) {
+                        // check recursively
                         convertDate(value);
                     }
                 });
@@ -1339,9 +1340,14 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             angular.forEach($scope.Node, function (value, key) {
                 $scope.model[key] = value.model;
             });
+
+            // format date without changing scopes date objects
+            var model = angular.copy($scope.model);
+            convertDate(model);
+
             // todo: unused var delete
             var send_data = {
-                "form": $scope.model,
+                "form": model,
                 "object_key": $scope.object_key,
                 "token": $scope.token,
                 "model": $scope.form_params.model,
