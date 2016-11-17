@@ -2849,6 +2849,12 @@ table.dataTable thead .sorting:after {
     padding: 25px 10px 25px 40px;
 }
 
+.course-prg-scheduler ul.tabs-left li a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 0;
+}
+
 .course-prg-scheduler ul.tabs-left li.active a {
     color: #bc1e2d;
 }
@@ -2917,7 +2923,7 @@ table.dataTable thead .sorting:after {
 
 .course-prg-scheduler .tab-content .table-container {
     max-height: 350px;
-    overflow-y: auto;
+    /*overflow-y: auto;*/
 }
 
 .course-prg-scheduler .tab-content table tr.headers td {
