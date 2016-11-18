@@ -3340,7 +3340,7 @@ table.dataTable thead .sorting:after {
     background: #fff;
     position: absolute;
     top:43px; left:0;
-    z-index: 1000;
+    z-index: 999;
 }
 
 .body-mask {

@@ -104,6 +104,7 @@
                 $log.info("MESSAGE:", JSON.stringify(evt), "Data:", angular.copy(message));
                 msgService.read(message);
             });
+            window.send = send;
         }
 
 

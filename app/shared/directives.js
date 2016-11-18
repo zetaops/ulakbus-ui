@@ -206,6 +206,25 @@ angular.module('ulakbus')
             }
         };
     })
+    .directive('userMenu',function () {
+        return {
+            templateUrl: 'shared/templates/directives/header-user-menu.html',
+            restrict: 'E',
+            replace: true,
+            link: function (scope) {
+                scope.user = false;
+                scope.$root.$watch("current_user",change,true);
+                function change(newVal,oldVal) {
+                    if(newVal.constructor == Object){
+                        if (newVal !== oldVal) {
+                            scope.user = newVal;
+                            scope.showRole = (newVal.roles.length > 1);
+                        }
+                    }
+                }
+            }
+        }
+    })
     /**
      * @memberof ulakbus
      * @ngdoc directive
