@@ -705,26 +705,25 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         $log.debug('date:', scope.model[k]);
                         scope.model[k] = generator.dateformatter(scope.model[k]);
                         scope.form[scope.form.indexOf(k)] = {
-                            key: k, name: k, title: v.title,
+                            key: k,
+                            name: k,
+                            title: v.title,
                             type: 'template',
                             templateUrl: 'shared/templates/datefield.html',
                             validationMessage: {
                                 'dateNotValid': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>",
-                                302: 'Bu alan zorunludur.'
+                                'required': 'Bu alan zorunludur.'
                             },
                             $asyncValidators: {
                                 'dateNotValid': function (value) {
                                     var deferred = $q.defer();
                                     $timeout(function () {
-                                        scope.model[k] = angular.copy(generator.dateformatter(value));
-                                        if (scope.schema.required.indexOf(k) > -1) {
+                                        if(!value){ // check for null value
+                                            deferred.reject();
+                                        } else if (value.constructor === Date) {
                                             deferred.resolve();
-                                        }
-                                        if (value.constructor === Date) {
-                                            deferred.resolve();
-                                        }
-                                        else {
-                                            var dateValue = d = value.split('.');
+                                        } else {
+                                            var dateValue = value.split('.');
                                             if (isNaN(Date.parse(value)) || dateValue.length !== 3) {
                                                 deferred.reject();
                                             } else {
@@ -733,7 +732,18 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                         }
                                     });
                                     return deferred.promise;
-                                }
+                                },
+                                'reqired': function (value) {
+                                    var deferred = $q.defer();
+                                    $timeout(function () {
+                                        if (scope.schema.required.indexOf(k) > -1) {
+                                            deferred.resolve();
+                                        } else {
+                                            deferred.reject();
+                                        }
+                                    });
+                                    return deferred.promise;
+                                },
                             },
                             status: {opened: false},
                             open: function ($event) {
@@ -748,7 +758,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             format: 'dd.MM.yyyy',
                             onSelect: function () {
                                 // causes date picker error data will be formated when submiting
-                                //scope.model[k] = angular.copy(generator.dateformatter(scope.model[k]));
+                                //scope.model[k] = angular.copy(scope.model[k]);
                                 return false;
                             }
                         };
@@ -978,7 +988,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         generator.dateformatter = function (formObject) {
             var ndate = new Date(formObject);
             if (isNaN(ndate) || formObject === null) {
-                return '';
+                return null;
             } else {
                 var newdatearray = Moment(ndate).format('DD.MM.YYYY');
                 $log.debug('date formatted: ', newdatearray);
@@ -1179,8 +1189,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 // if generated path url and the current path is equal route has to be reload
                 if ($location.path() === pathUrl) {
                     return $route.reload();
-                }
-                else {
+                } else {
                     $location.path(pathUrl);
                 }
             }

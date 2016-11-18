@@ -67,6 +67,8 @@
          */
 
         function connect(){
+            if(angular.isDefined(socket)) return;
+
             socket = $websocket(RESTURL.ws);
             /**
              * Web socket events
