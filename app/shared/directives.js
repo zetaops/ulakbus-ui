@@ -163,49 +163,6 @@ angular.module('ulakbus')
             }
         };
     })
-    /**
-     * @memberof ulakbus
-     * @ngdoc directive
-     * @name collapseMenu
-     * @description Toggle collapses sidebar menu when clicked menu button
-     */
-    .directive('collapseMenu', function ($timeout, $window, $cookies) {
-        return {
-            templateUrl: 'shared/templates/directives/menuCollapse.html',
-            restrict: 'E',
-            replace: true,
-            scope: {},
-            controller: function ($scope, $rootScope) {
-                $rootScope.collapsed = false;
-                $rootScope.sidebarPinned = $cookies.get('sidebarPinned') || 1;
-
-                $scope.collapseToggle = function () {
-                    if ($window.innerWidth > '768') {
-                        if ($rootScope.collapsed === false) {
-                            jQuery(".sidebar").css("width", "62px");
-                            jQuery(".manager-view").css("width", "calc(100% - 62px)");
-                            $rootScope.collapsed = true;
-                            $rootScope.sidebarPinned = 0;
-                            $cookies.put('sidebarPinned', 0);
-                        } else {
-                            jQuery("span.menu-text, span.arrow, .sidebar footer").fadeIn(400);
-                            jQuery(".sidebar").css("width", "250px");
-                            jQuery(".manager-view").css("width", "calc(100% - 250px)");
-                            $rootScope.collapsed = false;
-                            $rootScope.sidebarPinned = 1;
-                            $cookies.put('sidebarPinned', 1);
-                        }
-                    }
-                };
-
-                $timeout(function () {
-                    if ($cookies.get('sidebarPinned') === "0") {
-                        $scope.collapseToggle();
-                    }
-                });
-            }
-        };
-    })
     .directive('userMenu',function () {
         return {
             templateUrl: 'shared/templates/directives/header-user-menu.html',
@@ -219,6 +176,25 @@ angular.module('ulakbus')
                         if (newVal !== oldVal) {
                             scope.user = newVal;
                             scope.showRole = (newVal.roles.length > 1);
+                        }
+                    }
+                }
+            }
+        }
+    })
+    .directive('userInfo',function ($sce) {
+        return {
+            templateUrl: 'shared/templates/directives/user-info.html',
+            restrict: 'E',
+            replace: true,
+            link: function (scope) {
+                scope.user = false;
+                scope.$root.$watch("current_user",change,true);
+                function change(newVal,oldVal) {
+                    if(newVal.constructor == Object){
+                        if (newVal !== oldVal) {
+                            scope.user = newVal;
+                            scope.tooltip = $sce.trustAsHtml(newVal.role_details.unit_name.replace(/\s/g,"&nbsp;") + "<br/>" +  newVal.role_details.abs_name.replace(/\s/g,"&nbsp;") );
                         }
                     }
                 }

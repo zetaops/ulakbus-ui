@@ -38,23 +38,14 @@
 <demo-mode></demo-mode>
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"
      ng-show="user_ready === true">
-    <collapse-menu></collapse-menu>
-    <!--<ul class="header-menu">-->
-    <!--<li><a href="">Mesajlar</a></li>-->
-    <!--<li><a href="">Görevler</a></li>-->
-    <!--<li><a href="">Raporlar</a></li>-->
-    <!--<li><a href="">Ayarlar</a></li>-->
-    <!--</ul>-->
+
+    <button type="button" class="navbar-toggle navbar-left" data-toggle="collapse" data-target=".navbar-collapse">
+        <i class="fa fa-bars fa-fw fa-inverse"></i>
+    </button>
     <div class="navbar-header">
         <div class="brand">
             <a href="#/dashboard" class="logo"><img src="/img/brand-logo.png"/></a>
         </div>
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
     </div>
     <!-- /.navbar-header -->
     <header-notification></header-notification>

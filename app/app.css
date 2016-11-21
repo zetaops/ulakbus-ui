@@ -115,12 +115,6 @@ a:hover {
     letter-spacing: 0.5px;
 }
 
-img.header-profile {
-	width:27px;
-	height:27px;
-	border-radius:100%;
-	margin-right:6px;
-}
 
 /** LOGIN PAGE **/
 
@@ -444,6 +438,7 @@ select {
 
 .navbar-top-links {
     margin-right: 0;
+    float:right;
 }
 
 .navbar-top-links li {
@@ -3097,7 +3092,7 @@ table.dataTable thead .sorting:after {
 	}
 
     .sidebar-container {
-        max-height: calc(100% - 120px); overflow-y: auto;
+        max-height: calc(100% - 155px); overflow-y: auto;
     }
 	
 	footer {
@@ -3356,3 +3351,49 @@ table.dataTable thead .sorting:after {
 .bottom-margined{
     margin-bottom: 0.75em;
 }
+
+
+/** user info **/
+
+.user-info-wrapper {
+    font-family: 'robotomedium';
+    letter-spacing: 0.2px;
+    padding: 8px;
+    display: flex;
+    border-bottom: 1px solid #DCDCDC;
+}
+
+.avatar-container {
+    width: 20%;
+    max-width: 50px;
+    padding: 8px 8px 0 0;
+}
+img.header-profile {
+    width: 100%;
+    border-radius: 100%;
+    vertical-align: middle;
+}
+.user-info-container {
+    width:80%
+}
+.user-info-container span{
+    width:100%;
+    color: #777;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    text-overflow: ellipsis;
+}
+.user-name {
+
+}
+
+.user-title {
+    font-size: .9em;
+}
+
+.user-unit {
+    font-size: .85em;
+}
+
+/** end user info **/

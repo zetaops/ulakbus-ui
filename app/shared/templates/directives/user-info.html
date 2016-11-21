@@ -1,0 +1,12 @@
+
+<div class="user-info-wrapper">
+    <div class="avatar-container">
+        <!-- TODO: replace image with placeholder avatar image-->
+        <img ng-src="{{user.avatar || '../../../img/sample-profile-pic.jpg'}}" class="header-profile">
+    </div>
+    <div class="user-info-container">
+        <span class="user-name" title="{{user.name}}&nbsp{{user.surname}}">{{user.name}}&nbsp{{user.surname}}</span>
+        <span class="user-title" title="{{user.role_details.abs_name}}">{{user.role_details.abs_name}}</span>
+        <span class="user-unit" title="{{user.role_details.unit_name}}">{{user.role_details.unit_name}}</span>
+    </div>
+</div>
