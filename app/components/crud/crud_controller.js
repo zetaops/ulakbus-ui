@@ -296,6 +296,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
 
             var pageData = Generator.getPageData();
             if (pageData.pageData === true) {
+                $scope.object_title = pageData.object_title
                 $scope.object = pageData.object;
                 Generator.setPageData({pageData: false});
             }
