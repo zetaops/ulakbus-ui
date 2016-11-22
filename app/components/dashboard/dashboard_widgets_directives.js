@@ -90,7 +90,8 @@ angular.module('ulakbus.dashboard')
                  * initialisation of task manager
                  * getting default values and setting data
                  */
-                TasksService.get_task_types()
+                TasksService
+                    .get_task_types()
                     .then(function (types) {
                         var defaultType = {
                             name: '',
@@ -106,20 +107,22 @@ angular.module('ulakbus.dashboard')
                         iScope.$broadcast("task_list", data)
                     });
 
-                iScope.taskTimes = [{
-                    name: "",
-                    title: "Tüm Zamanlar"
-                }, {
-                    name: "1",
-                    title: "Son 1 Gün"
-                }, {
-                    name: "7",
-                    title: "Son 1 Hafta"
-                }, {
-                    name: "30",
-                    title: "Son 1 Ay"
-                }]
-                iScope.taskTime = ""
+                iScope.taskTimes= [
+                    {
+                        name: "",
+                        title: "Tüm Zamanlar"
+                    }, {
+                        name: "1",
+                        title: "Son 1 Gün"
+                    }, {
+                        name: "7",
+                        title: "Son 1 Hafta"
+                    }, {
+                        name: "30",
+                        title: "Son 1 Ay"
+                    }
+                ];
+                iScope.taskTime = "";
             },
             controller: function ($scope, TasksService,Utils) {
                 /**
@@ -127,11 +130,10 @@ angular.module('ulakbus.dashboard')
                  * */
                 $scope.activeTab = "active";
                 $scope.task_list = {
-                    10: true,
-                    20: true,
-                    30: true,
-                    40: true,
-                    90: true
+                    current:{},
+                    future:{},
+                    completed:{},
+                    expired:{}
                 };
                 $scope.task_counts = [];
                 
@@ -139,16 +141,29 @@ angular.module('ulakbus.dashboard')
                  * general function for getting task_list
                  */
                 $scope.$on("task_list", function (event, data) {
-                    if (data.task_list.length == 0) {
-                        $scope.task_list = {};
-                    } else {
-                        angular.forEach(data.task_list, function (val, i) {
-                            i == 0 && ($scope.task_list[val.state] = false);
-                            $scope.task_list[val.state] = $scope.task_list[val.state] || {}
-                            $scope.task_list[val.state][val.wf_type] = val;
-                        });
-                    }
-                    $scope.task_count = data.task_count
+                    angular.forEach(data.task_list, function (val, i) {
+                        var taskClass;
+                        switch (val.state){
+                            case 10:
+                                taskClass = "future";
+                                break;
+                            case 20:
+                            case 30:
+                                taskClass = "current";
+                                break;
+                            case 40:
+                                taskClass = "completed";
+                                break;
+                            case 90:
+                                taskClass = "expired";
+                                break;
+                            default:
+                                taskClass = null;
+                                break;
+                        }
+                        $scope.task_list[taskClass][val.key] = val;
+                    });
+                    $scope.task_count = data.task_count;
                 });
                 /**
                  * event for tab change
@@ -243,68 +258,76 @@ angular.module('ulakbus.dashboard')
             }
         };
     })
-    .directive('singleTask', function (TasksService, Utils) {
+    .directive('singleTask', function (TasksService, Utils ) {
         return {
             templateUrl: 'components/dashboard/directives/single-task.html',
             restrict: 'E',
             replace: true,
             scope: {
-                data: '@data'
+                key: '@key'
             },
-            link: function (scope, element, attrs, controllers) {
-                scope.task = JSON.parse(scope.data);
+            link: function ($scope, element, attrs, controllers) {
+                $scope.task = $scope.$parent.value;
                 /**
-                 * setting scope values for UI
+                 * setting $scope values for UI
                  */
-                switch (scope.task.state) {
+                switch ($scope.task.state) {
                     case 90:
-                        scope.task_class = "expired-task";
-                        scope.task_tooltip = "Geçersiz";
+                        $scope.task_class = "expired-task";
+                        $scope.task_tooltip = "Geçersiz";
                         break;
                     case 40:
-                        scope.task_class = "completed-task";
-                        scope.task_tooltip = "Tamamlanan";
+                        $scope.task_class = "completed-task";
+                        $scope.task_tooltip = "Tamamlanan";
                         break;
                     default:
                         /**
                          * If task is not completed or expired, we calculate remaining time to task finishtime.
                          * With this information we show urgency of the task
                          */
-                        var date = new Date(scope.task.finish_date);
+                        var date = new Date($scope.task.finish_date);
                         var now = new Date();
                         var diff = Math.floor((date - now) / 1000 / 60 / 60 / 24);
                         if (diff < 1) {
-                            scope.task_class = "urgent-task";
-                            scope.task_tooltip = "Acil";
+                            $scope.task_class = "urgent-task";
+                            $scope.task_tooltip = "Acil";
                         } else if (diff < 3) {
-                            scope.task_class = "approaching-task";
-                            scope.task_tooltip = "Yaklaşan";
+                            $scope.task_class = "approaching-task";
+                            $scope.task_tooltip = "Yaklaşan";
                         } else {
-                            scope.task_class = "non-urgent-task";
-                            scope.task_tooltip = "Acil Olmayan";
+                            $scope.task_class = "non-urgent-task";
+                            $scope.task_tooltip = "Acil Olmayan";
                         }
                 };
                 /**
                  * Formated date for task view
                  */
-                scope.task_date = Utils.genDate(scope.task.finish_date);
+                $scope.task_date = Utils.genDate($scope.task.finish_date);
 
-                /*TasksService.get_task_detail(scope.task.key).then(function(data){
-                    scope.task_detail = data;
+                /* TasksService.get_task_detail($scope.task.key).then(function(data){
+                    $scope.task_detail = data;
                 });*/
-                /*TasksService.get_task_actions(scope.task.key).then(function(data){
-                    //scope.task_actions = data;
-                });*/
+
+                $scope.actions = {};
+                $scope.getActions = function() {
+                    if (Object.keys($scope.actions).length > 0) return;
+                    TasksService.get_task_actions($scope.task.key).then(function (data) {
+                        $scope.actions = data.map(function(el){
+                            el.link = "#/"+el.wf+"/?task_inv_id="+$scope.task.key;
+                            return el;
+                        });
+
+                    });
+                };
+                $scope.link = "#/"+$scope.task.wf_type //+'?personel_id='+ $scope.task.key ;
+
             },
-            controller: function($scope,$location){
+            controller: function($scope){
                 /**
                  * this will send the websocket that we need to go certain workflow
                  * and websocket will send the wf data with cmd in it
                  */
 
-                $scope.gototask = function () {
-                    $location.path($scope.task.wf_type);
-                }
             }
         }
     })

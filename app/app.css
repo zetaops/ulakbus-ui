@@ -3182,7 +3182,6 @@ table.dataTable thead .sorting:after {
 	width:45px;	
 	position: absolute;
     right: 23px;
-    top: 21px;
 }
 
 .task-manager .task-actions .icon-wrapper {

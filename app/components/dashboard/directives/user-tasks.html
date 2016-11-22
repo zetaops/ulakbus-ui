@@ -27,27 +27,26 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane current-tasks active">
                     <ul>
-                        <single-task ng-repeat="task in task_list[20]" data={{task}}></single-task>
-                        <single-task ng-repeat="task in task_list[30]" data={{task}}></single-task>
-                        <empty-task tasktype="Aktif" ng-if="!(task_list[20]||task_list[30])"></empty-task>
+                        <single-task ng-repeat="(key, value) in task_list.current" key={{key}}></single-task>
+                        <empty-task tasktype="Aktif" ng-if="angular.equals({}, task_list.current)"></empty-task>
                     </ul>
                 </div>
                 <div role="tabpanel" class="tab-pane future-tasks">
                     <ul>
-                        <single-task ng-repeat="task in task_list[10]" data={{task}}></single-task>
-                        <empty-task tasktype="Gelecek" ng-if="!(task_list[10])"></empty-task>
+                        <single-task ng-repeat="(key, value) in task_list.future" data={{task}}></single-task>
+                        <empty-task tasktype="Gelecek" ng-if="angular.equals({}, task_list.task_list.future)"></empty-task>
                     </ul>
                 </div>
                 <div role="tabpanel" class="tab-pane completed-tasks">
                     <ul>
-                        <single-task ng-repeat="task in task_list[40]" data={{task}}></single-task>
-                        <empty-task tasktype="Tamamlanmış" ng-if="!(task_list[40])"></empty-task>
+                        <single-task ng-repeat="(key, value)  in task_list.completed" data={{task}}></single-task>
+                        <empty-task tasktype="Tamamlanmış" ng-if="angular.equals({}, task_list.task_list.completed)"></empty-task>
                     </ul>
                 </div>
                 <div role="tabpanel" class="tab-pane expired-tasks">
                     <ul>
-                        <single-task ng-repeat="task in task_list[90]" data={{task}}></single-task>
-                        <empty-task tasktype="Geçersiz" ng-if="!(task_list[90])"></empty-task>
+                        <single-task ng-repeat="(key, value)  in task_list.expired" data={{task}}></single-task>
+                        <empty-task tasktype="Geçersiz" ng-if="angular.equals({}, task_list.expired)"></empty-task>
                     </ul>
                 </div>
             </div>
