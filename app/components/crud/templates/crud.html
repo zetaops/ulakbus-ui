@@ -3,9 +3,9 @@
     <crud-timetable-directive2 ng-if="derslik_zaman_tablosu"></crud-timetable-directive2>
     <div ng-class="{'col-md-8': meta.allow_filters}">
         <msgbox ng-show="msgbox"></msgbox>
-        <h3 ng-class="{'mid-h3': !objects}">{{ schema.title }}</h3>
+        <h3 ng-class="{'mid-h3': !objects}">{{ object_title || schema.title}}</h3>
         <crud-show-directive ng-if="object"></crud-show-directive>
-        <crud-form-directive ng-if="forms"></crud-form-directive>
+        <crud-form-directive ng-if="forms" ></crud-form-directive>
         <crud-list-directive ng-if="objects"></crud-list-directive>
     </div>
     <crud-filters ng-show="meta.allow_filters === true" class="col-md-4 filtre"></crud-filters>
