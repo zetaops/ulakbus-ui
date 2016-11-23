@@ -130,10 +130,10 @@ angular.module('ulakbus.dashboard')
                  * */
                 $scope.activeTab = "active";
                 $scope.task_list = {
-                    current:{},
-                    future:{},
-                    completed:{},
-                    expired:{}
+                    current: null,
+                    future: null,
+                    completed: null,
+                    expired: null
                 };
                 $scope.task_counts = [];
                 
@@ -220,7 +220,7 @@ angular.module('ulakbus.dashboard')
                         case 2:
                             return;
                         case 0:
-                            break
+                            break;
                         default:
                             options.query = query;
                     }

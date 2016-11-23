@@ -1,5 +1,11 @@
 module.exports = function (grunt) {
 
+    require('time-grunt')(grunt);
+    require('jit-grunt')(grunt, {
+        nggettext_extract: 'grunt-angular-gettext',
+        nggettext_compile: 'grunt-angular-gettext'
+    });
+
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -72,15 +78,10 @@ module.exports = function (grunt) {
             prod: {
                 files: [
                     {expand: true, cwd: 'app/bower_components/font-awesome/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/img/', src: 'brand-logo.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/img/', src: 'brand-logo2.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/img/', src: 'loading_spinner.gif', dest: 'dist/img/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/img/', src: 'sample-profile-pic.jpg', dest: 'dist/img/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/img/', src: 'empty-profile-pic.jpg', dest: 'dist/img/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/img/', src: 'favicon.ico', dest: 'dist/img/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/img/', src: '**/*', dest: 'dist/img/', flatten: false},
                     {expand: true, cwd: 'app/styles/roboto/', src: '**/*', dest: 'dist/css/roboto/', flatten: false},
                     {expand: true, cwd: 'app/styles/', src: 'jquery-ui.min.css', dest: 'dist/css/', flatten: true},
-                    {expand: true, cwd: 'app/styles/images/', src: '*', dest: 'dist/css/images/', flatten: true},
+                    {expand: true, cwd: 'app/styles/images/', src: '**/*', dest: 'dist/css/images/', flatten: true},
                     {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
@@ -89,15 +90,10 @@ module.exports = function (grunt) {
             local_prod: {
                 files: [
                     {expand: true, cwd: 'app/bower_components/font-awesome/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/img/', src: 'brand-logo.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/img/', src: 'brand-logo2.png', dest: 'dist/img/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/img/', src: 'loading_spinner.gif', dest: 'dist/img/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/img/', src: 'sample-profile-pic.jpg', dest: 'dist/img/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/img/', src: 'empty-profile-pic.jpg', dest: 'dist/img/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/img/', src: 'favicon.ico', dest: 'dist/img/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/img/', src: '**/*', dest: 'dist/img/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/styles/roboto/', src: '**/*', dest: 'dist/css/roboto/', flatten: false},
                     {expand: true, cwd: 'app/styles/', src: 'jquery-ui.min.css', dest: 'dist/css/', flatten: true},
-                    {expand: true, cwd: 'app/styles/images/', src: '*', dest: 'dist/css/images/', flatten: true},
+                    {expand: true, cwd: 'app/styles/images/', src: '**/*', dest: 'dist/css/images/', flatten: true},
                     {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
@@ -120,33 +116,13 @@ module.exports = function (grunt) {
                 separator: '\n\n'
             },
             js: {
+                //TODO: name controller directives services and properly and select files by type. i.e. **/*Service.js **/*Controller.js
                 src: [
                     "dist/app.js",
                     "app/app_routes.js",
-                    "app/zetalib/interceptors.js",
-                    "app/zetalib/general.js",
-                    "app/zetalib/form-service.js",
-                    "app/zetalib/form-constraints.js",
-                    "app/zetalib/error_service.js",
-                    "app/zetalib/action_service.js",
-                    "app/zetalib/socket.js",
-                    "app/zetalib/msg_service.js",
-                    "app/zetalib/utils_service.js",
                     "app/shared/directives.js",
-                    "app/components/auth/auth_controller.js",
-                    "app/components/auth/auth_service.js",
-                    "app/components/dashboard/dashboard_controller.js",
-                    "app/components/crud/crud_controller.js",
-                    "app/components/crud/crud_widgets.js",
-                    "app/components/debug/debug_controller.js",
-                    "app/components/devSettings/devSettings_controller.js",
-                    "app/components/error_pages/error_controller.js",
-                    "app/components/wf/wf_controller.js",
-                    "app/components/version/version.js",
-                    "app/components/version/interpolate-filter.js",
-                    "app/components/version/version-directive.js",
-                    "app/components/messaging/messaging-service.js",
-                    "app/components/messaging/messaging.js"
+                    "app/zetalib/**/!(*_test*).js",
+                    "app/components/**/!(*_test*).js"
                 ],
                 nonull: true,
                 dest: 'dist/app.js'
@@ -397,22 +373,6 @@ module.exports = function (grunt) {
             }
         }
     });
-
-
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-html2js');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-bower-task');
-    grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-angular-gettext');
-    grunt.loadNpmTasks('grunt-preprocess');
-    grunt.loadNpmTasks('grunt-env');
-    grunt.loadNpmTasks('grunt-jsdoc');
-    grunt.loadNpmTasks('grunt-mrdoc');
 
     grunt.registerTask('dev', ['env:dev', 'preprocess:dev', 'html2js:dev', 'default']);
     grunt.registerTask('test', ['bower', 'karma:continuous']);
