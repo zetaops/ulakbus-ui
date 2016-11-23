@@ -87,15 +87,19 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout) {
                     });
                     break;
                 case "reload":
-                    var alert = {
-                        type: "warning",
-                        title: data.title,
-                        msg: data.msg
-                    };
-                    $rootScope.$broadcast('alertBox', alert);
-                    $timeout(function() {
+                    if (angular.isDefined(data.msg) ){
+                        var alert = {
+                            type: "warning",
+                            title: data.title,
+                            msg: data.msg
+                        };
+                        $rootScope.$broadcast('alertBox', alert);
+                        $timeout(function() {
+
+                        },5000);
+                    } else {
                         window.location.href = "/";
-                    },5000);
+                    }
                     break;
                 default:
                     $log.info("unknown action", data);

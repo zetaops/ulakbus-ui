@@ -122,10 +122,10 @@ a:hover {
 }
 
 img.header-profile {
-	width:27px;
-	height:27px;
-	border-radius:100%;
-	margin-right:6px;
+    width: 27px;
+    height: 27px;
+    border-radius: 100%;
+    margin-right: 6px;
 }
 
 /** LOGIN PAGE **/
@@ -453,6 +453,7 @@ select {
 
 .navbar-top-links {
     margin-right: 0;
+    float:right;
 }
 
 .navbar-top-links li {
@@ -2827,12 +2828,11 @@ table.dataTable thead .sorting:after {
 }
 
 .course-prg-scheduler .panel-body {
-    height: 550px;
+
 }
 
 .course-prg-scheduler .tabs-container {
     overflow-y: auto;
-    height: 550px;
 }
 
 .course-prg-scheduler .tabs-left {
@@ -2932,8 +2932,6 @@ table.dataTable thead .sorting:after {
 }
 
 .course-prg-scheduler .tab-content .table-container {
-    max-height: 350px;
-    /*overflow-y: auto;*/
 }
 
 .course-prg-scheduler .tab-content table tr.headers td {
@@ -3500,7 +3498,8 @@ table.dataTable thead .sorting:after {
 	}
 
     .sidebar-container {
-        max-height: calc(100% - 120px); overflow-y: auto;
+        max-height: calc(100% - 90px);
+        overflow-y: auto;
     }
 	
 	footer {
@@ -3743,7 +3742,7 @@ table.dataTable thead .sorting:after {
     background: #fff;
     position: absolute;
     top:43px; left:0;
-    z-index: 1000;
+    z-index: 999;
 }
 
 .body-mask {
@@ -3759,3 +3758,49 @@ table.dataTable thead .sorting:after {
 .bottom-margined{
     margin-bottom: 0.75em;
 }
+
+
+/** user info
+
+.user-info-wrapper {
+    font-family: 'robotomedium';
+    letter-spacing: 0.2px;
+    padding: 8px;
+    display: flex;
+    border-bottom: 1px solid #DCDCDC;
+}
+
+.avatar-container {
+    width: 20%;
+    max-width: 50px;
+    padding: 8px 8px 0 0;
+}
+img.header-profile {
+    width: 100%;
+    border-radius: 100%;
+    vertical-align: middle;
+}
+.user-info-container {
+    width:80%
+}
+.user-info-container span{
+    width:100%;
+    color: #777;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    text-overflow: ellipsis;
+}
+.user-name {
+
+}
+
+.user-title {
+    font-size: .9em;
+}
+
+.user-unit {
+    font-size: .85em;
+}
+
+/** end user info **/

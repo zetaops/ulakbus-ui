@@ -1,144 +1,15 @@
 <ul class="nav navbar-top-links navbar-right">
-    <!--<li class="dropdown" >
-        <a class="dropdown-toggle" data-toggle="dropdown">
-        	<div class="badge" ng-show="notifications[2].length > 0">{{notifications[2].length}}</div>
-            <i class="fa fa-envelope fa-fw" tooltip-placement="bottom" uib-tooltip="Mesajlar"></i>  <i
-                class="fa fa-caret-down"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-messages" ng-show="notifications[2].length > 0">
-            <li ng-repeat="notify in notifications[2] | limitTo: '8'">
-                <a>
-                    <div ng-click="popModal(notify)">
-                        <div>
-                            <strong>{{notify.title}}</strong>
-                            <span class="pull-right text-muted">
-                                <em>22 Ekim 2015</em>
-                            </span>
-                        </div>
-                        <div>{{notify.body}}...</div>
-                    </div>
-                    <span ng-click="markAsRead(notify, 2, $index)" class="pull-right fa fa-times"></span>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a class="text-center">
-                    <strong>Read All Messages</strong>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-        </ul>
-        &lt;!&ndash; /.dropdown-messages &ndash;&gt;
-    </li>-->
-    <li uib-dropdown auto-close="outsideClick">
-        <a uib-dropdown-toggle ng-click="showMessagesWindow('messages')">
+    <li>
+        <a ng-click="showMessagesWindow('messages')">
             <div class="badge" ng-show="count.messages.count > 0">{{count.messages.count}}</div>
             <i class="fa fa-envelope fa-fw" tooltip-placement="bottom" uib-tooltip="Mesajlar"></i>
-            <!--<i class="fa fa-caret-down"></i>-->
         </a>
-        <ul class="dropdown-messages" uib-dropdown-menu ng-show="notifications[2].length > 0">
-            <li ng-repeat="notify in notifications[2] | limitTo: '8'">
-                <a href="{{notify.url}}">
-                    <div ng-click="popModal(notify)">
-                        <div>
-                            <strong>{{notify.title}}</strong>
-                            <span class="pull-right text-muted">
-                                <em>22 Ekim 2015</em>
-                            </span>
-                        </div>
-                        <div>{{notify.body}}...</div>
-                    </div>
-                    <span ng-click="markAsRead($event,notify, 2, $index)" class="pull-right fa fa-times"></span>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a class="text-center">
-                    <strong>Read All Messages</strong>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-        </ul>
-        <!-- /.dropdown-messages -->
     </li>
-    <!-- /.dropdown -->
-    <!--<li uib-dropdown auto-close="outsideClick">-->
-        <!--<a uib-dropdown-toggle>-->
-            <!--<div class="badge" ng-if="notifications[1].length > 0">{{notifications[1].length}}</div>-->
-            <!--<i class="fa fa-tasks fa-fw" tooltip-placement="bottom" uib-tooltip="Görevler"></i>  <i-->
-                <!--class="fa fa-caret-down"></i>-->
-        <!--</a>-->
-        <!--<ul class="dropdown-tasks" uib-dropdown-menu ng-if="notifications[1].length > 0">-->
-            <!--<li ng-repeat="notify in notifications[1] | limitTo: '8'">-->
-                <!--<a href="{{notify.url}}">-->
-                    <!--<div>-->
-                        <!--<p>-->
-                            <!--<strong>{{notify.title}}</strong>-->
-                            <!--<span class="pull-right text-muted">{{notify.body}}</span>-->
-                            <!--<span ng-click="markAsRead($event,notify, 1, $index)" class="pull-right fa fa-times"></span>-->
-                        <!--</p>-->
-                        <!--&lt;!&ndash; todo: progress bar will be used in future developments&ndash;&gt;-->
-                        <!--&lt;!&ndash;<div class="progress progress-striped active">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<span class="sr-only">40% Complete (success)</span>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-                    <!--</div>-->
-                <!--</a>-->
-            <!--</li>-->
-            <!--<li class="divider"></li>-->
-            <!--<li>-->
-                <!--<a class="text-center">-->
-                    <!--<strong>See All Tasks</strong>-->
-                    <!--<i class="fa fa-angle-right"></i>-->
-                <!--</a>-->
-            <!--</li>-->
-        <!--</ul>-->
-        <!-- /.dropdown-tasks -->
-    </li>
-    <!-- /.dropdown -->
-    <li uib-dropdown auto-close="outsideClick">
-        <a uib-dropdown-toggle ng-click="showMessagesWindow('notifications')">
+    <li>
+        <a ng-click="showMessagesWindow('notifications')">
             <div class="badge" ng-if="count.notifications.count > 0">{{count.notifications.count}}</div>
             <i class="fa fa-bell fa-fw" tooltip-placement="bottom" uib-tooltip="Duyurular"></i>
-            <!--<i class="fa fa-caret-down"></i>-->
         </a>
-        <ul class="dropdown-alerts" uib-dropdown-menu ng-if="notifications[3].length > 0">
-            <li ng-repeat="notify in notifications[3] | limitTo: '8'">
-                <a role="button" href="{{notify.url}}">
-                    <div>
-                        <i class="fa fa-comment fa-fw"></i> New Comment
-                        <span class="pull-right text-muted small">4 minutes ago</span>
-                        <span ng-click="markAsRead($event,notify, 3, $index)" class="pull-right fa fa-times"></span>
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a class="text-center">
-                    <strong>See All Notifications</strong>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-        </ul>
-        <!-- /.dropdown-alerts -->
     </li>
-    <!-- /.dropdown -->
-    <li class="dropdown" style="border-left:1px solid #891723;">
-        <a class="dropdown-toggle" data-toggle="dropdown" style="padding-top: 7px; padding-bottom: 6px;">
-            <img src="../../../img/sample-profile-pic.jpg" class="header-profile">&nbsp;{{$root.current_user.name}}&nbsp;{{$root.current_user.surname}}&nbsp;
-            <i class="fa fa-caret-down" style="margin-left:3px;"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-user">
-            <li><a role="button"><i class="fa fa-user fa-fw"></i> Profil</a></li>
-            <li class="divider"></li>
-            <!--<li><a role="button"><i class="fa fa-gear fa-fw"></i> Ayarlar</a></li>-->
-            <li><a href="#/dev/settings"><i class="fa fa-gear fa-fw"></i> Ayarlar</a></li>
-            <li class="divider"></li>
-            <li><a ui-sref="login" href="javascript:void(0);" logout><i class="fa fa-sign-out fa-fw"></i> Çıkış</a></li>
-        </ul>
-        <!-- /.dropdown-user -->
-    </li>
-    <!-- /.dropdown -->
+   <user-menu></user-menu>
 </ul>
