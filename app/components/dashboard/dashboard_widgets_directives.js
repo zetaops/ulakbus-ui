@@ -129,11 +129,12 @@ angular.module('ulakbus.dashboard')
                  * default values
                  * */
                 $scope.activeTab = "active";
+
                 $scope.task_list = {
-                    current: null,
-                    future: null,
-                    completed: null,
-                    expired: null
+                    current: {isEmpty:true,data:{}},
+                    future: {isEmpty:true,data:{}},
+                    completed: {isEmpty:true,data:{}},
+                    expired: {isEmpty:true,data:{}}
                 };
                 $scope.task_counts = [];
                 
@@ -161,7 +162,8 @@ angular.module('ulakbus.dashboard')
                                 taskClass = null;
                                 break;
                         }
-                        $scope.task_list[taskClass][val.key] = val;
+                        $scope.task_list[taskClass].isEmpty = false;
+                        $scope.task_list[taskClass].data[val.key] = val;
                     });
                     $scope.task_count = data.task_count;
                 });
