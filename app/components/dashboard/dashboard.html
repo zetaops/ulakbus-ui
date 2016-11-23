@@ -1,14 +1,14 @@
 <div ng-app="ulakbus.dashboard" class="dashboard academician-dashboard">
     <div class="starter-template">
-        
-        <div class="row">
+
+<!--        <div class="row">
         	<div class="col-sm-12 generic-search">
             	<div class="panel panel-default">
                 	<div class="search-box-wrapper">
                     	<span class="glyphicon glyphicon-search"></span>
                     	<input type="text" placeholder="Search">
                     </div>
-                    <!-- end of search-box-wrapper -->
+                    &lt;!&ndash; end of search-box-wrapper &ndash;&gt;
                     <div class="search-results">
                     	<ul>
                         	<li class="result-box">
@@ -21,7 +21,7 @@
                                     </div>
                             	</a>
                             </li>
-                            <!-- end of result-box -->
+                            &lt;!&ndash; end of result-box &ndash;&gt;
                             <li class="result-box">
                             	<a class="clearfix">
                             		<div class="pull-left"><img src="../../img/sibel.jpg" class="profile-pic"></div>
@@ -32,7 +32,7 @@
                                     </div>
                             	</a>
                             </li>
-                            <!-- end of result-box -->
+                            &lt;!&ndash; end of result-box &ndash;&gt;
                             <li class="result-box">
                             	<a class="clearfix">
                             		<div class="pull-left"><img src="../../img/empty-profile-pic.jpg" class="profile-pic"></div>
@@ -43,15 +43,16 @@
                                     </div>
                             	</a>
                             </li>
-                            <!-- end of result-box -->
+                            &lt;!&ndash; end of result-box &ndash;&gt;
                         </ul>
                     </div>
-                    <!-- end of search-results -->
+                    &lt;!&ndash; end of search-results &ndash;&gt;
                 </div>
-                <!-- end of panel -->
+                &lt;!&ndash; end of panel &ndash;&gt;
             </div>
-            <!-- end of generic-search -->
-        </div>
+            &lt;!&ndash; end of generic-search &ndash;&gt;
+        </div>-->
+
         <!-- end of row -->
         
         <!-- STUDENT ASSIGNMENTS -->
@@ -60,9 +61,9 @@
             <!-- END OF STUDENT ASSIGNMENTS -->
         </div>
         <!-- end of row -->
-        
-        
-        <academic-calendar></academic-calendar>
+
+
+        <!--<academic-calendar></academic-calendar>-->
         <ng-include src="'components/dashboard/user-templates/student.html'" ng-if="$root.current_user.is_student"></ng-include>
         <ng-include src="'components/dashboard/user-templates/staff.html'" ng-if="!$root.current_user.is_student"></ng-include>
         <ng-include src="'components/dashboard/user-templates/academician.html'" ng-if="$root.current_user.is_staff && $root.current_user.is_academic"></ng-include>
