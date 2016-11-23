@@ -320,7 +320,6 @@ angular.module('ulakbus.dashboard')
                     });
                 };
                 $scope.link = "#/"+$scope.task.wf_type //+'?personel_id='+ $scope.task.key ;
-
             },
             controller: function($scope){
                 /**

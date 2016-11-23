@@ -3068,7 +3068,7 @@ table.dataTable thead .sorting:after {
 }
 
 .task-manager .panel-body ul li a {
-	padding:20px 25px;
+	padding:20px 25px 20px 72px;
 	display:block;
 	color:#333;
 }
@@ -3080,12 +3080,11 @@ table.dataTable thead .sorting:after {
     top: -107px;
 }
 
-.task-manager .panel-body ul li .dropdown-menu{
+.task-manager-dropdown.dropdown-menu{
 	left: -222px;
-    top: 75px;
 }
 
-.task-manager .panel-body ul li .dropdown-menu li a{
+.task-manager-dropdown.dropdown-menu li a{
 	padding: 14px 26px;
 }
 
@@ -3173,15 +3172,11 @@ table.dataTable thead .sorting:after {
 
 .task-manager .task-actions-wrapper {
     position: absolute;
-    right: 23px;
-    top: 21px;
-    width:45px;
+    left: 16px;
+    top: 34px;
 }
 
 .task-manager .task-actions {
-	width:45px;	
-	position: absolute;
-    right: 23px;
 }
 
 .task-manager .task-actions .icon-wrapper {
@@ -3192,8 +3187,6 @@ table.dataTable thead .sorting:after {
     line-height: 40px;
     border: 1px solid #f1f1f1;
 	color:#666;
-    margin-top: 13px;
-    float: right;
 	-webkit-transition: all .2s;
     -moz-transition: all .2s;
     -ms-transition: all .2s;

@@ -1,11 +1,11 @@
 <li class="{{task_class}}">
     <div class="task-actions-wrapper" ng-click="getActions()" uib-dropdown dropdown-append-to-body>
-        <span class="task-actions" uib-dropdown-toggle>
-            <span class="icon-wrapper">
+        <div class="task-actions" uib-dropdown-toggle>
+            <div class="icon-wrapper">
                 <span class="glyphicon glyphicon-option-vertical"></span>
-            </span>
-        </span>
-        <ul class="dropdown-menu test" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+            </div>
+        </div>
+        <ul class="task-manager-dropdown dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
             <li ng-repeat="action in actions"><a ng-href="{{action.link}}">{{action.title}}</a></li>
         </ul>
     </div>
