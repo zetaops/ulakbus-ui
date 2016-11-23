@@ -115,6 +115,12 @@ a:hover {
     letter-spacing: 0.5px;
 }
 
+img.header-profile {
+    width: 27px;
+    height: 27px;
+    border-radius: 100%;
+    margin-right: 6px;
+}
 
 /** LOGIN PAGE **/
 
@@ -2812,12 +2818,11 @@ table.dataTable thead .sorting:after {
 }
 
 .course-prg-scheduler .panel-body {
-    height: 550px;
+
 }
 
 .course-prg-scheduler .tabs-container {
     overflow-y: auto;
-    height: 550px;
 }
 
 .course-prg-scheduler .tabs-left {
@@ -2917,8 +2922,6 @@ table.dataTable thead .sorting:after {
 }
 
 .course-prg-scheduler .tab-content .table-container {
-    max-height: 350px;
-    /*overflow-y: auto;*/
 }
 
 .course-prg-scheduler .tab-content table tr.headers td {
@@ -3092,7 +3095,8 @@ table.dataTable thead .sorting:after {
 	}
 
     .sidebar-container {
-        max-height: calc(100% - 155px); overflow-y: auto;
+        max-height: calc(100% - 90px);
+        overflow-y: auto;
     }
 	
 	footer {
@@ -3353,7 +3357,7 @@ table.dataTable thead .sorting:after {
 }
 
 
-/** user info **/
+/** user info
 
 .user-info-wrapper {
     font-family: 'robotomedium';
