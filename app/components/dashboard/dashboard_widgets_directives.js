@@ -15,8 +15,14 @@
  */
 angular.module('ulakbus.dashboard')
     .service('TasksService', function (WSOps) {
+        return {
+            get_tasks : get_tasks,
+            get_task_types : get_task_types,
+            get_task_actions : get_task_actions,
+            get_task_detail : get_task_detail
+        };
 
-        this.get_tasks = function (options) {
+        function get_tasks(options) {
             /**
              * only required fields must be send
              */
@@ -47,18 +53,18 @@ angular.module('ulakbus.dashboard')
                 return data;
             });
 
-        };
+        }
 
-        this.get_task_types = function () {
+        function get_task_types() {
             var outgoing = {
                 'view': '_zops_get_task_types'
             };
             return WSOps.request(outgoing).then(function (data) {
                 return data.task_types;
             });
-        };
+        }
 
-        this.get_task_actions = function (key) {
+        function get_task_actions(key) {
             var outgoing = {
                 view: '_zops_get_task_actions',
                 key: key
@@ -67,9 +73,9 @@ angular.module('ulakbus.dashboard')
             return WSOps.request(outgoing).then(function (data) {
                 return data.actions
             });
-        };
+        }
 
-        this.get_task_detail = function (key) {
+        function get_task_detail(key) {
             var outgoing = {
                 view: '_zops_get_task_detail',
                 key: key
@@ -77,7 +83,6 @@ angular.module('ulakbus.dashboard')
 
             return WSOps.request(outgoing);
         }
-
     })
     .directive('userTasks', function (TasksService) {
         return {
@@ -249,13 +254,12 @@ angular.module('ulakbus.dashboard')
                  */
                 function getQueries(){
                     var options = {};
-                    options.state = $scope.activeTab 
+                    options.state = $scope.activeTab;
                     $scope.taskManagerSearchQuery !== "" && (options.query = $scope.taskManagerSearchQuery);
                     //$scope.taskManagerSearchAll !== false && (options = $scope.taskManagerSearchAll);
                     $scope.finish_date !== "" && (options.finish_date = $scope.finish_date);
                     $scope.taskType !== "" && (options.wf_type = $scope.taskType);
                     return options;
-
                 }
             }
         };
@@ -321,14 +325,7 @@ angular.module('ulakbus.dashboard')
 
                     });
                 };
-                $scope.link = "#/"+$scope.task.wf_type //+'?personel_id='+ $scope.task.key ;
-            },
-            controller: function($scope){
-                /**
-                 * this will send the websocket that we need to go certain workflow
-                 * and websocket will send the wf data with cmd in it
-                 */
-
+                $scope.link = "#/"+$scope.task.wf_type
             }
         }
     })
