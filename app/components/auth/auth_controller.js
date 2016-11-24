@@ -37,7 +37,20 @@ angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
             $scope.form = [
                 {key: "username", type: "string", title: "Kullanıcı Adı"},
                 {key: "password", type: "password", title: "Şifre"},
-                {type: 'submit', title: 'Giriş Yap'}
+                {
+                    type: "section",
+                    htmlClass: "form-inline",
+                    items: [
+                        {
+                            type: 'submit',
+                            title: 'Giriş Yap'
+                        },
+                        {
+                            type: 'button',
+                            title: 'Şifremi Unuttum'
+                        }
+                    ]
+                }
             ];
         });
         $scope.loggingIn = false;
