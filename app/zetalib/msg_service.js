@@ -41,6 +41,12 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout) {
             !data.cmd && (data.cmd = "init");
 
             switch (data.cmd) {
+                case "status":
+                    if (data.status == "open"){
+                        $rootScope.$broadcast("ws_connected");
+                    } else if (data.status == "closing"){
+                        $rootScope.$broadcast("ws_disconnected");
+                    }
                 case "init":
                     (data.callbackID in queue) ?
                         queue[data.callbackID].resolve(data) :

@@ -27,7 +27,12 @@ angular.module('ulakbus.auth')
                         $rootScope.loggedInUser = true;
                         $rootScope.$broadcast("user_ready");
                         $rootScope.$broadcast("ws_turn_on");
-                        return $location.path('/dashboard');
+                        $rootScope.$on("ws_connected",function(){
+                            $location.path('/dashboard');
+                        });
+                        $rootScope.$on("ws_disconnected",function(){
+                            $location.path('/login');
+                        });
                     }
                     if (data.cmd === 'retry') {
                         $location.path('/login');
@@ -64,7 +69,12 @@ angular.module('ulakbus.auth')
                         // to display main view without flickering
                         $rootScope.$broadcast("user_ready");
                         $rootScope.$broadcast("ws_turn_on");
-                        $location.path('/dashboard');
+                        $rootScope.$on("ws_connected",function(){
+                            $location.path('/dashboard');
+                        });
+                        $rootScope.$on("ws_disconnected",function(){
+                            $location.path('/login');
+                        });
                     }
                     if (data.status_code === 403) {
                         data.title = "İşlem başarısız oldu. Lütfen girdiğiniz bilgileri kontrol ediniz.";
