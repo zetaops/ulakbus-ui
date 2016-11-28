@@ -1,0 +1,89 @@
+@startuml
+actor User
+
+
+group w/o cookie
+autonumber
+User -> Client: WF Page request
+Client --> Client: /store WF Page
+Client --> User: Login page redirect
+|||
+== failed login ==
+|||
+autonumber
+User -> Client: Login
+Client -> "API (HTTP POST)": Request form
+"API (HTTP POST)" --> Client: form
+Client --> User: Login form
+User -> Client: Login credentials
+Client -> "API (HTTP POST)": login credidentials
+"API (HTTP POST)" --> Client: {cmd :retry}
+Client --> User: Login Page w/ error
+|||
+== successful login ==
+|||
+autonumber
+User -> Client: Login
+Client -> "API (HTTP POST)": Request form
+"API (HTTP POST)" --> Client: form
+Client --> User: Login form
+User -> Client: Login credentials
+Client -> "API (HTTP POST)": login credidentials
+"API (HTTP POST)" --> Client: {cmd :upgrade} \n setCookie
+Client -> Socket: Open Socket w/ cookie
+Socket --> Client: {status:open}
+Client --> User: Referrer || Dashboard redirect
+|||
+== reset Password==
+|||
+User -> Client: Forget Password
+Client -> "API (HTTP POST)": Request form
+"API (HTTP POST)" --> Client: form
+Client --> User: Forget password form
+User -> Client: Password Credentials
+Client -> "API (HTTP POST)": Password Credentials
+"API (HTTP POST)" --> Client: Message
+Client --> User: Show Message
+|||
+end
+...
+group expired cookie
+|||
+autonumber
+User -> Client: WF Page requested
+Client -> Socket: Open Socket w/ cookie
+Socket --> Client: {status:close} Cookie expired \nAuthentication Failure \n(401)
+Client --> User: Login page redirect \n/delete cookie
+|||
+end
+...
+group w/ cookie
+|||
+autonumber
+User -> Client: WF Page Request
+Client -> Socket: Open Socket
+Socket --> Client: {status:open}
+Client -> Socket: WS Requests
+Socket --> Client: WS Response
+Client --> User: WF Page
+|||
+end
+...
+group Special Socket responses
+|||
+== socket close ==
+|||
+autonumber
+Socket --> Client: {cmd:status,status:close}\nsocket closed by api
+Client -> Client: /close Socket /delete Cookie
+Client --> User: redirect to login
+|||
+== reload dashboard ==
+|||
+autonumber
+Socket --> Client: {cmd:reload}
+Client --> User: reload to Dashboard
+|||
+end
+
+@enduml
