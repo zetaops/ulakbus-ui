@@ -95,7 +95,7 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout) {
                         };
                         $rootScope.$broadcast('alertBox', alert);
                         $timeout(function() {
-
+                            window.location.href = "/";
                         },5000);
                     } else {
                         window.location.href = "/";
@@ -104,7 +104,6 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout) {
                 default:
                     $log.info("unknown action", data);
             }
-
             return deleteFromQueue(data);
 
         }
