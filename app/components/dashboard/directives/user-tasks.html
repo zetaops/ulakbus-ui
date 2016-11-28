@@ -20,7 +20,7 @@
             <ul class="nav nav-tabs nav-justified" role="tablist">
                 <li role="presentation" class="active"><a ng-click="tab('active')" href=".current-tasks" aria-controls="current-tasks" role="tab" data-toggle="tab">Aktif Görevler <span>{{task_count.active || 0}}</span></a></li>
                 <li role="presentation"><a ng-click="tab('future')" href=".future-tasks" aria-controls="future-tasks" role="tab" data-toggle="tab">Gelecekteki Görevler <span>{{task_count.future||0}}</span></a></li>
-                <li role="presentation"><a ng-click="tab('finished')" href=".completed-tasks" aria-controls="completed-tasks" role="tab" data-toggle="tab">Tamamlanan Görevler <span>{{task_count.completed||0}}</span></a></li>
+                <li role="presentation"><a ng-click="tab('finished')" href=".finished-tasks" aria-controls="finished-tasks" role="tab" data-toggle="tab">Tamamlanan Görevler <span>{{task_count.finished||0}}</span></a></li>
                 <li role="presentation"><a ng-click="tab('expired')" href=".expired-tasks" aria-controls="expired-tasks" role="tab" data-toggle="tab">Geçersiz Görevler <span>{{task_count.expired||0}}</span></a></li>
             </ul>
             <!-- Tab panes -->
@@ -37,10 +37,10 @@
                         <empty-task tasktype="Gelecek" ng-if="task_list.future.isEmpty"></empty-task>
                     </ul>
                 </div>
-                <div role="tabpanel" class="tab-pane completed-tasks">
+                <div role="tabpanel" class="tab-pane finished-tasks">
                     <ul>
-                        <single-task ng-repeat="(key, value)  in task_list.completed.data" data={{task}}></single-task>
-                        <empty-task tasktype="Tamamlanmış" ng-if="task_list.completed.isEmpty"></empty-task>
+                        <single-task ng-repeat="(key, value)  in task_list.finished.data" data={{task}}></single-task>
+                        <empty-task tasktype="Tamamlanmış" ng-if="task_list.finished.isEmpty"></empty-task>
                     </ul>
                 </div>
                 <div role="tabpanel" class="tab-pane expired-tasks">

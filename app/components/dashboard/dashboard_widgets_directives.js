@@ -138,7 +138,7 @@ angular.module('ulakbus.dashboard')
                 $scope.task_list = {
                     current: {isEmpty:true,data:{}},
                     future: {isEmpty:true,data:{}},
-                    completed: {isEmpty:true,data:{}},
+                    finished: {isEmpty:true,data:{}},
                     expired: {isEmpty:true,data:{}}
                 };
                 $scope.task_counts = [];
@@ -158,7 +158,7 @@ angular.module('ulakbus.dashboard')
                                 taskClass = "current";
                                 break;
                             case 40:
-                                taskClass = "completed";
+                                taskClass = "finished";
                                 break;
                             case 90:
                                 taskClass = "expired";
@@ -283,12 +283,12 @@ angular.module('ulakbus.dashboard')
                         $scope.task_tooltip = "Geçersiz";
                         break;
                     case 40:
-                        $scope.task_class = "completed-task";
+                        $scope.task_class = "finished-task";
                         $scope.task_tooltip = "Tamamlanan";
                         break;
                     default:
                         /**
-                         * If task is not completed or expired, we calculate remaining time to task finishtime.
+                         * If task is not finished or expired, we calculate remaining time to task finishtime.
                          * With this information we show urgency of the task
                          */
                         var date = new Date($scope.task.finish_date);
