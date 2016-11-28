@@ -773,6 +773,15 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     default: function (scope, v, k) {
                     }
                 },
+                password: {
+                    default: function (scope, v, k) {
+                        v.type = "string";
+                        v["x-schema-form"] = {
+                            type: "password",
+                            placeholder: "******"
+                        };
+                    }
+                },
                 typeahead: {
                     default: function (scope, v, k) {
                         scope.form[scope.form.indexOf(k)] = {
@@ -826,10 +835,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 },
                 text_general: {
                     default: function (scope, v, k) {
-                        v.type = 'string',
-                            v["x-schema-form"] = {
-                                "type": "textarea"
-                            }
+                        v.type = 'string';
+                        v["x-schema-form"] = {
+                            "type": "textarea"
+                        }
                     }
                 },
                 float: {default: _numbers},
