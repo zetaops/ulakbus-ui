@@ -6,7 +6,8 @@
         <h3 ng-class="{'mid-h3': !objects}">{{ object_title || schema.title}}</h3>
         <crud-show-directive ng-if="object"></crud-show-directive>
         <crud-form-directive ng-if="forms" ></crud-form-directive>
-        <crud-list-directive ng-if="objects"></crud-list-directive>
+        <crud-list-directive ng-if="objects[0] == '-1'"></crud-list-directive>
+        <crud-tree-toggle-directive  ng-if="objects[0].type == 'tree-toggle'"></crud-tree-toggle-directive>
     </div>
     <crud-filters ng-show="meta.allow_filters === true" class="col-md-4 filtre"></crud-filters>
 </div>

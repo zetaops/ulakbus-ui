@@ -393,6 +393,52 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             replace: true
         };
     })
+
+    /**
+     * @memberof ulakbus.crud
+     * @ngdoc directive
+     * @name crudTreeToggleDirective
+     * @description directive for tree select list.
+     * provides template for `scope.objects` object.
+     */
+    .directive('crudTreeToggleDirective', function () {
+        return {
+            templateUrl: 'components/crud/templates/tree/base.html',
+            restrict: 'E',
+            replace: true,
+            link: function (scope, element, attrs, controllers) {
+                scope.permissions = scope.objects[0].trees
+            }
+        };
+    })
+    .directive('crudTreeBranchDirective', function () {
+        return {
+            templateUrl: 'components/crud/templates/tree/branch.html',
+            restrict: 'E',
+            replace: true,
+            scope : {
+                permission: '='
+            },
+            link: function(scope, element, attrs, controllers){
+                scope.checkChange = function(id){
+                    console.log(id);
+                };
+                scope.hasChild = (scope.permission.children.length > 0);
+                scope.open = false;
+                scope.hide = function () {
+                    scope.open = !scope.open;
+                };
+                scope.childInfo = function(){
+                    var checkedCount = 0;
+                    angular.forEach(scope.permission.children, function(el,i){
+                        el.checked && (checkedCount++);
+                    });
+                    return checkedCount + "/"+ scope.permission.children.length
+                }
+            }
+        };
+    })
+
     /**
      * @memberof ulakbus.crud
      * @ngdoc directive
