@@ -65,24 +65,8 @@
         </table>
     </div>
     <br/>
-
-    <nav ng-if="pagination && pagination.total_pages > 1" class="text-center">
-        <ul class="pagination">
-            <li ng-class="{disabled:pagination.page===1}">
-                <a role="button" aria-label="Önceki" ng-click="paginate({page:pagination.page-1})">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li ng-repeat="page in getNumber(pagination.total_pages) track by $index"
-                ng-class="{active:$index+1===pagination.page}">
-                <a role="button" ng-click="paginate({page:$index+1})">{{$index+1}}</a>
-            </li>
-            <li ng-class="{disabled:pagination.page===pagination.total_pages}">
-                <a role="button" aria-label="Sonraki" ng-click="paginate({page:pagination.page+1})">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
+    <nav ng-if="pagination.total_objects>pagination.per_page" class="text-center">
+        <ul uib-pagination boundary-links="true" total-items="pagination.total_objects" ng-model="pagination.page"  max-size="pagination.per_page" rotate="true" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
     </nav>
 
 </div>

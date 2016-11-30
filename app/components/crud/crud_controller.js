@@ -212,13 +212,14 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
         $scope.wf_step = $routeParams.step;
 
         // pagination data is coming from api when too much results
-        $scope.paginate = function (reloadData) {
-                       $scope.form_params.cmd = $scope.reload_cmd;
-                        $scope.form_params = angular.extend($scope.form_params, reloadData);
-                        $log.debug('reload data', $scope);
-                        Generator.get_wf($scope);
-                    };
-
+        $scope.$watch("pagination.page", function(newVal, oldVal) {
+            if (newVal === oldVal) return;
+            var reloadPage= {page: $scope.pagination.page};
+            $scope.form_params.cmd = $scope.reload_cmd;
+            $scope.form_params = angular.extend($scope.form_params, reloadPage);
+            $log.debug('reload data', $scope);
+            Generator.get_wf($scope);
+        });
         // reload_cmd can be broadcasted app-wide, when $on it reloadCmd is called
         $scope.$on('reload_cmd', function(event, data){
             $scope.reload_cmd = data;
@@ -235,7 +236,6 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
         // object by its name. to manage to locate the form to controllers scope we use a directive called form locator
         // a bit dirty way to find form working on but solves our problem
         $scope.$on('formLocator', function (event) {
-
             $scope.formgenerated = event.targetScope.formgenerated;
         });
 
