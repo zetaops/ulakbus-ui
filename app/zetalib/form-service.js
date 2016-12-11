@@ -703,7 +703,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 date: {
                     default: function (scope, v, k) {
                         $log.debug('date:', scope.model[k]);
-                        scope.model[k] = generator.dateformatter(scope.model[k]);
+                        scope.model[k] = Moment(scope.model[k]).toDate();
                         scope.form[scope.form.indexOf(k)] = {
                             key: k,
                             name: k,
