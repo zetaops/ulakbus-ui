@@ -191,7 +191,7 @@
                     socket.ping++;
                     console.log(socket.ping)
                 }
-            }, 2000);
+            }, 15000);
 
             function check(){
                 if (socket.ping > 2){
