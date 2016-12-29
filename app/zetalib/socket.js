@@ -26,9 +26,9 @@
     angular.module('ulakbus')
         .service("WSOps", socketService);
 
-    socketService.$inject = ['$websocket', 'RESTURL', '$rootScope', '$log', 'msgService','$q', 'IsOnline', 'DevSettings'];
+    socketService.$inject = ['$websocket', 'RESTURL', '$rootScope', '$log', 'msgService','$q', 'IsOnline', 'DevSettings', '$window'];
 
-    function socketService($websocket, RESTURL, $rootScope, $log, msgService, $q, IsOnline, DevSettings) {
+    function socketService($websocket, RESTURL, $rootScope, $log, msgService, $q, IsOnline, DevSettings, $window) {
         /**
          * Check for web socket support of browser
          */
@@ -78,7 +78,14 @@
             socket.loginStatus = false;
 
             socket.onOpen(function (evt) {
+                if (!$window.wsConnect) {
+                    socket.reconnect();
+                    $window.wsConnect = true;
+                    return;
+                }
+
                 $rootScope.websocketIsOpen = true;
+                $rootScope.$broadcast("socket_is_open");
                 socket.loginStatus = true;
                 ping(); // starts ping interval
                 $log.info("CONNECTED", JSON.stringify(evt));
@@ -184,7 +191,7 @@
                     socket.ping++;
                     console.log(socket.ping)
                 }
-            }, 15000);
+            }, 2000);
 
             function check(){
                 if (socket.ping > 2){

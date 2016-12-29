@@ -269,6 +269,7 @@ angular.module('ulakbus')
                     if ($rootScope.current_user !== true){
                         return;
                     }
+
                     if ($rootScope.websocketIsOpen) {
                         var sidebarmenu = $('#side-menu');
                         sidebarmenu.metisMenu();
@@ -326,15 +327,16 @@ angular.module('ulakbus')
                             // .error(function (data, status, headers, config) {
                             //     $log.error('menu not retrieved', data);
                             //     $log.info('design switch', DESIGN.switch);
-                            //     if (!DESIGN.switch) {
-                            //         $location.path('/login');
-                            //     }
+                            //     // if (!DESIGN.switch) {
+                            //     //     $location.path('/login');
+                            //     // }
                             // });
-                    } else {
-                        $timeout(function () {
-                            generate_dashboard();
-                        }, 500);
-                    }
+                    } 
+//                     else {
+//                         $timeout(function () {
+//                             generate_dashboard();
+//                         }, 500);
+//                     }
                 };
                 $scope.$on("generate_dashboard", function () {
                     generate_dashboard();
