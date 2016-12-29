@@ -14,15 +14,11 @@ angular.module('ulakbus')
      * @description logout directive provides a button with click event. When triggered it post to
      * '/logout' path of the API.
      */
-    .directive('logout', function ($http, $location, RESTURL, AuthService) {
+    .directive('logout', function ($rootScope, $http, $location, RESTURL, AuthService) {
         return {
             link: function ($scope, $element, $rootScope) {
                 $element.on('click', function () {
                     AuthService.logout();
-                    //$http.post(RESTURL.url + 'logout', {}).then(function () {
-                    //    $rootScope.loggedInUser = false;
-                    //    $location.path("/login");
-                    //});
                 });
             }
         };

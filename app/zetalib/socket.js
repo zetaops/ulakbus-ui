@@ -94,7 +94,10 @@
             socket.onClose(function (evt) {
                 $rootScope.websocketIsOpen = false;
                 $log.info("DISCONNECTED", JSON.stringify(evt));
-                socket.reconnect(); //reconnects to ws when connection drops
+                if ($rootScope.loginAttempt) {
+                    socket.reconnect();
+                }
+                // socket.reconnect(); //reconnects to ws when connection drops
             });
 
             socket.onError(function (evt) {
@@ -123,7 +126,7 @@
         function close(reason){
             msgService.clearQueue();
             $log.info("CLOSED :", reason || "");
-            if (angular.isUndefined(socket)) {
+            if (angular.isUndefined(socket) || reason === "loggedout") {
                 socket.loginStatus = false;
                 socket.close();
             }

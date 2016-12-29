@@ -9,9 +9,9 @@
 angular.module('ulakbus')
     .service("msgService", msgService);
 
-msgService.$inject = ['$q', 'ErrorService', '$log', '$rootScope', '$timeout'];
+msgService.$inject = ['$q', 'ErrorService', '$log', '$rootScope', '$timeout', '$location'];
 
-function msgService($q, ErrorService, $log, $rootScope, $timeout) {
+function msgService($q, ErrorService, $log, $rootScope, $timeout, $location) {
         var queue = {};
 
         return {
@@ -86,8 +86,8 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout) {
                         $rootScope.$broadcast('channel_change', 'status', data);
                     });
                     break;
-                case "reload":
-                    if (angular.isDefined(data.msg) ){
+                case "logout":
+                    if (angular.isDefined(data.msg) ){ //TODO check this if
                         var alert = {
                             type: "warning",
                             title: data.title,
@@ -98,7 +98,7 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout) {
                             window.location.href = "/";
                         },5000);
                     } else {
-                        window.location.href = "/";
+                        queue[data.callbackID].resolve(data);
                     }
                     break;
                 default:
