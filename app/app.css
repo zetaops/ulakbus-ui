@@ -556,6 +556,14 @@ select {
     padding-left: 0;
 }
 
+.sidebar .sidebar-nav.navbar-collapse ul li ul {
+    display: none;
+}
+
+.sidebar .sidebar-nav.navbar-collapse ul li.active ul {
+    display: block;
+}
+
 .sidebar .sidebar-search {
     padding: 15px;
 }
@@ -1228,6 +1236,14 @@ table.dataTable thead .sorting:after {
     -ms-transition: all .2s;
     -o-transition: all .2s;
     transition: all .2s;	
+}
+
+.right-sidebar #side-user-menu li ul {
+    display: none;
+}
+
+.right-sidebar #side-user-menu li.active ul {
+    display: block;
 }
 
 .right-sidebar-box {
