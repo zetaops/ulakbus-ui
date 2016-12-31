@@ -14,15 +14,11 @@ angular.module('ulakbus')
      * @description logout directive provides a button with click event. When triggered it post to
      * '/logout' path of the API.
      */
-    .directive('logout', function ($http, $location, RESTURL, AuthService) {
+    .directive('logout', function ($rootScope, $http, $location, RESTURL, AuthService) {
         return {
             link: function ($scope, $element, $rootScope) {
                 $element.on('click', function () {
                     AuthService.logout();
-                    //$http.post(RESTURL.url + 'logout', {}).then(function () {
-                    //    $rootScope.loggedInUser = false;
-                    //    $location.path("/login");
-                    //});
                 });
             }
         };
@@ -269,6 +265,7 @@ angular.module('ulakbus')
                     if ($rootScope.current_user !== true){
                         return;
                     }
+
                     if ($rootScope.websocketIsOpen) {
                         var sidebarmenu = $('#side-menu');
                         sidebarmenu.metisMenu();
@@ -326,15 +323,16 @@ angular.module('ulakbus')
                             // .error(function (data, status, headers, config) {
                             //     $log.error('menu not retrieved', data);
                             //     $log.info('design switch', DESIGN.switch);
-                            //     if (!DESIGN.switch) {
-                            //         $location.path('/login');
-                            //     }
+                            //     // if (!DESIGN.switch) {
+                            //     //     $location.path('/login');
+                            //     // }
                             // });
-                    } else {
-                        $timeout(function () {
-                            generate_dashboard();
-                        }, 500);
-                    }
+                    } 
+//                     else {
+//                         $timeout(function () {
+//                             generate_dashboard();
+//                         }, 500);
+//                     }
                 };
                 $scope.$on("generate_dashboard", function () {
                     generate_dashboard();

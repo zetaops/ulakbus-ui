@@ -26,9 +26,9 @@
     angular.module('ulakbus')
         .service("WSOps", socketService);
 
-    socketService.$inject = ['$websocket', 'RESTURL', '$rootScope', '$log', 'msgService','$q', 'IsOnline', 'DevSettings'];
+    socketService.$inject = ['$websocket', 'RESTURL', '$rootScope', '$log', 'msgService','$q', 'IsOnline', 'DevSettings', '$window'];
 
-    function socketService($websocket, RESTURL, $rootScope, $log, msgService, $q, IsOnline, DevSettings) {
+    function socketService($websocket, RESTURL, $rootScope, $log, msgService, $q, IsOnline, DevSettings, $window) {
         /**
          * Check for web socket support of browser
          */
@@ -78,7 +78,14 @@
             socket.loginStatus = false;
 
             socket.onOpen(function (evt) {
+                if (!$window.wsConnect) {
+                    socket.reconnect();
+                    $window.wsConnect = true;
+                    return;
+                }
+
                 $rootScope.websocketIsOpen = true;
+                $rootScope.$broadcast("socket_is_open");
                 socket.loginStatus = true;
                 ping(); // starts ping interval
                 $log.info("CONNECTED", JSON.stringify(evt));
@@ -87,7 +94,10 @@
             socket.onClose(function (evt) {
                 $rootScope.websocketIsOpen = false;
                 $log.info("DISCONNECTED", JSON.stringify(evt));
-                socket.reconnect(); //reconnects to ws when connection drops
+                if ($rootScope.loginAttempt) {
+                    socket.reconnect();
+                }
+                // socket.reconnect(); //reconnects to ws when connection drops
             });
 
             socket.onError(function (evt) {
@@ -116,7 +126,7 @@
         function close(reason){
             msgService.clearQueue();
             $log.info("CLOSED :", reason || "");
-            if (angular.isUndefined(socket)) {
+            if (angular.isUndefined(socket) || reason === "loggedout") {
                 socket.loginStatus = false;
                 socket.close();
             }

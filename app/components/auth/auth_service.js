@@ -15,7 +15,7 @@ angular.module('ulakbus.auth')
      * @name AuthService
      * @description  provides generic functions for authorization process.
      */
-    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, WSOps) {
+    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, WSOps, $window) {
         var authService = {};
 
         authService.get_form = function (scope) {
@@ -88,13 +88,15 @@ angular.module('ulakbus.auth')
          */
         authService.logout = function () {
             $rootScope.loginAttempt = 0;
-            WSOps.request({wf: 'logout'}).then(function (data) {
+            WSOps.request({wf: 'logout'}).then(function (data) { //TODO not working callback
                 $rootScope.loggedInUser = false;
                 $rootScope.current_user = true;
                 $rootScope.$broadcast("user_logged_out");
                 $log.debug("loggedout");
+                WSOps.close('loggedout');
                 $location.path("/login");
-                WSOps.close();
+                window.location.reload();
+
             });
         };
 

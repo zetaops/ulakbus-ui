@@ -26,6 +26,7 @@ angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
      * Using 'ulakbus.formService.get_form' function generates the login form and post it to the API with input datas.
      */
     .controller('LoginController', function ($scope, $q, $timeout, $location, $routeParams, $rootScope, $log, WSOps, Generator, AuthService) {
+        $scope.showLogo = false;
         $scope.url = 'login';
         $scope.form_params = {};
         $scope.form_params['clear_wf'] = 1;
@@ -52,6 +53,7 @@ angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
                     ]
                 }
             ];
+            $scope.showForm = true;
         });
         $scope.loggingIn = false;
         $scope.onSubmit = function (form) {
