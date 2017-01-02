@@ -606,7 +606,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             imageSrc: scope.model[k] ? $rootScope.settings.static_url + scope.model[k] : '',
                             avatar: k === 'avatar'
                         };
-                        v.type = 'string';
+                        // v.type = 'string';
                     }
                 },
                 select: {
