@@ -736,7 +736,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 'reqired': function (value) {
                                     var deferred = $q.defer();
                                     $timeout(function () {
-                                        if (scope.schema.required.indexOf(k) > -1) {
+                                        // if (scope.schema.required.indexOf(k) > -1) { // Previous version with error
+                                        if (value) {
                                             deferred.resolve();
                                         } else {
                                             deferred.reject();
