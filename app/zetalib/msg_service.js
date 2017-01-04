@@ -9,9 +9,9 @@
 angular.module('ulakbus')
     .service("msgService", msgService);
 
-msgService.$inject = ['$q', 'ErrorService', '$log', '$rootScope', '$timeout', '$location'];
+msgService.$inject = ['$q', 'ErrorService', '$log', '$rootScope', '$timeout', '$location', 'Utils'];
 
-function msgService($q, ErrorService, $log, $rootScope, $timeout, $location) {
+function msgService($q, ErrorService, $log, $rootScope, $timeout, $location, Utils) {
         var queue = {};
 
         return {
@@ -37,6 +37,11 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout, $location) {
         }
 
         function read(data) {
+            if (data.client_cmd && data.client_cmd[0] === 'download') {
+                Utils.saveToDisk(data.download_url);
+                return;
+            }
+
             data.error && (data.cmd = "error");
             !data.cmd && (data.cmd = "init");
 
