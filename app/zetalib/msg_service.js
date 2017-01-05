@@ -91,7 +91,7 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout, $location, Uti
                         $rootScope.$broadcast('channel_change', 'status', data);
                     });
                     break;
-                case "logout":
+                case "reload":
                     if (angular.isDefined(data.msg) ){ //TODO check this if
                         var alert = {
                             type: "warning",
@@ -103,8 +103,11 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout, $location, Uti
                             window.location.href = "/";
                         },5000);
                     } else {
-                        queue[data.callbackID].resolve(data);
+                        window.location.href = "/";
                     }
+                    break;
+                case "logout":
+                    queue[data.callbackID].resolve(data);
                     break;
                 default:
                     $log.info("unknown action", data);
