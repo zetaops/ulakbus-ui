@@ -1379,6 +1379,14 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             return WSOps.request(send_data)
                 .then(function (data) {
+                    if (data.cmd === "logout") {
+                        $log.debug("loggedout");
+                        WSOps.close('loggedout');
+                        $location.path("/login");
+                        window.location.reload();
+                        return;
+                    }
+
                     if (!dontProcessReply) {
                         return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
                     }
