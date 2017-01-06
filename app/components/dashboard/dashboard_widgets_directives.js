@@ -308,7 +308,7 @@ angular.module('ulakbus.dashboard')
                 /**
                  * Formated date for task view
                  */
-                $scope.task_date = Utils.genDate($scope.task.finish_date);
+                $scope.task_date = $scope.task.start_date + ' - ' + $scope.task.finish_date;
 
                 /* TasksService.get_task_detail($scope.task.key).then(function(data){
                     $scope.task_detail = data;

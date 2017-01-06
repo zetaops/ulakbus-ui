@@ -88,14 +88,14 @@ angular.module("ulakbus")
      */
     this.genDate = function(date) {
         date = date.contructor == Date ? date : new Date(date);
-        var aylar = new Array("Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık");
-        var gunler = new Array("Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi");
+        var months = new Array("Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık");
+        var days = new Array("Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi");
 
-        var yil = date.getFullYear();
-        var ay = date.getMonth();
-        var gun = date.getDate();
-        var haftagun = date.getDay();
-        return gun + " " + aylar[ay] + " " + yil + " - " + gunler[haftagun]
+        var year = date.getFullYear();
+        var month = date.getMonth();
+        var day = date.getDate();
+        var weekly = date.getDay();
+        return day + " " + months[month] + " " + year + " - " + days[weekly];
     }
 
     this.formatDate = function(date){
