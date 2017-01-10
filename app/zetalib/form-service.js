@@ -1380,10 +1380,23 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             return WSOps.request(send_data)
                 .then(function (data) {
                     if (data.cmd === "logout") {
-                        $log.debug("loggedout");
-                        WSOps.close('loggedout');
-                        $location.path("/login");
-                        window.location.reload();
+                        if (angular.isDefined(data.msg) ){
+                            var alert = {
+                                type: "warning",
+                                title: data.title,
+                                msg: data.msg
+                            };
+                            $rootScope.$broadcast('alertBox', alert);
+                            $timeout(function() {
+                                WSOps.close('loggedout');
+                                $location.path("/login");
+                                window.location.reload();
+                            },5000);
+                        } else {
+                            WSOps.close('loggedout');
+                            $location.path("/login");
+                            window.location.reload();
+                        }
                         return;
                     }
 

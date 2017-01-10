@@ -92,7 +92,7 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout, $location, Uti
                     });
                     break;
                 case "reload":
-                    if (angular.isDefined(data.msg) ){ //TODO check this if
+                    if (angular.isDefined(data.msg) ){
                         var alert = {
                             type: "warning",
                             title: data.title,
