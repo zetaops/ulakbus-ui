@@ -5,7 +5,10 @@
     <!--<h1>{{form_params.model || form_params.wf}}</h1>-->
     <div class="row" ng-if="(!meta.selective_listing && !objects[1])">
         <div class="col-md-12">
-            <p class="no-content">Listelenecek içerik yok.</p>
+            <!--<p class="no-content">Listelenecek içerik yok.</p>-->
+            <ul class="list-group permission-tree" id="permission-tree">
+                <crud-tree-permissions-directive ng-repeat="permission in permissions" permission="permission"></crud-tree-permissions-directive>
+            </ul>
         </div>
     </div>
     <!-- todo: add `selective_list` to documentation -->

@@ -1,0 +1,20 @@
+<li class="list-group-item">
+    <div class="">
+        <div class="icons pull-left">
+            <div ng-click="hide()" ng-if="hasChild">
+                <i class="fa fa-minus" ng-if="open" aria-hidden="true"></i>
+                <i class="fa fa-plus" ng-if="!open" aria-hidden="true"></i>
+            </div>
+            <div ng-if="!hasChild">
+                &nbsp;
+            </div>
+        </div>
+        <label for="{{permission.id}}">
+            <input id="{{permission.id}}" ng-model="permission.checked" ng-change="checkChange(permission.id)" type="checkbox" ng-checked="permission.checked"> {{permission.name}}
+        </label>
+        <span class="label label-info pull-right" ng-if="hasChild" ng-bind="childInfo()"></span>
+    </div>
+    <ul class="list-group inner" ng-show="open"  ng-if="hasChild">
+        <crud-tree-permissions-directive ng-repeat="permission in permission.children" permission="permission"></crud-tree-permissions-directive>
+    </ul>
+</li>

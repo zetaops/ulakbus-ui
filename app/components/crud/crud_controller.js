@@ -77,7 +77,6 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                     // do not use selected user, get and broadcast data of user in param_id
                     //$rootScope.$broadcast('selectedUserTrigger', [scope.param, scope.param_id]);
                 }
-
                 scope.model = scope.form_params.model;
                 scope.wf = scope.form_params.wf;
                 scope.param = scope.form_params.param;
@@ -155,7 +154,6 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                         }
                     });
                 }
-
                 $log.debug(scope.objects);
             }
         }
@@ -390,7 +388,125 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
         return {
             templateUrl: 'components/crud/templates/list.html',
             restrict: 'E',
-            replace: true
+            replace: true,
+            // scope : {
+            //     permissions: '='
+            // },
+            link: function (scope) {
+                scope.permissions = scope.objects[0].trees
+            }
+        };
+    })
+    /**
+     * @memberof ulakbus.crud
+     * @ngdoc directive
+     * @name crudTreeToggleDirective
+     * @description directive for tree select list.
+     * provides template for `scope.objects` object.
+     */
+    .directive('crudTreePermissionsDirective', function () {
+        return {
+            templateUrl: 'components/crud/templates/permissions.html',
+            restrict: 'E',
+            replace: true,
+            scope : {
+                permission: '='
+            },
+            link: function(scope, element, attrs, controllers){
+                scope.checkChange = function(id) {
+                    var result = document.getElementById('permission-tree');
+                    var permissions = angular.element(result).scope().$parent.permissions;
+
+                    if (scope.permission.checked && scope.permission.children.length) {
+                        angular.forEach(scope.permission.children, function(e, i, c) {
+                            e.checked = true;
+
+                            if (e.children.length) {
+                                angular.forEach(e.children, function(e, i, c) {
+                                    e.checked = true;
+                                })
+                            }
+                        });
+                    } else if (!scope.permission.checked && scope.permission.children.length) {
+                        angular.forEach(scope.permission.children, function(e, i, c) {
+                            e.checked = false;
+
+                            if (e.children.length) {
+                                angular.forEach(e.children, function(e, i, c) {
+                                    e.checked = false;
+                                })
+                            }
+                        });
+                    }
+
+                    var mainObj = false;
+
+                    var st = permissions.forEach(function(e, i, c) {
+                        if (mainObj) { 
+                            return false;
+                        }
+                        var first = e;
+                        if (e.children.length) {
+                            e.children.forEach(function(e, i, c) {
+                                var second = e;
+                                if (e.children.length) {
+                                    var step = e.children.forEach(function(e, i, c) {
+                                        if (e.id === id) {                                   
+                                            mainObj = {
+                                                'wf': first,
+                                                'lane': second,
+                                                'elem': e,
+                                                'collection': c
+                                            };
+                                        }
+                                    })
+                                } else {
+                                    return false;
+                                }
+                            })
+                        } else {
+                            return false;
+                        }
+                    });
+
+                    if (mainObj) {
+                        if (mainObj['elem'].checked) {
+                            mainObj['wf'].checked = true;
+                            mainObj['lane'].checked = true;
+                        } else {
+                            var someStepIsChecked = mainObj['collection'].some(function(e) {
+                                return e.checked === true;
+                            });
+
+                            if (!someStepIsChecked) {
+                                mainObj['lane'].checked = false;
+
+                                var laneIsCheckedArr = mainObj.wf.children.filter(function(e) {
+                                    return e.checked === true;
+                                });
+
+                                if (!laneIsCheckedArr.length) {
+                                    mainObj['wf'].checked = false;
+                                }
+                            }
+                        }
+                    }
+
+                };
+
+                scope.hasChild = (scope.permission.children.length > 0);
+                scope.open = false;
+                scope.hide = function () {
+                    scope.open = !scope.open;
+                };
+                scope.childInfo = function(){
+                    var checkedCount = 0;
+                    angular.forEach(scope.permission.children, function(e,i) {
+                        e.checked && (checkedCount++);
+                    });
+                    return checkedCount + "/"+ scope.permission.children.length
+                }
+            }
         };
     })
     /**

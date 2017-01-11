@@ -3820,3 +3820,15 @@ img.header-profile {
 }
 
 /** end user info **/
+
+.permission-tree .icons{
+    padding: 0 8px;
+    width: 43px;
+}
+.permission-tree ul.inner {
+    margin-bottom:0;
+}
+.permission-tree ul.inner li  {
+    border: 0;
+    padding-bottom: 0;
+}
