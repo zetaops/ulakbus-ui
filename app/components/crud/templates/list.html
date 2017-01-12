@@ -5,9 +5,22 @@
     <!--<h1>{{form_params.model || form_params.wf}}</h1>-->
     <div class="row" ng-if="(!meta.selective_listing && !objects[1])">
         <div class="col-md-12">
-            <!--<p class="no-content">Listelenecek içerik yok.</p>-->
-            <ul class="list-group permission-tree" id="permission-tree">
-                <crud-tree-permissions-directive ng-repeat="permission in permissions" permission="permission"></crud-tree-permissions-directive>
+            <ul class="list-group permission-tree" id="permission-tree" ng-if="permissions">
+                <div class="permissions-tree-typeahead">
+                    <input class="form-control"
+                        type="text"
+                        placeholder="..."
+                        ng-model="filterText"
+                        uib-typeahead="permission as permission.name for permission in permissions | filter:{name:$viewValue, description:$viewValue}"
+                        typeahead-wait-ms="500" 
+                        autofocus />
+
+                    <div ng-show="loadingTitleMap" class="loader"></div>
+                    <div ng-show="noResults">
+                        <i class="fa fa-close"></i> bulunamadı.
+                    </div>
+                </div>
+                <crud-tree-permissions-directive ng-repeat="permission in permissions | filter:filterText" permission="permission"></crud-tree-permissions-directive>
             </ul>
         </div>
     </div>

@@ -3821,9 +3821,16 @@ img.header-profile {
 
 /** end user info **/
 
-.permission-tree .icons{
+/* permissions tree */
+.permissions-tree-typeahead {
+    margin-bottom: 10px;
+}
+.permission-tree .icons {
     padding: 0 8px;
     width: 43px;
+}
+.permission-tree .permission-description {
+    font-weight: 100;
 }
 .permission-tree ul.inner {
     margin-bottom:0;
@@ -3832,3 +3839,4 @@ img.header-profile {
     border: 0;
     padding-bottom: 0;
 }
+/* end permissions tree */

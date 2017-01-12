@@ -10,7 +10,9 @@
             </div>
         </div>
         <label for="{{permission.id}}">
-            <input id="{{permission.id}}" ng-model="permission.checked" ng-change="checkChange(permission.id)" type="checkbox" ng-checked="permission.checked"> {{permission.name}}
+            <input id="{{permission.id}}" ng-model="permission.checked" ng-change="checkChange(permission.id)" type="checkbox" ng-checked="permission.checked"> 
+            <span>{{permission.name}}</span> 
+            <span class="permission-description" ng-if="permission.description">({{permission.description}})</span>
         </label>
         <span class="label label-info pull-right" ng-if="hasChild" ng-bind="childInfo()"></span>
     </div>

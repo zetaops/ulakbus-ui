@@ -389,11 +389,9 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             templateUrl: 'components/crud/templates/list.html',
             restrict: 'E',
             replace: true,
-            // scope : {
-            //     permissions: '='
-            // },
             link: function (scope) {
-                scope.permissions = scope.objects[0].trees
+                scope.permissions = scope.objects[0].trees;
+                scope.filterText = '';
             }
         };
     })
