@@ -16,6 +16,22 @@
                                    ng-keyup="search('ogrenci')">
                             <span class="bordered-fa-icon fa fa-search" ng-click="search('ogrenci')"></span>
                         </div>
+<!--TODO-->
+                        <!--<div>
+                            <label for="" style="margin-left:52px;margin-top:10px;display:block">
+                                <input id="" ng-model="" ng-change="" type="checkbox" ng-checked="" style="width:15px"> 
+                                <span style="margin-left:10px">text 1</span> 
+                            </label>
+                            <label for="" style="margin-left:52px;margin-top:10px;display:block">
+                                <input id="" ng-model="" ng-change="" type="checkbox" ng-checked="" style="width:15px"> 
+                                <span style="margin-left:10px">text 2</span> 
+                            </label>
+                            <label for="" style="margin-left:52px;margin-top:10px;display:block">
+                                <input id="" ng-model="" ng-change="" type="checkbox" ng-checked="" style="width:15px"> 
+                                <span style="margin-left:10px">text 3</span> 
+                            </label>
+                        </div>-->
+<!--TODO-->
                         <div class="dashboard-search-results" ng-show="showResults">
                             <ul ng-if="students.length > 0">
                                 <li ng-repeat="student in students">
@@ -39,6 +55,14 @@
                                    ng-keyup="search('personel')">
                             <span class="bordered-fa-icon fa fa-search" ng-click="search('personel')"></span>
                         </div>
+
+                        <div class="personal-area-filter">
+                            <label for="personal-area-filter" ng-repeat="checkbox in personelAra.checkboxes">
+                                <input name="personal-area-filter" ng-model="checkbox.checked" type="checkbox" ng-checked="checkbox.checked"> 
+                                <span>{{checkbox.label}}</span> 
+                            </label>
+                        </div>
+
                         <div class="dashboard-search-results" ng-show="showResults">
                             <ul ng-if="staffs.length > 0">
                                 <li ng-repeat="staff in staffs">

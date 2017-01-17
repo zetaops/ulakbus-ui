@@ -37,12 +37,22 @@ angular.module('ulakbus.dashboard', [])
         // to show search box based on authz
         $scope.$on("authz", function (event, data) {
             $rootScope.searchInputs = data;
+
+            if ( data.widgets && data.widgets.length ) {
+                angular.forEach(data.widgets, function(value, key) {
+                    if ( value.type === 'searchbox' && value.view === 'personel_ara' ) {
+                        $scope.personelAra = value;
+                    }
+
+                });
+            }
         });
 
         $scope.keyword = {student: "", staff: ""};
 
         $scope.students = [];
         $scope.staffs = [];
+        $scope.personelAra = {};
 
         /**
          * this function is for searchin student or personel
@@ -54,8 +64,18 @@ angular.module('ulakbus.dashboard', [])
                 $timeout(function () {
                     if (where === 'personel') {
                         // if input length greater than 2 search for the value
+                        var q = {
+                            q: $scope.keyword.staff,
+                        };
 
-                        $scope.getItems(where, $scope.keyword.staff).then(function (data) {
+                        angular.forEach($scope.personelAra.checkboxes, function(value, key) {
+                            if ( value.checked ) {
+                                var name = value.name;
+                                q[name] = value.value;
+                            }
+                        });
+                        
+                        $scope.getItems(where, q).then(function (data) {
                             $scope.staffs = data.results;
                         });
                     }
@@ -70,7 +90,7 @@ angular.module('ulakbus.dashboard', [])
 
         $scope.getItems = function (where, what) {
             $scope.showResults = true;
-            return WSOps.request({view: where + '_ara', query: what});
+            return WSOps.request({view: where + '_ara', query_params: what});
         };
 
         $scope.userPopover = {templateUrl: 'components/dashboard/user-info.html'};

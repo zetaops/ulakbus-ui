@@ -1141,6 +1141,20 @@ table.dataTable thead .sorting:after {
 	font-size:16px;
 }
 
+.dashboard-personnel-search .personal-area-filter label {
+    margin-left: 52px;
+    margin-top: 10px;
+    display: block
+}
+
+.dashboard-personnel-search .personal-area-filter label input {
+    width: 15px;
+}
+
+.dashboard-personnel-search .personal-area-filter label span {
+    margin-left: 10px;
+}
+
 .dashboard-main-search input {
 	width: 70%;
     border-radius: 3px;
