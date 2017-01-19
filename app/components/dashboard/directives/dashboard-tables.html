@@ -1,0 +1,10 @@
+<div class="table-responsive" ng-repeat="table in tables">
+  <h4>{{table.title}}</h4>            
+  <table class="table table-bordered  table-striped">
+    <tbody>
+      <tr ng-repeat="row in table.rows">
+        <th ng-repeat="col in row.cols">{{col.content}}</th>
+      </tr>
+    </tbody>
+  </table>
+</div>
