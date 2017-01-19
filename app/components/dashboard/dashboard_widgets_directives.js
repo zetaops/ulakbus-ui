@@ -349,7 +349,15 @@ angular.module('ulakbus.dashboard')
             replace: true,
             scope: {},
             controller: function ($scope) {
-
             }
         };
-    });;
+    })
+    .directive('dashboardTables', function() {
+        return {
+            templateUrl: 'components/dashboard/directives/dashboard-tables.html',
+            restrict: 'E',
+            replace: true,
+            link: function (scope, elem, attrs) {
+            }
+        }
+    });

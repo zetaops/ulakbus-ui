@@ -42,6 +42,8 @@ angular.module('ulakbus.dashboard', [])
                 angular.forEach(data.widgets, function(value, key) {
                     if ( value.type === 'searchbox' && value.view === 'personel_ara' ) {
                         $scope.personelAra = value;
+                    } else if ( value.type === 'table' ) {
+                        $scope.tables.push(value);
                     }
 
                 });
@@ -52,6 +54,7 @@ angular.module('ulakbus.dashboard', [])
 
         $scope.students = [];
         $scope.staffs = [];
+        $scope.tables = [];
         $scope.personelAra = {};
 
         /**
