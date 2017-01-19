@@ -2847,6 +2847,29 @@ table.dataTable thead .sorting:after {
     font-size: 18px;
 }
 
+@media (max-width: 768px) {
+	
+	.chat-app {
+		width: 100%;
+		bottom: 0;
+    right: 0;
+		border-radius: 0;
+	}
+	
+	.chat-app .conversation-header .conversation-user {
+		width: 210px;
+	}
+	
+	.chat-app .conversation-header .user-name {
+		width: 140px;
+	}
+	
+	.chat-app .conversation-footer textarea {
+		width: calc(100% - 140px);
+	}
+	
+}
+
 /* END OF CHAT APPLICATION */
 
 /* COURSE PROGRAM SCHEDULER */
