@@ -376,177 +376,180 @@ angular.module('ulakbus')
      * @description Changes breadcrumb when an item selected consists of menu items of related user or transaction
      * controller communicates with dashboard controller to shape menu items and authz.
      */
-    .directive('sidebar', ['$location', function () {
-        return {
-            templateUrl: 'shared/templates/directives/sidebar.html',
-            restrict: 'E',
-            replace: true,
-            scope: {},
-            controller: function ($scope, $rootScope, $cookies, $route, AuthService, WSOps, RESTURL, $log, $location, $window, $timeout) {
-                $scope.prepareMenu = function (menuItems) {
-                    var newMenuItems = {};
-                    angular.forEach(menuItems, function (value, key) {
-                        angular.forEach(value, function (v, k) {
-                            newMenuItems[k] = v;
-                        });
-                    });
-                    return newMenuItems;
-                };
 
-                // check login status
-                // AuthService.check_auth();
+    // uncomment if need left sidebar menu
+//     .directive('sidebar', ['$location', function () {
+//         return {
+//             templateUrl: 'shared/templates/directives/sidebar.html',
+//             restrict: 'E',
+//             replace: true,
+//             scope: {},
+//             controller: function ($scope, $rootScope, $cookies, $route, AuthService, WSOps, RESTURL, $log, $location, $window, $timeout) {
+//                 $scope.prepareMenu = function (menuItems) {
+//                     var newMenuItems = {};
+//                     angular.forEach(menuItems, function (value, key) {
+//                         angular.forEach(value, function (v, k) {
+//                             newMenuItems[k] = v;
+//                         });
+//                     });
+//                     return newMenuItems;
+//                 };
 
-                var generate_dashboard = function () {
-                    if ($rootScope.current_user !== true){
-                        return;
-                    }
+//                 // check login status
+//                 // AuthService.check_auth();
 
-                    if ($rootScope.websocketIsOpen) {
-                        var sidebarmenu = $('#side-menu');
-                        sidebarmenu.metisMenu();
-                        WSOps.request({view: 'dashboard'})
-                            .then(function (data) {
-                                $scope.allMenuItems = angular.copy(data);
-
-                                // regroup menu items based on their category
-                                function reGroupMenuItems(items, baseCategory) {
-                                    var newItems = {};
-                                    angular.forEach(items, function (value, key) {
-                                        newItems[value.kategori] = newItems[value.kategori] || [];
-                                        // value['baseCategory'] = baseCategory;
-                                        newItems[value.kategori].push(value);
-                                    });
-                                    return newItems;
-                                }
-
-                                angular.forEach($scope.allMenuItems, function (value, key) {
-                                    if (key !== 'current_user' && key !== 'settings') {
-                                        $scope.allMenuItems[key] = reGroupMenuItems(value, key);
-                                    }
-                                });
-
-                                // quick menus to dashboard via rootscope
-
-                                $rootScope.quick_menu = reGroupMenuItems(data.quick_menu, 'quick_menus');
-                                $rootScope.quick_menu = data.quick_menu;
-                                delete data.quick_menu;
-                                $log.debug('quick menu', $rootScope.quick_menu);
-
-                                // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
-                                // related items
-                                $rootScope.$broadcast("authz", data);
-                                $rootScope.searchInputs = data;
-
-                                if (data.current_user) {
-                                    // $rootScope.$broadcast("ws_turn_on");
-                                    // to display main view without flickering
-                                    // $rootScope.$broadcast("user_ready");
-                                }
-
-                                $rootScope.current_user = data.current_user;
-                                if (data.ogrenci || data.personel) {
-                                    $rootScope.current_user.can_search = true;
-                                }
-                                $rootScope.settings = data.settings;
-
-                                $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
-
-                                $timeout(function () {
-                                    sidebarmenu.metisMenu();
-                                });
-                            });
-                            // .error(function (data, status, headers, config) {
-                            //     $log.error('menu not retrieved', data);
-                            //     $log.info('design switch', DESIGN.switch);
-                            //     // if (!DESIGN.switch) {
-                            //     //     $location.path('/login');
-                            //     // }
-                            // });
-                    } 
-//                     else {
-//                         $timeout(function () {
-//                             generate_dashboard();
-//                         }, 500);
+//                 var generate_dashboard = function () {
+//                     if ($rootScope.current_user !== true){
+//                         return;
 //                     }
-                };
-                $scope.$on("generate_dashboard", function () {
-                    generate_dashboard();
-                });
-                // generate_menu();
 
-                // changing menu items by listening for broadcast
-                $scope.$on("menuitems", function (event, data) {
-                    var menu = {};
-                    menu[data] = $scope.allMenuItems[data];
-                    $rootScope.$broadcast("usermenuitems", $scope.prepareMenu(menu));
-                });
+//                     if ($rootScope.websocketIsOpen) {
+//                         var sidebarmenu = $('#side-menu');
+//                         sidebarmenu.metisMenu();
+//                         WSOps.request({view: 'dashboard'})
+//                             .then(function (data) {
+//                                 $scope.allMenuItems = angular.copy(data);
 
-                $scope.$on('selectedUser', function ($event, data) {
-                    $scope.selectedUser = data;
-                });
+//                                 // regroup menu items based on their category
+//                                 function reGroupMenuItems(items, baseCategory) {
+//                                     var newItems = {};
+//                                     angular.forEach(items, function (value, key) {
+//                                         newItems[value.kategori] = newItems[value.kategori] || [];
+//                                         // value['baseCategory'] = baseCategory;
+//                                         newItems[value.kategori].push(value);
+//                                     });
+//                                     return newItems;
+//                                 }
+
+//                                 angular.forEach($scope.allMenuItems, function (value, key) {
+//                                     if (key !== 'current_user' && key !== 'settings') {
+//                                         $scope.allMenuItems[key] = reGroupMenuItems(value, key);
+//                                     }
+//                                 });
+
+//                                 // quick menus to dashboard via rootscope
+
+//                                 $rootScope.quick_menu = reGroupMenuItems(data.quick_menu, 'quick_menus');
+//                                 $rootScope.quick_menu = data.quick_menu;
+//                                 delete data.quick_menu;
+//                                 $log.debug('quick menu', $rootScope.quick_menu);
+
+//                                 // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
+//                                 // related items
+//                                 $rootScope.$broadcast("authz", data);
+//                                 $rootScope.searchInputs = data;
+
+//                                 if (data.current_user) {
+//                                     // $rootScope.$broadcast("ws_turn_on");
+//                                     // to display main view without flickering
+//                                     // $rootScope.$broadcast("user_ready");
+//                                 }
+
+//                                 $rootScope.current_user = data.current_user;
+//                                 if (data.ogrenci || data.personel) {
+//                                     $rootScope.current_user.can_search = true;
+//                                 }
+//                                 $rootScope.settings = data.settings;
+
+//                                 $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
+
+//                                 $timeout(function () {
+//                                     sidebarmenu.metisMenu();
+//                                 });
+//                             });
+//                             // .error(function (data, status, headers, config) {
+//                             //     $log.error('menu not retrieved', data);
+//                             //     $log.info('design switch', DESIGN.switch);
+//                             //     // if (!DESIGN.switch) {
+//                             //     //     $location.path('/login');
+//                             //     // }
+//                             // });
+//                     } 
+// //                     else {
+// //                         $timeout(function () {
+// //                             generate_dashboard();
+// //                         }, 500);
+// //                     }
+//                 };
+//                 $scope.$on("generate_dashboard", function () {
+//                     generate_dashboard();
+//                 });
+//                 // generate_menu();
+
+//                 // changing menu items by listening for broadcast
+//                 $scope.$on("menuitems", function (event, data) {
+//                     var menu = {};
+//                     menu[data] = $scope.allMenuItems[data];
+//                     $rootScope.$broadcast("usermenuitems", $scope.prepareMenu(menu));
+//                 });
+
+//                 $scope.$on('selectedUser', function ($event, data) {
+//                     $scope.selectedUser = data;
+//                 });
 
 
-                // $scope.openSidebar = function () {
-                //     if ($window.innerWidth > '768') {
-                //         if ($rootScope.sidebarPinned === 0) {
-                //             jQuery("span.menu-text, span.arrow, .sidebar footer, #side-menu").fadeIn(400);
-                //             jQuery(".sidebar").css("width", "250px");
-                //             jQuery(".manager-view").css("width", "calc(100% - 250px)");
-                //             $rootScope.collapsed = false;
-                //         }
-                //     }
-                // };
-                //
-                // $scope.closeSidebar = function () {
-                //     if ($window.innerWidth > '768') {
-                //         if ($rootScope.sidebarPinned === 0) {
-                //             jQuery(".sidebar").css("width", "62px");
-                //             jQuery(".manager-view").css("width", "calc(100% - 62px)");
-                //             $rootScope.collapsed = true;
-                //         }
-                //     }
-                // };
+//                 // $scope.openSidebar = function () {
+//                 //     if ($window.innerWidth > '768') {
+//                 //         if ($rootScope.sidebarPinned === 0) {
+//                 //             jQuery("span.menu-text, span.arrow, .sidebar footer, #side-menu").fadeIn(400);
+//                 //             jQuery(".sidebar").css("width", "250px");
+//                 //             jQuery(".manager-view").css("width", "calc(100% - 250px)");
+//                 //             $rootScope.collapsed = false;
+//                 //         }
+//                 //     }
+//                 // };
+//                 //
+//                 // $scope.closeSidebar = function () {
+//                 //     if ($window.innerWidth > '768') {
+//                 //         if ($rootScope.sidebarPinned === 0) {
+//                 //             jQuery(".sidebar").css("width", "62px");
+//                 //             jQuery(".manager-view").css("width", "calc(100% - 62px)");
+//                 //             $rootScope.collapsed = true;
+//                 //         }
+//                 //     }
+//                 // };
 
-                $rootScope.$watch(function ($rootScope) {
-                        return $rootScope.section;
-                    },
-                    function (newindex, oldindex) {
-                        if (newindex > -1) {
-                            $scope.menuItems = [$scope.allMenuItems[newindex]];
-                            $scope.collapseVar = 0;
-                        }
-                    });
+//                 $rootScope.$watch(function ($rootScope) {
+//                         return $rootScope.section;
+//                     },
+//                     function (newindex, oldindex) {
+//                         if (newindex > -1) {
+//                             $scope.menuItems = [$scope.allMenuItems[newindex]];
+//                             $scope.collapseVar = 0;
+//                         }
+//                     });
 
-                $scope.selectedMenu = $location.path();
-                $scope.collapseVar = 0;
-                $scope.multiCollapseVar = 0;
+//                 $scope.selectedMenu = $location.path();
+//                 $scope.collapseVar = 0;
+//                 $scope.multiCollapseVar = 0;
 
-                $scope.check = function (x) {
+//                 $scope.check = function (x) {
 
-                    if (x === $scope.collapseVar) {
-                        $scope.collapseVar = 0;
-                    } else {
-                        $scope.collapseVar = x;
-                    }
+//                     if (x === $scope.collapseVar) {
+//                         $scope.collapseVar = 0;
+//                     } else {
+//                         $scope.collapseVar = x;
+//                     }
 
-                };
+//                 };
 
-                // breadcrumb function changes breadcrumb items and itemlist must be list
-                $scope.breadcrumb = function (itemlist, $event) {
-                    $rootScope.breadcrumblinks = itemlist;
-                };
+//                 // breadcrumb function changes breadcrumb items and itemlist must be list
+//                 $scope.breadcrumb = function (itemlist, $event) {
+//                     $rootScope.breadcrumblinks = itemlist;
+//                 };
 
-                $scope.multiCheck = function (y) {
+//                 $scope.multiCheck = function (y) {
 
-                    if (y === $scope.multiCollapseVar) {
-                        $scope.multiCollapseVar = 0;
-                    } else {
-                        $scope.multiCollapseVar = y;
-                    }
-                };
-            }
-        };
-    }])
+//                     if (y === $scope.multiCollapseVar) {
+//                         $scope.multiCollapseVar = 0;
+//                     } else {
+//                         $scope.multiCollapseVar = y;
+//                     }
+//                 };
+//             }
+//         };
+//     }])
+
     /**
      * @memberof ulakbus
      * @ngdoc directive

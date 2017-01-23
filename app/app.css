@@ -577,7 +577,7 @@ select {
     }
     .manager-view-header .dropdown-menu {
         position: fixed;
-        top: 150px;
+        top: 90px;
         right: 0px;
     }
 }
