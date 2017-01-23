@@ -208,11 +208,146 @@ angular.module('ulakbus')
             templateUrl: 'shared/templates/directives/header-sub-menu.html',
             restrict: 'E',
             replace: true,
-            link: function ($scope) {
+            // link: function ($scope) {
+            //     $scope.style = 'width:calc(100% - 300px);';
+            //     $scope.$on('$routeChangeStart', function () {
+            //         $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
+            //     });
+            // },
+
+            scope: {},
+            controller: function ($scope, $rootScope, $cookies, $route, AuthService, WSOps, RESTURL, $log, $location, $window, $timeout) {
                 $scope.style = 'width:calc(100% - 300px);';
                 $scope.$on('$routeChangeStart', function () {
                     $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
                 });
+                // or  $rootScope.$on("$routeChangeStart", function (event, next, current) {
+                //     will be used when needed
+                // });
+                
+                $scope.prepareMenu = function (menuItems) {
+                    var newMenuItems = {};
+                    angular.forEach(menuItems, function (value, key) {
+                        angular.forEach(value, function (v, k) {
+                            newMenuItems[k] = v;
+                        });
+                    });
+                    return newMenuItems;
+                };
+
+                var generate_dashboard = function () {
+                    if ($rootScope.current_user !== true){
+                        return;
+                    }
+
+                    if ($rootScope.websocketIsOpen) {
+                        var sidebarmenu = $('#side-menu');
+                        sidebarmenu.metisMenu();
+                        WSOps.request({view: 'dashboard'})
+                            .then(function (data) {
+                                $scope.allMenuItems = angular.copy(data);
+
+                                // regroup menu items based on their category
+                                function reGroupMenuItems(items, baseCategory) {
+                                    var newItems = {};
+                                    angular.forEach(items, function (value, key) {
+                                        newItems[value.kategori] = newItems[value.kategori] || [];
+                                        // value['baseCategory'] = baseCategory;
+                                        newItems[value.kategori].push(value);
+                                    });
+                                    return newItems;
+                                }
+
+                                angular.forEach($scope.allMenuItems, function (value, key) {
+                                    if (key !== 'current_user' && key !== 'settings') {
+                                        $scope.allMenuItems[key] = reGroupMenuItems(value, key);
+                                    }
+                                });
+
+                                // quick menus to dashboard via rootscope
+
+                                $rootScope.quick_menu = reGroupMenuItems(data.quick_menu, 'quick_menus');
+                                $rootScope.quick_menu = data.quick_menu;
+                                delete data.quick_menu;
+                                $log.debug('quick menu', $rootScope.quick_menu);
+
+                                // broadcast for authorized menu items, consume in dashboard to show search inputs and/or
+                                // related items
+                                $rootScope.$broadcast("authz", data);
+                                $rootScope.searchInputs = data;
+
+                                if (data.current_user) {
+                                    // $rootScope.$broadcast("ws_turn_on");
+                                    // to display main view without flickering
+                                    // $rootScope.$broadcast("user_ready");
+                                }
+
+                                $rootScope.current_user = data.current_user;
+                                if (data.ogrenci || data.personel) {
+                                    $rootScope.current_user.can_search = true;
+                                }
+                                $rootScope.settings = data.settings;
+
+                                $scope.menuItems = $scope.prepareMenu({other: $scope.allMenuItems.other});
+
+                                $timeout(function () {
+                                    sidebarmenu.metisMenu();
+                                });
+                            });
+                    } 
+                };
+                $scope.$on("generate_dashboard", function () {
+                    generate_dashboard();
+                });
+
+                // changing menu items by listening for broadcast
+                $scope.$on("menuitems", function (event, data) {
+                    var menu = {};
+                    menu[data] = $scope.allMenuItems[data];
+                    $rootScope.$broadcast("usermenuitems", $scope.prepareMenu(menu));
+                });
+
+                $scope.$on('selectedUser', function ($event, data) {
+                    $scope.selectedUser = data;
+                });
+
+                $rootScope.$watch(function ($rootScope) {
+                        return $rootScope.section;
+                    },
+                    function (newindex, oldindex) {
+                        if (newindex > -1) {
+                            $scope.menuItems = [$scope.allMenuItems[newindex]];
+                            $scope.collapseVar = 0;
+                        }
+                    });
+
+                $scope.selectedMenu = $location.path();
+                $scope.collapseVar = 0;
+                $scope.multiCollapseVar = 0;
+
+                $scope.check = function (x) {
+                    if (x === $scope.collapseVar) {
+                        $scope.collapseVar = 0;
+                    } else {
+                        $scope.collapseVar = x;
+                    }
+
+                };
+
+                // breadcrumb function changes breadcrumb items and itemlist must be list
+                $scope.breadcrumb = function (itemlist, $event) {
+                    $rootScope.breadcrumblinks = itemlist;
+                    $scope.collapseVar = 0;
+                };
+
+                $scope.multiCheck = function (y) {
+
+                    if (y === $scope.multiCollapseVar) {
+                        $scope.multiCollapseVar = 0;
+                    } else {
+                        $scope.multiCollapseVar = y;
+                    }
+                };
             }
         };
     })
