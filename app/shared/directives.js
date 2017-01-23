@@ -218,12 +218,12 @@ angular.module('ulakbus')
             scope: {},
             controller: function ($scope, $rootScope, $cookies, $route, AuthService, WSOps, RESTURL, $log, $location, $window, $timeout) {
                 $scope.style = 'width:calc(100% - 300px);';
-                $scope.$on('$routeChangeStart', function () {
+                $scope.$on('$routeChangeStart', function (event, next, current) {
                     $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
+                    if (next.$$route.originalPath === '/dashboard') {
+                        generate_dashboard();
+                    }
                 });
-                // or  $rootScope.$on("$routeChangeStart", function (event, next, current) {
-                //     will be used when needed
-                // });
                 
                 $scope.prepareMenu = function (menuItems) {
                     var newMenuItems = {};
@@ -236,7 +236,7 @@ angular.module('ulakbus')
                 };
 
                 var generate_dashboard = function () {
-                    if ($rootScope.current_user !== true){
+                    if (!$rootScope.current_user){
                         return;
                     }
 

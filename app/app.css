@@ -2,7 +2,7 @@
 body {
     font-family:'robotoregular';
     background-color: #f5f5f5;
-    overflow:hidden;
+    overflow:auto;
 }
 
 ::-webkit-scrollbar {
