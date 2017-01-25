@@ -409,7 +409,8 @@ select {
     position: absolute;
     right: 0;*/
 
-    /*position: relative;*/
+    position: absolute;
+    width: 100%;
 
     background-color:#e9ebee;
 	-webkit-transition: all .2s;
@@ -1385,10 +1386,9 @@ table.dataTable thead .sorting:after {
 	width: 0px;
     background-color: #FFFFFF;
     border-left: 1px solid #ccc;
-    /*height: calc(100%);*/
-    height: calc(100% - 40px);
+    height: 100%;
     position: absolute;
-    top: 40px;
+    top: 0px;
     right: 0px;
     overflow-y: auto;
 	-webkit-transition: all .2s;
@@ -3686,6 +3686,7 @@ table.dataTable thead .sorting:after {
 
     .manager-view {
         height:100%;
+        position: absolute;
     }
 	
 	.sidebar .sidebar-nav.navbar-collapse {
@@ -3769,10 +3770,11 @@ table.dataTable thead .sorting:after {
 
     .manager-view-content {
         overflow:inherit;
+        padding-bottom:100px;
     }
 
     body {
-        overflow:auto;
+        overflow:hidden;
     }
 	
 	.sidebar-collapse-button {
