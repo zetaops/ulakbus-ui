@@ -451,6 +451,10 @@ select {
     flex-grow: 1;
 }
 
+.manager-view-content table button {
+    margin-top: 5px;
+}
+
 .navbar-top-links {
     margin-right: 0;
     float:right;
