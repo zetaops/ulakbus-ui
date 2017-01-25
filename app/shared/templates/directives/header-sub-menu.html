@@ -1,4 +1,38 @@
 <div class="manager-view-header">
+    <ul class="nav in" id="side-menu" data-step="1"
+        data-intro="Genel menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz.">
+        <!--<sidebar-search></sidebar-search>-->
+        <li ui-sref-active="active">
+            <a href="#/dashboard" ng-click="breadcrumb(['Panel'])"><i class="fa fa-dashboard fa-fw"></i>
+                <span class="menu-text" ng-class="{hidden: $root.collapsed}">Panel</span>
+            </a>
+        </li>
+        <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == $index+1}">{{dropDown}}
+            <a href="" ng-click="check($index+1)">
+                <i class="fa fa-fw"
+                    ng-class="{
+                        'Admin': 'fa fa-fw fa-terminal',
+                        'Genel': 'fa fa-fw fa-graduation-cap',
+                        'Alt Kategori': 'fa fa-fw fa-tags',
+                        'Kadro İşlemleri': 'fa fa-fw fa-group',
+                        'Seçime Uygun Görevler':'fa fa-fw fa-user',
+                        'Personel': 'fa fa-fw fa-user',
+                        'Raporlar': 'fa fa-pie-chart',
+                        'Formlar': 'fa fa-fw fa-file-text'
+                        }[item[0].kategori]"></i>
+                <span class="menu-text" ng-class="{hidden: $root.collapsed}">{{ key }}</span>
+                <i class="fa fa-arrow"></i>
+                <span class="fa arrow"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li ng-repeat="(k, v) in item">
+                    <a ng-href="#/{{v.wf}}/{{v.model}}"
+                    ng-click="breadcrumb([key, v.text], $event)">{{v.text}}</a>
+                </li>
+            </ul>
+            <!-- /.nav-second-level -->
+        </li>
+    </ul>
     <div class="clearfix">
         <header-breadcrumb></header-breadcrumb>
         <loaderdiv><div></div></loaderdiv>

@@ -39,10 +39,11 @@
 <demo-mode></demo-mode>
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"
      ng-show="user_ready === true">
-
-    <button type="button" class="navbar-toggle navbar-left" data-toggle="collapse" data-target=".navbar-collapse">
+    
+    <!--uncomment if need humburger button-->
+    <!--<button type="button" class="navbar-toggle navbar-left" data-toggle="collapse" data-target=".navbar-collapse">
         <i class="fa fa-bars fa-fw fa-inverse"></i>
-    </button>
+    </button>-->
     <div class="navbar-header">
         <div class="brand">
             <a href="#/dashboard" class="logo"><img src="/img/brand-logo.png"/></a>
@@ -52,7 +53,8 @@
     <header-notification></header-notification>
 </nav>
 
-<sidebar ng-show="user_ready === true"></sidebar>
+<!--uncomment if need left sidebar menu-->
+<!--<sidebar ng-show="user_ready === true"></sidebar>-->
 
 <div class="manager-view">
     <div class="manager-view-inner">
