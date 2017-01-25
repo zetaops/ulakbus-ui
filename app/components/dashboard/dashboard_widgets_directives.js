@@ -325,7 +325,7 @@ angular.module('ulakbus.dashboard')
 
                     });
                 };
-                $scope.link = "#/"+$scope.task.wf_type+"/"+$scope.task.token
+                $scope.link = "#cwf/"+$scope.task.wf_type+"/"+$scope.task.token
             }
         }
     })
