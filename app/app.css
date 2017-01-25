@@ -408,7 +408,8 @@ select {
     -webkit-width: calc(100% - 250px);
     position: absolute;
     right: 0;*/
-    position: relative;
+
+    /*position: relative;*/
 
     background-color:#e9ebee;
 	-webkit-transition: all .2s;
@@ -1384,9 +1385,10 @@ table.dataTable thead .sorting:after {
 	width: 0px;
     background-color: #FFFFFF;
     border-left: 1px solid #ccc;
-    height: calc(100%);
+    /*height: calc(100%);*/
+    height: calc(100% - 40px);
     position: absolute;
-    top: 0px;
+    top: 40px;
     right: 0px;
     overflow-y: auto;
 	-webkit-transition: all .2s;
