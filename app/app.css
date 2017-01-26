@@ -52,7 +52,7 @@ body {
 }
 
 .form-container {
-	width: 650px;
+	width: 100%;
     background-color: #fff;
     padding: 25px;
     border-radius: 3px;
