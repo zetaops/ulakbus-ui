@@ -48,6 +48,9 @@ A page is composed of permanent and nonpermanent elements listed below:
 
 - **Form** - HTML form element.
 - **Text Input** Standard text input.
+- **Integer Input** Standard text input for integers with valid integer, max
+and min value validation.
+- **Integer Range** is special `Integer Input` with two field for max and min
 - **Email Input** Email text input with standard email validation.
 - **URL Input** URL text input with URL validation.
 - **Password Input**
@@ -55,19 +58,23 @@ A page is composed of permanent and nonpermanent elements listed below:
 - **Date Range** is a special `Date` widget with two picker.
 - **Time** is widget for time with a time picker.
 - **Time Range** is a special `Time` widget with two picker.
-- **Datetime**
-- **Dateime Range**
-- **Button**
-- **File** files
-- **Image** with preview
-- **Document** with mime-type icon
+- **Datetime** is a widget for date-time with pickers both date and time
+- **Dateime Range** is a special `Datetime` widget with two picker.
+- **Button** classical form buttons with guiding colors.
+  - **Submit** validates and sends form data if a related form exists, or
+  just its value and attribute data such as `cmd`, `flow` which are used to
+  tell backend (workflow engine) about next steps.
+  - **Cancel** ignore validation and just sends backend its value and attribute
+  data.
+- **File** input for files.
+  - **Image** with preview
+  - **Document** with mime-type icon
 - **Select** Static, model or custom view data source and typeahead search in
 data source (even static)
   - **Single**
   - **Multiple**
-- **Checkbox**
-- **Radio Group**
-- **Number Range**
+- **Checkbox** for boolean fields.
+- **Radio Group** for enumerated options.
 - **Simple Text**
 - **Markup Text**
 - **Tabs**
