@@ -39,10 +39,21 @@ A page is composed of permanent and nonpermanent elements listed below:
 
 ## Page Types by Layout
 
-
 - Dashboard
 - WorkFlow Step
 - WorkFLow Step with a sidebar
+
+## Page / Component Behaviors
+
+- Show the content when it is ready
+- Do not allow pressing buttons and links twice, disable it when it is pressed
+or do not send data to backend
+- Show a loading / processing indicator between screens, it may overlay whole screen to prevent user clicking other buttons. `Message Box` must be always visible.
+- Long term tasks (ui will be informed by backend, e.g backend sends button
+attributes such as `<button cmd="get_report" long_term="true">`) and tasks
+which it takes too long getting response from backend, can be sent
+background by informing user.
+
 
 ## Component List
 
@@ -97,3 +108,5 @@ defined by backend.
 while they are proceeding through workflow steps.
 - **Charts**
 - **Map**
+- **Message Box** is an interactive widget allows user to see messages in
+private and public channels and send new messages.
