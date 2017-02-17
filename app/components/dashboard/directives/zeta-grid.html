@@ -1,0 +1,33 @@
+<div ng-show="gridOptions">
+  <h4>Some title</h4>
+  <div id="zeta-grid" class="grid" ui-grid="gridOptions" ui-grid-pagination></div>
+  <p style="margin-top: 20px;">
+    Please, check you need and click submit for getting data ...
+  </p>
+  <ul style="
+    margin-top: 10px;
+    list-style: none;
+    max-height: 150px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  ">
+    <li style="
+      display: inline-block;
+      width: 50%;"
+      ng-repeat="selector in grid.selectors">
+      <label>{{selector.name}}</label>
+      <input type="checkbox" ng-checked="selector.checked" ng-model="selector.checked" />
+    </li>
+  </ul>
+  <button style="
+    padding: 5px;
+    border-radius: 3px;
+    background-color: #A61229;
+    border: none;
+    color: white;
+    margin: 10px 0px;"
+    class="default" ng-click="submitSelectors()">Submit</button>
+</div>

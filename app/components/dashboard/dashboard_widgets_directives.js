@@ -142,7 +142,7 @@ angular.module('ulakbus.dashboard')
                     expired: {isEmpty:true,data:{}}
                 };
                 $scope.task_counts = [];
-                
+
                 /**
                  * general function for getting task_list
                  */
@@ -356,8 +356,155 @@ angular.module('ulakbus.dashboard')
         return {
             templateUrl: 'components/dashboard/directives/dashboard-tables.html',
             restrict: 'E',
-            replace: true,
-            link: function (scope, elem, attrs) {
-            }
+            replace: true
         }
-    });
+    })
+    .directive('zetaGrid', function(WSOps, uiGridConstants) {
+        return {
+            templateUrl: 'components/dashboard/directives/zeta-grid.html',
+            restrict: 'E',
+            link: function ($scope, element, attrs, controllers) {
+
+              $scope.getGridOptions = function (selectors) {
+                  if (selectors) {
+                    selectors.forEach(function(item, index, array) {
+                      if (item.$$hashKey) {
+                        delete array[index].$$hashKey;
+                      }
+                    });
+                    return WSOps.request({'view': '_zops_get_report_data', 'selectors': selectors });
+                  } else {
+                    return WSOps.request({'view': '_zops_get_report_data'});
+                  }
+              };
+
+              $scope.gridOptions = {
+                  enableSorting: true,
+                  enableFiltering: true,
+                  paginationPageSize: 25,
+                  useExternalPagination: true,
+                  // totalItems: 200,
+                  onRegisterApi: function(gridApi) {
+                    $scope.gridApi = gridApi;
+                    gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+                    });
+                    $scope.gridApi.core.on.filterChanged( $scope, function() {
+                      var grid = this.grid;
+                    });
+                  }
+              };
+
+              $scope.getGridOptions().then(function(data) {
+                handleGridData(data);
+              });
+
+              $scope.submitSelectors = function() {
+                var selectors = $scope.gridOptions.selectors; //add for request
+                $scope.getGridOptions().then(function (data) {
+                  handleGridData(data);
+                });
+              };
+
+              var count = 0;
+
+              function handleGridData(data) {
+                if (data.gridOptions && count === 0) {
+                  $scope.grid = data.gridOptions;
+
+                  $scope.gridOptions.data = data.gridOptions.initialData;
+                }
+
+                count++
+
+                var sheckedSelectors = $scope.grid.selectors.filter(function(item) {
+                  return item.checked;
+                });
+
+                var columnDefs = $scope.grid.column_defs.filter(function(item) {
+                  var b = false;
+                  for (var i = 0; i < sheckedSelectors.length; i++ ) {
+                    if (sheckedSelectors[i].name === item.field) {
+                      b = true;
+                    }
+                  }
+                  return b;
+                });
+
+                $scope.gridOptions.columnDefs = columnDefs.map(function(item) {
+                  var type = item.type;
+                  var field;
+
+                  switch (type) {
+                    case 'INPUT':
+                      field = {
+                        field: item.field,
+                        type: uiGridConstants.filter.INPUT,
+                        filter: {
+                          condition: uiGridConstants.filter[item.filter.condition],
+                          placeholder: item.filter.placeholder
+                        }
+                      };
+                      break;
+                    case 'SELECT':
+                      field = {
+                        field: item.field,
+                        filter: {
+                          type: uiGridConstants.filter.SELECT,
+                          term: item.filter.term,
+                          selectOptions: item.filter.selectOptions
+                        }
+                      };
+                      break;
+                    case 'MULTISELECT':
+                      // field = {
+                      //   field: item.field,
+                      //   width: 220,
+                      //   filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><filter-directive></filter-directive></div>'
+                      // };
+                      field = {
+                        field: item.field,
+                        filter: {
+                          type: uiGridConstants.filter.SELECT,
+                          // term: item.filter.term,
+                          selectOptions: item.filter.selectOptions
+                        }
+                      };
+                      break;
+                    case 'range':
+                      field = {
+                        field: item.field,
+                        filters: [
+                          {
+                            condition: uiGridConstants.filter.GREATER_THAN,
+                            placeholder: item.filters[0].placeholder
+                          },
+                          {
+                            condition: uiGridConstants.filter.LESS_THAN,
+                            placeholder: item.filters[1].placeholder
+                          }
+                        ]
+                      };
+                      break;
+                    default:
+                      field = {};
+                  }
+
+                  return field;
+                });
+              };
+            }
+        };
+    })
+    .directive('filterDirective', function() {
+      return {
+        restrict: 'E',
+        templateUrl: 'components/dashboard/directives/custom-grid-filter.html',
+        link: function ($scope, element, attrs, controllers) {
+          $scope.names = [
+            {name: "Terry Clay", checked:false},
+            {name: "Marci Gill", checked:false},
+            {name: "Annie Orr", checked:false}
+          ];
+        }
+      };
+    })
