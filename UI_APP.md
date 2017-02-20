@@ -1,19 +1,38 @@
-# UI APP
+# ZOPS UI APP
+
+## Backend Driven UI
+Zops UI is a render engine which interprets pre-structured json strings
+provided by backend to convert them into html elements and components to draw
+user interfaces. `json strings` can include any combination of those items:
+
+* data
+* page structure elements
+* layout definition
+* component information.
+
+Although the API is totally `RESTful`, APP's main communication method is
+`websocket`. `Websokcet` provides uninterrupted communication between backend
+and frontend which is faster and more flexible then the REST one. UI app can
+handle and reflect data loads, layout changes, user interactions fastly and
+continuously.
+
+ZOPS UI is a single page application (SPA) and we call the any rendered views
+as `screen`. Screens can be 
 
 ## Supported Devices
 Firefox, Chrome, Safari, Internet Explorer
 
 ## Web Socket Connection / Session Management
-Web socket connection starts just after session cookie is set and is closed by
-end of the session. We aim all communication between backend and UI should be
-passed through web socket connection. On any page async messages (requests) and
-their responses must be handled properly and respectful for session state. XHR
-also is an alternative and must work when session expires or is needed to be
-refreshed or users try to view page by clicking an external URL. Page views by
-an external URL must be handled properly, users must be redirected login page
-if they are not already signed in, and after successful login, they must be
-redirected back the page which they are looking for by establishing web socket
-connection properly.
+`Websocket` connection starts just after session cookie is set and is closed by
+end of the session. We propose all communication between backend and UI should
+be passed through `websocket` connection. On any page async messages (requests)
+and their responses must be handled properly and must care of session state.
+`XHR` also is an alternative and must work when the session expires or is
+needed to be refreshed or users try to view page by clicking an external URL.
+Page views by an external URL must be handled properly, users must be
+redirected login page if they are not already signed in, and after successful
+login, they must be redirected back the page which they are looking for by
+establishing web socket connection properly.
 
 Simply, communication between UI and Backend can be separated into two type:
 - **Workflows and views** well defined, structured json strings including all
@@ -25,9 +44,9 @@ Form, form elements (standard html ones buttons, inputs, text-areas, select and
 nonstandard ones  date / time pickers, date range, integer range, email, file,
 typeahead inputs, etc..), widgets (table, data grid, chart, message box, avatar,
 calendar, task manager, etc..) are independent components and their main
-properties can be configured. Also they can be combined e.g a pie chart can have
-a button or a message box can have some buttons even if they are not form or app
-doesn't expect any data from these components.
+properties can be configured. Also they can be combined e.g a pie chart can
+have a button or a message box can have some buttons even if they are not form
+or app doesn't expect any data from these components.
 
 ## Page Structure
 A page is composed of permanent and nonpermanent elements listed below:
@@ -110,3 +129,75 @@ while they are proceeding through workflow steps.
 - **Map**
 - **Message Box** is an interactive widget allows user to see messages in
 private and public channels and send new messages.
+
+## Component Details
+
+### Forms
+Forms is one of the major components of ZOPS UI render engine. Form is a simply
+container for its elements. Form definition can include:
+
+* title
+* a markdown help text
+* error message
+* form elements
+* validation rules
+
+```json
+{
+    "forms": [
+        {
+            "title": "Add New Product",
+            "help_text": "Fill all required fields",
+            "error_message": "",
+            "required_fields": ["name", "price", "image"],
+            "fields": [
+                {"label": "Product Name", "name": "name", "value": "", "type": "string"},
+                {"label": "Production Date", "name": "production_date", "value": "", "type": "date"},
+                {"label": "Stock Amount", "name": "stock_amount", "value": 30, "type": "integer"},
+                {"label": "Featured Image", "name": "f_image", "value": "", "type": "file"}
+            ]
+        }
+    ]
+}
+```
+
+#### Form Validations and Actions
+
+
+## Extra Data
+UI app handles backend specific data which is used to define some functional
+behaviours and some non-functional properties especially to outline the
+context of app structure and components.
+
+```json
+{
+   "extra_data":{
+      "app_name": "Pretty Online Shop",
+      "app_version": "1.3.4",
+      "menu_is_visible":true,
+      "disable_history":false
+   }
+}
+```
+
+### Zengine (BPMN) Specific Features
+Workflow state data 
+
+```json
+{
+   "extra_data":{
+      "app_name": "Pretty Online Shop",
+      "app_version": "1.3.4",
+      "workflow_state": {
+        "workflow_name": "Complete Shopping",
+        "current_lane": "Costumer",
+        "current_step": "checkout_payment_type",
+        "step_number": 5,
+        "total_step_number": 10,
+        "go_back_steps": [3, 4],
+        "go_forward_steps":[],
+        "completed_steps":[1, 2, 4],
+      }
+   }
+}
+```
