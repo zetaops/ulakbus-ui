@@ -17,7 +17,7 @@ handle and reflect data loads, layout changes, user interactions fastly and
 continuously.
 
 ZOPS UI is a single page application (SPA) and we call the any rendered views
-as `screen`. Screens can be 
+as `screen`.
 
 ## Supported Devices
 Firefox, Chrome, Safari, Internet Explorer
@@ -42,11 +42,11 @@ UI components, computed data and workflow metadata are sent via web sockets
 ## Components
 Form, form elements (standard html ones buttons, inputs, text-areas, select and
 nonstandard ones  date / time pickers, date range, integer range, email, file,
-typeahead inputs, etc..), widgets (table, data grid, chart, message box, avatar,
-calendar, task manager, etc..) are independent components and their main
-properties can be configured. Also they can be combined e.g a pie chart can
-have a button or a message box can have some buttons even if they are not form
-or app doesn't expect any data from these components.
+typeahead inputs, etc..), widgets (table, data grid, chart, message box,
+avatar, calendar, task manager, etc..) are independent components and their
+main properties can be configured. Also they can be combined e.g a pie chart
+can have a button or a message box can have some buttons even if they are not
+form or app doesn't expect any data from these components.
 
 ## Page Structure
 A page is composed of permanent and nonpermanent elements listed below:
@@ -67,7 +67,9 @@ A page is composed of permanent and nonpermanent elements listed below:
 - Show the content when it is ready
 - Do not allow pressing buttons and links twice, disable it when it is pressed
 or do not send data to backend
-- Show a loading / processing indicator between screens, it may overlay whole screen to prevent user clicking other buttons. `Message Box` must be always visible.
+- Show a loading / processing indicator between screens, it may overlay whole
+screen to prevent user clicking other buttons. `Message Box` must be always
+visible.
 - Long term tasks (ui will be informed by backend, e.g backend sends button
 attributes such as `<button cmd="get_report" long_term="true">`) and tasks
 which it takes too long getting response from backend, can be sent
@@ -139,8 +141,10 @@ container for its elements. Form definition can include:
 * title
 * a markdown help text
 * error message
-* form elements
+* form fields
+* fieldsets
 * validation rules
+* action_buttons
 
 ```json
 {
@@ -149,17 +153,202 @@ container for its elements. Form definition can include:
             "title": "Add New Product",
             "help_text": "Fill all required fields",
             "error_message": "",
-            "required_fields": ["name", "price", "image"],
+            "validation_rules": [
+                {"required_fields": ["name", "price", "image"]}
+            ],
             "fields": [
-                {"label": "Product Name", "name": "name", "value": "", "type": "string"},
-                {"label": "Production Date", "name": "production_date", "value": "", "type": "date"},
-                {"label": "Stock Amount", "name": "stock_amount", "value": 30, "type": "integer"},
-                {"label": "Featured Image", "name": "f_image", "value": "", "type": "file"}
+                {"label": "Product Name", "name": "name",
+                    "value": "", "type": "string"},
+
+                {"label": "Production Date", "name": "production_date", 
+                    "value": "", "type": "date",
+                    "min":"2017-01-18", "max":"2017-01-20"},
+
+                {"label": "Stock Amount", "name": "stock_amount", 
+                    "value": 30, "type": "integer", "min": 3, "max": 5},
+
+                {"label": "Featured Image", "name": "f_image", 
+                    "value": "", "type": "file"},
+
+                {"label": "Color", "name": "color", 
+                    "value": "", "type": "selectbox",
+                    "options_source": "options",
+                    "options": [
+                    {"Black": 0}, 
+                    {"Red": 1}, 
+                    {"Blue": 2}, 
+                    {"White": 3}, 
+                    {"Yellow": 4}
+                    ]}
+            ],
+            "fieldsets": [
+                {
+                    "title": "Product Info",
+                    "fields": ["name", "price", "stock_amount"]
+                },
+                {
+                    "title": "Product Media",
+                    "fields": ["f_image", "video"]
+                }
+            ],
+            "action_buttons":[
+                {"value": "Save", "type": "submit", "cmd": "save"},
+                {"value": "Cancel", "type": "button", "cmd": "cancel",
+                    "validate_form": false}
             ]
         }
     ]
 }
 ```
+
+#### Form Field Specifications
+`label`, `name`, `value`, `disabled`, `default`, `min` and `max` are keywords
+to handle field data which are too clear what each of them is for.
+
+Field types are:
+
+##### `string` corresponds to input element.
+```json
+{
+  "label": "Product Name",
+  "name": "name",
+  "value": "",
+  "type": "string"
+}
+```
+
+##### `text` corresponds to text area element.
+```json
+{
+  "label": "Description",
+  "name": "production_description",
+  "value": "",
+  "type": "text"
+}
+```
+
+##### `email` corresponds to input element with email value validation.
+```json
+{
+  "label": "Recovery Email",
+  "name": "recovery_email",
+  "value": "",
+  "type": "email"
+}
+```
+
+##### `url` corresponds to input element with url value validation.
+```json
+{
+  "label": "Web Page",
+  "name": "web_page",
+  "value": "",
+  "type": "url"
+}
+```
+
+##### `password` corresponds to password input element.
+```json
+{
+  "label": "Login Password",
+  "name": "pass",
+  "value": "",
+  "type": "password"
+}
+```
+
+##### `file` corresponds to text area element.
+```json
+{
+  "label": "User Manual",
+  "name": "user_manual",
+  "value": "",
+  "type": "file",
+  "valid_file_types": ["pdf", "epub", "odt"]
+}
+```
+
+##### `integer` corresponds to input element with integer value validation.
+```json
+{
+  "label": "Stock Amount",
+  "name": "stock_amount",
+  "value": "",
+  "type": "integer",
+  "min": 3,
+  "max": 180
+}
+```
+
+##### `date` corresponds to date picker widget.
+##### `time` corresponds to date time widget.
+##### `datetime` corresponds to datetime picker widget.
+##### `selectbox` corresponds to select element with options.
+```json
+{
+  "label": "Color",
+  "name": "color", 
+  "value": "",
+  "type": "selectbox"
+}
+```
+`options_source` defines how options are populated. It can be one of below:
+* `options` specifies that options are listed in `options` key of same
+    json, in the adjacent node    
+```json
+{
+  "label": "Color",
+  "name": "color", 
+  "value": 3,
+  "type": "selectbox",
+  "options_source": "options",
+  "options": [
+    {"Black": 0},
+    {"Red": 1},
+    {"Blue": 2},
+    {"White": 3},
+    {"Yellow": 4}
+  ]
+}
+```
+* `view` specifies that options will be sent by backend, UI must request
+    for data to `options_view`
+```json
+{
+  "label": "Color",
+  "name": "color", 
+  "value": "",
+  "type": "selectbox",
+  "options_source": "view",
+  "options_view": "_get_product_colors",
+  "options_view_parameters": {"product_category": "12", "in_stock": true}
+}
+```
+* `checkbox`
+```json
+{
+  "label": "Is Active?",
+  "name": "is_active", 
+  "value": false,
+  "type": "checkbox"
+}
+```
+* `radiobutton`
+```json
+{
+  "label": "Size",
+  "name": "size", 
+  "value": "S",
+  "type": "radiobutton",
+  "options": [
+    {"Small": "S"},
+    {"Medium": "M"},
+    {"Large": "L"}
+  ],
+  "show_as": "inline"
+}
+```
+
 
 #### Form Validations and Actions
 
@@ -196,8 +385,13 @@ Workflow state data
         "total_step_number": 10,
         "go_back_steps": [3, 4],
         "go_forward_steps":[],
-        "completed_steps":[1, 2, 4],
+        "completed_steps":[1, 2, 4]
       }
    }
 }
 ```
+
+## Client Parameters
+* `refresh` force refresh page and go `next_screen`
+* `next_screen` next screen name, default is `dashboard`
+
