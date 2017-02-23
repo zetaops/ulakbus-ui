@@ -365,14 +365,16 @@ angular.module('ulakbus.dashboard')
             restrict: 'E',
             link: function ($scope, element, attrs, controllers) {
 
-              $scope.getGridOptions = function (selectors) {
+              $scope.getGridOptions = function (selectors, page) {
+                  var newPage = page || 1;
+
                   if (selectors) {
                     selectors.forEach(function(item, index, array) {
                       if (item.$$hashKey) {
                         delete array[index].$$hashKey;
                       }
                     });
-                    return WSOps.request({'view': '_zops_get_report_data', 'selectors': selectors });
+                    return WSOps.request({'view': '_zops_get_report_data', 'selectors': selectors, 'page': newPage});
                   } else {
                     return WSOps.request({'view': '_zops_get_report_data'});
                   }
@@ -381,12 +383,16 @@ angular.module('ulakbus.dashboard')
               $scope.gridOptions = {
                   enableSorting: true,
                   enableFiltering: true,
-                  paginationPageSize: 25,
+                //   paginationPageSize: 25,
                   useExternalPagination: true,
                   // totalItems: 200,
                   onRegisterApi: function(gridApi) {
                     $scope.gridApi = gridApi;
                     gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+                        var selectors = $scope.grid.selectors;
+                        $scope.getGridOptions(selectors, newPage).then(function (data) {
+                            handleGridData(data);
+                        });
                     });
                     $scope.gridApi.core.on.filterChanged( $scope, function() {
                       var grid = this.grid;
@@ -399,22 +405,25 @@ angular.module('ulakbus.dashboard')
               });
 
               $scope.submitSelectors = function() {
-                var selectors = $scope.gridOptions.selectors; //add for request
-                $scope.getGridOptions().then(function (data) {
+                var selectors = $scope.grid.selectors; //add for request
+                $scope.getGridOptions(selectors).then(function (data) {
                   handleGridData(data);
                 });
               };
 
-              var count = 0;
+            //   var count = 0;
 
               function handleGridData(data) {
-                if (data.gridOptions && count === 0) {
+                // if (data.gridOptions && count === 0) {
                   $scope.grid = data.gridOptions;
 
-                  $scope.gridOptions.data = data.gridOptions.initialData;
-                }
+                  $scope.gridOptions.data = data.gridOptions.data;
+                // }
 
-                count++
+                // count++
+
+                $scope.gridOptions.paginationPageSize = data.gridOptions.paginationPageSize;
+                $scope.gridOptions.totalItems = data.gridOptions.totalItems;
 
                 var sheckedSelectors = $scope.grid.selectors.filter(function(item) {
                   return item.checked;

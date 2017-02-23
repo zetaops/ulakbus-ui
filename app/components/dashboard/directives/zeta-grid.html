@@ -18,7 +18,7 @@
       display: inline-block;
       width: 50%;"
       ng-repeat="selector in grid.selectors">
-      <label>{{selector.name}}</label>
+      <label>{{selector.label}}</label>
       <input type="checkbox" ng-checked="selector.checked" ng-model="selector.checked" />
     </li>
   </ul>
