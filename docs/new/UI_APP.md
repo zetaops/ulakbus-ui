@@ -203,11 +203,15 @@ container for its elements. Form definition can include:
 
 #### Form Field Specifications
 `label`, `name`, `value`, `disabled`, `default`, `min` and `max` are keywords
-to handle field data which are too clear what each of them is for.
+to handle field attributes which are too clear what each of them is for.
 
 Field types are:
 
+
 ##### `string` corresponds to input element.
+
+`default` is null.
+
 ```json
 {
   "label": "Product Name",
@@ -218,6 +222,9 @@ Field types are:
 ```
 
 ##### `text` corresponds to text area element.
+
+`default` is null.
+
 ```json
 {
   "label": "Description",
@@ -228,6 +235,9 @@ Field types are:
 ```
 
 ##### `email` corresponds to input element with email value validation.
+
+`default` is null.
+
 ```json
 {
   "label": "Recovery Email",
@@ -238,6 +248,9 @@ Field types are:
 ```
 
 ##### `url` corresponds to input element with url value validation.
+
+`default` is null.
+
 ```json
 {
   "label": "Web Page",
@@ -248,6 +261,9 @@ Field types are:
 ```
 
 ##### `password` corresponds to password input element.
+
+`default` is null.
+
 ```json
 {
   "label": "Login Password",
@@ -258,6 +274,9 @@ Field types are:
 ```
 
 ##### `file` corresponds to text area element.
+
+`default` is null.
+
 ```json
 {
   "label": "User Manual",
@@ -269,6 +288,9 @@ Field types are:
 ```
 
 ##### `integer` corresponds to input element with integer value validation.
+
+`default` is null.
+
 ```json
 {
   "label": "Stock Amount",
@@ -281,9 +303,86 @@ Field types are:
 ```
 
 ##### `date` corresponds to date picker widget.
+
+`default` is null.
+
+```json
+{
+  "label": "Expire Date",
+  "name": "expire_date", 
+  "value": "2017-01-18",
+  "type": "date",
+  "min":"2017-01-18",
+  "max":"2017-04-18"
+}
+```
 ##### `time` corresponds to date time widget.
+
+`default` is null.
+
+```json
+{
+  "label": "Expire Date",
+  "name": "expire_date", 
+  "value": "18:30",
+  "type": "time"
+}
+```
 ##### `datetime` corresponds to datetime picker widget.
+
+`default` is null. `value` includes timezone information too.
+
+```json
+{
+  "label": "Expire Date",
+  "name": "expire_date", 
+  "value": "2017-01-18T18:30:03Z",
+  "type": "datetime",
+  "min":"2017-01-18T18:30:03Z",
+  "max":"2017-04-18T18:30:03Z"
+}
+```
+
+##### `date_range`, `time_range`, `datetime_range`, `integer_range` corresponds
+to range selector widget of related element.
+
+`type` can be one of those: `date_range`, `time_range`, `datetime_range`,
+`integer_range` `start` stands for default of start value, while `end` stands
+for default of end value of range value pair. 
+
+`min` and `max` limits the start and end values. If not specified, default
+values of `min` and `max` equals to `start` and `end`
+
+
+`date_range` exapmle:
+```json
+{
+  "label": "Expire Date",
+  "name": "expire_date", 
+  "type": "date_range",
+  "start":"2017-01-18",
+  "end":"2017-04-18",
+  "min":"2017-01-01",
+  "max":"2017-04-30"
+}
+```
+
+`integer_range` exapmle:
+```json
+{
+  "label": "Stock Amount Thresholds",
+  "name": "expire_date", 
+  "type": "date_range",
+  "start":"20",
+  "end":"100",
+}
+```
+
+
 ##### `selectbox` corresponds to select element with options.
+
+`default` is null.
+
 ```json
 {
   "label": "Color",
@@ -324,7 +423,10 @@ Field types are:
   "options_view_parameters": {"product_category": "12", "in_stock": true}
 }
 ```
-* `checkbox`
+##### `checkbox` corresponds to checkbox element
+
+`default` is null.
+
 ```json
 {
   "label": "Is Active?",
@@ -333,7 +435,10 @@ Field types are:
   "type": "checkbox"
 }
 ```
-* `radiobutton`
+##### `radiobutton` corresponds to radio group element
+
+`default` is null.
+
 ```json
 {
   "label": "Size",
@@ -351,6 +456,32 @@ Field types are:
 
 
 #### Form Validations and Actions
+
+### Text Input Widget
+
+`text input` is 
+```json
+
+{
+  "label": "Size",
+  "name": "size", 
+  "value": "S",
+  "type": "radiobutton",
+  "options": [
+    {"Small": "S"},
+    {"Medium": "M"},
+    {"Large": "L"}
+  ],
+  "show_as": "inline"
+}
+```
+
+- **Simple Text**
+- **Markup Text**
+- **Tabs**
+- **Table**
+- **List**
+
 
 
 ## Extra Data

@@ -1,0 +1,19 @@
+@startuml
+actor "User Browser" as Client
+'boundary Foo2
+'control Foo3
+entity "Web Server" as Server
+entity "Rabbit MQ" as AMQP
+entity Worker
+database Foo5
+Client -> Server : XHR /login
+Server -> Client : Login form
+Client -> Server : XHR /login \n {username, \npassword}
+Server -> AMQP : to amqp `inqeue` exchange
+AMQP -> Worker : login credentials
+Worker -> AMQP : login_process:true
+AMQP -> Server : login_process:true
+Server -> Client : cmd: "upgrade"
+Client -> Server : WS {cmd:"dashboard"}
+
+@enduml
