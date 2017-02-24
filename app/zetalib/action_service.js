@@ -8,8 +8,16 @@
  */
 
 angular.module('ulakbus')
-    .controller('KeyListenController', function ($scope, action_service) {
+    .controller('KeyListenController', function ($scope, $rootScope, action_service) {
         $scope.keylog = [0,1];
+
+        $scope.onBodyClick = function(e) {
+            var el = angular.element(e.target);
+            if (!el.hasClass('header-menu-item')) {
+                $rootScope.$broadcast('hide_header_menu_items');
+            }
+        }
+
         $scope.down = function(e) {
             angular.forEach(action_service.combinations, function (value, key) {
                 if (action_service.equal(value, $scope.keylog.concat([e.keyCode]))) {

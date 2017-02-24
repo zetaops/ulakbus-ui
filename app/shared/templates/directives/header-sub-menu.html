@@ -8,7 +8,7 @@
             </a>
         </li>
         <li ng-repeat="(key, item) in menuItems" ng-class="{active: collapseVar == $index+1}">{{dropDown}}
-            <a href="" ng-click="check($index+1)">
+            <a href="" class="header-menu-item" ng-click="check($index+1)">
                 <i class="fa fa-fw"
                     ng-class="{
                         'Admin': 'fa fa-fw fa-terminal',
@@ -20,7 +20,7 @@
                         'Raporlar': 'fa fa-pie-chart',
                         'Formlar': 'fa fa-fw fa-file-text'
                         }[item[0].kategori]"></i>
-                <span class="menu-text" ng-class="{hidden: $root.collapsed}">{{ key }}</span>
+                <span class="menu-text header-menu-item" ng-class="{hidden: $root.collapsed || userMenuOpened}">{{ key }}</span>
                 <i class="fa fa-arrow"></i>
                 <span class="fa arrow"></span>
             </a>

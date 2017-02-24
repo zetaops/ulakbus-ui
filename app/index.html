@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="bower_components/toastr/toastr.min.css" type="text/css">
     <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.min.css" type="text/css">
 </head>
-<body ng-controller="KeyListenController" ng-keydown="down($event)">
+<body ng-controller="KeyListenController" ng-keydown="down($event)" ng-click="(onBodyClick($event))">
 
 <div ng-show="user_ready === false" class="body-mask">
     <div class="text-center">

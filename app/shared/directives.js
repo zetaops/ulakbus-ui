@@ -224,6 +224,20 @@ angular.module('ulakbus')
                         generate_dashboard();
                     }
                 });
+
+                $scope.userMenuOpened = false;
+
+                $scope.$on('user_menu_closed', function() {
+                    $scope.userMenuOpened = false;
+                });
+
+                $scope.$on('user_menu_opened', function() {
+                    $scope.userMenuOpened = true;
+                });
+
+                $scope.$on('hide_header_menu_items', function() {
+                    $scope.collapseVar = 0;
+                });
                 
                 $scope.prepareMenu = function (menuItems) {
                     var newMenuItems = {};
@@ -567,6 +581,7 @@ angular.module('ulakbus')
                 sidebarUserMenu.metisMenu();
 
                 $scope.$on("usermenuitems", function (event, data) {
+                    $rootScope.$broadcast('user_menu_opened');
                     $scope.selectedMenuItems = data;
                     $timeout(function () {
                         sidebarUserMenu.metisMenu();
@@ -580,6 +595,7 @@ angular.module('ulakbus')
                 });
 
                 $scope.deselectUser = function () {
+                    $rootScope.$broadcast('user_menu_closed');
                     jQuery(".right-sidebar").css("width", "0px");
                     jQuery(".manager-view-inner").css("width", "");
                     delete $scope.selectedUser;
