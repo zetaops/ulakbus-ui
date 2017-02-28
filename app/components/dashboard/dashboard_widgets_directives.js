@@ -381,11 +381,6 @@ angular.module('ulakbus.dashboard')
               };
 
               $scope.gridOptions = {
-                  enableSorting: true,
-                  enableFiltering: true,
-                //   paginationPageSize: 25,
-                  useExternalPagination: true,
-                  // totalItems: 200,
                   onRegisterApi: function(gridApi) {
                     $scope.gridApi = gridApi;
                     gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
@@ -411,17 +406,13 @@ angular.module('ulakbus.dashboard')
                 });
               };
 
-            //   var count = 0;
-
               function handleGridData(data) {
-                // if (data.gridOptions && count === 0) {
-                  $scope.grid = data.gridOptions;
+                $scope.grid = data.gridOptions;
+                $scope.gridOptions.data = data.gridOptions.data;
 
-                  $scope.gridOptions.data = data.gridOptions.data;
-                // }
-
-                // count++
-
+                $scope.gridOptions.enableSorting = data.gridOptions.enableSorting;
+                $scope.gridOptions.enableFiltering = data.gridOptions.enableFiltering;
+                $scope.gridOptions.useExternalPagination = data.gridOptions.useExternalPagination;
                 $scope.gridOptions.paginationPageSize = data.gridOptions.paginationPageSize;
                 $scope.gridOptions.totalItems = data.gridOptions.totalItems;
 
@@ -504,16 +495,16 @@ angular.module('ulakbus.dashboard')
             }
         };
     })
-    .directive('filterDirective', function() {
-      return {
-        restrict: 'E',
-        templateUrl: 'components/dashboard/directives/custom-grid-filter.html',
-        link: function ($scope, element, attrs, controllers) {
-          $scope.names = [
-            {name: "Terry Clay", checked:false},
-            {name: "Marci Gill", checked:false},
-            {name: "Annie Orr", checked:false}
-          ];
-        }
-      };
-    })
+    // .directive('filterDirective', function() {
+    //   return {
+    //     restrict: 'E',
+    //     templateUrl: 'components/dashboard/directives/custom-grid-filter.html',
+    //     link: function ($scope, element, attrs, controllers) {
+    //       $scope.names = [
+    //         {name: "Terry Clay", checked:false},
+    //         {name: "Marci Gill", checked:false},
+    //         {name: "Annie Orr", checked:false}
+    //       ];
+    //     }
+    //   };
+    // })
