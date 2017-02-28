@@ -1,19 +1,32 @@
 @startuml
 actor "User Browser" as Client
-'boundary Foo2
-'control Foo3
 entity "Web Server" as Server
 entity "Rabbit MQ" as AMQP
 entity Worker
-database Foo5
+database Database
+
+== Initialization ==
+
 Client -> Server : XHR /login
+note left
+        check session cookie
+        if exists get login page
+end note
+
+Client -> Server : XHR /check_session
+note left
+        check session
+        if not exists
+        get check session view
+end note
 Server -> Client : Login form
+
 Client -> Server : XHR /login \n {username, \npassword}
-Server -> AMQP : to amqp `inqeue` exchange
-AMQP -> Worker : login credentials
-Worker -> AMQP : login_process:true
-AMQP -> Server : login_process:true
-Server -> Client : cmd: "upgrade"
+Server -> AMQP : to amqp `in queue` exchange
+AMQP -> Worker : login_user()
+Worker -> AMQP : login:true
+AMQP -> Server : login:true
+Server -> Client : cookie: sessionid, \ncmd: "upgrade"
 Client -> Server : WS {cmd:"dashboard"}
 
 @enduml
