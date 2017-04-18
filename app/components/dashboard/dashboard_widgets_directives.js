@@ -366,6 +366,8 @@ angular.module('ulakbus.dashboard')
             link: function ($scope, element, attrs, controllers) {
 
               $scope.getGridOptions = function (selectors, page) {
+                  console.log("DIRECTIVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
+                  console.log(selectors);
                   var newPage = page || 1;
 
                   if (selectors) {
@@ -392,9 +394,9 @@ angular.module('ulakbus.dashboard')
                     $scope.gridApi.core.on.filterChanged( $scope, function() {
                       var grid = this.grid;
                     });
+
                   }
               };
-
               $scope.getGridOptions().then(function(data) {
                 handleGridData(data);
               });
@@ -419,6 +421,16 @@ angular.module('ulakbus.dashboard')
                 var sheckedSelectors = $scope.grid.selectors.filter(function(item) {
                   return item.checked;
                 });
+
+                  $scope.addRemove = function (index) {
+
+                      if($scope.grid.selectors[index].checked){
+                          $scope.grid.selectors[index].checked = false;
+                      }else{
+                          $scope.grid.selectors[index].checked = true;
+                      }
+                      $scope.submitSelectors();
+                 };
 
                 var columnDefs = $scope.grid.column_defs.filter(function(item) {
                   var b = false;

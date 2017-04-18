@@ -1,6 +1,6 @@
 <div ng-show="gridOptions">
   <h4>The report data</h4>
-  <div id="zeta-grid" class="grid" ui-grid="gridOptions" ui-grid-pagination></div>
+  <div id="zeta-grid" class="grid" ui-grid="gridOptions"></div>
   <p style="margin-top: 20px;">
     Please, check you need and click submit for getting data ...
   </p>
@@ -19,9 +19,11 @@
       width: 50%;"
       ng-repeat="selector in grid.selectors">
       <label>{{selector.label}}</label>
-      <input type="checkbox" ng-checked="selector.checked" ng-model="selector.checked" />
+      <input type="checkbox" ng-checked="selector.checked" ng-click="addRemove($index)" />
     </li>
   </ul>
+
+
   <button style="
     padding: 5px;
     border-radius: 3px;
