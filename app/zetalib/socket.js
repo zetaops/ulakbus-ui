@@ -78,12 +78,6 @@
             socket.loginStatus = false;
 
             socket.onOpen(function (evt) {
-                if (!$window.wsConnect) {
-                    socket.reconnect();
-                    $window.wsConnect = true;
-                    return;
-                }
-
                 $rootScope.websocketIsOpen = true;
                 $rootScope.$broadcast("socket_is_open");
                 socket.loginStatus = true;
@@ -94,8 +88,8 @@
             socket.onClose(function (evt) {
                 $rootScope.websocketIsOpen = false;
                 $log.info("DISCONNECTED", JSON.stringify(evt));
-                if ($rootScope.loginAttempt) {
-                    socket.reconnect();
+                if ($rootScope.loggedInUser) {
+                        socket.reconnect();
                 }
                 // socket.reconnect(); //reconnects to ws when connection drops
             });
@@ -126,9 +120,10 @@
         function close(reason){
             msgService.clearQueue();
             $log.info("CLOSED :", reason || "");
-            if (angular.isUndefined(socket) || reason === "loggedout") {
+            if (!angular.isUndefined(socket) || reason === "loggedout") {
                 socket.loginStatus = false;
                 socket.close();
+                socket = undefined;
             }
             return true;
         }
