@@ -65,15 +65,12 @@ angular.module('ulakbus')
     }])
 
     .run(function ($rootScope, AuthService) {
-
-        AuthService.check_auth();
-
         $rootScope.loggedInUser = false;
         $rootScope.loginAttempt = 0;
-        $rootScope.websocketIsOpen = false;
         $rootScope.current_user = true;
+        AuthService.check_auth();
+
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
-            // will be used when needed
         });
     })
     .config(['$httpProvider', function ($httpProvider) {

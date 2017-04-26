@@ -25,7 +25,7 @@ angular.module('ulakbus.dashboard', [])
         // first generate_dashboard broadcasted to get menu and dashboard items
         // sidebar directive listens for "generate_dashboard"
     
-        // $rootScope.$broadcast("generate_dashboard");
+        $rootScope.$broadcast("generate_dashboard");
         $scope.$on("socket_is_open", function () {
             $rootScope.$broadcast("generate_dashboard");
         });

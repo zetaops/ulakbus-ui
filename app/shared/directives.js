@@ -220,7 +220,7 @@ angular.module('ulakbus')
                 $scope.style = 'width:calc(100% - 300px);';
                 $scope.$on('$routeChangeStart', function (event, next, current) {
                     $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
-                    if (next.$$route.originalPath === '/dashboard') {
+                    if (next.$$route && next.$$route.originalPath === '/dashboard') {
                         generate_dashboard();
                     }
                 });
@@ -239,8 +239,6 @@ angular.module('ulakbus')
                     if (!$rootScope.current_user){
                         return;
                     }
-
-                    if ($rootScope.websocketIsOpen) {
                         var sidebarmenu = $('#side-menu');
                         sidebarmenu.metisMenu();
                         WSOps.request({view: 'dashboard'})
@@ -294,7 +292,7 @@ angular.module('ulakbus')
                                     sidebarmenu.metisMenu();
                                 });
                             });
-                    } 
+
                 };
                 $scope.$on("generate_dashboard", function () {
                     generate_dashboard();
