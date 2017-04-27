@@ -291,12 +291,11 @@ angular.module('ulakbus')
                                 $timeout(function () {
                                     sidebarmenu.metisMenu();
                                 });
+                                //removes loader from main page after the view is created
+                                $rootScope.$broadcast("user_ready");
                             });
 
                 };
-                $scope.$on("generate_dashboard", function () {
-                    generate_dashboard();
-                });
 
                 // changing menu items by listening for broadcast
                 $scope.$on("menuitems", function (event, data) {

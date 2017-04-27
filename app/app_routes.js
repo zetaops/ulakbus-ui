@@ -61,7 +61,7 @@ angular.module('ulakbus')
                 templateUrl: 'components/crud/templates/crud.html',
                 controller: 'CRUDListFormController'
             })
-            .otherwise({redirectTo: '/dashboard'});
+            .otherwise({redirectTo: '/login'});
     }])
 
     .run(function ($rootScope, AuthService) {

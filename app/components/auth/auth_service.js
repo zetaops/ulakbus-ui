@@ -25,7 +25,6 @@ angular.module('ulakbus.auth')
                     // if response data.cmd is 'upgrade'
                     if (data.cmd === 'upgrade') {
                         $rootScope.loggedInUser = true;
-                        $rootScope.$broadcast("user_ready");
                         $rootScope.$broadcast("ws_turn_on");
                         return $location.path('/dashboard');
                     }
@@ -62,7 +61,6 @@ angular.module('ulakbus.auth')
                         $rootScope.loggedInUser = true;
                         // $rootScope.$broadcast("regenerate_menu");
                         // to display main view without flickering
-                        $rootScope.$broadcast("user_ready");
                         $rootScope.$broadcast("ws_turn_on");
                         $location.path('/dashboard');
                     }

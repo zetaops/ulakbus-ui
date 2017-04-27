@@ -39,24 +39,8 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         // track messaging app state for proper unread messages count
         var messagingAppIsHidden = true;
 
-        function wsReady () {
-            /**
-             * wait until websocket will be open
-             */
-            var deferred = $q.defer();
-            var dismissWatcher = $rootScope.$watch('websocketIsOpen', function(isOpen){
-                if (isOpen){
-                    dismissWatcher();
-                    deferred.resolve();
-                }
-            });
-            return deferred.promise;
-        }
-
         function wsRequest (outgoing){
-            return wsReady().then(function(){
                 return WSOps.request(outgoing);
-            })
         }
 
         function prepareMessages (messages){
