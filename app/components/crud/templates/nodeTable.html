@@ -1,4 +1,5 @@
 <div class="tablescroll">
+
     <table class="table table-bordered" style="background-color:#fff;">
         <thead>
         <tr ng-if="node.schema.formType=='Node'">
@@ -50,7 +51,7 @@
             </td>
             <th scope="row" style="text-align:center">{{$index+1}}</th>
             <td ng-repeat="prop in node.schema.properties_list" ng-init="k = prop.name; v = listnodemodel[k]; inline = node.schema.inline_edit && node.schema.inline_edit.indexOf(k) > -1">
-                <span ng-if="!inline">{{ v.unicode || v }}</span>
+                <span ng-if="!inline">{{ v.unicode || v | date: "dd.MM.y" }}</span>
                 <!--<input type="{{node.schema.properties[k].type}}"-->
                 <!--ng-if="node.schema.inline_edit.indexOf(k) > -1"-->
                 <!--ng-model="node.model[outerIndex][k]"-->
