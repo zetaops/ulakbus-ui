@@ -1141,6 +1141,9 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         generator.get_wf = function (scope) {
             return WSOps.request(scope.form_params)
                 .then(function (data) {
+                    if(angular.isDefined(data.wf_meta)){
+                        setWfMetaCookie(data.wf_meta);
+                    }
                     return generator.pathDecider(data.client_cmd || ['list'], scope, data);
                 });
         };
@@ -1393,6 +1396,13 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     return data;
                 });
         };
+
+        function setWfMetaCookie(wf_meta) {
+            //remove wf_meta from the cookie so that new wf_meta can be stored
+            document.cookie = 'wf_meta=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            //add the new wf_meta value in the
+            document.cookie = "wf_meta=" + JSON.stringify(wf_meta);
+        }
         return generator;
     })
 
