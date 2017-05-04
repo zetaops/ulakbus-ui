@@ -1,4 +1,3 @@
-
 describe('dashboard controller widgets', function () {
 
     beforeEach(module('ulakbus'));
@@ -6,17 +5,66 @@ describe('dashboard controller widgets', function () {
     beforeEach(module('ui.grid'));
     beforeEach(module('ui.grid.infiniteScroll'));
 
-    var $controller;
-    var $rootScope;
-    var $compile;
-    var $scope;
+    var grid, $scope, rows, columns, rowSearcher, uiGridConstants, filter;
 
-    beforeEach(inject(function (_$controller_,_$compile_, _$rootScope_) {
-        $controller = _$controller_;
-        $compile = _$compile_;
-        $rootScope =_$rootScope_;
-        $scope = {};
+    beforeEach(inject(function ($rootScope, _rowSearcher_, Grid, GridRow, GridColumn, _uiGridConstants_) {
+        $scope = $rootScope;
+        rowSearcher = _rowSearcher_;
+        uiGridConstants = _uiGridConstants_;
+
+        grid = new Grid({
+            id: 1,
+            enableFiltering: true,
+            enableSorting: true
+        });
+
+        rows = grid.rows = [
+            new GridRow({
+                name: 'Bill',
+                company: 'Gruber, Inc.',
+                age: 25,
+                isActive: true,
+                date: new Date('2015-07-01T13:25:00+00:00')
+            }, 0, grid),
+            new GridRow({
+                name: 'Frank',
+                company: 'Foo Co',
+                age: 45,
+                isActive: false,
+                date: new Date('2015-06-24T13:25:00+00:00')
+            }, 1, grid),
+            new GridRow({
+                name: 'Joe',
+                company: 'Movers, Inc.',
+                age: 0,
+                isActive: false,
+                date: new Date('2015-06-29T13:25:00+00:00')
+            }, 2, grid)
+        ];
+
+        columns = grid.columns = [
+            new GridColumn({name: 'name'}, 0, grid),
+            new GridColumn({name: 'company'}, 1, grid),
+            new GridColumn({name: 'age'}, 2, grid),
+            new GridColumn({name: 'isActive'}, 3, grid),
+            new GridColumn({name: 'date'}, 4, grid)
+        ];
+
+        filter = null;
     }));
+
+    function setFilter(column, term, condition) {
+        column.filters = [];
+        column.filters.push({
+            term: term,
+            condition: condition
+        });
+    }
+
+    afterEach(function () {
+        // angular.element(grid).remove();
+        grid = null;
+    });
 
     describe('task manager', function () {
         it('should have service', inject(function () {
@@ -31,24 +79,63 @@ describe('dashboard controller widgets', function () {
         it('should have empty task controller', inject(function () {
             expect('ulakbus.dashboard.emptyTask').toBeDefined();
         }));
-        describe('service', function(){
-            it('should return methods', inject(function(){
+        it('should have a grid controller zeta grid', inject(function () {
+            expect('ulakbus.dashboard.zetaGrid').toBeDefined();
+        }));
+
+        describe('service', function () {
+            it('should return methods', inject(function () {
             }))
         });
-        describe('single task',function(){
-            it('should show task',inject(function(){
+
+        describe('single task', function () {
+            it('should show task', inject(function () {
             }))
         });
-        describe('empty task', function(){
-            /*it('should show empty message',inject(function(){
-                var test = Math.random().toString();
-                var emptyDiv = angular.element("<empty-task task-type='"+test+"'></empty-task>");
-                var element = $compile(emptyDiv)($rootScope);
-                //todo:tests fails due to error when we call digest
-                $rootScope.$digest();
-                // Check that the compiled element contains the templated content
-                expect(element.html()).toContain(test+" görev bulunamadı.");
-            }));*/
-        })
     });
+
+    describe('with report grid',function () {
+        describe('having one column filtered', function () {
+            it('should show the row', function () {
+                setFilter(columns[0], 'il', uiGridConstants.filter.CONTAINS);
+
+                var ret = rowSearcher.search(grid, rows, columns).filter(function(row){ return row.visible; });
+
+                expect(ret.length).toEqual(1);
+            });
+        });
+
+        describe('having two column filtered with different conditions', function () {
+            it('should show the row', function () {
+                setFilter(columns[0], 'il', uiGridConstants.filter.CONTAINS);
+                setFilter(columns[1], 'Gruber, Inc.', uiGridConstants.filter.EXACT);
+
+                var ret = rowSearcher.search(grid, rows, columns).filter(function(row){ return row.visible; });
+
+                expect(ret.length).toEqual(1);
+            });
+        });
+
+        describe('with one matching term and one failing term set on both columns', function() {
+            it('should not show the row', function () {
+                setFilter(columns[0], 'Bil');
+                setFilter(columns[1], 'blargle');
+                rows.splice(1);
+                var ret = rowSearcher.search(grid, rows, columns).filter(function(row){ return row.visible; });
+                expect(ret.length).toEqual(0);
+            });
+        });
+
+        describe('with external filtering', function () {
+            it('should filter one column', function () {
+                grid.options.useExternalFiltering = true;
+                setFilter(columns[0], 'Bill');
+
+                var ret = rowSearcher.search(grid, rows, columns).filter(function(row){ return row.visible; });
+
+                expect(ret.length).toEqual(3);
+            });
+        });
+    });
+
 });

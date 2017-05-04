@@ -31,6 +31,7 @@ module.exports = function (config) {
             'app/bower_components/moment/min/moment.min.js',
             'app/bower_components/angular-websocket/dist/angular-websocket.min.js',
             'app/bower_components/angular-websocket/dist/angular-websocket-mock.js',
+            'app/bower_components/angular-ui-grid/ui-grid.min.js',
             'app/app.js',
             'app/app_routes.js',
             'app/zetalib/**/!(action_service).js',
