@@ -3948,7 +3948,7 @@ table.dataTable thead .sorting:after {
 
 /*for buttons in grid*/
 .btn-grid-generic{
-    padding: 5px;
+    padding: 10px;
     border-radius: 3px;
     background-color: #A61229;
     border: none;

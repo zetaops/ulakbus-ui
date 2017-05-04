@@ -369,6 +369,7 @@ angular.module('ulakbus.dashboard')
                 $scope.filterColumn =[];
                 $scope.sortColumns = [];
                 $scope.filterColumn = [];
+                $scope.data = [];
 
                 $scope.gridOptions = {
                     useExternalSorting: true,
@@ -412,7 +413,11 @@ angular.module('ulakbus.dashboard')
                 };
 
                 $scope.getDataDown = function() {
-                    debugger;
+                    if($scope.data.length<50){
+                        return;
+                    }
+                    //show data loading
+                    $scope.loadingChannel = true;
                     //increase pages that are visible to user
                     $scope.page+=1;
                     WSOps.request(getRequestObject()).then(function(response){
@@ -421,12 +426,12 @@ angular.module('ulakbus.dashboard')
                         $scope.gridApi.infiniteScroll.saveScrollPercentage();
                         $scope.data = $scope.data.concat(newData);
                         $scope.gridApi.infiniteScroll.dataLoaded();
+                        $scope.loadingChannel = false;
                     }).catch(function(error) {
                         $scope.gridApi.infiniteScroll.dataLoaded();
+                        $scope.loadingChannel = false;
                     });
                 };
-
-                $scope.data = [];
 
                 $scope.getFirstTimeData = function(selectors) {
                     //show loader
@@ -443,6 +448,8 @@ angular.module('ulakbus.dashboard')
                 }
 
                 $scope.getChangedData = function () {
+                    //show loading data
+                    $scope.loadingChannel = true;
                     WSOps.request(getRequestObject()).then(function(response){
                         //empty previous data to assign new sorted data set obtained from server
                         $scope.data = [];
@@ -451,8 +458,10 @@ angular.module('ulakbus.dashboard')
                         //sorted data obtained from the server
                         $scope.data = response.gridOptions.data;
                         $scope.gridApi.infiniteScroll.dataLoaded();
+                        $scope.loadingChannel = false;
                     }).catch(function(error) {
                         $scope.gridApi.infiniteScroll.dataLoaded();
+                        $scope.loadingChannel = false;
                     });
                 }
 
@@ -568,7 +577,6 @@ angular.module('ulakbus.dashboard')
                 }
 
                 $scope.applyFilter = function () {
-                    debugger
                     if(angular.isUndefined($scope.gridReference)){
                            return;
                        }

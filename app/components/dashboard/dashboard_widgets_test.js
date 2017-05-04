@@ -3,6 +3,8 @@ describe('dashboard controller widgets', function () {
 
     beforeEach(module('ulakbus'));
     beforeEach(module('ulakbus.dashboard'));
+    beforeEach(module('ui.grid'));
+    beforeEach(module('ui.grid.infiniteScroll'));
 
     var $controller;
     var $rootScope;
