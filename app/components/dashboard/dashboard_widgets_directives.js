@@ -311,8 +311,8 @@ angular.module('ulakbus.dashboard')
                 $scope.task_date = $scope.task.start_date + ' - ' + $scope.task.finish_date;
 
                 /* TasksService.get_task_detail($scope.task.key).then(function(data){
-                    $scope.task_detail = data;
-                });*/
+                 $scope.task_detail = data;
+                 });*/
 
                 $scope.actions = {};
                 $scope.getActions = function() {
@@ -359,152 +359,263 @@ angular.module('ulakbus.dashboard')
             replace: true
         }
     })
-    .directive('zetaGrid', function(WSOps, uiGridConstants) {
+    .directive('zetaGrid', function(WSOps, uiGridConstants, $timeout, $q, $rootScope) {
         return {
             templateUrl: 'components/dashboard/directives/zeta-grid.html',
             restrict: 'E',
             link: function ($scope, element, attrs, controllers) {
+                $scope.page = 1;
+                $scope.pageSize = 0; //set 50 or 100 here
+                $scope.filterColumn =[];
+                $scope.sortColumns = [];
+                $scope.filterColumn = [];
 
-              $scope.getGridOptions = function (selectors, page) {
-                  var newPage = page || 1;
+                $scope.gridOptions = {
+                    useExternalSorting: true,
+                    useExternalFiltering: true,
+                    infiniteScrollRowsFromEnd: 50,
+                    infiniteScrollUp: true,
+                    infiniteScrollDown: true,
+                    data: 'data',
+                    onRegisterApi: function(gridApi){
+                        gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
 
-                  if (selectors) {
-                    selectors.forEach(function(item, index, array) {
-                      if (item.$$hashKey) {
-                        delete array[index].$$hashKey;
-                      }
-                    });
-                    return WSOps.request({'view': '_zops_get_report_data', 'selectors': selectors, 'page': newPage});
-                  } else {
-                    return WSOps.request({'view': '_zops_get_report_data'});
-                  }
-              };
-
-              $scope.gridOptions = {
-                  onRegisterApi: function(gridApi) {
-                    $scope.gridApi = gridApi;
-                    gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
-                        var selectors = $scope.grid.selectors;
-                        $scope.getGridOptions(selectors, newPage).then(function (data) {
-                            handleGridData(data);
+                        gridApi.core.on.sortChanged( $scope, function( grid, sortColumns ) {
+                            $scope.sortColumns =[];
+                            angular.forEach(sortColumns, function(v,k) {
+                                var sortObj ={
+                                    'columnName': sortColumns[k].field,
+                                    'order': sortColumns[k].sort.direction
+                                };
+                                $scope.sortColumns.push(sortObj);
+                            });
+                            debugger;
+                            $scope.getChangedData();
                         });
-                    });
-                    $scope.gridApi.core.on.filterChanged( $scope, function() {
-                      var grid = this.grid;
-                    });
-                  }
-              };
 
-              $scope.getGridOptions().then(function(data) {
-                handleGridData(data);
-              });
-
-              $scope.submitSelectors = function() {
-                var selectors = $scope.grid.selectors; //add for request
-                $scope.getGridOptions(selectors).then(function (data) {
-                  handleGridData(data);
-                });
-              };
-
-              function handleGridData(data) {
-                $scope.grid = data.gridOptions;
-                $scope.gridOptions.data = data.gridOptions.data;
-
-                $scope.gridOptions.enableSorting = data.gridOptions.enableSorting;
-                $scope.gridOptions.enableFiltering = data.gridOptions.enableFiltering;
-                $scope.gridOptions.useExternalPagination = data.gridOptions.useExternalPagination;
-                $scope.gridOptions.paginationPageSize = data.gridOptions.paginationPageSize;
-                $scope.gridOptions.totalItems = data.gridOptions.totalItems;
-
-                var sheckedSelectors = $scope.grid.selectors.filter(function(item) {
-                  return item.checked;
-                });
-
-                var columnDefs = $scope.grid.column_defs.filter(function(item) {
-                  var b = false;
-                  for (var i = 0; i < sheckedSelectors.length; i++ ) {
-                    if (sheckedSelectors[i].name === item.field) {
-                      b = true;
+                        gridApi.core.on.filterChanged($scope, function() {
+                            $scope.gridReference = this.grid;
+                        });
+                        $scope.gridApi = gridApi;
                     }
-                  }
-                  return b;
-                });
+                };
 
-                $scope.gridOptions.columnDefs = columnDefs.map(function(item) {
-                  var type = item.type;
-                  var field;
+                $scope.getFirstData = function(selectors) {
+                    var promise = $q.defer();
+                        WSOps.request(getRequestObject(selectors)).then(function(response){
+                            debugger
+                            $scope.gridOptionsSelected = response.gridOptions;
+                            $scope.data = response.gridOptions.data;
+                            promise.resolve();
+                        });
+                    return promise.promise;
+                };
 
-                  switch (type) {
-                    case 'INPUT':
-                      field = {
-                        field: item.field,
-                        type: uiGridConstants.filter.INPUT,
-                        filter: {
-                          condition: uiGridConstants.filter[item.filter.condition],
-                          placeholder: item.filter.placeholder
-                        }
-                      };
-                      break;
-                    case 'SELECT':
-                      field = {
-                        field: item.field,
-                        filter: {
-                          type: uiGridConstants.filter.SELECT,
-                          term: item.filter.term,
-                          selectOptions: item.filter.selectOptions
-                        }
-                      };
-                      break;
-                    case 'MULTISELECT':
-                      // field = {
-                      //   field: item.field,
-                      //   width: 220,
-                      //   filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><filter-directive></filter-directive></div>'
-                      // };
-                      field = {
-                        field: item.field,
-                        filter: {
-                          type: uiGridConstants.filter.SELECT,
-                          // term: item.filter.term,
-                          selectOptions: item.filter.selectOptions
-                        }
-                      };
-                      break;
-                    case 'range':
-                      field = {
-                        field: item.field,
-                        filters: [
-                          {
-                            condition: uiGridConstants.filter.GREATER_THAN,
-                            placeholder: item.filters[0].placeholder
-                          },
-                          {
-                            condition: uiGridConstants.filter.LESS_THAN,
-                            placeholder: item.filters[1].placeholder
-                          }
-                        ]
-                      };
-                      break;
-                    default:
-                      field = {};
-                  }
+                $scope.getDataDown = function() {
+                    debugger;
+                    //increase pages that are visible to user
+                    $scope.page+=1;
+                    WSOps.request(getRequestObject()).then(function(response){
+                        $scope.gridOptionsSelected = response.gridOptions;
+                        var newData = response.gridOptions.data;
+                        $scope.gridApi.infiniteScroll.saveScrollPercentage();
+                        $scope.data = $scope.data.concat(newData);
+                        $scope.gridApi.infiniteScroll.dataLoaded();
+                    }).catch(function(error) {
+                        $scope.gridApi.infiniteScroll.dataLoaded();
+                    });
+                };
 
-                  return field;
-                });
-              };
+                $scope.data = [];
+
+                $scope.getFirstTimeData = function(selectors) {
+                    //show loader
+                    $rootScope.$broadcast("show_main_loader");
+                    $scope.getFirstData(selectors).then(function(){
+                        //increase the visible page count so that it can be sent to the server
+                        handleGridData();
+                        $timeout(function() {
+                            $scope.gridApi.infiniteScroll.resetScroll();
+                        });
+                        debugger
+                        $rootScope.$broadcast("hide_main_loader");
+                    });
+                }
+
+                $scope.getChangedData = function () {
+                    WSOps.request(getRequestObject()).then(function(response){
+                        //empty previous data to assign new sorted data set obtained from server
+                        $scope.data = [];
+                        $scope.gridOptionsSelected = response.gridOptions;
+                        $scope.gridApi.infiniteScroll.saveScrollPercentage();
+                        //sorted data obtained from the server
+                        $scope.data = response.gridOptions.data;
+                        $scope.gridApi.infiniteScroll.dataLoaded();
+                    }).catch(function(error) {
+                        $scope.gridApi.infiniteScroll.dataLoaded();
+                    });
+                }
+
+                function handleGridData() {
+                    $scope.grid = $scope.gridOptionsSelected;
+                    $scope.gridOptions.enableSorting = $scope.gridOptionsSelected.enableSorting;
+                    $scope.gridOptions.enableFiltering = $scope.gridOptionsSelected.enableFiltering;
+                    //$scope.gridOptions.useExternalPagination = data.gridOptions.useExternalPagination;
+                    // $scope.gridOptions.paginationPageSize = data.gridOptions.paginationPageSize;
+                    $scope.gridOptions.totalItems = $scope.gridOptionsSelected.totalItems;
+
+                    var checkedSelectors = $scope.grid.selectors.filter(function(item) {
+                        return item.checked;
+                    });
+
+                    var columnDefs = $scope.grid.column_defs.filter(function(item) {
+                        var b = false;
+                        for (var i = 0; i < checkedSelectors.length; i++ ) {
+                            if (checkedSelectors[i].name === item.field) {
+                                b = true;
+                            }
+                        }
+                        return b;
+                    });
+
+                    $scope.gridOptions.columnDefs = columnDefs.map(function(item) {
+                        var type = item.type;
+                        var field;
+
+                        switch (type) {
+                            case 'INPUT':
+                                field = {
+                                    field: item.field,
+                                    type: uiGridConstants.filter.INPUT,
+                                    filter: {
+                                        condition: uiGridConstants.filter[item.filter.condition],
+                                        placeholder: item.filter.placeholder
+                                    },
+                                    colType: item.type
+                                };
+                                break;
+                            case 'SELECT':
+                                field = {
+                                    field: item.field,
+                                    filter: {
+                                        type: uiGridConstants.filter.SELECT,
+                                        term: item.filter.term,
+                                        selectOptions: item.filter.selectOptions,
+                                        condition: uiGridConstants.filter.EXACT
+                                    },
+                                    colType: item.type
+                                };
+                                break;
+                            case 'MULTISELECT':
+                                // field = {
+                                //   field: item.field,
+                                //   width: 220,
+                                //   filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><filter-directive></filter-directive></div>'
+                                // };
+                                field = {
+                                    field: item.field,
+                                    filter: {
+                                        type: uiGridConstants.filter.SELECT,
+                                        // term: item.filter.term,
+                                        selectOptions: item.filter.selectOptions,
+                                        condition: uiGridConstants.filter.EXACT
+                                    },
+                                    colType: item.type
+                                };
+                                break;
+                            case 'range':
+                                field = {
+                                    field: item.field,
+                                    filters: [
+                                        {
+                                            condition: uiGridConstants.filter.GREATER_THAN,
+                                            placeholder: item.filters[0].placeholder
+                                        },
+                                        {
+                                            condition: uiGridConstants.filter.LESS_THAN,
+                                            placeholder: item.filters[1].placeholder
+                                        }
+                                    ],
+                                    colType : item.rangeType
+                                };
+                                break;
+                            default:
+                                field = {};
+                        }
+
+                        return field;
+                    });
+                }
+
+                function getRequestObject(selector) {
+                    var reqObj = {
+                        'view': '_zops_get_report_data',
+                        'page': $scope.page,
+                        'sortColumns': $scope.sortColumns,
+                        'filterColumns': $scope.filterColumn
+                    };
+                    if(angular.isDefined(selector)){
+                        reqObj.selectors = selector;
+                    }
+                    return reqObj;
+                }
+
+                $scope.submitSelectors = function() {
+                    var selectors = $scope.grid.selectors; //add for request
+                    //empty the grid data to get new data with the new columns
+                    $scope.data = [];
+                    $scope.getFirstTimeData(selectors);
+                }
+
+                $scope.applyFilter = function () {
+                    debugger
+                    if(angular.isUndefined($scope.gridReference)){
+                           return;
+                       }
+                    var columns = $scope.gridReference.columns;
+                    $scope.filterColumn = [];
+                    angular.forEach(columns, function (value, key) {
+                        var filters = columns[key].filters;
+                        var filterObj={};
+                        filterObj.columnName = columns[key].field; //name of column
+                        filterObj.columnType = columns[key].colDef.colType; //type of the column (select, multiselect, range, input)
+
+                        filterObj.filterParam=[];
+                        for( var i=0;i<filters.length;i++ ){
+                            if(angular.isDefined(filters[i].term)){  //filter contain some value
+                                filterObj.filterParam.push({
+                                    condition: filters[i].condition,
+                                    value: filters[i].term
+                                });
+                            }
+                        }
+                        $scope.filterColumn.push(filterObj);
+                    });
+                    $scope.getChangedData();
+                }
+
+                $scope.downloadCsv = function(){
+                    var requestObj = getRequestObject();
+                    requestObj.view = '_zops_get_csv_data';
+                    debugger
+                    WSOps.request(requestObj).then(function(response){
+                        //code to download csv file
+                    });
+                }
+                $scope.getFirstTimeData();
             }
         };
-    })
-    // .directive('filterDirective', function() {
-    //   return {
-    //     restrict: 'E',
-    //     templateUrl: 'components/dashboard/directives/custom-grid-filter.html',
-    //     link: function ($scope, element, attrs, controllers) {
-    //       $scope.names = [
-    //         {name: "Terry Clay", checked:false},
-    //         {name: "Marci Gill", checked:false},
-    //         {name: "Annie Orr", checked:false}
-    //       ];
-    //     }
-    //   };
-    // })
+    });
+// .directive('filterDirective', function() {
+//   return {
+//     restrict: 'E',
+//     templateUrl: 'components/dashboard/directives/custom-grid-filter.html',
+//     link: function ($scope, element, attrs, controllers) {
+//       $scope.names = [
+//         {name: "Terry Clay", checked:false},
+//         {name: "Marci Gill", checked:false},
+//         {name: "Annie Orr", checked:false}
+//       ];
+//     }
+//   };
+// })

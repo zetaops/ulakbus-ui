@@ -3946,6 +3946,15 @@ table.dataTable thead .sorting:after {
     margin-bottom: 0.75em;
 }
 
+/*for buttons in grid*/
+.btn-grid-generic{
+    padding: 5px;
+    border-radius: 3px;
+    background-color: #A61229;
+    border: none;
+    color: white;
+    margin: 10px 0px;
+}
 
 /** user info
 

@@ -1,6 +1,10 @@
 <div ng-show="gridOptions">
   <h4>The report data</h4>
-  <div id="zeta-grid" class="grid" ui-grid="gridOptions" ui-grid-pagination></div>
+  <div>
+    <button class="btn-grid-generic" ng-click="applyFilter()">Apply Filter</button>
+    <button class="btn-grid-generic" ng-click="downloadCsv()" style="float: right;">Download CSV</button>
+  </div>
+  <div id="zeta-grid" class="grid" ui-grid="gridOptions" ui-grid-infinite-scroll style="height:480px;"></div>
   <p style="margin-top: 20px;">
     Please, check you need and click submit for getting data ...
   </p>
@@ -22,12 +26,5 @@
       <input type="checkbox" ng-checked="selector.checked" ng-model="selector.checked" />
     </li>
   </ul>
-  <button style="
-    padding: 5px;
-    border-radius: 3px;
-    background-color: #A61229;
-    border: none;
-    color: white;
-    margin: 10px 0px;"
-    class="default" ng-click="submitSelectors()">Submit</button>
+  <button class="btn-grid-generic" class="default" ng-click="submitSelectors()">Submit</button>
 </div>
