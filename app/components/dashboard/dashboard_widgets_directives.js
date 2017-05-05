@@ -611,7 +611,7 @@ angular.module('ulakbus.dashboard')
 
                         filterObj.filterParam=[];
                         for( var i=0;i<filters.length;i++ ){
-                            if(angular.isDefined(filters[i].term)){  //filter contain some value
+                            if(angular.isDefined(filters[i].term) && filters[i].term !== null ){  //filter contain some value
                                 if( filterObj.columnType === 'datetime' ){  //change date format to dd.mm.yyyy
                                     filterObj.filterParam.push({
                                         condition: filters[i].condition,
@@ -638,8 +638,7 @@ angular.module('ulakbus.dashboard')
                     var requestObj = getRequestObject();
                     requestObj.view = '_zops_get_csv_data';
                     WSOps.request(requestObj).then(function(response){
-                        debugger
-                        //code to download csv file
+                        window.open(response.download_url, '_blank');
                     });
                 }
 
@@ -652,7 +651,7 @@ angular.module('ulakbus.dashboard')
             template: '<select class="form-control" ng-model="colFilter.term" ng-options="option.value as option.label for option in colFilter.options" multiple></select>'
         };
     })
-    .directive('dateFilter', function($compile) {
+    .directive('dateFilter', function() {
         return {
             restrict: "E",
             scope: {
@@ -663,7 +662,7 @@ angular.module('ulakbus.dashboard')
             controller: function ($scope) {
                 $scope.onFocus =function(event){
                     event.target.type= 'date';
-                }
+                };
 
                 $scope.onBlur = function(event){
                     event.target.type= 'text';
