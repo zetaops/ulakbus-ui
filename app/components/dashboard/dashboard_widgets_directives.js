@@ -390,7 +390,6 @@ angular.module('ulakbus.dashboard')
                                 };
                                 $scope.sortColumns.push(sortObj);
                             });
-                            debugger;
                             $scope.getChangedData();
                         });
 
@@ -403,17 +402,18 @@ angular.module('ulakbus.dashboard')
 
                 $scope.getFirstData = function(selectors) {
                     var promise = $q.defer();
-                        WSOps.request(getRequestObject(selectors)).then(function(response){
-                            debugger
-                            $scope.gridOptionsSelected = response.gridOptions;
-                            $scope.data = response.gridOptions.data;
-                            promise.resolve();
-                        });
+                    WSOps.request(getRequestObject(selectors)).then(function(response){
+                        $scope.gridOptionsSelected = response.gridOptions;
+                        $scope.data = response.gridOptions.data;
+                        $scope.isMoreDataLeft = response.gridOptions.isMoreDataLeft;
+                        promise.resolve();
+                    });
                     return promise.promise;
                 };
 
                 $scope.getDataDown = function() {
-                    if($scope.data.length<50){
+                    //if no more data left in backend to display then return from here
+                    if(!$scope.isMoreDataLeft){
                         return;
                     }
                     //show data loading
@@ -425,6 +425,7 @@ angular.module('ulakbus.dashboard')
                         var newData = response.gridOptions.data;
                         $scope.gridApi.infiniteScroll.saveScrollPercentage();
                         $scope.data = $scope.data.concat(newData);
+                        $scope.isMoreDataLeft = response.gridOptions.isMoreDataLeft;
                         $scope.gridApi.infiniteScroll.dataLoaded();
                         $scope.loadingChannel = false;
                     }).catch(function(error) {
@@ -442,7 +443,6 @@ angular.module('ulakbus.dashboard')
                         $timeout(function() {
                             $scope.gridApi.infiniteScroll.resetScroll();
                         });
-                        debugger
                         $rootScope.$broadcast("hide_main_loader");
                     });
                 }
@@ -457,6 +457,7 @@ angular.module('ulakbus.dashboard')
                         $scope.gridApi.infiniteScroll.saveScrollPercentage();
                         //sorted data obtained from the server
                         $scope.data = response.gridOptions.data;
+                        $scope.isMoreDataLeft = response.gridOptions.isMoreDataLeft;
                         $scope.gridApi.infiniteScroll.dataLoaded();
                         $scope.loadingChannel = false;
                     }).catch(function(error) {
@@ -532,20 +533,41 @@ angular.module('ulakbus.dashboard')
                                 };
                                 break;
                             case 'range':
-                                field = {
-                                    field: item.field,
-                                    filters: [
-                                        {
-                                            condition: uiGridConstants.filter.GREATER_THAN,
-                                            placeholder: item.filters[0].placeholder
-                                        },
-                                        {
-                                            condition: uiGridConstants.filter.LESS_THAN,
-                                            placeholder: item.filters[1].placeholder
-                                        }
-                                    ],
-                                    colType : item.rangeType
-                                };
+                                if(item.rangeType=='datetime'){
+                                    field = {
+                                        field: item.field,
+                                        filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters">' +
+                                          '<date-filter ng-model="colFilter.term" place-holder="colFilter.placeholder"></date-filter>' +
+                                        '</div>',
+                                        filters: [
+                                            {
+                                                condition: uiGridConstants.filter.GREATER_THAN,
+                                                placeholder: item.filters[0].placeholder
+                                            },
+                                            {
+                                                condition: uiGridConstants.filter.LESS_THAN,
+                                                placeholder: item.filters[1].placeholder
+                                            }
+                                        ],
+                                        colType : item.rangeType
+                                    };
+                                }else{
+                                    field = {
+                                        field: item.field,
+                                        filters: [
+                                            {
+                                                condition: uiGridConstants.filter.GREATER_THAN,
+                                                placeholder: item.filters[0].placeholder
+                                            },
+                                            {
+                                                condition: uiGridConstants.filter.LESS_THAN,
+                                                placeholder: item.filters[1].placeholder
+                                            }
+                                        ],
+                                        colType : item.rangeType
+                                    };
+                                }
+
                                 break;
                             default:
                                 field = {};
@@ -577,8 +599,8 @@ angular.module('ulakbus.dashboard')
 
                 $scope.applyFilter = function () {
                     if(angular.isUndefined($scope.gridReference)){
-                           return;
-                       }
+                        return;
+                    }
                     var columns = $scope.gridReference.columns;
                     $scope.filterColumn = [];
                     angular.forEach(columns, function (value, key) {
@@ -590,10 +612,17 @@ angular.module('ulakbus.dashboard')
                         filterObj.filterParam=[];
                         for( var i=0;i<filters.length;i++ ){
                             if(angular.isDefined(filters[i].term)){  //filter contain some value
-                                filterObj.filterParam.push({
-                                    condition: filters[i].condition,
-                                    value: filters[i].term
-                                });
+                                if( filterObj.columnType === 'datetime' ){  //change date format to dd.mm.yyyy
+                                    filterObj.filterParam.push({
+                                        condition: filters[i].condition,
+                                        value : changeDateFormat(filters[i].term)
+                                    });
+                                }else{
+                                    filterObj.filterParam.push({
+                                        condition: filters[i].condition,
+                                        value: filters[i].term
+                                    });
+                                }
                             }
                         }
                         $scope.filterColumn.push(filterObj);
@@ -601,11 +630,15 @@ angular.module('ulakbus.dashboard')
                     $scope.getChangedData();
                 }
 
+                function changeDateFormat(dateStr) {
+                    var components = dateStr.split("-");
+                    return components[2]+'.'+components[1]+'.'+components[0];
+                }
                 $scope.downloadCsv = function(){
                     var requestObj = getRequestObject();
                     requestObj.view = '_zops_get_csv_data';
-                    debugger
                     WSOps.request(requestObj).then(function(response){
+                        debugger
                         //code to download csv file
                     });
                 }
@@ -615,7 +648,31 @@ angular.module('ulakbus.dashboard')
         };
     })
     .directive('multiDropdown', function() {
-    return {
-        template: '<select class="form-control" ng-model="colFilter.term" ng-options="option.value as option.label for option in colFilter.options" multiple></select>'
-    };
-});
+        return {
+            template: '<select class="form-control" ng-model="colFilter.term" ng-options="option.value as option.label for option in colFilter.options" multiple></select>'
+        };
+    })
+    .directive('dateFilter', function($compile) {
+        return {
+            restrict: "E",
+            scope: {
+                placeHolder:'=',
+                ngModel :'='
+            },
+            template: '<input placeholder="{{ placeHolder }}" ng-model="ngModel" ng-focus="onFocus($event)" ng-blur="onBlur($event)" />',
+            controller: function ($scope) {
+                $scope.onFocus =function(event){
+                    event.target.type= 'date';
+                }
+
+                $scope.onBlur = function(event){
+                    event.target.type= 'text';
+                    if(event.target.value){
+                        var components = event.target.value.split("-");
+                        event.target.value = components[2]+'.'+components[1]+'.'+components[0];
+                    }
+
+                }
+            }
+        }
+    });
