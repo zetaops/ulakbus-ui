@@ -523,10 +523,9 @@ angular.module('ulakbus.dashboard')
                                 // };
                                 field = {
                                     field: item.field,
+                                    filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><div multi-dropdown></div></div>',
                                     filter: {
-                                        type: uiGridConstants.filter.SELECT,
-                                        // term: item.filter.term,
-                                        selectOptions: item.filter.selectOptions,
+                                        options: item.filter.selectOptions,
                                         condition: uiGridConstants.filter.EXACT
                                     },
                                     colType: item.type
@@ -610,20 +609,13 @@ angular.module('ulakbus.dashboard')
                         //code to download csv file
                     });
                 }
+
                 $scope.getFirstTimeData();
             }
         };
-    });
-// .directive('filterDirective', function() {
-//   return {
-//     restrict: 'E',
-//     templateUrl: 'components/dashboard/directives/custom-grid-filter.html',
-//     link: function ($scope, element, attrs, controllers) {
-//       $scope.names = [
-//         {name: "Terry Clay", checked:false},
-//         {name: "Marci Gill", checked:false},
-//         {name: "Annie Orr", checked:false}
-//       ];
-//     }
-//   };
-// })
+    })
+    .directive('multiDropdown', function() {
+    return {
+        template: '<select class="form-control" ng-model="colFilter.term" ng-options="option.value as option.label for option in colFilter.options" multiple></select>'
+    };
+});
