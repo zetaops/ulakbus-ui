@@ -363,14 +363,16 @@ angular.module('ulakbus.dashboard')
         return {
             templateUrl: 'components/dashboard/directives/zeta-grid.html',
             restrict: 'E',
-            link: function ($scope, element, attrs, controllers) {
+            link: function ($scope) {
+                //set page size 1 initially
                 $scope.page = 1;
-                $scope.pageSize = 0; //set 50 or 100 here
+                //this array holds all the filter column values
                 $scope.filterColumn =[];
+                //this array holds all the sorting columns
                 $scope.sortColumns = [];
-                $scope.filterColumn = [];
+                //this array holds the actual data records from the backend
                 $scope.data = [];
-
+                //basic configuration of ui grid
                 $scope.gridOptions = {
                     useExternalSorting: true,
                     useExternalFiltering: true,
@@ -399,7 +401,7 @@ angular.module('ulakbus.dashboard')
                         $scope.gridApi = gridApi;
                     }
                 };
-
+                //this function is called when the data is called from backend during page load
                 $scope.getFirstData = function(selectors) {
                     var promise = $q.defer();
                     WSOps.request(getRequestObject(selectors)).then(function(response){
@@ -410,7 +412,7 @@ angular.module('ulakbus.dashboard')
                     });
                     return promise.promise;
                 };
-
+                //this function is called when the user scrolls down the grid and there are 50 records left at the end
                 $scope.getDataDown = function() {
                     //if no more data left in backend to display then return from here
                     if(!$scope.isMoreDataLeft){
@@ -433,7 +435,7 @@ angular.module('ulakbus.dashboard')
                         $scope.loadingChannel = false;
                     });
                 };
-
+                //this function is called when the data is called from backend during page load
                 $scope.getFirstTimeData = function(selectors) {
                     //show loader
                     $rootScope.$broadcast("show_main_loader");
@@ -446,7 +448,7 @@ angular.module('ulakbus.dashboard')
                         $rootScope.$broadcast("hide_main_loader");
                     });
                 }
-
+                //this function is called when the grid require filter and sorting
                 $scope.getChangedData = function () {
                     //show loading data
                     $scope.loadingChannel = true;
@@ -464,14 +466,12 @@ angular.module('ulakbus.dashboard')
                         $scope.gridApi.infiniteScroll.dataLoaded();
                         $scope.loadingChannel = false;
                     });
-                }
-
+                };
+                //this function adds more grid configurations when the data is received from backend
                 function handleGridData() {
                     $scope.grid = $scope.gridOptionsSelected;
                     $scope.gridOptions.enableSorting = $scope.gridOptionsSelected.enableSorting;
                     $scope.gridOptions.enableFiltering = $scope.gridOptionsSelected.enableFiltering;
-                    //$scope.gridOptions.useExternalPagination = data.gridOptions.useExternalPagination;
-                    // $scope.gridOptions.paginationPageSize = data.gridOptions.paginationPageSize;
                     $scope.gridOptions.totalItems = $scope.gridOptionsSelected.totalItems;
 
                     var checkedSelectors = $scope.grid.selectors.filter(function(item) {
@@ -576,7 +576,7 @@ angular.module('ulakbus.dashboard')
                         return field;
                     });
                 }
-
+                //this is a helper function that will be called to get the request object
                 function getRequestObject(selector) {
                     var reqObj = {
                         'view': '_zops_get_report_data',
@@ -589,14 +589,14 @@ angular.module('ulakbus.dashboard')
                     }
                     return reqObj;
                 }
-
+                //function to call backend for add/remove columns
                 $scope.submitSelectors = function() {
                     var selectors = $scope.grid.selectors; //add for request
                     //empty the grid data to get new data with the new columns
                     $scope.data = [];
                     $scope.getFirstTimeData(selectors);
-                }
-
+                };
+                //function that will be called when user clicks on Apply filter
                 $scope.applyFilter = function () {
                     if(angular.isUndefined($scope.gridReference)){
                         return;
@@ -628,20 +628,21 @@ angular.module('ulakbus.dashboard')
                         $scope.filterColumn.push(filterObj);
                     });
                     $scope.getChangedData();
-                }
-
+                };
+                //this is a helper function that will change the format of the date to dd.mm.YYYY
                 function changeDateFormat(dateStr) {
                     var components = dateStr.split("-");
                     return components[2]+'.'+components[1]+'.'+components[0];
                 }
+                //this function is used to download csv from the csv link received from backend
                 $scope.downloadCsv = function(){
                     var requestObj = getRequestObject();
                     requestObj.view = '_zops_get_csv_data';
                     WSOps.request(requestObj).then(function(response){
                         window.open(response.download_url, '_blank');
                     });
-                }
-
+                };
+                //initial call to backend
                 $scope.getFirstTimeData();
             }
         };
