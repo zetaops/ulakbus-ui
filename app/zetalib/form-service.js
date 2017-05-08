@@ -1421,9 +1421,16 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             $timeout(function () {
                 Utils.iterate($scope.model, function (modelValue, k) {
                     if (angular.isUndefined($scope.edit)) return;
-
                     var unicode = $scope.items[$scope.edit][k].unicode;
+                    //unicode will be undefined if edit is done after saving the parent record
+                    if(angular.isUndefined(unicode)){
+                        unicode = $scope.items[$scope.edit][k];
+                    }
                     if (unicode) {
+                        //if the value is a date object then format the date
+                        if(Object.prototype.toString.call(unicode) === '[object Date]'){
+                            unicode = moment(unicode).format('DD.MM.YYYY');
+                        }
                         document.querySelector('input[name=' + k + ']').value = unicode;
                     }
                 })
