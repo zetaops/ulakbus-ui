@@ -25,11 +25,34 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
     /**
      * @memberof ulakbus.formService
+     * @ngdoc service
+     * @name wfMetaData
+     * @description wf metadata service handles the getting and setting of the wf_meta tag that is used for user tracking
+     */
+    .service('wfMetadata', function ($rootScope) {
+        this.wf_meta = {};
+        this.getWfMeta = function () {
+            //creates a copy for the actual value
+            var wf_meta_copy =  angular.copy(this.wf_meta);
+            this.wf_meta = {};
+            return wf_meta_copy;
+        };
+        this.setWfMeta = function (wf_meta) {
+            this.wf_meta = {};
+            if(angular.isDefined(wf_meta) && $rootScope.isUserClicked) {
+                //set the value in the service variable
+                this.wf_meta = wf_meta;
+            }
+        }
+    })
+
+    /**
+     * @memberof ulakbus.formService
      * @ngdoc factory
      * @name Generator
      * @description form service's Generator factory service handles all generic form operations
      */
-    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal, $filter, Utils) {
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal, $filter, Utils, wfMetadata) {
         var generator = {};
         /**
          * @memberof ulakbus.formService
@@ -1039,8 +1062,9 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             $scope.form_params.id = $scope.param_id;
             $scope.form_params.token = $scope.token;
             //this will execute for edit/delete buttons
-            if (document.cookie.indexOf("wf_meta") > -1) {
-                $scope.form_params.wf_meta = getWfMetaCookie();
+            var wf_meta_data = wfMetadata.getWfMeta();
+            if (Object.keys(wf_meta_data).length !== 0) {
+                $scope.form_params.wf_meta = wf_meta_data;
             }
 
             var _do = {
@@ -1118,7 +1142,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         generator.get_form = function (scope) {
             return WSOps.request(scope.form_params)
                 .then(function (data) {
-                    setWfMetaCookie(data.wf_meta);
+                    wfMetadata.setWfMeta(data.wf_meta);
                     return generator.generate(scope, data);
                 })
         };
@@ -1133,7 +1157,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         generator.get_list = function (scope) {
             return WSOps.request(scope.form_params)
                 .then(function (data) {
-                    setWfMetaCookie(data.wf_meta);
+                    wfMetadata.setWfMeta(data.wf_meta);
                     return data;
                 });
         };
@@ -1149,7 +1173,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         generator.get_wf = function (scope) {
             return WSOps.request(scope.form_params)
                 .then(function (data) {
-                    setWfMetaCookie(data.wf_meta);
+                    wfMetadata.setWfMeta(data.wf_meta);
                     return generator.pathDecider(data.client_cmd || ['list'], scope, data);
                 });
         };
@@ -1386,8 +1410,9 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 "query": $scope.form_params.query
             };
             //check if wf_meta is present or not
-            if (document.cookie.indexOf("wf_meta") > -1) {
-                send_data.wf_meta = getWfMetaCookie();
+            var wf_meta_data = wfMetadata.getWfMeta();
+            if (Object.keys(wf_meta_data).length !== 0) {
+                send_data.wf_meta = wf_meta_data;
             }
             return WSOps.request(send_data)
                 .then(function (data) {
@@ -1399,7 +1424,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         return;
                     }
 
-                    setWfMetaCookie(data.wf_meta);
+                    wfMetadata.setWfMeta(data.wf_meta);
 
                     if (!dontProcessReply) {
                         return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
@@ -1407,25 +1432,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     return data;
                 });
         };
-
-        function setWfMetaCookie(wf_meta) {
-            //remove wf_meta from the cookie whether or not it exist in the response so that
-            //the previous wf_meta is removed although the current response do not contain it
-            document.cookie = 'wf_meta=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-            //if wf_meta is present on the response and the page is obtained by the user interaction (click) on the page
-            if(angular.isDefined(wf_meta) && $rootScope.isUserClicked) {
-                //add the new wf_meta value in the cookie
-                document.cookie = "wf_meta=" + JSON.stringify(wf_meta);
-            }
-        }
-
-        function getWfMetaCookie() {
-                //if present, then get the value as json object
-                var wf_meta = JSON.parse(document.cookie.split('wf_meta=')[1]);
-                //remove cookie after using it
-                document.cookie = 'wf_meta=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                return wf_meta;
-        }
         return generator;
     })
 
