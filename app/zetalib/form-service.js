@@ -1434,7 +1434,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         document.querySelector('input[name=' + k + ']').value = unicode;
                     }
                 })
-            });
+            },100);  //to make sure that the modal is loaded first and then the values are assigned to its html controls
             $scope.linkedModelForm = event.targetScope.linkedModelForm;
         });
 

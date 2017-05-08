@@ -241,20 +241,12 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
 
         // remove function removes node or listnode item from model data
         $scope.remove = function (item, type, index) {
-            var elem;
-            elem = $scope[type][item.title];
             if(angular.isDefined($scope[type][item.title])){
-                if(elem.length === 0){
-                    return;
-                }
-                elem.model.splice(index, 1);
-                elem.items.splice(index, 1);
+                $scope[type][item.title].model.splice(index, 1);
+                $scope[type][item.title].items.splice(index, 1);
             }else{
-                if(angular.isDefined($scope[type])){
-                    $scope[type][item.schema.model_name].model.splice(index, 1);
-                    $scope[type][item.schema.model_name].items.splice(index, 1);
-                }
-                
+                $scope[type][item.schema.model_name].model.splice(index, 1);
+                $scope[type][item.schema.model_name].items.splice(index, 1);
             }
         };
 
