@@ -636,9 +636,11 @@ angular.module('ulakbus.dashboard')
                 }
                 //this function is used to download csv from the csv link received from backend
                 $scope.downloadCsv = function(){
+                    $scope.loadingChannel = true;
                     var requestObj = getRequestObject();
                     requestObj.view = '_zops_get_csv_data';
                     WSOps.request(requestObj).then(function(response){
+                        $scope.loadingChannel = false;
                         window.open(response.download_url, '_blank');
                     });
                 };
