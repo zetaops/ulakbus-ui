@@ -71,7 +71,8 @@ module.exports = function (config) {
             //'karma-safari-launcher',
             'karma-jasmine',
             'karma-junit-reporter',
-            'karma-coverage'
+            'karma-coverage',
+            'karma-spec-reporter'
         ],
 
         junitReporter: {
@@ -79,7 +80,17 @@ module.exports = function (config) {
             suite: 'unit'
         },
 
-        reporters: ['progress', 'coverage'],
+        reporters: ['spec'],
+
+        specReporter: {
+            maxLogLines: 5,             // limit number of lines logged per test
+            suppressErrorSummary: true, // do not print error summary
+            suppressFailed: false,      // do not print information about failed tests
+            suppressPassed: false,      // do not print information about passed tests
+            suppressSkipped: true,      // do not print information about skipped tests
+            showSpecTiming: false,      // print the time elapsed for each spec
+            failFast: true              // test would finish with error when a first fail occurs.
+        },
 
         preprocessors: {
             'app/app.js': ['coverage'],
