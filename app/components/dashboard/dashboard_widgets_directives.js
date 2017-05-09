@@ -661,7 +661,7 @@ angular.module('ulakbus.dashboard')
     })
     .directive('multiDropdown', function() {
         return {
-            template: '<select class="form-control" ng-model="colFilter.term" ng-options="option.value as option.label for option in colFilter.options" multiple></select>'
+            template: '<select class="form-control" ng-model="colFilter.term" ng-options="option.value as option.label for option in colFilter.options" multiple style="width: 100%;"></select>'
         };
     })
     .directive('dateFilter', function() {
@@ -671,7 +671,7 @@ angular.module('ulakbus.dashboard')
                 placeHolder:'=',
                 ngModel :'='
             },
-            template: '<input placeholder="{{ placeHolder }}" ng-model="ngModel" ng-focus="onFocus($event)" ng-blur="onBlur($event)" />',
+            template: '<input placeholder="{{ placeHolder }}" ng-model="ngModel" ng-focus="onFocus($event)" ng-blur="onBlur($event)" style="width: 100%;"/>',
             controller: function ($scope) {
                 $scope.onFocus =function(event){
                     event.target.type= 'date';
