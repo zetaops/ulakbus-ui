@@ -372,6 +372,8 @@ angular.module('ulakbus.dashboard')
                 $scope.sortColumns = [];
                 //this array holds the actual data records from the backend
                 $scope.data = [];
+                //initially column selector is not shown
+                $scope.showColumnSelector = false;
                 //basic configuration of ui grid
                 $scope.gridOptions = {
                     useExternalSorting: true,
@@ -601,6 +603,7 @@ angular.module('ulakbus.dashboard')
                 }
                 //function to call backend for add/remove columns
                 $scope.submitSelectors = function() {
+                    $scope.showColumnSelector = false;
                     var selectors = $scope.grid.selectors; //add for request
                     //empty the grid data to get new data with the new columns
                     $scope.data = [];
@@ -654,6 +657,10 @@ angular.module('ulakbus.dashboard')
                         window.open(response.download_url, '_blank');
                     });
                 };
+                //this will show hide column selectors
+                $scope.toggleColumnSelector = function () {
+                  $scope.showColumnSelector = !$scope.showColumnSelector;
+                };
                 //initial call to backend
                 $scope.getFirstTimeData();
             }
@@ -661,7 +668,7 @@ angular.module('ulakbus.dashboard')
     })
     .directive('multiDropdown', function() {
         return {
-            template: '<select class="form-control" ng-model="colFilter.term" ng-options="option.value as option.label for option in colFilter.options" multiple style="width: 100%;"></select>'
+            template: '<select class="form-control multiselect-grid-option" ng-model="colFilter.term" ng-options="option.value as option.label for option in colFilter.options" multiple style="width: 100%;"></select>'
         };
     })
     .directive('dateFilter', function() {

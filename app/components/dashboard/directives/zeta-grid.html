@@ -1,35 +1,41 @@
 <div ng-show="gridOptions">
     <h4>The report data
         <span class="loader" ng-show="loadingChannel" style="float: right;"></span>
-        <span style="float: right; color: #A61229;" ng-show="loadingChannel"><i>Veri guncelleniyor, lutfen bekleyiniz...</i></span>
+        <span style="float: right; color: #A61229;"
+              ng-show="loadingChannel"><i>Veri guncelleniyor, lutfen bekleyiniz...</i></span>
     </h4>
     <div>
         <div>
-            <button class="btn-grid-generic" ng-click="applyFilter()" ng-disabled="loadingChannel">Apply Filter</button>
-            <button class="btn-grid-generic" ng-click="downloadCsv()" style="float: right;" ng-disabled="loadingChannel">Download CSV</button>
+            <button class="btn-grid-generic" ng-click="applyFilter()" ng-disabled="loadingChannel">Filtre Uygula</button>
+            <button class="btn-grid-generic" ng-click="clearFilter()" ng-disabled="loadingChannel">temiz filtre</button>
+            <button class="btn-grid-generic" ng-click="toggleColumnSelector()" ng-disabled="loadingChannel">Sütunları seç</button>
+            <button class="btn-grid-generic" ng-click="downloadCsv()" style="float: right;" ng-disabled="loadingChannel">CSV İndir</button>
         </div>
+
+        <div ng-show="showColumnSelector">
+            <span>Izgarada görmek istediğiniz sütunları seçin</span>
+            <ul style="
+                        margin-top: 10px;
+                        list-style: none;
+                        max-height: 150px;
+                        border: 1px solid grey;
+                        border-radius: 5px;
+                        padding: 10px;
+                        overflow-y: scroll;
+                        overflow-x: hidden;
+                    ">
+                <li style=" display: inline-block; width: 33%;" ng-repeat="selector in grid.selectors">
+                    <label for="{{ selector.label }}">{{selector.label}}</label>
+                    <input id="{{ selector.label }}" type="checkbox" ng-checked="selector.checked" ng-model="selector.checked"/>
+                </li>
+            </ul>
+            <button class="btn-grid-generic" class="default" ng-click="submitSelectors()" ng-disabled="loadingChannel">
+                Gönder
+            </button>
+        </div>
+
         <div id="zeta-grid" class="grid" ui-grid="gridOptions" ui-grid-infinite-scroll style="height:480px;"></div>
-        <p style="margin-top: 20px;">
-            Please, check you need and click submit for getting data ...
-        </p>
-        <ul style="
-    margin-top: 10px;
-    list-style: none;
-    max-height: 150px;
-    border: 1px solid grey;
-    border-radius: 5px;
-    padding: 10px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  ">
-            <li style="
-      display: inline-block;
-      width: 50%;"
-                ng-repeat="selector in grid.selectors">
-                <label>{{selector.label}}</label>
-                <input type="checkbox" ng-checked="selector.checked" ng-model="selector.checked"/>
-            </li>
-        </ul>
-        <button class="btn-grid-generic" class="default" ng-click="submitSelectors()" ng-disabled="loadingChannel">Submit</button>
+
+
     </div>
 </div>
