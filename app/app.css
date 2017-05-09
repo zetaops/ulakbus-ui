@@ -4001,7 +4001,7 @@ img.header-profile {
 
 /** end user info **/
 
-.ui-grid-viewport::-webkit-scrollbar {
+.ui-grid-viewport::-webkit-scrollbar, .multiselect-grid-option::-webkit-scrollbar {
     width: 12px;
     height: 12px;
 }
