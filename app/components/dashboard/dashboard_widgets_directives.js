@@ -449,10 +449,14 @@ angular.module('ulakbus.dashboard')
                     });
                 }
                 //this function is called when the grid require filter and sorting
-                $scope.getChangedData = function () {
+                $scope.getChangedData = function (type) {
                     //show loading data
                     $scope.loadingChannel = true;
-                    WSOps.request(getRequestObject()).then(function(response){
+                    var requestObj = getRequestObject();
+                    if(angular.isDefined(type) && type === 'filter'){ //for filter change page size to 1
+                        requestObj.page = 1;
+                    }
+                    WSOps.request(requestObj).then(function(response){
                         //empty previous data to assign new sorted data set obtained from server
                         $scope.data = [];
                         $scope.gridOptionsSelected = response.gridOptions;
@@ -633,7 +637,7 @@ angular.module('ulakbus.dashboard')
                         }
                         $scope.filterColumn.push(filterObj);
                     });
-                    $scope.getChangedData();
+                    $scope.getChangedData('filter');
                 };
                 //this is a helper function that will change the format of the date to dd.mm.YYYY
                 function changeDateFormat(dateStr) {
