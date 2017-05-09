@@ -624,7 +624,7 @@ angular.module('ulakbus.dashboard')
 
                         filterObj.filterParam=[];
                         for( var i=0;i<filters.length;i++ ){
-                            if(angular.isDefined(filters[i].term) && filters[i].term !== null ){  //filter contain some value
+                            if(angular.isDefined(filters[i].term) && filters[i].term !== null &&  filters[i].term !== ""){  //filter contain some value
                                 if( filterObj.columnType === 'datetime' ){  //change date format to dd.mm.yyyy
                                     filterObj.filterParam.push({
                                         condition: filters[i].condition,
@@ -656,6 +656,27 @@ angular.module('ulakbus.dashboard')
                         $scope.loadingChannel = false;
                         window.open(response.download_url, '_blank');
                     });
+                };
+                //this will clear all the filters of ui grid
+                $scope.clearFilter = function () {
+                    if(angular.isUndefined($scope.gridReference)){
+                        return;
+                    }
+                    var columns = $scope.gridReference.columns;
+                    var isEmptyFilter = true;
+                    angular.forEach(columns, function (value, key) {
+                        var filters = columns[key].filters;
+                        for( var i=0;i<filters.length;i++ ){
+                            if(angular.isDefined(filters[i].term) && filters[i].term !== null  && filters[i].term !== ""){  //filter contain some value
+                                isEmptyFilter = false;
+                                filters[i].term='';
+                            }
+                        }
+                    });
+                    if(!isEmptyFilter){
+                        $scope.applyFilter();
+                    }
+
                 };
                 //this will show hide column selectors
                 $scope.toggleColumnSelector = function () {
