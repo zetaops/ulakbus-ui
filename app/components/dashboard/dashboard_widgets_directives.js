@@ -473,6 +473,7 @@ angular.module('ulakbus.dashboard')
                     $scope.gridOptions.enableSorting = $scope.gridOptionsSelected.enableSorting;
                     $scope.gridOptions.enableFiltering = $scope.gridOptionsSelected.enableFiltering;
                     $scope.gridOptions.totalItems = $scope.gridOptionsSelected.totalItems;
+                    $scope.gridOptions.enableHorizontalScrollbar = uiGridConstants.scrollbars.ALWAYS;
 
                     var checkedSelectors = $scope.grid.selectors.filter(function(item) {
                         return item.checked;
@@ -496,6 +497,7 @@ angular.module('ulakbus.dashboard')
                             case 'INPUT':
                                 field = {
                                     field: item.field,
+                                    minWidth: 130,
                                     type: uiGridConstants.filter.INPUT,
                                     filter: {
                                         condition: uiGridConstants.filter[item.filter.condition],
@@ -507,6 +509,7 @@ angular.module('ulakbus.dashboard')
                             case 'SELECT':
                                 field = {
                                     field: item.field,
+                                    minWidth: 130,
                                     filter: {
                                         type: uiGridConstants.filter.SELECT,
                                         term: item.filter.term,
@@ -524,6 +527,7 @@ angular.module('ulakbus.dashboard')
                                 // };
                                 field = {
                                     field: item.field,
+                                    minWidth: 130,
                                     filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><div multi-dropdown></div></div>',
                                     filter: {
                                         options: item.filter.selectOptions,
@@ -536,6 +540,7 @@ angular.module('ulakbus.dashboard')
                                 if(item.rangeType=='datetime'){
                                     field = {
                                         field: item.field,
+                                        minWidth: 130,
                                         filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters">' +
                                           '<date-filter ng-model="colFilter.term" place-holder="colFilter.placeholder"></date-filter>' +
                                         '</div>',
@@ -554,6 +559,7 @@ angular.module('ulakbus.dashboard')
                                 }else{
                                     field = {
                                         field: item.field,
+                                        minWidth: 130,
                                         filters: [
                                             {
                                                 condition: uiGridConstants.filter.GREATER_THAN,
