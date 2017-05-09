@@ -4000,3 +4000,8 @@ img.header-profile {
 }
 
 /** end user info **/
+
+.ui-grid-viewport::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
