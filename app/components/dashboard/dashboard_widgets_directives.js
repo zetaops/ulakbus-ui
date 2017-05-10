@@ -411,6 +411,7 @@ angular.module('ulakbus.dashboard')
                         $scope.data = response.gridOptions.data;
                         //add texts for buttons as given by backend
                         $scope.applyFilterText = response.gridOptions.applyFilter;
+                        $scope.pageTitleText = response.gridOptions.pageTitle;
                         $scope.cancelFilterText = response.gridOptions.cancelFilter;
                         $scope.csvDownloadText = response.gridOptions.csvDownload;
                         $scope.dataLoadingText = response.gridOptions.dataLoading;
@@ -574,11 +575,11 @@ angular.module('ulakbus.dashboard')
                                         enableHiding : false,
                                         filters: [
                                             {
-                                                condition: uiGridConstants.filter.GREATER_THAN,
+                                                condition: uiGridConstants.filter.LESS_THAN,
                                                 placeholder: item.filters[0].placeholder
                                             },
                                             {
-                                                condition: uiGridConstants.filter.LESS_THAN,
+                                                condition: uiGridConstants.filter.GREATER_THAN,
                                                 placeholder: item.filters[1].placeholder
                                             }
                                         ],
