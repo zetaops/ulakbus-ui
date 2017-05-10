@@ -409,6 +409,12 @@ angular.module('ulakbus.dashboard')
                     WSOps.request(getRequestObject(selectors)).then(function(response){
                         $scope.gridOptionsSelected = response.gridOptions;
                         $scope.data = response.gridOptions.data;
+                        //add texts for buttons as given by backend
+                        $scope.applyFilter = response.gridOptions.applyFilter;
+                        $scope.cancelFilter = response.gridOptions.cancelFilter;
+                        $scope.csvDownload = response.gridOptions.csvDownload;
+                        $scope.dataLoading = response.gridOptions.dataLoading;
+                        $scope.selectColumns = response.gridOptions.selectColumns;
                         $scope.isMoreDataLeft = response.gridOptions.isMoreDataLeft;
                         promise.resolve();
                     });
