@@ -597,7 +597,7 @@ angular.module('ulakbus.dashboard')
                         'filterColumns': $scope.filterColumn
                     };
                     if(angular.isDefined(selector)){
-                        reqObj.selectors = selector;
+                        reqObj.selectors = angular.copy(selector); //doing copy will remove hashKey
                     }
                     return reqObj;
                 }
