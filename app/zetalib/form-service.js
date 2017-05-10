@@ -33,13 +33,15 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         this.wf_meta = {};
         this.getWfMeta = function () {
             //creates a copy for the actual value
-            var wf_meta_copy =  angular.copy(this.wf_meta);
-            this.wf_meta = {};
-            return wf_meta_copy;
+            if($rootScope.isUserClicked){
+                var wf_meta_copy =  angular.copy(this.wf_meta);
+                this.wf_meta = {};
+                return wf_meta_copy;
+            }
         };
         this.setWfMeta = function (wf_meta) {
             this.wf_meta = {};
-            if(angular.isDefined(wf_meta) && $rootScope.isUserClicked) {
+            if(angular.isDefined(wf_meta)) {
                 //set the value in the service variable
                 this.wf_meta = wf_meta;
             }
