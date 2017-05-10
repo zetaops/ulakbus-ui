@@ -907,6 +907,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             getDropdownTitleMap: function () {
                                 delete modelScope.form_params.query;
                                 formitem.gettingTitleMap = true;
+                                modelScope.form_params.wf = 'crud';
                                 generateTitleMap(modelScope)
                                     .then(function (data) {
                                         formitem.titleMap = data;
