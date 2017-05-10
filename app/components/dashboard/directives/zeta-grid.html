@@ -2,14 +2,14 @@
     <h4>The report data
         <span class="loader" ng-show="loadingChannel" style="float: right;"></span>
         <span style="float: right; color: #A61229;"
-              ng-show="loadingChannel"><i>{{ dataLoading }}</i></span>
+              ng-show="loadingChannel"><i>{{ dataLoadingText }}</i></span>
     </h4>
     <div>
         <div>
-            <button class="btn-grid-generic" ng-click="applyFilter()" ng-disabled="loadingChannel">{{ applyFilter }}</button>
-            <button class="btn-grid-generic" ng-click="clearFilter()" ng-disabled="loadingChannel">{{ cancelFilter }}</button>
-            <button class="btn-grid-generic" ng-click="toggleColumnSelector()" ng-disabled="loadingChannel">{{ selectColumns }}</button>
-            <button class="btn-grid-generic" ng-click="downloadCsv()" style="float: right;" ng-disabled="loadingChannel">{{ csvDownload }}</button>
+            <button class="btn-grid-generic" ng-click="applyFilter()" ng-disabled="loadingChannel">{{ applyFilterText }}</button>
+            <button class="btn-grid-generic" ng-click="clearFilter()" ng-disabled="loadingChannel">{{ cancelFilterText }}</button>
+            <button class="btn-grid-generic" ng-click="toggleColumnSelector()" ng-disabled="loadingChannel">{{ selectColumnsText }}</button>
+            <button class="btn-grid-generic" ng-click="downloadCsv()" style="float: right;" ng-disabled="loadingChannel">{{ csvDownloadText }}</button>
         </div>
 
         <div ng-show="showColumnSelector">

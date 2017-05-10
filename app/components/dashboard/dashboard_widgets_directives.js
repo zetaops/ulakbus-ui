@@ -410,11 +410,11 @@ angular.module('ulakbus.dashboard')
                         $scope.gridOptionsSelected = response.gridOptions;
                         $scope.data = response.gridOptions.data;
                         //add texts for buttons as given by backend
-                        $scope.applyFilter = response.gridOptions.applyFilter;
-                        $scope.cancelFilter = response.gridOptions.cancelFilter;
-                        $scope.csvDownload = response.gridOptions.csvDownload;
-                        $scope.dataLoading = response.gridOptions.dataLoading;
-                        $scope.selectColumns = response.gridOptions.selectColumns;
+                        $scope.applyFilterText = response.gridOptions.applyFilter;
+                        $scope.cancelFilterText = response.gridOptions.cancelFilter;
+                        $scope.csvDownloadText = response.gridOptions.csvDownload;
+                        $scope.dataLoadingText = response.gridOptions.dataLoading;
+                        $scope.selectColumnsText = response.gridOptions.selectColumns;
                         $scope.isMoreDataLeft = response.gridOptions.isMoreDataLeft;
                         promise.resolve();
                     });
