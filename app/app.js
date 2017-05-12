@@ -39,7 +39,8 @@ angular.module(
         'gettext',
         'markdown',
         'ngWebSocket',
-        'ulakbus.uitemplates'
+        'ulakbus.uitemplates',
+        'ui.select'
     ])
     /**
      * @memberof ulakbus

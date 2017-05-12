@@ -29,7 +29,8 @@
     "moment": "2.15.1",
     "toastr": "*",
     "angular-websocket": "^2.0.0",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "angular-ui-select": "^0.19.6"
   },
   "resolutions": {
     "angular": "1.5.8"
