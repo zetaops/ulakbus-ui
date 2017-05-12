@@ -35,11 +35,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             //creates a copy for the actual value
             if($rootScope.isUserClicked){
                 var wf_meta_copy =  angular.copy(this.wf_meta);
-                this.wf_meta = {};
                 return wf_meta_copy;
             }
         };
         this.setWfMeta = function (wf_meta) {
+            //clear previous wf_meta when setting new wf_meta
             this.wf_meta = {};
             if(angular.isDefined(wf_meta)) {
                 //set the value in the service variable
@@ -328,10 +328,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             var _buttons = function (scope, v, k) {
                 var buttonPositions = scope.modalElements ? scope.modalElements.buttonPositions : {
-                    bottom: 'move-to-bottom',
-                    top: 'move-to-top',
-                    none: ''
-                };
+                        bottom: 'move-to-bottom',
+                        top: 'move-to-top',
+                        none: ''
+                    };
                 var workOnForm = scope.modalElements ? scope.modalElements.workOnForm : 'formgenerated';
                 var workOnDiv = scope.modalElements ? scope.modalElements.workOnDiv : '';
                 var buttonClass = (buttonPositions[v.position] || buttonPositions.bottom);
@@ -884,6 +884,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         //});
 
                         var generateTitleMap = function (modelScope) {
+                            var wf_meta_data = wfMetadata.getWfMeta();
+                            if (Object.keys(wf_meta_data).length !== 0) {
+                                modelScope.form_params.wf_meta = wf_meta_data;
+                                modelScope.form_params.isSearchResult = true;
+                            }
                             return generator.get_list(modelScope).then(function (res) {
                                 formitem.titleMap = [];
                                 angular.forEach(res.objects, function (item) {
@@ -1157,9 +1162,14 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_list = function (scope) {
+            //if the input is typeahead then this will be set
+            var isSearchResult = angular.isDefined(scope.form_params.isSearchResult);
             return WSOps.request(scope.form_params)
                 .then(function (data) {
-                    wfMetadata.setWfMeta(data.wf_meta);
+                    //we need to set the wf_meta of the main wf and not from the response of typeahead
+                    if(!isSearchResult){
+                        wfMetadata.setWfMeta(data.wf_meta);
+                    }
                     return data;
                 });
         };
