@@ -887,7 +887,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             var wf_meta_data = wfMetadata.getWfMeta();
                             if (Object.keys(wf_meta_data).length !== 0) {
                                 modelScope.form_params.wf_meta = wf_meta_data;
-                                modelScope.form_params.isSearchResult = true;
                             }
                             return generator.get_list(modelScope).then(function (res) {
                                 formitem.titleMap = [];
@@ -951,14 +950,20 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                         // get selected item from titleMap using model value
                         if (scope.model[k]) {
-                            generator.get_list({
-                                url: 'crud',
-                                form_params: {
+                            var form_params = {
                                     wf: v.wf,
                                     model: v.model_name,
                                     object_id: scope.model[k],
                                     cmd: 'object_name'
-                                }
+                             };
+                            var wf_meta_data = wfMetadata.getWfMeta();
+                            if (Object.keys(wf_meta_data).length !== 0) {
+                                form_params.wf_meta = wf_meta_data;
+                            }
+
+                            generator.get_list({
+                                url: 'crud',
+                                form_params: form_params
                             }).then(function (data) {
 
                                 try {
@@ -1162,9 +1167,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_list = function (scope) {
-            //if the input is typeahead then this will be set
-            var isSearchResult = angular.isDefined(scope.form_params.isSearchResult);
-            return WSOps.request(scope.form_params)
+            var form_params = scope.form_params;
+
+            var isSearchResult = ((form_params.cmd === 'select_list' || form_params.cmd === 'object_name') && (form_params.wf === 'crud'))?true:false;
+
+            return WSOps.request(form_params)
                 .then(function (data) {
                     //we need to set the wf_meta of the main wf and not from the response of typeahead
                     if(!isSearchResult){
