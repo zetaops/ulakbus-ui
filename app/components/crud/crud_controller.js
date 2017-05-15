@@ -241,8 +241,13 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
 
         // remove function removes node or listnode item from model data
         $scope.remove = function (item, type, index) {
-            $scope[type][item.title].model.splice(index, 1);
-            $scope[type][item.title].items.splice(index, 1);
+            if(angular.isDefined($scope[type][item.title])){
+                $scope[type][item.title].model.splice(index, 1);
+                $scope[type][item.title].items.splice(index, 1);
+            }else{
+                $scope[type][item.schema.model_name].model.splice(index, 1);
+                $scope[type][item.schema.model_name].items.splice(index, 1);
+            }
         };
 
         $scope.onSubmit = function (form) {
@@ -518,6 +523,12 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                 $scope.format = 'dd.MM.yyyy';
                 $scope.filterSubmit = function () {
                     angular.forEach($scope.filterList, function (value, key) {
+                        var filters = value;
+                        angular.forEach(value.model, function(value, key) {
+                            if(!value) {
+                                delete filters.model[key];
+                            }
+                        })
                         if (Object.keys(value.model).length) {
                             if (value.type === 'date') {
                                 var dateValues = [null, null];

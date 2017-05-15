@@ -3,7 +3,7 @@
     <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">
         {{form.title}}
     </label>
-    <a role="button"><i class="fa fa-plus-circle fa-fw" style="font-size: 24px;"
+    <a role="button"><i ng-if="form.add_cmd" class="fa fa-plus-square fa-fw" style="font-size: 18px;"
                         add-modal-for-linked-model="{{form.formName}}"></i></a>
 
     <div class="form-group input-group" tooltip-enable="form.focusToInput"

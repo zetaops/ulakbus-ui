@@ -606,7 +606,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             imageSrc: scope.model[k] ? $rootScope.settings.static_url + scope.model[k] : '',
                             avatar: k === 'avatar'
                         };
-                        v.type = 'string';
+                        // v.type = 'string';
                     }
                 },
                 select: {
@@ -703,7 +703,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 date: {
                     default: function (scope, v, k) {
                         $log.debug('date:', scope.model[k]);
-                        scope.model[k] = generator.dateformatter(scope.model[k]);
+                        scope.model[k] = Moment(scope.model[k]).toDate();
                         scope.form[scope.form.indexOf(k)] = {
                             key: k,
                             name: k,
@@ -1379,6 +1379,14 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             return WSOps.request(send_data)
                 .then(function (data) {
+                    if (data.cmd === "logout") {
+                        $log.debug("loggedout");
+                        WSOps.close('loggedout');
+                        $location.path("/login");
+                        window.location.reload();
+                        return;
+                    }
+
                     if (!dontProcessReply) {
                         return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
                     }
@@ -1413,13 +1421,20 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             $timeout(function () {
                 Utils.iterate($scope.model, function (modelValue, k) {
                     if (angular.isUndefined($scope.edit)) return;
-
                     var unicode = $scope.items[$scope.edit][k].unicode;
+                    //unicode will be undefined if edit is done after saving the parent record
+                    if(angular.isUndefined(unicode)){
+                        unicode = $scope.items[$scope.edit][k];
+                    }
                     if (unicode) {
+                        //if the value is a date object then format the date
+                        if(Object.prototype.toString.call(unicode) === '[object Date]'){
+                            unicode = moment(unicode).format('DD.MM.YYYY');
+                        }
                         document.querySelector('input[name=' + k + ']').value = unicode;
                     }
                 })
-            });
+            },100);  //to make sure that the modal is loaded first and then the values are assigned to its html controls
             $scope.linkedModelForm = event.targetScope.linkedModelForm;
         });
 

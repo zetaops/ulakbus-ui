@@ -9,7 +9,7 @@
 
 angular.module("ulakbus")
 
-.service("Utils", function($rootScope, $q, WSOps) {
+.service("Utils", function($rootScope, $q) {
     var self = this;
 
     // check if obj1 has properties values equal to corresponding properties in obj2
@@ -88,14 +88,14 @@ angular.module("ulakbus")
      */
     this.genDate = function(date) {
         date = date.contructor == Date ? date : new Date(date);
-        var aylar = new Array("Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık");
-        var gunler = new Array("Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi");
+        var months = new Array("Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık");
+        var days = new Array("Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi");
 
-        var yil = date.getFullYear();
-        var ay = date.getMonth();
-        var gun = date.getDate();
-        var haftagun = date.getDay();
-        return gun + " " + aylar[ay] + " " + yil + " - " + gunler[haftagun]
+        var year = date.getFullYear();
+        var month = date.getMonth();
+        var day = date.getDate();
+        var weekly = date.getDay();
+        return day + " " + months[month] + " " + year + " - " + days[weekly];
     }
 
     this.formatDate = function(date){
@@ -108,6 +108,34 @@ angular.module("ulakbus")
         function addzero(number){
             var num = ""+number;
             return num.length == 1 ? "0" + num : num;
+        }
+    }
+
+    // a method for saving files to disk
+    this.saveToDisk = function(fileURL, fileName) {
+        // for non-IE
+        if (!window.ActiveXObject) {
+            var save = document.createElement('a');
+            save.href = fileURL;
+            save.target = '_blank';
+            save.download = fileName || 'unknown';
+
+            var evt = new MouseEvent('click', {
+                'view': window,
+                'bubbles': true,
+                'cancelable': false
+            });
+            save.dispatchEvent(evt);
+
+            (window.URL || window.webkitURL).revokeObjectURL(save.href);
+        }
+
+        // for IE < 11
+        else if ( !! window.ActiveXObject && document.execCommand)     {
+            var _window = window.open(fileURL, '_blank');
+            _window.document.close();
+            _window.document.execCommand('SaveAs', true, fileName || fileURL)
+            _window.close();
         }
     }
 })

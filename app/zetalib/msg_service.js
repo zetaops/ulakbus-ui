@@ -9,9 +9,9 @@
 angular.module('ulakbus')
     .service("msgService", msgService);
 
-msgService.$inject = ['$q', 'ErrorService', '$log', '$rootScope', '$timeout'];
+msgService.$inject = ['$q', 'ErrorService', '$log', '$rootScope', '$timeout', '$location', 'Utils'];
 
-function msgService($q, ErrorService, $log, $rootScope, $timeout) {
+function msgService($q, ErrorService, $log, $rootScope, $timeout, $location, Utils) {
         var queue = {};
 
         return {
@@ -37,6 +37,11 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout) {
         }
 
         function read(data) {
+            if (data.client_cmd && data.client_cmd[0] === 'download') {
+                Utils.saveToDisk(data.download_url);
+                return;
+            }
+
             data.error && (data.cmd = "error");
             !data.cmd && (data.cmd = "init");
 
@@ -87,7 +92,7 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout) {
                     });
                     break;
                 case "reload":
-                    if (angular.isDefined(data.msg) ){
+                    if (angular.isDefined(data.msg) ){ //TODO check this if
                         var alert = {
                             type: "warning",
                             title: data.title,
@@ -100,6 +105,9 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout) {
                     } else {
                         window.location.href = "/";
                     }
+                    break;
+                case "logout":
+                    queue[data.callbackID].resolve(data);
                     break;
                 default:
                     $log.info("unknown action", data);

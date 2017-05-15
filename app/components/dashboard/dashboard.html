@@ -62,11 +62,16 @@
         </div>
         <!-- end of row -->
 
-
         <!--<academic-calendar></academic-calendar>-->
         <ng-include src="'components/dashboard/user-templates/student.html'" ng-if="$root.current_user.is_student"></ng-include>
         <ng-include src="'components/dashboard/user-templates/staff.html'" ng-if="!$root.current_user.is_student"></ng-include>
         <ng-include src="'components/dashboard/user-templates/academician.html'" ng-if="$root.current_user.is_staff && $root.current_user.is_academic"></ng-include>
+
+        <!-- DASHBOARD TABLES -->
+        <div class="row">
+            <dashboard-tables class="col-sm-12"></dashboard-tables>
+        </div>
+        <!-- end of row -->
 
     </div>
 </div>

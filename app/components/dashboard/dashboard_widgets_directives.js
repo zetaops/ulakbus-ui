@@ -308,7 +308,7 @@ angular.module('ulakbus.dashboard')
                 /**
                  * Formated date for task view
                  */
-                $scope.task_date = Utils.genDate($scope.task.finish_date);
+                $scope.task_date = $scope.task.start_date + ' - ' + $scope.task.finish_date;
 
                 /* TasksService.get_task_detail($scope.task.key).then(function(data){
                     $scope.task_detail = data;
@@ -325,7 +325,7 @@ angular.module('ulakbus.dashboard')
 
                     });
                 };
-                $scope.link = "#/"+$scope.task.wf_type
+                $scope.link = "#cwf/"+$scope.task.wf_type+"/"+$scope.task.token
             }
         }
     })
@@ -349,7 +349,15 @@ angular.module('ulakbus.dashboard')
             replace: true,
             scope: {},
             controller: function ($scope) {
-
             }
         };
-    });;
+    })
+    .directive('dashboardTables', function() {
+        return {
+            templateUrl: 'components/dashboard/directives/dashboard-tables.html',
+            restrict: 'E',
+            replace: true,
+            link: function (scope, elem, attrs) {
+            }
+        }
+    });
