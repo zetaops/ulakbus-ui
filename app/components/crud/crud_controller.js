@@ -416,7 +416,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             }
         };
     })
-    .directive('crudTreeBranchDirective', function () {
+    .directive('crudTreeBranchDirective', function ($rootScope) {
         return {
             templateUrl: 'components/crud/templates/tree/branch.html',
             restrict: 'E',
@@ -425,7 +425,13 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                 permission: '='
             },
             link: function(scope, element, attrs, controllers){
+                $rootScope.changedUserPermission = [];
                 scope.checkChange = function(id){
+                    var clickedPermission = {
+                        id: id,
+                        checked : true
+                    };
+                    $rootScope.changedUserPermission.push(clickedPermission);
                     console.log(id);
                 };
                 scope.hasChild = (scope.permission.children.length > 0);

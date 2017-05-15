@@ -1376,6 +1376,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 "filter": $scope.filter,
                 "query": $scope.form_params.query
             };
+            if(angular.isDefined($rootScope.changedUserPermission) && $rootScope.changedUserPermission.length!==0){
+                send_data.change = angular.copy($rootScope.changedUserPermission);
+                delete $rootScope.changedUserPermission;
+            }
 
             return WSOps.request(send_data)
                 .then(function (data) {
