@@ -26,9 +26,9 @@
     angular.module('ulakbus')
         .service("WSOps", socketService);
 
-    socketService.$inject = ['$websocket', 'RESTURL', '$rootScope', '$log', 'msgService','$q', 'IsOnline', 'DevSettings', '$window'];
+    socketService.$inject = ['$websocket', 'RESTURL', '$rootScope', '$log', 'msgService','$q', 'IsOnline', 'DevSettings'];
 
-    function socketService($websocket, RESTURL, $rootScope, $log, msgService, $q, IsOnline, DevSettings, $window) {
+    function socketService($websocket, RESTURL, $rootScope, $log, msgService, $q, IsOnline, DevSettings) {
         /**
          * Check for web socket support of browser
          */
@@ -44,6 +44,7 @@
         }
 
         var socket = void 0;
+        var pinger = undefined;
         $rootScope.$on('ws_turn_on', connect);
 
         /**
@@ -75,29 +76,14 @@
              * Actions when socket events triggered.
              */
             socket.ping = 0;
-            socket.loginStatus = false;
-
             socket.onOpen(function (evt) {
-                if (!$window.wsConnect) {
-                    socket.reconnect();
-                    $window.wsConnect = true;
-                    return;
-                }
-
-                $rootScope.websocketIsOpen = true;
-                $rootScope.$broadcast("socket_is_open");
-                socket.loginStatus = true;
+                socket.ping = 1;
                 ping(); // starts ping interval
                 $log.info("CONNECTED", JSON.stringify(evt));
             });
 
             socket.onClose(function (evt) {
-                $rootScope.websocketIsOpen = false;
                 $log.info("DISCONNECTED", JSON.stringify(evt));
-                if ($rootScope.loginAttempt) {
-                    socket.reconnect();
-                }
-                // socket.reconnect(); //reconnects to ws when connection drops
             });
 
             socket.onError(function (evt) {
@@ -106,7 +92,7 @@
 
             socket.onMessage(function (evt) {
                 var message = angular.fromJson(evt.data);
-                if (angular.isUndefined(message)){return};
+                if (angular.isUndefined(message)){return}
                 if (message.msg === 'pong') {
                     pong();
                     return;
@@ -126,9 +112,9 @@
         function close(reason){
             msgService.clearQueue();
             $log.info("CLOSED :", reason || "");
-            if (angular.isUndefined(socket) || reason === "loggedout") {
-                socket.loginStatus = false;
+            if (!angular.isUndefined(socket) && reason === "loggedout") {
                 socket.close();
+                socket = undefined;
             }
             return true;
         }
@@ -140,29 +126,61 @@
          * @param data
          */
         function send(data) {
-            if(angular.isUndefined(socket)){
-                connect();
-            }
             /**
              * @name genData
              * @param data
              * @returns {{data: *, callbackID: string}}
              */
+            connect();
+            var d=$q.defer();
+            if (socket.ping === 0) {
+                 waitTillConnection(function(){
+                     sendData(data).then(function(result){
+                        d.resolve(result);
+                     });
+                });
+                //waiting state
+                return d.promise;
+            } else if (socket.ping > 3) {
+                clearInterval(pinger);
+                socket.reconnect();
+                waitTillConnection(function(){
+                   sendData(data).then(function(result){
+                       d.resolve(result);
+                    });
+                });
+                return d.promise;
+            }else{
+               return sendData(data);
+            }
+        }
+        function sendData(data){
             var genData = {
-                data :data,
-                callbackID: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {var r = Math.random()*16|0,v=c=='x'?r:r&0x3|0x8;return v.toString(16)})
+                data: data,
+                callbackID: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                    var r = Math.random() * 16 | 0, v = c == 'x' ? r : r & 0x3 | 0x8;
+                    return v.toString(16)
+                })
             };
 
             return socket.send(genData).then(
-                function(){
+                function () {
                     return msgService.addToQueue(genData);
                 },
-                function(){
+                function () {
                     return $q.reject();
                 }
             );
         }
-
+         function waitTillConnection(cb){
+             var socketInterval = setInterval(
+                  function () {
+                      if (socket.ping <= 3 && socket.ping>=1) {
+                          clearInterval(socketInterval);
+                         return cb();
+                      }
+                  }, 500);
+        }
         /**
          * Private Methods
          */
@@ -176,11 +194,9 @@
             /**
              * if 30s exceeded will close connection and clear interval
              */
-
-            var pinger = setInterval(function () {
+            pinger = setInterval(function () {
                 if (
-                    check() &&
-                    $rootScope.websocketIsOpen
+                    check()
                     && IsOnline.get_status()
                     && DevSettings.settings.keepAlive === 'on'
                 ) {
@@ -197,11 +213,10 @@
             }, 15000);
 
             function check(){
-                if (socket.ping > 2){
-                    close();
-                    $log.debug("websocket not pong");
-                    socket.ping = 0;
+                if (socket.ping > 3){
                     clearInterval(pinger);
+                    socket.reconnect();
+                    $log.debug("websocket not pong");
                     return false
                 }
                 return true
@@ -213,7 +228,7 @@
          * @description resets ping count when requested
          */
         function pong(){
-            socket.ping = 0;
+                socket.ping = 1;
         }
-    };
+    }
 }());

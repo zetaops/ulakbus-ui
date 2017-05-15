@@ -24,11 +24,7 @@ angular.module('ulakbus.dashboard', [])
     .controller('DashController', function ($scope, $rootScope, $routeParams, $route, $timeout, $http, $cookies, $log, RESTURL, Generator, WSOps) {
         // first generate_dashboard broadcasted to get menu and dashboard items
         // sidebar directive listens for "generate_dashboard"
-
-        // $rootScope.$broadcast("generate_dashboard");
-        $scope.$on("socket_is_open", function () {
-            $rootScope.$broadcast("generate_dashboard");
-        });
+        $rootScope.$broadcast("generate_dashboard");
 
         $scope.section = function (section_index) {
             $rootScope.section = section_index;
@@ -77,7 +73,7 @@ angular.module('ulakbus.dashboard', [])
                                 q[name] = value.value;
                             }
                         });
-
+                        
                         $scope.getItems(where, q).then(function (data) {
                             $scope.staffs = data.results;
                         });
@@ -115,7 +111,7 @@ angular.module('ulakbus.dashboard', [])
         };
 
         /**
-         * @description selecting
+         * @description selecting  
          * @param who - who is the data of selected person in search results
          * @param type - type can be 'ogrenci' or 'personel'
          */
