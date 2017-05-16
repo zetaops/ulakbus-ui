@@ -426,13 +426,23 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             },
             link: function(scope, element, attrs, controllers){
                 $rootScope.changedUserPermission = [];
-                scope.checkChange = function(id){
+                scope.checkChange = function(permissionObj){
                     var clickedPermission = {
-                        id: id,
-                        checked : true
+                        id: permissionObj.id,
+                        checked : permissionObj.checked
                     };
-                    $rootScope.changedUserPermission.push(clickedPermission);
-                    console.log(id);
+                    var index = -1;
+                    for(var i = 0; i < $rootScope.changedUserPermission.length; i++){
+                        if($rootScope.changedUserPermission[i].id === permissionObj.id){
+                            index = i;
+                            break;
+                        }
+                    }
+                    if(index === -1){
+                        $rootScope.changedUserPermission.push(clickedPermission);
+                    }else{
+                        $rootScope.changedUserPermission.splice(index,1);
+                    }
                 };
                 scope.hasChild = (scope.permission.children.length > 0);
                 scope.open = false;
