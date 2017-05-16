@@ -84,7 +84,9 @@ module.exports = function (grunt) {
                     {expand: true, cwd: 'app/styles/images/', src: '**/*', dest: 'dist/css/images/', flatten: true},
                     {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
+                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/bower_components/angular-ui-grid/', src: 'ui-grid.woff', dest: 'dist/css/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/bower_components/angular-ui-grid/', src: 'ui-grid.ttf', dest: 'dist/css/', flatten: true, filter: 'isFile'}
                 ]
             },
             local_prod: {

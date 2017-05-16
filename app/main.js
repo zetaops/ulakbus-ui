@@ -28,7 +28,7 @@ angular.module(
         'ngSanitize',
         'ngCookies',
         'ui.grid',
-        'ui.grid.pagination',
+        'ui.grid.infiniteScroll',
         'ulakbus.formService',
         'ulakbus.messaging',
         'ulakbus.dashboard',
