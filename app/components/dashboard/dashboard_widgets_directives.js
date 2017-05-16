@@ -363,6 +363,9 @@ angular.module('ulakbus.dashboard')
         return {
             templateUrl: 'components/dashboard/directives/zeta-grid.html',
             restrict: 'E',
+            scope:{
+                gridOptionsProvided : '='
+            },
             link: function ($scope) {
                 //set page size 1 initially
                 $scope.page = 1;
@@ -407,16 +410,7 @@ angular.module('ulakbus.dashboard')
                 $scope.getFirstData = function(selectors) {
                     var promise = $q.defer();
                     WSOps.request(getRequestObject(selectors)).then(function(response){
-                        $scope.gridOptionsSelected = response.gridOptions;
-                        $scope.data = response.gridOptions.data;
-                        //add texts for buttons as given by backend
-                        $scope.applyFilterText = response.gridOptions.applyFilter;
-                        $scope.pageTitleText = response.gridOptions.pageTitle;
-                        $scope.cancelFilterText = response.gridOptions.cancelFilter;
-                        $scope.csvDownloadText = response.gridOptions.csvDownload;
-                        $scope.dataLoadingText = response.gridOptions.dataLoading;
-                        $scope.selectColumnsText = response.gridOptions.selectColumns;
-                        $scope.isMoreDataLeft = response.gridOptions.isMoreDataLeft;
+                        handleResponseData(response);
                         promise.resolve();
                     });
                     return promise.promise;
@@ -480,6 +474,19 @@ angular.module('ulakbus.dashboard')
                         $scope.loadingChannel = false;
                     });
                 };
+                //assigns response data to useful variables
+                function handleResponseData(response) {
+                    $scope.gridOptionsSelected = response.gridOptions;
+                    $scope.data = response.gridOptions.data;
+                    //add texts for buttons as given by backend
+                    $scope.applyFilterText = response.gridOptions.applyFilter;
+                    $scope.pageTitleText = response.gridOptions.pageTitle;
+                    $scope.cancelFilterText = response.gridOptions.cancelFilter;
+                    $scope.csvDownloadText = response.gridOptions.csvDownload;
+                    $scope.dataLoadingText = response.gridOptions.dataLoading;
+                    $scope.selectColumnsText = response.gridOptions.selectColumns;
+                    $scope.isMoreDataLeft = response.gridOptions.isMoreDataLeft;
+                }
                 //this function adds more grid configurations when the data is received from backend
                 function handleGridData() {
                     $scope.grid = $scope.gridOptionsSelected;
@@ -690,7 +697,22 @@ angular.module('ulakbus.dashboard')
                   $scope.showColumnSelector = !$scope.showColumnSelector;
                 };
                 //initial call to backend
-                $scope.getFirstTimeData();
+                if(angular.isUndefined($scope.gridOptionsProvided)){
+                    $scope.getFirstTimeData();
+                }else{
+                    $rootScope.$broadcast("show_main_loader");
+                    var obj = {
+                        "gridOptions" : $scope.gridOptionsProvided
+                    }
+
+                    handleResponseData(obj);
+                    //increase the visible page count so that it can be sent to the server
+                    handleGridData();
+                    $timeout(function() {
+                        $scope.gridApi.infiniteScroll.resetScroll();
+                    });
+                    $rootScope.$broadcast("hide_main_loader");
+                }
             }
         };
     })
