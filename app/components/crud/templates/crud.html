@@ -7,7 +7,7 @@
         <crud-show-directive ng-if="object"></crud-show-directive>
         <crud-form-directive ng-if="forms" ></crud-form-directive>
         <crud-list-directive ng-if="objects"></crud-list-directive>
-        <zeta-grid ng-if="gridOptions" grid-options-provided="gridOptions"></zeta-grid>
+        <zeta-grid ng-if="gridOptions" grid-options-provided="gridOptions" token="token" wf="wf"></zeta-grid>
     </div>
     <crud-filters ng-show="meta.allow_filters === true" class="col-md-4 filtre"></crud-filters>
 </div>

@@ -364,7 +364,9 @@ angular.module('ulakbus.dashboard')
             templateUrl: 'components/dashboard/directives/zeta-grid.html',
             restrict: 'E',
             scope:{
-                gridOptionsProvided : '='
+                gridOptionsProvided : '=',
+                token:'=',
+                wf:'='
             },
             link: function ($scope) {
                 //set page size 1 initially
@@ -377,6 +379,8 @@ angular.module('ulakbus.dashboard')
                 $scope.data = [];
                 //initially column selector is not shown
                 $scope.showColumnSelector = false;
+                //indicated if it is used inside workflow or not
+                $scope.useInWf = false;
                 //basic configuration of ui grid
                 $scope.gridOptions = {
                     useExternalSorting: true,
@@ -457,7 +461,12 @@ angular.module('ulakbus.dashboard')
                     $scope.loadingChannel = true;
                     var requestObj = getRequestObject();
                     if(angular.isDefined(type) && type === 'filter'){ //for filter change page size to 1
-                        requestObj.page = 1;
+                        if($scope.useInWf){
+                            requestObj.form.page = 1;
+                        }else{
+                            requestObj.page = 1;
+                        }
+
                     }
                     WSOps.request(requestObj).then(function(response){
                         //empty previous data to assign new sorted data set obtained from server
@@ -561,7 +570,7 @@ angular.module('ulakbus.dashboard')
                                         minWidth: 130,
                                         enableHiding : false,
                                         filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters">' +
-                                          '<date-filter ng-model="colFilter.term" place-holder="colFilter.placeholder"></date-filter>' +
+                                        '<date-filter ng-model="colFilter.term" place-holder="colFilter.placeholder"></date-filter>' +
                                         '</div>',
                                         filters: [
                                             {
@@ -604,15 +613,33 @@ angular.module('ulakbus.dashboard')
                 }
                 //this is a helper function that will be called to get the request object
                 function getRequestObject(selector) {
-                    var reqObj = {
-                        'view': '_zops_get_report_data',
-                        'page': $scope.page,
-                        'sortColumns': $scope.sortColumns,
-                        'filterColumns': $scope.filterColumn
-                    };
-                    if(angular.isDefined(selector)){
-                        reqObj.selectors = angular.copy(selector); //doing copy will remove hashKey
+                    var reqObj;
+
+                    if(!$scope.useInWf){
+                        reqObj = {
+                            'page': $scope.page,
+                            'sortColumns': $scope.sortColumns,
+                            'filterColumns': $scope.filterColumn,
+                            'view': '_zops_get_report_data'
+                        };
+                        if(angular.isDefined(selector)){
+                            reqObj.selectors = angular.copy(selector); //doing copy will remove hashKey
+                        }
+                    }else{
+                        reqObj = {
+                            form:{
+                                'page': $scope.page,
+                                'sortColumns': $scope.sortColumns,
+                                'filterColumns': $scope.filterColumn
+                            },
+                            wf: $scope.wf,
+                            token: $scope.token
+                        };
+                        if(angular.isDefined(selector)){
+                            reqObj.form.selectors = angular.copy(selector); //doing copy will remove hashKey
+                        }
                     }
+
                     return reqObj;
                 }
                 //function to call backend for add/remove columns
@@ -665,7 +692,12 @@ angular.module('ulakbus.dashboard')
                 $scope.downloadCsv = function(){
                     $scope.loadingChannel = true;
                     var requestObj = getRequestObject();
-                    requestObj.view = '_zops_get_csv_data';
+                    if($scope.useInWf){
+                        requestObj.cmd = 'csv';
+                    }else{
+                        requestObj.view = '_zops_get_csv_data';
+                    }
+
                     WSOps.request(requestObj).then(function(response){
                         $scope.loadingChannel = false;
                         window.open(response.download_url, '_blank');
@@ -694,16 +726,17 @@ angular.module('ulakbus.dashboard')
                 };
                 //this will show hide column selectors
                 $scope.toggleColumnSelector = function () {
-                  $scope.showColumnSelector = !$scope.showColumnSelector;
+                    $scope.showColumnSelector = !$scope.showColumnSelector;
                 };
                 //initial call to backend
-                if(angular.isUndefined($scope.gridOptionsProvided)){
+                if(angular.isUndefined($scope.gridOptionsProvided)){  //for direct use
                     $scope.getFirstTimeData();
-                }else{
+                }else{  //inside wf
                     $rootScope.$broadcast("show_main_loader");
+                    $scope.useInWf = true;
                     var obj = {
                         "gridOptions" : $scope.gridOptionsProvided
-                    }
+                    };
 
                     handleResponseData(obj);
                     //increase the visible page count so that it can be sent to the server
