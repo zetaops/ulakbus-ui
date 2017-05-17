@@ -25,11 +25,36 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
     /**
      * @memberof ulakbus.formService
+     * @ngdoc service
+     * @name wfMetaData
+     * @description wf metadata service handles the getting and setting of the wf_meta tag that is used for user tracking
+     */
+    .service('wfMetadata', function ($rootScope) {
+        this.wf_meta = {};
+        this.getWfMeta = function () {
+            //creates a copy for the actual value
+            if($rootScope.isUserClicked){
+                var wf_meta_copy =  angular.copy(this.wf_meta);
+                return wf_meta_copy;
+            }
+        };
+        this.setWfMeta = function (wf_meta) {
+            //clear previous wf_meta when setting new wf_meta
+            this.wf_meta = {};
+            if(angular.isDefined(wf_meta)) {
+                //set the value in the service variable
+                this.wf_meta = wf_meta;
+            }
+        }
+    })
+
+    /**
+     * @memberof ulakbus.formService
      * @ngdoc factory
      * @name Generator
      * @description form service's Generator factory service handles all generic form operations
      */
-    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal, $filter, Utils) {
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal, $filter, Utils, wfMetadata) {
         var generator = {};
         /**
          * @memberof ulakbus.formService
@@ -303,10 +328,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             var _buttons = function (scope, v, k) {
                 var buttonPositions = scope.modalElements ? scope.modalElements.buttonPositions : {
-                    bottom: 'move-to-bottom',
-                    top: 'move-to-top',
-                    none: ''
-                };
+                        bottom: 'move-to-bottom',
+                        top: 'move-to-top',
+                        none: ''
+                    };
                 var workOnForm = scope.modalElements ? scope.modalElements.workOnForm : 'formgenerated';
                 var workOnDiv = scope.modalElements ? scope.modalElements.workOnDiv : '';
                 var buttonClass = (buttonPositions[v.position] || buttonPositions.bottom);
@@ -321,6 +346,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     title: v.title,
                     style: (v.style || "btn-danger") + " hide bottom-margined " + buttonClass,
                     onClick: function () {
+                        //indicate that the user have clicked some button like submit/cancel on form
+                        $rootScope.isUserClicked = true;
                         delete scope.form_params.cmd;
                         delete scope.form_params.flow;
                         if (v.cmd) {
@@ -857,6 +884,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         //});
 
                         var generateTitleMap = function (modelScope) {
+                            var wf_meta_data = wfMetadata.getWfMeta();
+                            if (Object.keys(wf_meta_data).length !== 0) {
+                                modelScope.form_params.wf_meta = wf_meta_data;
+                            }
                             return generator.get_list(modelScope).then(function (res) {
                                 formitem.titleMap = [];
                                 angular.forEach(res.objects, function (item) {
@@ -919,14 +950,20 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                         // get selected item from titleMap using model value
                         if (scope.model[k]) {
-                            generator.get_list({
-                                url: 'crud',
-                                form_params: {
+                            var form_params = {
                                     wf: v.wf,
                                     model: v.model_name,
                                     object_id: scope.model[k],
                                     cmd: 'object_name'
-                                }
+                             };
+                            var wf_meta_data = wfMetadata.getWfMeta();
+                            if (Object.keys(wf_meta_data).length !== 0) {
+                                form_params.wf_meta = wf_meta_data;
+                            }
+
+                            generator.get_list({
+                                url: 'crud',
+                                form_params: form_params
                             }).then(function (data) {
 
                                 try {
@@ -1036,6 +1073,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             $scope.form_params.param = $scope.param;
             $scope.form_params.id = $scope.param_id;
             $scope.form_params.token = $scope.token;
+            //this will execute for edit/delete buttons
+            var wf_meta_data = wfMetadata.getWfMeta();
+            if (Object.keys(wf_meta_data).length !== 0) {
+                $scope.form_params.wf_meta = wf_meta_data;
+            }
 
             var _do = {
                 normal: function () {
@@ -1112,6 +1154,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         generator.get_form = function (scope) {
             return WSOps.request(scope.form_params)
                 .then(function (data) {
+                    wfMetadata.setWfMeta(data.wf_meta);
                     return generator.generate(scope, data);
                 })
         };
@@ -1124,8 +1167,16 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_list = function (scope) {
-            return WSOps.request(scope.form_params)
+            var form_params = scope.form_params;
+
+            var isSearchResult = ((form_params.cmd === 'select_list' || form_params.cmd === 'object_name') && (form_params.wf === 'crud'))?true:false;
+
+            return WSOps.request(form_params)
                 .then(function (data) {
+                    //we need to set the wf_meta of the main wf and not from the response of typeahead
+                    if(!isSearchResult){
+                        wfMetadata.setWfMeta(data.wf_meta);
+                    }
                     return data;
                 });
         };
@@ -1141,6 +1192,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         generator.get_wf = function (scope) {
             return WSOps.request(scope.form_params)
                 .then(function (data) {
+                    wfMetadata.setWfMeta(data.wf_meta);
                     return generator.pathDecider(data.client_cmd || ['list'], scope, data);
                 });
         };
@@ -1376,7 +1428,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 "filter": $scope.filter,
                 "query": $scope.form_params.query
             };
-
+            //check if wf_meta is present or not
+            var wf_meta_data = wfMetadata.getWfMeta();
+            if (Object.keys(wf_meta_data).length !== 0) {
+                send_data.wf_meta = wf_meta_data;
+            }
             return WSOps.request(send_data)
                 .then(function (data) {
                     if (data.cmd === "logout") {
@@ -1386,6 +1442,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         window.location.reload();
                         return;
                     }
+
+                    wfMetadata.setWfMeta(data.wf_meta);
 
                     if (!dontProcessReply) {
                         return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
