@@ -6,5 +6,5 @@
  * (GPLv3).  See LICENSE.txt for details.
  */
 
-angular.module('ulakbus.grid', ['ui.grid', 'ui.grid.infiniteScroll']);
+angular.module('ulakbus.grid', ['ui.grid', 'ui.grid.infiniteScroll','ui.grid.autoResize']);
 

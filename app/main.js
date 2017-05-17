@@ -29,6 +29,7 @@ angular.module(
         'ngCookies',
         'ui.grid',
         'ui.grid.infiniteScroll',
+        'ui.grid.autoResize',
         'ulakbus.formService',
         'ulakbus.messaging',
         'ulakbus.dashboard',
