@@ -43,7 +43,8 @@ angular.module(
         'templates-prod',
         // @endif
         // @if NODE_ENV='DEVELOPMENT'
-        'ulakbus.uitemplates'
+        'ulakbus.uitemplates',
+        'ulakbus.gantt'
         // @endif
     ])
     /**

@@ -3946,6 +3946,13 @@ table.dataTable thead .sorting:after {
     margin-bottom: 0.75em;
 }
 
+/*Gantt chart text color*/
+.gantt-task-content span{
+    color: #fff;
+}
+.zeta-gantt{
+    border-left: 2px solid #ddd;
+}
 
 /** user info
 
