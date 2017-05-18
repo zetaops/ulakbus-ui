@@ -389,6 +389,7 @@ angular.module('ulakbus.dashboard')
                     infiniteScrollUp: true,
                     infiniteScrollDown: true,
                     data: 'data',
+                    enableColumnMenus:false,
                     onRegisterApi: function(gridApi){
                         gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
 
@@ -461,6 +462,8 @@ angular.module('ulakbus.dashboard')
                     $scope.loadingChannel = true;
                     var requestObj = getRequestObject();
                     if(angular.isDefined(type) && type === 'filter'){ //for filter change page size to 1
+                        //reset page count when filter is applied
+                        $scope.page =1;
                         if($scope.useInWf){
                             requestObj.form.page = 1;
                         }else{
@@ -727,6 +730,7 @@ angular.module('ulakbus.dashboard')
                 //this will show hide column selectors
                 $scope.toggleColumnSelector = function () {
                     $scope.showColumnSelector = !$scope.showColumnSelector;
+                    $scope.gridApi.infiniteScroll.resetScroll();
                 };
                 //initial call to backend
                 if(angular.isUndefined($scope.gridOptionsProvided)){  //for direct use
