@@ -27,6 +27,7 @@ angular.module(
         'ngRoute',
         'ngSanitize',
         'ngCookies',
+        'ulakbus.grid',
         'ulakbus.formService',
         'ulakbus.messaging',
         'ulakbus.dashboard',
