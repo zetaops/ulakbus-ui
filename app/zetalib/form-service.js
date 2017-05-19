@@ -885,7 +885,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                         var generateTitleMap = function (modelScope) {
                             var wf_meta_data = wfMetadata.getWfMeta();
-                            if (Object.keys(wf_meta_data).length !== 0) {
+                            if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
                                 modelScope.form_params.wf_meta = wf_meta_data;
                             }
                             return generator.get_list(modelScope).then(function (res) {
@@ -957,7 +957,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                     cmd: 'object_name'
                              };
                             var wf_meta_data = wfMetadata.getWfMeta();
-                            if (Object.keys(wf_meta_data).length !== 0) {
+                            if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
                                 form_params.wf_meta = wf_meta_data;
                             }
 
@@ -1075,7 +1075,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             $scope.form_params.token = $scope.token;
             //this will execute for edit/delete buttons
             var wf_meta_data = wfMetadata.getWfMeta();
-            if (Object.keys(wf_meta_data).length !== 0) {
+            if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
                 $scope.form_params.wf_meta = wf_meta_data;
             }
 
@@ -1430,7 +1430,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             };
             //check if wf_meta is present or not
             var wf_meta_data = wfMetadata.getWfMeta();
-            if (Object.keys(wf_meta_data).length !== 0) {
+            if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
                 send_data.wf_meta = wf_meta_data;
             }
             return WSOps.request(send_data)
