@@ -330,7 +330,11 @@ angular.module('ulakbus')
                     }
 
                 };
-
+                $scope.$on("menu-close", function(event, data){
+                    $timeout(function () {
+                        $scope.collapseVar = 0;
+                    });
+                });
                 // breadcrumb function changes breadcrumb items and itemlist must be list
                 $scope.breadcrumb = function (itemlist, $event) {
                     $rootScope.breadcrumblinks = itemlist;
