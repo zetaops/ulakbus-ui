@@ -68,6 +68,7 @@ body {
     box-shadow:none;
     border-radius:0;
     border-color:#ececec;
+    z-index : 1 !important;
 }
 
 .btn {

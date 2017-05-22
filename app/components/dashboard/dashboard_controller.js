@@ -53,6 +53,10 @@ angular.module('ulakbus.dashboard', [])
         $scope.tables = [];
         $scope.personelAra = {};
 
+        angular.element('.manager-view-content').on('click',function () {
+            var scope = angular.element('.manager-view-content').scope();
+            scope.$broadcast('menu-close');
+        });
         /**
          * this function is for searchin student or personel
          * uses $scope.keyword objects
