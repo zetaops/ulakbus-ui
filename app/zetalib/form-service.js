@@ -738,39 +738,55 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             type: 'template',
                             templateUrl: 'shared/templates/datefield.html',
                             validationMessage: {
-                                'dateNotValid': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>",
-                                'required': 'Bu alan zorunludur.'
+                                'date': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>",
+                                'schemaForm': 'Bu alan zorunludur.'
                             },
-                            $asyncValidators: {
-                                'dateNotValid': function (value) {
-                                    var deferred = $q.defer();
-                                    $timeout(function () {
-                                        if(!value){ // check for null value
-                                            deferred.reject();
-                                        } else if (value.constructor === Date) {
-                                            deferred.resolve();
-                                        } else {
-                                            var dateValue = value.split('.');
-                                            if (isNaN(Date.parse(value)) || dateValue.length !== 3) {
-                                                deferred.reject();
-                                            } else {
-                                                deferred.resolve();
+                            $validators: {
+                                date: function(value) {
+                                    if(!value){ // check for null value
+                                        if (scope.schema.required.indexOf(k) > -1) {
+                                            return false;
+                                        }
+                                        else{
+                                            return true;
+                                        }
+                                    } else if (Object.prototype.toString.call(value) === "[object Date]") {
+                                        if ( isNaN( value.getTime() ) ) {
+                                            if (scope.schema.required.indexOf(k) > -1) {
+                                                return false;
+                                            }
+                                            else{
+                                                return true;
                                             }
                                         }
-                                    });
-                                    return deferred.promise;
-                                },
-                                'reqired': function (value) {
-                                    var deferred = $q.defer();
-                                    $timeout(function () {
-                                        if (scope.schema.required.indexOf(k) > -1) {
-                                            deferred.resolve();
-                                        } else {
-                                            deferred.reject();
+                                        else {
+                                            return true;
                                         }
-                                    });
-                                    return deferred.promise;
+                                    } else {
+                                        var dateValue = value.split('.');
+                                        if (isNaN(Date.parse(value)) || dateValue.length !== 3) {
+                                            return false;
+                                        } else {
+                                            return true;
+                                        }
+                                    }
+                                    return true
                                 },
+                                schemaForm: function(value) {
+                                    if (scope.schema.required.indexOf(k) > -1) {
+                                        {
+                                            if(!value) {
+                                                return false;
+                                            }
+                                            else {
+                                                return true;
+                                            }
+                                        }
+                                    } else {
+                                        return true;
+                                    }
+                                    return true
+                                }
                             },
                             status: {opened: false},
                             open: function ($event) {
