@@ -158,6 +158,11 @@ describe('form service module', function () {
 
                 expect(form_generated.form).toBeDefined();
                 expect(form_generated.form[7].type).toEqual('template')
+
+                expect(form_generated.form[4].$validators.date).toBeDefined();
+                expect(typeof form_generated.form[4].$validators.date).toBe('function');
+                expect(form_generated.form[4].$validators.schemaForm).toBeDefined();
+                expect(typeof form_generated.form[4].$validators.schemaForm).toBe('function');
             })
         );
 
