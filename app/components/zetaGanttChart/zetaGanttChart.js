@@ -24,6 +24,11 @@ angular.module('ulakbus.gantt')
             ganttChartData: '='
         },
         link: function ($scope) {
+            $scope.showGanttChart = false;
+            //show chart only if chart data is present
+            if($scope.ganttChartData.data.length>0){
+                $scope.showGanttChart = true;
+            }
             $scope.options = $scope.ganttChartData.options;
 
             $scope.data = $scope.ganttChartData.data;
