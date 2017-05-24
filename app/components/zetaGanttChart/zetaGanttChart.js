@@ -29,7 +29,11 @@ angular.module('ulakbus.gantt')
             if($scope.ganttChartData.data.length>0){
                 $scope.showGanttChart = true;
             }
-            $scope.options = $scope.ganttChartData.options;
+            $scope.options = {
+                columnWidth:80,
+                maxHeight:350,
+                viewScale :"month"
+            };
 
             $scope.data = $scope.ganttChartData.data;
         }
