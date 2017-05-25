@@ -949,6 +949,9 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             },
                             getTitleMap: function (viewValue) {
                                 modelScope.form_params.query = viewValue;
+                                if(modelScope.form_params.cmd === 'select_list'){
+                                    modelScope.form_params.wf = 'crud';
+                                }
                                 return generateTitleMap(modelScope);
                             },
                             getDropdownTitleMap: function () {
