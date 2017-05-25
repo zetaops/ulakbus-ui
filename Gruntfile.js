@@ -175,9 +175,9 @@ module.exports = function (grunt) {
                         "app/bower_components/intro.js/intro.css",
                         "app/bower_components/intro.js/themes/introjs-nassim.css",
                         "app/bower_components/toastr/toastr.min.css",
-                        "bower_components/angular-ui-tree/dist/angular-ui-tree.min.css",
-                        "bower_components/angular-gantt/dist/angular-gantt.min.css",
-                        "bower_components/angular-gantt/dist/angular-gantt-plugins.min.css",
+                        "app/bower_components/angular-ui-tree/dist/angular-ui-tree.min.css",
+                        "app/bower_components/angular-gantt/dist/angular-gantt.min.css",
+                        "app/bower_components/angular-gantt/dist/angular-gantt-plugins.min.css",
                         "app/bower_components/angular-ui-grid/ui-grid.min.css"
                     ]
                 }
