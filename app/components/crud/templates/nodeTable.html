@@ -50,7 +50,7 @@
             </td>
             <th scope="row" style="text-align:center">{{$index+1}}</th>
             <td ng-repeat="prop in node.schema.properties_list" ng-init="k = prop.name; v = listnodemodel[k]; inline = node.schema.inline_edit && node.schema.inline_edit.indexOf(k) > -1">
-                <!--using angular default date filter to format the date when displaying-->
+
                 <span ng-if="!inline && v.unicode === undefined && v !== true && v !== false && isNaN(Date.parse(v)) "> {{  v  }}</span>
                 <span ng-if="!inline && v.unicode.isImage === undefined ">
                      <span ng-if="v === true || v.unicode === true">
