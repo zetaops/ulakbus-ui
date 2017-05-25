@@ -1405,6 +1405,30 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 });
             };
 
+            var checkAndReformatModel = function (model) {
+                debugger
+                var modelKeys = Object.keys(model);
+                for(var i=0; i < modelKeys.length; i++){
+                    if(typeof(model[modelKeys[i]]) === 'object'){
+                        formatTypeaheadStructure(model[modelKeys[i]]);
+                    }
+                }
+            };
+            var formatTypeaheadStructure = function (listNodeModel) {
+                if(angular.isUndefined(listNodeModel) || listNodeModel === null || listNodeModel.length === 0 ){
+                    return;
+                }
+                for(var i=0; i<listNodeModel.length; i++){
+                    var key = Object.keys(listNodeModel[i]);
+                    if(key.length === 1){
+                        var modelKeys = Object.keys(listNodeModel[i][key]);
+                        if(modelKeys.indexOf('verbose_name') > -1 && modelKeys.indexOf('unicode') > -1 && modelKeys.indexOf('key') > -1 ){
+                            listNodeModel[i] = { [key] : listNodeModel[i][key]['key'] };
+                        }
+                    }
+                }
+            };
+
             angular.forEach($scope.ListNode, function (value, key) {
                 $scope.model[key] = value.model;
             });
@@ -1434,6 +1458,9 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
                 send_data.wf_meta = wf_meta_data;
             }
+            //reformat typeahead data structure for listnode
+            checkAndReformatModel(model);
+
             return WSOps.request(send_data)
                 .then(function (data) {
                     if (data.cmd === "logout") {
