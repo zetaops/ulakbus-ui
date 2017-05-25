@@ -1406,7 +1406,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             };
 
             var checkAndReformatModel = function (model) {
-                debugger
                 var modelKeys = Object.keys(model);
                 for(var i=0; i < modelKeys.length; i++){
                     if(typeof(model[modelKeys[i]]) === 'object'){
@@ -1423,7 +1422,9 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     if(key.length === 1){
                         var modelKeys = Object.keys(listNodeModel[i][key]);
                         if(modelKeys.indexOf('verbose_name') > -1 && modelKeys.indexOf('unicode') > -1 && modelKeys.indexOf('key') > -1 ){
-                            listNodeModel[i] = { [key] : listNodeModel[i][key]['key'] };
+                            var value = listNodeModel[i][key]['key'];
+                            listNodeModel[i] = {};
+                            listNodeModel[i][key] = value;
                         }
                     }
                 }
