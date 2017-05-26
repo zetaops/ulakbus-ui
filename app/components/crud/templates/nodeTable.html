@@ -63,7 +63,7 @@
                          {{ v.unicode }}
                      </span>
                      <span ng-if="(v !== true && v.unicode !== true) && (v !== false && v.unicode !== null) && !isNaN(Date.parse(v))">
-                        {{ v.unicode || v | date: "dd.MM.yyyy" }}
+                        {{ v.unicode || v }}
                      </span>
                 </span>
 
