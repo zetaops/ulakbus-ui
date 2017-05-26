@@ -630,6 +630,23 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             fileInsert: function () {
                                 $scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
                             },
+                            validationMessage: {
+                                'file': "Bu alan zorunludur."
+                            },
+                            $validators: {
+                                file: function(value) {
+                                    // check for null value
+                                    if(!value){
+                                        if (scope.schema.required.indexOf(k) > -1) {
+                                            return false;
+                                        }
+                                        else{
+                                            return true;
+                                        }
+                                    }
+                                    return true;
+                                }
+                            },
                             imageSrc: scope.model[k] ? $rootScope.settings.static_url + scope.model[k] : '',
                             avatar: k === 'avatar'
                         };
