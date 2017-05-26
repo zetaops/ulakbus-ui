@@ -42,6 +42,7 @@ angular.module(
         'gettext',
         'markdown',
         'ngWebSocket',
+        'ulakbus.gantt',
         // @if NODE_ENV='PRODUCTION'
         'templates-prod',
         // @endif

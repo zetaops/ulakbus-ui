@@ -40,7 +40,8 @@ angular.module(
         'gettext',
         'markdown',
         'ngWebSocket',
-        'ulakbus.uitemplates'
+        'ulakbus.uitemplates',
+        'ulakbus.gantt'
     ])
     /**
      * @memberof ulakbus

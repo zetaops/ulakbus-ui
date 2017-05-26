@@ -154,6 +154,11 @@ module.exports = function (grunt) {
                     "app/bower_components/moment/min/moment.min.js",
                     "app/bower_components/toastr/toastr.min.js",
                     "app/bower_components/angular-websocket/dist/angular-websocket.min.js",
+                    "app/bower_components/angular-moment/angular-moment.min.js",
+                    "app/bower_components/moment-range/dist/moment-range.min.js",
+                    "app/bower_components/angular-ui-tree/dist/angular-ui-tree.min.js",
+                    "app/bower_components/angular-gantt/dist/angular-gantt.min.js",
+                    "app/bower_components/angular-gantt/dist/angular-gantt-plugins.min.js",
                     "app/bower_components/angular-ui-grid/ui-grid.min.js"
                 ],
                 dest: 'dist/bower_components/components.js'
@@ -170,6 +175,9 @@ module.exports = function (grunt) {
                         "app/bower_components/intro.js/intro.css",
                         "app/bower_components/intro.js/themes/introjs-nassim.css",
                         "app/bower_components/toastr/toastr.min.css",
+                        "app/bower_components/angular-ui-tree/dist/angular-ui-tree.min.css",
+                        "app/bower_components/angular-gantt/dist/angular-gantt.min.css",
+                        "app/bower_components/angular-gantt/dist/angular-gantt-plugins.min.css",
                         "app/bower_components/angular-ui-grid/ui-grid.min.css"
                     ]
                 }
@@ -212,6 +220,11 @@ module.exports = function (grunt) {
                     "app/bower_components/intro.js/minified/intro.min.js",
                     "app/bower_components/moment/min/moment.min.js",
                     "app/bower_components/angular-websocket/dist/angular-websocket.min.js",
+                    "app/bower_components/angular-moment/angular-moment.min.js",
+                    "app/bower_components/moment-range/dist/moment-range.min.js",
+                    "app/bower_components/angular-ui-tree/dist/angular-ui-tree.min.js",
+                    "app/bower_components/angular-gantt/dist/angular-gantt.min.js",
+                    "app/bower_components/angular-gantt/dist/angular-gantt-plugins.min.js",
                     "app/bower_components/angular-ui-grid/ui-grid.min.js"
                 ],
                 dest: 'dist/<%= grunt.branchname %>/bower_components/components.js'
