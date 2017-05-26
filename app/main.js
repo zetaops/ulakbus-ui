@@ -27,6 +27,9 @@ angular.module(
         'ngRoute',
         'ngSanitize',
         'ngCookies',
+        'ui.grid',
+        'ui.grid.infiniteScroll',
+        'ui.grid.autoResize',
         'ulakbus.formService',
         'ulakbus.messaging',
         'ulakbus.dashboard',
@@ -39,6 +42,7 @@ angular.module(
         'gettext',
         'markdown',
         'ngWebSocket',
+        'ulakbus.gantt',
         // @if NODE_ENV='PRODUCTION'
         'templates-prod',
         // @endif

@@ -330,7 +330,11 @@ angular.module('ulakbus')
                     }
 
                 };
-
+                $scope.$on("menu-close", function(event, data){
+                    $timeout(function () {
+                        $scope.collapseVar = 0;
+                    });
+                });
                 // breadcrumb function changes breadcrumb items and itemlist must be list
                 $scope.breadcrumb = function (itemlist, $event) {
                     $rootScope.breadcrumblinks = itemlist;
@@ -727,9 +731,17 @@ angular.module('ulakbus')
                             scope.fileread = loadEvent.target.result;
                         });
                         $timeout(function () {
+                            //if not an image
+                            var isImage = undefined;
+                            if(changeEvent.target.files[0].type.indexOf('image') === -1){
+                                isImage = false;
+                            }else{
+                                isImage = true;
+                            }
                             scope.$parent.model[changeEvent.target.name] = {
                                 file_name: changeEvent.target.files[0].name,
-                                file_content: scope.$parent.model[changeEvent.target.name]
+                                file_content: scope.$parent.model[changeEvent.target.name],
+                                isImage :isImage
                             };
                             document.querySelector('#image-preview').src = URL.createObjectURL(changeEvent.target.files[0]);
                         });

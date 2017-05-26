@@ -22,7 +22,14 @@ angular.module('ulakbus')
 
         // when user_ready broadcasted then change value of user_ready=true to display view
         $scope.$on('user_ready', function () {
+            $scope.$broadcast("hide_main_loader");
+        });
+
+        $scope.$on('hide_main_loader', function () {
             $scope.user_ready = true;
+        });
+        $scope.$on('show_main_loader', function () {
+            $scope.user_ready = false;
         });
         $scope.user_ready = false;
     })

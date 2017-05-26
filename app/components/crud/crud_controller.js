@@ -258,6 +258,8 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
         };
 
         $scope.do_action = function (key, todo) {
+            //indicate that the user have clicked some button like edit/delete on form
+            $rootScope.isUserClicked = true;
             Generator.doItemAction($scope, key, todo, todo.mode || 'normal');
         };
 

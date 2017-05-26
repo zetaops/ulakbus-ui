@@ -31,6 +31,9 @@ angular.module('ulakbus')
                 templateUrl: 'components/uitemplates/form_service_pg.html',
                 controller: 'FormServicePg'
             })
+            .when('/gridreport', {
+                templateUrl: 'components/gridTable/gridreport.html'
+            })
             // use crud without selected user
             // important: regex urls must be defined later than static ones
             .when('/:wf/', {
@@ -69,6 +72,8 @@ angular.module('ulakbus')
         $rootScope.loginAttempt = 0;
         $rootScope.current_user = true;
         AuthService.check_auth();
+        //reset the value of user interaction on form when page refreshes
+        $rootScope.isUserClicked = false;
 
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
         });
