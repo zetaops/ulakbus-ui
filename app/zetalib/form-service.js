@@ -635,7 +635,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             },
                             $validators: {
                                 file: function(value) {
-                                    debugger
                                     // check for null value
                                     if(!value){
                                         if (scope.schema.required.indexOf(k) > -1) {
