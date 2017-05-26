@@ -1409,20 +1409,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @todo diff for all submits to recognize form change. if no change returns to view with no submit
          */
         generator.submit = function ($scope, redirectTo, dontProcessReply) {
-            /**
-             * In case of unformatted date object in any key recursively, it must be converted.
-             * @param model
-             */
-            var convertDate = function (model) {
-                angular.forEach(model, function (value, key) {
-                    if (value && value.constructor === Date) {
-                        model[key] = generator.dateformatter(value);
-                    } else if (value && value.constructor === Object) {
-                        // check recursively
-                        convertDate(value);
-                    }
-                });
-            };
 
             var checkAndReformatModel = function (model) {
                 var modelKeys = Object.keys(model);
@@ -1458,7 +1444,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             // format date without changing scopes date objects
             var model = angular.copy($scope.model);
-            convertDate(model);
+            generator.convertDate(model);
 
             // todo: unused var delete
             var send_data = {
@@ -1498,6 +1484,21 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     }
                     return data;
                 });
+        };
+
+        /**
+         * In case of unformatted date object in any key recursively, it must be converted.
+         * @param model
+         */
+        generator.convertDate = function (model) {
+            angular.forEach(model, function (value, key) {
+                if (value && value.constructor === Date) {
+                    model[key] = generator.dateformatter(value);
+                } else if (value && value.constructor === Object) {
+                    // check recursively
+                    generator.convertDate(value);
+                }
+            });
         };
         return generator;
     })
@@ -1698,6 +1699,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 }
                             } else {
                                 listNodeItem.model.push(angular.copy(childmodel.model));
+                                Generator.convertDate(reformattedModel);
                                 if (Object.keys(reformattedModel).length > 0) {
                                     listNodeItem.items.push(reformattedModel);
                                 } else {
