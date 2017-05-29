@@ -4016,7 +4016,9 @@ img.header-profile {
     width: 12px;
     height: 12px;
 }
-
+.ui-grid-icon-cancel{
+    display:none;
+}
 td.ddlWidth{
  width:350px;
 }
