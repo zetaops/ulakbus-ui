@@ -50,7 +50,29 @@
             </td>
             <th scope="row" style="text-align:center">{{$index+1}}</th>
             <td ng-repeat="prop in node.schema.properties_list" ng-init="k = prop.name; v = listnodemodel[k]; inline = node.schema.inline_edit && node.schema.inline_edit.indexOf(k) > -1">
-                <span ng-if="!inline">{{ v.unicode || v }}</span>
+
+                <span ng-if="!inline && v.unicode === undefined && v !== true && v !== false && isNaN(Date.parse(v)) "> {{  v  }}</span>
+                <span ng-if="!inline && v.unicode.isImage === undefined ">
+                     <span ng-if="v === true || v.unicode === true">
+                         <i class="fa fa-check-circle-o fa-fw" aria-hidden="true" style="color: green; font-size: 24px;"></i>
+                     </span>
+                     <span ng-if="v === false || v.unicode === null">
+                         <i class="fa fa-times fa-fw" aria-hidden="true" style="color: #a61229; font-size: 24px;"></i>
+                     </span>
+                     <span ng-if="v !== true && v.unicode !== true && isNaN(Date.parse(v))">
+                         {{ v.unicode }}
+                     </span>
+                     <span ng-if="(v !== true && v.unicode !== true) && (v !== false && v.unicode !== null) && !isNaN(Date.parse(v))">
+                        {{ v.unicode || v }}
+                     </span>
+                </span>
+
+                <span ng-if="!inline && v.unicode.isImage !== undefined ">
+                   <span ng-if="!v.unicode.isImage"> <i class="fa fa-file fa-fw" aria-hidden="true" style="color: #a61229;"></i></span>
+
+                    <span ng-if="v.unicode.isImage"> <i class="fa fa-picture-o fa-fw" aria-hidden="true" style="color: #a61229;"></i></span>
+                    {{ v.unicode.file_name }}
+                </span>
                 <!--<input type="{{node.schema.properties[k].type}}"-->
                 <!--ng-if="node.schema.inline_edit.indexOf(k) > -1"-->
                 <!--ng-model="node.model[outerIndex][k]"-->

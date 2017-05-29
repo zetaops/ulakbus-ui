@@ -68,6 +68,7 @@ body {
     box-shadow:none;
     border-radius:0;
     border-color:#ececec;
+    z-index : 1 !important;
 }
 
 .btn {
@@ -3947,6 +3948,25 @@ table.dataTable thead .sorting:after {
 }
 
 
+/*Gantt chart text color*/
+.gantt-task-content span{
+    color: #fff;
+}
+.zeta-gantt {
+    border-left: 2px solid #ddd;
+}
+
+/*for buttons in grid*/
+.btn-grid-generic{
+    padding: 10px;
+    border-radius: 3px;
+    background-color: #A61229;
+    border: none;
+    color: white;
+    margin: 10px 0px;
+
+}
+
 /** user info
 
 .user-info-wrapper {
@@ -3991,3 +4011,8 @@ img.header-profile {
 }
 
 /** end user info **/
+
+.ui-grid-viewport::-webkit-scrollbar, .multiselect-grid-option::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
