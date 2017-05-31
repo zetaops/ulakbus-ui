@@ -31,9 +31,6 @@ angular.module('ulakbus')
                 templateUrl: 'components/uitemplates/form_service_pg.html',
                 controller: 'FormServicePg'
             })
-            .when('/gridreport', {
-                templateUrl: 'components/gridTable/gridreport.html'
-            })
             // use crud without selected user
             // important: regex urls must be defined later than static ones
             .when('/:wf/', {
