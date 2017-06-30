@@ -29,6 +29,10 @@
     <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.min.css">
 
 
+    <link rel="stylesheet" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css">
+    <link rel="stylesheet" href="bower_components/angular-gantt/dist/angular-gantt.min.css">
+    <link rel="stylesheet" href="bower_components/angular-gantt/dist/angular-gantt-plugins.min.css">
+    <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.min.css" type="text/css">
 </head>
 <body ng-controller="KeyListenController" ng-keydown="down($event)">
 
@@ -76,10 +80,9 @@
 </div>
 
 <alert-box></alert-box>
-
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-i18n/angular-locale_tr.js"></script>
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="bower_components/angular-route/angular-route.min.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
@@ -98,11 +101,18 @@
 <script src="bower_components/toastr/toastr.min.js"></script>
 <script src="bower_components/angular-websocket/dist/angular-websocket.min.js"></script>
 <script src="bower_components/angular-ui-select/dist/select.min.js"></script>
-
+<script src="bower_components/angular-ui-grid/ui-grid.min.js"></script>
 <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
 <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
 <script src="bower_components/intro.js/intro.js"></script>
 <!--<script src="bower_components/Chart.js/Chart.js"></script>-->
+<!--scripts for gantt chart-->
+<script src="bower_components/angular-moment/angular-moment.min.js"></script>
+<script src="bower_components/moment-range/dist/moment-range.min.js"></script>
+<script src="bower_components/angular-ui-tree/dist/angular-ui-tree.min.js"></script>
+<script src="bower_components/angular-gantt/dist/angular-gantt.min.js"></script>
+<script src="bower_components/angular-gantt/dist/angular-gantt-plugins.min.js"></script>
+
 <script src="shared/translations.js"></script>
 <script src="app.js"></script>
 <script src="app_routes.js"></script>
@@ -130,7 +140,9 @@
 <script src="components/debug/debug_controller.js"></script>
 <script src="components/devSettings/devSettings_controller.js"></script>
 <script src="components/error_pages/error_controller.js"></script>
+<script src="components/gridTable/gridReport.js"></script>
 <script src="components/uitemplates/uitemplates.js"></script>
+<script src="components/zetaGanttChart/zetaGanttChart.js"></script>
 <script src="components/version/interpolate-filter.js"></script>
 <script src="components/version/version-directive.js"></script>
 <script src="components/version/version.js"></script>

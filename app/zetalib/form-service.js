@@ -25,11 +25,36 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
     /**
      * @memberof ulakbus.formService
+     * @ngdoc service
+     * @name wfMetaData
+     * @description wf metadata service handles the getting and setting of the wf_meta tag that is used for user tracking
+     */
+    .service('wfMetadata', function ($rootScope) {
+        this.wf_meta = {};
+        this.getWfMeta = function () {
+            //creates a copy for the actual value
+            if($rootScope.isUserClicked){
+                var wf_meta_copy =  angular.copy(this.wf_meta);
+                return wf_meta_copy;
+            }
+        };
+        this.setWfMeta = function (wf_meta) {
+            //clear previous wf_meta when setting new wf_meta
+            this.wf_meta = {};
+            if(angular.isDefined(wf_meta)) {
+                //set the value in the service variable
+                this.wf_meta = wf_meta;
+            }
+        }
+    })
+
+    /**
+     * @memberof ulakbus.formService
      * @ngdoc factory
      * @name Generator
      * @description form service's Generator factory service handles all generic form operations
      */
-    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal, $filter, Utils) {
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal, $filter, Utils, wfMetadata) {
         var generator = {};
         /**
          * @memberof ulakbus.formService
@@ -303,10 +328,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             var _buttons = function (scope, v, k) {
                 var buttonPositions = scope.modalElements ? scope.modalElements.buttonPositions : {
-                    bottom: 'move-to-bottom',
-                    top: 'move-to-top',
-                    none: ''
-                };
+                        bottom: 'move-to-bottom',
+                        top: 'move-to-top',
+                        none: ''
+                    };
                 var workOnForm = scope.modalElements ? scope.modalElements.workOnForm : 'formgenerated';
                 var workOnDiv = scope.modalElements ? scope.modalElements.workOnDiv : '';
                 var buttonClass = (buttonPositions[v.position] || buttonPositions.bottom);
@@ -321,6 +346,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     title: v.title,
                     style: (v.style || "btn-danger") + " hide bottom-margined " + buttonClass,
                     onClick: function () {
+                        //indicate that the user have clicked some button like submit/cancel on form
+                        $rootScope.isUserClicked = true;
                         delete scope.form_params.cmd;
                         delete scope.form_params.flow;
                         if (v.cmd) {
@@ -603,6 +630,23 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             fileInsert: function () {
                                 $scope.$broadcast('schemaForm.error.' + k, 'tv4-302', true);
                             },
+                            validationMessage: {
+                                'file': "Bu alan zorunludur."
+                            },
+                            $validators: {
+                                file: function(value) {
+                                    // check for null value
+                                    if(!value){
+                                        if (scope.schema.required.indexOf(k) > -1) {
+                                            return false;
+                                        }
+                                        else{
+                                            return true;
+                                        }
+                                    }
+                                    return true;
+                                }
+                            },
                             imageSrc: scope.model[k] ? $rootScope.settings.static_url + scope.model[k] : '',
                             avatar: k === 'avatar'
                         };
@@ -711,39 +755,55 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             type: 'template',
                             templateUrl: 'shared/templates/datefield.html',
                             validationMessage: {
-                                'dateNotValid': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>",
-                                'required': 'Bu alan zorunludur.'
+                                'date': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>",
+                                'schemaForm': 'Bu alan zorunludur.'
                             },
-                            $asyncValidators: {
-                                'dateNotValid': function (value) {
-                                    var deferred = $q.defer();
-                                    $timeout(function () {
-                                        if(!value){ // check for null value
-                                            deferred.reject();
-                                        } else if (value.constructor === Date) {
-                                            deferred.resolve();
-                                        } else {
-                                            var dateValue = value.split('.');
-                                            if (isNaN(Date.parse(value)) || dateValue.length !== 3) {
-                                                deferred.reject();
-                                            } else {
-                                                deferred.resolve();
+                            $validators: {
+                                date: function(value) {
+                                    if(!value){ // check for null value
+                                        if (scope.schema.required.indexOf(k) > -1) {
+                                            return false;
+                                        }
+                                        else{
+                                            return true;
+                                        }
+                                    } else if (Object.prototype.toString.call(value) === "[object Date]") {
+                                        if ( isNaN( value.getTime() ) ) {
+                                            if (scope.schema.required.indexOf(k) > -1) {
+                                                return false;
+                                            }
+                                            else{
+                                                return true;
                                             }
                                         }
-                                    });
-                                    return deferred.promise;
-                                },
-                                'reqired': function (value) {
-                                    var deferred = $q.defer();
-                                    $timeout(function () {
-                                        if (scope.schema.required.indexOf(k) > -1) {
-                                            deferred.resolve();
-                                        } else {
-                                            deferred.reject();
+                                        else {
+                                            return true;
                                         }
-                                    });
-                                    return deferred.promise;
+                                    } else {
+                                        var dateValue = value.split('.');
+                                        if (isNaN(Date.parse(value)) || dateValue.length !== 3) {
+                                            return false;
+                                        } else {
+                                            return true;
+                                        }
+                                    }
+                                    return true
                                 },
+                                schemaForm: function(value) {
+                                    if (scope.schema.required.indexOf(k) > -1) {
+                                        {
+                                            if(!value) {
+                                                return false;
+                                            }
+                                            else {
+                                                return true;
+                                            }
+                                        }
+                                    } else {
+                                        return true;
+                                    }
+                                    return true
+                                }
                             },
                             status: {opened: false},
                             open: function ($event) {
@@ -857,6 +917,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         //});
 
                         var generateTitleMap = function (modelScope) {
+                            var wf_meta_data = wfMetadata.getWfMeta();
+                            if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
+                                modelScope.form_params.wf_meta = wf_meta_data;
+                            }
                             return generator.get_list(modelScope).then(function (res) {
                                 formitem.titleMap = [];
                                 angular.forEach(res.objects, function (item) {
@@ -902,11 +966,15 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             },
                             getTitleMap: function (viewValue) {
                                 modelScope.form_params.query = viewValue;
+                                if(modelScope.form_params.cmd === 'select_list'){
+                                    modelScope.form_params.wf = 'crud';
+                                }
                                 return generateTitleMap(modelScope);
                             },
                             getDropdownTitleMap: function () {
                                 delete modelScope.form_params.query;
                                 formitem.gettingTitleMap = true;
+                                modelScope.form_params.wf = 'crud';
                                 generateTitleMap(modelScope)
                                     .then(function (data) {
                                         formitem.titleMap = data;
@@ -919,14 +987,20 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                         // get selected item from titleMap using model value
                         if (scope.model[k]) {
-                            generator.get_list({
-                                url: 'crud',
-                                form_params: {
+                            var form_params = {
                                     wf: v.wf,
                                     model: v.model_name,
                                     object_id: scope.model[k],
                                     cmd: 'object_name'
-                                }
+                             };
+                            var wf_meta_data = wfMetadata.getWfMeta();
+                            if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
+                                form_params.wf_meta = wf_meta_data;
+                            }
+
+                            generator.get_list({
+                                url: 'crud',
+                                form_params: form_params
                             }).then(function (data) {
 
                                 try {
@@ -1036,6 +1110,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             $scope.form_params.param = $scope.param;
             $scope.form_params.id = $scope.param_id;
             $scope.form_params.token = $scope.token;
+            //this will execute for edit/delete buttons
+            var wf_meta_data = wfMetadata.getWfMeta();
+            if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
+                $scope.form_params.wf_meta = wf_meta_data;
+            }
 
             var _do = {
                 normal: function () {
@@ -1112,6 +1191,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         generator.get_form = function (scope) {
             return WSOps.request(scope.form_params)
                 .then(function (data) {
+                    wfMetadata.setWfMeta(data.wf_meta);
                     return generator.generate(scope, data);
                 })
         };
@@ -1124,8 +1204,16 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_list = function (scope) {
-            return WSOps.request(scope.form_params)
+            var form_params = scope.form_params;
+
+            var isSearchResult = ((form_params.cmd === 'select_list' || form_params.cmd === 'object_name') && (form_params.wf === 'crud'))?true:false;
+
+            return WSOps.request(form_params)
                 .then(function (data) {
+                    //we need to set the wf_meta of the main wf and not from the response of typeahead
+                    if(!isSearchResult){
+                        wfMetadata.setWfMeta(data.wf_meta);
+                    }
                     return data;
                 });
         };
@@ -1141,6 +1229,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         generator.get_wf = function (scope) {
             return WSOps.request(scope.form_params)
                 .then(function (data) {
+                    wfMetadata.setWfMeta(data.wf_meta);
                     return generator.pathDecider(data.client_cmd || ['list'], scope, data);
                 });
         };
@@ -1337,19 +1426,30 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @todo diff for all submits to recognize form change. if no change returns to view with no submit
          */
         generator.submit = function ($scope, redirectTo, dontProcessReply) {
-            /**
-             * In case of unformatted date object in any key recursively, it must be converted.
-             * @param model
-             */
-            var convertDate = function (model) {
-                angular.forEach(model, function (value, key) {
-                    if (value && value.constructor === Date) {
-                        model[key] = generator.dateformatter(value);
-                    } else if (value && value.constructor === Object) {
-                        // check recursively
-                        convertDate(value);
+
+            var checkAndReformatModel = function (model) {
+                var modelKeys = Object.keys(model);
+                for(var i=0; i < modelKeys.length; i++){
+                    if(typeof(model[modelKeys[i]]) === 'object'){
+                        formatTypeaheadStructure(model[modelKeys[i]]);
                     }
-                });
+                }
+            };
+            var formatTypeaheadStructure = function (listNodeModel) {
+                if(angular.isUndefined(listNodeModel) || listNodeModel === null || listNodeModel.length === 0 ){
+                    return;
+                }
+                for(var i=0; i<listNodeModel.length; i++){
+                    var key = Object.keys(listNodeModel[i]);
+                    if(key.length === 1){
+                        var modelKeys = Object.keys(listNodeModel[i][key]);
+                        if(modelKeys.indexOf('verbose_name') > -1 && modelKeys.indexOf('unicode') > -1 && modelKeys.indexOf('key') > -1 ){
+                            var value = listNodeModel[i][key]['key'];
+                            listNodeModel[i] = {};
+                            listNodeModel[i][key] = value;
+                        }
+                    }
+                }
             };
 
             angular.forEach($scope.ListNode, function (value, key) {
@@ -1361,7 +1461,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             // format date without changing scopes date objects
             var model = angular.copy($scope.model);
-            convertDate(model);
+            generator.convertDate(model);
 
             // todo: unused var delete
             var send_data = {
@@ -1376,6 +1476,13 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 "filter": $scope.filter,
                 "query": $scope.form_params.query
             };
+            //check if wf_meta is present or not
+            var wf_meta_data = wfMetadata.getWfMeta();
+            if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
+                send_data.wf_meta = wf_meta_data;
+            }
+            //reformat typeahead data structure for listnode
+            checkAndReformatModel(model);
 
             return WSOps.request(send_data)
                 .then(function (data) {
@@ -1387,11 +1494,28 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         return;
                     }
 
+                    wfMetadata.setWfMeta(data.wf_meta);
+
                     if (!dontProcessReply) {
                         return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
                     }
                     return data;
                 });
+        };
+
+        /**
+         * In case of unformatted date object in any key recursively, it must be converted.
+         * @param model
+         */
+        generator.convertDate = function (model) {
+            angular.forEach(model, function (value, key) {
+                if (value && value.constructor === Date) {
+                    model[key] = generator.dateformatter(value);
+                } else if (value && value.constructor === Object) {
+                    // check recursively
+                    generator.convertDate(value);
+                }
+            });
         };
         return generator;
     })
@@ -1421,13 +1545,20 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             $timeout(function () {
                 Utils.iterate($scope.model, function (modelValue, k) {
                     if (angular.isUndefined($scope.edit)) return;
-
                     var unicode = $scope.items[$scope.edit][k].unicode;
+                    //unicode will be undefined if edit is done after saving the parent record
+                    if(angular.isUndefined(unicode)){
+                        unicode = $scope.items[$scope.edit][k];
+                    }
                     if (unicode) {
+                        //if the value is a date object then format the date
+                        if(Object.prototype.toString.call(unicode) === '[object Date]'){
+                            unicode = moment(unicode).format('DD.MM.YYYY');
+                        }
                         document.querySelector('input[name=' + k + ']').value = unicode;
                     }
                 })
-            });
+            },100);  //to make sure that the modal is loaded first and then the values are assigned to its html controls
             $scope.linkedModelForm = event.targetScope.linkedModelForm;
         });
 
@@ -1585,6 +1716,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 }
                             } else {
                                 listNodeItem.model.push(angular.copy(childmodel.model));
+                                Generator.convertDate(reformattedModel);
                                 if (Object.keys(reformattedModel).length > 0) {
                                     listNodeItem.items.push(reformattedModel);
                                 } else {

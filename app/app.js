@@ -27,6 +27,7 @@ angular.module(
         'ngRoute',
         'ngSanitize',
         'ngCookies',
+        'ulakbus.grid',
         'ulakbus.formService',
         'ulakbus.messaging',
         'ulakbus.dashboard',
@@ -40,7 +41,8 @@ angular.module(
         'markdown',
         'ngWebSocket',
         'ulakbus.uitemplates',
-        'ui.select'
+        'ui.select',
+        'ulakbus.gantt'
     ])
     /**
      * @memberof ulakbus

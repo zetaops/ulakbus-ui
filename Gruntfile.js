@@ -84,7 +84,9 @@ module.exports = function (grunt) {
                     {expand: true, cwd: 'app/styles/images/', src: '**/*', dest: 'dist/css/images/', flatten: true},
                     {expand: true, cwd: 'app/bower_components/bootstrap/dist/fonts/', src: '*', dest: 'dist/fonts/', flatten: true, filter: 'isFile'},
                     {expand: true, cwd: 'app/bower_components/jquery/dist/', src: 'jquery.min.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
-                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'}
+                    {expand: true, cwd: 'app/bower_components/angular/', src: 'angular.js', dest: 'dist/bower_components/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/bower_components/angular-ui-grid/', src: 'ui-grid.woff', dest: 'dist/css/', flatten: true, filter: 'isFile'},
+                    {expand: true, cwd: 'app/bower_components/angular-ui-grid/', src: 'ui-grid.ttf', dest: 'dist/css/', flatten: true, filter: 'isFile'}
                 ]
             },
             local_prod: {
@@ -152,7 +154,13 @@ module.exports = function (grunt) {
                     "app/bower_components/moment/min/moment.min.js",
                     "app/bower_components/toastr/toastr.min.js",
                     "app/bower_components/angular-websocket/dist/angular-websocket.min.js",
-                    "app/bower_components/angular-ui-select/dist/select.min.js"
+                    "app/bower_components/angular-ui-select/dist/select.min.js",
+                    "app/bower_components/angular-moment/angular-moment.min.js",
+                    "app/bower_components/moment-range/dist/moment-range.min.js",
+                    "app/bower_components/angular-ui-tree/dist/angular-ui-tree.min.js",
+                    "app/bower_components/angular-gantt/dist/angular-gantt.min.js",
+                    "app/bower_components/angular-gantt/dist/angular-gantt-plugins.min.js",
+                    "app/bower_components/angular-ui-grid/ui-grid.min.js"
                 ],
                 dest: 'dist/bower_components/components.js'
             },
@@ -168,7 +176,11 @@ module.exports = function (grunt) {
                         "app/bower_components/intro.js/intro.css",
                         "app/bower_components/intro.js/themes/introjs-nassim.css",
                         "app/bower_components/toastr/toastr.min.css",
-                        "app/bower_components/angular-ui-select/dist/select.min.css"
+                        "app/bower_components/angular-ui-select/dist/select.min.css",
+                        "app/bower_components/angular-ui-tree/dist/angular-ui-tree.min.css",
+                        "app/bower_components/angular-gantt/dist/angular-gantt.min.css",
+                        "app/bower_components/angular-gantt/dist/angular-gantt-plugins.min.css",
+                        "app/bower_components/angular-ui-grid/ui-grid.min.css"
                     ]
                 }
             },
@@ -210,7 +222,13 @@ module.exports = function (grunt) {
                     "app/bower_components/intro.js/minified/intro.min.js",
                     "app/bower_components/moment/min/moment.min.js",
                     "app/bower_components/angular-websocket/dist/angular-websocket.min.js",
-                    "app/bower_components/angular-ui-select/dist/select.min.js"
+                    "app/bower_components/angular-ui-select/dist/select.min.js",
+                    "app/bower_components/angular-moment/angular-moment.min.js",
+                    "app/bower_components/moment-range/dist/moment-range.min.js",
+                    "app/bower_components/angular-ui-tree/dist/angular-ui-tree.min.js",
+                    "app/bower_components/angular-gantt/dist/angular-gantt.min.js",
+                    "app/bower_components/angular-gantt/dist/angular-gantt-plugins.min.js",
+                    "app/bower_components/angular-ui-grid/ui-grid.min.js"
                 ],
                 dest: 'dist/<%= grunt.branchname %>/bower_components/components.js'
             },

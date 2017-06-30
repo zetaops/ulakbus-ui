@@ -27,6 +27,9 @@ angular.module(
         'ngRoute',
         'ngSanitize',
         'ngCookies',
+        'ui.grid',
+        'ui.grid.infiniteScroll',
+        'ui.grid.autoResize',
         'ulakbus.formService',
         'ulakbus.messaging',
         'ulakbus.dashboard',
@@ -40,11 +43,12 @@ angular.module(
         'markdown',
         'ngWebSocket',
         'ui.select',
+        'ulakbus.gantt',
         // @if NODE_ENV='PRODUCTION'
         'templates-prod',
         // @endif
         // @if NODE_ENV='DEVELOPMENT'
-        'ulakbus.uitemplates',
+        'ulakbus.uitemplates'
 
         // @endif
     ])

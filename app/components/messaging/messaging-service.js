@@ -15,7 +15,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
  * @name MessagingService
  * @description Service handles all stuff related to messaging
  */
-    .factory('MessagingService', function ($q, $timeout, $compile, $log, $rootScope, Moment, WSOps, Utils) {
+    .factory('MessagingService', function ($q, $timeout, $compile, $log, $rootScope, Moment, WSOps, Utils, TasksService) {
         var msg = {};
         var notificationsChannelKey;
         var channelsMap = {};
@@ -481,6 +481,16 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
 
         $rootScope.$on("notifications", function(e, message){
             increaseUnread(message, 'notifications');
+            var options = {
+                state: "active"
+            };
+            //the task will be empty from backend if queried immediately since the task may take some server time to be saved in backend when invitation is sent
+            $timeout(function () {
+                TasksService.get_tasks(options)
+                    .then(function (data) {
+                        $rootScope.$broadcast("task_list", data)
+                    })
+            },2000);
         });
 
         $rootScope.$on("channel_change", function(e, action, channel){

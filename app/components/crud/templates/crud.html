@@ -4,9 +4,11 @@
     <div ng-class="{'col-md-8': meta.allow_filters}">
         <msgbox ng-show="msgbox"></msgbox>
         <h3 ng-class="{'mid-h3': !objects}">{{ object_title || schema.title}}</h3>
+        <zeta-gantt-chart ng-if="gantt_chart" gantt-chart-data="gantt_chart"></zeta-gantt-chart>
         <crud-show-directive ng-if="object"></crud-show-directive>
         <crud-form-directive ng-if="forms" ></crud-form-directive>
         <crud-list-directive ng-if="objects"></crud-list-directive>
+        <zeta-grid ng-if="gridOptions" grid-options-provided="gridOptions" token="token" wf="wf"></zeta-grid>
     </div>
     <crud-filters ng-show="meta.allow_filters === true" class="col-md-4 filtre"></crud-filters>
 </div>
