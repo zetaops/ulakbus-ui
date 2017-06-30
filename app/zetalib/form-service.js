@@ -1277,7 +1277,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             function redirectTo(scope, page) {
                 var pathUrl;
                 if(angular.isDefined($route.current.$$route.isPublic) && $route.current.$$route.isPublic){
-                    pathUrl= '/bap/' + scope.form_params.wf;
+                    pathUrl= '/pub/' + scope.form_params.wf;
                 }else{
                     pathUrl= '/' + scope.form_params.wf;
                 }

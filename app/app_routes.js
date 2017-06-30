@@ -41,7 +41,7 @@ angular.module('ulakbus')
                 controller: 'CRUDController'
             })
             //for public pages
-            .when('/bap/:wf/', {
+            .when('/pub/:wf/', {
                 templateUrl: 'components/crud/templates/crud-preload.html',
                 controller: 'CRUDController',
                 isPublic: true
@@ -56,7 +56,7 @@ angular.module('ulakbus')
                 controller: 'CRUDListFormController'
             })
             //for public pages
-            .when('/bap/:wf/do/:cmd', {
+            .when('/pub/:wf/do/:cmd', {
                 templateUrl: 'components/crud/templates/crud.html',
                 controller: 'CRUDListFormController',
                 isPublic: true
@@ -86,7 +86,7 @@ angular.module('ulakbus')
         $rootScope.loginAttempt = 0;
         $rootScope.current_user = true;
         //check if page is not a public page
-        if(location.hash.indexOf('/bap/') === -1){
+        if(location.hash.indexOf('/pub/') === -1){
             AuthService.check_auth();
         }
         //reset the value of user interaction on form when page refreshes
