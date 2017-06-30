@@ -1275,12 +1275,20 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
              * @return {*}
              */
             function redirectTo(scope, page) {
-                var pathUrl = '/' + scope.form_params.wf;
+                var pathUrl;
+                if(angular.isDefined($route.current.$$route.isPublic) && $route.current.$$route.isPublic){
+                    pathUrl= '/bap/' + scope.form_params.wf;
+                }else{
+                    pathUrl= '/' + scope.form_params.wf;
+                }
                 if (scope.form_params.model) {
                     pathUrl += '/' + scope.form_params.model + '/do/' + page;
                 } else {
                     pathUrl += '/do/' + page;
                 }
+                $timeout(function () {
+                    $rootScope.$broadcast("hide_main_loader");
+                });
                 // todo add object url to path
                 // pathUrl += '/'+scope.form_params.object_id || '';
 
