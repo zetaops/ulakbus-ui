@@ -41,6 +41,7 @@ angular.module(
         'markdown',
         'ngWebSocket',
         'ulakbus.uitemplates',
+        'ui.select',
         'ulakbus.gantt'
     ])
     /**

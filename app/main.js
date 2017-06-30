@@ -42,12 +42,14 @@ angular.module(
         'gettext',
         'markdown',
         'ngWebSocket',
+        'ui.select',
         'ulakbus.gantt',
         // @if NODE_ENV='PRODUCTION'
         'templates-prod',
         // @endif
         // @if NODE_ENV='DEVELOPMENT'
         'ulakbus.uitemplates'
+
         // @endif
     ])
     /**
