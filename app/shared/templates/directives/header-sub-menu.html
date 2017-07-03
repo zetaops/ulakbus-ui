@@ -1,6 +1,6 @@
 <div class="manager-view-header">
     <ul class="nav in" id="side-menu" data-step="1"
-        data-intro="Genel menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz.">
+        data-intro="Genel menüler yer almaktadır. yapılacak işlemi buradan seçebilirsiniz." ng-if=" !isPublicAccess ">
         <!--<sidebar-search></sidebar-search>-->
         <li ui-sref-active="active">
             <a href="#/dashboard" ng-click="breadcrumb(['Panel'])"><i class="fa fa-dashboard fa-fw"></i>

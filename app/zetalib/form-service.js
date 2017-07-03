@@ -1278,6 +1278,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 var pathUrl;
                 if(angular.isDefined($route.current.$$route.isPublic) && $route.current.$$route.isPublic){
                     pathUrl= '/pub/' + scope.form_params.wf;
+                    $rootScope.$broadcast("setPublicWf", true);
                 }else{
                     pathUrl= '/' + scope.form_params.wf;
                 }

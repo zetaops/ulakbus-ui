@@ -64,6 +64,8 @@ angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
                     .success(function (data) {
                         $scope.message = data.title;
                         $scope.loggingIn = false;
+                        //show the menu bar, dashboard logo and notification panel
+                        $rootScope.$broadcast("setPublicWf", false);
                     })
                     .error(function (data) {
                         $scope.message = data.title;
