@@ -831,6 +831,33 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 },
                 string: {
                     default: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            key: k,
+                            name: k,
+                            title: v.title,
+                            validationMessage: {
+                                'min': function(ctx) { return "En az "+ctx.form.schema.min_length+" karakter uzunluğunda olmalıdır."},
+                                'max': function(ctx) { return "En çok "+ctx.form.schema.max_length+" karakter uzunluğunda olmalıdır."}
+                            },
+                            $validators: {
+                                min: function(value) {
+                                    //check if min_length exist
+                                    if (angular.isDefined(scope.schema.properties[k].min_length) && scope.schema.properties[k].min_length !== null) {
+                                        return (value === null || value.length >= scope.schema.properties[k].min_length);
+                                    }else {
+                                        return true;
+                                    }
+                                },
+                                max: function(value) {
+                                    //check if max_length exist
+                                    if (angular.isDefined(scope.schema.properties[k].max_length) && scope.schema.properties[k].max_length !== null) {
+                                        return (value === null || value.length <= scope.schema.properties[k].max_length);
+                                    }else {
+                                        return true;
+                                    }
+                                }
+                            }
+                        };
                     }
                 },
                 password: {
@@ -898,7 +925,34 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         v.type = 'string';
                         v["x-schema-form"] = {
                             "type": "textarea"
-                        }
+                        };
+                        scope.form[scope.form.indexOf(k)] = {
+                            key: k,
+                            name: k,
+                            title: v.title,
+                            validationMessage: {
+                                'min': function(ctx) { return "En az "+ctx.form.schema.min_length+" karakter uzunluğunda olmalıdır."},
+                                'max': function(ctx) { return "En çok "+ctx.form.schema.max_length+" karakter uzunluğunda olmalıdır."}
+                            },
+                            $validators: {
+                                min: function(value) {
+                                    //check if min_length exist
+                                    if (angular.isDefined(scope.schema.properties[k].min_length) && scope.schema.properties[k].min_length !== null) {
+                                        return (value === null || value.length >= scope.schema.properties[k].min_length);
+                                    }else {
+                                        return true;
+                                    }
+                                },
+                                max: function(value) {
+                                    //check if max_length exist
+                                    if (angular.isDefined(scope.schema.properties[k].max_length) && scope.schema.properties[k].max_length !== null) {
+                                       return (value === null || value.length <= scope.schema.properties[k].max_length);
+                                    }else {
+                                        return true;
+                                    }
+                                }
+                            }
+                        };
                     }
                 },
                 float: {default: _numbers},
