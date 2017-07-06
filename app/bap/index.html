@@ -43,12 +43,11 @@
          ng-show="user_ready === true">
         <div class="col-md-12">
             <div class="col-md-4">
-                <a class="logo logo-university"><img
-                        src="https://rlv.zcache.co.uk/your_business_logo_here_promo_square_sticker-r40b7af4878d041de9c9dbd2043be51c0_v9wf3_8byvr_324.jpg"/></a>
+                <a class="logo logo-university"><img alt="UV_logo" ng-src="{{dashboardData.university_logo}}"/></a>
             </div>
 
             <div class="col-md-4">
-                <h2 class="university-name">Universite Adi</h2>
+                <h2 class="university-name">{{dashboardData.university_title}}</h2>
             </div>
 
             <div class="col-md-4">
@@ -68,30 +67,13 @@
     <div class="row">
         <div class="col-md-12 inner-content">
             <div class="col-md-2">
-                <div class="vertical-menu">
-                    <ul class="nav nav-pills nav-stacked left-menu" id="bap-menu">
-                        <li><a href="#/" class="">Ana Sayfa</a></li>
-                        <li>
-                            <a data-target="#projeri" data-toggle="collapse"
-                               data-parent="#bap-menu">Projeler<span class="caret arrow"></span></a>
-                            <ul class="nav nav-stacked collapse left-submenu" id="projeri">
-                                <li><a href="#/">Suren Projeler</a></li>
-                                <li><a href="#/">Bitmis Projeler</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#/">Yardim</a></li>
-                        <li><a href="#/">Yardim Alt konu 1</a></li>
-                        <li><a href="#/">Yardim Alt konu 2</a></li>
-                        <li><a href="#/">Yardim Alt konu 3</a></li>
-                        <li><a href="#/">Belgeler</a></li>
-                        <li><a href="#/">Mevzuat</a></li>
-                        <li><a href="#/">BAP Komisyonu</a></li>
-                    </ul>
-                </div>
+                <left-menu menu-items="dashboardData.menu"></left-menu>
             </div>
 
             <div class="col-md-10">
                 <div class="col-md-12 tiles-div">
+                    <top-action-buttons button-list="dashboardData.top_action_buttons"></top-action-buttons>
+
                     <div ng-view>
 
                     </div>
@@ -132,6 +114,7 @@
 
 <script src="bap.js"></script>
 <script src="bap_routes.js"></script>
+<script src="directive/bap-directive.js"></script>
 <script src="controller/bap-controller.js"></script>
 
 

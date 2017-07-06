@@ -1,32 +1,19 @@
-<div class="col-md-12 tiles-container">
-    <div class="col-md-2 tiles">
-        <div class="top-tiles"><span>Yeni Basvuru</span></div>
-    </div>
-    <div class="col-md-2 tiles">
-        <div class="top-tiles"><span>Basvurum ne durumda</span></div>
-    </div>
-    <div class="col-md-2 tiles">
-        <div class="top-tiles"><span>Makina, Tekizat Ara</span></div>
-    </div>
-    <div class="col-md-2 tiles">
-        <div class="top-tiles"><span>Proje Arsivi Ara</span></div>
-    </div>
-    <div class="col-md-2 tiles">
-        <div class="top-tiles"><span>Firma Kayit</span></div>
-    </div>
-</div>
-
 <div class="col-md-12">
     <div class="col-md-12 detail-box">
-        <h3>Satinalma Duyurular</h3>
+        <h4 ng-repeat="announcement in dashboardData.bidding.announcements" ng-click="clickAnnouncement(announcement)">
+            {{announcement.text}}
+        </h4>
         <div class="col-md-12">
-            <button class="brand-bg pull-right">More..</button>
+            <button class="brand-bg pull-right" ng-click="clickMore(dashboardData.bidding.more.wf);">{{dashboardData.bidding.more.text}}</button>
         </div>
     </div>
+
     <div class="col-md-12 detail-box">
-        <h3>Duyurular</h3>
+        <h4 ng-repeat="announcement in dashboardData.general.announcements" ng-click="clickAnnouncement(announcement)">
+            {{announcement.text}}
+        </h4>
         <div class="col-md-12">
-            <button class="brand-bg pull-right">More..</button>
+            <button class="brand-bg pull-right" ng-click="clickMore(dashboardData.general.more.wf);">{{dashboardData.general.more.text}}</button>
         </div>
     </div>
 </div>

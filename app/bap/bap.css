@@ -27,6 +27,10 @@ a.logo-ulakbus{
 /*for vertical menu*/
 .vertical-menu{
     border: 1px solid #c5bfc4;
+    background: #e7e3e3;
+}
+.vertical-menu .title{
+    margin: 10px;
 }
 .vertical-menu a {
     background-color: #eee;
@@ -37,8 +41,8 @@ a.logo-ulakbus{
     font-size: 16px;
 }
 
-.vertical-menu a.active, .vertical-menu .nav>li>a:hover {
-    background-color: #A61229;
+.vertical-menu a.active, .vertical-menu .nav>li>a:hover , .tiles.active , .tiles:hover{
+    background-color: #A61229 !important;
     color: white;
 }
 .tiles-div{
@@ -51,6 +55,7 @@ a.logo-ulakbus{
     margin-right: 3%;
     margin-bottom: 10px;
 }
+
 .top-tiles{
     font-size: 22px;
     text-align: center;
@@ -63,6 +68,9 @@ a.logo-ulakbus{
     border: 1px solid #a5a5a5;
     border-radius: 10px;
     padding-bottom: 10px;
+}
+.detail-box h4{
+    cursor: pointer;
 }
 .brand-bg{
     padding: 5px 10px;
