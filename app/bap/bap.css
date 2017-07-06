@@ -1,0 +1,69 @@
+.logo.logo-university, .logo.logo-ulakbus{
+    display: inline;
+    opacity: 1;
+}
+.logo-university img{
+    border-radius: 50%;
+    width: 100px;
+}
+.logo-ulakbus img{
+    width: 150px;
+    margin: 30px 0px;
+}
+a.logo-ulakbus{
+    float: right;
+}
+.university-name{
+    color: #fff;
+    text-align: center;
+}
+.bread-buttons{
+    background: rgba(226, 221, 221, 0.72);
+    border-bottom: 1px solid #a5a5a5;
+}
+.inner-content{
+    padding: 20px 10px;
+}
+/*for vertical menu*/
+.vertical-menu{
+    border: 1px solid #c5bfc4;
+}
+.vertical-menu a {
+    background-color: #eee;
+    color: black;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.vertical-menu a.active, .vertical-menu .nav>li>a:hover {
+    background-color: #A61229;
+    color: white;
+}
+.tiles-div{
+    border: 1px solid #c5bfc4;
+    padding: 25px 0px 10px 0px;
+}
+.tiles{
+    background-color: #eee;
+    border:1px solid #c5c3c3;
+    margin-right: 3%;
+    margin-bottom: 10px;
+}
+.top-tiles{
+    font-size: 22px;
+    text-align: center;
+    margin: 20px;
+    cursor: pointer;
+    min-height:65px;
+}
+.detail-box{
+    margin: 20px 0px;
+    border: 1px solid #a5a5a5;
+    border-radius: 10px;
+    padding-bottom: 10px;
+}
+.brand-bg{
+    padding: 5px 10px;
+}
