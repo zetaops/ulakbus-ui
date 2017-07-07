@@ -22,8 +22,6 @@ angular.module(
         'ngRoute',
         'ngSanitize',
         'ngCookies',
-        'ulakbus.formService',
-        'ulakbus.crud',
         'ui.select'
     ])
 /**

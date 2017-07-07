@@ -9,7 +9,7 @@
 'use strict';
 angular.module('ulakbusBap')
 
-    .controller('DashboardController', function ($scope, $location) {
+    .controller('DashboardController', function ($scope, $location, Generator, $http) {
         $scope.user_ready = true;
         //this will be API call in controller load
         $scope.dashboardData = {
@@ -128,6 +128,13 @@ angular.module('ulakbusBap')
             "university_title": "UNIVERSITY_TITLE",
             "university_logo": "https://rlv.zcache.co.uk/your_business_logo_here_promo_square_sticker-r40b7af4878d041de9c9dbd2043be51c0_v9wf3_8byvr_324.jpg"
     };
+        var dashboardEndpoint = 'bap_anasayfa';
+        debugger
+        $http.post(Generator.makeUrl(dashboardEndpoint), {})
+            .success(function (response, status, headers, config) {
+                debugger;
+                $scope.dashboardData = response.data;
+            });
 
         $scope.clickAnnouncement = function (announcement) {
             $location.path("/"+announcement.wf);
@@ -136,4 +143,5 @@ angular.module('ulakbusBap')
         $scope.clickMore = function (workFlow) {
             $location.path("/"+workFlow);
         };
-    });
+    })
+
