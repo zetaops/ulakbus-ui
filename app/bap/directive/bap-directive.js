@@ -15,7 +15,7 @@ angular.module('ulakbusBap')
  * @name leftMenu
  * @description Creates a left sidebar menu for the dashboard
  */
-    .directive('leftMenu', function () {
+    .directive('leftMenu', function ($route) {
         return {
             templateUrl: '../../components/bapComponents/left-menu.html',
             restrict: 'E',
@@ -25,10 +25,22 @@ angular.module('ulakbusBap')
             },
             controller: function ($scope) {
                 $scope.selectedMenu = 0;
+                //since the menuItems comes from the API call it is undefined when page load
+                $scope.$watch('menuItems', function (newVal, oldVal) {
+                    if(angular.isDefined(newVal)){
+                        var pathParam =  $route.current.pathParams.wf;
+                        for(var i=0; i<newVal.items.length; i++){
+                            if(newVal.items[i].wf === pathParam){
+                                $scope.selectedMenu = i;
+                                break;
+                            }
+                        }
+                    }
+                });
+
                 $scope.setActive = function (index) {
                     $scope.selectedMenu = index;
                 };
-
             }
         };
     })

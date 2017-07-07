@@ -20,8 +20,12 @@ angular.module(
         //'ui.bootstrap',
         'ngRoute',
         'ngSanitize',
+        'ulakbus.formService',
+        'ulakbus.crud',
         'ngCookies',
-        'ui.select'
+        'ui.select',
+        'markdown',
+        'ui.bootstrap'
     ])
 /**
  * @memberof ulakbusBap

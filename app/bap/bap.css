@@ -1,3 +1,6 @@
+body{
+    overflow-y: scroll;
+}
 .logo.logo-university, .logo.logo-ulakbus{
     display: inline;
     opacity: 1;

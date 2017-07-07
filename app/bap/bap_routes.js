@@ -13,6 +13,14 @@ angular.module('ulakbusBap')
             .when('/bap_anasayfa', {
                 templateUrl: '../components/bapComponents/dashboard.html'
             })
+            .when('/:wf/', {
+                templateUrl: '../components/crud/templates/crud-preload.html',
+                controller: 'BapCRUDController'
+            })
+            .when('/:wf/do/:cmd', {
+                templateUrl: '../components/crud/templates/crud.html',
+                controller: 'BapCRUDListFormController'
+            })
             .otherwise({redirectTo: '/bap_anasayfa'});
     }])
 
