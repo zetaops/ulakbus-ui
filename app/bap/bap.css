@@ -7,7 +7,7 @@
     width: 100px;
 }
 .logo-ulakbus img{
-    width: 150px;
+    width: 140px;
     margin: 30px 0px;
 }
 a.logo-ulakbus{
@@ -74,4 +74,9 @@ a.logo-ulakbus{
 }
 .brand-bg{
     padding: 5px 10px;
+    margin: 10px 0px;
+}
+
+.crud-mask{
+    position: static;
 }

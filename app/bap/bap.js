@@ -18,7 +18,6 @@
 angular.module(
     'ulakbusBap', [
         //'ui.bootstrap',
-        'angular-loading-bar',
         'ngRoute',
         'ngSanitize',
         'ngCookies',
@@ -67,4 +66,6 @@ angular.module(
             url: backendurl,
             ws : backendurl.replace('http', 'ws')+"ws"
         };
-    })());
+    })())
+
+    .constant('toastr', window.toastr);
