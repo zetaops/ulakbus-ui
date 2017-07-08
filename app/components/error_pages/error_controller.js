@@ -11,11 +11,11 @@
 angular.module('ulakbus').config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/error/500', {
-            templateUrl: 'components/error_pages/500.html',
+            templateUrl: '/components/error_pages/500.html',
             controller: '500Controller'
         })
         .when('/error/404', {
-            templateUrl: 'components/error_pages/404.html',
+            templateUrl: '/components/error_pages/404.html',
             controller: '404Controller'
         });
 }]);
