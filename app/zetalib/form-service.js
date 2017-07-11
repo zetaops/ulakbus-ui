@@ -655,6 +655,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 },
                 select: {
                     default: function (scope, v, k) {
+                        titleMap: v.titleMap.unshift({name:"-",value:Infinity});
                         scope.form[scope.form.indexOf(k)] = {
                             type: "template",
                             title: v.title,
@@ -1451,6 +1452,14 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     }
                 }
             };
+
+            angular.forEach($scope.form, function (v, k) {
+                if (typeof v === 'object' && v.templateUrl && v.templateUrl.indexOf("/select.html") != -1) {
+                    if ($scope.model[v.name] === Infinity) {
+                        delete $scope.model[v.name]
+                    }
+                }
+            });
 
             angular.forEach($scope.ListNode, function (value, key) {
                 $scope.model[key] = value.model;
