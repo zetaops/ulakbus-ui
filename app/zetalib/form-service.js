@@ -376,7 +376,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                     // focus to first input with validation error
                                     $timeout(function () {
                                         var firsterror = angular.element(document.querySelectorAll('input.ng-invalid'))[0];
-                                        firsterror.focus();
+                                        if(firsterror){firsterror.focus()}
                                     });
                                 }
                             }
@@ -484,6 +484,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         if (!Object.keys(node).length) return;
 
                         angular.forEach(node, function (prop, propName) {
+
                             var propInSchema = list.schema.properties[propName];
                             try {
                                 if (propInSchema.type === 'date') {
@@ -655,13 +656,35 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 },
                 select: {
                     default: function (scope, v, k) {
+                        titleMap: v.titleMap.unshift({name:"-",value:'-1'});
                         scope.form[scope.form.indexOf(k)] = {
                             type: "template",
                             title: v.title,
                             templateUrl: "shared/templates/select.html",
                             name: k,
                             key: k,
-                            titleMap: v.titleMap
+                            titleMap: v.titleMap,
+                            validationMessage: {
+                                'requiredMessage': 'Bu alan zorunludur.'
+                            },
+                            $validators:{
+                                'requiredMessage':function (value) {
+                                    if (scope.schema.required.indexOf(k) > -1) {
+                                        {
+                                            if(!value || value=='-1') {
+                                                scope.model[k] = '-1';
+                                                return false;
+                                            }
+                                            else {
+                                                return true;
+                                            }
+                                        }
+                                    } else {
+                                        return true;
+                                    }
+                                    return true
+                                }
+                            }
                         };
                     }
                 },
@@ -1505,6 +1528,14 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     }
                 }
             };
+
+            angular.forEach($scope.form, function (v, k) {
+                if (typeof v === 'object' && v.templateUrl && v.templateUrl.indexOf("/select.html") != -1) {
+                    if ($scope.model[v.name] === "-1") {
+                        delete $scope.model[v.name]
+                    }
+                }
+            });
 
             angular.forEach($scope.ListNode, function (value, key) {
                 $scope.model[key] = value.model;
