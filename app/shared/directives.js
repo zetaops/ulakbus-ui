@@ -172,6 +172,7 @@ angular.module('ulakbus')
                         if (newVal !== oldVal) {
                             scope.user = newVal;
                             scope.showRole = (newVal.roles.length > 1);
+                            scope.hasProfileImage=scope.user.avatar.indexOf("/None")===-1;
                         }
                     }
                 }
