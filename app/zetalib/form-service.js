@@ -662,6 +662,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             title: v.title,
                             templateUrl: "shared/templates/select.html",
                             name: k,
+                            readonly:scope.forms.schema.properties[k]&&scope.forms.schema.properties[k].readonly,
                             key: k,
                             titleMap: v.titleMap,
                             validationMessage: {
@@ -774,6 +775,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         scope.form[scope.form.indexOf(k)] = {
                             key: k,
                             name: k,
+                            readonly:scope.forms.schema.properties[k]&&scope.forms.schema.properties[k].readonly,
                             title: v.title,
                             type: 'template',
                             templateUrl: 'shared/templates/datefield.html',
