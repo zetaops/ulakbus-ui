@@ -15,7 +15,7 @@ angular.module('ulakbus.auth')
      * @name AuthService
      * @description  provides generic functions for authorization process.
      */
-    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, WSOps, $window) {
+    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, WSOps, $window,$cookies) {
         var authService = {};
 
         authService.get_form = function (scope) {
@@ -58,6 +58,7 @@ angular.module('ulakbus.auth')
                     //$window.sessionStorage.token = data.token;
                     Generator.button_switch(true);
                     if (data.cmd === 'upgrade') {
+                        $cookies.remove("demo");
                         $rootScope.loggedInUser = true;
                         // $rootScope.$broadcast("regenerate_menu");
                         // to display main view without flickering
@@ -91,6 +92,7 @@ angular.module('ulakbus.auth')
                 $rootScope.current_user = true;
                 $rootScope.$broadcast("user_logged_out");
                 $log.debug("loggedout");
+                $cookies.remove("demo")
                 WSOps.close('loggedout');
                 $location.path("/login");
                 window.location.reload();
