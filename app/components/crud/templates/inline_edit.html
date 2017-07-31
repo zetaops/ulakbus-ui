@@ -9,15 +9,29 @@
        clear-text="Temizle"
        ng-click="openDatepicker(outerIndex)">
 
-<select ng-model="node.model[outerIndex][k]"
-        ng-if="node.schema.properties[k].type === 'select'"
-        class="form-control"
-        name="selectinline{{outerIndex}}">
-    <option ng-repeat="item in node.schema.properties[k].titleMap" value="{{item.value}}">{{item.name}}</option>
-</select>
+<input type="number"
+       ng-class="{ 'form-control' : '{{node.schema.properties[k].type}}' !== 'checkbox'}"
+       ng-if="node.schema.properties[k].type === 'float'"
+       ng-model="node.model[outerIndex][k]">
+
+<div class="select-wrapper" style="width: 100%;">
+    <ui-select ng-model="node.model[outerIndex][k]"
+              ng-if="node.schema.properties[k].type === 'select'"
+              name="selectinline{{outerIndex}}"
+              sf-changed="form"
+              schema-validate="form"
+              theme="bootstrap"
+              style="width: 100%;">
+        <ui-select-match placeholder="">{{$select.selected.value.name}}</ui-select-match>
+        <ui-select-choices repeat="item.value.value as (key, item) in node.schema.properties[k].titleMap | filter: $select.search">
+            <span ng-bind-html="item.value.name | highlight: $select.search "></span>
+        </ui-select-choices>
+    </ui-select>
+</div>
 
 <input type="{{node.schema.properties[k].type}}"
        ng-class="{ 'form-control' : '{{node.schema.properties[k].type}}' !== 'checkbox'}"
-       ng-if="node.schema.properties[k].type !== 'date' && node.schema.properties[k].type !== 'select'"
+       ng-if="node.schema.properties[k].type !== 'date' && node.schema.properties[k].type !== 'select' && node.schema.properties[k].type !== 'float'"
        ng-model="node.model[outerIndex][k]"
        ng-change="nodeModelChange(this)">
+
