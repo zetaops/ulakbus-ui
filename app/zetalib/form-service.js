@@ -1002,7 +1002,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             }
                             return generator.get_list(modelScope).then(function (res) {
                                 formitem.titleMap = [];
-                                debugger
                                 angular.forEach(res.objects, function (item) {
                                     if (item !== -1) {
                                         if(item!==0){
@@ -1040,7 +1039,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             selected_item: {},
                             titleMap: [],
                             onSelect: function (item, inputname) {
-                                debugger
                                 scope.model[k] = item.value;
                                 $timeout(function () {
                                     document.querySelector('input[name=' + inputname + ']').value = item.name;
