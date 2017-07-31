@@ -1313,11 +1313,26 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_wf = function (scope) {
-            return WSOps.request(scope.form_params)
-                .then(function (data) {
-                    wfMetadata.setWfMeta(data.wf_meta);
-                    return generator.pathDecider(data.client_cmd || ['list'], scope, data);
-                });
+            if(scope.isPublicAccess){
+                var obj = {
+                    form_params : {
+                        param:null
+                    },
+                    url : scope.wf
+                };
+                return $http
+                    .post(generator.makeUrl(obj), scope.form_params)
+                    .success(function (data) {
+                        wfMetadata.setWfMeta(data.wf_meta);
+                        return generator.pathDecider(data.client_cmd || ['list'], scope, data);
+                    });
+            }else{
+                return WSOps.request(scope.form_params)
+                    .then(function (data) {
+                        wfMetadata.setWfMeta(data.wf_meta);
+                        return generator.pathDecider(data.client_cmd || ['list'], scope, data);
+                      });
+            }
         };
         /**
          * @memberof ulakbus.formService
@@ -1361,12 +1376,21 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
              * @return {*}
              */
             function redirectTo(scope, page) {
-                var pathUrl = '/' + scope.form_params.wf;
+                var pathUrl;
+                if(angular.isDefined($route.current.$$route.isPublic) && $route.current.$$route.isPublic){
+                    pathUrl= '/pub/' + scope.form_params.wf;
+                    $rootScope.$broadcast("setPublicWf", true);
+                }else{
+                    pathUrl= '/' + scope.form_params.wf;
+                }
                 if (scope.form_params.model) {
                     pathUrl += '/' + scope.form_params.model + '/do/' + page;
                 } else {
                     pathUrl += '/do/' + page;
                 }
+                $timeout(function () {
+                    $rootScope.$broadcast("hide_main_loader");
+                });
                 // todo add object url to path
                 // pathUrl += '/'+scope.form_params.object_id || '';
 
@@ -1577,24 +1601,44 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             }
             //reformat typeahead data structure for listnode
             checkAndReformatModel(model);
+            if($scope.isPublicAccess){
+                var obj = {
+                    form_params : {
+                        param:null
+                    },
+                    url : send_data.wf
+                };
+                return $http
+                    .post(generator.makeUrl(obj), send_data)
+                    .success(function (data) {
+                        // if response data.cmd is 'upgrade'
+                        wfMetadata.setWfMeta(data.wf_meta);
+                        if (!dontProcessReply) {
+                            return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
+                        }
 
-            return WSOps.request(send_data)
-                .then(function (data) {
-                    if (data.cmd === "logout") {
-                        $log.debug("loggedout");
-                        WSOps.close('loggedout');
-                        $location.path("/login");
-                        window.location.reload();
-                        return;
-                    }
+                        return data;
+                    });
+            }else{
+                return WSOps.request(send_data)
+                    .then(function (data) {
+                        if (data.cmd === "logout") {
+                            $log.debug("loggedout");
+                            WSOps.close('loggedout');
+                            $location.path("/login");
+                            window.location.reload();
+                            return;
+                        }
 
-                    wfMetadata.setWfMeta(data.wf_meta);
+                        wfMetadata.setWfMeta(data.wf_meta);
 
-                    if (!dontProcessReply) {
-                        return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
-                    }
-                    return data;
+                        if (!dontProcessReply) {
+                            return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
+                        }
+                        return data;
                 });
+            }
+
         };
 
         /**
@@ -1613,7 +1657,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         };
         return generator;
     })
-
     /**
      * @memberof ulakbus.formService
      * @ngdoc controller

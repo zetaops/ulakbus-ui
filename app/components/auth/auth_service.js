@@ -26,6 +26,7 @@ angular.module('ulakbus.auth')
                     if (data.cmd === 'upgrade') {
                         $rootScope.loggedInUser = true;
                         $rootScope.$broadcast("ws_turn_on");
+                        $rootScope.$broadcast("setPublicWf", false);
                         return $location.path('/dashboard');
                     }
                     if (data.cmd === 'retry') {

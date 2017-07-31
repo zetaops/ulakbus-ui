@@ -50,9 +50,14 @@
     <!--<button type="button" class="navbar-toggle navbar-left" data-toggle="collapse" data-target=".navbar-collapse">
         <i class="fa fa-bars fa-fw fa-inverse"></i>
     </button>-->
-    <div class="navbar-header">
+    <div class="navbar-header" ng-if="!isPublicAccess">
         <div class="brand">
             <a href="#/dashboard" class="logo"><img src="/img/brand-logo.png"/></a>
+        </div>
+    </div>
+    <div class="navbar-header" ng-if="isPublicAccess">
+        <div class="brand">
+            <a class="logo" style="line-height: 26px;"><img src="/img/brand-logo.png"/></a>
         </div>
     </div>
     <!-- /.navbar-header -->
