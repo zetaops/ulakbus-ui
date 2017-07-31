@@ -25,9 +25,18 @@ angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
      * @description LoginCtrl responsible to handle login process.<br>
      * Using 'ulakbus.formService.get_form' function generates the login form and post it to the API with input datas.
      */
-    .controller('LoginController', function ($scope, $q, $timeout, $location, $routeParams, $rootScope, $log, WSOps, Generator, AuthService) {
+    .controller('LoginController', function ($scope, $q, $timeout, $location, $routeParams, $rootScope, $log, WSOps, Generator, AuthService,$cookies) {
         $scope.showLogo = false;
         $scope.url = 'login';
+        $scope.msgbox=angular.fromJson($cookies.get("logoutmsg"));
+        if($scope.msgbox){
+            var elem=angular.element(".login-wrapper");
+            elem[0].style.margin="100px auto 25px";
+            $timeout(function () {
+                $scope.msgbox=false;
+                elem[0].style.margin="200px auto 25px";
+            },5000)
+        }
         $scope.form_params = {};
         $scope.form_params['clear_wf'] = 1;
         // if websocket status is open ---> ws close
@@ -62,6 +71,7 @@ angular.module('ulakbus.auth', ['ngRoute', 'ngCookies'])
                 Generator.button_switch(false);
                 AuthService.login($scope.url, $scope.model)
                     .success(function (data) {
+                        $cookies.remove("logoutmsg");
                         $scope.message = data.title;
                         $scope.loggingIn = false;
                     })

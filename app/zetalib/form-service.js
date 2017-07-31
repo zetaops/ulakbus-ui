@@ -1572,7 +1572,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             return WSOps.request(send_data)
                 .then(function (data) {
                     if (data.cmd === "logout") {
-                        $cookies.put("demo","true");
+                        $cookies.put("logoutmsg",angular.toJson({title:data.title,msg:data.msg,type:"warning"}));
                         $log.debug("loggedout");
                         WSOps.close('loggedout');
                         $location.path("/login");

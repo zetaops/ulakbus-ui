@@ -58,7 +58,6 @@ angular.module('ulakbus.auth')
                     //$window.sessionStorage.token = data.token;
                     Generator.button_switch(true);
                     if (data.cmd === 'upgrade') {
-                        $cookies.remove("demo");
                         $rootScope.loggedInUser = true;
                         // $rootScope.$broadcast("regenerate_menu");
                         // to display main view without flickering
