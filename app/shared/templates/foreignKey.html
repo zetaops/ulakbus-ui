@@ -23,7 +23,7 @@
                 </ul>
             </span>
         <input type="text"
-               ng-model="slectedvalue"
+               ng-model="_$$value$$"
                uib-typeahead="item as item.name for item in form.getTitleMap($viewValue)"
                typeahead-on-select="form.onSelect($item, form.name)"
                typeahead-loading="loadingTitleMap" typeahead-no-results="noResults"
