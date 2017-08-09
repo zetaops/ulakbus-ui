@@ -9,6 +9,7 @@
 
 angular.module('ulakbus')
     .controller('KeyListenController', function ($scope, action_service) {
+        $scope.isPublicAccess = false;
         $scope.keylog = [0,1];
         $scope.down = function(e) {
             angular.forEach(action_service.combinations, function (value, key) {
@@ -23,6 +24,10 @@ angular.module('ulakbus')
         // when user_ready broadcasted then change value of user_ready=true to display view
         $scope.$on('user_ready', function () {
             $scope.$broadcast("hide_main_loader");
+        });
+
+        $scope.$on('setPublicWf', function (event,data) {
+            $scope.isPublicAccess = data;
         });
 
         $scope.$on('hide_main_loader', function () {

@@ -82,10 +82,8 @@ angular.module('ulakbusBap')
      * @returns {*}
      */
     generator.get_wf = function (scope) {
-        debugger;
         return $http.post(generator.makeUrl(scope.form_params.wf), {})
             .success(function (response, status, headers, config) {
-                debugger;
                 return generator.pathDecider(response.client_cmd || ['list'], scope, response);
             });
     };

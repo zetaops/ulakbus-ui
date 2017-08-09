@@ -1,4 +1,4 @@
-<ul class="nav navbar-top-links navbar-right">
+<ul class="nav navbar-top-links navbar-right" ng-if=" !isPublicAccess ">
     <li>
         <a ng-click="showMessagesWindow('messages')">
             <div class="badge" ng-show="count.messages.count > 0">{{count.messages.count}}</div>

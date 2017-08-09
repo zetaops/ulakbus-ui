@@ -38,8 +38,11 @@ angular.module('ulakbus')
             replace: true,
             scope: {},
             controller: function ($scope, $log) {
+                $scope.isPublicAccess = false;
                 $scope.count = MessagingService.get_unread_counters();
-
+                $scope.$on('setPublicWf', function (event,data) {
+                    $scope.isPublicAccess = data;
+                });
                 $scope.showMessagesWindow = function(type){
                     if (type == 'notifications'){
                         return MessagingService.get_notifications_channel_key()
@@ -172,6 +175,7 @@ angular.module('ulakbus')
                         if (newVal !== oldVal) {
                             scope.user = newVal;
                             scope.showRole = (newVal.roles.length > 1);
+                            scope.hasProfileImage=scope.user.avatar.indexOf("/None")===-1;
                         }
                     }
                 }
@@ -217,12 +221,17 @@ angular.module('ulakbus')
 
             scope: {},
             controller: function ($scope, $rootScope, $cookies, $route, AuthService, WSOps, RESTURL, $log, $location, $window, $timeout) {
+                $scope.isPublicAccess = false;
                 $scope.style = 'width:calc(100% - 300px);';
                 $scope.$on('$routeChangeStart', function (event, next, current) {
                     $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
                     if (next.$$route && next.$$route.originalPath === '/dashboard') {
                         generate_dashboard();
                     }
+                });
+
+                $scope.$on('setPublicWf', function (event,data) {
+                    $scope.isPublicAccess = data;
                 });
                 
                 $scope.prepareMenu = function (menuItems) {

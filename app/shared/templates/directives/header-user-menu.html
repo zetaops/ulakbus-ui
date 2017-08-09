@@ -1,7 +1,8 @@
 <li class="dropdown" style="border-left:1px solid #891723;">
     <a class="dropdown-toggle" data-toggle="dropdown" style="padding-top: 7px; padding-bottom: 6px;">
         <!-- TODO: replace image with placeholder avatar image-->
-        <img ng-src="{{user.avatar || '../../../img/sample-profile-pic.jpg'}}" class="header-profile">
+        <img ng-if="hasProfileImage" ng-src="{{user.avatar}}" class="header-profile">
+        <i ng-if="!hasProfileImage" class="fa fa-user fa-fw" aria-hidden="true"></i>
         <span class="user-info">
             <span class="user-name">{{user.name}}&nbsp{{user.surname}}</span>
         </span>

@@ -4016,3 +4016,7 @@ img.header-profile {
     width: 12px;
     height: 12px;
 }
+
+td.ddlWidth{
+ width:350px;
+}

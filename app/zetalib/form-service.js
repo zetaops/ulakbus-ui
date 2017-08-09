@@ -376,7 +376,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                     // focus to first input with validation error
                                     $timeout(function () {
                                         var firsterror = angular.element(document.querySelectorAll('input.ng-invalid'))[0];
-                                        firsterror.focus();
+                                        if(firsterror){firsterror.focus()}
                                     });
                                 }
                             }
@@ -484,6 +484,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         if (!Object.keys(node).length) return;
 
                         angular.forEach(node, function (prop, propName) {
+
                             var propInSchema = list.schema.properties[propName];
                             try {
                                 if (propInSchema.type === 'date') {
@@ -655,13 +656,36 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 },
                 select: {
                     default: function (scope, v, k) {
+                        titleMap: v.titleMap.unshift({name:"-",value:'-1'});
                         scope.form[scope.form.indexOf(k)] = {
                             type: "template",
                             title: v.title,
                             templateUrl: "shared/templates/select.html",
                             name: k,
+                            readonly:scope.forms.schema.properties[k]&&scope.forms.schema.properties[k].readonly,
                             key: k,
-                            titleMap: v.titleMap
+                            titleMap: v.titleMap,
+                            validationMessage: {
+                                'requiredMessage': 'Bu alan zorunludur.'
+                            },
+                            $validators:{
+                                'requiredMessage':function (value) {
+                                    if (scope.schema.required.indexOf(k) > -1) {
+                                        {
+                                            if(!value || value=='-1') {
+                                                scope.model[k] = '-1';
+                                                return false;
+                                            }
+                                            else {
+                                                return true;
+                                            }
+                                        }
+                                    } else {
+                                        return true;
+                                    }
+                                    return true
+                                }
+                            }
                         };
                     }
                 },
@@ -751,6 +775,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         scope.form[scope.form.indexOf(k)] = {
                             key: k,
                             name: k,
+                            readonly:scope.forms.schema.properties[k]&&scope.forms.schema.properties[k].readonly,
                             title: v.title,
                             type: 'template',
                             templateUrl: 'shared/templates/datefield.html',
@@ -831,6 +856,33 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 },
                 string: {
                     default: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            key: k,
+                            name: k,
+                            title: v.title,
+                            validationMessage: {
+                                'min': function(ctx) { return "En az "+ctx.form.schema.min_length+" karakter uzunluğunda olmalıdır."},
+                                'max': function(ctx) { return "En çok "+ctx.form.schema.max_length+" karakter uzunluğunda olmalıdır."}
+                            },
+                            $validators: {
+                                min: function(value) {
+                                    //check if min_length exist
+                                    if (angular.isDefined(scope.schema.properties[k].min_length) && scope.schema.properties[k].min_length !== null) {
+                                        return (value === null || value.length >= scope.schema.properties[k].min_length);
+                                    }else {
+                                        return true;
+                                    }
+                                },
+                                max: function(value) {
+                                    //check if max_length exist
+                                    if (angular.isDefined(scope.schema.properties[k].max_length) && scope.schema.properties[k].max_length !== null) {
+                                        return (value === null || value.length <= scope.schema.properties[k].max_length);
+                                    }else {
+                                        return true;
+                                    }
+                                }
+                            }
+                        };
                     }
                 },
                 password: {
@@ -898,7 +950,34 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         v.type = 'string';
                         v["x-schema-form"] = {
                             "type": "textarea"
-                        }
+                        };
+                        scope.form[scope.form.indexOf(k)] = {
+                            key: k,
+                            name: k,
+                            title: v.title,
+                            validationMessage: {
+                                'min': function(ctx) { return "En az "+ctx.form.schema.min_length+" karakter uzunluğunda olmalıdır."},
+                                'max': function(ctx) { return "En çok "+ctx.form.schema.max_length+" karakter uzunluğunda olmalıdır."}
+                            },
+                            $validators: {
+                                min: function(value) {
+                                    //check if min_length exist
+                                    if (angular.isDefined(scope.schema.properties[k].min_length) && scope.schema.properties[k].min_length !== null) {
+                                        return (value === null || value.length >= scope.schema.properties[k].min_length);
+                                    }else {
+                                        return true;
+                                    }
+                                },
+                                max: function(value) {
+                                    //check if max_length exist
+                                    if (angular.isDefined(scope.schema.properties[k].max_length) && scope.schema.properties[k].max_length !== null) {
+                                       return (value === null || value.length <= scope.schema.properties[k].max_length);
+                                    }else {
+                                        return true;
+                                    }
+                                }
+                            }
+                        };
                     }
                 },
                 float: {default: _numbers},
@@ -925,10 +1004,17 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 formitem.titleMap = [];
                                 angular.forEach(res.objects, function (item) {
                                     if (item !== -1) {
-                                        formitem.titleMap.push({
-                                            "value": item.key,
-                                            "name": item.value
-                                        });
+                                        if(item!==0){
+                                            formitem.titleMap.push({
+                                                "value": item.key,
+                                                "name": item.value
+                                            });
+                                        }else{
+                                            formitem.titleMap.push({
+                                                "value": '',
+                                                "name": ''
+                                            });
+                                        }
                                     } else {
                                         formitem.focusToInput = true;
                                     }
@@ -1227,11 +1313,26 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_wf = function (scope) {
-            return WSOps.request(scope.form_params)
-                .then(function (data) {
-                    wfMetadata.setWfMeta(data.wf_meta);
-                    return generator.pathDecider(data.client_cmd || ['list'], scope, data);
-                });
+            if(scope.isPublicAccess){
+                var obj = {
+                    form_params : {
+                        param:null
+                    },
+                    url : scope.wf
+                };
+                return $http
+                    .post(generator.makeUrl(obj), scope.form_params)
+                    .success(function (data) {
+                        wfMetadata.setWfMeta(data.wf_meta);
+                        return generator.pathDecider(data.client_cmd || ['list'], scope, data);
+                    });
+            }else{
+                return WSOps.request(scope.form_params)
+                    .then(function (data) {
+                        wfMetadata.setWfMeta(data.wf_meta);
+                        return generator.pathDecider(data.client_cmd || ['list'], scope, data);
+                      });
+            }
         };
         /**
          * @memberof ulakbus.formService
@@ -1271,12 +1372,21 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
              * @return {*}
              */
             function redirectTo(scope, page) {
-                var pathUrl = '/' + scope.form_params.wf;
+                var pathUrl;
+                if(angular.isDefined($route.current.$$route.isPublic) && $route.current.$$route.isPublic){
+                    pathUrl= '/pub/' + scope.form_params.wf;
+                    $rootScope.$broadcast("setPublicWf", true);
+                }else{
+                    pathUrl= '/' + scope.form_params.wf;
+                }
                 if (scope.form_params.model) {
                     pathUrl += '/' + scope.form_params.model + '/do/' + page;
                 } else {
                     pathUrl += '/do/' + page;
                 }
+                $timeout(function () {
+                    $rootScope.$broadcast("hide_main_loader");
+                });
                 // todo add object url to path
                 // pathUrl += '/'+scope.form_params.object_id || '';
 
@@ -1448,6 +1558,14 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 }
             };
 
+            angular.forEach($scope.form, function (v, k) {
+                if (typeof v === 'object' && v.templateUrl && v.templateUrl.indexOf("/select.html") != -1) {
+                    if ($scope.model[v.name] === "-1") {
+                        delete $scope.model[v.name]
+                    }
+                }
+            });
+
             angular.forEach($scope.ListNode, function (value, key) {
                 $scope.model[key] = value.model;
             });
@@ -1479,24 +1597,44 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             }
             //reformat typeahead data structure for listnode
             checkAndReformatModel(model);
+            if($scope.isPublicAccess){
+                var obj = {
+                    form_params : {
+                        param:null
+                    },
+                    url : send_data.wf
+                };
+                return $http
+                    .post(generator.makeUrl(obj), send_data)
+                    .success(function (data) {
+                        // if response data.cmd is 'upgrade'
+                        wfMetadata.setWfMeta(data.wf_meta);
+                        if (!dontProcessReply) {
+                            return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
+                        }
 
-            return WSOps.request(send_data)
-                .then(function (data) {
-                    if (data.cmd === "logout") {
-                        $log.debug("loggedout");
-                        WSOps.close('loggedout');
-                        $location.path("/login");
-                        window.location.reload();
-                        return;
-                    }
+                        return data;
+                    });
+            }else{
+                return WSOps.request(send_data)
+                    .then(function (data) {
+                        if (data.cmd === "logout") {
+                            $log.debug("loggedout");
+                            WSOps.close('loggedout');
+                            $location.path("/login");
+                            window.location.reload();
+                            return;
+                        }
 
-                    wfMetadata.setWfMeta(data.wf_meta);
+                        wfMetadata.setWfMeta(data.wf_meta);
 
-                    if (!dontProcessReply) {
-                        return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
-                    }
-                    return data;
+                        if (!dontProcessReply) {
+                            return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
+                        }
+                        return data;
                 });
+            }
+
         };
 
         /**
@@ -1515,7 +1653,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
         };
         return generator;
     })
-
     /**
      * @memberof ulakbus.formService
      * @ngdoc controller
