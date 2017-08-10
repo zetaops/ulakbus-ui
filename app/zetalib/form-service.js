@@ -54,7 +54,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
      * @name Generator
      * @description form service's Generator factory service handles all generic form operations
      */
-    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal, $filter, Utils, wfMetadata) {
+    .factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, WSOps, FormConstraints, $uibModal, $filter, Utils, wfMetadata,$cookies) {
         var generator = {};
         /**
          * @memberof ulakbus.formService
@@ -1632,6 +1632,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 return WSOps.request(send_data)
                     .then(function (data) {
                         if (data.cmd === "logout") {
+                            $cookies.put("logoutmsg",angular.toJson({title:data.title,msg:data.msg,type:"warning"}));
                             $log.debug("loggedout");
                             WSOps.close('loggedout');
                             $location.path("/login");
