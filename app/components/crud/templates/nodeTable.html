@@ -77,7 +77,7 @@
                 <!--ng-if="node.schema.inline_edit.indexOf(k) > -1"-->
                 <!--ng-model="node.model[outerIndex][k]"-->
                 <!--ng-change="nodeModelChange(this)">-->
-                <ng-include src="'components/crud/templates/inline_edit.html'" ng-if="inline"></ng-include>
+                <ng-include src="'/components/crud/templates/inline_edit.html'" ng-if="inline"></ng-include>
             </td>
             <td ng-if="meta.allow_actions!==false">
                 <div ng-hide="meta.object_actions.length > 0">

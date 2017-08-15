@@ -871,8 +871,8 @@ angular.module('ulakbus')
             templateUrl: 'shared/templates/demoMode.html',
             restrict: 'E',
             replace: true,
-            controller: function ($scope, $cookies) {
-                $scope.demo = ($cookies.get("demo") === "true")
+            controller: function ($scope, $cookies,$timeout) {
+                $scope.demo = false;
             }
         }
     });

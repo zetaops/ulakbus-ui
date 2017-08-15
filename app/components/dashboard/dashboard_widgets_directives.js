@@ -688,8 +688,7 @@ angular.module('ulakbus.dashboard')
                 };
                 //this is a helper function that will change the format of the date to dd.mm.YYYY
                 function changeDateFormat(dateStr) {
-                    var components = dateStr.split("-");
-                    return components[2]+'.'+components[1]+'.'+components[0];
+                    return moment(dateStr).format('DD.MM.YYYY');
                 }
                 //this function is used to download csv from the csv link received from backend
                 $scope.downloadCsv = function(){
@@ -765,20 +764,31 @@ angular.module('ulakbus.dashboard')
                 placeHolder:'=',
                 ngModel :'='
             },
-            template: '<input placeholder="{{ placeHolder }}" ng-model="ngModel" ng-focus="onFocus($event)" ng-blur="onBlur($event)" style="width: 100%;"/>',
+           // template: '<input placeholder="{{ placeHolder }}" ng-model="ngModel" ng-focus="onFocus($event)" ng-blur="onBlur($event)" style="width: 100%;"/>',
+
+            template: ' <input placeholder="{{ placeHolder }}" type="text" uib-datepicker-popup="{{format}}" style="width:75%;" ng-model="ngModel" is-open="status.opened" min-date="minDate" '+
+            'datepicker-options="dateOptions" readonly close-text="Kapat" current-text="Bugün" clear-text="Temizle" datepicker-append-to-body="true"/>'+
+            '<button style="width:25%;" type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>',
             controller: function ($scope) {
-                $scope.onFocus =function(event){
-                    event.target.type= 'date';
+
+                $scope.clear = function () {
+                    $scope.ngModel = null;
                 };
 
-                $scope.onBlur = function(event){
-                    event.target.type= 'text';
-                    if(event.target.value){
-                        var components = event.target.value.split("-");
-                        event.target.value = components[2]+'.'+components[1]+'.'+components[0];
-                    }
+                $scope.open = function($event) {
+                    $scope.status.opened = true;
+                };
 
-                }
+                $scope.dateOptions = {
+                    formatYear: 'yy',
+                    startingDay: 1
+                };
+
+                $scope.format = 'dd.MM.yyyy';
+
+                $scope.status = {
+                    opened: false
+                };
             }
         }
     });

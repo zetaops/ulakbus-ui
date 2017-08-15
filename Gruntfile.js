@@ -60,7 +60,6 @@ module.exports = function (grunt) {
                 rename: function (moduleName) {
                     var mname = moduleName.replace('../app/', '');
                     mname = mname.replace('components/', '/components/');
-                    mname = mname.replace('shared', '../../shared');
                     return mname;
                 }
             },
