@@ -60,6 +60,7 @@ module.exports = function (grunt) {
                 rename: function (moduleName) {
                     var mname = moduleName.replace('../app/', '');
                     mname = mname.replace('components/', '/components/');
+                    mname = mname.replace('shared', '../../shared');
                     return mname;
                 }
             },
@@ -137,11 +138,13 @@ module.exports = function (grunt) {
             },
             bap_js: {
                 src: [
-                    "app/bap/bap.js",
+                    "app/bap/main.js",
                     "app/bap/bap_routes.js",
                     "app/bap/controller/*.js",
                     "app/bap/directive/*.js",
-                    "app/bap/service/*.js"
+                    "app/bap/service/*.js",
+                    'app/zetalib/form-service.js',
+                    'app/components/crud/crud_controller.js'
                 ],
                 nonull: true,
                 dest: 'dist/bap/bap.js'
@@ -438,7 +441,9 @@ module.exports = function (grunt) {
             prod_branch: {
                 files: {
                     'dist/<%= grunt.branchname %>/index.html': 'app/main.html',
-                    'dist/<%= grunt.branchname %>/app.js': 'app/main.js'
+                    'dist/<%= grunt.branchname %>/app.js': 'app/main.js',
+                    'dist/<%= grunt.branchname %>/bap/index.html': 'app/bap/main.html',
+                    'dist/<%= grunt.branchname %>/bap/bap.js': 'app/bap/main.js'
                 },
                 options: {
                     context: {

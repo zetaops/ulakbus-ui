@@ -14,6 +14,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="/img/favicon.ico">
+    <!-- @if NODE_ENV == 'DEVELOPMENT' -->
     <link rel="stylesheet" href="../bower_components/angular-bootstrap/ui-bootstrap-csp.css">
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../app.css">
@@ -27,6 +28,13 @@
     <link rel="stylesheet" href="../bower_components/toastr/toastr.min.css" type="text/css">
     <link rel="stylesheet" href="../bower_components/angular-ui-select/dist/select.min.css">
     <link rel="stylesheet" href="bap.css">
+    <!-- @endif -->
+
+    <!-- @if NODE_ENV == 'PRODUCTION' -->
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/roboto/roboto.css">
+    <link rel="stylesheet" href="../css/bap.css">
+    <!-- @endif -->
 
 </head>
 <body ng-controller="DashboardController">
@@ -71,9 +79,7 @@
 
             <div class="col-md-10">
                 <div class="col-md-12 tiles-div">
-                    <top-action-buttons button-list="dashboardData.top_action_buttons"></top-action-buttons>
-
-                    <div ng-view></div>
+                    <div class="col-md-12" ng-view></div>
                 </div>
             </div>
 
@@ -82,7 +88,7 @@
     <alert-box></alert-box>
 </div>
 
-
+<!-- @if NODE_ENV == 'DEVELOPMENT' -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="../bower_components/angular/angular.js"></script>
 <script src="../bower_components/angular-i18n/angular-locale_tr.js"></script>
@@ -101,13 +107,16 @@
 <script src="../bower_components/moment/min/moment.min.js"></script>
 <script src="../bower_components/toastr/toastr.min.js"></script>
 <script src="../bower_components/angular-ui-select/dist/select.min.js"></script>
+<!-- @endif -->
 
+<!-- @if NODE_ENV == 'PRODUCTION' -->
+<script src="../bower_components/jquery.min.js"></script>
+<script src="../bower_components/angular.js"></script>
+<script src="../bower_components/components.js"></script>
+<script src="../bower_components/bapComponents.js"></script>
+<script src="../templates.js"></script>
+<script src="../bapTemplates.js"></script>
 <script src="bap.js"></script>
-<script src="bap_routes.js"></script>
-<script src="service/bap-service.js"></script>
-<script src="directive/bap-directive.js"></script>
-<script src="controller/bap-controller.js"></script>
-
-
+<!-- @endif -->
 </body>
 </html>

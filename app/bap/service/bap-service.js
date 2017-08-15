@@ -1017,7 +1017,6 @@ angular.module('ulakbusBap')
      * @param scope
      */
     generator.group = function (scope) {
-        debugger
         if (!scope.grouping) {
             return scope;
         }

@@ -20,8 +20,18 @@ angular.module(
         //'ui.bootstrap',
         'ngRoute',
         'ngSanitize',
+        'ulakbus.formService',
+        'ulakbus.crud',
         'ngCookies',
-        'ui.select'
+        'ui.select',
+        'markdown',
+        'ui.bootstrap',
+        // @if NODE_ENV='PRODUCTION'
+        'templates-prod',
+        'templates-prod_bap'
+        // @endif
+        // @if NODE_ENV='DEVELOPMENT'
+        // @endif
     ])
 /**
  * @memberof ulakbusBap

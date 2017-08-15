@@ -17,7 +17,7 @@ angular.module('ulakbusBap')
  */
     .directive('leftMenu', function ($route) {
         return {
-            templateUrl: '../../components/bapComponents/left-menu.html',
+            templateUrl: '/components/bapComponents/left-menu.html',
             restrict: 'E',
             replace: true,
             scope: {
@@ -52,7 +52,7 @@ angular.module('ulakbusBap')
      */
     .directive('topActionButtons', function () {
         return {
-            templateUrl: '../../components/bapComponents/top-action-buttons.html',
+            templateUrl: '/components/bapComponents/top-action-buttons.html',
             restrict: 'E',
             replace: true,
             scope: {
