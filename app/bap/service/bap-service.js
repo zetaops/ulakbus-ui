@@ -14,7 +14,7 @@ angular.module('ulakbusBap')
  * @name Generator
  * @description form service's Generator factory service handles all generic form operations
  */
-.factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment) {
+.factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, $filter) {
     var generator = {};
     /**
      * @memberof ulakbusBap
@@ -832,10 +832,6 @@ angular.module('ulakbusBap')
                     //});
 
                     var generateTitleMap = function (modelScope) {
-                        var wf_meta_data = wfMetadata.getWfMeta();
-                        if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
-                            modelScope.form_params.wf_meta = wf_meta_data;
-                        }
                         return generator.get_list(modelScope).then(function (res) {
                             formitem.titleMap = [];
                             angular.forEach(res.objects, function (item) {
@@ -908,11 +904,6 @@ angular.module('ulakbusBap')
                             object_id: scope.model[k],
                             cmd: 'object_name'
                         };
-                        var wf_meta_data = wfMetadata.getWfMeta();
-                        if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
-                            form_params.wf_meta = wf_meta_data;
-                        }
-
                         generator.get_list({
                             url: 'crud',
                             form_params: form_params
@@ -963,6 +954,218 @@ angular.module('ulakbusBap')
 
         $log.debug('scope at after prepareformitems', scope);
         return generator.constraints(scope);
+    };
+
+    generator.constraints = function (scope) {
+        angular.forEach(scope.form, function (v, k) {
+            var cons = angular.isDefined(scope.forms) && angular.isDefined(scope.forms.constraints) && (scope.forms.constraints[v] || scope.forms.constraints[v.key]) || void 0;
+            if (angular.isDefined(cons)) {
+                if (v.constructor === String) {
+                    scope.form[k] = {
+                        key: v,
+                        validationMessage: {'form_cons': cons.val_msg},
+                        $validators: {
+                            form_cons: function (value) {
+                                return FormConstraints[cons.cons](value, cons.val, v);
+                            }
+                        }
+                    };
+                } else {
+                    v.key = v.key;
+                    v.validationMessage = angular.extend({'form_cons': cons.val_msg}, v.validationMessage);
+                    v.$validators = angular.extend({
+                        form_cons: function (value) {
+                            return FormConstraints[cons.cons](value, cons.val, v.key);
+                        }
+                    }, v.$asyncValidators);
+                }
+            }
+        });
+        return generator.group(scope);
+    };
+    /**
+     * @memberof ulakbus.formService
+     * @ngdoc function
+     * @name group
+     * @param scope
+     * @description group function to group form layout by form meta data for layout
+     * grouping will use an object like example below when parsing its items.
+     * @example
+     * `grouping = [
+     *  {
+         *      "groups": [
+         *          {
+         *              "group_title": "title1",
+         *              "items": ["item1", "item2", "item3", "item4"],
+         *          }
+         *      ],
+         *      "layout": "4",
+         *      "collapse": False
+         *  },
+     *  {
+         *      "groups": [
+         *          {
+         *              "group_title": "title2",
+         *              "items": ["item5", "item6"],
+         *          }
+         *      ],
+         *      "layout": "2",
+         *      "collapse": False
+         *  }]`
+     *
+     * @returns {*}
+     * @param scope
+     */
+    generator.group = function (scope) {
+        debugger
+        if (!scope.grouping) {
+            return scope;
+        }
+
+        var newForm = [];
+
+        var extractFormItem = function (itemList) {
+            var extractedList = [];
+            angular.forEach(itemList, function (value, key) {
+                var item = getFormItem(value);
+                if (item) {
+                    extractedList.push(item);
+                }
+            });
+
+            $log.debug('extractedList: ', extractedList);
+
+            return extractedList;
+        };
+
+        var getFormItem = function (item) {
+            var formItem;
+            if (scope.form.indexOf(item) > -1) {
+                formItem = scope.form[scope.form.indexOf(item)];
+                scope.form.splice(scope.form.indexOf(item), 1);
+                return formItem;
+            } else {
+                angular.forEach(scope.form, function (value, key) {
+                    if (value.key === item) {
+                        formItem = value;
+                        scope.form.splice(key, 1);
+                        return;
+                    }
+                });
+                return formItem;
+            }
+        };
+
+        var makeGroup = function (itemsToGroup) {
+            var subItems = [];
+            angular.forEach(itemsToGroup, function (value, key) {
+                subItems.push({
+                    type: 'fieldset',
+                    items: extractFormItem(value.items),
+                    title: value.group_title
+                });
+            });
+            return subItems;
+        };
+
+        angular.forEach(scope.grouping, function (value, key) {
+            newForm.push(
+                {
+                    type: 'fieldset',
+                    items: makeGroup(value.groups),
+                    htmlClass: 'col-md-' + value.layout,
+                    title: value.group_title
+                }
+            )
+        });
+
+        if (newForm.length > 0) {
+            $log.debug('grouped form: ', newForm);
+            $log.debug('rest of form: ', scope.form);
+            $log.debug('form united: ', newForm.concat(scope.form));
+        }
+        scope.form = newForm.concat(scope.form);
+        return scope;
+    };
+    /**
+     * @memberof ulakbusBap
+     * @ngdoc function
+     * @name doItemAction
+     * @description `mode` could be in ['normal', 'modal', 'new'] . the default mode is 'normal' and it loads data
+     * on same
+     * tab without modal. 'modal' will use modal to manipulate data and do all actions in that modal. 'new'
+     * will be open new page with response data
+     * @param {Object} $scope
+     * @param {string} key
+     * @param {Object} todo
+     * @param {string} mode
+     * @returns {*}
+     */
+    generator.doItemAction = function ($scope, key, todo, mode) {
+        $scope.form_params.cmd = todo.cmd;
+        $scope.form_params.wf = $scope.wf;
+        if (todo.wf) {
+            $scope.url = todo.wf;
+            $scope.form_params.wf = todo.wf;
+            delete $scope.token;
+            delete $scope.form_params.model;
+            delete $scope.form_params.cmd
+        }
+        if (todo.object_key) {
+            $scope.form_params[todo.object_key] = key;
+        } else {
+            $scope.form_params.object_id = key;
+        }
+        $scope.form_params.param = $scope.param;
+        $scope.form_params.id = $scope.param_id;
+        $scope.form_params.token = $scope.token;
+        var _do = {
+            normal: function () {
+                $log.debug('normal mode starts');
+                return generator.get_wf($scope);
+            },
+            modal: function () {
+                $log.debug('modal mode starts');
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    backdrop: 'static',
+                    keyboard: false,
+                    templateUrl: '../../shared/templates/confirmModalContent.html',
+                    controller: 'ModalController',
+                    size: '',
+                    resolve: {
+                        items: function () {
+                            var newscope = {
+                                form: {
+                                    buttons: [{text: "Evet", style: "btn-success", cmd: "confirm"}, {
+                                        text: "Hayir",
+                                        "style": "btn-warning",
+                                        dismiss: true
+                                    }],
+                                    title: todo.name,
+                                    confirm_message: "Islemi onayliyor musunuz?",
+                                    onClick: function (cmd) {
+                                        modalInstance.close();
+                                        if (cmd === "confirm" && angular.isDefined(cmd)) {
+                                            modalInstance.close();
+                                            return generator.get_wf($scope);
+                                        }
+                                    }
+
+                                }
+                            }
+                            return newscope;
+                        }
+                    }
+                });
+
+
+            },
+            new: function () {
+                $log.debug('new mode is not not ready');
+            }
+        };
+        return _do[mode]();
     };
 
     /**
