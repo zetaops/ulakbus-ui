@@ -49,7 +49,7 @@ angular.module('ulakbus')
             'open_inspector': function () {
                 var modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl: 'shared/templates/actionsModalContent.html',
+                    templateUrl: '/shared/templates/actionsModalContent.html',
                     controller: 'ActionsModalController',
                     resolve: {
                         items: function () {

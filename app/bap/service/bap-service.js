@@ -472,7 +472,7 @@ angular.module('ulakbusBap')
 
             formitem = {
                 type: "template",
-                templateUrl: "../../shared/templates/multiselect.html",
+                templateUrl: "/shared/templates/multiselect.html",
                 title: v.title,
                 // formName will be used in modal return to save item on form
                 formName: k,
@@ -539,7 +539,7 @@ angular.module('ulakbusBap')
                     scope.form[scope.form.indexOf(k)] = {
                         type: "template",
                         title: v.title,
-                        templateUrl: "../../shared/templates/filefield.html",
+                        templateUrl: "/shared/templates/filefield.html",
                         name: k,
                         key: k,
                         fileInsert: function () {
@@ -570,13 +570,45 @@ angular.module('ulakbusBap')
             },
             select: {
                 default: function (scope, v, k) {
+                    var nullExist = false;
+                    for(var i=0; i<v.titleMap.length; i++){
+                        if(v.titleMap[i].value ==='-1'){
+                            nullExist = true;
+                            break;
+                        }
+                    }
+                    if(!nullExist){
+                        titleMap: v.titleMap.unshift({name:"-",value:'-1'});
+                    }
                     scope.form[scope.form.indexOf(k)] = {
                         type: "template",
                         title: v.title,
-                        templateUrl: "../../shared/templates/select.html",
+                        templateUrl: "/shared/templates/select.html",
                         name: k,
+                        readonly: angular.isDefined(scope.forms) && scope.forms.schema.properties[k]&&scope.forms.schema.properties[k].readonly,
                         key: k,
-                        titleMap: v.titleMap
+                        titleMap: v.titleMap,
+                        validationMessage: {
+                            'requiredMessage': 'Bu alan zorunludur.'
+                        },
+                        $validators:{
+                            'requiredMessage':function (value) {
+                                if (scope.schema.required.indexOf(k) > -1) {
+                                    {
+                                        if(!value || value=='-1') {
+                                            scope.model[k] = '-1';
+                                            return false;
+                                        }
+                                        else {
+                                            return true;
+                                        }
+                                    }
+                                } else {
+                                    return true;
+                                }
+                                return true
+                            }
+                        }
                     };
                 }
             },
@@ -586,7 +618,7 @@ angular.module('ulakbusBap')
                         type: "template",
                         title: v.title,
                         confirm_message: v.confirm_message,
-                        templateUrl: "../../shared/templates/confirm.html",
+                        templateUrl: "/shared/templates/confirm.html",
                         name: k,
                         key: k,
                         style: v.style,
@@ -616,7 +648,7 @@ angular.module('ulakbusBap')
 
                             var modalInstance = $uibModal.open({
                                 animation: true,
-                                templateUrl: '../../shared/templates/confirmModalContent.html',
+                                templateUrl: '/shared/templates/confirmModalContent.html',
                                 controller: 'ModalController',
                                 resolve: {
                                     items: function () {
@@ -668,7 +700,7 @@ angular.module('ulakbusBap')
                         name: k,
                         title: v.title,
                         type: 'template',
-                        templateUrl: '../../shared/templates/datefield.html',
+                        templateUrl: '/shared/templates/datefield.html',
                         validationMessage: {
                             'date': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>",
                             'schemaForm': 'Bu alan zorunludur.'
@@ -746,6 +778,33 @@ angular.module('ulakbusBap')
             },
             string: {
                 default: function (scope, v, k) {
+                    scope.form[scope.form.indexOf(k)] = {
+                        key: k,
+                        name: k,
+                        title: v.title,
+                        validationMessage: {
+                            'min': function(ctx) { return "En az "+ctx.form.schema.min_length+" karakter uzunluğunda olmalıdır."},
+                            'max': function(ctx) { return "En çok "+ctx.form.schema.max_length+" karakter uzunluğunda olmalıdır."}
+                        },
+                        $validators: {
+                            min: function(value) {
+                                //check if min_length exist
+                                if (angular.isDefined(scope.schema.properties[k].min_length) && scope.schema.properties[k].min_length !== null) {
+                                    return (value === null || value.length >= scope.schema.properties[k].min_length);
+                                }else {
+                                    return true;
+                                }
+                            },
+                            max: function(value) {
+                                //check if max_length exist
+                                if (angular.isDefined(scope.schema.properties[k].max_length) && scope.schema.properties[k].max_length !== null) {
+                                    return (value === null || value.length <= scope.schema.properties[k].max_length);
+                                }else {
+                                    return true;
+                                }
+                            }
+                        }
+                    };
                 }
             },
             password: {
@@ -763,7 +822,7 @@ angular.module('ulakbusBap')
                         type: "template",
                         title: v.title,
                         titleMap: v.titleMap,
-                        templateUrl: "../../shared/templates/typeahead.html",
+                        templateUrl: "/shared/templates/typeahead.html",
                         name: k,
                         key: k,
                         onDropdownSelect: function (item, inputname) {
@@ -795,7 +854,7 @@ angular.module('ulakbusBap')
                                 return res;
                             });
                         },
-                        templateUrl: "../../shared/templates/typeahead.html",
+                        templateUrl: "/shared/templates/typeahead.html",
                         name: k,
                         key: k,
                         onDropdownSelect: function (item, inputname) {
@@ -813,7 +872,34 @@ angular.module('ulakbusBap')
                     v.type = 'string';
                     v["x-schema-form"] = {
                         "type": "textarea"
-                    }
+                    };
+                    scope.form[scope.form.indexOf(k)] = {
+                        key: k,
+                        name: k,
+                        title: v.title,
+                        validationMessage: {
+                            'min': function(ctx) { return "En az "+ctx.form.schema.min_length+" karakter uzunluğunda olmalıdır."},
+                            'max': function(ctx) { return "En çok "+ctx.form.schema.max_length+" karakter uzunluğunda olmalıdır."}
+                        },
+                        $validators: {
+                            min: function(value) {
+                                //check if min_length exist
+                                if (angular.isDefined(scope.schema.properties[k].min_length) && scope.schema.properties[k].min_length !== null) {
+                                    return (value === null || value.length >= scope.schema.properties[k].min_length);
+                                }else {
+                                    return true;
+                                }
+                            },
+                            max: function(value) {
+                                //check if max_length exist
+                                if (angular.isDefined(scope.schema.properties[k].max_length) && scope.schema.properties[k].max_length !== null) {
+                                    return (value === null || value.length <= scope.schema.properties[k].max_length);
+                                }else {
+                                    return true;
+                                }
+                            }
+                        }
+                    };
                 }
             },
             float: {default: _numbers},
@@ -836,10 +922,17 @@ angular.module('ulakbusBap')
                             formitem.titleMap = [];
                             angular.forEach(res.objects, function (item) {
                                 if (item !== -1) {
-                                    formitem.titleMap.push({
-                                        "value": item.key,
-                                        "name": item.value
-                                    });
+                                    if(item!==0){
+                                        formitem.titleMap.push({
+                                            "value": item.key,
+                                            "name": item.value
+                                        });
+                                    }else{
+                                        formitem.titleMap.push({
+                                            "value": '',
+                                            "name": ''
+                                        });
+                                    }
                                 } else {
                                     formitem.focusToInput = true;
                                 }
@@ -852,7 +945,7 @@ angular.module('ulakbusBap')
 
                     formitem = {
                         type: "template",
-                        templateUrl: "../../shared/templates/foreignKey.html",
+                        templateUrl: "/shared/templates/foreignKey.html",
                         // formName will be used in modal return to save item on form
                         formName: k,
                         title: v.title,
@@ -984,35 +1077,13 @@ angular.module('ulakbusBap')
         return generator.group(scope);
     };
     /**
-     * @memberof ulakbus.formService
+     * @memberof ulakbusBap
      * @ngdoc function
      * @name group
      * @param scope
      * @description group function to group form layout by form meta data for layout
      * grouping will use an object like example below when parsing its items.
      * @example
-     * `grouping = [
-     *  {
-         *      "groups": [
-         *          {
-         *              "group_title": "title1",
-         *              "items": ["item1", "item2", "item3", "item4"],
-         *          }
-         *      ],
-         *      "layout": "4",
-         *      "collapse": False
-         *  },
-     *  {
-         *      "groups": [
-         *          {
-         *              "group_title": "title2",
-         *              "items": ["item5", "item6"],
-         *          }
-         *      ],
-         *      "layout": "2",
-         *      "collapse": False
-         *  }]`
-     *
      * @returns {*}
      * @param scope
      */
@@ -1129,7 +1200,7 @@ angular.module('ulakbusBap')
                     animation: true,
                     backdrop: 'static',
                     keyboard: false,
-                    templateUrl: '../../shared/templates/confirmModalContent.html',
+                    templateUrl: '/shared/templates/confirmModalContent.html',
                     controller: 'ModalController',
                     size: '',
                     resolve: {
