@@ -60,6 +60,7 @@ module.exports = function (grunt) {
                 rename: function (moduleName) {
                     var mname = moduleName.replace('../app/', '');
                     mname = mname.replace('components/', '/components/');
+                    mname = mname.replace('shared/', '/shared/');
                     return mname;
                 }
             },
@@ -198,6 +199,7 @@ module.exports = function (grunt) {
                     "app/bower_components/tv4/tv4.js",
                     "app/bower_components/objectpath/lib/ObjectPath.js",
                     "app/bower_components/angular-schema-form/dist/schema-form.js",
+                    "app/bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
                     "app/bower_components/moment/min/moment.min.js",
                     "app/bower_components/toastr/toastr.min.js",
                     "app/bower_components/angular-ui-select/dist/select.min.js"
