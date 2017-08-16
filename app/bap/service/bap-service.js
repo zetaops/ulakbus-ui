@@ -211,6 +211,113 @@ angular.module('ulakbusBap')
     };
 
     /**
+     * @memberof ulakbus.formService
+     * @ngdoc function
+     * @name submit
+     * @description Submit function is generic function for submiting forms.
+     * - redirectTo param is used for redirect if return value will be evaluated in a new page.
+     * - In case of unformatted date object in any key recursively, it must be converted by convertDate function.
+     * - ListNode and Node objects get seperated from model in
+     * {@link prepareFormItems module:ulakbus.formService.function:prepareFormItems} They must be concat to model
+     * key of scope first.
+     * - Backend API waits form as model value. So `data.form` key must be set to `$scope.model`
+     * - Other parameters we pass to backend API are shown in the example below
+     * ```
+     *  var data = {
+                "form": $scope.model,
+                "token": $scope.token,
+                "model": $scope.form_params.model,
+                "cmd": $scope.form_params.cmd,
+                "flow": $scope.form_params.flow,
+                "object_id": $scope.object_id,
+                "filter": $scope.filter,
+                "query": $scope.form_params.query
+            };
+     * ```
+     *
+     * Special response object process
+     * -------------------------------
+     *
+     * - If response object is a downloadable pdf file, checking from headers `headers('content-type') ===
+     * "application/pdf"` download using Blob object.
+     *
+     * @param {Object} $scope
+     * @param {Object} redirectTo
+     * @param {Boolean} dontProcessReply - used in modal forms
+     * @returns {*}
+     * @todo diff for all submits to recognize form change. if no change returns to view with no submit
+     */
+    generator.submit = function ($scope, redirectTo, dontProcessReply) {
+
+        var checkAndReformatModel = function (model) {
+            var modelKeys = Object.keys(model);
+            for(var i=0; i < modelKeys.length; i++){
+                if(typeof(model[modelKeys[i]]) === 'object'){
+                    formatTypeaheadStructure(model[modelKeys[i]]);
+                }
+            }
+        };
+        var formatTypeaheadStructure = function (listNodeModel) {
+            if(angular.isUndefined(listNodeModel) || listNodeModel === null || listNodeModel.length === 0 ){
+                return;
+            }
+            for(var i=0; i<listNodeModel.length; i++){
+                var key = Object.keys(listNodeModel[i]);
+                if(key.length === 1){
+                    var modelKeys = Object.keys(listNodeModel[i][key]);
+                    if(modelKeys.indexOf('verbose_name') > -1 && modelKeys.indexOf('unicode') > -1 && modelKeys.indexOf('key') > -1 ){
+                        var value = listNodeModel[i][key]['key'];
+                        listNodeModel[i] = {};
+                        listNodeModel[i][key] = value;
+                    }
+                }
+            }
+        };
+
+        angular.forEach($scope.form, function (v, k) {
+            if (typeof v === 'object' && v.templateUrl && v.templateUrl.indexOf("/select.html") != -1) {
+                if ($scope.model[v.name] === "-1") {
+                    delete $scope.model[v.name]
+                }
+            }
+        });
+
+        angular.forEach($scope.ListNode, function (value, key) {
+            $scope.model[key] = value.model;
+        });
+        angular.forEach($scope.Node, function (value, key) {
+            $scope.model[key] = value.model;
+        });
+
+        // format date without changing scopes date objects
+        var model = angular.copy($scope.model);
+        generator.convertDate(model);
+
+        // todo: unused var delete
+        var send_data = {
+            "form": model,
+            "object_key": $scope.object_key,
+            "token": $scope.token,
+            "model": $scope.form_params.model,
+            "wf": $scope.form_params.wf,
+            "cmd": $scope.form_params.cmd,
+            "flow": $scope.form_params.flow,
+            "object_id": $scope.object_id,
+            "filter": $scope.filter,
+            "query": $scope.form_params.query
+        };
+        //reformat typeahead data structure for listnode
+        checkAndReformatModel(model);
+        return $http
+            .post(generator.makeUrl(send_data.wf), send_data)
+            .success(function (data) {
+                if (!dontProcessReply) {
+                    return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
+                }
+                return data;
+            });
+    };
+    /**
      * @memberof ulakbusBap
      * @ngdoc function
      * @name prepareFormItems
@@ -1311,7 +1418,116 @@ angular.module('ulakbusBap')
         }
 
         $log.debug(scope.objects);
-    }
+    };
+
+    /**
+     * In case of unformatted date object in any key recursively, it must be converted.
+     * @param model
+     */
+    generator.convertDate = function (model) {
+        angular.forEach(model, function (value, key) {
+            if (value && value.constructor === Date) {
+                model[key] = generator.dateformatter(value);
+            } else if (value && value.constructor === Object) {
+                // check recursively
+                generator.convertDate(value);
+            }
+        });
+    };
+
+    /**
+     * @memberof ulakbusBap
+     * @ngdoc function
+     * @name dateformatter
+     * @description dateformatter handles all date fields and returns humanized and jquery datepicker format dates
+     * @param {Object} formObject
+     * @returns {*}
+     */
+    generator.dateformatter = function (formObject) {
+        var ndate = new Date(formObject);
+        if (isNaN(ndate) || formObject === null) {
+            return null;
+        } else {
+            var newdatearray = Moment(ndate).format('DD.MM.YYYY');
+            $log.debug('date formatted: ', newdatearray);
+            return newdatearray;
+        }
+    };
+
+    generator.button_switch = function (position) {
+        var buttons = angular.element(document.querySelectorAll('button'));
+        var positions = {true: "enabled", false: "disabled"};
+        angular.forEach(buttons, function (button, key) {
+            button[positions[position]] = true;
+        });
+        $log.debug('buttons >> ', positions[position])
+    };
+
+    generator.get_form = function (scope) {
+        return $http.post(generator.makeUrl(scope.form_params.wf), {})
+            .success(function (response, status, headers, config) {
+                return generator.generate(scope, response);
+            });
+    };
+
+    generator.get_list = function (scope) {
+        var form_params = scope.form_params;
+
+        var isSearchResult = ((form_params.cmd === 'select_list' || form_params.cmd === 'object_name') && (form_params.wf === 'crud'))?true:false;
+
+        return $http.post(generator.makeUrl(scope.form_params.wf), {})
+            .success(function (data, status, headers, config) {
+                return data;
+            });
+    };
+
+    generator.get_diff = function (oldObj, newObj) {
+        var result = {};
+        angular.forEach(newObj, function (value, key) {
+            if (oldObj[key]) {
+                if ((oldObj[key].constructor === newObj[key].constructor) && (newObj[key].constructor === Object || newObj[key].constructor === Array)) {
+                    angular.forEach(value, function (v, k) {
+                        if (oldObj[key][k] != value[k]) {
+                            result[key][k] = angular.copy(value[k]);
+                        }
+                    });
+                } else {
+                    if (oldObj[key] != newObj[key]) {
+                        result[key] = angular.copy(newObj[key]);
+                    }
+                }
+            } else {
+                result[key] = angular.copy(newObj[key]);
+            }
+        });
+        return result;
+    };
+
+    generator.get_diff_array = function (array1, array2, way) {
+        var result = [];
+        angular.forEach(array1, function (value, key) {
+            if (way === 1) {
+                if (angular.toJson(array2).indexOf(value.value) < 0) {
+                    result.push(value);
+                }
+            } else {
+                if (angular.toJson(array2).indexOf(angular.toJson(value)) < 0) {
+                    result.push(value);
+                }
+            }
+        });
+        return result;
+    };
+
+    generator.item_from_array = function (item, array) {
+        var result = item;
+        angular.forEach(array, function (value, key) {
+            if (value.value === item) {
+                result = value.name;
+            }
+        });
+        return result;
+    };
 
     return generator;
 })
