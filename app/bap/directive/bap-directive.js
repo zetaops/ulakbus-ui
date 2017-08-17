@@ -126,4 +126,18 @@ angular.module('ulakbusBap')
                 });
             }
         };
+    })
+
+    /**
+     * @memberof ulakbusBap
+     * @ngdoc directive
+     * @name msgbox
+     * @description Holds msgbox template with related rootscope items.
+     */
+    .directive('msgbox', function () {
+        return {
+            templateUrl: '/shared/templates/directives/msgbox.html',
+            restrict: 'E',
+            replace: false
+        };
     });
