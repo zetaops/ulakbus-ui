@@ -42,7 +42,7 @@ angular.module('ulakbus')
             })
             //for public pages
             .when('/pub/:wf/', {
-                templateUrl: 'components/crud/templates/crud-preload.html',
+                templateUrl: '/components/crud/templates/crud-preload.html',
                 controller: 'CRUDController',
                 isPublic: true
             })
