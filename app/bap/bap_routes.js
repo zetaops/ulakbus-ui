@@ -67,8 +67,13 @@ angular.module('ulakbusBap')
                     // handle toast notifications here
                     if (response.data.notify) {toastr.info(response.data.notify)}
 
+                    if (response.data.error) {toastr.error(response.data.code)}
+
                     return response;
                 }
             };
         });
+
+        $httpProvider.defaults.withCredentials = true;
+
     }]);
