@@ -24,6 +24,11 @@ angular.module('ulakbusBap')
             .otherwise({redirectTo: '/bap_anasayfa'});
     }])
 
+    .run(function ($rootScope) {
+        //reset the value of user interaction on form when page refreshes
+        $rootScope.isUserClicked = false;
+    })
+
     .config(['$httpProvider', function ($httpProvider) {
         /**
          * @memberof ulakbusBap
