@@ -67,7 +67,18 @@ angular.module('ulakbusBap')
                     // handle toast notifications here
                     if (response.data.notify) {toastr.info(response.data.notify)}
 
-                    if (response.data.error) {toastr.error(response.data.code)}
+                    if (response.data.error) {
+                        //not authorized
+                        if(response.data.code === 401){
+                            var protocol = window.location.protocol;
+                            var host = window.location.host;
+                            //redirect to login page for wf that requires authentication
+                            window.location.replace(protocol +'//'+ host +'/#/login');
+                            return;
+                        }else{
+                            toastr.error(response.data.code)
+                        }
+                    }
 
                     return response;
                 }
