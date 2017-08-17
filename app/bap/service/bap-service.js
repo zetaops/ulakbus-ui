@@ -14,7 +14,7 @@ angular.module('ulakbusBap')
  * @name Generator
  * @description form service's Generator factory service handles all generic form operations
  */
-.factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, $filter) {
+.factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, $filter,wfMetadata) {
     var generator = {};
     /**
      * @memberof ulakbusBap
@@ -82,8 +82,9 @@ angular.module('ulakbusBap')
      * @returns {*}
      */
     generator.get_wf = function (scope) {
-        return $http.post(generator.makeUrl(scope.form_params.wf), {})
+        return $http.post(generator.makeUrl(scope.form_params.wf), scope.form_params)
             .success(function (response, status, headers, config) {
+                wfMetadata.setWfMeta(response.wf_meta);
                 return generator.pathDecider(response.client_cmd || ['list'], scope, response);
             });
     };
@@ -115,7 +116,6 @@ angular.module('ulakbusBap')
      * @param {Object} data
      */
     generator.pathDecider = function (client_cmd, $scope, data) {
-
         /**
          * @memberof ulakbusBap
          * @ngdoc function
@@ -306,11 +306,18 @@ angular.module('ulakbusBap')
             "filter": $scope.filter,
             "query": $scope.form_params.query
         };
+        //check if wf_meta is present or not
+        var wf_meta_data = wfMetadata.getWfMeta();
+        if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
+            send_data.wf_meta = wf_meta_data;
+        }
         //reformat typeahead data structure for listnode
         checkAndReformatModel(model);
         return $http
             .post(generator.makeUrl(send_data.wf), send_data)
             .success(function (data) {
+                // if response data.cmd is 'upgrade'
+                wfMetadata.setWfMeta(data.wf_meta);
                 if (!dontProcessReply) {
                     return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
                 }
@@ -1025,6 +1032,10 @@ angular.module('ulakbusBap')
                     //});
 
                     var generateTitleMap = function (modelScope) {
+                        var wf_meta_data = wfMetadata.getWfMeta();
+                        if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
+                            modelScope.form_params.wf_meta = wf_meta_data;
+                        }
                         return generator.get_list(modelScope).then(function (res) {
                             formitem.titleMap = [];
                             angular.forEach(res.objects, function (item) {
@@ -1104,6 +1115,10 @@ angular.module('ulakbusBap')
                             object_id: scope.model[k],
                             cmd: 'object_name'
                         };
+                        var wf_meta_data = wfMetadata.getWfMeta();
+                        if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
+                            form_params.wf_meta = wf_meta_data;
+                        }
                         generator.get_list({
                             url: 'crud',
                             form_params: form_params
@@ -1296,6 +1311,11 @@ angular.module('ulakbusBap')
         $scope.form_params.param = $scope.param;
         $scope.form_params.id = $scope.param_id;
         $scope.form_params.token = $scope.token;
+        //this will execute for edit/delete buttons
+        var wf_meta_data = wfMetadata.getWfMeta();
+        if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
+            $scope.form_params.wf_meta = wf_meta_data;
+        }
         var _do = {
             normal: function () {
                 $log.debug('normal mode starts');
@@ -1466,6 +1486,7 @@ angular.module('ulakbusBap')
     generator.get_form = function (scope) {
         return $http.post(generator.makeUrl(scope.form_params.wf), {})
             .success(function (response, status, headers, config) {
+                wfMetadata.setWfMeta(response.wf_meta);
                 return generator.generate(scope, response);
             });
     };
@@ -1477,6 +1498,10 @@ angular.module('ulakbusBap')
 
         return $http.post(generator.makeUrl(scope.form_params.wf), {})
             .success(function (data, status, headers, config) {
+                //we need to set the wf_meta of the main wf and not from the response of typeahead
+                if(!isSearchResult){
+                    wfMetadata.setWfMeta(data.wf_meta);
+                }
                 return data;
             });
     };
@@ -1532,6 +1557,137 @@ angular.module('ulakbusBap')
     return generator;
 })
 
+.service("Utils", function($rootScope, $q) {
+    var self = this;
+
+    // check if obj1 has properties values equal to corresponding properties in obj2
+    function hasEqualProperties(obj1, obj2) {
+        var result = true;
+        for (var prop in obj2) {
+            if (obj2.hasOwnProperty(prop)) {
+                result = result && obj2[prop] == obj1[prop];
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @param list {Array} Array of objects to group
+     * @param propName {String} property name to group array by
+     * @param initialObject {Object} initial object for groups setup
+     * @returns {Object}
+     */
+
+    this.groupBy = function(list, propName, initialObject) {
+        if (!initialObject) initialObject = {};
+        return list.reduce(function(acc, item) {
+            (acc[item[propName]] = acc[item[propName]] || []).push(item);
+            return acc;
+        }, initialObject);
+    };
+
+    /**
+     * @param list {Array} Array of objects to group
+     * @param condition {Object} conditions object. If object in collection has same values as in conditions object it will be removed
+     * @returns {Object}|undefined removed object or undefined
+     */
+    this.deleteWhere = function(list, condition) {
+        for (var i = 0; i < list.length; i++) {
+            if (hasEqualProperties(list[i], condition)) {
+                list.splice(i, 1);
+                return list[i];
+            }
+        }
+    };
+
+    /**
+     * @param list {Array} Array of objects to group
+     * @param condition {Object} conditions object. If object in collection has same values as in conditions object found object will be returned
+     * @returns {Object}|undefined
+     */
+    this.findWhere = function(list, condition) {
+        for (var i = 0; i < list.length; i++) {
+            if (hasEqualProperties(list[i], condition)) {
+                return list[i];
+            }
+        }
+    }
+
+    /**
+     * @param collection {Array|Object} Array of objects to group
+     * @param callback {Function} Callback to apply to every element of the collection
+     * @returns None
+     */
+    this.iterate = function(collection, callback) {
+        angular.forEach(collection, function(val, key) {
+            // don't iterate over angular binding indexes
+            if (key.indexOf && key.indexOf('$$') == 0) {
+                return;
+            }
+            callback(val, key);
+        })
+    };
+
+    /**
+     *
+     * returns date formated like   "5 Eylül 2016 - Pazartesi"
+     * @param {Date} data
+     * @returns {string}
+     */
+    this.genDate = function(date) {
+        date = date.contructor == Date ? date : new Date(date);
+        var months = new Array("Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık");
+        var days = new Array("Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi");
+
+        var year = date.getFullYear();
+        var month = date.getMonth();
+        var day = date.getDate();
+        var weekly = date.getDay();
+        return day + " " + months[month] + " " + year + " - " + days[weekly];
+    }
+
+    this.formatDate = function(date){
+        date = date.contructor == Date ? date : new Date(date);
+        var yil = date.getFullYear();
+        var ay = addzero(date.getMonth()+1);
+        var gun = addzero(date.getDate());
+        return gun + "." + ay + "." + yil
+
+        function addzero(number){
+            var num = ""+number;
+            return num.length == 1 ? "0" + num : num;
+        }
+    }
+
+    // a method for saving files to disk
+    this.saveToDisk = function(fileURL, fileName) {
+        // for non-IE
+        if (!window.ActiveXObject) {
+            var save = document.createElement('a');
+            save.href = fileURL;
+            save.target = '_blank';
+            save.download = fileName || 'unknown';
+
+            var evt = new MouseEvent('click', {
+                'view': window,
+                'bubbles': true,
+                'cancelable': false
+            });
+            save.dispatchEvent(evt);
+
+            (window.URL || window.webkitURL).revokeObjectURL(save.href);
+        }
+
+        // for IE < 11
+        else if ( !! window.ActiveXObject && document.execCommand)     {
+            var _window = window.open(fileURL, '_blank');
+            _window.document.close();
+            _window.document.execCommand('SaveAs', true, fileName || fileURL)
+            _window.close();
+        }
+    }
+})
+
 .service('Moment', function () {
     return window.moment;
-})
+});
