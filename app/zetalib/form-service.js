@@ -858,7 +858,16 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         };
                     }
                 },
-                int: {default: _numbers},
+                int: {
+                    default: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            type: "integer",
+                            title: v.title,
+                            name: k,
+                            key: k
+                        }
+                    }
+                },
                 boolean: {
                     default: function (scope, v, k) {
                     }
