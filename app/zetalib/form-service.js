@@ -858,7 +858,17 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         };
                     }
                 },
-                int: {default: _numbers},
+                int: {
+                    default: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            type: "number",
+                            title: v.title,
+                            name: k,
+                            key: k,
+                            fieldHtmlClass: "integerField"
+                        }
+                    }
+                },
                 boolean: {
                     default: function (scope, v, k) {
                     }
@@ -989,7 +999,16 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         };
                     }
                 },
-                float: {default: _numbers},
+                float:  {
+                    default: function (scope, v, k) {
+                        scope.form[scope.form.indexOf(k)] = {
+                            type: "number",
+                            title: v.title,
+                            name: k,
+                            key: k
+                        }
+                    }
+                },
                 model: {
                     default: function (scope, v, k) {
 
