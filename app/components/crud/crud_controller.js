@@ -674,8 +674,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
     });
 $(document).ready(function () {
     //validate the integer field
-    $(document).on('keypress','input[type=integer]', function (evt) {
-        debugger
+    $(document).on('keypress','.integerField', function (evt) {
         evt = (evt) ? evt : window.event;
         var charCode = (evt.which) ? evt.which : evt.keyCode;
         if (charCode > 31 && (charCode < 48 || charCode > 57)) {
