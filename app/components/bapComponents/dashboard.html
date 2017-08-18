@@ -1,0 +1,20 @@
+<top-action-buttons button-list="dashboardData.top_action_buttons"></top-action-buttons>
+<div class="col-md-12">
+    <div class="col-md-12 detail-box">
+        <h4 ng-repeat="announcement in dashboardData.bidding.announcements" ng-click="clickAnnouncement(announcement)">
+            {{announcement.text}}
+        </h4>
+        <div class="col-md-12">
+            <button class="brand-bg pull-right" ng-click="clickMore(dashboardData.bidding.more.wf);">{{dashboardData.bidding.more.text}}</button>
+        </div>
+    </div>
+
+    <div class="col-md-12 detail-box">
+        <h4 ng-repeat="announcement in dashboardData.general.announcements" ng-click="clickAnnouncement(announcement)">
+            {{announcement.text}}
+        </h4>
+        <div class="col-md-12">
+            <button class="brand-bg pull-right" ng-click="clickMore(dashboardData.general.more.wf);">{{dashboardData.general.more.text}}</button>
+        </div>
+    </div>
+</div>

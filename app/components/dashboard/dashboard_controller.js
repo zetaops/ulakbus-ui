@@ -96,7 +96,7 @@ angular.module('ulakbus.dashboard', [])
             return WSOps.request({view: where + '_ara', query_params: what});
         };
 
-        $scope.userPopover = {templateUrl: 'components/dashboard/user-info.html'};
+        $scope.userPopover = {templateUrl: '/components/dashboard/user-info.html'};
 
         /**
          * when student or personel search results appear,

@@ -86,7 +86,7 @@ angular.module('ulakbus.dashboard')
     })
     .directive('userTasks', function (TasksService) {
         return {
-            templateUrl: 'components/dashboard/directives/user-tasks.html',
+            templateUrl: '/components/dashboard/directives/user-tasks.html',
             restrict: 'E',
             replace: true,
             scope: {},
@@ -266,7 +266,7 @@ angular.module('ulakbus.dashboard')
     })
     .directive('singleTask', function (TasksService, Utils ) {
         return {
-            templateUrl: 'components/dashboard/directives/single-task.html',
+            templateUrl: '/components/dashboard/directives/single-task.html',
             restrict: 'E',
             replace: true,
             scope: {
@@ -334,7 +334,7 @@ angular.module('ulakbus.dashboard')
          * if no task exist in task status group, no task message shown.
          */
         return {
-            templateUrl: 'components/dashboard/directives/empty-task.html',
+            templateUrl: '/components/dashboard/directives/empty-task.html',
             restrict: 'E',
             replace: true,
             scope: {
@@ -344,7 +344,7 @@ angular.module('ulakbus.dashboard')
     })
     .directive('academicCalendar', function () {
         return {
-            templateUrl: 'components/dashboard/directives/academic-calendar.html',
+            templateUrl: '/components/dashboard/directives/academic-calendar.html',
             restrict: 'E',
             replace: true,
             scope: {},
@@ -354,14 +354,14 @@ angular.module('ulakbus.dashboard')
     })
     .directive('dashboardTables', function() {
         return {
-            templateUrl: 'components/dashboard/directives/dashboard-tables.html',
+            templateUrl: '/components/dashboard/directives/dashboard-tables.html',
             restrict: 'E',
             replace: true
         }
     })
     .directive('zetaGrid', function(WSOps, uiGridConstants, $timeout, $q, $rootScope) {
         return {
-            templateUrl: 'components/dashboard/directives/zeta-grid.html',
+            templateUrl: '/components/dashboard/directives/zeta-grid.html',
             restrict: 'E',
             scope:{
                 gridOptionsProvided : '=',

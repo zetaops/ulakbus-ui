@@ -26,7 +26,7 @@ angular.module("ulakbus.messaging")
         }
 
         return {
-            templateUrl: 'components/messaging/templates/index.html',
+            templateUrl: '/components/messaging/templates/index.html',
             restrict: 'E',
             scope: {},
             link: function(iScope, iElem, iAttrs){

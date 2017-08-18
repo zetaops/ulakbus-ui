@@ -1,0 +1,9 @@
+<div class="vertical-menu">
+    <h3 class="title">{{menuItems.title}}</h3>
+    <ul class="nav nav-pills nav-stacked left-menu" id="bap-menu">
+        <li ng-repeat="menu in menuItems.items">
+            <a ng-href="#/{{menu.wf}}" ng-class="{active: selectedMenu == $index}" ng-click="setActive($index)">{{menu.text}}</a>
+        </li>
+    </ul>
+</div>
+

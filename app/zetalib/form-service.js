@@ -558,7 +558,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                 formitem = {
                     type: "template",
-                    templateUrl: "shared/templates/multiselect.html",
+                    templateUrl: "/shared/templates/multiselect.html",
                     title: v.title,
                     // formName will be used in modal return to save item on form
                     formName: k,
@@ -625,7 +625,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         scope.form[scope.form.indexOf(k)] = {
                             type: "template",
                             title: v.title,
-                            templateUrl: "shared/templates/filefield.html",
+                            templateUrl: "/shared/templates/filefield.html",
                             name: k,
                             key: k,
                             fileInsert: function () {
@@ -669,7 +669,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         scope.form[scope.form.indexOf(k)] = {
                             type: "template",
                             title: v.title,
-                            templateUrl: "shared/templates/select.html",
+                            templateUrl: "/shared/templates/select.html",
                             name: k,
                             readonly: angular.isDefined(scope.forms) && scope.forms.schema.properties[k]&&scope.forms.schema.properties[k].readonly,
                             key: k,
@@ -704,7 +704,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             type: "template",
                             title: v.title,
                             confirm_message: v.confirm_message,
-                            templateUrl: "shared/templates/confirm.html",
+                            templateUrl: "/shared/templates/confirm.html",
                             name: k,
                             key: k,
                             style: v.style,
@@ -734,7 +734,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                                 var modalInstance = $uibModal.open({
                                     animation: true,
-                                    templateUrl: 'shared/templates/confirmModalContent.html',
+                                    templateUrl: '/shared/templates/confirmModalContent.html',
                                     controller: 'ModalController',
                                     resolve: {
                                         items: function () {
@@ -787,7 +787,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             readonly:scope.forms.schema.properties[k]&&scope.forms.schema.properties[k].readonly,
                             title: v.title,
                             type: 'template',
-                            templateUrl: 'shared/templates/datefield.html',
+                            templateUrl: '/shared/templates/datefield.html',
                             validationMessage: {
                                 'date': "Girdiğiniz tarih geçerli değildir. <i>orn: '01.01.2015'<i/>",
                                 'schemaForm': 'Bu alan zorunludur.'
@@ -909,7 +909,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             type: "template",
                             title: v.title,
                             titleMap: v.titleMap,
-                            templateUrl: "shared/templates/typeahead.html",
+                            templateUrl: "/shared/templates/typeahead.html",
                             name: k,
                             key: k,
                             onDropdownSelect: function (item, inputname) {
@@ -941,7 +941,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                     return res;
                                 });
                             },
-                            templateUrl: "shared/templates/typeahead.html",
+                            templateUrl: "/shared/templates/typeahead.html",
                             name: k,
                             key: k,
                             onDropdownSelect: function (item, inputname) {
@@ -1036,7 +1036,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                         formitem = {
                             type: "template",
-                            templateUrl: "shared/templates/foreignKey.html",
+                            templateUrl: "/shared/templates/foreignKey.html",
                             // formName will be used in modal return to save item on form
                             formName: k,
                             title: v.title,
@@ -1222,7 +1222,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         animation: true,
                         backdrop: 'static',
                         keyboard: false,
-                        templateUrl: 'shared/templates/confirmModalContent.html',
+                        templateUrl: '/shared/templates/confirmModalContent.html',
                         controller: 'ModalController',
                         size: '',
                         resolve: {
@@ -1368,12 +1368,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @param {Object} data
          */
         generator.pathDecider = function (client_cmd, $scope, data) {
-            //if (client_cmd[0] === 'reload' || client_cmd[0] === 'reset') {
-            //    $rootScope.$broadcast('reload_cmd', $scope.reload_cmd);
-            //    //return;
-            //}
 
-            /**
+             /**
              * @memberof ulakbus.formService
              * @ngdoc function
              * @name redirectTo
@@ -1755,7 +1751,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         animation: true,
                         backdrop: 'static',
                         keyboard: false,
-                        templateUrl: 'shared/templates/listnodeModalContent.html',
+                        templateUrl: '/shared/templates/listnodeModalContent.html',
                         controller: 'ModalController',
                         size: 'lg',
                         resolve: {
@@ -1898,7 +1894,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         animation: true,
                         backdrop: 'static',
                         keyboard: false,
-                        templateUrl: 'shared/templates/linkedModelModalContent.html',
+                        templateUrl: '/shared/templates/linkedModelModalContent.html',
                         controller: 'ModalController',
                         size: 'lg',
                         resolve: {

@@ -21,7 +21,7 @@ angular.module('ulakbus.crud')
      */
     .directive('quickAdd', function (Generator) {
         return {
-            templateUrl: 'components/crud/templates/quick_add.html',
+            templateUrl: '/components/crud/templates/quick_add.html',
             restrict: 'E',
             replace: true,
             scope: {

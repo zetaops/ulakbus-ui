@@ -18,7 +18,7 @@ angular.module('ulakbus.gantt', [
 angular.module('ulakbus.gantt')
 .directive('zetaGanttChart', function() {
     return {
-        templateUrl: 'components/zetaGanttChart/zeta-gantt-chart.html',
+        templateUrl: '/components/zetaGanttChart/zeta-gantt-chart.html',
         restrict: 'E',
         scope:{
             ganttChartData: '='

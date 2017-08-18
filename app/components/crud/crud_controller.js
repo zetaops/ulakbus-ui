@@ -395,7 +395,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
      */
     .directive('crudListDirective', function () {
         return {
-            templateUrl: 'components/crud/templates/list.html',
+            templateUrl: '/components/crud/templates/list.html',
             restrict: 'E',
             replace: true
         };
@@ -409,7 +409,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
      */
     .directive('crudFormDirective', function () {
         return {
-            templateUrl: 'components/crud/templates/form.html',
+            templateUrl: '/components/crud/templates/form.html',
             restrict: 'E',
             replace: true
         };
@@ -423,7 +423,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
      */
     .directive('crudShowDirective', function () {
         return {
-            templateUrl: 'components/crud/templates/show.html',
+            templateUrl: '/components/crud/templates/show.html',
             restrict: 'E',
             replace: true
         };
@@ -452,7 +452,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
      */
     .directive('crudFilters', function(Generator) {
         return {
-            templateUrl: 'components/crud/templates/filter.html',
+            templateUrl: '/components/crud/templates/filter.html',
             restrict: 'E',
             replace: true,
             link: function ($scope) {
@@ -553,7 +553,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
 
     .directive("crudTimetableDirective", function(){
         return {
-            templateUrl: 'components/crud/templates/timetable.html',
+            templateUrl: '/components/crud/templates/timetable.html',
             restrict: 'E',
             replace: true,
             controller: 'crudTimetableDirectiveCtrl',
@@ -615,7 +615,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
 
     .directive("crudTimetableDirective2", function(){
         return {
-            templateUrl: 'components/crud/templates/timetable.html',
+            templateUrl: '/components/crud/templates/timetable.html',
             restrict: 'E',
             replace: true,
             controller: 'crudTimetableDirectiveCtrl',

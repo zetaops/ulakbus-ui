@@ -1,0 +1,5 @@
+<div class="col-md-12 tiles-container">
+    <div class="col-md-2 tiles" ng-repeat="button in buttonList" ng-class="{active: selectedButton == $index}" ng-click="setActive($index, button)">
+        <div class="top-tiles"><span>{{button.text}}</span></div>
+    </div>
+</div>

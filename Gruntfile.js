@@ -58,12 +58,19 @@ module.exports = function (grunt) {
         html2js: {
             options: {
                 rename: function (moduleName) {
-                    return moduleName.replace('../app/', '');
+                    var mname = moduleName.replace('../app/', '');
+                    mname = mname.replace('components/', '/components/');
+                    mname = mname.replace('shared/', '/shared/');
+                    return mname;
                 }
             },
             prod: {
                 src: ['app/components/**/*.html', 'app/shared/templates/**/*.html'],
                 dest: 'dist/templates.js'
+            },
+            prod_bap:{
+                src: ['app/components/bapComponents/*.html', 'app/shared/templates/**/*.html'],
+                dest: 'dist/bapTemplates.js'
             },
             prod_branch: {
                 src: ['app/components/**/*.html'],
@@ -129,6 +136,19 @@ module.exports = function (grunt) {
                 nonull: true,
                 dest: 'dist/app.js'
             },
+            bap_js: {
+                src: [
+                    "app/bap/main.js",
+                    "app/bap/bap_routes.js",
+                    "app/bap/controller/*.js",
+                    "app/bap/directive/*.js",
+                    "app/bap/service/*.js",
+                    'app/zetalib/form-service.js',
+                    'app/components/crud/crud_controller.js'
+                ],
+                nonull: true,
+                dest: 'dist/bap/bap.js'
+            },
             components: {
                 src: [
                     "app/bower_components/angular-i18n/angular-locale_tr.js",
@@ -164,6 +184,28 @@ module.exports = function (grunt) {
                 ],
                 dest: 'dist/bower_components/components.js'
             },
+            bapComponents: {
+                src: [
+                    "app/bower_components/jquery/dist/jquery.min.js",
+                    "app/bower_components/angular/angular.js",
+                    "app/bower_components/angular-i18n/angular-locale_tr.js",
+                    "app/bower_components/bootstrap/dist/js/bootstrap.min.js",
+                    "app/bower_components/angular-route/angular-route.min.js",
+                    "app/bower_components/angular-cookies/angular-cookies.min.js",
+                    "app/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js",
+                    "app/bower_components/showdown/dist/showdown.js",
+                    "app/bower_components/angular-markdown-filter/markdown.js",
+                    "app/bower_components/angular-sanitize/angular-sanitize.min.js",
+                    "app/bower_components/tv4/tv4.js",
+                    "app/bower_components/objectpath/lib/ObjectPath.js",
+                    "app/bower_components/angular-schema-form/dist/schema-form.js",
+                    "app/bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+                    "app/bower_components/moment/min/moment.min.js",
+                    "app/bower_components/toastr/toastr.min.js",
+                    "app/bower_components/angular-ui-select/dist/select.min.js"
+                ],
+                dest: 'dist/bower_components/bapComponents.js'
+            },
             css: {
                 files: {
                     'dist/css/app.css': [
@@ -181,6 +223,22 @@ module.exports = function (grunt) {
                         "app/bower_components/angular-gantt/dist/angular-gantt.min.css",
                         "app/bower_components/angular-gantt/dist/angular-gantt-plugins.min.css",
                         "app/bower_components/angular-ui-grid/ui-grid.min.css"
+                    ]
+                }
+            },
+            bap_css: {
+                files: {
+                    'dist/css/bap.css': [
+                        "app/bower_components/angular-bootstrap/ui-bootstrap-csp.css",
+                        "app/bower_components/bootstrap/dist/css/bootstrap.min.css",
+                        "app/app.css",
+                        "app/bower_components/metisMenu/dist/metisMenu.min.css",
+                        "app/bower_components/font-awesome/css/font-awesome.min.css",
+                        "app/bower_components/intro.js/intro.css",
+                        "app/bower_components/intro.js/themes/introjs-nassim.css",
+                        "app/bower_components/toastr/toastr.min.css",
+                        "app/bower_components/angular-ui-select/dist/select.min.css",
+                        "app/bap/bap.css"
                     ]
                 }
             },
@@ -232,6 +290,38 @@ module.exports = function (grunt) {
                 ],
                 dest: 'dist/<%= grunt.branchname %>/bower_components/components.js'
             },
+            bap_components_branch :{
+                src: [
+                    "app/bower_components/angular-i18n/angular-locale_tr.js",
+                    "app/bower_components/angular-route/angular-route.min.js",
+                    "app/bower_components/angular-cookies/angular-cookies.min.js",
+                    "app/bower_components/angular-resource/angular-resource.min.js",
+                    "app/bower_components/angular-bootstrap/ui-bootstrap.min.js",
+                    "app/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js",
+                    "app/bower_components/angular-sanitize/angular-sanitize.min.js",
+                    "app/bower_components/tv4/tv4.js",
+                    "app/bower_components/objectpath/lib/ObjectPath.js",
+                    "app/bower_components/angular-schema-form/dist/schema-form.min.js",
+                    "app/bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+                    "app/bower_components/angular-schema-form-datepicker/bootstrap-datepicker.min.js",
+                    "app/bower_components/angular-gettext/dist/angular-gettext.min.js",
+                    "app/bower_components/json3/lib/json3.min.js",
+                    "app/bower_components/angular-loading-bar/build/loading-bar.min.js",
+                    "app/bower_components/metisMenu/dist/metisMenu.min.js",
+                    "app/bower_components/Chart.js/Chart.min.js",
+                    "app/bower_components/intro.js/minified/intro.min.js",
+                    "app/bower_components/moment/min/moment.min.js",
+                    "app/bower_components/angular-websocket/dist/angular-websocket.min.js",
+                    "app/bower_components/angular-ui-select/dist/select.min.js",
+                    "app/bower_components/angular-moment/angular-moment.min.js",
+                    "app/bower_components/moment-range/dist/moment-range.min.js",
+                    "app/bower_components/angular-ui-tree/dist/angular-ui-tree.min.js",
+                    "app/bower_components/angular-gantt/dist/angular-gantt.min.js",
+                    "app/bower_components/angular-gantt/dist/angular-gantt-plugins.min.js",
+                    "app/bower_components/angular-ui-grid/ui-grid.min.js"
+                ],
+                dest: 'dist/<%= grunt.branchname %>/bower_components/bapComponents.js'
+            },
             css_branch: {
                 src: [
                     "app/bower_components/angular-bootstrap/ui-bootstrap-csp.css",
@@ -264,7 +354,7 @@ module.exports = function (grunt) {
             },
             local_prod: {
                 files: ['app/**/*.js', 'app/components/**/*.html', 'app/main.html', 'Gruntfile.js', '!app/tmp/*.js', '!app/app.js'],
-                tasks: ['env:prod', 'preprocess:prod', 'nggettext_compile', 'concat:js', 'concat:css', 'concat:components', 'copy:local_prod', 'html2js:prod', 'uglify:dist'],
+                tasks: ['env:prod', 'preprocess:prod', 'nggettext_compile', 'concat:js', 'concat:bap_js', 'concat:css', 'concat:bap_css', 'concat:components', 'concat:bapComponents',  'copy:local_prod', 'html2js:prod', 'html2js:prod_bap', 'uglify:dist'],
                 options: {
                     atBegin: false
                 }
@@ -328,13 +418,17 @@ module.exports = function (grunt) {
             dev: {
                 files: {
                     'app/index.html': 'app/main.html',
-                    'app/app.js': 'app/main.js'
+                    'app/app.js': 'app/main.js',
+                    'app/bap/index.html': 'app/bap/main.html',
+                    'app/bap/bap.js': 'app/bap/main.js'
                 }
             },
             prod: {
                 files: {
                     'dist/index.html': 'app/main.html',
                     'dist/app.js': 'app/main.js',
+                    'dist/bap/index.html': 'app/bap/main.html',
+                    'dist/bap/bap.js': 'app/bap/main.js'
                 },
                 options: {
                     context: {
@@ -348,7 +442,9 @@ module.exports = function (grunt) {
             prod_branch: {
                 files: {
                     'dist/<%= grunt.branchname %>/index.html': 'app/main.html',
-                    'dist/<%= grunt.branchname %>/app.js': 'app/main.js'
+                    'dist/<%= grunt.branchname %>/app.js': 'app/main.js',
+                    'dist/<%= grunt.branchname %>/bap/index.html': 'app/bap/main.html',
+                    'dist/<%= grunt.branchname %>/bap/bap.js': 'app/bap/main.js'
                 },
                 options: {
                     context: {
@@ -399,8 +495,8 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['bower', 'karma:continuous']);
     grunt.registerTask('api-docs', ['copy:for_api_docs', 'mrdoc']);
     grunt.registerTask('i18n', ['nggettext_extract', 'nggettext_compile']);
-    grunt.registerTask('local_prod', ['bower', 'env:prod', 'preprocess:prod', 'nggettext_compile', 'concat:js', 'concat:css', 'concat:components', 'copy:local_prod', 'html2js:prod', 'uglify:dist', 'connect:prod_server', 'watch:local_prod']);
-    grunt.registerTask('default', ['bower', 'env:prod', 'preprocess:prod', 'nggettext_compile', 'concat:js', 'concat:css', 'concat:components', 'copy:prod', 'html2js:prod', 'uglify:dist']);
+    grunt.registerTask('local_prod', ['bower', 'env:prod', 'preprocess:prod', 'nggettext_compile', 'concat:js', 'concat:bap_js', 'concat:css', 'concat:bap_css', 'concat:components', 'concat:bapComponents', 'copy:local_prod', 'html2js:prod', 'html2js:prod_bap', 'uglify:dist', 'connect:prod_server', 'watch:local_prod']);
+    grunt.registerTask('default', ['bower', 'env:prod', 'preprocess:prod', 'nggettext_compile', 'concat:js', 'concat:bap_js', 'concat:css', 'concat:bap_css', 'concat:components', 'concat:bapComponents', 'copy:prod', 'html2js:prod', 'html2js:prod_bap', 'uglify:dist']);
     grunt.registerTask('branch', '', function () {
         // get branch name
         var branch = require('git-branch');
@@ -411,6 +507,7 @@ module.exports = function (grunt) {
             'concat:js_branch',
             'concat:css_branch',
             'concat:components_branch',
+            'concat:bap_components_branch',
             'copy:prod',
             'env:prod',
             'preprocess:prod_branch',

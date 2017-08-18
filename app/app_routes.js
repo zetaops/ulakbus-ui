@@ -4,55 +4,55 @@ angular.module('ulakbus')
     .config(['$routeProvider', function ($routeProvider, $route) {
         $routeProvider
             .when('/login', {
-                templateUrl: 'components/auth/login.html',
+                templateUrl: '/components/auth/login.html',
                 controller: 'LoginController'
             })
             .when('/dashboard', {
-                templateUrl: 'components/dashboard/dashboard.html',
+                templateUrl: '/components/dashboard/dashboard.html',
                 controller: 'DashController'
             })
             .when('/dev/settings', {
-                templateUrl: 'components/devSettings/devSettings.html',
+                templateUrl: '/components/devSettings/devSettings.html',
                 controller: 'DevSettingsController'
             })
             .when('/debug/list', {
-                templateUrl: 'components/debug/debug.html',
+                templateUrl: '/components/debug/debug.html',
                 controller: 'DebugController'
             })
             .when('/admin/bpmnmanager', {
-                templateUrl: 'components/admin/bpmn_manager.html',
+                templateUrl: '/components/admin/bpmn_manager.html',
                 controller: 'BpmnManagerController'
             })
             .when('/newdesigns', {
-                templateUrl: 'components/uitemplates/base.html',
+                templateUrl: '/components/uitemplates/base.html',
                 controller: 'NewDesignsCtrl'
             })
             .when('/formservicepg', {
-                templateUrl: 'components/uitemplates/form_service_pg.html',
+                templateUrl: '/components/uitemplates/form_service_pg.html',
                 controller: 'FormServicePg'
             })
             .when('/gridreport', {
-                templateUrl: 'components/gridTable/gridreport.html'
+                templateUrl: '/components/gridTable/gridreport.html'
             })
             // use crud without selected user
             // important: regex urls must be defined later than static ones
             .when('/:wf/', {
-                templateUrl: 'components/crud/templates/crud-preload.html',
+                templateUrl: '/components/crud/templates/crud-preload.html',
                 controller: 'CRUDController'
             })
             //for public pages
             .when('/pub/:wf/', {
-                templateUrl: 'components/crud/templates/crud-preload.html',
+                templateUrl: '/components/crud/templates/crud-preload.html',
                 controller: 'CRUDController',
                 isPublic: true
             })
 
             .when('/cwf/:wf/:token', {
-                templateUrl: 'components/crud/templates/crud.html',
+                templateUrl: '/components/crud/templates/crud.html',
                 controller: 'CRUDController'
             })
             .when('/:wf/do/:cmd', {
-                templateUrl: 'components/crud/templates/crud.html',
+                templateUrl: '/components/crud/templates/crud.html',
                 controller: 'CRUDListFormController'
             })
             //for public pages
@@ -63,19 +63,19 @@ angular.module('ulakbus')
             })
 
             .when('/:wf/do/:cmd/:key', {
-                templateUrl: 'components/crud/templates/crud.html',
+                templateUrl: '/components/crud/templates/crud.html',
                 controller: 'CRUDListFormController'
             })
             .when('/:wf/:model', {
-                templateUrl: 'components/crud/templates/crud-preload.html',
+                templateUrl: '/components/crud/templates/crud-preload.html',
                 controller: 'CRUDController'
             })
             .when('/:wf/:model/do/:cmd', {
-                templateUrl: 'components/crud/templates/crud.html',
+                templateUrl: '/components/crud/templates/crud.html',
                 controller: 'CRUDListFormController'
             })
             .when('/:wf/:model/do/:cmd/:key', {
-                templateUrl: 'components/crud/templates/crud.html',
+                templateUrl: '/components/crud/templates/crud.html',
                 controller: 'CRUDListFormController'
             })
             .otherwise({redirectTo: '/login'});

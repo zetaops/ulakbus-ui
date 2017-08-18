@@ -33,7 +33,7 @@ angular.module('ulakbus')
      */
     .directive('headerNotification', function ($rootScope, $uibModal, MessagingService) {
         return {
-            templateUrl: 'shared/templates/directives/header-notification.html',
+            templateUrl: '/shared/templates/directives/header-notification.html',
             restrict: 'E',
             replace: true,
             scope: {},
@@ -64,7 +64,7 @@ angular.module('ulakbus')
      */
     .directive('searchDirective', function (Generator, $log, $rootScope) {
         return {
-            templateUrl: 'shared/templates/directives/search.html',
+            templateUrl: '/shared/templates/directives/search.html',
             restrict: 'E',
             replace: true,
             link: function ($scope) {
@@ -118,7 +118,7 @@ angular.module('ulakbus')
      */
     .directive('sortDirective', function (Generator, $log) {
         return {
-            templateUrl: 'shared/templates/directives/sort.html',
+            templateUrl: '/shared/templates/directives/sort.html',
             restrict: 'E',
             replace: true,
             link: function ($scope) {
@@ -164,7 +164,7 @@ angular.module('ulakbus')
     })
     .directive('userMenu',function () {
         return {
-            templateUrl: 'shared/templates/directives/header-user-menu.html',
+            templateUrl: '/shared/templates/directives/header-user-menu.html',
             restrict: 'E',
             replace: true,
             link: function (scope) {
@@ -184,7 +184,7 @@ angular.module('ulakbus')
     })
     .directive('userInfo',function ($sce) {
         return {
-            templateUrl: 'shared/templates/directives/user-info.html',
+            templateUrl: '/shared/templates/directives/user-info.html',
             restrict: 'E',
             replace: true,
             link: function (scope) {
@@ -209,7 +209,7 @@ angular.module('ulakbus')
      */
     .directive('headerSubMenu', function ($location) {
         return {
-            templateUrl: 'shared/templates/directives/header-sub-menu.html',
+            templateUrl: '/shared/templates/directives/header-sub-menu.html',
             restrict: 'E',
             replace: true,
             // link: function ($scope) {
@@ -369,7 +369,7 @@ angular.module('ulakbus')
      */
     .directive('headerBreadcrumb', function ($location) {
         return {
-            templateUrl: 'shared/templates/directives/header-breadcrumb.html',
+            templateUrl: '/shared/templates/directives/header-breadcrumb.html',
             restrict: 'E',
             replace: false,
             link: function ($scope) {
@@ -568,7 +568,7 @@ angular.module('ulakbus')
      */
     .directive('rightSidebar', ['$location', function () {
         return {
-            templateUrl: 'shared/templates/directives/right-sidebar.html',
+            templateUrl: '/shared/templates/directives/right-sidebar.html',
             restrict: 'E',
             replace: true,
             scope: {},
@@ -640,7 +640,7 @@ angular.module('ulakbus')
      */
     .directive('stats', function () {
         return {
-            templateUrl: 'shared/templates/directives/stats.html',
+            templateUrl: '/shared/templates/directives/stats.html',
             restrict: 'E',
             replace: true,
             scope: {
@@ -664,7 +664,7 @@ angular.module('ulakbus')
      */
     .directive('notifications', function () {
         return {
-            templateUrl: 'shared/templates/directives/notifications.html',
+            templateUrl: '/shared/templates/directives/notifications.html',
             restrict: 'E',
             replace: true
         };
@@ -677,7 +677,7 @@ angular.module('ulakbus')
      */
     .directive('msgbox', function () {
         return {
-            templateUrl: 'shared/templates/directives/msgbox.html',
+            templateUrl: '/shared/templates/directives/msgbox.html',
             restrict: 'E',
             replace: false
         };
@@ -690,7 +690,7 @@ angular.module('ulakbus')
      */
     .directive('alertBox', function ($timeout) {
         return {
-            templateUrl: 'shared/templates/directives/alert.html',
+            templateUrl: '/shared/templates/directives/alert.html',
             restrict: 'E',
             replace: true,
             link: function ($scope) {
@@ -711,7 +711,7 @@ angular.module('ulakbus')
      */
     .directive('sidebarSearch', function () {
         return {
-            templateUrl: 'shared/templates/directives/sidebar-search.html',
+            templateUrl: '/shared/templates/directives/sidebar-search.html',
             restrict: 'E',
             replace: true,
             scope: {},
@@ -778,7 +778,7 @@ angular.module('ulakbus')
         });
 
         return {
-            templateUrl: 'shared/templates/directives/timetable-action-selector.html',
+            templateUrl: '/shared/templates/directives/timetable-action-selector.html',
             scope: {
                 externalModel: '=ngModel',
                 onChange: "&ngChange"
@@ -868,7 +868,7 @@ angular.module('ulakbus')
 
     .directive('demoMode', function () {
         return {
-            templateUrl: 'shared/templates/demoMode.html',
+            templateUrl: '/shared/templates/demoMode.html',
             restrict: 'E',
             replace: true,
             controller: function ($scope, $cookies,$timeout) {
