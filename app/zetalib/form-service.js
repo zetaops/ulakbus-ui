@@ -328,10 +328,10 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             var _buttons = function (scope, v, k) {
                 var buttonPositions = scope.modalElements ? scope.modalElements.buttonPositions : {
-                        bottom: 'move-to-bottom',
-                        top: 'move-to-top',
-                        none: ''
-                    };
+                    bottom: 'move-to-bottom',
+                    top: 'move-to-top',
+                    none: ''
+                };
                 var workOnForm = scope.modalElements ? scope.modalElements.workOnForm : 'formgenerated';
                 var workOnDiv = scope.modalElements ? scope.modalElements.workOnDiv : '';
                 var buttonClass = (buttonPositions[v.position] || buttonPositions.bottom);
@@ -463,7 +463,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                     try {
                         if (item.type === 'date') {
-                            //scope.model[k][item.name] = generator.dateformatter(scope.model[k][item.name]);
+                           // scope.model[k][item.name] = generator.dateformatter(scope.model[k][item.name]);
                         }
                     } catch (e) {
                         $log.debug('Error: ', e.message);
@@ -473,12 +473,13 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 });
 
                 $timeout(function () {
+                    console.log('v.type',v.type);
                     if (v.type != 'ListNode') return;
 
                     // todo: needs refactor
                     var list = scope[v.type][k];
                     list.items = angular.copy(scope.model[k] || []);
-
+                    console.log('list.items', list.items);
                     angular.forEach(list.items, function (node, fieldName) {
 
                         if (!Object.keys(node).length) return;
@@ -487,12 +488,14 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                             var propInSchema = list.schema.properties[propName];
                             try {
+
+                                list.model[fieldName][propName] = generator.dateformatter(prop);
+
                                 if (propInSchema.type === 'date') {
-                                    node[propName] = generator.dateformatter(prop);
                                     list.model[fieldName][propName] = generator.dateformatter(prop);
                                 }
                                 if (propInSchema.type === 'select') {
-                                    node[propName] = generator.item_from_array(prop.toString(), list.schema.properties[propName].titleMap)
+                                    node[propName] = generator.item_from_array(prop, list.schema.properties[propName].titleMap)
                                 }
                                 if (propInSchema.titleMap) {
                                     node[propName] = {
@@ -671,7 +674,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             title: v.title,
                             templateUrl: "/shared/templates/select.html",
                             name: k,
-                            readonly: angular.isDefined(scope.forms) && scope.forms.schema.properties[k]&&scope.forms.schema.properties[k].readonly,
+                            readonly: angular.isDefined(scope.forms)&&scope.forms.schema.properties[k].readonly,
                             key: k,
                             titleMap: v.titleMap,
                             validationMessage: {
@@ -781,10 +784,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     default: function (scope, v, k) {
                         $log.debug('date:', scope.model[k]);
                         scope.model[k] = Moment(scope.model[k]).toDate();
+
                         scope.form[scope.form.indexOf(k)] = {
                             key: k,
                             name: k,
-                            readonly:scope.forms.schema.properties[k]&&scope.forms.schema.properties[k].readonly,
+                            readonly: angular.isDefined(scope.forms) && scope.forms.schema.properties[k]&&scope.forms.schema.properties[k].readonly,
                             title: v.title,
                             type: 'template',
                             templateUrl: '/shared/templates/datefield.html',
@@ -843,8 +847,12 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             open: function ($event) {
                                 this.disabled = true;
                                 // scope.$apply();
-                                scope.model[k] = Moment(scope.model[k], "DD.MM.YYYY").toDate();
+                                angular.forEach(scope.model, function (value, key) {
+                                    scope.model[key] = angular.copy(scope.model[key]);
+                                });
+                                console.log('scope:', scope.model[k]);
                                 var that = this;
+                                console.log('that',that);
                                 $timeout(function () {
                                     that.status.opened = true;
                                 }, 100);
@@ -852,7 +860,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             format: 'dd.MM.yyyy',
                             onSelect: function () {
                                 // causes date picker error data will be formated when submiting
-                                //scope.model[k] = angular.copy(scope.model[k]);
+                                scope.model[k] = angular.copy(scope.model[k]);
                                 return false;
                             }
                         };
@@ -990,7 +998,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 max: function(value) {
                                     //check if max_length exist
                                     if (angular.isDefined(scope.schema.properties[k].max_length) && scope.schema.properties[k].max_length !== null) {
-                                       return (value === null || value.length <= scope.schema.properties[k].max_length);
+                                        return (value === null || value.length <= scope.schema.properties[k].max_length);
                                     }else {
                                         return true;
                                     }
@@ -1102,11 +1110,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         // get selected item from titleMap using model value
                         if (scope.model[k]) {
                             var form_params = {
-                                    wf: v.wf,
-                                    model: v.model_name,
-                                    object_id: scope.model[k],
-                                    cmd: 'object_name'
-                             };
+                                wf: v.wf,
+                                model: v.model_name,
+                                object_id: scope.model[k],
+                                cmd: 'object_name'
+                            };
                             var wf_meta_data = wfMetadata.getWfMeta();
                             if (angular.isDefined(wf_meta_data) && Object.keys(wf_meta_data).length !== 0) {
                                 form_params.wf_meta = wf_meta_data;
@@ -1184,9 +1192,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          */
         generator.dateformatter = function (formObject) {
             var ndate = new Date(formObject);
-            if (isNaN(ndate) || formObject === null) {
+            //var newdate = ndate.toString.call(ndate);
+            if (isNaN(ndate)) {
                 return null;
             } else {
+
                 var newdatearray = Moment(ndate).format('DD.MM.YYYY');
                 $log.debug('date formatted: ', newdatearray);
                 return newdatearray;
@@ -1359,7 +1369,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     .then(function (data) {
                         wfMetadata.setWfMeta(data.wf_meta);
                         return generator.pathDecider(data.client_cmd || ['list'], scope, data);
-                      });
+                    });
             }
         };
         /**
@@ -1388,7 +1398,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          */
         generator.pathDecider = function (client_cmd, $scope, data) {
 
-             /**
+            /**
              * @memberof ulakbus.formService
              * @ngdoc function
              * @name redirectTo
@@ -1563,24 +1573,29 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             var checkAndReformatModel = function (model) {
                 var modelKeys = Object.keys(model);
+                console.log('MODELKEYS',modelKeys);
                 for(var i=0; i < modelKeys.length; i++){
                     if(typeof(model[modelKeys[i]]) === 'object'){
                         formatTypeaheadStructure(model[modelKeys[i]]);
                     }
+
                 }
             };
+
             var formatTypeaheadStructure = function (listNodeModel) {
                 if(angular.isUndefined(listNodeModel) || listNodeModel === null || listNodeModel.length === 0 ){
                     return;
                 }
                 for(var i=0; i<listNodeModel.length; i++){
                     var key = Object.keys(listNodeModel[i]);
+                    console.log('KEY',key);
                     if(key.length === 1){
                         var modelKeys = Object.keys(listNodeModel[i][key]);
                         if(modelKeys.indexOf('verbose_name') > -1 && modelKeys.indexOf('unicode') > -1 && modelKeys.indexOf('key') > -1 ){
                             var value = listNodeModel[i][key]['key'];
                             listNodeModel[i] = {};
                             listNodeModel[i][key] = value;
+
                         }
                     }
                 }
@@ -1601,8 +1616,9 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 $scope.model[key] = value.model;
             });
 
-            // format date without changing scopes date objects
+            //format date without changing scopes date objects
             var model = angular.copy($scope.model);
+            console.log('model',model);
             generator.convertDate(model);
 
             // todo: unused var delete
@@ -1661,7 +1677,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
                         }
                         return data;
-                });
+                    });
             }
 
         };
@@ -1707,15 +1723,19 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             $timeout(function () {
                 Utils.iterate($scope.model, function (modelValue, k) {
                     if (angular.isUndefined($scope.edit)) return;
-                    var unicode = $scope.items[$scope.edit][k].unicode;
+                    var unicode = $scope.items[$scope.edit][k];
+                    console.log('diley',unicode);
                     //unicode will be undefined if edit is done after saving the parent record
-                    if(angular.isUndefined(unicode)){
-                        unicode = $scope.items[$scope.edit][k];
+                    if(angular.isUndefined(unicode) || unicode === null){
+                        unicode = $scope.items[$scope.edit][k].unicode;
+                        console.log('AAAAAAAAA',unicode);
+
                     }
                     if (unicode) {
                         //if the value is a date object then format the date
                         if(Object.prototype.toString.call(unicode) === '[object Date]'){
                             unicode = moment(unicode).format('DD.MM.YYYY');
+                            console.log('unicode',unicode);
                         }
                         document.querySelector('input[name=' + k + ']').value = unicode;
                     }
@@ -1779,6 +1799,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 // get node from parent scope catch with attribute
                                 var node = angular.copy(scope.$parent[attribs[1]][attribs[0]]);
 
+                                console.log('node', node);
+
                                 if (attribs[2] === 'add') {
                                     node.model = {};
                                 }
@@ -1825,64 +1847,59 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     modalInstance.result.then(function (childmodel, key) {
 
                         var listNodeItem = scope.$parent[childmodel.schema.formType][childmodel.schema.model_name];
+                        console.log('ZETA', listNodeItem);
                         if (childmodel.schema.formType === 'Node') {
                             listNodeItem.model = angular.copy(childmodel.model);
+                            console.log('CHILDMODEL',childmodel.model);
                             listNodeItem.lengthModels += 1;
                         }
 
                         if (childmodel.schema.formType === 'ListNode') {
                             // reformat listnode model
                             var reformattedModel = {};
-                            angular.forEach(childmodel.model, function (value, key) {
-                                if (key.indexOf('_id') > -1) {
 
-                                    // todo: understand why we got object here!
-                                    // hack to fix bug with value as object
-                                    if (angular.isObject(value) && value.value) {
-                                        value = value.value;
-                                        childmodel.model[key] = value;
+                            console.log('reformattedModel',reformattedModel);
+                            angular.forEach(childmodel.model, function (value, key) {
+
+
+                                    if(key === 'baslama_tarihi' || key === 'bitis_tarihi'){
+
+                                        childmodel.model[key] = moment(value).format('DD.MM.YYYY');
+                                        console.log('----------------------\n',childmodel.model);
+
                                     }
 
-                                    angular.forEach(childmodel.form, function (v, k) {
-                                        if (v.formName === key) {
-                                            //if (!childmodel.model[key].key) {
-                                            var unicodeValue = v.titleMap.find(function (element, index, array) {
-                                                if (element['value'] === value) {
-                                                    return element;
-                                                }
-                                            });
-                                            if (unicodeValue) {
-                                                unicodeValue = unicodeValue.name;
-                                                reformattedModel[key] = {
-                                                    "key": value,
-                                                    "unicode": unicodeValue
-                                                }
-                                            }
-
-                                            //}
-                                        }
-                                    });
-                                } else {
-                                    reformattedModel[key] = {
+                                reformattedModel[key] = {
                                         "key": key,
                                         "unicode": Generator.item_from_array(value, childmodel.schema.properties[key].titleMap)
                                     };
-                                }
+
+
                             });
+
+
                             if (childmodel.edit) {
+
                                 listNodeItem.model[childmodel.edit] = childmodel.model;
+                                Generator.convertDate(reformattedModel);
                                 if (Object.keys(reformattedModel).length > 0) {
                                     listNodeItem.items[childmodel.edit] = reformattedModel;
                                 } else {
                                     listNodeItem.items[childmodel.edit] = angular.copy(childmodel.model);
                                 }
                             } else {
-                                listNodeItem.model.push(angular.copy(childmodel.model));
-                                Generator.convertDate(reformattedModel);
+
+                                 listNodeItem.model.push(angular.copy(childmodel.model));
+                                 console.log('childmodel.model' , childmodel.model);
+                                 console.log('listNodeItem.model',listNodeItem.model);
+                                 Generator.convertDate(reformattedModel);
                                 if (Object.keys(reformattedModel).length > 0) {
                                     listNodeItem.items.push(reformattedModel);
+                                    console.log('sssssssss',listNodeItem.items);
                                 } else {
                                     listNodeItem.items.push(angular.copy(childmodel.model));
+                                    console.log('bbbbbbbbb');
+
                                 }
                             }
                             listNodeItem.lengthModels += 1;
