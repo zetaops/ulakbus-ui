@@ -489,10 +489,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             var propInSchema = list.schema.properties[propName];
                             try {
 
-                                list.model[fieldName][propName] = generator.dateformatter(prop);
-
                                 if (propInSchema.type === 'date') {
-                                    list.model[fieldName][propName] = generator.dateformatter(prop);
+                                    //list.model[fieldName][propName] = generator.dateformatter(prop);
                                 }
                                 if (propInSchema.type === 'select') {
                                     node[propName] = generator.item_from_array(prop, list.schema.properties[propName].titleMap)
@@ -818,8 +816,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                             return true;
                                         }
                                     } else {
-                                        var dateValue = value.split('.');
-                                        if (isNaN(Date.parse(value)) || dateValue.length !== 3) {
+                                        if (isNaN(Date.parse(value))) {
                                             return false;
                                         } else {
                                             return true;
@@ -847,9 +844,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             open: function ($event) {
                                 this.disabled = true;
                                 // scope.$apply();
-                                angular.forEach(scope.model, function (value, key) {
-                                    scope.model[key] = angular.copy(scope.model[key]);
-                                });
+                                scope.model[k] = angular.copy(scope.model[k]);
                                 console.log('scope:', scope.model[k]);
                                 var that = this;
                                 console.log('that',that);
@@ -1881,7 +1876,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             if (childmodel.edit) {
 
                                 listNodeItem.model[childmodel.edit] = childmodel.model;
-                                Generator.convertDate(reformattedModel);
+                                //Generator.convertDate(reformattedModel);
                                 if (Object.keys(reformattedModel).length > 0) {
                                     listNodeItem.items[childmodel.edit] = reformattedModel;
                                 } else {
