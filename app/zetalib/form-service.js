@@ -1167,7 +1167,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 }
                 catch (e) {
                     // todo: raise not implemented
-                    //console.log(v.type)
                 }
             });
 
