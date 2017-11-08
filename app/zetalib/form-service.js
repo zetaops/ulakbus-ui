@@ -473,13 +473,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 });
 
                 $timeout(function () {
-                    console.log('v.type',v.type);
                     if (v.type != 'ListNode') return;
 
                     // todo: needs refactor
                     var list = scope[v.type][k];
                     list.items = angular.copy(scope.model[k] || []);
-                    console.log('list.items', list.items);
                     angular.forEach(list.items, function (node, fieldName) {
 
                         if (!Object.keys(node).length) return;
@@ -846,9 +844,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 this.disabled = true;
                                 // scope.$apply();
                                 scope.model[k] = angular.copy(scope.model[k]);
-                                console.log('scope:', scope.model[k]);
                                 var that = this;
-                                console.log('that',that);
                                 $timeout(function () {
                                     that.status.opened = true;
                                 }, 100);
@@ -1571,7 +1567,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             var checkAndReformatModel = function (model) {
                 var modelKeys = Object.keys(model);
-                console.log('MODELKEYS',modelKeys);
                 for(var i=0; i < modelKeys.length; i++){
                     if(typeof(model[modelKeys[i]]) === 'object'){
                         formatTypeaheadStructure(model[modelKeys[i]]);
@@ -1586,7 +1581,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 }
                 for(var i=0; i<listNodeModel.length; i++){
                     var key = Object.keys(listNodeModel[i]);
-                    console.log('KEY',key);
                     if(key.length === 1){
                         var modelKeys = Object.keys(listNodeModel[i][key]);
                         if(modelKeys.indexOf('verbose_name') > -1 && modelKeys.indexOf('unicode') > -1 && modelKeys.indexOf('key') > -1 ){
@@ -1616,7 +1610,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             //format date without changing scopes date objects
             var model = angular.copy($scope.model);
-            console.log('model',model);
             generator.convertDate(model);
 
             // todo: unused var delete
@@ -1722,18 +1715,15 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                 Utils.iterate($scope.model, function (modelValue, k) {
                     if (angular.isUndefined($scope.edit)) return;
                     var unicode = $scope.items[$scope.edit][k];
-                    console.log('diley',unicode);
                     //unicode will be undefined if edit is done after saving the parent record
                     if(angular.isUndefined(unicode) || unicode === null){
                         unicode = $scope.items[$scope.edit][k].unicode;
-                        console.log('AAAAAAAAA',unicode);
 
                     }
                     if (unicode) {
                         //if the value is a date object then format the date
                         if(Object.prototype.toString.call(unicode) === '[object Date]'){
                             unicode = moment(unicode).format('DD.MM.YYYY');
-                            console.log('unicode',unicode);
                         }
                         document.querySelector('input[name=' + k + ']').value = unicode;
                     }
@@ -1797,8 +1787,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 // get node from parent scope catch with attribute
                                 var node = angular.copy(scope.$parent[attribs[1]][attribs[0]]);
 
-                                console.log('node', node);
-
                                 if (attribs[2] === 'add') {
                                     node.model = {};
                                 }
@@ -1845,10 +1833,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     modalInstance.result.then(function (childmodel, key) {
 
                         var listNodeItem = scope.$parent[childmodel.schema.formType][childmodel.schema.model_name];
-                        console.log('ZETA', listNodeItem);
                         if (childmodel.schema.formType === 'Node') {
                             listNodeItem.model = angular.copy(childmodel.model);
-                            console.log('CHILDMODEL',childmodel.model);
                             listNodeItem.lengthModels += 1;
                         }
 
@@ -1856,7 +1842,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             // reformat listnode model
                             var reformattedModel = {};
 
-                            console.log('reformattedModel',reformattedModel);
                             angular.forEach(childmodel.model, function (value, key) {
 
 
@@ -1922,16 +1907,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             } else {
 
                                  listNodeItem.model.push(angular.copy(childmodel.model));
-                                 console.log('childmodel.model' , childmodel.model);
-                                 console.log('listNodeItem.model',listNodeItem.model);
                                  Generator.convertDate(reformattedModel);
                                 if (Object.keys(reformattedModel).length > 0) {
                                     listNodeItem.items.push(reformattedModel);
-                                    console.log('sssssssss',listNodeItem.items);
-                                    console.log(Object.keys(reformattedModel));
                                 } else {
                                     listNodeItem.items.push(angular.copy(childmodel.model));
-                                    console.log('bbbbbbbbb');
 
                                 }
                             }
