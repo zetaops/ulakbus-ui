@@ -490,10 +490,11 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             try {
 
                                 if (propInSchema.type === 'date') {
-                                    //list.model[fieldName][propName] = generator.dateformatter(prop);
+                                    node[propName] = moment(prop).format('DD.MM.YYYY');
+                                    list.model[fieldName][propName] = moment(prop).format('DD.MM.YYYY');
                                 }
                                 if (propInSchema.type === 'select') {
-                                    node[propName] = generator.item_from_array(prop, list.schema.properties[propName].titleMap)
+                                    node[propName] = generator.item_from_array(prop.toString(), list.schema.properties[propName].titleMap)
                                 }
                                 if (propInSchema.titleMap) {
                                     node[propName] = {
@@ -1186,6 +1187,8 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.dateformatter = function (formObject) {
+
+
             var ndate = new Date(formObject);
             //var newdate = ndate.toString.call(ndate);
             if (isNaN(ndate)) {
@@ -1857,12 +1860,46 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                             angular.forEach(childmodel.model, function (value, key) {
 
 
-                                    if(key === 'baslama_tarihi' || key === 'bitis_tarihi'){
+                                  if(key === 'baslama_tarihi' || key === 'bitis_tarihi'){
 
                                         childmodel.model[key] = moment(value).format('DD.MM.YYYY');
                                         console.log('----------------------\n',childmodel.model);
 
+                                   }
+
+                               /* if (key.indexOf('_id') > -1) {
+
+                                    // todo: understand why we got object here!
+                                    // hack to fix bug with value as object
+                                    if (angular.isObject(value) && value.value) {
+                                        value = value.value;
+                                        childmodel.model[key] = value;
                                     }
+
+                                    angular.forEach(childmodel.form, function (v, k) {
+                                        if (v.formName === key) {
+                                            //if (!childmodel.model[key].key) {
+                                            var unicodeValue = v.titleMap.find(function (element, index, array) {
+                                                if (element['value'] === value) {
+                                                    return element;
+                                                }
+                                            });
+                                            if (unicodeValue) {
+                                                unicodeValue = unicodeValue.name;
+                                                reformattedModel[key] = {
+                                                    "key": value,
+                                                    "unicode": unicodeValue
+                                                }
+                                            }
+
+                                            //}
+                                        } */
+                                    });
+                                }
+
+
+                               // childmodel.model[key] = Generator.dateformatter(value);
+                                // console.log('----------------------\n',childmodel.model);
 
                                 reformattedModel[key] = {
                                         "key": key,
@@ -1891,6 +1928,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 if (Object.keys(reformattedModel).length > 0) {
                                     listNodeItem.items.push(reformattedModel);
                                     console.log('sssssssss',listNodeItem.items);
+                                    console.log(Object.keys(reformattedModel));
                                 } else {
                                     listNodeItem.items.push(angular.copy(childmodel.model));
                                     console.log('bbbbbbbbb');
