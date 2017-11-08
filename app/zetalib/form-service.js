@@ -1851,7 +1851,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                                    }
 
-                               /* if (key.indexOf('_id') > -1) {
+                                if (key.indexOf('_id') > -1) {
 
                                     // todo: understand why we got object here!
                                     // hack to fix bug with value as object
@@ -1877,7 +1877,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                             }
 
                                             //}
-                                        } */
+                                        } 
                                     });
                                 }
 
