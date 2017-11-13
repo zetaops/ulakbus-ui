@@ -233,7 +233,13 @@ angular.module('ulakbus')
                 $scope.$on('setPublicWf', function (event,data) {
                     $scope.isPublicAccess = data;
                 });
-                
+
+                ////////// Added by Cihan to fix dashboard f5 issue. //////////
+                $scope.$on("generate_dashboard", function () {
+                    generate_dashboard();
+                });
+                ////////// Added by Cihan to fix dashboard f5 issue. //////////
+
                 $scope.prepareMenu = function (menuItems) {
                     var newMenuItems = {};
                     angular.forEach(menuItems, function (value, key) {

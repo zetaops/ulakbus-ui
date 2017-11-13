@@ -224,8 +224,10 @@ a.logo:hover {
   -webkit-animation: load8 1.1s infinite linear;
   animation: load8 1.1s infinite linear;
   float: left;
-  margin-left: 10px;
-  margin-top: 3px;
+    /* Added by Cihan to move loader to middle of the page */
+    margin-left: 45%;
+    margin-top: 20%;
+    /* Added by Cihan to move loader to middle of the page */
 }
 .loader,
 .loader:after {
