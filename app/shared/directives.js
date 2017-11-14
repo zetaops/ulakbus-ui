@@ -234,11 +234,9 @@ angular.module('ulakbus')
                     $scope.isPublicAccess = data;
                 });
 
-                ////////// Added by Cihan to fix dashboard f5 issue. //////////
                 $scope.$on("generate_dashboard", function () {
                     generate_dashboard();
                 });
-                ////////// Added by Cihan to fix dashboard f5 issue. //////////
 
                 $scope.prepareMenu = function (menuItems) {
                     var newMenuItems = {};
