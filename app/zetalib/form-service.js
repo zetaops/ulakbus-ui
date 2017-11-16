@@ -347,6 +347,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     style: (v.style || "btn-danger") + " hide bottom-margined " + buttonClass,
                     onClick: function () {
                         //indicate that the user have clicked some button like submit/cancel on form
+                        generator.button_switch(false);
                         $rootScope.isUserClicked = true;
                         delete scope.form_params.cmd;
                         delete scope.form_params.flow;
@@ -1295,7 +1296,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             angular.forEach(buttons, function (button, key) {
                 button[positions[position]] = true;
             });
-            $log.debug('buttons >> ', positions[position])
+            $log.debug('buttons >> ', positions[position]);
         };
         /**
          * @memberof ulakbus.formService

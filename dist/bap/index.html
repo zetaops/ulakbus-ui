@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html lang="en" ng-app="ulakbusBap" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="en" ng-app="ulakbusBap" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" ng-app="ulakbusBap" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="ulakbusBap" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ULAKBUS</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/img/favicon.ico">
+
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/roboto/roboto.css">
+    <link rel="stylesheet" href="../css/bap.css">
+
+</head>
+<body ng-controller="DashboardController">
+
+<div class="main-content">
+    <div ng-show="user_ready === false" class="body-mask">
+        <div class="text-center">
+            <span class="loader"></span>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"
+         ng-show="user_ready === true">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <a class="logo logo-university"><img alt="UV_logo" ng-src="{{dashboardData.university_logo}}"/></a>
+            </div>
+
+            <div class="col-md-4">
+                <h2 class="university-name">{{dashboardData.university_title}}</h2>
+            </div>
+
+            <div class="col-md-4">
+                <a href="#/" class="logo logo-ulakbus"><img src="../img/brand-logo.png"/></a>
+            </div>
+        </div>
+
+    </nav>
+    <div class="row">
+        <div class="col-md-12 inner-content">
+            <div class="col-md-2">
+                <left-menu menu-items="dashboardData.menu"></left-menu>
+            </div>
+
+            <div class="col-md-10">
+                <div class="col-md-12 tiles-div">
+                    <div class="col-md-12" ng-view></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <alert-box></alert-box>
+</div>
+
+
+<script src="../bower_components/jquery.min.js"></script>
+<script src="../bower_components/angular.js"></script>
+<script src="../bower_components/components.js"></script>
+<script src="../bower_components/bapComponents.js"></script>
+<script src="../templates.js"></script>
+<script src="../bapTemplates.js"></script>
+<script src="bap.js"></script>
+</body>
+</html>
