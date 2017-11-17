@@ -347,7 +347,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     style: (v.style || "btn-danger") + " hide bottom-margined " + buttonClass,
                     onClick: function () {
                         //indicate that the user have clicked some button like submit/cancel on form
-                        generator.button_switch(false);
+                       // generator.disableScreen(false);
                         $rootScope.isUserClicked = true;
                         delete scope.form_params.cmd;
                         delete scope.form_params.flow;
@@ -364,13 +364,17 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         scope.model[k] = 1;
                         // todo: test it
                         if (scope.modalElements) {
+
                             scope.submitModalForm();
+
                         } else {
                             if (!v.form_validation && angular.isDefined(v.form_validation)) {
                                 generator.submit(scope, redirectTo);
                             } else {
                                 scope.$broadcast('schemaFormValidate');
                                 if (scope[workOnForm].$valid) {
+                                    generator.button_switch(false);
+
                                     generator.submit(scope, redirectTo);
                                     scope.$broadcast('disposeModal');
                                 } else {
@@ -1298,6 +1302,17 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             });
             $log.debug('buttons >> ', positions[position]);
         };
+
+        generator.disableScreen = function(position) {
+            // creates <div class="overlay"></div> ahnd
+            // adds it to the DOM
+            var forms = angular.element(document.querySelectorAll('form_container'));
+            var positions = {true: "enabled", false: "disabled"};
+            angular.forEach(forms,function (form) {
+                form[positions[position]] = true;
+            })
+        }
+
         /**
          * @memberof ulakbus.formService
          * @ngdoc function
