@@ -233,7 +233,11 @@ angular.module('ulakbus')
                 $scope.$on('setPublicWf', function (event,data) {
                     $scope.isPublicAccess = data;
                 });
-                
+
+                $scope.$on("generate_dashboard", function () {
+                    generate_dashboard();
+                });
+
                 $scope.prepareMenu = function (menuItems) {
                     var newMenuItems = {};
                     angular.forEach(menuItems, function (value, key) {
