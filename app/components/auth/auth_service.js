@@ -95,7 +95,6 @@ angular.module('ulakbus.auth')
                 WSOps.close('loggedout');
                 $location.path("/login");
                 window.location.reload();
-
             });
         };
 
