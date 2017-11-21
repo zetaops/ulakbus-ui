@@ -16,7 +16,7 @@ angular.module('ulakbus')
      */
     .directive('logout', function ($rootScope, $http, $location, RESTURL, AuthService) {
         return {
-            link: function ($scope, $element, $rootScope) {
+            link: function ($scope, $element) {
                 $element.on('click', function () {
                     AuthService.logout();
                 });
@@ -225,28 +225,21 @@ angular.module('ulakbus')
                 $scope.style = 'width:calc(100% - 300px);';
                 $scope.$on('$routeChangeStart', function (event, next, current) {
                     $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
-                    if (next.$$route && next.$$route.originalPath === '/dashboard') {
+                    if($location.path() === '/dashboard'){
+                        $rootScope.loggedInUser ? generate_dashboard() : $location.path("/login");
+                    } /*if (next.$$route && next.$$route.originalPath === '/dashboard') {
                         generate_dashboard();
+                    } */else if (/*next.$$route && next.$$route.originalPath*/ $location.path() === '/logout') {
+                        AuthService.logout();
                     }
                 });
 
+                if ($location.path() === '/logout') {
+                    AuthService.logout();
+                }
                 $scope.$on('setPublicWf', function (event,data) {
                     $scope.isPublicAccess = data;
                 });
-
-                $scope.$on("generate_dashboard", function () {
-                    generate_dashboard();
-                });
-
-                $scope.prepareMenu = function (menuItems) {
-                    var newMenuItems = {};
-                    angular.forEach(menuItems, function (value, key) {
-                        angular.forEach(value, function (v, k) {
-                            newMenuItems[k] = v;
-                        });
-                    });
-                    return newMenuItems;
-                };
 
                 var generate_dashboard = function () {
                     if (!$rootScope.current_user){
@@ -288,9 +281,9 @@ angular.module('ulakbus')
                                 $rootScope.searchInputs = data;
 
                                 if (data.current_user) {
-                                    // $rootScope.$broadcast("ws_turn_on");
+                                    //$rootScope.$broadcast("ws_turn_on");
                                     // to display main view without flickering
-                                    // $rootScope.$broadcast("user_ready");
+                                    //$rootScope.$broadcast("user_ready");
                                 }
 
                                 $rootScope.current_user = data.current_user;
@@ -307,7 +300,20 @@ angular.module('ulakbus')
                                 //removes loader from main page after the view is created
                                 $rootScope.$broadcast("user_ready");
                             });
+                };
 
+                $scope.$on("generate_dashboard", function () {
+                    generate_dashboard();
+                });
+
+                $scope.prepareMenu = function (menuItems) {
+                    var newMenuItems = {};
+                    angular.forEach(menuItems, function (value, key) {
+                        angular.forEach(value, function (v, k) {
+                            newMenuItems[k] = v;
+                        });
+                    });
+                    return newMenuItems;
                 };
 
                 // changing menu items by listening for broadcast
@@ -332,6 +338,9 @@ angular.module('ulakbus')
                     });
 
                 $scope.selectedMenu = $location.path();
+                if($location.path() === '/dashboard') {
+                    generate_dashboard();
+                }
                 $scope.collapseVar = 0;
                 $scope.multiCollapseVar = 0;
 
