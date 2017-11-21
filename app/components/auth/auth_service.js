@@ -86,6 +86,7 @@ angular.module('ulakbus.auth')
          * @returns {*}
          */
         authService.logout = function () {
+            $rootScope.$broadcast("show_main_loader");
             $rootScope.loginAttempt = 0;
             WSOps.request({wf: 'logout'}).then(function (data) { //TODO not working callback
                 $rootScope.loggedInUser = false;
