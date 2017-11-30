@@ -21,6 +21,7 @@ angular.module('ulakbusBap')
         $scope.user_ready = false;
         //this will be API call in controller load
         $scope.dashboardData = {};
+
         var dashboardEndpoint = 'bap_anasayfa';
         $http.post(Generator.makeUrl(dashboardEndpoint), {})
             .success(function (response, status) {
