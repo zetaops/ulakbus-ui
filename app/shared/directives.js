@@ -233,6 +233,8 @@ angular.module('ulakbus')
                         generate_dashboard();
                     } */
                 });
+                if($window.sessionStorage.token === "null" || $window.sessionStorage.token === undefined)
+                    $location.path('/login');
 
                 if ($location.path() === '/logout') {
                     AuthService.logout();

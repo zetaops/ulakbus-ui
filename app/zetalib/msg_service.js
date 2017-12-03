@@ -9,9 +9,12 @@
 angular.module('ulakbus')
     .service("msgService", msgService);
 
-msgService.$inject = ['$q', 'ErrorService', '$log', '$rootScope', '$timeout', '$location', 'Utils'];
+msgService.$inject = ['$q', 'ErrorService', '$log', '$rootScope', '$timeout', '$location', 'Utils', '$window'];
 
-function msgService($q, ErrorService, $log, $rootScope, $timeout, $location, Utils) {
+function msgService($q, ErrorService, $log, $rootScope, $timeout, $location, Utils, $window) {
+        if($window.sessionStorage.token === "null" || $window.sessionStorage.token === undefined) {
+            $location.path('/login');
+        }
         var queue = {};
 
         return {

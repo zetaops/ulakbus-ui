@@ -98,10 +98,8 @@ angular.module('ulakbus')
         $rootScope.isUserClicked = false;
 
         $rootScope.$on("$routeChangeStart", function (angularEvent, next, current) {
-            if (next.$$route !== undefined){
-                if ($window.sessionStorage.token === "null" || $window.sessionStorage.token === undefined) {
-                    $location.path('/login');
-                }
+            if ($window.sessionStorage.token === "null" || $window.sessionStorage.token === undefined) {
+                $location.path('/login');
             }
         });
     })
