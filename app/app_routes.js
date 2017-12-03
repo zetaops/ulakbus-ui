@@ -7,6 +7,11 @@ angular.module('ulakbus')
                 templateUrl: '/components/auth/login.html',
                 controller: 'LoginController'
             })
+            .when('/logout', {
+                controller: function (AuthService) {
+                    AuthService.logout();
+                }
+            })
             .when('/dashboard', {
                 templateUrl: '/components/dashboard/dashboard.html',
                 controller: 'DashController'
@@ -81,7 +86,7 @@ angular.module('ulakbus')
             .otherwise({redirectTo: '/login'});
     }])
 
-    .run(function ($rootScope, AuthService) {
+    .run(function ($rootScope, AuthService, $window, $location) {
         $rootScope.loggedInUser = false;
         $rootScope.loginAttempt = 0;
         $rootScope.current_user = true;
@@ -92,7 +97,12 @@ angular.module('ulakbus')
         //reset the value of user interaction on form when page refreshes
         $rootScope.isUserClicked = false;
 
-        $rootScope.$on("$routeChangeStart", function (event, next, current) {
+        $rootScope.$on("$routeChangeStart", function (angularEvent, next, current) {
+            if (next.$$route !== undefined){
+                if ($window.sessionStorage.token === "null" || $window.sessionStorage.token === undefined) {
+                    $location.path('/login');
+                }
+            }
         });
     })
     .config(['$httpProvider', function ($httpProvider) {

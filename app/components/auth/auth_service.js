@@ -56,7 +56,7 @@ angular.module('ulakbus.auth')
             return $http
                 .post(RESTURL.url + url, credentials)
                 .success(function (data, status, headers, config) {
-                    //$window.sessionStorage.token = data.token;
+                    $window.sessionStorage.token = data.token;
                     Generator.button_switch(true);
                     if (data.cmd === 'upgrade') {
                         $rootScope.loggedInUser = true;
@@ -87,6 +87,7 @@ angular.module('ulakbus.auth')
          */
         authService.logout = function () {
             $rootScope.$broadcast("show_main_loader");
+            $window.sessionStorage.token = null;
             $rootScope.loginAttempt = 0;
             WSOps.request({wf: 'logout'}).then(function (data) { //TODO not working callback
                 $rootScope.loggedInUser = false;
