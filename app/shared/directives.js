@@ -225,15 +225,18 @@ angular.module('ulakbus')
                 $scope.style = 'width:calc(100% - 300px);';
                 $scope.$on('$routeChangeStart', function (event, next, current) {
                     $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
-                    if($window.sessionStorage.token === "null" || $window.sessionStorage.token === undefined)
+                    if($window.sessionStorage.token === undefined)
                         $location.path('/login');
-                    if($location.path() === '/dashboard'  && $window.sessionStorage.token !== "null"){
+                    if($location.path() === '/dashboard'  && $window.sessionStorage.token !== undefined){
                         generate_dashboard();
                     } /*if (next.$$route && next.$$route.originalPath === '/dashboard') {
                         generate_dashboard();
                     } */
+                    if ($location.path() === '/logout') {
+                        AuthService.logout();
+                    }
                 });
-                if($window.sessionStorage.token === "null" || $window.sessionStorage.token === undefined)
+                if($window.sessionStorage.token === undefined)
                     $location.path('/login');
 
                 if ($location.path() === '/logout') {

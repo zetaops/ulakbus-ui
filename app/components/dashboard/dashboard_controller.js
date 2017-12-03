@@ -24,7 +24,7 @@ angular.module('ulakbus.dashboard', [])
     .controller('DashController', function ($scope, $rootScope, $window, $location, $routeParams, $route, $timeout, $http, $cookies, $log, RESTURL, Generator, WSOps) {
         // first generate_dashboard broadcasted to get menu and dashboard items
         // sidebar directive listens for "generate_dashboard"
-        if($window.sessionStorage.token === "null" || $window.sessionStorage.token === undefined)
+        if($window.sessionStorage.token === undefined)
             $location.path('/login');
         $rootScope.$broadcast("generate_dashboard");
 

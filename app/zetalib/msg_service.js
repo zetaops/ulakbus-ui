@@ -12,7 +12,7 @@ angular.module('ulakbus')
 msgService.$inject = ['$q', 'ErrorService', '$log', '$rootScope', '$timeout', '$location', 'Utils', '$window'];
 
 function msgService($q, ErrorService, $log, $rootScope, $timeout, $location, Utils, $window) {
-        if($window.sessionStorage.token === "null" || $window.sessionStorage.token === undefined) {
+        if($window.sessionStorage.token === undefined) {
             $location.path('/login');
         }
         var queue = {};

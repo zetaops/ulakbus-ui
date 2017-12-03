@@ -98,7 +98,7 @@ angular.module('ulakbus')
         $rootScope.isUserClicked = false;
 
         $rootScope.$on("$routeChangeStart", function (angularEvent, next, current) {
-            if ($window.sessionStorage.token === "null" || $window.sessionStorage.token === undefined) {
+            if ($window.sessionStorage.token === undefined) {
                 $location.path('/login');
             }
         });

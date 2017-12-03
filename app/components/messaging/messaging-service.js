@@ -16,8 +16,9 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
  * @description Service handles all stuff related to messaging
  */
     .factory('MessagingService', function ($q, $timeout, $compile, $log, $rootScope, Moment, WSOps, Utils, TasksService, $window, $location) {
-        if($window.sessionStorage.token === "null" || $window.sessionStorage.token === undefined)
-            $location.path('/login');
+        if($window.sessionStorage.token === undefined){
+            $location.path('/login')
+        }
         var msg = {};
         var notificationsChannelKey;
         var channelsMap = {};

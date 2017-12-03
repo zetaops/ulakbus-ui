@@ -15,7 +15,7 @@ angular.module('ulakbus.auth')
      * @name AuthService
      * @description  provides generic functions for authorization process.
      */
-    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, WSOps, $window,$cookies) {
+    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, WSOps, $window, $cookies) {
         var authService = {};
 
         authService.get_form = function (scope) {
@@ -87,17 +87,18 @@ angular.module('ulakbus.auth')
          */
         authService.logout = function () {
             $rootScope.$broadcast("show_main_loader");
-            $window.sessionStorage.token = null;
             $rootScope.loginAttempt = 0;
-            WSOps.request({wf: 'logout'}).then(function (data) { //TODO not working callback
-                $rootScope.loggedInUser = false;
-                $rootScope.current_user = true;
-                $rootScope.$broadcast("user_logged_out");
-                $log.debug("loggedout");
-                WSOps.close('loggedout');
-                $location.path("/login");
-                window.location.reload();
-            });
+            WSOps.request({wf: 'logout'})
+                .then(function (data) { //TODO not working callback
+                    $window.sessionStorage.clear();
+                    $rootScope.loggedInUser = false;
+                    $rootScope.current_user = true;
+                    $rootScope.$broadcast("user_logged_out");
+                    $log.debug("loggedout");
+                    WSOps.close('loggedout');
+                    $location.path("/login");
+                    window.location.reload();
+                })
         };
 
         authService.check_auth = function () {
