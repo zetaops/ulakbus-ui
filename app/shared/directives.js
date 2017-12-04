@@ -171,7 +171,7 @@ angular.module('ulakbus')
                 scope.user = false;
                 scope.$root.$watch("current_user",change,true);
                 function change(newVal,oldVal) {
-                    if(newVal.constructor == Object){
+                    if(newVal.constructor === Object){
                         if (newVal !== oldVal) {
                             scope.user = newVal;
                             scope.showRole = (newVal.roles.length > 1);
@@ -191,7 +191,7 @@ angular.module('ulakbus')
                 scope.user = false;
                 scope.$root.$watch("current_user",change,true);
                 function change(newVal,oldVal) {
-                    if(newVal.constructor == Object){
+                    if(newVal.constructor === Object){
                         if (newVal !== oldVal) {
                             scope.user = newVal;
                             scope.tooltip = $sce.trustAsHtml(newVal.role_details.unit_name.replace(/\s/g,"&nbsp;") + "<br/>" +  newVal.role_details.abs_name.replace(/\s/g,"&nbsp;") );
@@ -220,7 +220,7 @@ angular.module('ulakbus')
             // },
 
             scope: {},
-            controller: function ($scope, $rootScope, $cookies, $route, AuthService, WSOps, RESTURL, $log, $location, $window, $timeout) {
+            controller: function ($http, $scope, $rootScope, $cookies, $route, AuthService, /*WSOps,*/ RESTURL, $log, $location, $window, $timeout) {
                 $scope.isPublicAccess = false;
                 $scope.style = 'width:calc(100% - 300px);';
                 $scope.$on('$routeChangeStart', function (event, next, current) {
@@ -252,7 +252,7 @@ angular.module('ulakbus')
                     }
                         var sidebarmenu = $('#side-menu');
                         sidebarmenu.metisMenu();
-                        WSOps.request({view: 'dashboard'})
+                        $http.post(RESTURL.url, {view: 'dashboard'})
                             .then(function (data) {
                                 $scope.allMenuItems = angular.copy(data);
 
@@ -412,7 +412,7 @@ angular.module('ulakbus')
 //             restrict: 'E',
 //             replace: true,
 //             scope: {},
-//             controller: function ($scope, $rootScope, $cookies, $route, AuthService, WSOps, RESTURL, $log, $location, $window, $timeout) {
+//             controller: function ($http, $scope, $rootScope, $cookies, $route, AuthService, /*WSOps,*/ RESTURL, $log, $location, $window, $timeout) {
 //                 $scope.prepareMenu = function (menuItems) {
 //                     var newMenuItems = {};
 //                     angular.forEach(menuItems, function (value, key) {
@@ -434,7 +434,7 @@ angular.module('ulakbus')
 //                     if ($rootScope.websocketIsOpen) {
 //                         var sidebarmenu = $('#side-menu');
 //                         sidebarmenu.metisMenu();
-//                         WSOps.request({view: 'dashboard'})
+        //                         $http.post(RESTURL.url, {view: 'dashboard'})
 //                             .then(function (data) {
 //                                 $scope.allMenuItems = angular.copy(data);
 

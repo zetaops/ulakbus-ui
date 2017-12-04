@@ -21,7 +21,7 @@ angular.module('ulakbus.dashboard', [])
         $uibTooltipProvider.setTriggers({'click': 'mouseleave'});
     })
 
-    .controller('DashController', function ($scope, $rootScope, $window, $location, $routeParams, $route, $timeout, $http, $cookies, $log, RESTURL, Generator, WSOps) {
+    .controller('DashController', function ($scope, $rootScope, $window, $location, $routeParams, $route, $timeout, $http, $cookies, $log, RESTURL, Generator/*, WSOps*/ ) {
         // first generate_dashboard broadcasted to get menu and dashboard items
         // sidebar directive listens for "generate_dashboard"
         if($window.sessionStorage.token === undefined)
@@ -95,7 +95,7 @@ angular.module('ulakbus.dashboard', [])
 
         $scope.getItems = function (where, what) {
             $scope.showResults = true;
-            return WSOps.request({view: where + '_ara', query_params: what});
+            return $http.post(RESTURL.url, {view: where + '_ara', query_params: what});
         };
 
         $scope.userPopover = {templateUrl: '/components/dashboard/user-info.html'};

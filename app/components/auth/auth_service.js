@@ -15,12 +15,12 @@ angular.module('ulakbus.auth')
      * @name AuthService
      * @description  provides generic functions for authorization process.
      */
-    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, WSOps, $window, $cookies) {
+    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, /*WSOps,*/ $window, $cookies) {
         var authService = {};
 
         authService.get_form = function (scope) {
             return $http
-                .post(Generator.makeUrl(scope), scope.form_params)
+                .post(RESTURL.url, scope.form_params)
                 .success(function (data, status, headers, config) {
                     // if response data.cmd is 'upgrade'
                     if (data.cmd === 'upgrade') {
@@ -53,8 +53,9 @@ angular.module('ulakbus.auth')
          */
         authService.login = function (url, credentials) {
             credentials['cmd'] = "do";
+            credentials['wf'] = url;
             return $http
-                .post(RESTURL.url + url, credentials)
+                .post(RESTURL.url, credentials)
                 .success(function (data, status, headers, config) {
                     $window.sessionStorage.token = data.token;
                     Generator.button_switch(true);
@@ -88,21 +89,21 @@ angular.module('ulakbus.auth')
         authService.logout = function () {
             $rootScope.$broadcast("show_main_loader");
             $rootScope.loginAttempt = 0;
-            WSOps.request({wf: 'logout'})
+            $http.post(RESTURL.url, {wf: 'logout'})
                 .then(function (data) { //TODO not working callback
                     $window.sessionStorage.clear();
                     $rootScope.loggedInUser = false;
                     $rootScope.current_user = true;
                     $rootScope.$broadcast("user_logged_out");
                     $log.debug("loggedout");
-                    WSOps.close('loggedout');
+                    //WSOps.close('loggedout');
                     $location.path("/login");
                     window.location.reload();
                 })
         };
 
         authService.check_auth = function () {
-            var post_data = {url: 'login', form_params:{}};
+            var post_data = { form_params:{ wf: 'login' } };
             return authService.get_form(post_data);
         };
 

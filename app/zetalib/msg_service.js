@@ -81,9 +81,9 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout, $location, Uti
                         $rootScope.$broadcast(type[data["type"]], data);
                     });
                     break;
-                case "dashboard":
+                /*case "dashboard":
                     queue[data.callbackID].resolve(data);
-                    break;
+                    break;*/
                 case "channel_subscription":
                     $timeout(function () {
                         $rootScope.$broadcast('channel_change', 'add', data);

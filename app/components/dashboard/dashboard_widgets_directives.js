@@ -14,7 +14,7 @@
  * @description Directive for .
  */
 angular.module('ulakbus.dashboard')
-    .service('TasksService', function (WSOps) {
+    .service('TasksService', function ($http, RESTURL/*, WSOps*/) {
         return {
             get_tasks : get_tasks,
             get_task_types : get_task_types,
@@ -49,7 +49,7 @@ angular.module('ulakbus.dashboard')
             // start_date    // datetime, # optional. only show tasks starts after this date
             // finish_date   // datetime, # optional. only show tasks should end before this date
 
-            return WSOps.request(outgoing).then(function (data) {
+            return $http.post(RESTURL.url, outgoing).then(function (data) {
                 return data;
             });
 
@@ -59,7 +59,7 @@ angular.module('ulakbus.dashboard')
             var outgoing = {
                 'view': '_zops_get_task_types'
             };
-            return WSOps.request(outgoing).then(function (data) {
+            return $http.post(RESTURL.url, outgoing).then(function (data) {
                 return data.task_types;
             });
         }
@@ -70,7 +70,7 @@ angular.module('ulakbus.dashboard')
                 key: key
             };
 
-            return WSOps.request(outgoing).then(function (data) {
+            return $http.post(RESTURL.url, outgoing).then(function (data) {
                 return data.actions
             });
         }
@@ -81,7 +81,7 @@ angular.module('ulakbus.dashboard')
                 key: key
             };
 
-            return WSOps.request(outgoing);
+            return $http.post(RESTURL.url, outgoing);
         }
     })
     .directive('userTasks', function (TasksService) {
@@ -359,7 +359,7 @@ angular.module('ulakbus.dashboard')
             replace: true
         }
     })
-    .directive('zetaGrid', function(WSOps, uiGridConstants, $timeout, $q, $rootScope) {
+    .directive('zetaGrid', function(/*WSOps,*/ $http, uiGridConstants, $timeout, $q, $rootScope) {
         return {
             templateUrl: '/components/dashboard/directives/zeta-grid.html',
             restrict: 'E',
@@ -414,7 +414,7 @@ angular.module('ulakbus.dashboard')
                 //this function is called when the data is called from backend during page load
                 $scope.getFirstData = function(selectors) {
                     var promise = $q.defer();
-                    WSOps.request(getRequestObject(selectors)).then(function(response){
+                    $http.post(RESTURL.url, getRequestObject(selectors)).then(function(response){
                         handleResponseData(response);
                         promise.resolve();
                     });
@@ -430,7 +430,7 @@ angular.module('ulakbus.dashboard')
                     $scope.loadingChannel = true;
                     //increase pages that are visible to user
                     $scope.page+=1;
-                    WSOps.request(getRequestObject()).then(function(response){
+                    $http.post(RESTURL.url, getRequestObject()).then(function(response){
                         $scope.gridOptionsSelected = response.gridOptions;
                         var newData = response.gridOptions.data;
                         $scope.gridApi.infiniteScroll.saveScrollPercentage();
@@ -471,7 +471,7 @@ angular.module('ulakbus.dashboard')
                         }
 
                     }
-                    WSOps.request(requestObj).then(function(response){
+                    $http.post(RESTURL.url, requestObj).then(function(response){
                         //empty previous data to assign new sorted data set obtained from server
                         $scope.data = [];
                         $scope.gridOptionsSelected = response.gridOptions;
@@ -700,7 +700,7 @@ angular.module('ulakbus.dashboard')
                         requestObj.view = '_zops_get_csv_data';
                     }
 
-                    WSOps.request(requestObj).then(function(response){
+                    $http.post(RESTURL.url, requestObj).then(function(response){
                         $scope.loadingChannel = false;
                         window.open(response.download_url, '_blank');
                     });
