@@ -4016,7 +4016,6 @@ table.dataTable thead .sorting:after {
 /* for overflowing buttons not collapsing each other */
 .bottom-margined{
     margin-bottom: 0.75em;
-    background: #A4162D;
     color: white;
 }
 
