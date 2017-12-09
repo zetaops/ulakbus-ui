@@ -383,7 +383,6 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                                 scope.$broadcast('schemaFormValidate');
 
                                 if (scope[workOnForm].$valid) {
-                                    var oldPath = $location.path();
                                     generator.submit(scope, redirectTo);
 
                                     scope.$broadcast('disposeModal');

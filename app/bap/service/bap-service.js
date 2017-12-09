@@ -14,7 +14,7 @@ angular.module('ulakbusBap')
  * @name Generator
  * @description form service's Generator factory service handles all generic form operations
  */
-.factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, $filter,wfMetadata) {
+.factory('Generator', function (Utils, $http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, $filter,wfMetadata) {
     var generator = {};
     /**
      * @memberof ulakbusBap
@@ -318,6 +318,9 @@ angular.module('ulakbusBap')
             .success(function (data) {
                 // if response data.cmd is 'upgrade'
                 wfMetadata.setWfMeta(data.wf_meta);
+                if(data.download_url !== undefined){
+                    Utils.saveToDisk(data.download_url);
+                }
                 if (!dontProcessReply) {
                     return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
                 }
@@ -392,6 +395,7 @@ angular.module('ulakbusBap')
                         delete scope.form_params["cmd"];
                         scope.form_params["wf"] = v.wf;
                     }
+
                     scope.model[k] = 1;
                     // todo: test it
                     if (scope.modalElements) {
@@ -402,8 +406,10 @@ angular.module('ulakbusBap')
                         } else {
                             scope.$broadcast('schemaFormValidate');
                             if (scope[workOnForm].$valid) {
-                                generator.submit(scope, redirectTo);
-                                scope.$broadcast('disposeModal');
+
+                                    generator.submit(scope, redirectTo);
+                                    scope.$broadcast('disposeModal');
+
                             } else {
                                 // focus to first input with validation error
                                 $timeout(function () {
