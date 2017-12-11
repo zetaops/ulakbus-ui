@@ -51,11 +51,11 @@ angular.module('ulakbusBap')
             // model name in ulakbus
             model: routeParams.model,
             // generic value passing by backend. would be any of these: id, personel_id, etc.
-            param: scope.param || routeParams.param,
+            //param: scope.param || routeParams.param,
             // generic value passing by backend. would be the value of param
-            id: scope.param_id || routeParams.param_id,
+            //id: scope.param_id || routeParams.param_id,
             wf: routeParams.wf,
-            object_id: routeParams.key,
+            object_id: scope.param_id || routeParams.param_id,
             filters: {},
             token: routeParams.token
         };

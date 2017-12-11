@@ -40,6 +40,9 @@ angular.module('ulakbusBap')
                 object_id: announcement.object_id
             };
             Generator.generateParam($scope, announcement.dashboard_params);
+            if(announcement.dashboard_params){
+                Generator.get_wf($scope);
+            }
         };
 
         $scope.clickMore = function (workFlow) {
