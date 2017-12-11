@@ -44,6 +44,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
             if(angular.isDefined(wf_meta)) {
                 //set the value in the service variable
                 this.wf_meta = wf_meta;
+                $rootScope.wf_meta = this.wf_meta;
             }
         }
     })

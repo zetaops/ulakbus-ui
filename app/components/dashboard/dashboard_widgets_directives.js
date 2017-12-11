@@ -700,6 +700,8 @@ angular.module('ulakbus.dashboard')
                         requestObj.view = '_zops_get_csv_data';
                     }
 
+                    requestObj.wf_meta = $rootScope.wf_meta;
+
                     WSOps.request(requestObj).then(function(response){
                         $scope.loadingChannel = false;
                         window.open(response.download_url, '_blank');
