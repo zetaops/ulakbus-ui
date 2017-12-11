@@ -97,7 +97,7 @@ body {
 }
 
 .butn div.icon1 {
-    background: url(./img/signs.png) no-repeat;
+    background: url(/img/signs.png) no-repeat;
     float: left;
     width: 40px;
     height: 40px;
@@ -105,7 +105,7 @@ body {
     margin-top: 10px;
 }
 .butn div.icon2 {
-    background: url(./img/file.png) no-repeat;
+    background: url(/img/file.png) no-repeat;
     float: left;
     width: 40px;
     height: 40px;
@@ -113,7 +113,7 @@ body {
     margin-top: 10px;
 }
 .butn div.icon3 {
-    background: url(./img/eye.png) no-repeat;
+    background: url(/img/eye.png) no-repeat;
     float: left;
     width: 40px;
     height: 40px;
@@ -121,7 +121,7 @@ body {
     margin-top: 10px;
 }
 .butn div.icon4 {
-    background: url(./img/interface.png) no-repeat;
+    background: url(/img/interface.png) no-repeat;
     float: left;
     width: 40px;
     height: 40px;
@@ -129,7 +129,7 @@ body {
     margin-top: 10px;
 }
 .butn div.icon5 {
-    background: url(./img/app.png) no-repeat;
+    background: url(/img/app.png) no-repeat;
     float: left;
     width: 40px;
     height: 40px;
