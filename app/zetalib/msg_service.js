@@ -15,6 +15,7 @@ function msgService($q, ErrorService, $log, $rootScope, $timeout, $location, Uti
         if($window.sessionStorage.token === undefined) {
             $location.path('/login');
         }
+        $rootScope.$broadcast("ws_turn_on");
         var queue = {};
 
         return {

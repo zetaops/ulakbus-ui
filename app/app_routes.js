@@ -91,8 +91,9 @@ angular.module('ulakbus')
         $rootScope.loginAttempt = 0;
         $rootScope.current_user = true;
         //check if page is not a public page
-        if(location.hash.indexOf('/pub/') === -1){
-            AuthService.check_auth();
+        if(location.hash.indexOf('/pub/') === -1 && $window.sessionStorage.token === undefined){
+            $location.path('login');
+            //AuthService.check_auth();
         }
         //reset the value of user interaction on form when page refreshes
         $rootScope.isUserClicked = false;

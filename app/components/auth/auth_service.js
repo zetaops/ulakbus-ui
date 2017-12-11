@@ -20,18 +20,22 @@ angular.module('ulakbus.auth')
 
         authService.get_form = function (scope) {
             return $http
-                .post(RESTURL.url, scope.form_params)
+                .post(Generator.makeUrl(scope), scope.form_params)
                 .success(function (data, status, headers, config) {
                     // if response data.cmd is 'upgrade'
                     if (data.cmd === 'upgrade') {
+                        if($window.sessionStorage.token === undefined){
+                            authService.logout();
+                        }
                         $rootScope.loggedInUser = true;
-                        $rootScope.$broadcast("ws_turn_on");
+                        //$rootScope.$broadcast("ws_turn_on");
                         $rootScope.$broadcast("setPublicWf", false);
-                        return $location.path('/dashboard');
+                        $location.path('/dashboard');
                     }
-                    if (data.cmd === 'retry') {
-                        $location.path('/login');
-                    } else{
+                    /*if (status !== 403 || 401 || 500 ) {
+                        return $location.path('/login');
+                    }*/
+                    if($window.sessionStorage.token === undefined && data.cmd === undefined){
                         if (angular.isDefined(data.forms) && $location.path() !== '/login'){
                             $location.path('/login');
                         }
@@ -59,14 +63,14 @@ angular.module('ulakbus.auth')
                 .success(function (data, status, headers, config) {
                     $window.sessionStorage.token = data.token;
                     Generator.button_switch(true);
-                    if (data.cmd === 'upgrade') {
+                    if (status === 200) {
                         $rootScope.loggedInUser = true;
                         // $rootScope.$broadcast("regenerate_menu");
                         // to display main view without flickering
-                        $rootScope.$broadcast("ws_turn_on");
+                        //$rootScope.$broadcast("ws_turn_on");
                         $location.path('/dashboard');
                     }
-                    if (data.status_code === 403) {
+                    if (status !== 200) {
                         data.title = "İşlem başarısız oldu. Lütfen girdiğiniz bilgileri kontrol ediniz.";
                     }
                     return data;
@@ -102,10 +106,10 @@ angular.module('ulakbus.auth')
                 })
         };
 
-        authService.check_auth = function () {
+        /*authService.check_auth = function () {
             var post_data = { form_params:{ wf: 'login' } };
             return authService.get_form(post_data);
-        };
+        };*/
 
         return authService;
     });

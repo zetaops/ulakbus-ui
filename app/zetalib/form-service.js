@@ -1322,7 +1322,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
          * @returns {*}
          */
         generator.get_form = function (scope) {
-            return $http.post(RESTURL.url, scope.form_params)
+            return $http.post(generator.makeUrl(scope), scope.form_params)
                 .then(function (data) {
                     wfMetadata.setWfMeta(data.wf_meta);
                     return generator.generate(scope, data);
@@ -1341,7 +1341,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
             var isSearchResult = ((form_params.cmd === 'select_list' || form_params.cmd === 'object_name') && (form_params.wf === 'crud'))?true:false;
 
-            return $http.post(RESTURL.url, form_params)
+            return $http.post(generator.makeUrl(scope), form_params)
                 .then(function (data) {
                     //we need to set the wf_meta of the main wf and not from the response of typeahead
                     if(!isSearchResult){
@@ -1374,7 +1374,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         return generator.pathDecider(data.client_cmd || ['list'], scope, data);
                     });
             }else{
-                return $http.post(RESTURL.url, scope.form_params)
+                return $http.post(generator.makeUrl(scope), scope.form_params)
                     .then(function (data) {
                         wfMetadata.setWfMeta(data.wf_meta);
                         return generator.pathDecider(data.client_cmd || ['list'], scope, data);
@@ -1666,7 +1666,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         return data;
                     });
             }else{
-                return $http.post(RESTURL.url, send_data)
+                return $http.post(generator.makeUrl(send_data), send_data)
                     .then(function (data) {
                         if (data.cmd === "logout") {
                             $cookies.put("logoutmsg",angular.toJson({title:data.title,msg:data.msg,type:"warning"}));

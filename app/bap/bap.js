@@ -39,7 +39,7 @@ angular.module(
 // todo: convert it to service
     .constant("RESTURL", (function () {
         // todo: below backendurl definition is for development purpose and will be deleted
-        var backendurl = location.href.indexOf('nightly') > -1 ? "//nightly.api.ulakbus.net/" : "//192.168.1.6/";
+        var backendurl = location.href.indexOf('nightly') > -1 ? "//nightly.api.ulakbus.net/" : "//api.ulakbus.net/";
         if (document.cookie.indexOf("backendurl") > -1) {
             var cookiearray = document.cookie.split(';');
             angular.forEach(cookiearray, function (item) {

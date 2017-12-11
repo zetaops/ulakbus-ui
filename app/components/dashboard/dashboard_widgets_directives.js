@@ -359,7 +359,7 @@ angular.module('ulakbus.dashboard')
             replace: true
         }
     })
-    .directive('zetaGrid', function(/*WSOps,*/ $http, uiGridConstants, $timeout, $q, $rootScope) {
+    .directive('zetaGrid', function(/*WSOps,*/ $http, uiGridConstants, $timeout, $q, $rootScope, Generator) {
         return {
             templateUrl: '/components/dashboard/directives/zeta-grid.html',
             restrict: 'E',
@@ -414,7 +414,7 @@ angular.module('ulakbus.dashboard')
                 //this function is called when the data is called from backend during page load
                 $scope.getFirstData = function(selectors) {
                     var promise = $q.defer();
-                    $http.post(RESTURL.url, getRequestObject(selectors)).then(function(response){
+                    $http.post(Generator.makeUrl(getRequestObject(selectors)), getRequestObject(selectors)).then(function(response){
                         handleResponseData(response);
                         promise.resolve();
                     });
@@ -430,7 +430,7 @@ angular.module('ulakbus.dashboard')
                     $scope.loadingChannel = true;
                     //increase pages that are visible to user
                     $scope.page+=1;
-                    $http.post(RESTURL.url, getRequestObject()).then(function(response){
+                    $http.post(Generator.makeUrl(getRequestObject()), getRequestObject()).then(function(response){
                         $scope.gridOptionsSelected = response.gridOptions;
                         var newData = response.gridOptions.data;
                         $scope.gridApi.infiniteScroll.saveScrollPercentage();
@@ -471,7 +471,7 @@ angular.module('ulakbus.dashboard')
                         }
 
                     }
-                    $http.post(RESTURL.url, requestObj).then(function(response){
+                    $http.post(Generator.makeUrl(requestObj), requestObj).then(function(response){
                         //empty previous data to assign new sorted data set obtained from server
                         $scope.data = [];
                         $scope.gridOptionsSelected = response.gridOptions;
@@ -700,7 +700,7 @@ angular.module('ulakbus.dashboard')
                         requestObj.view = '_zops_get_csv_data';
                     }
 
-                    $http.post(RESTURL.url, requestObj).then(function(response){
+                    $http.post(Generator.makeUrl(requestObj), requestObj).then(function(response){
                         $scope.loadingChannel = false;
                         window.open(response.download_url, '_blank');
                     });

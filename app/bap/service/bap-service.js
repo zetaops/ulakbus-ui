@@ -14,7 +14,7 @@ angular.module('ulakbusBap')
  * @name Generator
  * @description form service's Generator factory service handles all generic form operations
  */
-.factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, $filter,wfMetadata) {
+.factory('Generator', function (Utils, $http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, $filter,wfMetadata) {
     var generator = {};
     /**
      * @memberof ulakbusBap
@@ -317,6 +317,9 @@ angular.module('ulakbusBap')
             .post(generator.makeUrl(send_data.wf), send_data)
             .success(function (data) {
                 // if response data.cmd is 'upgrade'
+                if(data.download_url !== undefined){
+                    Utils.saveToDisk(data.download_url);
+                }
                 wfMetadata.setWfMeta(data.wf_meta);
                 if (!dontProcessReply) {
                     return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
