@@ -14,7 +14,7 @@ angular.module('ulakbusBap')
  * @name Generator
  * @description form service's Generator factory service handles all generic form operations
  */
-.factory('Generator', function ($http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, $filter,wfMetadata) {
+.factory('Generator', function (Utils, $http, $q, $timeout, $sce, $location, $route, $compile, $log, RESTURL, $rootScope, Moment, $filter,wfMetadata) {
     var generator = {};
     /**
      * @memberof ulakbusBap
@@ -131,7 +131,7 @@ angular.module('ulakbusBap')
             var pathUrl = '/' + scope.form_params.wf;
             if (scope.form_params.model) {
                 pathUrl += '/' + scope.form_params.model + '/do/' + page;
-            } else {
+            } else if (page !== 'download'){
                 pathUrl += '/do/' + page;
             }
             // todo add object url to path
@@ -140,7 +140,8 @@ angular.module('ulakbusBap')
             // if generated path url and the current path is equal route has to be reload
             if ($location.path() === pathUrl) {
                 return $route.reload();
-            } else {
+            }
+            else {
                 $location.path(pathUrl);
             }
         }
@@ -162,7 +163,8 @@ angular.module('ulakbusBap')
             //data['second_client_cmd'] = client_cmd[1];
             generator.setPageData(data);
 
-            redirectTo($scope, client_cmd[0]);
+                redirectTo($scope, client_cmd[0]);
+
         }
 
         dispatchClientCmd();
@@ -318,9 +320,13 @@ angular.module('ulakbusBap')
             .success(function (data) {
                 // if response data.cmd is 'upgrade'
                 wfMetadata.setWfMeta(data.wf_meta);
-                if (!dontProcessReply) {
+                if(data.download_url !== undefined){
+                    Utils.saveToDisk(data.download_url);
+                }
+                if((!dontProcessReply) && (data.client_cmd !== ["download"])) {
                     return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
                 }
+
                 return data;
             });
     };
@@ -392,6 +398,7 @@ angular.module('ulakbusBap')
                         delete scope.form_params["cmd"];
                         scope.form_params["wf"] = v.wf;
                     }
+
                     scope.model[k] = 1;
                     // todo: test it
                     if (scope.modalElements) {
@@ -402,8 +409,10 @@ angular.module('ulakbusBap')
                         } else {
                             scope.$broadcast('schemaFormValidate');
                             if (scope[workOnForm].$valid) {
-                                generator.submit(scope, redirectTo);
-                                scope.$broadcast('disposeModal');
+
+                                    generator.submit(scope, redirectTo);
+                                    scope.$broadcast('disposeModal');
+
                             } else {
                                 // focus to first input with validation error
                                 $timeout(function () {

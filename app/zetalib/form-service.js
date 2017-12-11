@@ -353,6 +353,12 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         delete scope.form_params.flow;
                         if (v.cmd) {
                             scope.form_params["cmd"] = v.cmd;
+                            if(scope.form_params["cmd"] == "indir"){
+                                generator.button_switch(true);
+                            }
+                            else {
+                                generator.button_switch(false);
+                            }
                         }
                         if (v.flow) {
                             scope.form_params["flow"] = v.flow;
@@ -360,6 +366,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         if (v.wf) {
                             delete scope.form_params["cmd"];
                             scope.form_params["wf"] = v.wf;
+
                         }
                         scope.model[k] = 1;
                         // todo: test it
@@ -367,15 +374,17 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                             scope.submitModalForm();
 
+
                         } else {
                             if (!v.form_validation && angular.isDefined(v.form_validation)) {
                                 generator.submit(scope, redirectTo);
+
                             } else {
                                 scope.$broadcast('schemaFormValidate');
-                                if (scope[workOnForm].$valid) {
-                                    generator.button_switch(false);
 
+                                if (scope[workOnForm].$valid) {
                                     generator.submit(scope, redirectTo);
+
                                     scope.$broadcast('disposeModal');
                                 } else {
                                     // focus to first input with validation error
@@ -1419,6 +1428,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
              * @return {*}
              */
             function redirectTo(scope, page) {
+
                 var pathUrl;
                 if(angular.isDefined($route.current.$$route.isPublic) && $route.current.$$route.isPublic){
                     pathUrl= '/pub/' + scope.form_params.wf;
@@ -1442,6 +1452,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                     return $route.reload();
                 } else {
                     $location.path(pathUrl);
+
                 }
             }
 

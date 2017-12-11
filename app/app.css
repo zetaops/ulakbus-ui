@@ -52,7 +52,7 @@ body {
 }
 
 .form-container {
-	width: 100%;
+	width: 65%;
     background-color: #fff;
     padding: 25px;
     border-radius: 3px;
@@ -658,6 +658,10 @@ select {
 
 .manager-view-content table button {
     margin-top: 5px;
+}
+
+.table-responsive {
+    padding-right: 75px;
 }
 
 .navbar-top-links {
@@ -4016,7 +4020,6 @@ table.dataTable thead .sorting:after {
 /* for overflowing buttons not collapsing each other */
 .bottom-margined{
     margin-bottom: 0.75em;
-    background: #A4162D;
     color: white;
 }
 

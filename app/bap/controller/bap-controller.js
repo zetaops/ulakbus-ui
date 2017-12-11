@@ -79,7 +79,7 @@ angular.module('ulakbusBap')
      *
      * @returns {object}
      */
-    .controller('BapCRUDListFormController', function ($scope, $rootScope, $location, $sce, $http, $log, $uibModal, $timeout, Generator, $routeParams) {
+    .controller('BapCRUDListFormController', function ($scope, $rootScope, $location, $sce, $http, $log, $uibModal, $timeout, Generator, $routeParams, Utils) {
         // below show crud and $on --> $viewContentLoaded callback is for masking the view with unrendered and ugly html
         $scope.show_crud = false;
         $scope.$on('$viewContentLoaded', function () {
@@ -258,6 +258,7 @@ angular.module('ulakbusBap')
             list: $scope.listFormCmd,
             form: $scope.listFormCmd,
             reload: $scope.reloadCmd,
+            download: $scope.listFormCmd,
             reset: $scope.resetCmd
         };
 
