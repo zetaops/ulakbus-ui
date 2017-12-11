@@ -60,12 +60,13 @@ a.logo-ulakbus{
 }
 
 .top-tiles{
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
     margin: 16px;
     cursor: pointer;
-    min-height:65px;
+    min-height:20px;
 }
+
 .detail-box{
     margin: 20px 0px;
     border: 1px solid #a5a5a5;

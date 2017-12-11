@@ -1293,6 +1293,7 @@ angular.module('ulakbusBap')
      * @param {string} mode
      * @returns {*}
      */
+
     generator.doItemAction = function ($scope, key, todo, mode) {
         $scope.form_params.cmd = todo.cmd;
         $scope.form_params.wf = $scope.wf;
