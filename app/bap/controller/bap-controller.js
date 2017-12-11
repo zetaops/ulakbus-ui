@@ -35,6 +35,14 @@ angular.module('ulakbusBap')
 
         $scope.clickAnnouncement = function (announcement) {
             $location.path("/" + announcement.wf);
+            announcement.dashboard_params = {
+                wf: announcement.wf,
+                object_id: announcement.object_id
+            };
+            Generator.generateParam($scope, announcement.dashboard_params);
+            if(announcement.dashboard_params){
+                Generator.get_wf($scope);
+            }
         };
 
         $scope.clickMore = function (workFlow) {

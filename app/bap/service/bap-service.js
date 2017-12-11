@@ -39,7 +39,6 @@ angular.module('ulakbusBap')
      */
     generator.generateParam = function (scope, routeParams) {
         scope.url = routeParams.wf;
-
         angular.forEach(routeParams, function (value, key) {
             if (key.indexOf('_id') > -1 && key !== 'param_id') {
                 scope.param = key;
@@ -52,11 +51,11 @@ angular.module('ulakbusBap')
             // model name in ulakbus
             model: routeParams.model,
             // generic value passing by backend. would be any of these: id, personel_id, etc.
-            param: scope.param || routeParams.param,
+            //param: scope.param || routeParams.param,
             // generic value passing by backend. would be the value of param
-            id: scope.param_id || routeParams.param_id,
+            //id: scope.param_id || routeParams.param_id,
             wf: routeParams.wf,
-            object_id: routeParams.key,
+            object_id: scope.param_id || routeParams.param_id,
             filters: {},
             token: routeParams.token
         };
@@ -81,11 +80,13 @@ angular.module('ulakbusBap')
      * @param scope
      * @returns {*}
      */
+
     generator.get_wf = function (scope) {
-        return $http.post(generator.makeUrl(scope.form_params.wf), scope.form_params)
+
+        return $http.post(generator.makeUrl(scope.form_params.wf), scope.form_params, scope.id)
             .success(function (response, status, headers, config) {
                 wfMetadata.setWfMeta(response.wf_meta);
-                return generator.pathDecider(response.client_cmd || ['list'], scope, response);
+                return generator.pathDecider(response.client_cmd || ['list'] || ['form'], scope, response);
             });
     };
     /**
