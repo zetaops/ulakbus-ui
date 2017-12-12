@@ -38,6 +38,10 @@ angular.module('ulakbus.auth')
                             return Generator.generate(scope, data);
                         }
                     }
+                })
+                .error(function (data) {
+                    console.log(error);
+                    return data;
                 });
         };
 
