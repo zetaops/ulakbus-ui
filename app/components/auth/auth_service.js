@@ -19,27 +19,24 @@ angular.module('ulakbus.auth')
         var authService = {};
 
         authService.get_form = function (scope) {
-            return $http
-                .post(Generator.makeUrl(scope), scope.form_params)
+            return $http.post(RESTURL.url, scope.form_params)
                 .success(function (data, status, headers, config) {
-                    // if response data.cmd is 'upgrade'
-                    if (data.cmd === 'upgrade') {
-                        if($window.sessionStorage.token === undefined){
-                            authService.logout();
+                    if($window.sessionStorage.userID !== undefined){
+                        authService.logout();
+                    } else {
+                        if (data.user_id !== undefined) {
+                            $window.sessionStorage.userID = data.user_id;
+                            $rootScope.loggedInUser = true;
+                            //$rootScope.$broadcast("ws_turn_on");
+                            $rootScope.$broadcast("setPublicWf", false);
+                            $location.path('/dashboard');
+
+                        }else {
+                            if (angular.isDefined(data.forms) && $location.path() !== '/login'){
+                                $location.path('/login');
+                            }
+                            return Generator.generate(scope, data);
                         }
-                        $rootScope.loggedInUser = true;
-                        //$rootScope.$broadcast("ws_turn_on");
-                        $rootScope.$broadcast("setPublicWf", false);
-                        $location.path('/dashboard');
-                    }
-                    /*if (status !== 403 || 401 || 500 ) {
-                        return $location.path('/login');
-                    }*/
-                    if($window.sessionStorage.token === undefined && data.cmd === undefined){
-                        if (angular.isDefined(data.forms) && $location.path() !== '/login'){
-                            $location.path('/login');
-                        }
-                        return Generator.generate(scope, data);
                     }
                 });
         };
@@ -58,16 +55,18 @@ angular.module('ulakbus.auth')
         authService.login = function (url, credentials) {
             credentials['cmd'] = "do";
             credentials['wf'] = url;
-            return $http
-                .post(RESTURL.url, credentials)
+            if($window.sessionStorage.userID !== undefined){
+                authService.logout();
+            }
+            return $http.post(RESTURL.url, credentials)
                 .success(function (data, status, headers, config) {
-                    $window.sessionStorage.token = data.token;
                     Generator.button_switch(true);
                     if (status === 200) {
+                        $window.sessionStorage.userID = data.user_id;
                         $rootScope.loggedInUser = true;
                         // $rootScope.$broadcast("regenerate_menu");
                         // to display main view without flickering
-                        //$rootScope.$broadcast("ws_turn_on");
+                        // $rootScope.$broadcast("ws_turn_on");
                         $location.path('/dashboard');
                     }
                     if (status !== 200) {

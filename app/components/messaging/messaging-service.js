@@ -16,9 +16,10 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
  * @description Service handles all stuff related to messaging
  */
     .factory('MessagingService', function ($q, $timeout, $compile, $log, $rootScope, Moment, WSOps, Utils, TasksService, $window, $location) {
-        if($window.sessionStorage.token === undefined){
+        if($window.sessionStorage.userID === undefined){
             $location.path('/login')
         }
+        return;
         var msg = {};
         var notificationsChannelKey;
         var channelsMap = {};
@@ -43,7 +44,7 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         var messagingAppIsHidden = true;
 
         function wsRequest (outgoing){
-                return WSOps.request(outgoing);
+                //return WSOps.request(outgoing);
         }
 
         function prepareMessages (messages){

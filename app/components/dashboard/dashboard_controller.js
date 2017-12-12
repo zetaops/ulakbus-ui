@@ -24,9 +24,9 @@ angular.module('ulakbus.dashboard', [])
     .controller('DashController', function ($scope, $rootScope, $window, $location, $routeParams, $route, $timeout, $http, $cookies, $log, RESTURL, Generator/*, WSOps*/ ) {
         // first generate_dashboard broadcasted to get menu and dashboard items
         // sidebar directive listens for "generate_dashboard"
-        if($window.sessionStorage.token === undefined)
+        if($window.sessionStorage.userID === undefined)
             $location.path('/login');
-        $rootScope.$broadcast("generate_dashboard");
+        //$rootScope.$broadcast("generate_dashboard");
 
         $scope.section = function (section_index) {
             $rootScope.section = section_index;
@@ -81,12 +81,12 @@ angular.module('ulakbus.dashboard', [])
                         });
                         
                         $scope.getItems(where, q).then(function (data) {
-                            $scope.staffs = data.results;
+                            $scope.staffs = data.data.results;
                         });
                     }
                     if (where === 'ogrenci') {
                         $scope.getItems(where, $scope.keyword.student).then(function (data) {
-                            $scope.students = data.results;
+                            $scope.students = data.data.results;
                         })
                     }
                 }, 500);
@@ -109,7 +109,8 @@ angular.module('ulakbus.dashboard', [])
          */
         $scope.get_info = function (type, key) {
             Generator.get_list({url: 'crud', form_params: {wf: 'crud', model: type, object_id: key, cmd: 'show'}})
-                .then(function (data) {
+                .then(function (resp) {
+                    var data = resp.data;
                     $scope.userPopover.name = data.object['Ad'] + " " + data.object['Soyad'];
                     $scope.userPopover.tcno = data.object['TC Kimlik No'];
                     $scope.userPopover.image = data.object['Avatar'] || 'img/sample-profile-pic.jpg';

@@ -50,7 +50,7 @@ angular.module('ulakbus.dashboard')
             // finish_date   // datetime, # optional. only show tasks should end before this date
 
             return $http.post(RESTURL.url, outgoing).then(function (data) {
-                return data;
+                return data.data;
             });
 
         }
@@ -60,7 +60,7 @@ angular.module('ulakbus.dashboard')
                 'view': '_zops_get_task_types'
             };
             return $http.post(RESTURL.url, outgoing).then(function (data) {
-                return data.task_types;
+                return data.data.task_types;
             });
         }
 
@@ -71,7 +71,7 @@ angular.module('ulakbus.dashboard')
             };
 
             return $http.post(RESTURL.url, outgoing).then(function (data) {
-                return data.actions
+                return data.data.actions
             });
         }
 
@@ -414,8 +414,8 @@ angular.module('ulakbus.dashboard')
                 //this function is called when the data is called from backend during page load
                 $scope.getFirstData = function(selectors) {
                     var promise = $q.defer();
-                    $http.post(Generator.makeUrl(getRequestObject(selectors)), getRequestObject(selectors)).then(function(response){
-                        handleResponseData(response);
+                    $http.post(RESTURL.url, getRequestObject(selectors)).then(function(response){
+                        handleResponseData(response.data);
                         promise.resolve();
                     });
                     return promise.promise;
@@ -430,12 +430,12 @@ angular.module('ulakbus.dashboard')
                     $scope.loadingChannel = true;
                     //increase pages that are visible to user
                     $scope.page+=1;
-                    $http.post(Generator.makeUrl(getRequestObject()), getRequestObject()).then(function(response){
-                        $scope.gridOptionsSelected = response.gridOptions;
-                        var newData = response.gridOptions.data;
+                    $http.post(RESTURL.url, getRequestObject()).then(function(response){
+                        $scope.gridOptionsSelected = response.data.gridOptions;
+                        var newData = response.data.gridOptions.data;
                         $scope.gridApi.infiniteScroll.saveScrollPercentage();
                         $scope.data = $scope.data.concat(newData);
-                        $scope.isMoreDataLeft = response.gridOptions.isMoreDataLeft;
+                        $scope.isMoreDataLeft = response.data.gridOptions.isMoreDataLeft;
                         $scope.gridApi.infiniteScroll.dataLoaded();
                         $scope.loadingChannel = false;
                     }).catch(function(error) {
@@ -471,14 +471,14 @@ angular.module('ulakbus.dashboard')
                         }
 
                     }
-                    $http.post(Generator.makeUrl(requestObj), requestObj).then(function(response){
+                    $http.post(RESTURL.url, requestObj).then(function(response){
                         //empty previous data to assign new sorted data set obtained from server
                         $scope.data = [];
-                        $scope.gridOptionsSelected = response.gridOptions;
+                        $scope.gridOptionsSelected = response.data.gridOptions;
                         $scope.gridApi.infiniteScroll.saveScrollPercentage();
                         //sorted data obtained from the server
-                        $scope.data = response.gridOptions.data;
-                        $scope.isMoreDataLeft = response.gridOptions.isMoreDataLeft;
+                        $scope.data = response.data.gridOptions.data;
+                        $scope.isMoreDataLeft = response.data.gridOptions.isMoreDataLeft;
                         $scope.gridApi.infiniteScroll.dataLoaded();
                         $scope.loadingChannel = false;
                     }).catch(function(error) {
@@ -700,9 +700,9 @@ angular.module('ulakbus.dashboard')
                         requestObj.view = '_zops_get_csv_data';
                     }
 
-                    $http.post(Generator.makeUrl(requestObj), requestObj).then(function(response){
+                    $http.post(RESTURL.url, requestObj).then(function(response){
                         $scope.loadingChannel = false;
-                        window.open(response.download_url, '_blank');
+                        window.open(response.data.download_url, '_blank');
                     });
                 };
                 //this will clear all the filters of ui grid

@@ -225,9 +225,9 @@ angular.module('ulakbus')
                 $scope.style = 'width:calc(100% - 300px);';
                 $scope.$on('$routeChangeStart', function (event, next, current) {
                     $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
-                    if($window.sessionStorage.token === undefined)
-                        $location.path('/login');
-                    if($location.path() === '/dashboard'  && $window.sessionStorage.token !== undefined){
+                    if($window.sessionStorage.userID === undefined)
+                        return $location.path('/login');
+                    if($location.path() === '/dashboard'  && $window.sessionStorage.userID !== undefined){
                         generate_dashboard();
                     } /*if (next.$$route && next.$$route.originalPath === '/dashboard') {
                         generate_dashboard();
@@ -236,7 +236,7 @@ angular.module('ulakbus')
                         AuthService.logout();
                     }
                 });
-                if($window.sessionStorage.token === undefined)
+                if($window.sessionStorage.userID === undefined)
                     $location.path('/login');
 
                 if ($location.path() === '/logout') {
@@ -253,7 +253,8 @@ angular.module('ulakbus')
                         var sidebarmenu = $('#side-menu');
                         sidebarmenu.metisMenu();
                         $http.post(RESTURL.url, {view: 'dashboard'})
-                            .then(function (data) {
+                            .then(function (response) {
+                                var data = response.data;
                                 $scope.allMenuItems = angular.copy(data);
 
                                 // regroup menu items based on their category
@@ -285,11 +286,11 @@ angular.module('ulakbus')
                                 $rootScope.$broadcast("authz", data);
                                 $rootScope.searchInputs = data;
 
-                                if (data.current_user) {
+                                //if (data.current_user) {
                                     //$rootScope.$broadcast("ws_turn_on");
                                     // to display main view without flickering
                                     //$rootScope.$broadcast("user_ready");
-                                }
+                                //}
 
                                 $rootScope.current_user = data.current_user;
                                 if (data.ogrenci || data.personel) {
@@ -435,7 +436,8 @@ angular.module('ulakbus')
 //                         var sidebarmenu = $('#side-menu');
 //                         sidebarmenu.metisMenu();
         //                         $http.post(RESTURL.url, {view: 'dashboard'})
-//                             .then(function (data) {
+//                             .then(function (response) {
+//                                 var data = response.data;
 //                                 $scope.allMenuItems = angular.copy(data);
 
 //                                 // regroup menu items based on their category
