@@ -24,7 +24,7 @@ angular.module('ulakbus.dashboard', [])
     .controller('DashController', function ($scope, $rootScope, $routeParams, $route, $timeout, $http, $cookies, $log, RESTURL, Generator, WSOps) {
         // first generate_dashboard broadcasted to get menu and dashboard items
         // sidebar directive listens for "generate_dashboard"
-        $rootScope.$broadcast("generate_dashboard");
+        // $rootScope.$broadcast("generate_dashboard");
 
         $scope.section = function (section_index) {
             $rootScope.section = section_index;
