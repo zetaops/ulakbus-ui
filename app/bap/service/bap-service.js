@@ -25,7 +25,7 @@ angular.module('ulakbusBap')
      * @returns {string}
      */
     generator.makeUrl = function (wfName) {
-        return RESTURL.url + wfName;
+        return RESTURL.url/* + wfName*/;
     };
     /**
      * @memberof ulakbusBap
@@ -1487,7 +1487,7 @@ angular.module('ulakbusBap')
     };
 
     generator.get_form = function (scope) {
-        return $http.post(generator.makeUrl(scope.form_params.wf), {})
+        return $http.post(generator.makeUrl(scope.form_params.wf), {wf: scope.form_params.wf})
             .success(function (response, status, headers, config) {
                 wfMetadata.setWfMeta(response.wf_meta);
                 return generator.generate(scope, response);
@@ -1499,7 +1499,7 @@ angular.module('ulakbusBap')
 
         var isSearchResult = ((form_params.cmd === 'select_list' || form_params.cmd === 'object_name') && (form_params.wf === 'crud'))?true:false;
 
-        return $http.post(generator.makeUrl(scope.form_params.wf), {})
+        return $http.post(generator.makeUrl(scope.form_params.wf), {wf: scope.form_params.wf})
             .success(function (data, status, headers, config) {
                 //we need to set the wf_meta of the main wf and not from the response of typeahead
                 if(!isSearchResult){

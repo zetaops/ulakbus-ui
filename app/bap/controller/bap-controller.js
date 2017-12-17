@@ -22,7 +22,7 @@ angular.module('ulakbusBap')
         //this will be API call in controller load
         $scope.dashboardData = {};
         var dashboardEndpoint = 'bap_anasayfa';
-        $http.post(Generator.makeUrl(dashboardEndpoint), {})
+        $http.post(Generator.makeUrl(dashboardEndpoint), {wf: dashboardEndpoint})
             .success(function (response, status) {
                 if(status===200){
                     $scope.dashboardData = response;
