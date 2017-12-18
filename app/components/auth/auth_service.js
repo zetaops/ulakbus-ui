@@ -21,9 +21,6 @@ angular.module('ulakbus.auth')
         authService.get_form = function (scope) {
             return $http.post(RESTURL.url, scope.form_params)
                 .success(function (data, status, headers, config) {
-                    console.log(document.cookie);
-                    console.log(headers('Set-Cookie'));
-                    console.log($cookies.getAll());
                     if($window.sessionStorage.userID !== undefined){
                         authService.logout();
                     } else {
