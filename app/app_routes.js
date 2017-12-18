@@ -106,7 +106,7 @@ angular.module('ulakbus')
     })
     .config(function ($httpProvider) {
         // to send cookies CORS
-        //$httpProvider.defaults.withCredentials = true;
+        $httpProvider.defaults.withCredentials = true;
     })
     .run(function (gettextCatalog) {
         gettextCatalog.setCurrentLanguage('tr');
