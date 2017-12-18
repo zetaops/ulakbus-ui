@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ulakbus')
-    .config(['$routeProvider', function ($routeProvider, $route) {
+    .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/login', {
                 templateUrl: '/components/auth/login.html',
@@ -104,10 +104,10 @@ angular.module('ulakbus')
             }
         });
     })
-    .config(['$httpProvider', function ($httpProvider) {
+    .config(function ($httpProvider) {
         // to send cookies CORS
         //$httpProvider.defaults.withCredentials = true;
-    }])
+    })
     .run(function (gettextCatalog) {
         gettextCatalog.setCurrentLanguage('tr');
         gettextCatalog.debug = true;
