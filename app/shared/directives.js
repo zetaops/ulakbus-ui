@@ -226,7 +226,7 @@ angular.module('ulakbus')
                 $scope.$on('$routeChangeStart', function (event, next, current) {
                     $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
                     if($location.path() === '/dashboard'){
-                        $rootScope.loggedInUser ? generate_dashboard() : $location.path("/login");
+                        $rootScope.loggedInUser ? $rootScope.$broadcast("generate_dashboard") : $location.path("/login");
                     } /*if (next.$$route && next.$$route.originalPath === '/dashboard') {
                         generate_dashboard();
                     } */else if (/*next.$$route && next.$$route.originalPath*/ $location.path() === '/logout') {
@@ -339,7 +339,7 @@ angular.module('ulakbus')
 
                 $scope.selectedMenu = $location.path();
                 if($location.path() === '/dashboard') {
-                    generate_dashboard();
+                    $rootScope.$broadcast("generate_dashboard");
                 }
                 $scope.collapseVar = 0;
                 $scope.multiCollapseVar = 0;
