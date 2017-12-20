@@ -1,5 +1,24 @@
-<div class="col-md-12 tiles-container">
-    <div class="col-md-2 tiles" ng-repeat="button in buttonList" ng-class="{active: selectedButton == $index}" ng-click="setActive($index, button)">
-        <div class="top-tiles"><span>{{button.text}}</span></div>
-    </div>
+<div class="col-md-12">
+        <button type="button" class="butn btn-outline-danger" ng-repeat="button in buttonList" ng-class="{active: selectedButton == $index}" ng-click="setActive($index, button)">
+            <div ng-if="button.wf == 'bap_proje_basvuru'">
+                <div class="icon1"></div>
+            </div>
+            <div ng-if="button.wf == 'bap_ogretim_uyesi_basvuru_listeleme'">
+                <div class="icon2"></div>
+            </div>
+            <div ng-if="button.wf == 'bap_makine_techizat_ara'">
+                <div class="icon3"></div>
+            </div>
+            <div ng-if="button.wf == 'bap_proje_arama'">
+                <div class="icon4"></div>
+            </div>
+            <div ng-if="button.wf == 'bap_firma_kayit'">
+                <div class="icon5"></div>
+            </div>
+            <div class="dashboard-buttons">
+                <div class="top-tiles">
+                <span>{{button.text}}</span>
+            </div>
+            </div>
+        </button>
 </div>

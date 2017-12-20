@@ -475,6 +475,7 @@ angular.module('ulakbus.dashboard')
                         //empty previous data to assign new sorted data set obtained from server
                         $scope.data = [];
                         $scope.gridOptionsSelected = response.data.gridOptions;
+                        handleGridData(response);
                         $scope.gridApi.infiniteScroll.saveScrollPercentage();
                         //sorted data obtained from the server
                         $scope.data = response.data.gridOptions.data;
@@ -699,6 +700,8 @@ angular.module('ulakbus.dashboard')
                     }else{
                         requestObj.view = '_zops_get_csv_data';
                     }
+
+                    requestObj.wf_meta = $rootScope.wf_meta;
 
                     $http.post(RESTURL.url, requestObj).then(function(response){
                         $scope.loadingChannel = false;

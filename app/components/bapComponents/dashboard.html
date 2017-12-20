@@ -10,11 +10,16 @@
     </div>
 
     <div class="col-md-12 detail-box">
-        <h4 ng-repeat="announcement in dashboardData.general.announcements" ng-click="clickAnnouncement(announcement)">
-            {{announcement.text}}
+        <h4 ng-repeat="announcement in dashboardData.general.announcements">
+            <a ng-click="clickAnnouncement(announcement)" >
+                {{announcement.text}}
+            </a>
         </h4>
+
+
         <div class="col-md-12">
-            <button class="brand-bg pull-right" ng-click="clickMore(dashboardData.general.more.wf);">{{dashboardData.general.more.text}}</button>
+            <button class="brand-bg pull-right" ng-click="clickMore(dashboardData.general.more.wf);">
+                {{dashboardData.general.more.text}}</button>
         </div>
     </div>
 </div>

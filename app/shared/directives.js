@@ -345,7 +345,7 @@ angular.module('ulakbus')
 
                 $scope.selectedMenu = $location.path();
                 if($location.path() === '/dashboard') {
-                    generate_dashboard();
+                    $rootScope.$broadcast("generate_dashboard");
                 }
                 $scope.collapseVar = 0;
                 $scope.multiCollapseVar = 0;

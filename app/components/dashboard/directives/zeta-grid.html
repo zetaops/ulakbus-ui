@@ -1,10 +1,8 @@
 <div ng-show="gridOptions">
-    <h4 style="padding-bottom: 15px;">{{ pageTitleText }}
-        <span class="loader" ng-show="loadingChannel" style="float: right;"></span>
-        <span style="float: right; color: #A61229;"
-              ng-show="loadingChannel"><i>{{ dataLoadingText }}</i></span>
-    </h4>
-    <div>
+    <h4 style="padding-bottom: 15px;">{{ pageTitleText }}</h4>
+    <span class="loader" ng-show="loadingChannel"></span>
+    <!-- <span style="float: right; color: #FFFFFF;" ng-show="loadingChannel"><i>{{ dataLoadingText }}</i></span> -->
+    <div ng-show="!loadingChannel">
         <div>
             <button class="btn-grid-generic" ng-click="applyFilter()" ng-disabled="loadingChannel">{{ applyFilterText }}</button>
             <button class="btn-grid-generic" ng-click="clearFilter()" ng-disabled="loadingChannel">{{ cancelFilterText }}</button>

@@ -86,7 +86,7 @@ angular.module('ulakbus')
             .otherwise({redirectTo: '/login'});
     }])
 
-    .run(function ($rootScope, AuthService, $window, $location) {
+    .run(function ($rootScope, AuthService, $location) {
         $rootScope.loggedInUser = false;
         $rootScope.loginAttempt = 0;
         $rootScope.current_user = true;

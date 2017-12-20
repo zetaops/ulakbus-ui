@@ -39,7 +39,6 @@ angular.module('ulakbusBap')
      */
     generator.generateParam = function (scope, routeParams) {
         scope.url = routeParams.wf;
-
         angular.forEach(routeParams, function (value, key) {
             if (key.indexOf('_id') > -1 && key !== 'param_id') {
                 scope.param = key;
@@ -52,11 +51,11 @@ angular.module('ulakbusBap')
             // model name in ulakbus
             model: routeParams.model,
             // generic value passing by backend. would be any of these: id, personel_id, etc.
-            param: scope.param || routeParams.param,
+            //param: scope.param || routeParams.param,
             // generic value passing by backend. would be the value of param
-            id: scope.param_id || routeParams.param_id,
+            //id: scope.param_id || routeParams.param_id,
             wf: routeParams.wf,
-            object_id: routeParams.key,
+            object_id: scope.param_id || routeParams.param_id,
             filters: {},
             token: routeParams.token
         };
@@ -81,11 +80,13 @@ angular.module('ulakbusBap')
      * @param scope
      * @returns {*}
      */
+
     generator.get_wf = function (scope) {
-        return $http.post(generator.makeUrl(scope.form_params.wf), scope.form_params)
+
+        return $http.post(generator.makeUrl(scope.form_params.wf), scope.form_params, scope.id)
             .success(function (response, status, headers, config) {
                 wfMetadata.setWfMeta(response.wf_meta);
-                return generator.pathDecider(response.client_cmd || ['list'], scope, response);
+                return generator.pathDecider(response.client_cmd || ['list'] || ['form'], scope, response);
             });
     };
     /**
@@ -131,7 +132,7 @@ angular.module('ulakbusBap')
             var pathUrl = '/' + scope.form_params.wf;
             if (scope.form_params.model) {
                 pathUrl += '/' + scope.form_params.model + '/do/' + page;
-            } else {
+            } else if (page !== 'download'){
                 pathUrl += '/do/' + page;
             }
             // todo add object url to path
@@ -140,7 +141,8 @@ angular.module('ulakbusBap')
             // if generated path url and the current path is equal route has to be reload
             if ($location.path() === pathUrl) {
                 return $route.reload();
-            } else {
+            }
+            else {
                 $location.path(pathUrl);
             }
         }
@@ -162,7 +164,8 @@ angular.module('ulakbusBap')
             //data['second_client_cmd'] = client_cmd[1];
             generator.setPageData(data);
 
-            redirectTo($scope, client_cmd[0]);
+                redirectTo($scope, client_cmd[0]);
+
         }
 
         dispatchClientCmd();
@@ -321,9 +324,13 @@ angular.module('ulakbusBap')
                     Utils.saveToDisk(data.download_url);
                 }
                 wfMetadata.setWfMeta(data.wf_meta);
-                if (!dontProcessReply) {
+                if(data.download_url !== undefined){
+                    Utils.saveToDisk(data.download_url);
+                }
+                if((!dontProcessReply) && (data.client_cmd !== ["download"])) {
                     return generator.pathDecider(data.client_cmd || ['list'], $scope, data);
                 }
+
                 return data;
             });
     };
@@ -395,6 +402,7 @@ angular.module('ulakbusBap')
                         delete scope.form_params["cmd"];
                         scope.form_params["wf"] = v.wf;
                     }
+
                     scope.model[k] = 1;
                     // todo: test it
                     if (scope.modalElements) {
@@ -405,8 +413,10 @@ angular.module('ulakbusBap')
                         } else {
                             scope.$broadcast('schemaFormValidate');
                             if (scope[workOnForm].$valid) {
-                                generator.submit(scope, redirectTo);
-                                scope.$broadcast('disposeModal');
+
+                                    generator.submit(scope, redirectTo);
+                                    scope.$broadcast('disposeModal');
+
                             } else {
                                 // focus to first input with validation error
                                 $timeout(function () {
@@ -1296,6 +1306,7 @@ angular.module('ulakbusBap')
      * @param {string} mode
      * @returns {*}
      */
+
     generator.doItemAction = function ($scope, key, todo, mode) {
         $scope.form_params.cmd = todo.cmd;
         $scope.form_params.wf = $scope.wf;

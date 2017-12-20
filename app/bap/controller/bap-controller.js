@@ -21,6 +21,7 @@ angular.module('ulakbusBap')
         $scope.user_ready = false;
         //this will be API call in controller load
         $scope.dashboardData = {};
+
         var dashboardEndpoint = 'bap_anasayfa';
         $http.post(Generator.makeUrl(dashboardEndpoint), {wf: dashboardEndpoint})
             .success(function (response, status) {
@@ -34,6 +35,14 @@ angular.module('ulakbusBap')
 
         $scope.clickAnnouncement = function (announcement) {
             $location.path("/" + announcement.wf);
+            announcement.dashboard_params = {
+                wf: announcement.wf,
+                object_id: announcement.object_id
+            };
+            Generator.generateParam($scope, announcement.dashboard_params);
+            if(announcement.dashboard_params){
+                Generator.get_wf($scope);
+            }
         };
 
         $scope.clickMore = function (workFlow) {
