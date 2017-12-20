@@ -51,7 +51,6 @@ angular.module('ulakbus')
                 controller: 'CRUDController',
                 isPublic: true
             })
-
             .when('/cwf/:wf/:token', {
                 templateUrl: '/components/crud/templates/crud.html',
                 controller: 'CRUDController'

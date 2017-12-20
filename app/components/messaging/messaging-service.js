@@ -3,8 +3,6 @@
  *
  * This file is licensed under the GNU General Public License v3
  * (GPLv3).  See LICENSE.txt for details.
- *
- * @author Evren Kutar
  */
 
 angular.module('ulakbus.messaging', ['ui.bootstrap'])
@@ -19,7 +17,6 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         if($window.sessionStorage.userID === undefined){
             $location.path('/login')
         }
-        return;
         var msg = {};
         var notificationsChannelKey;
         var channelsMap = {};
@@ -44,7 +41,8 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         var messagingAppIsHidden = true;
 
         function wsRequest (outgoing){
-                //return WSOps.request(outgoing);
+            return;
+            //return WSOps.request(outgoing);
         }
 
         function prepareMessages (messages){
