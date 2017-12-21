@@ -354,12 +354,7 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
                         delete scope.form_params.flow;
                         if (v.cmd) {
                             scope.form_params["cmd"] = v.cmd;
-                            if(scope.form_params["cmd"] == "indir"){
-                                generator.button_switch(true);
-                            }
-                            else {
-                                generator.button_switch(false);
-                            }
+
                         }
                         if (v.flow) {
                             scope.form_params["flow"] = v.flow;
@@ -385,6 +380,12 @@ angular.module('ulakbus.formService', ['ui.bootstrap'])
 
                                 if (scope[workOnForm].$valid) {
                                     generator.submit(scope, redirectTo);
+                                    if(scope.form_params["cmd"] == "indir"){
+                                        generator.button_switch(true);
+                                    }
+                                    else {
+                                        generator.button_switch(false);
+                                    }
 
                                     scope.$broadcast('disposeModal');
                                 } else {
