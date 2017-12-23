@@ -15,7 +15,7 @@ angular.module('ulakbus.auth')
      * @name AuthService
      * @description  provides generic functions for authorization process.
      */
-    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, /*WSOps,*/ $window, $cookies) {
+    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, $window) {
         var authService = {};
 
         authService.get_form = function (scope) {
@@ -40,7 +40,7 @@ angular.module('ulakbus.auth')
                     }
                 })
                 .error(function (data) {
-                    console.log(error);
+                    console.log(data);
                     return data;
                 });
         };
@@ -65,6 +65,8 @@ angular.module('ulakbus.auth')
             return $http.post(RESTURL.url, credentials)
                 .success(function (data, status, headers, config) {
                     Generator.button_switch(true);
+                    if(data.status_code !== undefined)
+                        status = data.status_code;
                     if (status === 200) {
                         $window.sessionStorage.userID = data.user_id;
                         $rootScope.loggedInUser = true;
