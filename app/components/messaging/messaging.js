@@ -35,6 +35,9 @@ angular.module("ulakbus.messaging")
                 // reset state when user log in/log out
                 $rootScope.$watch('loggedInUser', function(v){
                     iScope.loggedIn = v;
+                    if($window.sessionStorage.userID !== undefined){
+                        iScope.loggedIn = true;
+                    }
                     reset();
                 });
 
