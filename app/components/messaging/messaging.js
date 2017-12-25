@@ -1,6 +1,6 @@
 angular.module("ulakbus.messaging")
 
-    .directive('messaging', function (Generator, MessagingService, $log, $rootScope, MessagingPopup, Utils, $q, $timeout) {
+    .directive('messaging', function (Generator, MessagingService, $log, $rootScope, MessagingPopup, Utils, $q, $window) {
 
         // get channel key
         function getKey (channel) {
