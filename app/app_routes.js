@@ -1,11 +1,16 @@
 'use strict';
 
 angular.module('ulakbus')
-    .config(['$routeProvider', function ($routeProvider, $route) {
+    .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/login', {
                 templateUrl: '/components/auth/login.html',
                 controller: 'LoginController'
+            })
+            .when('/logout', {
+                controller: function (AuthService) {
+                    AuthService.logout();
+                }
             })
             .when('/dashboard', {
                 templateUrl: '/components/dashboard/dashboard.html',
@@ -46,7 +51,6 @@ angular.module('ulakbus')
                 controller: 'CRUDController',
                 isPublic: true
             })
-
             .when('/cwf/:wf/:token', {
                 templateUrl: '/components/crud/templates/crud.html',
                 controller: 'CRUDController'
@@ -81,28 +85,45 @@ angular.module('ulakbus')
             .otherwise({redirectTo: '/login'});
     }])
 
-    .run(function ($rootScope, AuthService, $location) {
+    .run(function ($rootScope, AuthService, $location, $window) {
         $rootScope.loggedInUser = false;
         $rootScope.loginAttempt = 0;
         $rootScope.current_user = true;
         //check if page is not a public page
-        if(location.hash.indexOf('/pub/') === -1){
-            AuthService.check_auth();
+        if(location.hash.indexOf('/pub/') === -1 && $window.sessionStorage.userID === undefined){
+            return $location.path('/login');
+            //AuthService.check_auth();
         }
         //reset the value of user interaction on form when page refreshes
         $rootScope.isUserClicked = false;
 
-        $rootScope.$on("$routeChangeStart", function (event, next, current) {
-            if(!$rootScope.loggedInUser && $location.path() !== '/login'){
-                $location.path('/login');
-                event.preventDefault();
+        $rootScope.$on("$routeChangeStart", function (angularEvent, next, current) {
+            if ($window.sessionStorage.userID === undefined) {
+                return $location.path('/login');
             }
         });
     })
-    .config(['$httpProvider', function ($httpProvider) {
+    .config(function ($httpProvider) {
+        $httpProvider.interceptors.push(function (){
+            return {
+                'request': function (config) {
+                    if (config.method === "POST") {
+                        config.data.callbackID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                                    var r = Math.random() * 16 | 0, v = c === 'x' ? r : r & 0x3 | 0x8;
+                                    return v.toString(16)
+                                });
+                    }
+                    return config;
+                },
+                'response': function (response) {
+                    return response;
+                }
+            };
+        });
+
         // to send cookies CORS
         $httpProvider.defaults.withCredentials = true;
-    }])
+    })
     .run(function (gettextCatalog) {
         gettextCatalog.setCurrentLanguage('tr');
         gettextCatalog.debug = true;

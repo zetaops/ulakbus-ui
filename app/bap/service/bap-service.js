@@ -25,7 +25,7 @@ angular.module('ulakbusBap')
      * @returns {string}
      */
     generator.makeUrl = function (wfName) {
-        return RESTURL.url + wfName;
+        return RESTURL.url/* + wfName*/;
     };
     /**
      * @memberof ulakbusBap
@@ -320,6 +320,9 @@ angular.module('ulakbusBap')
             .post(generator.makeUrl(send_data.wf), send_data)
             .success(function (data) {
                 // if response data.cmd is 'upgrade'
+                if(data.download_url !== undefined){
+                    Utils.saveToDisk(data.download_url);
+                }
                 wfMetadata.setWfMeta(data.wf_meta);
                 if(data.download_url !== undefined){
                     Utils.saveToDisk(data.download_url);
@@ -1495,7 +1498,7 @@ angular.module('ulakbusBap')
     };
 
     generator.get_form = function (scope) {
-        return $http.post(generator.makeUrl(scope.form_params.wf), {})
+        return $http.post(generator.makeUrl(scope.form_params.wf), {wf: scope.form_params.wf})
             .success(function (response, status, headers, config) {
                 wfMetadata.setWfMeta(response.wf_meta);
                 return generator.generate(scope, response);
@@ -1507,7 +1510,7 @@ angular.module('ulakbusBap')
 
         var isSearchResult = ((form_params.cmd === 'select_list' || form_params.cmd === 'object_name') && (form_params.wf === 'crud'))?true:false;
 
-        return $http.post(generator.makeUrl(scope.form_params.wf), {})
+        return $http.post(generator.makeUrl(scope.form_params.wf), {wf: scope.form_params.wf})
             .success(function (data, status, headers, config) {
                 //we need to set the wf_meta of the main wf and not from the response of typeahead
                 if(!isSearchResult){

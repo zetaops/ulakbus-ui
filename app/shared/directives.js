@@ -171,7 +171,7 @@ angular.module('ulakbus')
                 scope.user = false;
                 scope.$root.$watch("current_user",change,true);
                 function change(newVal,oldVal) {
-                    if(newVal.constructor == Object){
+                    if(newVal.constructor === Object){
                         if (newVal !== oldVal) {
                             scope.user = newVal;
                             scope.showRole = (newVal.roles.length > 1);
@@ -191,7 +191,7 @@ angular.module('ulakbus')
                 scope.user = false;
                 scope.$root.$watch("current_user",change,true);
                 function change(newVal,oldVal) {
-                    if(newVal.constructor == Object){
+                    if(newVal.constructor === Object){
                         if (newVal !== oldVal) {
                             scope.user = newVal;
                             scope.tooltip = $sce.trustAsHtml(newVal.role_details.unit_name.replace(/\s/g,"&nbsp;") + "<br/>" +  newVal.role_details.abs_name.replace(/\s/g,"&nbsp;") );
@@ -220,19 +220,24 @@ angular.module('ulakbus')
             // },
 
             scope: {},
-            controller: function ($scope, $rootScope, $cookies, $route, AuthService, WSOps, RESTURL, $log, $location, $window, $timeout) {
+            controller: function ($http, $scope, $rootScope, $cookies, $route, AuthService, /*WSOps,*/ RESTURL, $log, $location, $window, $timeout) {
                 $scope.isPublicAccess = false;
                 $scope.style = 'width:calc(100% - 300px);';
                 $scope.$on('$routeChangeStart', function (event, next, current) {
                     $scope.style = $location.path() === '/dashboard' ? 'width:calc(100% - 300px);' : 'width:%100 !important;';
-                    if($location.path() === '/dashboard'){
-                        $rootScope.loggedInUser ? $rootScope.$broadcast("generate_dashboard") : $location.path("/login");
+                    if($window.sessionStorage.userID === undefined)
+                        return $location.path('/login');
+                    if($location.path() === '/dashboard'  && $window.sessionStorage.userID !== undefined){
+                        generate_dashboard();
                     } /*if (next.$$route && next.$$route.originalPath === '/dashboard') {
                         generate_dashboard();
-                    } */else if (/*next.$$route && next.$$route.originalPath*/ $location.path() === '/logout') {
+                    } */
+                    if ($location.path() === '/logout') {
                         AuthService.logout();
                     }
                 });
+                if($window.sessionStorage.userID === undefined)
+                    $location.path('/login');
 
                 if ($location.path() === '/logout') {
                     AuthService.logout();
@@ -247,8 +252,9 @@ angular.module('ulakbus')
                     }
                         var sidebarmenu = $('#side-menu');
                         sidebarmenu.metisMenu();
-                        WSOps.request({view: 'dashboard'})
-                            .then(function (data) {
+                        $http.post(RESTURL.url, {view: 'dashboard'})
+                            .then(function (response) {
+                                var data = response.data;
                                 $scope.allMenuItems = angular.copy(data);
 
                                 // regroup menu items based on their category
@@ -280,11 +286,11 @@ angular.module('ulakbus')
                                 $rootScope.$broadcast("authz", data);
                                 $rootScope.searchInputs = data;
 
-                                if (data.current_user) {
+                                //if (data.current_user) {
                                     //$rootScope.$broadcast("ws_turn_on");
                                     // to display main view without flickering
                                     //$rootScope.$broadcast("user_ready");
-                                }
+                                //}
 
                                 $rootScope.current_user = data.current_user;
                                 if (data.ogrenci || data.personel) {
@@ -407,7 +413,7 @@ angular.module('ulakbus')
 //             restrict: 'E',
 //             replace: true,
 //             scope: {},
-//             controller: function ($scope, $rootScope, $cookies, $route, AuthService, WSOps, RESTURL, $log, $location, $window, $timeout) {
+//             controller: function ($http, $scope, $rootScope, $cookies, $route, AuthService, /*WSOps,*/ RESTURL, $log, $location, $window, $timeout) {
 //                 $scope.prepareMenu = function (menuItems) {
 //                     var newMenuItems = {};
 //                     angular.forEach(menuItems, function (value, key) {
@@ -429,8 +435,9 @@ angular.module('ulakbus')
 //                     if ($rootScope.websocketIsOpen) {
 //                         var sidebarmenu = $('#side-menu');
 //                         sidebarmenu.metisMenu();
-//                         WSOps.request({view: 'dashboard'})
-//                             .then(function (data) {
+        //                         $http.post(RESTURL.url, {view: 'dashboard'})
+//                             .then(function (response) {
+//                                 var data = response.data;
 //                                 $scope.allMenuItems = angular.copy(data);
 
 //                                 // regroup menu items based on their category

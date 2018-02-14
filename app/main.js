@@ -39,6 +39,7 @@ angular.module(
         'ulakbus.debug',
         'ulakbus.devSettings',
         'ulakbus.version',
+        'ulakbus.grid',
         'gettext',
         'markdown',
         'ngWebSocket',

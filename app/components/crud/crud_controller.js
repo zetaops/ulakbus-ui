@@ -502,7 +502,7 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
         };
     })
 
-    .controller("crudTimetableDirectiveCtrl", function($scope, WSOps, $q){
+    .controller("crudTimetableDirectiveCtrl", function($scope, /*WSOps,*/ $http, RESTURL, $q){
         // todo: replace with utils service method
         function groupBy (list, propName) {
             return list.reduce(function(acc, item) {
@@ -516,7 +516,8 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
             var fieldName = $scope.mainFieldName || 'ogretim_elemani_zt';
             data.token = $scope.token;
             data.wf = $scope.wf;
-            return WSOps.request(data).then(function(result){
+            return $http.post(RESTURL.url, data).then(function(resp){
+                var result = resp.data;
                 if (result[fieldName]){
                     return result;
                 }
@@ -524,8 +525,8 @@ angular.module('ulakbus.crud', ['schemaForm', 'ui.bootstrap', 'ulakbus.formServi
                 // prevent result processing
                 return $q.reject();
             }).then(function(result){
-                $scope.message = result.notification;
-                return result[fieldName]
+                $scope.message = result.data.notification;
+                return result.data[fieldName]
             })
         };
 

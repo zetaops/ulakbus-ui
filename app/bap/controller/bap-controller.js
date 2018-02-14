@@ -23,7 +23,7 @@ angular.module('ulakbusBap')
         $scope.dashboardData = {};
 
         var dashboardEndpoint = 'bap_anasayfa';
-        $http.post(Generator.makeUrl(dashboardEndpoint), {})
+        $http.post(Generator.makeUrl(dashboardEndpoint), {wf: dashboardEndpoint})
             .success(function (response, status) {
                 if(status===200){
                     $scope.dashboardData = response;
@@ -266,12 +266,12 @@ angular.module('ulakbusBap')
             list: $scope.listFormCmd,
             form: $scope.listFormCmd,
             reload: $scope.reloadCmd,
-            download: $scope.listFormCmd,
-            reset: $scope.resetCmd
+            reset: $scope.resetCmd,
+            download: $scope.listFormCmd
         };
 
         return executeCmd[$routeParams.cmd]();
 
-    })
+    });
 
 

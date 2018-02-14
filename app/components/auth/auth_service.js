@@ -15,28 +15,33 @@ angular.module('ulakbus.auth')
      * @name AuthService
      * @description  provides generic functions for authorization process.
      */
-    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, WSOps, $window,$cookies) {
+    .factory('AuthService', function ($http, $rootScope, $location, $log, $route, Generator, RESTURL, $window) {
         var authService = {};
 
         authService.get_form = function (scope) {
-            return $http
-                .post(Generator.makeUrl(scope), scope.form_params)
+            return $http.post(RESTURL.url, scope.form_params)
                 .success(function (data, status, headers, config) {
-                    // if response data.cmd is 'upgrade'
-                    if (data.cmd === 'upgrade') {
-                        $rootScope.loggedInUser = true;
-                        $rootScope.$broadcast("ws_turn_on");
-                        $rootScope.$broadcast("setPublicWf", false);
-                        return $location.path('/dashboard');
-                    }
-                    if (data.cmd === 'retry') {
-                        $location.path('/login');
-                    } else{
-                        if (angular.isDefined(data.forms) && $location.path() !== '/login'){
-                            $location.path('/login');
+                    if($window.sessionStorage.userID !== undefined){
+                        authService.logout();
+                    } else {
+                        if (data.user_id !== undefined) {
+                            $window.sessionStorage.userID = data.user_id;
+                            $rootScope.loggedInUser = true;
+                            //$rootScope.$broadcast("ws_turn_on");
+                            $rootScope.$broadcast("setPublicWf", false);
+                            $location.path('/dashboard');
+
+                        }else {
+                            if (angular.isDefined(data.forms) && $location.path() !== '/login'){
+                                $location.path('/login');
+                            }
+                            return Generator.generate(scope, data);
                         }
-                        return Generator.generate(scope, data);
                     }
+                })
+                .error(function (data) {
+                    console.log(data);
+                    return data;
                 });
         };
 
@@ -53,19 +58,24 @@ angular.module('ulakbus.auth')
          */
         authService.login = function (url, credentials) {
             credentials['cmd'] = "do";
-            return $http
-                .post(RESTURL.url + url, credentials)
+            credentials['wf'] = url;
+            if($window.sessionStorage.userID !== undefined){
+                authService.logout();
+            }
+            return $http.post(RESTURL.url, credentials)
                 .success(function (data, status, headers, config) {
-                    //$window.sessionStorage.token = data.token;
                     Generator.button_switch(true);
-                    if (data.cmd === 'upgrade') {
+                    if(data.status_code !== undefined)
+                        status = data.status_code;
+                    if (status === 200) {
+                        $window.sessionStorage.userID = data.user_id;
                         $rootScope.loggedInUser = true;
                         // $rootScope.$broadcast("regenerate_menu");
                         // to display main view without flickering
-                        $rootScope.$broadcast("ws_turn_on");
+                        // $rootScope.$broadcast("ws_turn_on");
                         $location.path('/dashboard');
                     }
-                    if (data.status_code === 403) {
+                    if (status !== 200) {
                         data.title = "İşlem başarısız oldu. Lütfen girdiğiniz bilgileri kontrol ediniz.";
                     }
                     return data;
@@ -88,21 +98,23 @@ angular.module('ulakbus.auth')
         authService.logout = function () {
             $rootScope.$broadcast("show_main_loader");
             $rootScope.loginAttempt = 0;
-            WSOps.request({wf: 'logout'}).then(function (data) { //TODO not working callback
-                $rootScope.loggedInUser = false;
-                $rootScope.current_user = true;
-                $rootScope.$broadcast("user_logged_out");
-                $log.debug("loggedout");
-                WSOps.close('loggedout');
-                $location.path("/login");
-                window.location.reload();
-            });
+            $http.post(RESTURL.url, {wf: 'logout'})
+                .then(function (data) { //TODO not working callback
+                    $window.sessionStorage.clear();
+                    $rootScope.loggedInUser = false;
+                    $rootScope.current_user = true;
+                    $rootScope.$broadcast("user_logged_out");
+                    $log.debug("loggedout");
+                    //WSOps.close('loggedout');
+                    $location.path("/login");
+                    window.location.reload();
+                })
         };
 
-        authService.check_auth = function () {
-            var post_data = {url: 'login', form_params:{}};
+        /*authService.check_auth = function () {
+            var post_data = { form_params:{ wf: 'login' } };
             return authService.get_form(post_data);
-        };
+        };*/
 
         return authService;
     });

@@ -3,8 +3,6 @@
  *
  * This file is licensed under the GNU General Public License v3
  * (GPLv3).  See LICENSE.txt for details.
- *
- * @author Evren Kutar
  */
 
 angular.module('ulakbus.messaging', ['ui.bootstrap'])
@@ -15,7 +13,10 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
  * @name MessagingService
  * @description Service handles all stuff related to messaging
  */
-    .factory('MessagingService', function ($q, $timeout, $compile, $log, $rootScope, Moment, WSOps, Utils, TasksService) {
+    .factory('MessagingService', function ($q, $timeout, $compile, $log, $rootScope, Moment, WSOps, Utils, TasksService, $window, $location) {
+        if($window.sessionStorage.userID === undefined){
+            $location.path('/login')
+        }
         var msg = {};
         var notificationsChannelKey;
         var channelsMap = {};
@@ -40,7 +41,8 @@ angular.module('ulakbus.messaging', ['ui.bootstrap'])
         var messagingAppIsHidden = true;
 
         function wsRequest (outgoing){
-                return WSOps.request(outgoing);
+            return;
+            //return WSOps.request(outgoing);
         }
 
         function prepareMessages (messages){
